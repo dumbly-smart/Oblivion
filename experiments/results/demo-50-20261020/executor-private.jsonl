@@ -1,0 +1,8 @@
+{"deadline_missed":false,"epoch":0,"function":4,"real":true,"status":"Success","total_ns":10155691,"work_ns":3603462}
+{"deadline_missed":false,"epoch":1,"function":4,"real":false,"status":"Success","total_ns":10078923,"work_ns":3611448}
+{"deadline_missed":false,"epoch":2,"function":4,"real":true,"status":"Success","total_ns":10166650,"work_ns":3944139}
+{"deadline_missed":false,"epoch":3,"function":4,"real":false,"status":"Success","total_ns":10134078,"work_ns":3898059}
+{"deadline_missed":false,"epoch":4,"function":4,"real":true,"status":"Success","total_ns":10138388,"work_ns":3738522}
+{"deadline_missed":false,"epoch":5,"function":4,"real":false,"status":"Success","total_ns":10106316,"work_ns":4104571}
+{"deadline_missed":false,"epoch":6,"function":4,"real":true,"status":"Success","total_ns":10066215,"work_ns":3813901}
+{"deadline_missed":false,"epoch":7,"function":4,"real":false,"status":"Success","total_ns":10147623,"work_ns":4072401}

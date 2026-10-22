@@ -1,0 +1,8 @@
+{"batch_count":1,"epoch":0,"late_by_ns":171600,"latency_ns":13378432,"observer":"batch-pipe","request_bytes":164,"response_bytes":164,"version":1}
+{"batch_count":1,"epoch":1,"late_by_ns":56427,"latency_ns":12801918,"observer":"batch-pipe","request_bytes":164,"response_bytes":164,"version":1}
+{"batch_count":1,"epoch":2,"late_by_ns":55861,"latency_ns":13266982,"observer":"batch-pipe","request_bytes":164,"response_bytes":164,"version":1}
+{"batch_count":1,"epoch":3,"late_by_ns":56105,"latency_ns":12879300,"observer":"batch-pipe","request_bytes":164,"response_bytes":164,"version":1}
+{"batch_count":1,"epoch":4,"late_by_ns":56649,"latency_ns":13720009,"observer":"batch-pipe","request_bytes":164,"response_bytes":164,"version":1}
+{"batch_count":1,"epoch":5,"late_by_ns":62644,"latency_ns":13313798,"observer":"batch-pipe","request_bytes":164,"response_bytes":164,"version":1}
+{"batch_count":1,"epoch":6,"late_by_ns":170682,"latency_ns":12657526,"observer":"batch-pipe","request_bytes":164,"response_bytes":164,"version":1}
+{"batch_count":1,"epoch":7,"late_by_ns":177077,"latency_ns":12473334,"observer":"batch-pipe","request_bytes":164,"response_bytes":164,"version":1}

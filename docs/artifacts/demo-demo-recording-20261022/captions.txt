@@ -1,0 +1,65 @@
+OBLIVION recorded local integration demo
+
+0.000s $ /home/xtrmn8/oblivion/target/release/oblivion-server demo-sse /home/xtrmn8/oblivion/experiments/results/demo-recording-20261022 50 3 mixed
+0.604s Observed completed invocations: 1/24; successful: 1
+0.705s Observed completed invocations: 2/24; successful: 2
+0.805s Observed completed invocations: 3/24; successful: 3
+1.057s Observed completed invocations: 4/24; successful: 4
+1.158s Observed completed invocations: 5/24; successful: 5
+1.259s Observed completed invocations: 6/24; successful: 6
+1.512s Observed completed invocations: 7/24; successful: 7
+1.612s Observed completed invocations: 8/24; successful: 8
+1.713s Observed completed invocations: 9/24; successful: 9
+1.965s Observed completed invocations: 10/24; successful: 10
+2.066s Observed completed invocations: 11/24; successful: 11
+2.167s Observed completed invocations: 12/24; successful: 12
+2.419s Observed completed invocations: 13/24; successful: 13
+2.520s Observed completed invocations: 14/24; successful: 14
+2.621s Observed completed invocations: 15/24; successful: 15
+2.873s Observed completed invocations: 16/24; successful: 16
+2.974s Observed completed invocations: 17/24; successful: 17
+3.074s Observed completed invocations: 18/24; successful: 18
+3.326s Observed completed invocations: 19/24; successful: 19
+3.427s Observed completed invocations: 20/24; successful: 20
+3.528s Observed completed invocations: 21/24; successful: 21
+3.780s Observed completed invocations: 22/24; successful: 22
+3.880s Observed completed invocations: 23/24; successful: 23
+3.942s Completed 12 real and 12 dummy invocations across 3 clients. Results: /home/xtrmn8/oblivion/experiments/results/demo-recording-20261022
+3.942s Observed completed invocations: 24/24; successful: 24
+3.942s Subprocess exited with status 0
+
+Client summary:
+{
+  "client_state_counters": [
+    0,
+    1,
+    1
+  ],
+  "dummy_invocations": 12,
+  "encrypted_pir_links": true,
+  "epoch_ms": 450,
+  "execution_class_ms": 100,
+  "functions_verified": 5,
+  "last_real_counter": 0,
+  "limitations": [
+    "PIR servers must not collude",
+    "inherited pipes simulate trusted provisioning; no hardware TEE",
+    "demo state is ephemeral, durable store API tested separately",
+    "public sequential slots and bounded eight-block working set; deadline misses and resource leakage remain"
+  ],
+  "logical_oram_operations_per_invocation": 16,
+  "participants": 3,
+  "processes": 4,
+  "real_invocations": 12,
+  "real_percent": 50,
+  "registry_deployment_sha256": "de0d3a483eee0609030ee60cce3f8de2cef5731decb9475387af8bae777dedc5",
+  "registry_version": 1,
+  "request_bytes": 164,
+  "response_bytes": 164,
+  "sse_metadata_discovery": true,
+  "sse_searches_verified": 24,
+  "state_working_set_blocks": 8
+}
+
+Trusted process simulation, no hardware TEE; PIR servers must not collude.
+Video is a data-driven visualization of this run, not a screen recording.

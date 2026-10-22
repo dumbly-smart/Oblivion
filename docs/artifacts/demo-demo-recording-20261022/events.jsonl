@@ -1,0 +1,27 @@
+{"elapsed_s": 6.8e-05, "kind": "command", "text": "$ /home/xtrmn8/oblivion/target/release/oblivion-server demo-sse /home/xtrmn8/oblivion/experiments/results/demo-recording-20261022 50 3 mixed"}
+{"elapsed_s": 0.603993, "kind": "observation", "text": "Observed completed invocations: 1/24; successful: 1"}
+{"elapsed_s": 0.704633, "kind": "observation", "text": "Observed completed invocations: 2/24; successful: 2"}
+{"elapsed_s": 0.805306, "kind": "observation", "text": "Observed completed invocations: 3/24; successful: 3"}
+{"elapsed_s": 1.057329, "kind": "observation", "text": "Observed completed invocations: 4/24; successful: 4"}
+{"elapsed_s": 1.158438, "kind": "observation", "text": "Observed completed invocations: 5/24; successful: 5"}
+{"elapsed_s": 1.259408, "kind": "observation", "text": "Observed completed invocations: 6/24; successful: 6"}
+{"elapsed_s": 1.51159, "kind": "observation", "text": "Observed completed invocations: 7/24; successful: 7"}
+{"elapsed_s": 1.612449, "kind": "observation", "text": "Observed completed invocations: 8/24; successful: 8"}
+{"elapsed_s": 1.713319, "kind": "observation", "text": "Observed completed invocations: 9/24; successful: 9"}
+{"elapsed_s": 1.965076, "kind": "observation", "text": "Observed completed invocations: 10/24; successful: 10"}
+{"elapsed_s": 2.065806, "kind": "observation", "text": "Observed completed invocations: 11/24; successful: 11"}
+{"elapsed_s": 2.166538, "kind": "observation", "text": "Observed completed invocations: 12/24; successful: 12"}
+{"elapsed_s": 2.419049, "kind": "observation", "text": "Observed completed invocations: 13/24; successful: 13"}
+{"elapsed_s": 2.519936, "kind": "observation", "text": "Observed completed invocations: 14/24; successful: 14"}
+{"elapsed_s": 2.620895, "kind": "observation", "text": "Observed completed invocations: 15/24; successful: 15"}
+{"elapsed_s": 2.872544, "kind": "observation", "text": "Observed completed invocations: 16/24; successful: 16"}
+{"elapsed_s": 2.973571, "kind": "observation", "text": "Observed completed invocations: 17/24; successful: 17"}
+{"elapsed_s": 3.074457, "kind": "observation", "text": "Observed completed invocations: 18/24; successful: 18"}
+{"elapsed_s": 3.326318, "kind": "observation", "text": "Observed completed invocations: 19/24; successful: 19"}
+{"elapsed_s": 3.427255, "kind": "observation", "text": "Observed completed invocations: 20/24; successful: 20"}
+{"elapsed_s": 3.528274, "kind": "observation", "text": "Observed completed invocations: 21/24; successful: 21"}
+{"elapsed_s": 3.779812, "kind": "observation", "text": "Observed completed invocations: 22/24; successful: 22"}
+{"elapsed_s": 3.880324, "kind": "observation", "text": "Observed completed invocations: 23/24; successful: 23"}
+{"elapsed_s": 3.94166, "kind": "stdout", "text": "Completed 12 real and 12 dummy invocations across 3 clients. Results: /home/xtrmn8/oblivion/experiments/results/demo-recording-20261022"}
+{"elapsed_s": 3.941825, "kind": "observation", "text": "Observed completed invocations: 24/24; successful: 24"}
+{"elapsed_s": 3.941967, "kind": "exit", "text": "Subprocess exited with status 0"}
