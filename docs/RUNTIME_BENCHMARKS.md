@@ -91,3 +91,26 @@ The first attempted `cargo run -p oblivion-batcher --example batch_measure ...` 
 [`runtime-matrix-current`](../experiments/results/runtime-matrix-current/) is a byte-preserving copy of the previously validated `demo-sse` four-client 0%, 50%, 100% matrix from `/tmp/oblivion-runtime-validation-txlc0y4w`. The copy records a SHA-256 digest for every original file and verifies the destination against those digests; `copy-provenance.json` records the source, destination, copy time and runner digest. Original metadata is retained verbatim. This is preservation of a historical validated run, not a new execution or a retroactive binary-hash assertion.
 
 The matrix has 32 actual invocations and 32 oracle-verified metadata searches per load; real/dummy totals are 0/32, 16/16 and 32/0. The half/full profiles verify all five real functions. Each original summary reports registry version 1 and deployment digest `de0d3a483eee0609030ee60cce3f8de2cef5731decb9475387af8bae777dedc5`. See [integration scope and limitations](RUNTIME_INTEGRATION.md) for the process simulation and discovery trust boundaries.
+
+
+## Extended offered-load and queue-capacity campaign (23 October)
+
+`runtime-extended-30-20261023/` completes 180 fresh process trials: six interval/capacity cells, 30 trials each, 32 independently offered stateful requests/trial (5,760 total offers). The producer continues while the genuine PIR/WASM/ORAM worker is busy. All processes exited zero and every admitted output/state oracle passed. Same seed schedules are deterministic; cryptographic state is fresh OS randomness. Exact admission counts, dropped offers, invocation errors and SLO failures remain in raw records.
+
+| Arrival interval ms | Queue capacity | Dropped/offered | Mean admitted end-to-end ms, 95% trial CI |
+| ---: | ---: | ---: | --- |
+| 10 | 2 | 81.25% | 242.17 [242.01,242.36] |
+| 10 | 8 | 62.50% | 571.73 [571.40,572.06] |
+| 50 | 2 | 43.75% | 239.52 [239.08,239.97] |
+| 50 | 8 | 25.00% | 608.03 [607.47,608.60] |
+| 150 | 2 | 0% | 100.53 [100.51,100.56] |
+| 150 | 8 | 0% | 100.55 [100.51,100.58] |
+
+Larger queues reduce drops while increasing admitted latency under overload; this negative SLO tradeoff is retained. Dropped requests enter offered-load SLO failure counts and never disappear from denominators. Degenerate drop-rate intervals reflect identical observed finite schedules, not universally deterministic admission. Per-trial p50/p95/p99 and uncertainty over whole trial estimates are saved in [the extended report](../experiments/results/runtime-extended-30-20261023/analysis.json), with [regenerated plot](../experiments/results/runtime-extended-30-20261023/offered-load.png). Thirty-two offered requests per trial still do not establish population tail bounds or steady-state capacity.
+
+```sh
+.venv/bin/python scripts/benchmark_open_loop.py experiments/configs/runtime-extended-30.json --mode runtime --runtime-output experiments/results/runtime-extended-new --batch-output /tmp/oblivion-no-batch
+.venv/bin/python -m research.analysis.open_loop --runtime experiments/results/runtime-extended-new
+```
+
+The immutable executable copy is hashed before and after the campaign. Whole-tree source fingerprints can change because other independent development proceeds; that fact remains in metadata. CPU/RSS here retain the coarse procfs scope described above. Separate [executor resource measurements](EXECUTOR_RESOURCES.md) provide CPU-clock measurements around individual invocations. This offered-load campaign does not itself vary integrated epoch periods or dummy ratios; those require a separate system sweep.

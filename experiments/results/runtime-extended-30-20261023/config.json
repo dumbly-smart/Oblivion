@@ -1,0 +1,54 @@
+{
+  "trials": 30,
+  "seed": 20261023,
+  "open_loop": [
+    {
+      "name": "i10-q2",
+      "interval_ms": 10,
+      "count": 32,
+      "queue_capacity": 2
+    },
+    {
+      "name": "i10-q8",
+      "interval_ms": 10,
+      "count": 32,
+      "queue_capacity": 8
+    },
+    {
+      "name": "i50-q2",
+      "interval_ms": 50,
+      "count": 32,
+      "queue_capacity": 2
+    },
+    {
+      "name": "i50-q8",
+      "interval_ms": 50,
+      "count": 32,
+      "queue_capacity": 8
+    },
+    {
+      "name": "i150-q2",
+      "interval_ms": 150,
+      "count": 32,
+      "queue_capacity": 2
+    },
+    {
+      "name": "i150-q8",
+      "interval_ms": 150,
+      "count": 32,
+      "queue_capacity": 8
+    }
+  ],
+  "batch_period_ms": [
+    2,
+    10,
+    25
+  ],
+  "batch_real_percent": [
+    0,
+    50,
+    100
+  ],
+  "batch_epochs": 32,
+  "batch_participants": 8
+}
