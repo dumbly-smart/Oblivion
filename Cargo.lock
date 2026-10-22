@@ -646,6 +646,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "oblivion-harness"
+version = "0.1.0"
+dependencies = [
+ "chacha20poly1305",
+ "oblivion-batcher",
+ "oblivion-exec",
+ "oblivion-pir",
+ "oblivion-store",
+ "rand",
+ "rand_chacha",
+ "serde",
+ "serde_json",
+ "sha2",
+ "wasmtime",
+ "zeroize",
+]
+
+[[package]]
 name = "oblivion-pir"
 version = "0.1.0"
 dependencies = [
