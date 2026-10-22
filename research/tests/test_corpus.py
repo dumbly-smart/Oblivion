@@ -1,12 +1,14 @@
 """Bounded corpus knowledge boundary and real AEAD integration checks."""
 import gzip
 import json
+import shutil
 from pathlib import Path
 import tempfile
 import unittest
 
 import numpy as np
 
+from research.analysis import corpus
 from research.analysis.corpus import (export, load_records, make_trial, postings,
                                       require_controls, select_vocabulary, summarize)
 from research.analysis.sse import read_observations
@@ -84,6 +86,26 @@ class CorpusEvaluation(unittest.TestCase):
                 export(BINARY, path, [[1, 2]]*8, [list(range(8))], 1, 42)
             with self.assertRaises(RuntimeError):
                 export(BINARY, path, [[1, 1]]*8, [list(range(8))], None, 42)
+
+    @unittest.skipUnless(BINARY.exists(), 'build the real corpus example before integration checks')
+    def test_frozen_executable_survives_source_binary_replacement(self):
+        real = [[2, 7], [2], [7, 9], [], [3], [2, 3], [9], [1]]
+        with tempfile.TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+            source = directory/'mutable-corpus'
+            shutil.copy2(BINARY, source)
+            frozen, before = corpus.snapshot_binary(source, directory/'bin'/'corpus')
+            self.assertNotEqual(source.stat().st_ino, frozen.stat().st_ino)
+            source.unlink()
+            source.write_text('#!/bin/sh\nexit 97\n')
+            source.chmod(0o755)
+            self.assertNotEqual(corpus.sha(source), before)
+            path = directory/'wire.gz'
+            export(frozen, path, real, [list(range(8))], 4, 123)
+            sessions, updates = read_observations(path)
+            self.assertEqual(updates, 32)
+            self.assertEqual(len(sessions[0]), 8)
+            self.assertEqual(corpus.sha(frozen), before)
 
     def test_trial_cluster_paired_drift_uncertainty(self):
         rows = []

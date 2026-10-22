@@ -5,10 +5,12 @@ import gzip
 import hashlib
 import io
 import json
+import os
 from pathlib import Path
 import platform
 import random
 import re
+import shutil
 import subprocess
 import sys
 import time
@@ -39,6 +41,19 @@ def sha(path):
         for block in iter(lambda: stream.read(65536), b''):
             digest.update(block)
     return digest.hexdigest()
+
+
+def snapshot_binary(source, destination):
+    """Copy one executable inode into a private run path before any export."""
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    with source.open('rb') as executable, destination.open('xb') as frozen:
+        before = os.fstat(executable.fileno())
+        shutil.copyfileobj(executable, frozen, length=65536)
+        after = os.fstat(executable.fileno())
+        if (before.st_size, before.st_mtime_ns, before.st_ctime_ns) != (after.st_size, after.st_mtime_ns, after.st_ctime_ns):
+            raise RuntimeError('source executable changed while snapshotting; preserve output and retry in a new directory')
+    destination.chmod(0o555)
+    return destination, sha(destination)
 
 
 def load_records(archive, config):
@@ -240,6 +255,8 @@ def run(config_path, output, binary):
     if any(p.name != 'bin' for p in output.iterdir()):
         raise ValueError('output must be new except ignored source cache')
     before = {p: sha(ROOT/p) for p in SOURCES}
+    binary_source = binary
+    binary, binary_before = snapshot_binary(binary_source, output/'bin'/'corpus')
     archive = output/'bin'/'sms.zip'
     archive.parent.mkdir(exist_ok=True)
     if not archive.exists():
@@ -299,9 +316,15 @@ def run(config_path, output, binary):
     after = {p: sha(ROOT/p) for p in SOURCES}
     if before != after:
         raise RuntimeError('source changed during run; preserve artifacts and rerun stable source')
+    binary_after = sha(binary)
+    if binary_before != binary_after:
+        raise RuntimeError('frozen executable changed during run; preserve artifacts and rerun')
     dump(output/'provenance.json', {'command': sys.argv, 'git_head': subprocess.check_output(['git','rev-parse','HEAD'], cwd=ROOT, text=True).strip(),
                                   'source_sha256_before': before, 'source_sha256_after': after,
-                                  'config_sha256': sha(config_path), 'binary_sha256': sha(binary),
+                                  'config_sha256': sha(config_path), 'binary_sha256': binary_before,
+                                  'binary_source_path': str(binary_source), 'binary_snapshot_path': str(binary.relative_to(output)),
+                                  'binary_sha256_before': binary_before, 'binary_sha256_after': binary_after,
+                                  'binary_execution': 'Private copied executable; SHA256 recorded before first export and verified after all exports. Every control and target subprocess launches this same copy.',
                                   'archive_sha256': sha(archive), 'source': source_info,
                                   'dataset': {k:config[k] for k in ('source_url','dataset_doi','license','attribution')},
                                   'python': sys.version, 'numpy': np.__version__, 'scipy': scipy.__version__,
