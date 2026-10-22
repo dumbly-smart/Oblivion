@@ -3,6 +3,7 @@ import argparse
 import gzip
 import hashlib
 import json
+import math
 from pathlib import Path
 import platform
 import random
@@ -17,10 +18,16 @@ def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def ci(values, seed=812):
+def ci(values, seed=812, binomial=False):
     rng = random.Random(seed); n = len(values)
     boot = sorted(sum(rng.choices(values, k=n))/n for _ in range(2000))
-    return {'mean': sum(values)/n, 'ci95': [boot[49], boot[1949]], 'unit': 'whole independent trial'}
+    result = {'mean': sum(values)/n, 'ci95': [boot[49], boot[1949]], 'unit': 'whole independent trial'}
+    if binomial:
+        proportion = result['mean']; z = 1.959963984540054
+        center = (proportion+z*z/(2*n))/(1+z*z/n)
+        width = z*math.sqrt(proportion*(1-proportion)/n+z*z/(4*n*n))/(1+z*z/n)
+        result['wilson95'] = [max(0, center-width), min(1, center+width)]
+    return result
 
 
 def read_jsonl(path):
@@ -28,28 +35,29 @@ def read_jsonl(path):
         return [json.loads(line) for line in stream]
 
 
-def summarize(out, config):
+def summarize(out, config, raw_out=None):
+    raw_out = out if raw_out is None else raw_out
     # Evaluate the intermittent positive control before defended predictions.
     control_checks = []
     for percent in config['online_percent']:
         successes = []
         for seed in config['seeds']:
-            stem = out/'raw'/f'p{percent}-s{seed}'
+            stem = raw_out/'raw'/f'p{percent}-s{seed}'
             rows = [r for r in read_jsonl(str(stem)+'.observer.jsonl.gz') if r['mode'] == MODES[0]]
             owner = read_jsonl(str(stem)+'.truth.jsonl.gz')[0]['owner']
             beacon = read_jsonl(str(stem)+'.beacon.jsonl.gz')
-            prediction = intersect(rows, beacon, seed=seed+90000)
+            prediction = intersect(rows, beacon, seed=90000)
             successes.append(int(prediction['ranking'][0] == owner))
-        check = {'online_percent': percent, **ci(successes)}
+        check = {'online_percent': percent, **ci(successes, binomial=True)}
         control_checks.append(check)
         if check['ci95'][0] <= .125:
             raise RuntimeError('positive control did not exceed chance')
     (out/'positive-control-first.json').write_text(json.dumps(control_checks, indent=2)+'\n')
-    results = []; trial_metrics = []
+    results = []; trial_metrics = []; trial_costs = []
     for percent in config['online_percent']:
         cells = {}
         for seed in config['seeds']:
-            stem = out/'raw'/f'p{percent}-s{seed}'
+            stem = raw_out/'raw'/f'p{percent}-s{seed}'
             observations = read_jsonl(str(stem)+'.observer.jsonl.gz')
             truth = read_jsonl(str(stem)+'.truth.jsonl.gz')
             beacon = read_jsonl(str(stem)+'.beacon.jsonl.gz')
@@ -69,7 +77,7 @@ def summarize(out, config):
                     assert latent['cover_rejected'] == 8-len(expected)
                 for knowledge in config['knowledge_events']:
                     for observer in ('incoming', 'missing_slots', 'downstream'):
-                        prediction = intersect(rows, beacon, knowledge_events=knowledge, observer=observer, seed=seed+90000)
+                        prediction = intersect(rows, beacon, knowledge_events=knowledge, observer=observer, seed=90000)
                         candidates = prediction['candidates']; ranking = prediction['ranking']
                         assert owner in candidates
                         key = (mode, knowledge, observer)
@@ -84,12 +92,12 @@ def summarize(out, config):
                          'batcher_cover_bytes': sum(r['cover_rejected']*164 for r in private),
                          'authenticated_dummy_bytes': sum(r['authenticated_dummy_frames']*164 for r in private),
                          'real_frames': sum(len(r['real']) for r in private)}
-                with (out/'costs.jsonl').open('a') as stream:
-                    stream.write(json.dumps(costs)+'\n')
+                trial_costs.append(costs)
         for (mode, knowledge, observer), values in cells.items():
             results.append({'online_percent': percent, 'mode': mode, 'knowledge_events': knowledge, 'observer': observer,
                             'trials': len(values), 'chance': .125, 'top3_chance': .375,
-                            **{name: ci([v[name] for v in values]) for name in ('accuracy', 'top3', 'candidate_count', 'majority_accuracy')}})
+                            **{name: ci([v[name] for v in values], binomial=name != 'candidate_count') for name in ('accuracy', 'top3', 'candidate_count', 'majority_accuracy')}})
+    (out/'costs.jsonl').write_text(''.join(json.dumps(row)+'\n' for row in trial_costs))
     # Positive control must succeed before interpreting defended comparisons.
     controls = [r for r in results if r['mode'] == MODES[0] and r['knowledge_events'] is None and r['observer'] == 'incoming']
     if not all(r['accuracy']['ci95'][0] > .125 for r in controls):
@@ -148,7 +156,27 @@ def run(binary, config_path, out):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(); parser.add_argument('--binary', type=Path, required=True)
+    parser = argparse.ArgumentParser(); parser.add_argument('--binary', type=Path)
+    parser.add_argument('--raw-source', type=Path, help='Analyze retained raw streams into a fresh output directory')
     parser.add_argument('--config', type=Path, default=Path('experiments/configs/presence-30.json'))
     parser.add_argument('--out', type=Path, required=True); args = parser.parse_args()
-    run(args.binary, args.config, args.out)
+    if args.raw_source is not None:
+        if args.binary is not None or args.out.exists():
+            parser.error('raw analysis needs a fresh output and no --binary')
+        args.out.mkdir(parents=True)
+        source = args.raw_source.resolve()
+        provenance = {'created_before_analysis_utc': datetime.now(timezone.utc).isoformat(),
+                      'raw_source': str(source), 'raw_artifact_manifest_sha256': digest(source/'artifact-sha256.json'),
+                      'raw_provenance_sha256': digest(source/'provenance.json'),
+                      'config_sha256': digest(args.config), 'tie_seed': 90000,
+                      'tie_seed_semantics': 'public constant independent of workload seeds; no latent seed passed to attack',
+                      'source_sha256': {p: digest(p) for p in ('research/analysis/presence.py', 'research/attacks/presence.py')}}
+        (args.out/'provenance.json').write_text(json.dumps(provenance, indent=2)+'\n')
+        shutil.copyfile(args.config, args.out/'config.json')
+        shutil.copyfile(__file__, args.out/'analysis-source.py')
+        shutil.copyfile('research/attacks/presence.py', args.out/'attack-source.py')
+        summarize(args.out, json.loads(args.config.read_text()), raw_out=source)
+    else:
+        if args.binary is None:
+            parser.error('--binary or --raw-source is required')
+        run(args.binary, args.config, args.out)

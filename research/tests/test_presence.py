@@ -1,4 +1,5 @@
 import copy
+import gzip
 import json
 import os
 from pathlib import Path
@@ -72,6 +73,21 @@ class PresenceTests(unittest.TestCase):
                     self.assertEqual(event['event'], owner in secret['real'])
                 if mode == 'always_participating':
                     self.assertEqual(candidates, list(range(8)))
+            from research.analysis.presence import summarize
+            raw_root = Path(directory)/'retained'; (raw_root/'raw').mkdir(parents=True)
+            stem = raw_root/'raw'/'p50-s1001'
+            for suffix, text in (('observer', completed.stdout), ('truth', truth.read_text()), ('beacon', beacon_path.read_text())):
+                with gzip.open(str(stem)+f'.{suffix}.jsonl.gz', 'wt') as stream:
+                    stream.write(text)
+            analysis = Path(directory)/'analysis'; analysis.mkdir()
+            config = {'online_percent': [50], 'seeds': [1001], 'epochs': 64, 'knowledge_events': [None]}
+            summarize(analysis, config, raw_out=raw_root)
+            original_costs = (analysis/'costs.jsonl').read_text()
+            summarize(analysis, config, raw_out=raw_root)
+            self.assertEqual((analysis/'costs.jsonl').read_text(), original_costs)
+            self.assertEqual(len(original_costs.splitlines()), 3)
+            report = json.loads((analysis/'summary.json').read_text())
+            self.assertTrue(all('wilson95' in result['accuracy'] for result in report['results']))
             for args in (['1001', '0', '50'], ['1001', '4097', '50'], ['1001', '10', '101']):
                 self.assertNotEqual(subprocess.run([binary, *args, str(truth), str(beacon_path)], capture_output=True).returncode, 0)
 
