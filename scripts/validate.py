@@ -4,7 +4,7 @@ import argparse,hashlib,json,pathlib,platform,subprocess,sys,time
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 def digest():
     h=hashlib.sha256()
-    paths=[p for d in ['crates','research','scripts'] for p in (ROOT/d).rglob('*') if p.is_file() and p.suffix in ['.rs','.py','.toml'] and not any(x in p.parts for x in ['target','upstream','__pycache__'])]+[ROOT/'Cargo.toml',ROOT/'Cargo.lock']
+    paths=[p for d in ['crates','research','scripts'] for p in (ROOT/d).rglob('*') if p.is_file() and p.suffix in ['.rs','.py','.toml'] and not any(x in p.parts for x in ['target','upstream','__pycache__'])]+[ROOT/'Cargo.toml',ROOT/'Cargo.lock',ROOT/'research/requirements.lock']
     for p in sorted(paths):h.update(str(p.relative_to(ROOT)).encode()+b'\0'+p.read_bytes()+b'\0')
     return h.hexdigest()
 def main():

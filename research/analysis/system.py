@@ -102,7 +102,8 @@ def plot(root,report):
     fig=plt.figure(figsize=(11,4));ax=fig.add_subplot(121,projection='3d')
     bw=np.array([s[k]['benchmark']['bytes_per_real_invocation']/1024 for k in keys]);lat=np.array([s[k]['benchmark']['real_p95_ms'] for k in keys])
     ax.scatter(bw,lat,acc)
-    for k,a,b,c in zip(keys,bw,lat,acc):ax.text(a,b,c,k)
+    for k,a,b,c in zip(keys,bw,lat,acc):
+        if k in ['A','E','F','G']:ax.text(a,b,c,'A–D cluster' if k=='A' else k)
     ax.set(xlabel='Payload KiB / real',ylabel='Real p95 ms',zlabel='Balanced attack accuracy',title='Latency / bandwidth / inference')
     panel=fig.add_subplot(122)
     for limit,marker in [(100,'x'),(110,'o')]:
@@ -111,7 +112,7 @@ def plot(root,report):
         if front:panel.plot(bw[front],acc[front],marker=marker,label=f'p95 <= {limit} ms frontier')
     panel.scatter(bw,acc,color='gray',alpha=.4)
     for k,a,b in zip(keys,bw,acc):panel.annotate(k,(a,b),xytext=(3,3),textcoords='offset points')
-    panel.set(xlabel='Payload KiB / real',ylabel='Balanced attack accuracy',title='Explicit operational SLO filters',ylim=(0,1.08));panel.legend(fontsize=8);fig.tight_layout();fig.savefig(root/'pareto-three-axis-slo.png',dpi=150);plt.close(fig)
+    panel.set(xlabel='Payload KiB / real (log scale)',ylabel='Balanced attack accuracy',title='Explicit operational SLO filters',xscale='log',ylim=(0,1.08));panel.legend(fontsize=8);fig.tight_layout();fig.savefig(root/'pareto-three-axis-slo.png',dpi=150);plt.close(fig)
     fig,axes=plt.subplots(1,2,figsize=(10,4));ci=np.array([s[k]['balanced_accuracy']['ci95_trials'] for k in keys]);axes[0].bar(keys,acc,yerr=np.maximum(0,np.stack([acc-ci[:,0],ci[:,1]-acc])));axes[0].axhline(chance,color='gray',linestyle='--');axes[0].set(ylabel='Joint balanced accuracy',ylim=(0,1.08),title='A–G ablation (trial CI)')
     width=.38;positions=np.arange(len(keys));axes[1].bar(positions-width/2,[s[k]['real_dummy_accuracy']['mean'] for k in keys],width,label='Real/dummy');axes[1].bar(positions+width/2,[s[k]['conditional_real_function_accuracy']['mean'] for k in keys],width,label='Function given real');axes[1].set(xticks=positions,xticklabels=keys,ylabel='Accuracy',ylim=(0,1.08));axes[1].axhline(.5,color='gray',linestyle='--');axes[1].legend();fig.tight_layout();fig.savefig(root/'ablation-attacks.png',dpi=150);plt.close(fig)
 
