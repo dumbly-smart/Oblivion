@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+    "abandoned_response_pipe_cannot_hold_executor_forever",
+    "--exact",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "returncode": 0,
+  "timed_out": false,
+  "wall_ns": 4574525759,
+  "passed": true,
+  "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+  "trial": 3,
+  "order": 201
+}

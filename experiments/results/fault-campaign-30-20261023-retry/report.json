@@ -1,0 +1,86 @@
+{
+  "executor_bootstrap_and_partial_frames_have_bounded_lifetimes": {
+    "trials": 30,
+    "assertion_passes": 30,
+    "assertion_failures": 0,
+    "failure_fraction_wilson95": [
+      0,
+      0.11351339317396876
+    ],
+    "harness_wall_p50_ms": 4076.751511,
+    "harness_wall_p95_ms": 4124.261974,
+    "harness_wall_p99_ms": 4127.410948
+  },
+  "duplicate_and_skipped_epochs_fail_closed_without_second_execution": {
+    "trials": 30,
+    "assertion_passes": 30,
+    "assertion_failures": 0,
+    "failure_fraction_wilson95": [
+      0,
+      0.11351339317396876
+    ],
+    "harness_wall_p50_ms": 364.724139,
+    "harness_wall_p95_ms": 365.349684,
+    "harness_wall_p99_ms": 365.435755
+  },
+  "lost_pir_server_returns_authenticated_zero_error_without_user_state": {
+    "trials": 30,
+    "assertion_passes": 30,
+    "assertion_failures": 0,
+    "failure_fraction_wilson95": [
+      0,
+      0.11351339317396876
+    ],
+    "harness_wall_p50_ms": 264.517551,
+    "harness_wall_p95_ms": 264.91767,
+    "harness_wall_p99_ms": 265.255935
+  },
+  "abandoned_response_pipe_cannot_hold_executor_forever": {
+    "trials": 30,
+    "assertion_passes": 30,
+    "assertion_failures": 0,
+    "failure_fraction_wilson95": [
+      0,
+      0.11351339317396876
+    ],
+    "harness_wall_p50_ms": 4575.040692,
+    "harness_wall_p95_ms": 4625.920599,
+    "harness_wall_p99_ms": 4630.60316
+  },
+  "late_frame_after_idle_timeout_cannot_resume_session": {
+    "trials": 30,
+    "assertion_passes": 30,
+    "assertion_failures": 0,
+    "failure_fraction_wilson95": [
+      0,
+      0.11351339317396876
+    ],
+    "harness_wall_p50_ms": 2069.036885,
+    "harness_wall_p95_ms": 2119.495207,
+    "harness_wall_p99_ms": 2119.899368
+  },
+  "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched": {
+    "trials": 30,
+    "assertion_passes": 30,
+    "assertion_failures": 0,
+    "failure_fraction_wilson95": [
+      0,
+      0.11351339317396876
+    ],
+    "harness_wall_p50_ms": 264.887619,
+    "harness_wall_p95_ms": 315.46009,
+    "harness_wall_p99_ms": 315.467814
+  },
+  "eof_midway_through_multi_client_epoch_is_rejected": {
+    "trials": 30,
+    "assertion_passes": 30,
+    "assertion_failures": 0,
+    "failure_fraction_wilson95": [
+      0,
+      0.11351339317396876
+    ],
+    "harness_wall_p50_ms": 164.303401,
+    "harness_wall_p95_ms": 214.843514,
+    "harness_wall_p99_ms": 214.89171
+  }
+}

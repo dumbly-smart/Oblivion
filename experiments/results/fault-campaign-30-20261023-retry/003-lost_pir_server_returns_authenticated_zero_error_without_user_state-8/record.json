@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+    "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "--exact",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "returncode": 0,
+  "timed_out": false,
+  "wall_ns": 214958395,
+  "passed": true,
+  "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+  "trial": 8,
+  "order": 3
+}

@@ -1,0 +1,3362 @@
+[
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 265071358,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 12,
+    "order": 0
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2119899368,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 17,
+    "order": 1
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4624320870,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 23,
+    "order": 2
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214958395,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 8,
+    "order": 3
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 315471889,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 13,
+    "order": 4
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 365162486,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 18,
+    "order": 5
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4575545812,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 11,
+    "order": 6
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4073546317,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 26,
+    "order": 7
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 164126437,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 26,
+    "order": 8
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214359953,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 3,
+    "order": 9
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4572959838,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 19,
+    "order": 10
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264641950,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 22,
+    "order": 11
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2069614692,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 9,
+    "order": 12
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264154515,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 29,
+    "order": 13
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 314689618,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 5,
+    "order": 14
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2068232004,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 0,
+    "order": 15
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4073838764,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 27,
+    "order": 16
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214411345,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 17,
+    "order": 17
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2070593692,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 18,
+    "order": 18
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214633370,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 18,
+    "order": 19
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4076751511,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 29,
+    "order": 20
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4573215988,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 1,
+    "order": 21
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4122925059,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 25,
+    "order": 22
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 314364926,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 13,
+    "order": 23
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264580203,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 5,
+    "order": 24
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264120844,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 27,
+    "order": 25
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4128536557,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 8,
+    "order": 26
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4124261974,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 0,
+    "order": 27
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4636676042,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 16,
+    "order": 28
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 164113533,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 3,
+    "order": 29
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 364638148,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 11,
+    "order": 30
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 164148519,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 15,
+    "order": 31
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 414651209,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 20,
+    "order": 32
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214176818,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 28,
+    "order": 33
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4573333297,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 9,
+    "order": 34
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4584642996,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 2,
+    "order": 35
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4072112429,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 3,
+    "order": 36
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4082013425,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 1,
+    "order": 37
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 265466255,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 2,
+    "order": 38
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2068684099,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 5,
+    "order": 39
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264625604,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 25,
+    "order": 40
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264917670,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 27,
+    "order": 41
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214815657,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 21,
+    "order": 42
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4127410948,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 16,
+    "order": 43
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 315134063,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 24,
+    "order": 44
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4630603160,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 20,
+    "order": 45
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 314547631,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 25,
+    "order": 46
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264468935,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 3,
+    "order": 47
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4573739988,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 25,
+    "order": 48
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264499895,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 1,
+    "order": 49
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 314212989,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 14,
+    "order": 50
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214148830,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 16,
+    "order": 51
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2068170228,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 3,
+    "order": 52
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264477399,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 14,
+    "order": 53
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4074732462,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 17,
+    "order": 54
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 164240748,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 8,
+    "order": 55
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2068716920,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 13,
+    "order": 56
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 163954589,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 21,
+    "order": 57
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264037454,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 26,
+    "order": 58
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 364986331,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 26,
+    "order": 59
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264740010,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 4,
+    "order": 60
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264829014,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 18,
+    "order": 61
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4073776192,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 23,
+    "order": 62
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2068341251,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 24,
+    "order": 63
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 314411294,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 28,
+    "order": 64
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4575040692,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 27,
+    "order": 65
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 314540583,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 21,
+    "order": 66
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4074795952,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 12,
+    "order": 67
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2067543456,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 11,
+    "order": 68
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 163836717,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 4,
+    "order": 69
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264106837,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 11,
+    "order": 70
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 364374631,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 12,
+    "order": 71
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 164185862,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 16,
+    "order": 72
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 314490519,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 3,
+    "order": 73
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4072065108,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 6,
+    "order": 74
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264651164,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 16,
+    "order": 75
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4072962374,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 14,
+    "order": 76
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214241837,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 29,
+    "order": 77
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264412255,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 9,
+    "order": 78
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 364350590,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 23,
+    "order": 79
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 164057361,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 25,
+    "order": 80
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214402510,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 18,
+    "order": 81
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4572720980,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 7,
+    "order": 82
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4123704827,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 4,
+    "order": 83
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 315065850,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 26,
+    "order": 84
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 314778107,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 17,
+    "order": 85
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4573683859,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 4,
+    "order": 86
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2069639648,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 21,
+    "order": 87
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4124259872,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 28,
+    "order": 88
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264887619,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 19,
+    "order": 89
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 315460090,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 7,
+    "order": 90
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 164157440,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 22,
+    "order": 91
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4582171038,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 28,
+    "order": 92
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 364600264,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 15,
+    "order": 93
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4577012275,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 8,
+    "order": 94
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4576547543,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 22,
+    "order": 95
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2119495207,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 4,
+    "order": 96
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2069247147,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 2,
+    "order": 97
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2068483102,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 10,
+    "order": 98
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214046647,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 13,
+    "order": 99
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 365088698,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 1,
+    "order": 100
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4623838448,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 21,
+    "order": 101
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214742101,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 0,
+    "order": 102
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 365349684,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 0,
+    "order": 103
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2069189010,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 6,
+    "order": 104
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2120068186,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 19,
+    "order": 105
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2068867700,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 14,
+    "order": 106
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4123881211,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 15,
+    "order": 107
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4574920301,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 29,
+    "order": 108
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214332171,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 14,
+    "order": 109
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4577363939,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 15,
+    "order": 110
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2069495282,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 22,
+    "order": 111
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2069036885,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 29,
+    "order": 112
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4624745698,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 17,
+    "order": 113
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 164438899,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 12,
+    "order": 114
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 314974684,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 23,
+    "order": 115
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 365112181,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 24,
+    "order": 116
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 365435755,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 2,
+    "order": 117
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 364724139,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 29,
+    "order": 118
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 315467814,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 25,
+    "order": 119
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4121424130,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 18,
+    "order": 120
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 364617567,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 10,
+    "order": 121
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264673072,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 8,
+    "order": 122
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4075124163,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 22,
+    "order": 123
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2070303598,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 1,
+    "order": 124
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4623485386,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 18,
+    "order": 125
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214467320,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 13,
+    "order": 126
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4122273423,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 20,
+    "order": 127
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 164236582,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 1,
+    "order": 128
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4573790630,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 10,
+    "order": 129
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2068088765,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 7,
+    "order": 130
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 164512289,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 6,
+    "order": 131
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4575773781,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 24,
+    "order": 132
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2068199471,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 23,
+    "order": 133
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214843514,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 2,
+    "order": 134
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264890263,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 10,
+    "order": 135
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 265255935,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 23,
+    "order": 136
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 364876375,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 4,
+    "order": 137
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4123467478,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 21,
+    "order": 138
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264650913,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 0,
+    "order": 139
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4123056401,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 2,
+    "order": 140
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 364876432,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 16,
+    "order": 141
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2118322901,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 20,
+    "order": 142
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264352690,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 20,
+    "order": 143
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264630263,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 15,
+    "order": 144
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264711792,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 20,
+    "order": 145
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4072640691,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 9,
+    "order": 146
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4073178491,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 24,
+    "order": 147
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 364996467,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 19,
+    "order": 148
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 365069925,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 28,
+    "order": 149
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 314983580,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 6,
+    "order": 150
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 364745556,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 8,
+    "order": 151
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264546207,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 11,
+    "order": 152
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214705547,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 5,
+    "order": 153
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214891710,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 9,
+    "order": 154
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264758401,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 17,
+    "order": 155
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 314868344,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 17,
+    "order": 156
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2068180340,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 15,
+    "order": 157
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264774067,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 22,
+    "order": 158
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 163889458,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 23,
+    "order": 159
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2117768902,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 28,
+    "order": 160
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 314983245,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 5,
+    "order": 161
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2068530079,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 8,
+    "order": 162
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 314424779,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 10,
+    "order": 163
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2118434308,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 12,
+    "order": 164
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 364592817,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 9,
+    "order": 165
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214593125,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 29,
+    "order": 166
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264731871,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 9,
+    "order": 167
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4073067278,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 7,
+    "order": 168
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 163779396,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 7,
+    "order": 169
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4123538083,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 10,
+    "order": 170
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264234535,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 24,
+    "order": 171
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4573597937,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 5,
+    "order": 172
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 164303401,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 11,
+    "order": 173
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 164292726,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 27,
+    "order": 174
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 164127550,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 10,
+    "order": 175
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 364690994,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 27,
+    "order": 176
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264375635,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 12,
+    "order": 177
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4073097619,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 13,
+    "order": 178
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264656031,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 14,
+    "order": 179
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 365055383,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 7,
+    "order": 180
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4573506554,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 6,
+    "order": 181
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 314891687,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 2,
+    "order": 182
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4574247737,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 26,
+    "order": 183
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 364882890,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 6,
+    "order": 184
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214526276,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 20,
+    "order": 185
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4573627855,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 13,
+    "order": 186
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2068530179,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 25,
+    "order": 187
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4123027508,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 11,
+    "order": 188
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214581425,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 24,
+    "order": 189
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2068633687,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 27,
+    "order": 190
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214683336,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 6,
+    "order": 191
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264966671,
+    "passed": true,
+    "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "trial": 0,
+    "order": 192
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264752220,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 15,
+    "order": 193
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214417372,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 28,
+    "order": 194
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214129596,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 19,
+    "order": 195
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 364388971,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 22,
+    "order": 196
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4572886276,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 12,
+    "order": 197
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4123276191,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 19,
+    "order": 198
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4575154768,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 14,
+    "order": 199
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4073370847,
+    "passed": true,
+    "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "trial": 5,
+    "order": 200
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4574525759,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 3,
+    "order": 201
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2070722551,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 26,
+    "order": 202
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214796163,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 1,
+    "order": 203
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "abandoned_response_pipe_cannot_hold_executor_forever",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 4625920599,
+    "passed": true,
+    "scenario": "abandoned_response_pipe_cannot_hold_executor_forever",
+    "trial": 0,
+    "order": 204
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "late_frame_after_idle_timeout_cannot_resume_session",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 2069672436,
+    "passed": true,
+    "scenario": "late_frame_after_idle_timeout_cannot_resume_session",
+    "trial": 16,
+    "order": 205
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 364821079,
+    "passed": true,
+    "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "trial": 21,
+    "order": 206
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "eof_midway_through_multi_client_epoch_is_rejected",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 214947584,
+    "passed": true,
+    "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+    "trial": 19,
+    "order": 207
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264684501,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 7,
+    "order": 208
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+      "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+      "--exact",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "returncode": 0,
+    "timed_out": false,
+    "wall_ns": 264517551,
+    "passed": true,
+    "scenario": "lost_pir_server_returns_authenticated_zero_error_without_user_state",
+    "trial": 4,
+    "order": 209
+  }
+]
