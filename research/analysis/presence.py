@@ -35,6 +35,33 @@ def read_jsonl(path):
         return [json.loads(line) for line in stream]
 
 
+def verify_retained_artifacts(source, config):
+    """Verify every recorded artifact and require fingerprints for consumed raw files."""
+    source = source.resolve()
+    manifest = json.loads((source/'artifact-sha256.json').read_text())
+    if not isinstance(manifest, dict) or not manifest:
+        raise ValueError('invalid artifact manifest')
+    for name, expected in manifest.items():
+        if (not isinstance(name, str) or not name or Path(name).is_absolute()
+                or not isinstance(expected, str) or len(expected) != 64
+                or any(character not in '0123456789abcdef' for character in expected)):
+            raise ValueError('invalid artifact manifest entry')
+        artifact = (source/name).resolve()
+        if not artifact.is_relative_to(source) or not artifact.is_file():
+            raise ValueError(f'artifact path missing or outside source: {name}')
+        if digest(artifact) != expected:
+            raise ValueError(f'artifact digest mismatch: {name}')
+    required = {'provenance.json'}
+    for percent in config['online_percent']:
+        for seed in config['seeds']:
+            for channel in ('observer', 'truth', 'beacon'):
+                required.add(f'raw/p{percent}-s{seed}.{channel}.jsonl.gz')
+    missing = required-set(manifest)
+    if missing:
+        raise ValueError(f'consumed artifacts missing from manifest: {sorted(missing)}')
+    return len(manifest)
+
+
 def summarize(out, config, raw_out=None):
     raw_out = out if raw_out is None else raw_out
     # Evaluate the intermittent positive control before defended predictions.
@@ -163,11 +190,14 @@ if __name__ == '__main__':
     if args.raw_source is not None:
         if args.binary is not None or args.out.exists():
             parser.error('raw analysis needs a fresh output and no --binary')
-        args.out.mkdir(parents=True)
         source = args.raw_source.resolve()
+        config = json.loads(args.config.read_text())
+        verified_artifacts = verify_retained_artifacts(source, config)
+        args.out.mkdir(parents=True)
         provenance = {'created_before_analysis_utc': datetime.now(timezone.utc).isoformat(),
                       'raw_source': str(source), 'raw_artifact_manifest_sha256': digest(source/'artifact-sha256.json'),
                       'raw_provenance_sha256': digest(source/'provenance.json'),
+                      'verified_source_artifacts': verified_artifacts,
                       'config_sha256': digest(args.config), 'tie_seed': 90000,
                       'tie_seed_semantics': 'public constant independent of workload seeds; no latent seed passed to attack',
                       'source_sha256': {p: digest(p) for p in ('research/analysis/presence.py', 'research/attacks/presence.py')}}
@@ -175,7 +205,7 @@ if __name__ == '__main__':
         shutil.copyfile(args.config, args.out/'config.json')
         shutil.copyfile(__file__, args.out/'analysis-source.py')
         shutil.copyfile('research/attacks/presence.py', args.out/'attack-source.py')
-        summarize(args.out, json.loads(args.config.read_text()), raw_out=source)
+        summarize(args.out, config, raw_out=source)
     else:
         if args.binary is None:
             parser.error('--binary or --raw-source is required')

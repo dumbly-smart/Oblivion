@@ -5,6 +5,8 @@ import os
 from pathlib import Path
 import subprocess
 import tempfile
+import hashlib
+import sys
 import unittest
 from research.attacks.presence import intersect
 
@@ -50,6 +52,28 @@ class PresenceTests(unittest.TestCase):
             intersect([], [])
         with self.assertRaises(ValueError):
             intersect([base]*4097, event*4097)
+
+    def test_raw_source_tamper_rejected_before_output_mutation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory); source = root/'source'; (source/'raw').mkdir(parents=True)
+            artifact = source/'raw'/'p50-s1.observer.jsonl.gz'
+            with gzip.open(artifact, 'wt') as stream:
+                stream.write('{}\n')
+            (source/'provenance.json').write_text('{}\n')
+            manifest = {str(path.relative_to(source)): hashlib.sha256(path.read_bytes()).hexdigest()
+                        for path in source.rglob('*') if path.is_file()}
+            (source/'artifact-sha256.json').write_text(json.dumps(manifest))
+            # A still-valid gzip file was changed after the recorded fingerprint.
+            with gzip.open(artifact, 'wt') as stream:
+                stream.write('{"changed":true}\n')
+            before = {str(path.relative_to(source)): path.read_bytes() for path in source.rglob('*') if path.is_file()}
+            output_parent = root/'must-not-be-created'
+            result = subprocess.run([sys.executable, '-m', 'research.analysis.presence', '--raw-source', str(source),
+                                     '--out', str(output_parent/'analysis')], capture_output=True, text=True)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertFalse(output_parent.exists(), 'verification must precede all output mutations')
+            self.assertIn('artifact digest mismatch', result.stderr)
+            self.assertEqual(before, {str(path.relative_to(source)): path.read_bytes() for path in source.rglob('*') if path.is_file()})
 
     @unittest.skipUnless(os.environ.get('PRESENCE_BINARY'), 'set PRESENCE_BINARY for actual library integration')
     def test_actual_batcher_export_oracle(self):
