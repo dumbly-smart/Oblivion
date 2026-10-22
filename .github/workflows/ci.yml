@@ -32,4 +32,4 @@ jobs:
       - run: cargo build --locked --release -p oblivion-sse -p oblivion-batcher -p oblivion-store -p oblivion-pir --examples
       - run: python -m unittest discover -s research/tests
         env:
-          OBLIVION_PRESENCE_BINARY: target/release/examples/presence
+          PRESENCE_BINARY: target/release/examples/presence
