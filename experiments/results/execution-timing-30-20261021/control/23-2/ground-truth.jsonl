@@ -1,0 +1,8 @@
+{"class":0,"deadline_missed":false,"oracle_passed":true,"status":"Success","step":0,"work_ns":192614}
+{"class":6,"deadline_missed":false,"oracle_passed":true,"status":"OutOfFuel","step":1,"work_ns":112099}
+{"class":2,"deadline_missed":false,"oracle_passed":true,"status":"Success","step":2,"work_ns":31004}
+{"class":3,"deadline_missed":false,"oracle_passed":true,"status":"Success","step":3,"work_ns":26896}
+{"class":1,"deadline_missed":false,"oracle_passed":true,"status":"Success","step":4,"work_ns":27157}
+{"class":5,"deadline_missed":false,"oracle_passed":true,"status":"Trap","step":5,"work_ns":47466}
+{"class":4,"deadline_missed":false,"oracle_passed":true,"status":"Success","step":6,"work_ns":107099}
+{"class":7,"deadline_missed":false,"oracle_passed":true,"status":"Resource","step":7,"work_ns":7522}
