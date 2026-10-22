@@ -19,7 +19,7 @@ payload = result.to_dict()  # JSON-compatible predictions, confidence, metadata
 
 Every plugin implements `Attack.run(trace, aux) -> PredictionResult`.
 `predictions` contains one top label per observation, except association, which
-returns one opaque past-search slot per injected update. All built-in adapters
+returns one opaque past-search slot per injected update. Presence returns one client identity for the entire observed trace (or `None` for an empty candidate set). All built-in adapters
 return `confidence=None`: binary class indicators, leaf proportions, rankings,
 and plug-in posterior marginals are not calibrated success probabilities.
 Metadata labels these outputs `UNCALIBRATED` and retains the original scores,
@@ -38,6 +38,7 @@ silently reinterpret scores as confidence.
 | `likelihood` | `inference.infer` → `likelihood_assignment` | `tag`, `count` | `counts`, `corpus_documents`, independent `profile_labels`; optional `padded`, `seed` |
 | `iterativeLAP` | `inference.infer` → `iterative_hungarian_markov` | Same | Same |
 | `exactboundedcomparison` | `inference.infer` → `exact_markov_bound` | Same | Same |
+| `presence` | `presence.intersect` | Declared epoch/participation/byte fields | Public semantic `beacon`; optional `knowledge_events`, `observer`, independent tie `seed` |
 | `chosenupdateassociation` | `linkability.recover_links` | Local observation records below | `mode`, optional `seed` |
 
 The six roadmap-facing names are `count`, `searchpattern`, `likelihood`,

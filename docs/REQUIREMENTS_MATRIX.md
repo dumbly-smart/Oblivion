@@ -1,6 +1,6 @@
 # Requirements and evidence matrix
 
-Audited 2026-10-22 against the complete supplied [research roadmap](../Oblivion_%20Research%20Roadmap%20and%20Build%20Plan%20%281%29.md), the original project instructions summarized in the build/completion plans, current source, component documentation and saved result records. This document does not change those requirements.
+Audited 2026-10-23 against the complete supplied [research roadmap](../Oblivion_%20Research%20Roadmap%20and%20Build%20Plan%20%281%29.md), the original project instructions summarized in the build/completion plans, current source, component documentation and saved result records. This document does not change those requirements.
 
 **Complete** means the bounded artifact/behavior exists with the cited evidence; it does not mean the full system is secure. **Partial** means some required implementation/evidence exists, with the missing part stated. **Not verified** means no accepted execution/artifact is established here, including work currently being implemented. Source/test presence is not a passing test execution. Optional extensions remain explicitly tracked. A hoped-for experimental result is not a license to manufacture a positive outcome.
 
@@ -22,9 +22,13 @@ Audited 2026-10-22 against the complete supplied [research roadmap](../Oblivion_
 | H22 | `ADVANCED_ATTACKS.md`, `experiments/results/inference-sse/`, `UPDATE_LINKABILITY.md` | Bounded offline likelihood/iterative/exact methods and chosen-update association, real SSE observations, successful controls; not faithful paper reproductions |
 | J22 | `SYSTEM_EXPERIMENTS.md`, corrected and fixed-publication system result directories | Actual A–G and disabled-layer campaigns; chronology and observed inference retained. Final publication-boundary mechanism differs from the earlier corrected run |
 | D22 | `DEMO.md`, `docs/artifacts/demo-demo-recording-20261022/` | Actual local mixed-function/SSE process run visualized as MP4 and terminalcast; not a screen recording or privacy experiment |
+| VF22 | `experiments/results/validation-20261022-frozen/` | Five zero exits; identical before/after source hash; 53 Python checks with one optional skip. Applies to that revision, not later additions |
+| C23 | `CORPUS_EVALUATION.md`, `experiments/results/corpus-real-frozen-20261023/` | Licensed UCI text, 30 conditional split resamples, real SSE/dummy padding, matched and spam-enriched auxiliary corpora; fixed synthetic query prior. Frozen executable verified before/after |
+| B23 | `PRESENCE_EVALUATION.md`, original presence raw and independent-ties-Wilson analysis | 60 actual-batcher virtual-clock trials; strong explicit semantic beacon; intermittent fixed-rate presence remains identifiable. No packet-timing claim |
+| G23 | `GEOMETRY_EVALUATION.md`, `experiments/results/geometry-20261022/` | 42 geometry cells × 30 trials; 138,240 ORAM accesses, 2,880 PIR queries; genuine stash traces/full-record oracles; in-process payload/timing scope |
 | SRC | Current component paths/test names below | Source presence alone is not executed validation; V22 and per-run source versions remain explicit |
 
-The separate million-operation release stress execution (1,000,000 operations, 256 blocks, periodic invariants; 41.61 seconds) is recorded in the earlier implementation history. V22 records a later repeat; a final frozen-source repeat is still distinct evidence. Hosted Actions success has not been observed. All result source hashes/configs identify launch-time versions; today's source must not inherit their measurements automatically.
+The separate million-operation release stress execution (1,000,000 operations, 256 blocks, periodic invariants; 41.61 seconds) is recorded in the earlier implementation history. V22 records a later repeat; VF22 records a matching-source repeat. The first hosted Rust and stress jobs passed; Python fixture setup failed and has been fixed, with a corrected full hosted run pending. All result source hashes/configs identify launch-time versions; today's source must not inherit their measurements automatically.
 
 ## Foundation, trust and documentation
 
@@ -35,7 +39,7 @@ The separate million-operation release stress execution (1,000,000 operations, 2
 | F03 | Assets, adversary, leakage functions, residual channels and diagram | Complete | `THREAT_MODEL.md`, `ARCHITECTURE.md`; storage/network/scheduler/billing observations distinguished |
 | F04 | AEAD, HKDF separation, OS entropy and nonce lifecycle | Complete | Store/batcher/PIR/SSE source; assumptions record ephemeral invocation sessions and rekeyed store restore |
 | F05 | Observer schema excluding plaintext secrets/labels; distinct truth/private data | Complete | `PROTOCOL.md`; store events, harness datasets, simulator strict public schema; runtime private files must remain private |
-| F06 | CI configured and running | Partial | `.github/workflows/`; V22 local commands exited zero. Hosted Actions success still requires observing a hosted run |
+| F06 | CI configured and running | Partial | First hosted run 39847355406: Rust and million-op stress passed; Python failed on missing release fixtures. Workflow now builds them; corrected hosted outcome pending |
 | F07 | Reproducible commands, exact dependencies/config/seeds and provenance | Complete | Locked dependencies, per-run configuration/seeds and source/executable fingerprints; T22/X22/J22 preserve exact measurement boundaries. Postmeasurement source snapshots are explicitly labeled |
 | F08 | P1–P12 probability/security games/crypto/GGM/LWE/DP/systems/WASM/stats preparation | Partial | Construction and statistical assumptions documented. Human reading/understanding is not established by tests |
 | F09 | Verify primary literature and licenses before claiming faithful methods | Partial | Path ORAM/Wasmtime/RustCrypto and SSE design sources recorded; R20 pins/license genuine reference. Full roadmap appendix and attack/dataset checks remain |
@@ -64,10 +68,10 @@ The separate million-operation release stress execution (1,000,000 operations, 2
 | O01 | Rust Path ORAM, Z=4, AEAD fixed buckets, fresh writes, client map/stash | Complete | `crates/oblivion-store/src/oram.rs`, `crates/oblivion-store/src/config.rs`; encryption is implemented in `oram.rs`; reads and writes remap with OS randomness |
 | O02 | Memory/file Backend abstraction | Complete | `src/backend.rs`, `tests/recovery.rs::file_backend_bounds_and_truncated_files`; bounded real file I/O |
 | O03 | Million random operations match plaintext oracle | Complete | V22 release stress explicitly ran 1,000,000 operations over 256 blocks in 41.44 seconds; ordinary suite deliberately ignores this tier |
-| O04 | Stash histogram/max and invariants | Partial | O20 private stash samples/diagnostics and oracle invariants; broad N/Z/workload bounds not established |
+| O04 | Stash histogram/max and invariants | Complete | G23 36 N/width/Z/workload cells × 30 controllers with genuine private histograms and fixed observer checks; maximum observed stash seven. Finite occupancy observations do not establish rare overflow bounds |
 | O05 | 100,000 repeated-address versus uniform-address chi-square/KS/independence diagnostics | Complete | T22: actual 100,000 accesses each for repeated and uniform workloads, 1.4M physical events each; compressed originals, chi-square/discrete-KS/permutation diagnostics and limitations retained in `TRACE_VALIDATION.md` |
 | O06 | Fixed server messages and measured 2·Z·(log N+1) payload blowup | Complete | `tests/adversarial.rs::fixed_shape_and_fresh_ciphertext_for_reads_and_writes`, O20; ciphertext/metadata overhead explicitly counted at bucket interface |
-| O07 | p50/p99, bandwidth, trusted memory and stash overhead | Partial | O20 component quantiles/payload formulas; full RSS/allocator/remote-network accounting and geometry sweep absent |
+| O07 | p50/p99, bandwidth, trusted memory and stash overhead | Partial | G23 36-cell latency/payload/storage/stash/trusted-metadata sweep plus O20. Payload excludes allocator/oracle/process memory; full remote/RSS accounting remains separate |
 | O08 | Stronger leaf+timing classifier for address or operation inference | Partial | L20 frequency attack sees leaf tags only; general address/operation timing classifier remains unverified; J22 now provides the separately bounded joint-system feature result |
 | O09 | Integrity, bucket substitution/replay and failure semantics | Complete | `tests/adversarial.rs`, trusted versions/location AEAD, poison on uncertain reads/writes |
 | O10 | Durable authenticated state and recovery | Partial | `src/oram/recovery.rs`, `tests/recovery.rs`, `STORAGE_RECOVERY.md`: complete snapshots and fresh-key restore. External anchor publication and durable application ack protocol absent; whole-anchor replay unsolved |
@@ -81,7 +85,7 @@ The separate million-operation release stress execution (1,000,000 operations, 2
 | P01 | Actual two-server XOR selection shares/full scans/recovery | Complete | `crates/oblivion-pir/src/lib.rs`, retrieval/process tests; separate server-owned state |
 | P02 | Correct 10,000 × 1 KiB retrieval | Complete | `tests/retrieval.rs::ten_thousand_kib_records`, P20; current secure TCP/process tests cover same geometry |
 | P03 | Individual-server query uniformity for varied indices | Partial | `bit_marginals_do_not_depend_on_requested_index`; per-bit diagnostic is not an exhaustive joint-distribution or timing test |
-| P04 | Fixed query/answer sizes, GB/s/full-scan throughput | Partial | P20 algorithm throughput and T22 actual encrypted packet/frame accounting; no measured production network GB/s or full geometry throughput curve |
+| P04 | Fixed query/answer sizes, GB/s/full-scan throughput | Complete | G23 six-cell count/width full-scan curve, 30 fresh-state trials each, fixed share/answer payloads; T22 separate encrypted transport. Reported rates explicitly in-process, not network/production capacity |
 | P05 | Generic encrypted geometry-bound transport and failure/replay tests | Complete | `src/secure.rs`, `tests/secure_transport.rs`, `tests/secure_processes.rs`, `PIR_TRANSPORT.md`; plaintext CLI explicitly retained for experiments |
 | P06 | Authenticated registry/module selection | Partial | Process recovered-record pins bind trusted bundled records; independent signing/dynamic publication and rollback policy not implemented |
 | P07 | √n communication/DPF variant | Not verified | Roadmap additional scheme; current query vector is ceil(N/8), server scan linear |
@@ -112,7 +116,7 @@ The separate million-operation release stress execution (1,000,000 operations, 2
 | B02 | Same-size authenticated real/dummy envelopes and replay rejection | Complete | Batcher tests, directional 164-byte frames; unknown epoch/slot/duplicate handling |
 | B03 | 0/50/100% load observer distribution tests | Partial | D20 historical single-client runs; current fixed structure/multi-client tests exist. Statistical full joint size/time/destination comparison required |
 | B04 | Latency ≈ E/2+processing, goodput/dummy and epoch curves | Partial | `RUNTIME_BENCHMARKS.md`: 270 actual batching trials quantify E/2 queue delay and real/dummy counts ; 60 process offered-load trials quantify admitted throughput/drops. No shared integrated epoch-vs-system-goodput sweep claimed |
-| B05 | Online/offline intersection inference | Not verified | Presence remains public; no completed inference experiment verified |
+| B05 | Presence/intersection inference under online/offline participation | Complete | B23 successful 30/30 control and fixed-rate-online recovery at both availability rates; always-participating eight-candidate counterfactual. Explicit semantic-beacon knowledge, independent tie seed, whole-trial Wilson intervals |
 | B06 | Active drop/delay/skip/duplicate robustness | Partial | Queue/replay/server-loss component tests exist; full multi-client fault campaign and timing evidence pending |
 | B07 | DP-noised batching, ε/δ and T-epoch composition | Not verified | Explicit optional variant cut from MVP. Fixed-rate batching and simulator noise do not imply DP |
 
@@ -133,7 +137,7 @@ The separate million-operation release stress execution (1,000,000 operations, 2
 
 | ID | Requirement | Status | Evidence / remaining condition |
 | --- | --- | --- | --- |
-| H01 | Trace-driven actual mechanisms and attack/prediction/auxiliary-knowledge interface | Complete | `ATTACK_INTERFACE.md`: nine adapters with `run(trace, aux)`, common predictions/confidence/metadata and JSON CLI; six SSE-facing bounded methods, eleven adapter checks; underlying experiment evidence stays separate |
+| H01 | Trace-driven actual mechanisms and attack/prediction/auxiliary-knowledge interface | Complete | `ATTACK_INTERFACE.md`: ten real adapters, including trace-level presence intersection; common predictions/confidence/metadata and strict JSON schemas; twelve adapter checks. Experiment evidence remains separate |
 | H02 | Frequency attack and unpadded traffic classifier, positive controls | Complete | L20 raw files/reports, strict observer-only schema, controls exceed relevant baseline |
 | H03 | One SSE attack for MVP | Complete | `SSE_ATTACKS.md`, `experiments/results/sse-attacks/report.json`: actual count/volume and stable-tag frequency attacks, exact-count control, genuine encrypted dummy padding, 30 trial clusters and eight scoped Python tests |
 | H04 | Cash-style count attack | Complete | `SSE_ATTACKS.md`: bounded transparent count baseline on actual encrypted index, independent auxiliary corpus and successful exact-count control; not a faithful full Cash reproduction |
@@ -143,7 +147,7 @@ The separate million-operation release stress execution (1,000,000 operations, 2
 | H08 | Accuracy, top-k, ROC and bootstrap CIs | Complete | L20 binary ROC/AUC; H22/X22 multiclass accuracy, balanced accuracy, top-three and whole-trial intervals. Binary ROC is not invented for multiclass permutation inference |
 | H09 | Positive-control-first, fixed seeds and one-command reproducibility | Complete | Component, SSE, execution and joint analyses gate interpretation on successful leaky controls. Unvalidated packet classifier removed and historical outputs excluded in T22; adapters do not create fresh evidence |
 | H10 | No train/test related-session leakage; proper uncertainty clustering | Complete | L20 independent profiling/target sessions and equal-weight whole-trial bootstrap; original smoke session bootstrap explicitly superseded |
-| H11 | Realistic corpus and auxiliary-knowledge sensitivity | Not verified | Synthetic data only; licensed real corpus and varied knowledge protocol remain |
+| H11 | Realistic corpus and auxiliary-knowledge sensitivity | Complete | C23 real licensed document associations and three disjoint auxiliary population views, 30 conditional split resamples and paired intervals. Queries remain synthetic IID; no human query or chronological-drift claim |
 | H12 | Classifier/nonparametric MI lower-bound estimate if bits reported | Not verified | No bits/zero-leakage claim or completed MI estimator; attack success is the reported empirical quantity |
 
 ## Integration, benchmarks, ablations and final delivery (§9–11)
@@ -159,7 +163,7 @@ The separate million-operation release stress execution (1,000,000 operations, 2
 | M02 | Measured client/server/server wire bytes per real request and plaintext blowup | Partial | T22 genuine encrypted PIR pcap/streams; J22 framed invocation/registry/storage accounting and blowup. No global packet capture across every deployment interface |
 | M03 | CPU-seconds/request, padding waste, RSS and throughput/goodput | Partial | `RUNTIME_BENCHMARKS.md` records admitted throughput, queue waits, drops, coarse process CPU ticks and sampled aggregate RSS across 60 trials; no isolated high-resolution CPU or cloud billing guarantee |
 | M04 | Cost/million from explicit price assumptions, instance-seconds and egress | Partial | J22 explicit hypothetical worker/egress accounting and cost/million; A20 instance-second prices. Neither is measured provider billing or a verified current cloud price sheet |
-| M05 | Sweeps: epoch, batch, dummy ratio, fuel/deadline, ORAM Z/block size, DB/PIR and scaling | Partial | Two ORAM workloads, fixed component configs, simulator prewarm variants; full required systematic sweep absent |
+| M05 | Sweeps: epoch, batch, dummy ratio, fuel/deadline, ORAM Z/block size, DB/PIR and scaling | Partial | G23 covers N/Z/block widths/workload and PIR N/record widths; batching epoch/real ratio and scaler prewarm variants measured. Executor resource-class and wider runtime sweeps in progress; integrated participant/deadline axes remain |
 | M06 | Robustness under bursts/epoch skips/drops, bounded process lifetimes | Partial | Simulator bursts and component fault checks; active runtime robustness additions require current execution records |
 | M07 | Latency/privacy figure and CIs | Complete | J22 `latency-privacy.png`, reported trial intervals and public measurement contract; broad external load/capacity frontier remains separate |
 | M08 | Bandwidth/privacy and cost/attack-success figures | Complete | J22 `bandwidth-privacy.png` and `cost-attack.png` from common-workload actual counters with declared hypothetical prices |
