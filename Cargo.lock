@@ -185,6 +185,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "oblivion-sse"
+version = "0.1.0"
+dependencies = [
+ "chacha20poly1305",
+ "hkdf",
+ "hmac",
+ "rand",
+ "rand_chacha",
+ "serde",
+ "serde_json",
+ "sha2",
+ "thiserror",
+ "zeroize",
+]
+
+[[package]]
 name = "oblivion-store"
 version = "0.1.0"
 dependencies = [

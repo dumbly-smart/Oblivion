@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/oblivion-store", "crates/oblivion-pir", "crates/oblivion-batcher"]
+members = ["crates/oblivion-store", "crates/oblivion-pir", "crates/oblivion-batcher", "crates/oblivion-sse"]
 resolver = "3"
 
 [workspace.package]
