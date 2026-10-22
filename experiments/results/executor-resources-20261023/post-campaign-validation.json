@@ -1,0 +1,11 @@
+{
+  "original_manifest_artifacts_checked": 24,
+  "retained_trials_revalidated": 180,
+  "retained_calls": 2160,
+  "tests": 3,
+  "test_exit": 0,
+  "command": "EXECUTOR_RESOURCES_BINARY=$PWD/experiments/results/executor-resources-20261023/bin/resource_measure .venv/bin/python -m unittest research.tests.test_executor_resources -v",
+  "current_validator_sha256": "5a55aa494577632edcc5234d04733ef9f419307277dbd82990648ae8c51a4fd5",
+  "current_tests_sha256": "6ff2c363d2387bb26cd67dcd3dfdd400b5c0d69fdaf5c0a1b167ae54da7092f6",
+  "scope": "additional metric validation only; frozen measured source and all original artifacts preserved"
+}

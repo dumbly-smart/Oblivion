@@ -1,0 +1,5480 @@
+[
+  {
+    "class": "small",
+    "mode": "control",
+    "trials": 30,
+    "engine_ns": {
+      "mean": 93526.3,
+      "ci95": [
+        86728.13333333333,
+        99909.4
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "compile_ns": {
+      "mean": 4858653.833333333,
+      "ci95": [
+        4629564.7,
+        5090779.866666666
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "cpu_seconds": {
+      "mean": 0.008251099999999999,
+      "ci95": [
+        0.007958133333333332,
+        0.008509633333333332
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "max_rss_kib": {
+      "mean": 42704,
+      "ci95": [
+        42704,
+        42704
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "deadline_misses": 0,
+    "calls": [
+      {
+        "function": 0,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 41522.63333333333,
+          "ci95": [
+            28375.5,
+            56799.3
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 41383.13333333333,
+          "ci95": [
+            28281.933333333334,
+            56607.1
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 42336.86666666667,
+          "ci95": [
+            29246.6,
+            57484.9
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 41667.73333333333,
+          "ci95": [
+            28653.166666666668,
+            56833.3
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 29.233333333333334,
+          "ci95": [
+            25.933333333333334,
+            33.06666666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 0,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 21278.733333333334,
+          "ci95": [
+            15716.266666666666,
+            27986.966666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 21194.2,
+          "ci95": [
+            15634,
+            27912.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 22184.033333333333,
+          "ci95": [
+            16560.666666666668,
+            28786.833333333332
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 21579.566666666666,
+          "ci95": [
+            15996.333333333334,
+            28256.233333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 25.233333333333334,
+          "ci95": [
+            22.4,
+            29.333333333333332
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 43454.6,
+          "ci95": [
+            29926.266666666666,
+            58668.5
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 43339.566666666666,
+          "ci95": [
+            29827.6,
+            58541.13333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 44283.066666666666,
+          "ci95": [
+            30784,
+            59174.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 43630.7,
+          "ci95": [
+            30157.466666666667,
+            58535.13333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 28.966666666666665,
+          "ci95": [
+            25.4,
+            32.833333333333336
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 18952.566666666666,
+          "ci95": [
+            14527.433333333332,
+            23861.9
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 18873.6,
+          "ci95": [
+            14453.066666666668,
+            23786.566666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 19837.166666666668,
+          "ci95": [
+            15317.433333333332,
+            24790.533333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 19249,
+          "ci95": [
+            14805.5,
+            24141.833333333332
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 24.566666666666666,
+          "ci95": [
+            22.566666666666666,
+            26.866666666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 30899.533333333333,
+          "ci95": [
+            20387.966666666667,
+            43523.666666666664
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 30774.866666666665,
+          "ci95": [
+            20295.266666666666,
+            43378.566666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 31937.866666666665,
+          "ci95": [
+            21247.366666666665,
+            44675.73333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 31202.666666666668,
+          "ci95": [
+            20629.333333333332,
+            43789.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 31.1,
+          "ci95": [
+            26.766666666666666,
+            36.63333333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 26054.366666666665,
+          "ci95": [
+            18080.4,
+            35600.13333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 25961.766666666666,
+          "ci95": [
+            17997.233333333334,
+            35500.066666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 27290.9,
+          "ci95": [
+            19008.6,
+            37189.96666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 26359.3,
+          "ci95": [
+            18362.233333333334,
+            35928.03333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 26.633333333333333,
+          "ci95": [
+            23.866666666666667,
+            29.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 31009.233333333334,
+          "ci95": [
+            21150.533333333333,
+            41700.63333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 30898.966666666667,
+          "ci95": [
+            21055.166666666668,
+            41572.5
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 31876.6,
+          "ci95": [
+            22110.033333333333,
+            42685.9
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 31136.066666666666,
+          "ci95": [
+            21343.5,
+            41917.333333333336
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 28.1,
+          "ci95": [
+            24.766666666666666,
+            31.566666666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 20555.733333333334,
+          "ci95": [
+            15084.4,
+            26353.233333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 20472.7,
+          "ci95": [
+            15001.1,
+            26268.666666666668
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 21459.933333333334,
+          "ci95": [
+            15949.533333333333,
+            27325.433333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 20861.766666666666,
+          "ci95": [
+            15354.5,
+            26682.866666666665
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 25,
+          "ci95": [
+            22.766666666666666,
+            27.466666666666665
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 68592.33333333333,
+          "ci95": [
+            56782.666666666664,
+            84396.83333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 68481.93333333333,
+          "ci95": [
+            56688.8,
+            84259.26666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 16,
+          "ci95": [
+            16,
+            16
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 69140.4,
+          "ci95": [
+            57195.03333333333,
+            84914.5
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 68475.66666666667,
+          "ci95": [
+            56535.4,
+            84228.86666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 27.9,
+          "ci95": [
+            25.433333333333334,
+            30.666666666666668
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 63457.5,
+          "ci95": [
+            53073.86666666667,
+            77397.9
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 63371,
+          "ci95": [
+            52993.26666666667,
+            77302.93333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 16,
+          "ci95": [
+            16,
+            16
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 63632.26666666667,
+          "ci95": [
+            53026.4,
+            77213.23333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 62785.666666666664,
+          "ci95": [
+            52396.566666666666,
+            76247.9
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 25.7,
+          "ci95": [
+            23.166666666666668,
+            29
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 78022.7,
+          "ci95": [
+            61776.9,
+            97829.06666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 77866.23333333334,
+          "ci95": [
+            61647.1,
+            97658.26666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 78730.4,
+          "ci95": [
+            62161.6,
+            98741.53333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 77835.96666666666,
+          "ci95": [
+            61441.96666666667,
+            97383.5
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 79.06666666666666,
+          "ci95": [
+            73.83333333333333,
+            85.46666666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 90073.46666666666,
+          "ci95": [
+            73548.36666666667,
+            108950.03333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 89956.3,
+          "ci95": [
+            73444.23333333334,
+            108817.23333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 90490.03333333334,
+          "ci95": [
+            74391.33333333333,
+            109199.76666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 89508.1,
+          "ci95": [
+            73535.86666666667,
+            107889.93333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 57.06666666666667,
+          "ci95": [
+            46.63333333333333,
+            68.56666666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      }
+    ],
+    "engine_cpu_ns": {
+      "mean": 94369.5,
+      "ci95": [
+        87311.63333333333,
+        100729.63333333333
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "compile_cpu_ns": {
+      "mean": 4916449,
+      "ci95": [
+        4693738.866666666,
+        5137684.166666667
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "successful_real_calls": 300,
+    "failed_calls": 60,
+    "successful_call_process_cpu_ns": {
+      "mean": 37397.91,
+      "ci95": [
+        33429.27333333333,
+        41328.073333333334
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "successful_call_thread_cpu_ns": {
+      "mean": 36694.81333333333,
+      "ci95": [
+        32787.32,
+        40565.73333333333
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "failed_call_process_cpu_ns": {
+      "mean": 84610.21666666666,
+      "ci95": [
+        68881.55,
+        102839.13333333333
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "failed_call_thread_cpu_ns": {
+      "mean": 83672.03333333334,
+      "ci95": [
+        68173.01666666666,
+        101701.46666666666
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "all_attempt_cpu_per_success_ns": {
+      "mean": 54319.95333333333,
+      "ci95": [
+        48858.50666666667,
+        60157.96666666667
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    }
+  },
+  {
+    "class": "small",
+    "mode": "protected",
+    "trials": 30,
+    "engine_ns": {
+      "mean": 162629.3,
+      "ci95": [
+        139415.2,
+        188093.6
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "compile_ns": {
+      "mean": 6910700.633333334,
+      "ci95": [
+        5950535.266666667,
+        7951593.2
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "cpu_seconds": {
+      "mean": 0.025995566666666664,
+      "ci95": [
+        0.023627066666666665,
+        0.0284769
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "max_rss_kib": {
+      "mean": 42704,
+      "ci95": [
+        42704,
+        42704
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "deadline_misses": 0,
+    "calls": [
+      {
+        "function": 0,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 100108824.96666667,
+          "ci95": [
+            100075664.33333333,
+            100161034.33333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50358184.166666664,
+          "ci95": [
+            50311265.13333333,
+            50403754.766666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1169467.3666666667,
+          "ci95": [
+            1044947.8666666667,
+            1302905.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 675955.8,
+          "ci95": [
+            583753.2,
+            764890.9333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49749052.5,
+          "ci95": [
+            49684704.766666666,
+            49827243.766666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 0,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 100090847.13333334,
+          "ci95": [
+            100078144.46666667,
+            100104360.33333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50347696.1,
+          "ci95": [
+            50297113.7,
+            50405641.333333336
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1102254.6666666667,
+          "ci95": [
+            994916.4666666667,
+            1213077.7
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 687866.8,
+          "ci95": [
+            590298.0666666667,
+            793518.8666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49741332.03333333,
+          "ci95": [
+            49683128.96666667,
+            49791248.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 100088130.33333333,
+          "ci95": [
+            100073632.93333334,
+            100104451.7
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50413723.6,
+          "ci95": [
+            50332973.733333334,
+            50528750.93333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1141689.9666666666,
+          "ci95": [
+            1016988.7333333333,
+            1286971.2666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 686806.2,
+          "ci95": [
+            605211.2,
+            777280.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49672986,
+          "ci95": [
+            49557977.06666667,
+            49752210
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 100088399.1,
+          "ci95": [
+            100074950.63333334,
+            100104747.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50367092.53333333,
+          "ci95": [
+            50314138.266666666,
+            50424237.3
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1116395.5,
+          "ci95": [
+            981532.9333333333,
+            1262993.9666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 695938.4666666667,
+          "ci95": [
+            599720.6333333333,
+            797939.4333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49719916,
+          "ci95": [
+            49660026.36666667,
+            49774074.06666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 100095714.1,
+          "ci95": [
+            100080878.4,
+            100111048
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50374380.7,
+          "ci95": [
+            50330455.4,
+            50423293.766666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1122862,
+          "ci95": [
+            1017228.9,
+            1238173.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 703948.1,
+          "ci95": [
+            623533.8333333334,
+            792798.1333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49719702.766666666,
+          "ci95": [
+            49669426.03333333,
+            49764005.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 100120812.06666666,
+          "ci95": [
+            100095594.93333334,
+            100155804.23333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50371642.13333333,
+          "ci95": [
+            50327201.2,
+            50419354.86666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1152845,
+          "ci95": [
+            1031890.1666666666,
+            1269155.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 715495.8,
+          "ci95": [
+            620567.7666666667,
+            808770.5333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49747687.766666666,
+          "ci95": [
+            49691120.36666667,
+            49810264.233333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 100101741.46666667,
+          "ci95": [
+            100084502.86666666,
+            100119391.3
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50355251.03333333,
+          "ci95": [
+            50300540.9,
+            50406577.766666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1160477.3333333333,
+          "ci95": [
+            1021372.7666666667,
+            1299709.0666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 716464.9333333333,
+          "ci95": [
+            616266.4666666667,
+            812619.5333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49744912.233333334,
+          "ci95": [
+            49694725.733333334,
+            49795445.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 100080205.1,
+          "ci95": [
+            100071531.1,
+            100090113.13333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50435331.53333333,
+          "ci95": [
+            50313278.63333333,
+            50635083.333333336
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1109676.7,
+          "ci95": [
+            1007317.5666666667,
+            1209833.9
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 704389.6666666666,
+          "ci95": [
+            625683.3,
+            787085.9333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49643494.266666666,
+          "ci95": [
+            49441483.46666667,
+            49765624.56666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 100088444.76666667,
+          "ci95": [
+            100075115.16666667,
+            100101449.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50352918.266666666,
+          "ci95": [
+            50302154.53333333,
+            50400518.766666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1138535.5,
+          "ci95": [
+            1001625.7,
+            1287059.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 673050.6666666666,
+          "ci95": [
+            594244.2666666667,
+            749748.1666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49734086.56666667,
+          "ci95": [
+            49688858.333333336,
+            49778863.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 100094097.7,
+          "ci95": [
+            100080230.83333333,
+            100109048.23333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50339726.46666667,
+          "ci95": [
+            50297782.56666667,
+            50384875.333333336
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1146506.9666666666,
+          "ci95": [
+            1023007.2333333333,
+            1277415.5666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 703443.9666666667,
+          "ci95": [
+            609363.6666666666,
+            798451.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49752899.56666667,
+          "ci95": [
+            49710666.93333333,
+            49795792.166666664
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 100096782.06666666,
+          "ci95": [
+            100083603.8,
+            100112224.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50369625.8,
+          "ci95": [
+            50322960.833333336,
+            50421648.06666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1243287.7,
+          "ci95": [
+            1105368.7666666666,
+            1390949.8333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 826354.5666666667,
+          "ci95": [
+            716988.3333333334,
+            940702.7333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49725622.43333333,
+          "ci95": [
+            49669990.96666667,
+            49773282.833333336
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 100089094.2,
+          "ci95": [
+            100073681.63333334,
+            100102988.86666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50349698.733333334,
+          "ci95": [
+            50305316.1,
+            50395562.46666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1133663.6,
+          "ci95": [
+            1004857.8,
+            1276870.5
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 736340,
+          "ci95": [
+            642442.5333333333,
+            842573.5333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49737822.166666664,
+          "ci95": [
+            49691342.2,
+            49782668.9
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      }
+    ],
+    "engine_cpu_ns": {
+      "mean": 162314.8,
+      "ci95": [
+        138818.26666666666,
+        187677.26666666666
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "compile_cpu_ns": {
+      "mean": 7024172.533333333,
+      "ci95": [
+        6047793.2,
+        8070049.666666667
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "successful_real_calls": 300,
+    "failed_calls": 60,
+    "successful_call_process_cpu_ns": {
+      "mean": 1136071.1,
+      "ci95": [
+        1048580.5633333332,
+        1224205.3733333333
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "successful_call_thread_cpu_ns": {
+      "mean": 696336.04,
+      "ci95": [
+        622054.9933333333,
+        769108.0833333334
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "failed_call_process_cpu_ns": {
+      "mean": 1188475.65,
+      "ci95": [
+        1056642.6,
+        1325532.85
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "failed_call_thread_cpu_ns": {
+      "mean": 781347.2833333333,
+      "ci95": [
+        680293.55,
+        882864.6
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "all_attempt_cpu_per_success_ns": {
+      "mean": 1373766.23,
+      "ci95": [
+        1264049.6033333333,
+        1483661.23
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    }
+  },
+  {
+    "class": "medium",
+    "mode": "control",
+    "trials": 30,
+    "engine_ns": {
+      "mean": 102848.26666666666,
+      "ci95": [
+        97446.96666666666,
+        107345.9
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "compile_ns": {
+      "mean": 4937469.566666666,
+      "ci95": [
+        4684509.466666667,
+        5168397.8
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "cpu_seconds": {
+      "mean": 0.009267833333333333,
+      "ci95": [
+        0.008869633333333333,
+        0.009651233333333334
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "max_rss_kib": {
+      "mean": 42704,
+      "ci95": [
+        42704,
+        42704
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "deadline_misses": 0,
+    "calls": [
+      {
+        "function": 0,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 35187.7,
+          "ci95": [
+            23702.066666666666,
+            47581.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 35064.2,
+          "ci95": [
+            23608.833333333332,
+            47419.03333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 35983.9,
+          "ci95": [
+            24365.4,
+            48354.73333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 35252.13333333333,
+          "ci95": [
+            23815.433333333334,
+            47470.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 31.6,
+          "ci95": [
+            26.866666666666667,
+            36.63333333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 0,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 28815.5,
+          "ci95": [
+            17897.733333333334,
+            41043.566666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 28736.6,
+          "ci95": [
+            17821.6,
+            40958.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 29475.133333333335,
+          "ci95": [
+            18448.4,
+            41679.566666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 28845.166666666668,
+          "ci95": [
+            17918.133333333335,
+            40881.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 24.133333333333333,
+          "ci95": [
+            22.266666666666666,
+            26.566666666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 33250.166666666664,
+          "ci95": [
+            22172.366666666665,
+            45399.76666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 33128.3,
+          "ci95": [
+            22086.6,
+            45240.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 34187.96666666667,
+          "ci95": [
+            22854.966666666667,
+            46656.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 33454.36666666667,
+          "ci95": [
+            22195.466666666667,
+            45784.53333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 29.266666666666666,
+          "ci95": [
+            25,
+            33.733333333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 20352.6,
+          "ci95": [
+            13746.2,
+            28365.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 20277.2,
+          "ci95": [
+            13678.966666666667,
+            28292.533333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 21155.966666666667,
+          "ci95": [
+            14449.6,
+            29291.533333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 20618.966666666667,
+          "ci95": [
+            13969.266666666666,
+            28677.966666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 22.433333333333334,
+          "ci95": [
+            21.333333333333332,
+            23.7
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 40254.4,
+          "ci95": [
+            25560.533333333333,
+            56939.86666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 40144.63333333333,
+          "ci95": [
+            25476.166666666668,
+            56791.13333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 40789.13333333333,
+          "ci95": [
+            26165.066666666666,
+            56917.433333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 40201.6,
+          "ci95": [
+            25555.6,
+            56285.1
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 26,
+          "ci95": [
+            23.133333333333333,
+            28.866666666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 21571.7,
+          "ci95": [
+            15349.5,
+            28014.633333333335
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 21493.966666666667,
+          "ci95": [
+            15277.833333333334,
+            27927.833333333332
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 22521.266666666666,
+          "ci95": [
+            16099.1,
+            29107.466666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 21832.133333333335,
+          "ci95": [
+            15597.833333333334,
+            28322.266666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 23.566666666666666,
+          "ci95": [
+            21.566666666666666,
+            26.266666666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 35311.5,
+          "ci95": [
+            21730.033333333333,
+            50145.933333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 35206.03333333333,
+          "ci95": [
+            21661.1,
+            50005
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 36679.46666666667,
+          "ci95": [
+            22624,
+            51625.5
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 35597.1,
+          "ci95": [
+            21969.666666666668,
+            50447.7
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 25.7,
+          "ci95": [
+            22.733333333333334,
+            28.866666666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 20944.966666666667,
+          "ci95": [
+            14770.566666666668,
+            28352.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 20871.133333333335,
+          "ci95": [
+            14696.066666666668,
+            28278.533333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 21726.466666666667,
+          "ci95": [
+            15481.8,
+            29109.233333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 21199.666666666668,
+          "ci95": [
+            15007.333333333334,
+            28599.666666666668
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 23.433333333333334,
+          "ci95": [
+            21.9,
+            25.266666666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 73080.06666666667,
+          "ci95": [
+            56814.5,
+            91288.93333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 72970.53333333334,
+          "ci95": [
+            56729.666666666664,
+            91141.3
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 16,
+          "ci95": [
+            16,
+            16
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 74036.7,
+          "ci95": [
+            57777.3,
+            92465.76666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 73224.33333333333,
+          "ci95": [
+            57024,
+            91285.73333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 28.033333333333335,
+          "ci95": [
+            24.533333333333335,
+            31.9
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 55380.333333333336,
+          "ci95": [
+            47355.2,
+            64481.666666666664
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 55308.666666666664,
+          "ci95": [
+            47285.96666666667,
+            64404.5
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 16,
+          "ci95": [
+            16,
+            16
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 56392.46666666667,
+          "ci95": [
+            48198.46666666667,
+            65592.43333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 55489.7,
+          "ci95": [
+            47436.23333333333,
+            64628.666666666664
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 22.366666666666667,
+          "ci95": [
+            21.466666666666665,
+            23.366666666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 442594.4666666667,
+          "ci95": [
+            352093.9666666667,
+            546042.0666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 442433.6666666667,
+          "ci95": [
+            351939.9666666667,
+            545882.7
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 444535.8,
+          "ci95": [
+            354057.73333333334,
+            548588.1666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 440764.0333333333,
+          "ci95": [
+            350645.9666666667,
+            543994.8666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 80.93333333333334,
+          "ci95": [
+            73.86666666666666,
+            89.06666666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 627878.2666666667,
+          "ci95": [
+            520608.6,
+            732568.6666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 627754.8,
+          "ci95": [
+            520497.4,
+            732451.7333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 629945.1666666666,
+          "ci95": [
+            524245.8,
+            734919.7
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 625696.4666666667,
+          "ci95": [
+            519326.6,
+            730373.0333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 58.3,
+          "ci95": [
+            41.166666666666664,
+            78.46666666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      }
+    ],
+    "engine_cpu_ns": {
+      "mean": 103062.2,
+      "ci95": [
+        97833.16666666667,
+        107511.93333333333
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "compile_cpu_ns": {
+      "mean": 5029418.866666666,
+      "ci95": [
+        4778544.166666667,
+        5253437.833333333
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "successful_real_calls": 300,
+    "failed_calls": 60,
+    "successful_call_process_cpu_ns": {
+      "mean": 37294.846666666665,
+      "ci95": [
+        33123.57,
+        41375.86
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "successful_call_thread_cpu_ns": {
+      "mean": 36571.51666666667,
+      "ci95": [
+        32478.156666666666,
+        40583.206666666665
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "failed_call_process_cpu_ns": {
+      "mean": 537240.4833333333,
+      "ci95": [
+        454038.26666666666,
+        625233.1166666667
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "failed_call_thread_cpu_ns": {
+      "mean": 533230.25,
+      "ci95": [
+        450903.7,
+        621269.65
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "all_attempt_cpu_per_success_ns": {
+      "mean": 144742.94333333333,
+      "ci95": [
+        126842.80666666667,
+        164079.74666666667
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    }
+  },
+  {
+    "class": "medium",
+    "mode": "protected",
+    "trials": 30,
+    "engine_ns": {
+      "mean": 152676.46666666667,
+      "ci95": [
+        135778.93333333332,
+        170560
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "compile_ns": {
+      "mean": 6638551.133333334,
+      "ci95": [
+        5873645.966666667,
+        7420404.033333333
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "cpu_seconds": {
+      "mean": 0.03148053333333333,
+      "ci95": [
+        0.0286218,
+        0.034605666666666667
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "max_rss_kib": {
+      "mean": 42704,
+      "ci95": [
+        42704,
+        42704
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "deadline_misses": 0,
+    "calls": [
+      {
+        "function": 0,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 200096332.16666666,
+          "ci95": [
+            200080207.53333333,
+            200113181.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100396546.33333333,
+          "ci95": [
+            100293757.66666667,
+            100557218.76666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1496856.0333333334,
+          "ci95": [
+            1322798.7333333334,
+            1693777.2666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 663880.7666666667,
+          "ci95": [
+            570025.2666666667,
+            761835.8666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99698361.2,
+          "ci95": [
+            99538659.93333334,
+            99793326.5
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 0,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 200081548.6,
+          "ci95": [
+            200070554.93333334,
+            200095687.26666668
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100304622.73333333,
+          "ci95": [
+            100271683.23333333,
+            100348030.73333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1436382.8,
+          "ci95": [
+            1285492.4333333333,
+            1610507.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 641535.4333333333,
+          "ci95": [
+            573769.2666666667,
+            725359.9
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99775416.06666666,
+          "ci95": [
+            99738957.76666667,
+            99804205.63333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 200078018.56666666,
+          "ci95": [
+            200068065.2,
+            200089479.83333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100346369.93333334,
+          "ci95": [
+            100301228.5,
+            100398392.7
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1600686.6666666667,
+          "ci95": [
+            1428637.2,
+            1778520.0333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 727935.7666666667,
+          "ci95": [
+            644145.7333333333,
+            820377.1333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99730163.26666667,
+          "ci95": [
+            99676148.23333333,
+            99776141.66666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 200089643.7,
+          "ci95": [
+            200074346.46666667,
+            200107172.76666668
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100328437.2,
+          "ci95": [
+            100287481.36666666,
+            100374743.93333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1478624.4333333333,
+          "ci95": [
+            1334348.5333333334,
+            1629994.9
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 671840.5666666667,
+          "ci95": [
+            579517.6666666666,
+            772798.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99759752.43333334,
+          "ci95": [
+            99716005.36666666,
+            99800722.53333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 200083396.46666667,
+          "ci95": [
+            200070540.6,
+            200098851.9
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100344105.56666666,
+          "ci95": [
+            100302515.9,
+            100388720.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1591313.8666666667,
+          "ci95": [
+            1417197.6,
+            1782786.7333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 722661.0333333333,
+          "ci95": [
+            639840.8333333334,
+            812078.1666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99737793.7,
+          "ci95": [
+            99692200.96666667,
+            99779682.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 200090980.43333334,
+          "ci95": [
+            200075761.8,
+            200107303.36666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100338023.56666666,
+          "ci95": [
+            100299001.7,
+            100383536.43333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1460849.3666666667,
+          "ci95": [
+            1290715.4333333333,
+            1657756.3666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 666500.7333333333,
+          "ci95": [
+            578752.6333333333,
+            764350.3333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99751409.16666667,
+          "ci95": [
+            99707144.16666667,
+            99789669.06666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 200088165.03333333,
+          "ci95": [
+            200075123.83333334,
+            200102943.23333332
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100322525.26666667,
+          "ci95": [
+            100280942.83333333,
+            100371744.63333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1537491.4,
+          "ci95": [
+            1391892.9666666666,
+            1714172.3333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 683777.6,
+          "ci95": [
+            604030.1333333333,
+            774611.3333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99764139,
+          "ci95": [
+            99714278.36666666,
+            99805997.26666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 200093580.36666667,
+          "ci95": [
+            200078938.43333334,
+            200108135.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100324747.8,
+          "ci95": [
+            100278353.76666667,
+            100379272.33333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1433352.9666666666,
+          "ci95": [
+            1305363.6333333333,
+            1581931.3666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 650391.7333333333,
+          "ci95": [
+            576509.2,
+            738472.7
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99767379.93333334,
+          "ci95": [
+            99712535.93333334,
+            99812635.03333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 200085651.06666666,
+          "ci95": [
+            200070847.93333334,
+            200099911.66666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100348233.46666667,
+          "ci95": [
+            100301028.9,
+            100401978.76666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1563388.2333333334,
+          "ci95": [
+            1405346.6,
+            1731291
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 722832.1,
+          "ci95": [
+            639561.0333333333,
+            823846.3333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99735765.13333334,
+          "ci95": [
+            99682641.56666666,
+            99780007.96666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 200098382.66666666,
+          "ci95": [
+            200083146.06666666,
+            200112574.76666668
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100344751.56666666,
+          "ci95": [
+            100296247.4,
+            100389600.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1549141.2333333334,
+          "ci95": [
+            1409726.8333333333,
+            1687465.7666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 734640.8333333334,
+          "ci95": [
+            636101.3333333334,
+            835956.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99752003.86666666,
+          "ci95": [
+            99706171.06666666,
+            99797463.93333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 200065608.4,
+          "ci95": [
+            200059492.2,
+            200071730.13333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100313242.33333333,
+          "ci95": [
+            100269847.4,
+            100357729.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 2251266.3,
+          "ci95": [
+            1951719.8666666667,
+            2578661.7
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 1390774.5666666667,
+          "ci95": [
+            1143063.0333333334,
+            1653819.0666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99750832.16666667,
+          "ci95": [
+            99705403.26666667,
+            99796078.5
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 200070910.76666668,
+          "ci95": [
+            200064197.76666668,
+            200079355.7
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100327642.3,
+          "ci95": [
+            100285141.66666667,
+            100377454.96666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 2161699.2666666666,
+          "ci95": [
+            1882765.2333333334,
+            2463063.7333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 1261070.7666666666,
+          "ci95": [
+            1079787.2,
+            1463163.2333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99741762.26666667,
+          "ci95": [
+            99693921.73333333,
+            99779192.1
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      }
+    ],
+    "engine_cpu_ns": {
+      "mean": 154253.03333333333,
+      "ci95": [
+        137172.66666666666,
+        172718.36666666667
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "compile_cpu_ns": {
+      "mean": 6767223.5,
+      "ci95": [
+        5989513.8,
+        7554436.5
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "successful_real_calls": 300,
+    "failed_calls": 60,
+    "successful_call_process_cpu_ns": {
+      "mean": 1514808.7,
+      "ci95": [
+        1399908.8866666667,
+        1646296.2666666666
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "successful_call_thread_cpu_ns": {
+      "mean": 688599.6566666666,
+      "ci95": [
+        618091.6033333333,
+        768000.6833333333
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "failed_call_process_cpu_ns": {
+      "mean": 2206482.783333333,
+      "ci95": [
+        1939238.6833333333,
+        2486173.533333333
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "failed_call_thread_cpu_ns": {
+      "mean": 1325922.6666666667,
+      "ci95": [
+        1135382.9166666667,
+        1526676.15
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "all_attempt_cpu_per_success_ns": {
+      "mean": 1956105.2566666666,
+      "ci95": [
+        1792264.51,
+        2137258.83
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    }
+  },
+  {
+    "class": "small_lowfuel",
+    "mode": "control",
+    "trials": 30,
+    "engine_ns": {
+      "mean": 153847.23333333334,
+      "ci95": [
+        140501.7,
+        168370.53333333333
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "compile_ns": {
+      "mean": 7815039.2,
+      "ci95": [
+        7119545.5,
+        8515063.166666666
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "cpu_seconds": {
+      "mean": 0.012571133333333333,
+      "ci95": [
+        0.011552,
+        0.0135857
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "max_rss_kib": {
+      "mean": 42704,
+      "ci95": [
+        42704,
+        42704
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "deadline_misses": 0,
+    "calls": [
+      {
+        "function": 0,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 57843.1,
+          "ci95": [
+            37395.03333333333,
+            80791.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 57628.666666666664,
+          "ci95": [
+            37225.8,
+            80517.36666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 60201.333333333336,
+          "ci95": [
+            39910.63333333333,
+            83256.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 57574.333333333336,
+          "ci95": [
+            37550.86666666667,
+            80172.63333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 53.63333333333333,
+          "ci95": [
+            44.53333333333333,
+            63.93333333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 0,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 35999.5,
+          "ci95": [
+            25688.5,
+            48580.13333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 35881,
+          "ci95": [
+            25579.266666666666,
+            48452.23333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 37167.73333333333,
+          "ci95": [
+            26564.2,
+            49916.833333333336
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 36197.46666666667,
+          "ci95": [
+            25873.033333333333,
+            48764
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 35.43333333333333,
+          "ci95": [
+            31.2,
+            40.03333333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 54692.7,
+          "ci95": [
+            36092.46666666667,
+            74521.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 54470.566666666666,
+          "ci95": [
+            35925.73333333333,
+            74226.86666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 55800.53333333333,
+          "ci95": [
+            37379.7,
+            75254.7
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 54677.53333333333,
+          "ci95": [
+            36496.566666666666,
+            74118.66666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 85.76666666666667,
+          "ci95": [
+            63.4,
+            109.36666666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 33905.96666666667,
+          "ci95": [
+            24884.7,
+            44373.73333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 33769.1,
+          "ci95": [
+            24753.633333333335,
+            44248.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 35148.833333333336,
+          "ci95": [
+            26078.733333333334,
+            45563.63333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 34285.933333333334,
+          "ci95": [
+            25243.233333333334,
+            44735.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 56.833333333333336,
+          "ci95": [
+            45.766666666666666,
+            67.76666666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 36439.1,
+          "ci95": [
+            24578.133333333335,
+            51466.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 36252.8,
+          "ci95": [
+            24456.833333333332,
+            51221.066666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 37978.7,
+          "ci95": [
+            25449.333333333332,
+            53680.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 36632.26666666667,
+          "ci95": [
+            24718.5,
+            51769
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 68.53333333333333,
+          "ci95": [
+            50.3,
+            88.5
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 27239.766666666666,
+          "ci95": [
+            20907.9,
+            35508.666666666664
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 27091,
+          "ci95": [
+            20762.7,
+            35361.066666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 28739.1,
+          "ci95": [
+            22200.566666666666,
+            37110.96666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 27544.933333333334,
+          "ci95": [
+            21259.1,
+            35731.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 69.26666666666667,
+          "ci95": [
+            52.56666666666667,
+            88.96666666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 44825.333333333336,
+          "ci95": [
+            30830.133333333335,
+            60303.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 44644.13333333333,
+          "ci95": [
+            30685.666666666668,
+            60088.46666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 46026.96666666667,
+          "ci95": [
+            31888.9,
+            61515.86666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 45213.03333333333,
+          "ci95": [
+            31179.033333333333,
+            60711.73333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 66.5,
+          "ci95": [
+            45.733333333333334,
+            89.16666666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 23248.233333333334,
+          "ci95": [
+            19335.866666666665,
+            28263.666666666668
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 23129.833333333332,
+          "ci95": [
+            19222.366666666665,
+            28147.166666666668
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 25237.866666666665,
+          "ci95": [
+            21045.733333333334,
+            30239.666666666668
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 23598.8,
+          "ci95": [
+            19669.533333333333,
+            28610.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 45.333333333333336,
+          "ci95": [
+            38.56666666666667,
+            52.43333333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 51309.933333333334,
+          "ci95": [
+            37458.566666666666,
+            66933.23333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 51099.066666666666,
+          "ci95": [
+            37282.36666666667,
+            66626.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 52679.76666666667,
+          "ci95": [
+            38671.73333333333,
+            68572.43333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 51744.566666666666,
+          "ci95": [
+            37873,
+            67466.66666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 90.26666666666667,
+          "ci95": [
+            66.73333333333333,
+            120.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 26967.4,
+          "ci95": [
+            21282.933333333334,
+            33245.53333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 26829.766666666666,
+          "ci95": [
+            21161.7,
+            33116.333333333336
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 28269.2,
+          "ci95": [
+            22470.8,
+            34773.333333333336
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 27373.466666666667,
+          "ci95": [
+            21649.266666666666,
+            33749.03333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 54.36666666666667,
+          "ci95": [
+            42.166666666666664,
+            68.56666666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 37767.166666666664,
+          "ci95": [
+            21632.833333333332,
+            57120.9
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 37599.5,
+          "ci95": [
+            21500.033333333333,
+            56901
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 38773.36666666667,
+          "ci95": [
+            22566.033333333333,
+            58296.1
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 37825.13333333333,
+          "ci95": [
+            21623.966666666667,
+            57099.53333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 61.833333333333336,
+          "ci95": [
+            49.46666666666667,
+            75.83333333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 29370.7,
+          "ci95": [
+            21272.633333333335,
+            40138.333333333336
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 29234.8,
+          "ci95": [
+            21149.666666666668,
+            39987.26666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 30251.066666666666,
+          "ci95": [
+            22079.166666666668,
+            41021.76666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 29447.3,
+          "ci95": [
+            21310.866666666665,
+            40208.833333333336
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 51.53333333333333,
+          "ci95": [
+            43.233333333333334,
+            60.03333333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      }
+    ],
+    "engine_cpu_ns": {
+      "mean": 154104,
+      "ci95": [
+        141656.86666666667,
+        167551.3
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "compile_cpu_ns": {
+      "mean": 7931563.133333334,
+      "ci95": [
+        7224140.266666667,
+        8635218.733333332
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "successful_real_calls": 60,
+    "failed_calls": 300,
+    "successful_call_process_cpu_ns": {
+      "mean": 48684.53333333333,
+      "ci95": [
+        35465.55,
+        63472.15
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "successful_call_thread_cpu_ns": {
+      "mean": 46885.9,
+      "ci95": [
+        33911.38333333333,
+        60952.25
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "failed_call_process_cpu_ns": {
+      "mean": 37890.54,
+      "ci95": [
+        33265.45,
+        41930.32666666667
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "failed_call_thread_cpu_ns": {
+      "mean": 36834.29666666667,
+      "ci95": [
+        32343.27,
+        40872.293333333335
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "all_attempt_cpu_per_success_ns": {
+      "mean": 238137.23333333334,
+      "ci95": [
+        213064.45,
+        263420.9666666667
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    }
+  },
+  {
+    "class": "small_lowfuel",
+    "mode": "protected",
+    "trials": 30,
+    "engine_ns": {
+      "mean": 182798.2,
+      "ci95": [
+        165422.23333333334,
+        200972.7
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "compile_ns": {
+      "mean": 8561891.233333332,
+      "ci95": [
+        7741695.6,
+        9407526.266666668
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "cpu_seconds": {
+      "mean": 0.02672163333333333,
+      "ci95": [
+        0.024805666666666663,
+        0.028560199999999997
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "max_rss_kib": {
+      "mean": 42704,
+      "ci95": [
+        42704,
+        42704
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "deadline_misses": 0,
+    "calls": [
+      {
+        "function": 0,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 25093170.2,
+          "ci95": [
+            25078241.766666666,
+            25110295.7
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12902870.366666667,
+          "ci95": [
+            12851696.966666667,
+            12955368.166666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 943173.5666666667,
+          "ci95": [
+            840383.2666666667,
+            1045392.9
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 803200.1333333333,
+          "ci95": [
+            712666.4666666667,
+            892417.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12188410.1,
+          "ci95": [
+            12134830.833333334,
+            12236619.1
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 0,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 25089202.033333335,
+          "ci95": [
+            25075843.166666668,
+            25103909.566666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12906104.8,
+          "ci95": [
+            12864343.666666666,
+            12948603.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 934345.2,
+          "ci95": [
+            843347.2,
+            1026229.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 818212.1666666666,
+          "ci95": [
+            734271.6,
+            907240.3
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12181791.266666668,
+          "ci95": [
+            12138296.9,
+            12222866.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 25083865.633333333,
+          "ci95": [
+            25070705.2,
+            25099136.733333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12958284.3,
+          "ci95": [
+            12908523.033333333,
+            13008392.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 1035440.4,
+          "ci95": [
+            924866.4333333333,
+            1148012.5
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 901952.1666666666,
+          "ci95": [
+            801018,
+            1003423.6333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12124236.866666667,
+          "ci95": [
+            12080745.933333334,
+            12168903.166666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 25098796.966666665,
+          "ci95": [
+            25081202.233333334,
+            25118720.766666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12891647.2,
+          "ci95": [
+            12851090.066666666,
+            12932086.733333332
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 938765.7333333333,
+          "ci95": [
+            837719.1333333333,
+            1040429
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 803450.8,
+          "ci95": [
+            709132.8,
+            894243.3666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12205837.966666667,
+          "ci95": [
+            12161358.966666667,
+            12249757.566666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 25093547,
+          "ci95": [
+            25079123.533333335,
+            25107930.5
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12891592.633333333,
+          "ci95": [
+            12849389.566666666,
+            12935239.333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 950796.3,
+          "ci95": [
+            845429.7,
+            1060868.2333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 815685.0666666667,
+          "ci95": [
+            724879.4333333333,
+            907967.7666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12200551.033333333,
+          "ci95": [
+            12153356.133333333,
+            12244790.966666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 25092378,
+          "ci95": [
+            25078288.1,
+            25107297.866666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12906489.166666666,
+          "ci95": [
+            12850320.466666667,
+            12967235.833333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 971431.3333333334,
+          "ci95": [
+            851549.5333333333,
+            1093984.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 836427.6,
+          "ci95": [
+            721565.9666666667,
+            946899.9333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12184602.766666668,
+          "ci95": [
+            12120784.5,
+            12241508.766666668
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 25095464.9,
+          "ci95": [
+            25082072.466666665,
+            25109840.733333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12928909.733333332,
+          "ci95": [
+            12878752.533333333,
+            12976864.266666668
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 992308.2666666667,
+          "ci95": [
+            881759.6666666666,
+            1100795.5
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 869598.9333333333,
+          "ci95": [
+            769581,
+            964246.6666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12165190.633333333,
+          "ci95": [
+            12109548,
+            12223408.233333332
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 25099948.2,
+          "ci95": [
+            25085541.166666668,
+            25114279.633333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12920054.1,
+          "ci95": [
+            12873152.466666667,
+            12966965.433333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 957897.5666666667,
+          "ci95": [
+            846507.4,
+            1071931.8666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 837216.0666666667,
+          "ci95": [
+            745704.9333333333,
+            929731.3666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12178538.5,
+          "ci95": [
+            12130378.233333332,
+            12222587.1
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 25097914.266666666,
+          "ci95": [
+            25081986.433333334,
+            25114787.433333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12913861.066666666,
+          "ci95": [
+            12867883.9,
+            12957543.166666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 941157.8666666667,
+          "ci95": [
+            836394.0333333333,
+            1042691.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 824461.2333333333,
+          "ci95": [
+            726718.8333333334,
+            918088
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12182632.266666668,
+          "ci95": [
+            12134080.733333332,
+            12230910.666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 25106238.333333332,
+          "ci95": [
+            25090992.833333332,
+            25123415
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12899153.466666667,
+          "ci95": [
+            12864206.333333334,
+            12936280.333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 931862,
+          "ci95": [
+            846147.5666666667,
+            1019479.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 808177.7666666667,
+          "ci95": [
+            731649.8333333334,
+            884355.5333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12205624.333333334,
+          "ci95": [
+            12165628.333333334,
+            12242680.666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 25107748.733333334,
+          "ci95": [
+            25093417.966666665,
+            25122346.466666665
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12885840.2,
+          "ci95": [
+            12840986.566666666,
+            12931649.066666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 910518.5,
+          "ci95": [
+            803131.5666666667,
+            1017264.9666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 791690.9,
+          "ci95": [
+            694305.0666666667,
+            888723.7
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12220335.566666666,
+          "ci95": [
+            12174725,
+            12265891.633333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 25093671,
+          "ci95": [
+            25078841.033333335,
+            25111585.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12932941.8,
+          "ci95": [
+            12875218.133333333,
+            12987931.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "process_cpu_ns": {
+          "mean": 963815.8666666667,
+          "ci95": [
+            847293.9333333333,
+            1071678.0666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "thread_cpu_ns": {
+          "mean": 852080.4333333333,
+          "ci95": [
+            742673.4,
+            952093.4666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12159467.7,
+          "ci95": [
+            12094967.166666666,
+            12220417.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      }
+    ],
+    "engine_cpu_ns": {
+      "mean": 181951.73333333334,
+      "ci95": [
+        164930.2,
+        199744.3
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "compile_cpu_ns": {
+      "mean": 8656576.166666666,
+      "ci95": [
+        7810790.9,
+        9507884.966666667
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "successful_real_calls": 60,
+    "failed_calls": 300,
+    "successful_call_process_cpu_ns": {
+      "mean": 938759.3833333333,
+      "ci95": [
+        854672.2333333333,
+        1025680.0666666667
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "successful_call_thread_cpu_ns": {
+      "mean": 810706.15,
+      "ci95": [
+        732831.7166666667,
+        889491.55
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "failed_call_process_cpu_ns": {
+      "mean": 959399.3833333333,
+      "ci95": [
+        877901.6266666667,
+        1036355.14
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "failed_call_thread_cpu_ns": {
+      "mean": 834074.0966666667,
+      "ci95": [
+        763040.2033333334,
+        901206.7533333333
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "all_attempt_cpu_per_success_ns": {
+      "mean": 5735756.3,
+      "ci95": [
+        5256742.483333333,
+        6173581.0
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    }
+  }
+]
