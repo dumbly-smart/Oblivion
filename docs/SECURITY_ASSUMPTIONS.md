@@ -1,0 +1,43 @@
+# Security assumptions
+
+Updated 2026-10-22. The primary runtime model is **TrustedExecutor**: trusted clients/executor, untrusted storage data, network and scheduling. Local processes simulate the trusted boundary. Wasmtime and process separation are not hardware TEEs and provide no confidentiality against the host administrator. See [THREAT_MODEL.md](THREAT_MODEL.md) for observation contracts.
+
+## Cryptographic and state assumptions
+
+RustCrypto supplies ChaCha20-Poly1305, HKDF-SHA256 and HMAC-SHA256; the project does not implement a replacement AEAD. Runtime secrets use OS entropy, with domain-separated keys. Deterministic workload seeds never initialize cryptographic randomness. Usual primitive assumptions, secret keys and per-key nonce uniqueness remain required. The system has no composition proof or cryptographic audit.
+
+Path ORAM follows full-path read/remap/eviction, including remapping on reads. Bucket AEAD binds domain, bucket address and trusted version. Controller keys, position map, stash, bucket versions and nonce state must stay trusted. Trusted maps/version vectors cost O(N); stash containers and control flow are not constant-time. Statistical leaf diagnostics do not establish independence. Z=4 behavior is measured at particular configurations, not certified by bounds for other parameters.
+
+Both memory and file backends are supported. An uncertain live backend failure poisons the controller; partial writes cannot be safely retried using its old state. Checkpoint/restore authenticates complete state and buckets against a secret externally retained `TrustedCheckpoint`. Restore validates before backend mutation and rotates to a fresh bucket key before continued encryption. This avoids reusing the saved old nonce counter under a key that may have been used after that checkpoint.
+
+The application must durably publish the new handle to an independently protected latest-version anchor before acknowledging durable writes. Neither the external anchor service nor durable invocation acknowledgments are implemented by the store. Rolling back both handle and snapshot, cloning live keyed controller memory, or running uncoordinated writers violates freshness/nonce assumptions. A bucket file alone cannot recover controller state. Checkpoint maintenance is visible, synchronous and full-tree. See [STORAGE_RECOVERY.md](STORAGE_RECOVERY.md).
+
+## PIR and invocation sessions
+
+A single XOR query share is uniform under secure randomness. **Both shares reveal the target index.** The two servers must not collude; two local processes do not establish independent operators. Server work is linear in database bytes. PIR itself supplies no answer authenticity. The process pipeline checks complete recovered registry records against trusted pins; the generic API needs application authentication appropriate to its records.
+
+Generic `oblivion_pir::secure` sessions encrypt both links, bind geometry/slot/direction/epoch/sequence and use fresh per-session roots. Their private-pipe bootstrap assumes trusted kernel delivery. The deliberately plaintext generic loopback tool provides no protection against a network observer who combines its shares. The genuine SimplePIR reference benchmark separately assumes its upstream LWE parameters and implementation; it is not the runtime backend or evidence of end-to-end integrity.
+
+Invocation endpoints are move-only, use independent directional keys and enforce monotonic sending/receiving epochs. Replies must match the latest sent request, rejecting delayed unseen replies from an older epoch. The endpoint protocol supports one current request per channel. Fresh bootstrap is required after restart. Restoring session roots with reset epoch/sequence state is unsupported; store checkpoint support does not make invocation sessions durable.
+
+## Executor, schedule and failures
+
+Modules are provisioned as trusted bounded-byte/count deployments; no public arbitrary-upload service is exposed. Five bundled examples have fixed class I/O, guest fuel/memory/table/instance limits and host-call charges. Guest limits do not bound all compiler/JIT/host allocations. Epoch interruption cannot interrupt a blocked synchronous host call or mutex acquisition. Any remote backend needs independent I/O deadlines/admission control.
+
+Protected execution reads a public working set into trusted staging, runs guest imports within a namespace, then writes the entire working set at a public commit phase. Guest failure discards staged mutations before physical commit. On successful backends every invocation makes the same M reads and M writes, costing O(M log N) bandwidth. This schedule does not establish crash-atomic commits, transactionality of external effects, or equal partial traces on active backend failure.
+
+The trusted driver's publication boundary includes response AEAD and instrumentation preparation: `prepare_scheduled` returns private execution results after the public read/commit phases, then the driver prepares the ciphertext/logs before waiting until the 100 ms response deadline. The standalone `execute_scheduled` API still pads its own return. Client encrypted frames are prepared before public epoch emission, and server slots use epoch-arrival plus slot-index × 100 ms origins so serialization jitter does not accumulate across slots. Driver work overruns and observed publication lateness are distinct private diagnostics; any shared-host timer can wake late.
+
+Wall-clock publication targets a class deadline; jitter, late PIR, resource contention and failed storage can miss it. Fixed invocation frames and scheduled phases do not hide cache/page faults, process startup, resource use, billing, client identity, public participation/cadence or all traffic correlation. More slots execute sequentially and have public order. The completed declared-feature joint attack does not prove joint indistinguishability.
+
+## Ephemeral SSE
+
+The GGM component assumes one authoritative ephemeral client, HMAC PRF/GGM expansion and independent HKDF-derived payload keys. Past search covers authorize exact committed prefixes, never future leaves. Counters advance before an update is exposed, and lost acknowledgments retry identical ciphertext. Each immutable posting uses its own derived key and a single fixed nonce; reusing an address for a different plaintext is forbidden. Search neither resets counters nor forgets old capabilities.
+
+There is no key import, serialization/restore, persistent transaction journal, multiwriter support or backward privacy. Fresh restart creates a new index; state loss cannot be repaired by resetting counters under old keys. The server can retain every historical capability. Search equality, result counts, posting access patterns, timing and later authorized update-to-query linkage remain exposed. Particular modifications are checked when a response arrives, but malicious acknowledgments/omission/denial of service and arbitrary active interaction lack a complete security theorem. Typed request checks do not bound allocation during arbitrary serde parsing; a future network adapter must bound bytes/collections before parsing. See [SSE_DESIGN.md](SSE_DESIGN.md).
+
+## Empirical claims
+
+Frequency/traffic attacks, bounded SSE count/likelihood/iterative/chosen-update methods, eight-class execution inference, joint A–G attacks, GGM capability controls and autoscaler inference test declared observations/auxiliary knowledge on synthetic data. Independent sessions and trial-level intervals limit some statistical errors; they do not establish cryptographic privacy or rule out stronger attackers. Autoscaler noise has no adjacency/sensitivity/composition analysis and is not DP. Its prices are hypothetical. No backward-privacy, global indistinguishability or production-safety guarantee is made.
+
+The final joint campaign and its earlier negative arrival-coupling result are retained separately in [SYSTEM_EXPERIMENTS.md](SYSTEM_EXPERIMENTS.md). [TRACE_VALIDATION.md](TRACE_VALIDATION.md) accepts genuine packet structural accounting only: a former packet classifier had no successful leaky control, was removed, and cannot support privacy claims. Stronger host observers, distribution drift and realistic licensed datasets remain open empirical obligations.
