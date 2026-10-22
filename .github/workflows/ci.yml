@@ -29,7 +29,7 @@ jobs:
           python-version: '3.14'
       - uses: dtolnay/rust-toolchain@stable
       - run: python -m pip install -r research/requirements.lock
-      - run: cargo build --locked --release -p oblivion-sse -p oblivion-batcher --examples
+      - run: cargo build --locked --release -p oblivion-sse -p oblivion-batcher -p oblivion-store -p oblivion-pir --examples
       - run: python -m unittest discover -s research/tests
         env:
           OBLIVION_PRESENCE_BINARY: target/release/examples/presence
