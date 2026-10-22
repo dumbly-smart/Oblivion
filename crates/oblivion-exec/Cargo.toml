@@ -20,3 +20,4 @@ oblivion-batcher = { path = "../oblivion-batcher" }
 rand.workspace = true
 rand_chacha.workspace = true
 serde_json.workspace = true
+cpu-time = "1.0.0"
