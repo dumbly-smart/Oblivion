@@ -1,6 +1,7 @@
 //! Two-server XOR PIR. Privacy requires non-collusion; answers are not authenticated.
 //! Each server scans every record. Database size, timing and dimensions are public.
 pub mod secure;
+pub mod sqrt;
 pub mod wire;
 use rand::{RngCore, rngs::OsRng};
 
