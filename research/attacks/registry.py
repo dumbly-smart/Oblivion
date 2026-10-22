@@ -312,3 +312,13 @@ for _spec in [
 ]:
     register_attack(_spec, lambda name=_spec.name: _Adapter(name))
 del _spec
+
+
+def _leaf_timing():
+    from research.attacks.leaf_timing import LeafTimingAttack
+    return LeafTimingAttack()
+
+
+register_attack(AttackSpec('leafTiming', 'Session-separated visible leaf/tag frequency and timing forest',
+                          ('session', 'tag', 'bytes', 'latency_ns'),
+                          ('target_session_ids',), True), _leaf_timing)
