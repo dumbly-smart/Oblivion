@@ -1,6 +1,6 @@
 # Licensed text corpus and auxiliary drift evaluation
 
-The completed [report](../experiments/results/corpus-real/report.json), [figure](../experiments/results/corpus-real/corpus-drift.png), [positive-control gate](../experiments/results/corpus-real/positive-controls.json) and [provenance](../experiments/results/corpus-real/provenance.json) record the actual 30-trial campaign.
+The completed [report](../experiments/results/corpus-real-frozen-20261023/report.json), [figure](../experiments/results/corpus-real-frozen-20261023/corpus-drift.png), [positive-control gate](../experiments/results/corpus-real-frozen-20261023/positive-controls.json) and [provenance](../experiments/results/corpus-real-frozen-20261023/provenance.json) record the final 30-trial campaign using a private executable snapshot. The earlier [campaign](../experiments/results/corpus-real/report.json) is preserved: its exporter path was shared with the build directory and its executable hash was recorded only at the end, so it lacks the final campaign's executable freeze evidence.
 
 The bounded experiment uses document/keyword associations derived from real public text. Query sequences remain synthetic IID samples; they are not measured human search behavior. The target is the local `oblivion-sse` implementation, with fresh CSPRNG client keys and actual AEAD encrypted document IDs.
 
@@ -43,14 +43,14 @@ From the repository root with `research/requirements.txt` installed:
 .venv/bin/python scripts/evaluate_corpus.py --output experiments/results/corpus-real-new
 ```
 
-The command builds the release example and fetches only the pinned official archive into the ignored output `bin/` cache. Outputs must be new apart from that cache; the command refuses to overwrite prior results. Seven unit/integration checks cover auxiliary-only vocabulary, strict partitions and reproducible mixture shifts, archive digest rejection, failing controls, trial-paired uncertainty, genuine shared document IDs with authenticated dummy postings, fresh client instances and rejection of undersized padding/duplicate real IDs. Run them with:
+The command builds the release example, copies that executable into the ignored output `bin/` cache with read-only permissions, hashes the copy before any export, and launches every control/target subprocess from that private copy. It verifies the copy hash again after the run. The command fetches only the pinned official dataset archive into the same ignored cache. Outputs must be new apart from that cache; the command refuses to overwrite prior results. Eight unit/integration checks cover auxiliary-only vocabulary, strict partitions and reproducible mixture shifts, archive digest rejection, failing controls, trial-paired uncertainty, genuine shared document IDs with authenticated dummy postings, fresh client instances, rejection of undersized padding/duplicate real IDs, and successful real SSE execution from the snapshot after replacing the original executable path with a failing program. Run them with:
 
 ```sh
 cargo clippy -p oblivion-sse --example corpus -- -D warnings
 .venv/bin/python -m unittest research.tests.test_corpus -v
 ```
 
-The release build, example Clippy and seven checks passed. The campaign completed successfully, with source hashes unchanged from start to finish. Its archive contains 5,574 raw records; normalization removes 415 duplicate messages, leaving 5,159 distinct messages. The committed derived data and wire/prediction gzip files use about 54 MB; the ignored original archive is about 199 KB. No original SMS plaintext file is extracted or committed.
+The release build, example Clippy and eight checks passed. The campaign completed successfully, with source hashes and the private executable hash unchanged from start to finish. The regression test first failed before the snapshot helper existed, then passed after the fix. The old campaign's source and data remain preserved; the final campaign supplies the stronger executable provenance. Its archive contains 5,574 raw records; normalization removes 415 duplicate messages, leaving 5,159 distinct messages. The committed derived data and wire/prediction gzip files use about 54 MB; the ignored original archive is about 199 KB. No original SMS plaintext file is extracted or committed.
 
 ## Measured results
 
@@ -67,4 +67,4 @@ All four exact-count controls passed the required mean advantage of 20 percentag
 
 The likelihood assignment loses 27.99 percentage points under the strongest document shift, with a paired interval of −37.29 to −18.49 points relative to the matched auxiliary view. Count recovery loses 6.95 points, with a paired interval of −14.19 to +0.26 points, so this particular contrast is not resolved away from zero by these resamples. The full report includes balanced and top-three recovery plus all paired differences. A weak attack under mismatched knowledge should not be interpreted as low protocol leakage.
 
-Padding raises observed results from 15.85 to 128 encrypted postings per search, approximately 8.08×, and mean JSON response bytes from 4,048 to 32,106, approximately 7.93×. These serializer lengths do not measure packets, total transport or client memory. Padding removes document-count evidence, so all auxiliary document-shift views produce identical padded predictions; stable query tags and the fixed public query profile still permit likelihood recovery above majority. This is static build-time padding with actual encrypted dummy postings, not a general dynamically volume-hiding SSE protocol.
+Padding raises observed results from 15.85 to 128 encrypted postings per search, approximately 8.08×, and mean JSON response bytes from 4,048 to 32,105, approximately 7.93×. These serializer lengths do not measure packets, total transport or client memory. Padding removes document-count evidence, so all auxiliary document-shift views produce identical padded predictions; stable query tags and the fixed public query profile still permit likelihood recovery above majority. This is static build-time padding with actual encrypted dummy postings, not a general dynamically volume-hiding SSE protocol.
