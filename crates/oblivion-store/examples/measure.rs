@@ -16,12 +16,18 @@ use std::{
 struct Experiment {
     version: u16,
     blocks: usize,
+    #[serde(default = "default_bucket_capacity")]
+    bucket_capacity: usize,
     block_bytes: usize,
     operations: usize,
     warmup: usize,
     trials: usize,
     seed: u64,
     workload: String,
+}
+
+fn default_bucket_capacity() -> usize {
+    4
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
@@ -40,7 +46,12 @@ fn main() -> Result<(), Box<dyn Error>> {
     {
         return Err("invalid experiment configuration".into());
     }
-    let geometry = Config::new(config.blocks, config.block_bytes)?;
+    let geometry = Config::with_parameters(
+        config.blocks,
+        config.block_bytes,
+        config.bucket_capacity,
+        128,
+    )?;
     let out = Path::new(&args[2]);
     fs::create_dir(out)?; // Never overwrite raw results.
     fs::write(out.join("config.json"), serde_json::to_vec_pretty(&config)?)?;
@@ -67,6 +78,8 @@ fn main() -> Result<(), Box<dyn Error>> {
         let mut reads = Vec::new();
         let mut writes = Vec::new();
         let mut max_stash = 0;
+        let mut stash_histogram = std::collections::BTreeMap::<usize, usize>::new();
+        let mut oracle = vec![vec![0; config.block_bytes]; config.blocks];
         for step in 0..config.operations {
             let address = if config.workload == "same" {
                 0
@@ -76,20 +89,26 @@ fn main() -> Result<(), Box<dyn Error>> {
             let is_write = rng.gen_bool(0.5);
             let mut value = vec![0; config.block_bytes];
             rng.fill(value.as_mut_slice());
+            let mut recovered = None;
             let start = Instant::now();
             if is_write {
                 store.write(address, &value)?;
             } else {
-                store.read(address)?;
+                recovered = Some(store.read(address)?);
             }
             let ns = start.elapsed().as_nanos().min(u64::MAX as u128) as u64;
             if is_write {
+                oracle[address].copy_from_slice(&value);
                 writes.push(ns);
             } else {
+                if recovered.as_ref().unwrap() != &oracle[address] {
+                    return Err("ORAM full-record oracle mismatch".into());
+                }
                 reads.push(ns);
             }
             let stats = store.private_stats();
             max_stash = max_stash.max(stats.stash_blocks);
+            *stash_histogram.entry(stats.stash_blocks).or_default() += 1;
             serde_json::to_writer(
                 &mut private,
                 &serde_json::json!({"step":step, "logical_address":address,"write":is_write,"latency_ns":ns,"stash":stats.stash_blocks}),
@@ -112,7 +131,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         };
         serde_json::to_writer(
             &mut summary,
-            &serde_json::json!({"trial":trial,"seed":seed,"read":quantiles(&reads),"write":quantiles(&writes),"bytes_per_access":geometry.access_bytes(),"encrypted_storage_bytes":geometry.storage_bytes(),"logical_storage_bytes":config.blocks*config.block_bytes,"max_measured_stash":max_stash,"private_state":store.private_stats()}),
+            &serde_json::json!({"trial":trial,"seed":seed,"read":quantiles(&reads),"write":quantiles(&writes),"bytes_per_access":geometry.access_bytes(),"encrypted_storage_bytes":geometry.storage_bytes(),"logical_storage_bytes":config.blocks*config.block_bytes,"max_measured_stash":max_stash,"stash_histogram":stash_histogram,"private_state":store.private_stats()}),
         )?;
         writeln!(summary)?;
     }
