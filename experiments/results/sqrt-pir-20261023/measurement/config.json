@@ -1,0 +1,16 @@
+{
+  "counts": [
+    64,
+    1024,
+    10000
+  ],
+  "privacy_samples_per_target": 256,
+  "queries_per_trial": 16,
+  "record_bytes": [
+    8,
+    1024
+  ],
+  "seed": 20261023,
+  "trials": 30,
+  "version": 1
+}
