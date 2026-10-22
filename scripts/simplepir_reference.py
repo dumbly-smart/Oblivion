@@ -3,6 +3,9 @@
 import argparse
 import datetime
 import hashlib
+import gzip
+import math
+import shutil
 import json
 import os
 from pathlib import Path
@@ -47,6 +50,65 @@ def percentile(values, fraction):
     return values[lower] + (values[upper] - values[lower]) * (position - lower)
 
 
+def digest(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def freeze_executables(output, binaries):
+    directory = output / 'bin'
+    directory.mkdir(exist_ok=False)
+    frozen = {}
+    for scheme, original in binaries.items():
+        frozen[scheme] = directory / original.name
+        shutil.copy2(original, frozen[scheme])
+    return frozen, {scheme: digest(path) for scheme, path in frozen.items()}
+
+
+def verify_executables(binaries, expected):
+    actual = {scheme: digest(path) for scheme, path in binaries.items()}
+    if actual != expected:
+        raise RuntimeError('frozen measurement executable changed')
+    return actual
+
+
+def compress_samples(path):
+    destination = Path(str(path)+'.gz')
+    with path.open('rb') as source, gzip.GzipFile(filename=str(destination),mode='wb',mtime=0) as target:
+        shutil.copyfileobj(source,target)
+    path.unlink()
+    return destination
+
+
+def binomial_reference(failures, samples):
+    # Descriptive IID reference only: queries sharing a setup need not satisfy it.
+    z = 1.959963984540054
+    p = failures / samples
+    denominator = 1 + z*z/samples
+    center = (p + z*z/(2*samples))/denominator
+    half = z*math.sqrt(p*(1-p)/samples + z*z/(4*samples*samples))/denominator
+    return {'wilson_95_interval':[max(0.0,center-half),min(1.0,center+half)],
+            'one_sided_95_upper': -math.expm1(math.log(.05)/samples) if failures == 0 else None,
+            'assumption':'IID homogeneous Bernoulli events only; conditional reference, not a cryptographic failure guarantee'}
+
+
+def correctness_report(rows, config):
+    trials, count = config['trials'], config['queries_per_trial']
+    setups = [r for r in rows if r['kind']=='setup']
+    queries = [r for r in rows if r['kind']=='query']
+    if len(setups)!=trials or {r['trial'] for r in setups} != set(range(trials)):
+        raise RuntimeError('incomplete or duplicate setup trials')
+    if len(queries)!=trials*count or {(r['trial'],r['query']) for r in queries} != {(t,q) for t in range(trials) for q in range(count)}:
+        raise RuntimeError('incomplete or duplicate trial/query set')
+    if any(type(r.get('correct')) is not bool for r in queries):
+        raise RuntimeError('missing boolean full-record oracle result')
+    failures = sum(not r['correct'] for r in queries)
+    setup_failures = len({r['trial'] for r in queries if not r['correct']})
+    return {'queries':len(queries),'failures':failures,'observed_failure_fraction':failures/len(queries),
+            'setup_trials':trials,'setups_with_failure':setup_failures,
+            'iid_query_reference_only':binomial_reference(failures,len(queries)),
+            'iid_setup_event_reference_only':binomial_reference(setup_failures,trials),
+            'dependence_caveat':'Queries reuse each setup/shared matrix/hint; 100k query outcomes are not 100k independent setup trials. The setup event is any observed failure in this configured finite workload. Fresh OS randomness and fresh processes do not prove an IID noise model or worst-case correctness.'}
+
 def metric(rows, field, config):
     values = [row[field] for row in rows]
     trial_means = [statistics.mean(row[field] for row in rows if row["trial"] == trial)
@@ -55,7 +117,7 @@ def metric(rows, field, config):
     boots = [statistics.mean(rng.choices(trial_means, k=len(trial_means)))
              for _ in range(config["bootstrap_resamples"])]
     return {"mean": statistics.mean(values), "median": statistics.median(values),
-            "p95": percentile(values, .95), "sample_stddev": statistics.stdev(values),
+            "p95": percentile(values, .95), "sample_stddev": statistics.stdev(values) if len(values)>1 else 0.0,
             "trial_mean_95pct_bootstrap_ci": [percentile(boots, .025), percentile(boots, .975)]}
 
 
@@ -64,14 +126,14 @@ def summarize(rows, config):
     setups = [row for row in rows if row["kind"] == "setup"]
     if len(setups) != config["trials"] or len(queries) != config["trials"] * config["queries_per_trial"]:
         raise RuntimeError("incomplete trial/sample count")
+    correctness = correctness_report(rows, config)
     for row in queries:
-        if row["correct"] is not True:
-            raise RuntimeError("failed oracle check")
         row["total_algorithm_ns"] = sum(row[key] for key in ["generation_ns", "server1_ns", "server2_ns", "recovery_ns"])
         row["server_total_ns"] = row["server1_ns"] + row["server2_ns"]
-    result = {"trials": len(setups), "query_samples": len(queries), "all_correct": True,
+    result = {"trials": len(setups), "query_samples": len(queries), "all_correct": correctness["failures"] == 0, "correctness":correctness,
               "latency_ns": {field: metric(queries, field, config) for field in
                              ["generation_ns", "server1_ns", "server2_ns", "server_total_ns", "recovery_ns", "total_algorithm_ns"]},
+              "setup_latency_ns": {field:metric(setups,field,config) for field in ["database_build_ns", "shared_init_ns", "preprocessing_ns"]},
               "setup_mean_ns": {field: statistics.mean(row[field] for row in setups)
                                 for field in ["database_build_ns", "shared_init_ns", "preprocessing_ns"]},
               "communication_bytes": {field: sorted(set(row[field] for row in queries))
@@ -113,11 +175,21 @@ def main():
         return run(command, cwd=cwd, log=output / name)
     build = REFERENCE / "build"
     build.mkdir(exist_ok=True)
+    source_paths = [Path(__file__), REFERENCE / 'go/main.go', REFERENCE / 'go/go.mod',
+                    REFERENCE / 'naive/src/main.rs', REFERENCE / 'naive/Cargo.toml',
+                    ROOT/'Cargo.toml', ROOT/'Cargo.lock', ROOT/'crates/oblivion-pir/Cargo.toml']
+    source_paths += sorted((ROOT/'crates/oblivion-pir/src').rglob('*.rs'))
+    source_before_build = {str(path.relative_to(ROOT)):digest(path) for path in source_paths}
     go_binary = build / "simplepir-reference"
     logged(["go", "build", "-o", go_binary, "."], REFERENCE / "go", "build-go.log")
     logged(["cargo", "build", "--release", "--manifest-path", REFERENCE / "naive/Cargo.toml"], ROOT, "build-naive.log")
     naive_binary = REFERENCE / "naive/target/release/oblivion-naive-pir-reference"
-    metadata = {"schema_version": 1, "started_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+    if {str(path.relative_to(ROOT)):digest(path) for path in source_paths} != source_before_build:
+        raise RuntimeError('adapter/dependency source changed during build; retry with stable source')
+    frozen, executable_hashes = freeze_executables(output, {'simplepir':go_binary,'naive_xor':naive_binary})
+    go_binary, naive_binary = frozen['simplepir'], frozen['naive_xor']
+    metadata = {"schema_version": 1, "source_before_build_sha256":source_before_build,
+                "executable_before_sha256":executable_hashes, "started_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
                 "reference": PIN, "reference_commit_metadata": run(["git", "show", "-s", "--format=fuller", "HEAD"], cwd=checkout),
                 "reference_source_sha256": {}, "adapter_sha256": {}, "go": run(["go", "version"]),
                 "go_env": run(["go", "env", "CGO_ENABLED", "GOOS", "GOARCH", "GOMAXPROCS"]),
@@ -131,6 +203,10 @@ def main():
             metadata["reference_source_sha256"][path.name] = hashlib.sha256(path.read_bytes()).hexdigest()
     for path in [Path(__file__), REFERENCE / "go/main.go", REFERENCE / "go/go.mod", REFERENCE / "naive/src/main.rs", REFERENCE / "naive/Cargo.toml", ROOT / "crates/oblivion-pir/src/lib.rs"]:
         metadata["adapter_sha256"][str(path.relative_to(ROOT))] = hashlib.sha256(path.read_bytes()).hexdigest()
+    # Durable source/executable/config evidence precedes the first measurement.
+    metadata['configuration'] = config
+    metadata['commands_before_measurement'] = list(commands)
+    (output/'metadata-before.json').write_text(json.dumps(metadata,indent=2)+'\n')
     collected = {"simplepir": [], "naive_xor": []}
     rng = random.Random(config["order_seed"])
     for trial in range(config["trials"]):
@@ -138,6 +214,7 @@ def main():
         rng.shuffle(order)
         seed = config["seed"] + trial * config["queries_per_trial"] * 7919
         for scheme in order:
+            verify_executables(frozen, executable_hashes)
             filename = f"{scheme}-{trial:02d}.jsonl"
             samples = output / filename
             if scheme == "simplepir":
@@ -149,12 +226,18 @@ def main():
             for row in rows:
                 row["trial"] = trial
                 collected[scheme].append(row)
+            if config.get('compress_raw', False):
+                compress_samples(samples)
         print(f"completed trial {trial + 1}/{config['trials']}", flush=True)
     summaries = {}
     for scheme, rows in collected.items():
         summaries[scheme] = summarize(rows, config)
-        (output / f"{scheme}-samples.jsonl").write_text("".join(json.dumps(row, sort_keys=True) + "\n" for row in rows))
+        if config.get("write_aggregate", True):
+            (output / f"{scheme}-samples.jsonl").write_text("".join(json.dumps(row, sort_keys=True) + "\n" for row in rows))
     (output / "summary.json").write_text(json.dumps(summaries, indent=2) + "\n")
+    metadata['executable_after_sha256'] = verify_executables(frozen, executable_hashes)
+    metadata['source_after_sha256'] = {str(path.relative_to(ROOT)):digest(path) for path in source_paths}
+    metadata['measurement_sources_unchanged_after_build'] = metadata['source_after_sha256'] == source_before_build
     metadata["commands"] = commands
     metadata["finished_utc"] = datetime.datetime.now(datetime.timezone.utc).isoformat()
     metadata["result_sha256"] = {path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in sorted(output.iterdir()) if path.is_file()}
