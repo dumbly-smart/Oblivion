@@ -1,0 +1,8 @@
+{"bucket":0,"bytes":64,"direction":"read","elapsed_ns":4120324,"step":3,"version":1}
+{"bucket":0,"bytes":64,"direction":"write","elapsed_ns":4121878,"step":3,"version":1}
+{"bucket":0,"bytes":64,"direction":"read","elapsed_ns":4215426,"step":4,"version":1}
+{"bucket":0,"bytes":64,"direction":"write","elapsed_ns":4215949,"step":4,"version":1}
+{"bucket":0,"bytes":64,"direction":"read","elapsed_ns":4640289,"step":11,"version":1}
+{"bucket":0,"bytes":64,"direction":"write","elapsed_ns":4640693,"step":11,"version":1}
+{"bucket":0,"bytes":64,"direction":"read","elapsed_ns":4774608,"step":13,"version":1}
+{"bucket":0,"bytes":64,"direction":"write","elapsed_ns":4774988,"step":13,"version":1}
