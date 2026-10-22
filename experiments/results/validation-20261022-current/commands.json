@@ -1,0 +1,69 @@
+[
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--all",
+      "--check"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.11390256881713867,
+    "log": "0.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--workspace",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.29596996307373047,
+    "log": "1.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--workspace"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 146.5137803554535,
+    "log": "2.log"
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/.venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "research/tests"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 1.4948451519012451,
+    "log": "3.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--release",
+      "-p",
+      "oblivion-store",
+      "million_operation_oracle",
+      "--",
+      "--ignored",
+      "--exact"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 42.66061520576477,
+    "log": "4.log"
+  }
+]
