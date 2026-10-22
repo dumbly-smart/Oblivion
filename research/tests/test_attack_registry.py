@@ -10,15 +10,29 @@ class AttackRegistry(unittest.TestCase):
         from research.attacks import registry
         return registry
 
-    def test_all_nine_real_adapters_have_stable_descriptions(self):
+    def test_all_ten_real_adapters_have_stable_descriptions(self):
         registry = self.registry()
         descriptions = registry.list_attacks()
         self.assertEqual([x['name'] for x in descriptions], sorted([
             'frequency', 'traffic', 'joint', 'count', 'searchpattern',
-            'likelihood', 'iterativeLAP', 'exactboundedcomparison', 'chosenupdateassociation']))
+            'likelihood', 'iterativeLAP', 'exactboundedcomparison', 'chosenupdateassociation', 'presence']))
         for entry in descriptions:
             self.assertIn('not a published attack reproduction', entry['limitations'])
         self.assertEqual(json.loads(json.dumps(descriptions)), descriptions)
+
+    def test_presence_adapter_preserves_trace_level_prediction_and_rejects_truth(self):
+        from research.attacks.presence import intersect
+        from research.tests.test_presence import row
+        trace = [row(), row(1, [1, 5])]
+        beacon = [{'epoch': i, 'event': True} for i in range(2)]
+        result = self.registry().create_attack('presence').run(trace, {'beacon': beacon})
+        self.assertEqual(result.predictions, [5])
+        self.assertEqual(result.metadata['original_result'], intersect(trace, beacon, seed=90000))
+        self.assertEqual(result.metadata['prediction_unit'], 'client identity for complete trace')
+        self.assertIsNone(result.confidence)
+        for aux in [{'beacon': beacon, 'owner': 5}, {'beacon': beacon, 'seed': True}, {}]:
+            with self.assertRaises(ValueError):
+                self.registry().create_attack('presence').run(trace, aux)
 
     def test_frequency_calls_original_and_does_not_call_binary_scores_confidence(self):
         from research.attacks.simple import FrequencyAttack

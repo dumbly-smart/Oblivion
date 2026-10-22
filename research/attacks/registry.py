@@ -199,6 +199,10 @@ class _Adapter:
 
     def _validate(self, trace, aux):
         _object(aux, self.spec.auxiliary_fields)
+        if self.name == 'presence':
+            if 'beacon' not in aux:
+                raise ValueError('public beacon is required')
+            return  # The original intersection implementation validates its full schema.
         if self.name == 'chosenupdateassociation':
             _link_rows(trace, aux.get('mode'))
             if not isinstance(aux.get('mode'), str) or not 1 <= len(aux['mode']) <= 64:
@@ -256,6 +260,12 @@ class _Adapter:
         metadata = {'adapter': self.name, 'limitations': LIMITATIONS,
                     'confidence_semantics': 'unavailable; raw scores/ranks/posteriors are UNCALIBRATED',
                     'prediction_unit': 'observation'}
+        if self.name == 'presence':
+            from research.attacks.presence import intersect
+            result = intersect(trace, aux['beacon'], knowledge_events=aux.get('knowledge_events'),
+                               observer=aux.get('observer', 'incoming'), seed=aux.get('seed', 90000))
+            metadata.update(original_result=result, prediction_unit='client identity for complete trace')
+            return PredictionResult([result['ranking'][0] if result['ranking'] else None], None, metadata)
         if self.name in ('frequency', 'traffic', 'joint'):
             if self.name == 'frequency':
                 from research.attacks.simple import FrequencyAttack
@@ -296,6 +306,9 @@ for _spec in [
                                 ('exactboundedcomparison', 'Exact enumerated Markov objective for at most eight labels')]],
     AttackSpec('chosenupdateassociation', 'Controlled local chosen-posting association to opaque past slots',
                ('mode', 'phase', 'slot', 'injection', 'request', 'response'), ('mode', 'seed')),
+    AttackSpec('presence', 'Set intersection with explicit public semantic event epochs',
+               ('mode', 'epoch', 'incoming', 'missing_slots', 'outgoing', 'incoming_bytes', 'outgoing_bytes', 'emit_ns', 'late_by_ns'),
+               ('beacon', 'knowledge_events', 'observer', 'seed')),
 ]:
     register_attack(_spec, lambda name=_spec.name: _Adapter(name))
 del _spec
