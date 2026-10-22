@@ -6,6 +6,7 @@ license.workspace = true
 rust-version.workspace = true
 
 [dependencies]
+cpu-time = "1.0.0"
 oblivion-sse = { path = "../oblivion-sse" }
 oblivion-store = { path = "../oblivion-store" }
 oblivion-pir = { path = "../oblivion-pir" }
