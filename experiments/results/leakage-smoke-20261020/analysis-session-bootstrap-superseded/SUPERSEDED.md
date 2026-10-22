@@ -1,0 +1,1 @@
+This generated analysis is superseded by ../analysis/. It resampled sessions that shared a fitted profiling model as if independent. Corrected analysis resamples whole trial clusters. Raw traces were preserved and reanalyzed; the three-trial smoke run remains statistically weak.
