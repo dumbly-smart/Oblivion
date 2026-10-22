@@ -1,0 +1,880 @@
+{
+  "audit_utc": "2026-10-23",
+  "original_artifact_hashes_checked": 197,
+  "hash_mismatches": 0,
+  "trials": 60,
+  "successful_export_commands": 60,
+  "raw_gzip_files": 180,
+  "paired_mode_rows_compared": 7680,
+  "incoming_missing_slot_comparisons": 720,
+  "source_hashes_match_current": true,
+  "test_command": "PRESENCE_BINARY=$PWD/experiments/results/presence-30-20261022/bin/presence .venv/bin/python -m unittest research.tests.test_presence -v",
+  "test_count": 4,
+  "test_exit": 0,
+  "accuracy_wilson95_whole_trials": [
+    {
+      "online_percent": 35,
+      "mode": "intermittent_control",
+      "knowledge_events": 1,
+      "observer": "incoming",
+      "mean": 0.36666666666666664,
+      "trials": 30,
+      "ci95": [
+        0.21873920806100708,
+        0.5448643634520511
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "intermittent_control",
+      "knowledge_events": 1,
+      "observer": "missing_slots",
+      "mean": 0.36666666666666664,
+      "trials": 30,
+      "ci95": [
+        0.21873920806100708,
+        0.5448643634520511
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "intermittent_control",
+      "knowledge_events": 1,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "intermittent_control",
+      "knowledge_events": 2,
+      "observer": "incoming",
+      "mean": 0.7666666666666667,
+      "trials": 30,
+      "ci95": [
+        0.5907167384187784,
+        0.8820761185551049
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "intermittent_control",
+      "knowledge_events": 2,
+      "observer": "missing_slots",
+      "mean": 0.7666666666666667,
+      "trials": 30,
+      "ci95": [
+        0.5907167384187784,
+        0.8820761185551049
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "intermittent_control",
+      "knowledge_events": 2,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "intermittent_control",
+      "knowledge_events": 4,
+      "observer": "incoming",
+      "mean": 0.9666666666666667,
+      "trials": 30,
+      "ci95": [
+        0.8332960900859082,
+        0.9940914096183874
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "intermittent_control",
+      "knowledge_events": 4,
+      "observer": "missing_slots",
+      "mean": 0.9666666666666667,
+      "trials": 30,
+      "ci95": [
+        0.8332960900859082,
+        0.9940914096183874
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "intermittent_control",
+      "knowledge_events": 4,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "intermittent_control",
+      "knowledge_events": null,
+      "observer": "incoming",
+      "mean": 1.0,
+      "trials": 30,
+      "ci95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "intermittent_control",
+      "knowledge_events": null,
+      "observer": "missing_slots",
+      "mean": 1.0,
+      "trials": 30,
+      "ci95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "intermittent_control",
+      "knowledge_events": null,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "fixed_rate_online",
+      "knowledge_events": 1,
+      "observer": "incoming",
+      "mean": 0.36666666666666664,
+      "trials": 30,
+      "ci95": [
+        0.21873920806100708,
+        0.5448643634520511
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "fixed_rate_online",
+      "knowledge_events": 1,
+      "observer": "missing_slots",
+      "mean": 0.36666666666666664,
+      "trials": 30,
+      "ci95": [
+        0.21873920806100708,
+        0.5448643634520511
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "fixed_rate_online",
+      "knowledge_events": 1,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "fixed_rate_online",
+      "knowledge_events": 2,
+      "observer": "incoming",
+      "mean": 0.7666666666666667,
+      "trials": 30,
+      "ci95": [
+        0.5907167384187784,
+        0.8820761185551049
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "fixed_rate_online",
+      "knowledge_events": 2,
+      "observer": "missing_slots",
+      "mean": 0.7666666666666667,
+      "trials": 30,
+      "ci95": [
+        0.5907167384187784,
+        0.8820761185551049
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "fixed_rate_online",
+      "knowledge_events": 2,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "fixed_rate_online",
+      "knowledge_events": 4,
+      "observer": "incoming",
+      "mean": 0.9666666666666667,
+      "trials": 30,
+      "ci95": [
+        0.8332960900859082,
+        0.9940914096183874
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "fixed_rate_online",
+      "knowledge_events": 4,
+      "observer": "missing_slots",
+      "mean": 0.9666666666666667,
+      "trials": 30,
+      "ci95": [
+        0.8332960900859082,
+        0.9940914096183874
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "fixed_rate_online",
+      "knowledge_events": 4,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "fixed_rate_online",
+      "knowledge_events": null,
+      "observer": "incoming",
+      "mean": 1.0,
+      "trials": 30,
+      "ci95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "fixed_rate_online",
+      "knowledge_events": null,
+      "observer": "missing_slots",
+      "mean": 1.0,
+      "trials": 30,
+      "ci95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "fixed_rate_online",
+      "knowledge_events": null,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "always_participating",
+      "knowledge_events": 1,
+      "observer": "incoming",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "always_participating",
+      "knowledge_events": 1,
+      "observer": "missing_slots",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "always_participating",
+      "knowledge_events": 1,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "always_participating",
+      "knowledge_events": 2,
+      "observer": "incoming",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "always_participating",
+      "knowledge_events": 2,
+      "observer": "missing_slots",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "always_participating",
+      "knowledge_events": 2,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "always_participating",
+      "knowledge_events": 4,
+      "observer": "incoming",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "always_participating",
+      "knowledge_events": 4,
+      "observer": "missing_slots",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "always_participating",
+      "knowledge_events": 4,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "always_participating",
+      "knowledge_events": null,
+      "observer": "incoming",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "always_participating",
+      "knowledge_events": null,
+      "observer": "missing_slots",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 35,
+      "mode": "always_participating",
+      "knowledge_events": null,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "intermittent_control",
+      "knowledge_events": 1,
+      "observer": "incoming",
+      "mean": 0.26666666666666666,
+      "trials": 30,
+      "ci95": [
+        0.14182663319596317,
+        0.4444796169518888
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "intermittent_control",
+      "knowledge_events": 1,
+      "observer": "missing_slots",
+      "mean": 0.26666666666666666,
+      "trials": 30,
+      "ci95": [
+        0.14182663319596317,
+        0.4444796169518888
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "intermittent_control",
+      "knowledge_events": 1,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "intermittent_control",
+      "knowledge_events": 2,
+      "observer": "incoming",
+      "mean": 0.26666666666666666,
+      "trials": 30,
+      "ci95": [
+        0.14182663319596317,
+        0.4444796169518888
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "intermittent_control",
+      "knowledge_events": 2,
+      "observer": "missing_slots",
+      "mean": 0.26666666666666666,
+      "trials": 30,
+      "ci95": [
+        0.14182663319596317,
+        0.4444796169518888
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "intermittent_control",
+      "knowledge_events": 2,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "intermittent_control",
+      "knowledge_events": 4,
+      "observer": "incoming",
+      "mean": 0.5,
+      "trials": 30,
+      "ci95": [
+        0.33154125640533766,
+        0.6684587435946623
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "intermittent_control",
+      "knowledge_events": 4,
+      "observer": "missing_slots",
+      "mean": 0.5,
+      "trials": 30,
+      "ci95": [
+        0.33154125640533766,
+        0.6684587435946623
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "intermittent_control",
+      "knowledge_events": 4,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "intermittent_control",
+      "knowledge_events": null,
+      "observer": "incoming",
+      "mean": 1.0,
+      "trials": 30,
+      "ci95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "intermittent_control",
+      "knowledge_events": null,
+      "observer": "missing_slots",
+      "mean": 1.0,
+      "trials": 30,
+      "ci95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "intermittent_control",
+      "knowledge_events": null,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "fixed_rate_online",
+      "knowledge_events": 1,
+      "observer": "incoming",
+      "mean": 0.26666666666666666,
+      "trials": 30,
+      "ci95": [
+        0.14182663319596317,
+        0.4444796169518888
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "fixed_rate_online",
+      "knowledge_events": 1,
+      "observer": "missing_slots",
+      "mean": 0.26666666666666666,
+      "trials": 30,
+      "ci95": [
+        0.14182663319596317,
+        0.4444796169518888
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "fixed_rate_online",
+      "knowledge_events": 1,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "fixed_rate_online",
+      "knowledge_events": 2,
+      "observer": "incoming",
+      "mean": 0.26666666666666666,
+      "trials": 30,
+      "ci95": [
+        0.14182663319596317,
+        0.4444796169518888
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "fixed_rate_online",
+      "knowledge_events": 2,
+      "observer": "missing_slots",
+      "mean": 0.26666666666666666,
+      "trials": 30,
+      "ci95": [
+        0.14182663319596317,
+        0.4444796169518888
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "fixed_rate_online",
+      "knowledge_events": 2,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "fixed_rate_online",
+      "knowledge_events": 4,
+      "observer": "incoming",
+      "mean": 0.5,
+      "trials": 30,
+      "ci95": [
+        0.33154125640533766,
+        0.6684587435946623
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "fixed_rate_online",
+      "knowledge_events": 4,
+      "observer": "missing_slots",
+      "mean": 0.5,
+      "trials": 30,
+      "ci95": [
+        0.33154125640533766,
+        0.6684587435946623
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "fixed_rate_online",
+      "knowledge_events": 4,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "fixed_rate_online",
+      "knowledge_events": null,
+      "observer": "incoming",
+      "mean": 1.0,
+      "trials": 30,
+      "ci95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "fixed_rate_online",
+      "knowledge_events": null,
+      "observer": "missing_slots",
+      "mean": 1.0,
+      "trials": 30,
+      "ci95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "fixed_rate_online",
+      "knowledge_events": null,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "always_participating",
+      "knowledge_events": 1,
+      "observer": "incoming",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "always_participating",
+      "knowledge_events": 1,
+      "observer": "missing_slots",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "always_participating",
+      "knowledge_events": 1,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "always_participating",
+      "knowledge_events": 2,
+      "observer": "incoming",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "always_participating",
+      "knowledge_events": 2,
+      "observer": "missing_slots",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "always_participating",
+      "knowledge_events": 2,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "always_participating",
+      "knowledge_events": 4,
+      "observer": "incoming",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "always_participating",
+      "knowledge_events": 4,
+      "observer": "missing_slots",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "always_participating",
+      "knowledge_events": 4,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "always_participating",
+      "knowledge_events": null,
+      "observer": "incoming",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "always_participating",
+      "knowledge_events": null,
+      "observer": "missing_slots",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    },
+    {
+      "online_percent": 70,
+      "mode": "always_participating",
+      "knowledge_events": null,
+      "observer": "downstream",
+      "mean": 0.2,
+      "trials": 30,
+      "ci95": [
+        0.0950510717728987,
+        0.3730569641314825
+      ]
+    }
+  ]
+}

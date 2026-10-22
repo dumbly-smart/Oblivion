@@ -1,0 +1,8 @@
+{
+  "tests": "PRESENCE_BINARY=$PWD/experiments/results/presence-30-20261022/bin/presence .venv/bin/python -m unittest research.tests.test_presence -v",
+  "count": 4,
+  "exit": 0,
+  "test_source_sha256": "1647fd9fb7bb60926942e5504883349dece219fc36781c375da5ace293c6c463",
+  "idempotence": "actual64epoch export summarized twice; identical costs JSONL exactly3rows",
+  "analysis_provenance_source_hashes_match": true
+}

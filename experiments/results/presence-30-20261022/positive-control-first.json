@@ -1,0 +1,20 @@
+[
+  {
+    "online_percent": 35,
+    "mean": 1.0,
+    "ci95": [
+      1.0,
+      1.0
+    ],
+    "unit": "whole independent trial"
+  },
+  {
+    "online_percent": 70,
+    "mean": 1.0,
+    "ci95": [
+      1.0,
+      1.0
+    ],
+    "unit": "whole independent trial"
+  }
+]
