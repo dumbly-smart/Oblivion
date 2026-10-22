@@ -1,0 +1,690 @@
+{
+  "schema_version": 1,
+  "started_utc": "2026-10-22T20:15:40Z",
+  "git_head": "8c2a6fb5430771fa9b7b720ef594a0ff801f59f8",
+  "git_status": "M crates/oblivion-pir/examples/measure.rs\n M crates/oblivion-store/examples/measure.rs\n?? crates/oblivion-batcher/examples/presence.rs\n?? crates/oblivion-sse/examples/corpus.rs\n?? docs/CORPUS_EVALUATION.md\n?? docs/PRESENCE_EVALUATION.md\n?? experiments/configs/corpus-real.json\n?? experiments/configs/geometry-30.json\n?? experiments/configs/presence-30.json\n?? experiments/results/corpus-real/\n?? experiments/results/presence-30-20261022/\n?? graft/\n?? ignored/\n?? research/analysis/corpus.py\n?? research/analysis/presence.py\n?? research/attacks/presence.py\n?? research/tests/test_corpus.py\n?? research/tests/test_fault_campaign.py\n?? research/tests/test_geometry.py\n?? research/tests/test_presence.py\n?? scripts/evaluate_corpus.py\n?? scripts/sweep_geometry.py",
+  "source_sha256": {
+    "crates/oblivion-batcher/Cargo.toml": "9e169ec16de7e63c123d3b58ff7a9d93a81eb91010cc7a40a20ee3e792159ed7",
+    "crates/oblivion-batcher/examples/batch_measure.rs": "99ed370c0d30b9b1b01a23899bdf18b958b6fdf56b2f25c654e80cc12734af6c",
+    "crates/oblivion-batcher/examples/presence.rs": "93f2846808375e789053234d3685e73062937fd1cf4ad902ed61942ceeb29490",
+    "crates/oblivion-batcher/src/envelope.rs": "5cf5822b66464d9219acda5a286e1159c1c909d137a6485e5a1395c8e709e408",
+    "crates/oblivion-batcher/src/lib.rs": "32a75bd848441000e5fc12bd284eb4d532033953f60d94f2db63fbe4e6103577",
+    "crates/oblivion-batcher/tests/epochs.rs": "179312ff484847d3ba808744a7df824e123e15226ac50240268890d703e168a0",
+    "crates/oblivion-exec/Cargo.toml": "644819c5a8a79aac0dad6e2ccc164b008a2ed01f952b152a82cb03f9ec0ed99e",
+    "crates/oblivion-exec/examples/timing_measure.rs": "97c5a1fdd06d6a1712ac326190d2c0a13436211e8afec9e0b2534951da85b9fc",
+    "crates/oblivion-exec/src/host.rs": "8403ff5df279194547fd89d55a0c0542796bbc494f694539359202c85f3d7e47",
+    "crates/oblivion-exec/src/lib.rs": "aa1d0862c64b01e74f3e3631968169007a501cca5f75a0d89903ac7d35fda581",
+    "crates/oblivion-exec/src/staging.rs": "bad05c094e0182f32495a30690e55970b66b6b8693472c15880f230e642da6e7",
+    "crates/oblivion-exec/tests/execution.rs": "181044066b5bd5e156d3d3ac05e5414f4357099323918ecacb5561134edba24a",
+    "crates/oblivion-exec/tests/storage_schedule.rs": "89e174a6578b23738cec6e0c5aabb91a61e0f0d9703d4ca453d7ed0d871315b6",
+    "crates/oblivion-harness/Cargo.toml": "0a21c80784bc8d5f449683e2fc4ea129737d63c7b604b4bb28adc3a3b7c8f51d",
+    "crates/oblivion-harness/src/main.rs": "6bbe5bf196b4ff43718bef65ddc9f3c257b957ae5e126ce6d29b8b5d05a5e2e7",
+    "crates/oblivion-harness/src/system.rs": "35dfa38495593a9d308ca1e4efedee5fd44de41a5e6b243e8fb14665a7b464fc",
+    "crates/oblivion-harness/tests/dataset.rs": "b31c1fad649eb9804f32a87c9791ce10aebbbd010132484a8acaa3250d4ab18f",
+    "crates/oblivion-harness/tests/system.rs": "acd1f5b372f2b5a78a7b74a7b84688585df6cb616c769bd564940a0a107fb6fd",
+    "crates/oblivion-pir/Cargo.toml": "839e74206bf67313bcb58ee61a53b16ac6980a1c54da4cc3148d1e586a26f006",
+    "crates/oblivion-pir/examples/capture_driver.rs": "da39bd04cd6e27ab37e6353f71402bc850ff4cbbbc61b6f89ea66eb245f29c70",
+    "crates/oblivion-pir/examples/measure.rs": "18471b6b81359474f03c0bc03d8ae4e591787a58b98177e507d113aa58d33399",
+    "crates/oblivion-pir/src/bin/pir-client.rs": "b3920ae19296bdfeaec7519c0ee3b3c11952883693e4166b4c893199d9d934fe",
+    "crates/oblivion-pir/src/bin/pir-server.rs": "49cfc0ed99fa3eeee4ad16ee06a310858ad3f124e1dffe14a7fa80ae619219c8",
+    "crates/oblivion-pir/src/bin/secure-pir-server.rs": "3a19f4c19b9cc0ec99ef20596bb1c7e77817392082522e87202cd6a7cb6da074",
+    "crates/oblivion-pir/src/lib.rs": "660070a133594fd1b8dae4835911db36409e4907c1d0e48f9418826b279c7b59",
+    "crates/oblivion-pir/src/secure.rs": "b57edea516c76c551b84cdb370e7fe805493808d76798b103fcf96a9c83447c5",
+    "crates/oblivion-pir/src/wire.rs": "93624515c88388f369a68443467812d78fe3db1cceba0fa54cf27da8d8e49b13",
+    "crates/oblivion-pir/tests/processes.rs": "8bb1293d240fec6e037ed7c944045ebe50afd80e73dd2b7b1740653ef959ad76",
+    "crates/oblivion-pir/tests/retrieval.rs": "18cf655378d25c0e9b37cfc80deb9dedec0e9132d54e023e2ac012413171a191",
+    "crates/oblivion-pir/tests/secure_processes.rs": "c53743b4052bb1d4f89ebcea5324283ae414059fef305b915d00c7e723f339f1",
+    "crates/oblivion-pir/tests/secure_transport.rs": "fcc952179ecc050a08589711b664232e2404418459877016fbfc4f61e1221804",
+    "crates/oblivion-server/Cargo.toml": "8c6d7b2acc78ed71f1e444499ecc91aafaba7ca346cdc0e71eefbb7d630ee1df",
+    "crates/oblivion-server/src/discovery.rs": "633f2c8af118a6160dd0b2203d93a081f7d4616e6276d0a33dd880b64121305d",
+    "crates/oblivion-server/src/main.rs": "48aa79cb1a4ab6166a4a9b60885199dbfa3ed7bc2dcc6cd75fa409ef7eb9929e",
+    "crates/oblivion-server/src/open_loop.rs": "347fdf2bbde8e576db4ee26f824424309ebe3097a1e0ab0cc6004b66a1ea16e4",
+    "crates/oblivion-server/src/pipeline.rs": "c38a07bfd95b65d17ea05a8a0b08fd38414d724de304e3971d825cb11d210fb7",
+    "crates/oblivion-server/src/secure_pir.rs": "bd1b3bac70b922cb3b16655edbca86a741b77f56d9c59f6c80368a21d75e94d2",
+    "crates/oblivion-server/tests/pipeline.rs": "abe593bf5d1958d68731129684041e1fcce6b8754df75f9c28f80108906bdc8f",
+    "crates/oblivion-sse/Cargo.toml": "79359a34c21e3b73345460d9248d8419214533fa1c8cdf75e13b00b2d2e82f3f",
+    "crates/oblivion-sse/examples/corpus.rs": "dd897370ee2e0c5369871fd9b495ac5a4c2d2a9573c3c681d5dce4bb719f7ad6",
+    "crates/oblivion-sse/examples/injection.rs": "8c20efa2b0b3d2f420ec65f995f157de3e727f20b0d702c8219c25f7cd0ed735",
+    "crates/oblivion-sse/examples/leakage.rs": "01aa31431c0ffc0352b7d0896df44b0ef607fa1bf08276f18890c6c1c6810a6a",
+    "crates/oblivion-sse/examples/measure.rs": "92ebc2bb63d49f6fbefacc8b21993354324274204d0a05e7778ce85cf2ff2d48",
+    "crates/oblivion-sse/src/lib.rs": "4ec0091864072fe62db4a7b5688abd55810670a5baa63550f4e25e44cc31975b",
+    "crates/oblivion-sse/src/tests.rs": "8bfe6a2e0ce8b68cc3a3b52dcae8e513f3b649442adbcaa09bc6f56075833bda",
+    "crates/oblivion-store/Cargo.toml": "3fb887cc817dacf7b69b74cb4e54125dcb7158474c842482a5b3b2001efb8d14",
+    "crates/oblivion-store/examples/measure.rs": "26a50cfd8f867f26d0a9586feccc9695069ee95cb24c01b3e340d70c5f02d794",
+    "crates/oblivion-store/src/backend.rs": "1497745770d6d760179fde5727506b4b52d14f919580dfcb8210a732355bf831",
+    "crates/oblivion-store/src/config.rs": "151fb8eb3381f0da35528043ca83bde3f5ad305fbee3d02be24176826f3509d0",
+    "crates/oblivion-store/src/file_backend.rs": "f8b91f7ca8be253b71a0e5fd0e511819d1767c650e4a7b10864776bdd17ddc64",
+    "crates/oblivion-store/src/lib.rs": "d1615ea08cb217a4f316c74df402338360642c1468ca2543946f2624491014b2",
+    "crates/oblivion-store/src/oram/recovery.rs": "276bb2ed3753eba31c61aa9bbfd9b4924522c15ef858010805f16c7d86022d56",
+    "crates/oblivion-store/src/oram.rs": "0ae9f0c587e4780a827ff7b8903699465cbaa304cd804475e63285515423e6ee",
+    "crates/oblivion-store/tests/adversarial.rs": "c21e2ae2232e15ab5aa6ca24e11c077059b9ae10982d3a0fd6ea23187bb0891f",
+    "crates/oblivion-store/tests/oracle.rs": "b93488849aea76002804b47a159faa47ba7c8a5b41ee630048d5bf3effb24d48",
+    "crates/oblivion-store/tests/recovery.rs": "1c79f30e657051e3e65ee1f821dc85732cb4145fb2f7f282d77332b2add89ec7",
+    "Cargo.toml": "6cfb12e5cf181f3d658e1cc27b6540e5cb6993868fb57f033ed2113dc833b10c",
+    "Cargo.lock": "2b23272b57e02b7bf3b9ced56a09c71387e09c454cbb51a9bbd1a65238de6fb1",
+    "scripts/sweep_geometry.py": "35f64543b20ee79612dd241a60e5e477b9b83b99a8bd460d89bc98900cca0c58"
+  },
+  "executable_sha256": {
+    "oram-measure": "ed8d9c8d925039c548df7033f415efdff19177c407df432ea77ee2063853b9f7",
+    "pir-measure": "1cf2445588d3886914a6bf57ee1935c65effea92afa4a60224109ecf664b3f51"
+  },
+  "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13) (Arch Linux rust 1:1.99.1-1)\nbinary: rustc\ncommit-hash: 58cf8f9c35b355199727627d07ae34a4e2846d67\ncommit-date: 2026-10-13\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.1\nLLVM version: 23.1.3",
+  "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+  "cpu": "processor\t: 0\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 800.115\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 0\ncpu cores\t: 16\napicid\t\t: 0\ninitial apicid\t: 0\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 1\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 801.009\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 0\ncpu cores\t: 16\napicid\t\t: 1\ninitial apicid\t: 1\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 2\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 3700.000\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 4\ncpu cores\t: 16\napicid\t\t: 8\ninitial apicid\t: 8\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 3\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 1757.493\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 4\ncpu cores\t: 16\napicid\t\t: 9\ninitial apicid\t: 9\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 4\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 2353.282\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 8\ncpu cores\t: 16\napicid\t\t: 16\ninitial apicid\t: 16\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 5\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 800.369\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 8\ncpu cores\t: 16\napicid\t\t: 17\ninitial apicid\t: 17\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 6\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 1178.139\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 12\ncpu cores\t: 16\napicid\t\t: 24\ninitial apicid\t: 24\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 7\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 3303.759\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 12\ncpu cores\t: 16\napicid\t\t: 25\ninitial apicid\t: 25\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 8\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 1733.220\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 16\ncpu cores\t: 16\napicid\t\t: 32\ninitial apicid\t: 32\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 9\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 1435.632\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 16\ncpu cores\t: 16\napicid\t\t: 33\ninitial apicid\t: 33\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 10\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 3800.000\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 20\ncpu cores\t: 16\napicid\t\t: 40\ninitial apicid\t: 40\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 11\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 3786.986\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 20\ncpu cores\t: 16\napicid\t\t: 41\ninitial apicid\t: 41\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 12\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 3492.640\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 24\ncpu cores\t: 16\napicid\t\t: 48\ninitial apicid\t: 48\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 13\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 1503.481\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 24\ncpu cores\t: 16\napicid\t\t: 49\ninitial apicid\t: 49\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 14\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 801.433\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 28\ncpu cores\t: 16\napicid\t\t: 56\ninitial apicid\t: 56\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 15\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 800.695\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 28\ncpu cores\t: 16\napicid\t\t: 57\ninitial apicid\t: 57\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 16\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 1898.476\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 32\ncpu cores\t: 16\napicid\t\t: 64\ninitial apicid\t: 64\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 17\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 2192.231\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 33\ncpu cores\t: 16\napicid\t\t: 66\ninitial apicid\t: 66\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 18\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 2547.275\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 34\ncpu cores\t: 16\napicid\t\t: 68\ninitial apicid\t: 68\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 19\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 2888.454\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 35\ncpu cores\t: 16\napicid\t\t: 70\ninitial apicid\t: 70\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 20\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 2649.105\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 36\ncpu cores\t: 16\napicid\t\t: 72\ninitial apicid\t: 72\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 21\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 1922.411\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 37\ncpu cores\t: 16\napicid\t\t: 74\ninitial apicid\t: 74\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 22\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 1338.315\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 38\ncpu cores\t: 16\napicid\t\t: 76\ninitial apicid\t: 76\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 23\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 799.687\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 39\ncpu cores\t: 16\napicid\t\t: 78\ninitial apicid\t: 78\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\n",
+  "configurations": [
+    {
+      "kind": "oram",
+      "name": "oram-n64-b64-z3-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 64,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b64-z3-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 64,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b64-z4-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 64,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b64-z4-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 64,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b64-z5-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 64,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b64-z5-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 64,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b256-z3-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 256,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b256-z3-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 256,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b256-z4-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 256,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b256-z4-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 256,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b256-z5-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 256,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b256-z5-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 256,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b1024-z3-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 1024,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b1024-z3-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 1024,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b1024-z4-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 1024,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b1024-z4-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 1024,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b1024-z5-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 1024,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b1024-z5-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 1024,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b64-z3-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 64,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b64-z3-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 64,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b64-z4-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 64,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b64-z4-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 64,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b64-z5-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 64,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b64-z5-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 64,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b256-z3-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 256,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b256-z3-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 256,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b256-z4-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 256,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b256-z4-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 256,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b256-z5-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 256,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b256-z5-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 256,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b1024-z3-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 1024,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b1024-z3-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 1024,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b1024-z4-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 1024,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b1024-z4-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 1024,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b1024-z5-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 1024,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b1024-z5-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 1024,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "pir",
+      "name": "pir-n64-b64",
+      "config": {
+        "version": 1,
+        "count": 64,
+        "record_bytes": 64,
+        "trials": 30,
+        "queries_per_trial": 16,
+        "seed": 20261022
+      }
+    },
+    {
+      "kind": "pir",
+      "name": "pir-n64-b1024",
+      "config": {
+        "version": 1,
+        "count": 64,
+        "record_bytes": 1024,
+        "trials": 30,
+        "queries_per_trial": 16,
+        "seed": 20261022
+      }
+    },
+    {
+      "kind": "pir",
+      "name": "pir-n1024-b64",
+      "config": {
+        "version": 1,
+        "count": 1024,
+        "record_bytes": 64,
+        "trials": 30,
+        "queries_per_trial": 16,
+        "seed": 20261022
+      }
+    },
+    {
+      "kind": "pir",
+      "name": "pir-n1024-b1024",
+      "config": {
+        "version": 1,
+        "count": 1024,
+        "record_bytes": 1024,
+        "trials": 30,
+        "queries_per_trial": 16,
+        "seed": 20261022
+      }
+    },
+    {
+      "kind": "pir",
+      "name": "pir-n10000-b64",
+      "config": {
+        "version": 1,
+        "count": 10000,
+        "record_bytes": 64,
+        "trials": 30,
+        "queries_per_trial": 16,
+        "seed": 20261022
+      }
+    },
+    {
+      "kind": "pir",
+      "name": "pir-n10000-b1024",
+      "config": {
+        "version": 1,
+        "count": 10000,
+        "record_bytes": 1024,
+        "trials": 30,
+        "queries_per_trial": 16,
+        "seed": 20261022
+      }
+    }
+  ],
+  "crypto_randomness": "OS sourced, never seeded; seeds control logical workload only",
+  "measurement_scope": "in-process memory-backed, no network or TEE"
+}
