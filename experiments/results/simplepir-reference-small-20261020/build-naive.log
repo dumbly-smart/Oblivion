@@ -1,0 +1,45 @@
+    Updating crates.io index
+     Locking 45 packages to highest Rust 1.99.1 compatible versions
+      Adding generic-array v0.14.7 (available: v0.14.9)
+   Compiling libc v0.2.191
+   Compiling version_check v0.9.5
+   Compiling cfg-if v1.0.5
+   Compiling typenum v1.20.1
+   Compiling subtle v2.6.1
+   Compiling proc-macro2 v1.0.107
+   Compiling zerocopy v0.8.63
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.27
+   Compiling cpufeatures v0.2.17
+   Compiling zeroize v1.9.1
+   Compiling thiserror v2.0.21
+   Compiling serde_core v1.0.229
+   Compiling opaque-debug v0.3.1
+   Compiling zmij v1.0.23
+   Compiling serde_json v1.0.154
+   Compiling itoa v1.0.18
+   Compiling memchr v2.8.3
+   Compiling generic-array v0.14.7
+   Compiling syn v3.0.9
+   Compiling block-buffer v0.10.4
+   Compiling inout v0.1.4
+   Compiling getrandom v0.2.17
+   Compiling rand_core v0.6.4
+   Compiling crypto-common v0.1.7
+   Compiling digest v0.10.7
+   Compiling universal-hash v0.5.1
+   Compiling cipher v0.4.4
+   Compiling aead v0.5.2
+   Compiling poly1305 v0.8.0
+   Compiling hmac v0.12.1
+   Compiling sha2 v0.10.9
+   Compiling chacha20 v0.9.1
+   Compiling hkdf v0.12.4
+   Compiling chacha20poly1305 v0.10.1
+   Compiling thiserror-impl v2.0.21
+   Compiling ppv-lite86 v0.2.21
+   Compiling rand_chacha v0.3.1
+   Compiling rand v0.8.8
+   Compiling oblivion-pir v0.1.0 (/home/xtrmn8/oblivion/crates/oblivion-pir)
+   Compiling oblivion-naive-pir-reference v0.1.0 (/home/xtrmn8/oblivion/research/pir_reference/naive)
+    Finished `release` profile [optimized] target(s) in 10.62s

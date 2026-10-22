@@ -1,0 +1,196 @@
+{
+  "simplepir": {
+    "trials": 30,
+    "query_samples": 480,
+    "all_correct": true,
+    "latency_ns": {
+      "generation_ns": {
+        "mean": 560301.4145833333,
+        "median": 528160.5,
+        "p95": 763161.1999999998,
+        "sample_stddev": 96142.22388480879,
+        "trial_mean_95pct_bootstrap_ci": [
+          548250.8905729166,
+          572950.75046875
+        ]
+      },
+      "server1_ns": {
+        "mean": 11566.20625,
+        "median": 9833.0,
+        "p95": 17173.899999999918,
+        "sample_stddev": 8508.041721232463,
+        "trial_mean_95pct_bootstrap_ci": [
+          10877.982083333334,
+          12402.187604166667
+        ]
+      },
+      "server2_ns": {
+        "mean": 0,
+        "median": 0.0,
+        "p95": 0.0,
+        "sample_stddev": 0.0,
+        "trial_mean_95pct_bootstrap_ci": [
+          0.0,
+          0.0
+        ]
+      },
+      "server_total_ns": {
+        "mean": 11566.20625,
+        "median": 9833.0,
+        "p95": 17173.899999999918,
+        "sample_stddev": 8508.041721232463,
+        "trial_mean_95pct_bootstrap_ci": [
+          10877.982083333334,
+          12402.187604166667
+        ]
+      },
+      "recovery_ns": {
+        "mean": 41328.41875,
+        "median": 39170.5,
+        "p95": 52119.799999999945,
+        "sample_stddev": 9475.588552217809,
+        "trial_mean_95pct_bootstrap_ci": [
+          40117.77484375,
+          42566.781406250004
+        ]
+      },
+      "total_algorithm_ns": {
+        "mean": 613196.0395833333,
+        "median": 582511.5,
+        "p95": 824007.6499999999,
+        "sample_stddev": 100410.01049496849,
+        "trial_mean_95pct_bootstrap_ci": [
+          600484.33859375,
+          626504.73171875
+        ]
+      }
+    },
+    "setup_mean_ns": {
+      "database_build_ns": 2231297.533333333,
+      "shared_init_ns": 36808412.4,
+      "preprocessing_ns": 9273760.8
+    },
+    "communication_bytes": {
+      "query_payload_bytes": [
+        1056
+      ],
+      "response_payload_bytes": [
+        1064
+      ]
+    },
+    "offline_bytes": {
+      "offline_upload_bytes": [
+        1081344
+      ],
+      "offline_download_bytes": [
+        1089536
+      ]
+    },
+    "server_bytes_scanned_per_query": [
+      93632
+    ],
+    "total_protocol_bytes_amortized_per_query": {
+      "1": 2173000.0,
+      "16": 137800.0,
+      "1000": 4290.88,
+      "1000000": 2122.17088
+    }
+  },
+  "naive_xor": {
+    "trials": 30,
+    "query_samples": 480,
+    "all_correct": true,
+    "latency_ns": {
+      "generation_ns": {
+        "mean": 5843.4375,
+        "median": 5600.5,
+        "p95": 7470.999999999999,
+        "sample_stddev": 984.6639626079918,
+        "trial_mean_95pct_bootstrap_ci": [
+          5544.8086979166665,
+          6149.629427083334
+        ]
+      },
+      "server1_ns": {
+        "mean": 104216.19375,
+        "median": 103788.5,
+        "p95": 117726.84999999998,
+        "sample_stddev": 10989.211212979217,
+        "trial_mean_95pct_bootstrap_ci": [
+          101575.986875,
+          106872.94651041667
+        ]
+      },
+      "server2_ns": {
+        "mean": 97751.66041666667,
+        "median": 96975.0,
+        "p95": 111840.9,
+        "sample_stddev": 11776.754026741115,
+        "trial_mean_95pct_bootstrap_ci": [
+          95271.78812499999,
+          100258.94640624999
+        ]
+      },
+      "server_total_ns": {
+        "mean": 201967.85416666666,
+        "median": 200716.5,
+        "p95": 229139.99999999997,
+        "sample_stddev": 19640.27425324759,
+        "trial_mean_95pct_bootstrap_ci": [
+          196940.49822916667,
+          207075.578125
+        ]
+      },
+      "recovery_ns": {
+        "mean": 113.66458333333334,
+        "median": 77.0,
+        "p95": 331.9999999999991,
+        "sample_stddev": 110.31430706035363,
+        "trial_mean_95pct_bootstrap_ci": [
+          104.26036458333334,
+          123.1521875
+        ]
+      },
+      "total_algorithm_ns": {
+        "mean": 207924.95625,
+        "median": 207216.0,
+        "p95": 235461.15,
+        "sample_stddev": 20182.07790428469,
+        "trial_mean_95pct_bootstrap_ci": [
+          202733.10401041666,
+          213195.02098958334
+        ]
+      }
+    },
+    "setup_mean_ns": {
+      "database_build_ns": 1210489.9,
+      "shared_init_ns": 0,
+      "preprocessing_ns": 0
+    },
+    "communication_bytes": {
+      "query_payload_bytes": [
+        2500
+      ],
+      "response_payload_bytes": [
+        16
+      ]
+    },
+    "offline_bytes": {
+      "offline_upload_bytes": [
+        0
+      ],
+      "offline_download_bytes": [
+        0
+      ]
+    },
+    "server_bytes_scanned_per_query": [
+      160000
+    ],
+    "total_protocol_bytes_amortized_per_query": {
+      "1": 2516.0,
+      "16": 2516.0,
+      "1000": 2516.0,
+      "1000000": 2516.0
+    }
+  }
+}

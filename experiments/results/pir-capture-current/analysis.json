@@ -1,0 +1,739 @@
+{
+  "analysis_script_sha256": "e388b5583f6c1716616eb26eb280a49fe9eb24e2f226c27cc3e10d6d954c2dfd",
+  "sessions": [
+    {
+      "trial": 0,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2031,
+      "capture_interface_stats": {
+        "received": 2031,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 1,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2074,
+      "capture_interface_stats": {
+        "received": 2074,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 2,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2060,
+      "capture_interface_stats": {
+        "received": 2060,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 3,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2110,
+      "capture_interface_stats": {
+        "received": 2110,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 4,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2043,
+      "capture_interface_stats": {
+        "received": 2043,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 5,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2063,
+      "capture_interface_stats": {
+        "received": 2063,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 6,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2058,
+      "capture_interface_stats": {
+        "received": 2058,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 7,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2110,
+      "capture_interface_stats": {
+        "received": 2110,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 8,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2071,
+      "capture_interface_stats": {
+        "received": 2071,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 9,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2038,
+      "capture_interface_stats": {
+        "received": 2038,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 10,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2029,
+      "capture_interface_stats": {
+        "received": 2029,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 11,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2053,
+      "capture_interface_stats": {
+        "received": 2053,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 12,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2034,
+      "capture_interface_stats": {
+        "received": 2034,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 13,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2021,
+      "capture_interface_stats": {
+        "received": 2021,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 14,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2041,
+      "capture_interface_stats": {
+        "received": 2041,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 15,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2019,
+      "capture_interface_stats": {
+        "received": 2019,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 16,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2010,
+      "capture_interface_stats": {
+        "received": 2010,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 17,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2055,
+      "capture_interface_stats": {
+        "received": 2055,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 18,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2022,
+      "capture_interface_stats": {
+        "received": 2022,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 19,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2017,
+      "capture_interface_stats": {
+        "received": 2017,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 20,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2027,
+      "capture_interface_stats": {
+        "received": 2027,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 21,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2034,
+      "capture_interface_stats": {
+        "received": 2034,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 22,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2015,
+      "capture_interface_stats": {
+        "received": 2015,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 23,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2010,
+      "capture_interface_stats": {
+        "received": 2010,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 24,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2082,
+      "capture_interface_stats": {
+        "received": 2082,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 25,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2028,
+      "capture_interface_stats": {
+        "received": 2028,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 26,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2087,
+      "capture_interface_stats": {
+        "received": 2087,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 27,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2029,
+      "capture_interface_stats": {
+        "received": 2029,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 28,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2065,
+      "capture_interface_stats": {
+        "received": 2065,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    },
+    {
+      "trial": 29,
+      "verified_queries": 100,
+      "captured": true,
+      "packets": 2027,
+      "capture_interface_stats": {
+        "received": 2027,
+        "dropped": 0
+      },
+      "packet_lengths": [
+        66,
+        74,
+        119,
+        246
+      ],
+      "payload_lengths": [
+        0,
+        53,
+        180
+      ],
+      "retransmissions": 0,
+      "verified_streams": 200
+    }
+  ],
+  "trials": 30,
+  "captured_trials": 30,
+  "verified_queries": 3000,
+  "scope": "only exact two owned dynamic loopback TCP ports per trial; key provisioning over private inherited pipes never captured",
+  "application_frames": {
+    "query_bytes": 53,
+    "answer_bytes": 180
+  },
+  "limitations": "Loopback capture includes TCP handshake/ACK/FIN, segmentation, kernel timing, offload and capture effects. Frame sizes are not application payload sizes. No external-network measurement, TEE, independent operators, cryptographic proof or active-attack availability claim. Application frame logs remain separate from genuine packet evidence. Packet-to-ground-truth matching uses same-host wall clocks only for evaluator labeling, not attack features.",
+  "limited_packet_feature_test": {
+    "features": [
+      "packet_count",
+      "wire_bytes",
+      "query_payload_packets",
+      "answer_payload_packets",
+      "query_to_answer_ms"
+    ],
+    "classifier": "nearest per-target centroid; z-score fit on profiling trials only; per-server models; first15wholetrials profiling and last15wholetrials target",
+    "results": [
+      {
+        "server": 0,
+        "accuracy": 0.194,
+        "trial_bootstrap_95": [
+          0.18066666666666667,
+          0.20600000000000004
+        ],
+        "train_trials": 15,
+        "test_trials": 15,
+        "chance": 0.2
+      },
+      {
+        "server": 1,
+        "accuracy": 0.20933333333333334,
+        "trial_bootstrap_95": [
+          0.1913333333333333,
+          0.2273333333333333
+        ],
+        "train_trials": 15,
+        "test_trials": 15,
+        "chance": 0.2
+      }
+    ],
+    "caveat": "No validated positive control for this packet feature classifier. Exploratory diagnostic only; near chance cannot substantiate a privacy conclusion. Fresh OS sessions split by whole trial. Timing labels are evaluator-only."
+  }
+}

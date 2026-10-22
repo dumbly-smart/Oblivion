@@ -1,0 +1,47 @@
+{
+  "diagnostics": [
+    {
+      "trial": 0,
+      "uniform_chi2_p": 0.738195731299325,
+      "same_chi2_p": 0.25564686058491276,
+      "homogeneity_p": 0.6913114058896779,
+      "uniform_lag1": -0.027743745967783923,
+      "same_lag1": 0.0008292526501635954
+    },
+    {
+      "trial": 1,
+      "uniform_chi2_p": 0.6351216342742929,
+      "same_chi2_p": 0.7501924244173445,
+      "homogeneity_p": 0.6521820418019537,
+      "uniform_lag1": -0.0016266536799879583,
+      "same_lag1": 0.013926949043302468
+    },
+    {
+      "trial": 2,
+      "uniform_chi2_p": 0.6485540967160748,
+      "same_chi2_p": 0.8856045017750753,
+      "homogeneity_p": 0.7569929960989583,
+      "uniform_lag1": 0.027844047047858082,
+      "same_lag1": 0.0774139876815554
+    }
+  ],
+  "first_trial_coincidences": [
+    {
+      "consecutive_equal": 0.009009009009009009,
+      "wilson_95": [
+        0.004746814500146559,
+        0.01703275856056326
+      ],
+      "uniform_expectation": 0.015625
+    },
+    {
+      "consecutive_equal": 0.009009009009009009,
+      "wilson_95": [
+        0.004746814500146559,
+        0.01703275856056326
+      ],
+      "uniform_expectation": 0.015625
+    }
+  ],
+  "limitations": "Unadjusted exploratory p-values; finite samples and low power cannot establish independence or indistinguishability. No timing or compositional privacy claim. OS crypto randomness makes exact traces non-reproducible, while workload seeds remain fixed."
+}

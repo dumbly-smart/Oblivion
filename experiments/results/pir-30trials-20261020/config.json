@@ -1,0 +1,9 @@
+{
+  "count": 10000,
+  "methodology": "In-process independent server states; full scan; warm-up excluded. OS-random shares, seeded index workload. Times are wall-clock ns. Payload memory excludes allocator/object overhead. No wire throughput or network latency claim.",
+  "queries_per_trial": 16,
+  "record_bytes": 1024,
+  "seed": 9001,
+  "trials": 30,
+  "version": 1
+}

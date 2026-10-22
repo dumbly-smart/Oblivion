@@ -1,0 +1,20 @@
+=== RUN   TestSimplePir
+Working with: n=1024; db size=2^20 (l=1024, m=1024); logq=32; p=991; sigma=6.400000
+Total packed DB size is ~1.244093 MB
+Executing SimplePIR
+Setup...
+	Elapsed: 171.099975ms
+		Offline download: 4096.000000 KB
+Building query...
+	Elapsed: 3.043028ms
+		Online upload: 4.000000 KB
+Answering query...
+	Elapsed: 647.817µs
+	Rate: 1920.438420 MB/s
+		Online download: 4.000000 KB
+Reconstructing...
+Success!
+	Elapsed: 674.971µs
+--- PASS: TestSimplePir (0.44s)
+PASS
+ok  	github.com/ahenzinger/simplepir/pir	0.447s

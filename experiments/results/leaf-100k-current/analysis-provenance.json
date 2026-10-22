@@ -1,0 +1,7 @@
+{
+  "script_sha256": "e5356747afdcf2b7e24ff587ce21775f3362bb084072b507872f59a1afee3f54",
+  "numpy": "2.5.4",
+  "scipy": "1.18.1",
+  "matplotlib": "3.11.2",
+  "analysis_seed": 20261021
+}

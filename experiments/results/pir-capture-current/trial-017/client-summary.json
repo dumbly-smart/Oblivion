@@ -1,0 +1,11 @@
+{
+  "answer_frame_bytes": 180,
+  "queries": 100,
+  "query_frame_bytes": 53,
+  "record_bytes": 128,
+  "records": 5,
+  "scope": "two fresh OS-keyed loopback worker processes; inherited private key pipes; no TEE or independent operators",
+  "seed": 20261038,
+  "verified": 100,
+  "wall_ns": 143129892
+}
