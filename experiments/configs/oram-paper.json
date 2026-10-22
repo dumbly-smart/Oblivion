@@ -1,0 +1,1 @@
+{"version":1,"blocks":1024,"block_bytes":1024,"operations":10000,"warmup":1000,"trials":30,"seed":4242,"workload":"uniform"}
