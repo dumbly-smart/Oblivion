@@ -1,0 +1,1163 @@
+{
+  "schema_version": 1,
+  "source_before_build_sha256": {
+    "scripts/simplepir_reference.py": "cbb6d8731fb8d86d1f0998c93bbe8a4abaed91f2fe95052f36b9721dbfb608c6",
+    "research/pir_reference/go/main.go": "679369bb7fa79d522a5ba0ca65d085a6ebd53117e29ad202ab2eddc1f4292a95",
+    "research/pir_reference/go/go.mod": "719d26044c962847a7eecd0ccdaa815afea35a3ec1877172a025a99185ff648f",
+    "research/pir_reference/naive/src/main.rs": "2725c0d64d36a2ca13eabe91086e41f49194265b767558be8614f0d0edb093c7",
+    "research/pir_reference/naive/Cargo.toml": "d017ef5edb8d87eba891618992662219e733ebfa26ed2bc670cd0cdad1593356",
+    "Cargo.toml": "6cfb12e5cf181f3d658e1cc27b6540e5cb6993868fb57f033ed2113dc833b10c",
+    "Cargo.lock": "039678f7b4740895248d500b6dbfe1feeb1869b8b3935235c41c72cd3d96afb0",
+    "crates/oblivion-pir/Cargo.toml": "839e74206bf67313bcb58ee61a53b16ac6980a1c54da4cc3148d1e586a26f006",
+    "crates/oblivion-pir/src/bin/pir-client.rs": "b3920ae19296bdfeaec7519c0ee3b3c11952883693e4166b4c893199d9d934fe",
+    "crates/oblivion-pir/src/bin/pir-server.rs": "49cfc0ed99fa3eeee4ad16ee06a310858ad3f124e1dffe14a7fa80ae619219c8",
+    "crates/oblivion-pir/src/bin/secure-pir-server.rs": "3a19f4c19b9cc0ec99ef20596bb1c7e77817392082522e87202cd6a7cb6da074",
+    "crates/oblivion-pir/src/lib.rs": "9f5cbef567ccd9e19335cbeecfc4e2d5d4a56448a26fc6ef82aba6e43402ecae",
+    "crates/oblivion-pir/src/secure.rs": "b57edea516c76c551b84cdb370e7fe805493808d76798b103fcf96a9c83447c5",
+    "crates/oblivion-pir/src/sqrt.rs": "256f55a44cbefba8497a11eaf3bb7ee7221a8dfa94ab2e803155571525b051a8",
+    "crates/oblivion-pir/src/wire.rs": "93624515c88388f369a68443467812d78fe3db1cceba0fa54cf27da8d8e49b13"
+  },
+  "executable_before_sha256": {
+    "simplepir": "6236217c289a4651e3b002753858de490c7ae0a5a19725c2d26d0e41de9a4491",
+    "naive_xor": "c8bbb4cf526448dfda179db8146dc2081daa85a8a3da5b8ce9eaece29c2f037a"
+  },
+  "started_utc": "2026-10-22T20:32:52.081942+00:00",
+  "reference": {
+    "repository": "https://github.com/ahenzinger/simplepir.git",
+    "commit": "e9020b03bf2872c75b8954e749e32408b5db87ed",
+    "license": "MIT",
+    "primary_paper": "https://www.usenix.org/conference/usenixsecurity23/presentation/henzinger",
+    "checked_remote_head_utc": "2026-10-20",
+    "upstream_changes": false
+  },
+  "reference_commit_metadata": "commit e9020b03bf2872c75b8954e749e32408b5db87ed\nAuthor:     ahenzinger <ahenzinger@gmail.com>\nAuthorDate: Fri Jan 13 18:06:09 2023 -0500\nCommit:     ahenzinger <ahenzinger@gmail.com>\nCommitDate: Fri Jan 13 18:06:09 2023 -0500\n\n    allow initial state to be set with seed",
+  "reference_source_sha256": {
+    ".gitignore": "beb0e14271320466c2c65dbcbf09e9804022159e2652c2f66cb775d34e8ef5f2",
+    "database.go": "1622cd3e91621e10d992fbbfdb0f74d7a7a20e137b00b986590a5324ccb18fd8",
+    "double_pir.go": "066ab6cffae3147c2cb4e2e1aaebb057e75903bf8b123ab428c8af2cc7fb5614",
+    "experiments.sh": "3c89f2c6e1cd75c6360b982fa9b3e402f9493abe7b336ae591666256a744afb2",
+    "gauss.go": "c326558cc9c536ee522188263e298081132965663a8d5e88433ce04bf2e253d5",
+    "gauss_test.go": "f9ac3bd6d16929a5b2a13c75513b460fc448c4996a4816b792b40a4b8b71ea06",
+    "logging.go": "928ee1d28149d4fd1df9f453b03ed0d90002fa51bb7bc20996a92480fb97663f",
+    "matrix.go": "ec6d5bf10a26546d8c8082fe5bc0e173c8f94c3a14e5e7a75f3c6df7c3b97f53",
+    "params.csv": "b3db22f70c038f741dacda0aec7a531397a32c4bfca0df4a98156f37adf089ca",
+    "params.go": "c520a84e2fb712c791ea64fe228bd64259f93a1f59399fdf162109aa22db05bd",
+    "pir.c": "744eb6ff6fd1c7e5ae91977eab175d8cfaa177165446e75c2edbee73b182e3c1",
+    "pir.go": "81c80ac872b215fc6e5161568241714b37ad4a0453979ec232b4fd0cde59b993",
+    "pir.h": "dde206eccaf7b58b641015945b4c672082dc18f2f3cf6693dc035b27c1a82d41",
+    "pir_test.go": "a086df6dc421690cf7cd4febe1bdf1bca990b02d73eece0ba33d6e83d6c9c5a8",
+    "rand.go": "15da8cea8ab4f77b6a29aa83c76cbda9465b97c0a2f143ef4c2704b8a97d34d3",
+    "simple_pir.go": "84d8cb9f016154827a1bbaa578a3dad2b7188526f91e5f3ca617bd89b8119f15",
+    "utils.go": "fe6d4b3c3a66a6fc6d07a12d0ee7139c57316ee684b836916ce15d7144de99a9"
+  },
+  "adapter_sha256": {
+    "scripts/simplepir_reference.py": "cbb6d8731fb8d86d1f0998c93bbe8a4abaed91f2fe95052f36b9721dbfb608c6",
+    "research/pir_reference/go/main.go": "679369bb7fa79d522a5ba0ca65d085a6ebd53117e29ad202ab2eddc1f4292a95",
+    "research/pir_reference/go/go.mod": "719d26044c962847a7eecd0ccdaa815afea35a3ec1877172a025a99185ff648f",
+    "research/pir_reference/naive/src/main.rs": "2725c0d64d36a2ca13eabe91086e41f49194265b767558be8614f0d0edb093c7",
+    "research/pir_reference/naive/Cargo.toml": "d017ef5edb8d87eba891618992662219e733ebfa26ed2bc670cd0cdad1593356",
+    "crates/oblivion-pir/src/lib.rs": "9f5cbef567ccd9e19335cbeecfc4e2d5d4a56448a26fc6ef82aba6e43402ecae"
+  },
+  "go": "go version go1.27.3-X:nodwarf5 linux/amd64",
+  "go_env": "1\nlinux\namd64",
+  "cc": "cc (GCC) 16.2.1 20260810\nCopyright (C) 2026 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+  "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13) (Arch Linux rust 1:1.99.1-1)\nbinary: rustc\ncommit-hash: 58cf8f9c35b355199727627d07ae34a4e2846d67\ncommit-date: 2026-10-13\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.1\nLLVM version: 23.1.3",
+  "platform": "Linux archlinux 7.2.11-arch1-1 #1 SMP PREEMPT_DYNAMIC Fri, 16 Oct 2026 00:28:58 +0000 x86_64 GNU/Linux",
+  "cpuinfo": "processor\t: 0\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 1333.092\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 0\ncpu cores\t: 16\napicid\t\t: 0\ninitial apicid\t: 0\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 1\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 800.568\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 0\ncpu cores\t: 16\napicid\t\t: 1\ninitial apicid\t: 1\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 2\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 1920.728\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 4\ncpu cores\t: 16\napicid\t\t: 8\ninitial apicid\t: 8\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 3\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 3038.335\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 4\ncpu cores\t: 16\napicid\t\t: 9\ninitial apicid\t: 9\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 4\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 1699.092\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 8\ncpu cores\t: 16\napicid\t\t: 16\ninitial apicid\t: 16\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 5\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 800.000\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 8\ncpu cores\t: 16\napicid\t\t: 17\ninitial apicid\t: 17\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 6\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 1522.197\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 12\ncpu cores\t: 16\napicid\t\t: 24\ninitial apicid\t: 24\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 7\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 800.000\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 12\ncpu cores\t: 16\napicid\t\t: 25\ninitial apicid\t: 25\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 8\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 800.250\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 16\ncpu cores\t: 16\napicid\t\t: 32\ninitial apicid\t: 32\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 9\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 800.000\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 16\ncpu cores\t: 16\napicid\t\t: 33\ninitial apicid\t: 33\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 10\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 1408.351\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 20\ncpu cores\t: 16\napicid\t\t: 40\ninitial apicid\t: 40\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 11\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 800.000\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 20\ncpu cores\t: 16\napicid\t\t: 41\ninitial apicid\t: 41\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 12\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 800.162\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 24\ncpu cores\t: 16\napicid\t\t: 48\ninitial apicid\t: 48\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 13\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 800.000\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 24\ncpu cores\t: 16\napicid\t\t: 49\ninitial apicid\t: 49\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 14\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 1376.814\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 28\ncpu cores\t: 16\napicid\t\t: 56\ninitial apicid\t: 56\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 15\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 802.124\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 28\ncpu cores\t: 16\napicid\t\t: 57\ninitial apicid\t: 57\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 16\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 3099.891\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 32\ncpu cores\t: 16\napicid\t\t: 64\ninitial apicid\t: 64\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 17\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 3121.396\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 33\ncpu cores\t: 16\napicid\t\t: 66\ninitial apicid\t: 66\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 18\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 3100.226\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 34\ncpu cores\t: 16\napicid\t\t: 68\ninitial apicid\t: 68\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 19\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 3099.886\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 35\ncpu cores\t: 16\napicid\t\t: 70\ninitial apicid\t: 70\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 20\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 3084.426\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 36\ncpu cores\t: 16\napicid\t\t: 72\ninitial apicid\t: 72\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 21\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 3097.167\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 37\ncpu cores\t: 16\napicid\t\t: 74\ninitial apicid\t: 74\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 22\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 2976.600\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 38\ncpu cores\t: 16\napicid\t\t: 76\ninitial apicid\t: 76\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\nprocessor\t: 23\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 183\nmodel name\t: Intel(R) Core(TM) i7-14650HX\nstepping\t: 1\nmicrocode\t: 0x137\ncpu MHz\t\t: 3111.617\ncache size\t: 30720 KB\nphysical id\t: 0\nsiblings\t: 24\ncore id\t\t: 39\ncpu cores\t: 16\napicid\t\t: 78\ninitial apicid\t: 78\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities\nvmx flags\t: vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid ple shadow_vmcs ept_violation_ve ept_mode_based_exec tsc_scaling usr_wait_pause\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb rfds bhi spectre_v2_user vmscape\nbogomips\t: 4838.40\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 39 bits physical, 48 bits virtual\npower management:\n\n",
+  "meminfo": "MemTotal:       16063516 kB\nMemFree:         1461696 kB\nMemAvailable:   10016984 kB\nBuffers:         1472032 kB\nCached:          7570164 kB\nSwapCached:          896 kB\nActive:          3827292 kB\nInactive:        7983856 kB\nActive(anon):    2995288 kB\nInactive(anon):   999980 kB\nActive(file):     832004 kB\nInactive(file):  6983876 kB\nUnevictable:      301524 kB\nMlocked:             200 kB\nSwapTotal:       4194300 kB\nSwapFree:        3344708 kB\nZswap:                 0 kB\nZswapped:              0 kB\nDirty:            131224 kB\nWriteback:             0 kB\nAnonPages:       2814376 kB\nMapped:          1566440 kB\nShmem:           1226100 kB\nKReclaimable:    1081208 kB\nSlab:            1348664 kB\nSReclaimable:    1080700 kB\nSUnreclaim:       267964 kB\nKernelStack:       24184 kB\nPageTables:       114360 kB\nSecPageTables:      2056 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:    12226056 kB\nCommitted_AS:   16462352 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:      148232 kB\nVmallocChunk:          0 kB\nPercpu:            24096 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:    604160 kB\nShmemHugePages:   471040 kB\nShmemPmdMapped:        0 kB\nFileHugePages:    194560 kB\nFilePmdMapped:    159744 kB\nCmaTotal:              0 kB\nCmaFree:               0 kB\nUnaccepted:            0 kB\nBalloon:               0 kB\nGPUActive:             0 kB\nGPUReclaim:            0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:      696576 kB\nDirectMap2M:    15781888 kB\nDirectMap1G:           0 kB\n",
+  "git_head": "b6907a58740b14df2aedbebce5071426be1eb725",
+  "git_status": "M Cargo.lock\n M crates/oblivion-exec/Cargo.toml\n M crates/oblivion-pir/src/lib.rs\n M scripts/simplepir_reference.py\n?? crates/oblivion-exec/examples/resource_measure.rs\n?? crates/oblivion-pir/examples/sqrt_measure.rs\n?? crates/oblivion-pir/src/sqrt.rs\n?? crates/oblivion-pir/tests/sqrt.rs\n?? docs/EXECUTOR_RESOURCES.md\n?? experiments/configs/executor-resources-30.json\n?? experiments/configs/simplepir-reference-100k.json\n?? experiments/results/executor-cpu-20261023/\n?? experiments/results/executor-resources-20261023/\n?? experiments/results/fault-campaign-30-20261023-retry/\n?? experiments/results/fault-campaign-30-20261023/\n?? experiments/results/runtime-extended-30-20261023/\n?? experiments/results/simplepir-100k-20261023/\n?? graft/\n?? research/tests/test_executor_resources.py\n?? research/tests/test_simplepir_campaign.py\n?? scripts/measure_executor_resources.py",
+  "limitations": [
+    "shared host; no CPU affinity; cached in-process microbenchmark, no network/AEAD",
+    "Go+cgo and Rust implementations differ",
+    "two XOR servers measured serially; no parallel wall-clock claim",
+    "SimplePIR real preprocessing, uncompressed shared matrix accounted separately",
+    "database distribution/replication excluded from PIR communication for both schemes"
+  ],
+  "configuration": {
+    "schema_version": 1,
+    "count": 10000,
+    "record_bytes": 8,
+    "trials": 30,
+    "queries_per_trial": 3334,
+    "seed": 9001,
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 61721,
+    "order_seed": 73191,
+    "reference_commit": "e9020b03bf2872c75b8954e749e32408b5db87ed",
+    "lwe_dimension": 1024,
+    "log_ciphertext_modulus": 32,
+    "reference_shared_matrix": "uncompressed",
+    "methodology": "30 fresh process/setup runs per scheme; one untimed warmup per process; 3334 deterministic public target indices per run, 100020 measured queries per scheme; real pinned SimplePIR LWE preprocessing and full 64-bit output oracle checks. Cryptographic randomness is freshly OS-seeded in each process; workload seed is public only. Frozen copied executables hashed before/after. In-process single-thread timings exclude network/authentication/compilation. Shared host; query outcomes share setup and are not independent setup trials.",
+    "compress_raw": true,
+    "write_aggregate": false
+  },
+  "commands_before_measurement": [
+    {
+      "argv": [
+        "go",
+        "build",
+        "-o",
+        "/home/xtrmn8/oblivion/research/pir_reference/build/simplepir-reference",
+        "."
+      ],
+      "cwd": "/home/xtrmn8/oblivion/research/pir_reference/go",
+      "log": "build-go.log"
+    },
+    {
+      "argv": [
+        "cargo",
+        "build",
+        "--release",
+        "--manifest-path",
+        "/home/xtrmn8/oblivion/research/pir_reference/naive/Cargo.toml"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "build-naive.log"
+    }
+  ],
+  "executable_after_sha256": {
+    "simplepir": "6236217c289a4651e3b002753858de490c7ae0a5a19725c2d26d0e41de9a4491",
+    "naive_xor": "c8bbb4cf526448dfda179db8146dc2081daa85a8a3da5b8ce9eaece29c2f037a"
+  },
+  "source_after_sha256": {
+    "scripts/simplepir_reference.py": "cbb6d8731fb8d86d1f0998c93bbe8a4abaed91f2fe95052f36b9721dbfb608c6",
+    "research/pir_reference/go/main.go": "679369bb7fa79d522a5ba0ca65d085a6ebd53117e29ad202ab2eddc1f4292a95",
+    "research/pir_reference/go/go.mod": "719d26044c962847a7eecd0ccdaa815afea35a3ec1877172a025a99185ff648f",
+    "research/pir_reference/naive/src/main.rs": "2725c0d64d36a2ca13eabe91086e41f49194265b767558be8614f0d0edb093c7",
+    "research/pir_reference/naive/Cargo.toml": "d017ef5edb8d87eba891618992662219e733ebfa26ed2bc670cd0cdad1593356",
+    "Cargo.toml": "6cfb12e5cf181f3d658e1cc27b6540e5cb6993868fb57f033ed2113dc833b10c",
+    "Cargo.lock": "039678f7b4740895248d500b6dbfe1feeb1869b8b3935235c41c72cd3d96afb0",
+    "crates/oblivion-pir/Cargo.toml": "839e74206bf67313bcb58ee61a53b16ac6980a1c54da4cc3148d1e586a26f006",
+    "crates/oblivion-pir/src/bin/pir-client.rs": "b3920ae19296bdfeaec7519c0ee3b3c11952883693e4166b4c893199d9d934fe",
+    "crates/oblivion-pir/src/bin/pir-server.rs": "49cfc0ed99fa3eeee4ad16ee06a310858ad3f124e1dffe14a7fa80ae619219c8",
+    "crates/oblivion-pir/src/bin/secure-pir-server.rs": "3a19f4c19b9cc0ec99ef20596bb1c7e77817392082522e87202cd6a7cb6da074",
+    "crates/oblivion-pir/src/lib.rs": "9f5cbef567ccd9e19335cbeecfc4e2d5d4a56448a26fc6ef82aba6e43402ecae",
+    "crates/oblivion-pir/src/secure.rs": "b57edea516c76c551b84cdb370e7fe805493808d76798b103fcf96a9c83447c5",
+    "crates/oblivion-pir/src/sqrt.rs": "256f55a44cbefba8497a11eaf3bb7ee7221a8dfa94ab2e803155571525b051a8",
+    "crates/oblivion-pir/src/wire.rs": "93624515c88388f369a68443467812d78fe3db1cceba0fa54cf27da8d8e49b13"
+  },
+  "measurement_sources_unchanged_after_build": true,
+  "commands": [
+    {
+      "argv": [
+        "go",
+        "build",
+        "-o",
+        "/home/xtrmn8/oblivion/research/pir_reference/build/simplepir-reference",
+        "."
+      ],
+      "cwd": "/home/xtrmn8/oblivion/research/pir_reference/go",
+      "log": "build-go.log"
+    },
+    {
+      "argv": [
+        "cargo",
+        "build",
+        "--release",
+        "--manifest-path",
+        "/home/xtrmn8/oblivion/research/pir_reference/naive/Cargo.toml"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "build-naive.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "9001",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-00.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-00.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-00.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "9001"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-00.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "26410947",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-01.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-01.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-01.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "26410947"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-01.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "52812893",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-02.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-02.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-02.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "52812893"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-02.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "79214839",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-03.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-03.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-03.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "79214839"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-03.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-04.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "105616785"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-04.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "105616785",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-04.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-04.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "132018731",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-05.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-05.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-05.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "132018731"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-05.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-06.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "158420677"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-06.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "158420677",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-06.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-06.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "184822623",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-07.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-07.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-07.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "184822623"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-07.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "211224569",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-08.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-08.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-08.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "211224569"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-08.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "237626515",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-09.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-09.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-09.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "237626515"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-09.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "264028461",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-10.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-10.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-10.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "264028461"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-10.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-11.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "290430407"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-11.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "290430407",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-11.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-11.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "316832353",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-12.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-12.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-12.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "316832353"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-12.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "343234299",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-13.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-13.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-13.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "343234299"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-13.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-14.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "369636245"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-14.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "369636245",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-14.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-14.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-15.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "396038191"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-15.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "396038191",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-15.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-15.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "422440137",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-16.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-16.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-16.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "422440137"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-16.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-17.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "448842083"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-17.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "448842083",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-17.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-17.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "475244029",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-18.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-18.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-18.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "475244029"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-18.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "501645975",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-19.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-19.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-19.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "501645975"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-19.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "528047921",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-20.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-20.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-20.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "528047921"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-20.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-21.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "554449867"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-21.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "554449867",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-21.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-21.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "580851813",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-22.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-22.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-22.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "580851813"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-22.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "607253759",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-23.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-23.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-23.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "607253759"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-23.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "633655705",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-24.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-24.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-24.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "633655705"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-24.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-25.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "660057651"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-25.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "660057651",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-25.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-25.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-26.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "686459597"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-26.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "686459597",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-26.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-26.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "712861543",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-27.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-27.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-27.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "712861543"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-27.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-28.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "739263489"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-28.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "739263489",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-28.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-28.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/oblivion-naive-pir-reference",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/naive_xor-29.jsonl",
+        "10000",
+        "1",
+        "3334",
+        "765665435"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "naive_xor-29.log"
+    },
+    {
+      "argv": [
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/bin/simplepir-reference",
+        "-count",
+        "10000",
+        "-trials",
+        "1",
+        "-queries",
+        "3334",
+        "-seed",
+        "765665435",
+        "-output",
+        "/home/xtrmn8/oblivion/experiments/results/simplepir-100k-20261023/simplepir-29.jsonl"
+      ],
+      "cwd": "/home/xtrmn8/oblivion",
+      "log": "simplepir-29.log"
+    }
+  ],
+  "finished_utc": "2026-10-22T20:33:48.964797+00:00",
+  "result_sha256": {
+    "build-go.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "build-naive.log": "4674c2edc1b2c0991aea56842b82d834d8022a7c5730d11e00b83c1bde2fbb10",
+    "config.json": "b07649f8ba50571ad5a0c062a87c70627c5a04693e07eb4f2a9638e16e749ce4",
+    "metadata-before.json": "713a0b826d9d5ebd224ca2efc3f84ca56e111558601ef394b36a10d91a85e557",
+    "naive_xor-00.jsonl.gz": "9c81c513bed8ed40073849e39c573bbab5018fe503aeff1eda35fa018f026238",
+    "naive_xor-00.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-01.jsonl.gz": "30ac276b9be6eeff1c277212912c3b75ec06df5fd6dd09be2ddea74a8c1a92cf",
+    "naive_xor-01.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-02.jsonl.gz": "d8a6593b6a7994dfc92c97c87642ca817ba5e3b743fa8067435d758f4e216dee",
+    "naive_xor-02.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-03.jsonl.gz": "f531330352d527238cf5a50253cd8d445a44b1a30b18e34462f6b731ef67138b",
+    "naive_xor-03.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-04.jsonl.gz": "5ee31012f4c6ce06c951bceb8a157fdd2c211f282bc5e7900f898deda34a034b",
+    "naive_xor-04.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-05.jsonl.gz": "cce4c84332a3d1049349660d47715a93b273e2ff3a8077cf5fbea68f8ccdee92",
+    "naive_xor-05.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-06.jsonl.gz": "bd1fd9fbe8b038b2516ff324756a02e2640348cd46285f7754b8bee5df71e92c",
+    "naive_xor-06.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-07.jsonl.gz": "bc93ebcbe6c15321c81fb3fb72cac2cc4fb743110b0fabfd82387c2b3003b6be",
+    "naive_xor-07.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-08.jsonl.gz": "e6163111e569cc934fc02152ffa0e04b45669d6f7bd4f07376d3271a9290afad",
+    "naive_xor-08.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-09.jsonl.gz": "8a084c932058a703406d26a68c42664cd5eaaf938355c735933e3258c37417a1",
+    "naive_xor-09.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-10.jsonl.gz": "e9f785753fc62ef02b087338dfc9aa77f8333326a22395e125aeb541d1553f54",
+    "naive_xor-10.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-11.jsonl.gz": "f88e1b71c9e8eb6296bd12a1b22b8648b87034245efdc8d85e4d16159a16e4c8",
+    "naive_xor-11.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-12.jsonl.gz": "e4b1085396812ac29a16d262a44010481b7343572f8b3d51d222090fb104067a",
+    "naive_xor-12.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-13.jsonl.gz": "24f47c6f2aeadd83a962bcc137a3893c6d6aae17472478fa1d6635d423205e44",
+    "naive_xor-13.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-14.jsonl.gz": "0c8715d00c15670c3835bc661cb8427ef291fa492f321a67562c40e91d0912d8",
+    "naive_xor-14.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-15.jsonl.gz": "b06f1d882c87b9c54caf891f10b99a80040f14e006ce11776ef63887c94bec40",
+    "naive_xor-15.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-16.jsonl.gz": "cdfb3e973db5578c933e870f2d75dea22c74eb25c61861e53500c59d329058d4",
+    "naive_xor-16.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-17.jsonl.gz": "d14cea99b0d24583fe47fdd88f6fe34b521557a7eca0d1f5946a41afb67c2b53",
+    "naive_xor-17.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-18.jsonl.gz": "edb396634b529b473c01f1fbb1c3550ace2f0be2274974f55abfeea86bedc141",
+    "naive_xor-18.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-19.jsonl.gz": "53bc781c2705ef7e890a62eef1ce01f61bc4ebf428e96fce0e00477813e0bc90",
+    "naive_xor-19.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-20.jsonl.gz": "0266f1f0c4340c28aa299e760acf547cca5127b732b4a352c1909aed8e8fb7f5",
+    "naive_xor-20.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-21.jsonl.gz": "6dec7d55e8c9cfd2ba0bf6877fde8832623e32e11be36286785b0b6a29339a70",
+    "naive_xor-21.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-22.jsonl.gz": "1e5816f7de598582145ded4b3e54b8f496dad91898b0b332f378fc0b5146db7f",
+    "naive_xor-22.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-23.jsonl.gz": "0807ee1acc818563f74487aab91c8b683d6dfffc912e6a3bd8a1c1662335a352",
+    "naive_xor-23.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-24.jsonl.gz": "b2fbe9407f3dfa66e6d8f5d3bad33f34aefa583cdd6b0ad4c729b34d6be2c8a0",
+    "naive_xor-24.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-25.jsonl.gz": "576710e5bf5c8474aa3a0da50abb7434a40c2294244a880c36e1984bd903906c",
+    "naive_xor-25.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-26.jsonl.gz": "e6d3f8c27a47b868883ca640c1a747d71993487e6a30db3c3b8ed74fbf67968d",
+    "naive_xor-26.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-27.jsonl.gz": "139cdbfb1547d9150642fc250edbb13634c224cd3ac8c881f35e79256d8cbefd",
+    "naive_xor-27.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-28.jsonl.gz": "3ae03d0616d3360e752424035d4351a035c359a5877ee01a3a6e6d0513891cf0",
+    "naive_xor-28.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "naive_xor-29.jsonl.gz": "8144aea76041cb6180724d050a006558501e58aca898b160e1a5ad7f025623e0",
+    "naive_xor-29.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "simplepir-00.jsonl.gz": "8e0aa49a0d6a7ff433f8606634c16a6320ef067a9cc49e8c8f324efba572ace2",
+    "simplepir-00.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-01.jsonl.gz": "f711a04cdf683c113ff2fa37565bd96c1fe50bf816c8fb93d54843fd520370b3",
+    "simplepir-01.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-02.jsonl.gz": "2f164768d66af80226574e344720316aca45300ccb918e152b75e46caa67ed0f",
+    "simplepir-02.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-03.jsonl.gz": "8be387e8eeec5c00470165092cfdd6aec9beccf0f1e2e513f64872616bca3183",
+    "simplepir-03.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-04.jsonl.gz": "85f41dfb217ebfd9bff9f3a8033c83e1d19751bcd5ac4dff8ac09e259618ddd3",
+    "simplepir-04.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-05.jsonl.gz": "4a63b04972a1c77afa0a4fac18cb71edd2d9bf28016875504e1b09536a137112",
+    "simplepir-05.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-06.jsonl.gz": "f44eba17518b3ed0c7eb9ed417e1a6b159412436bae60d4396b66e9c1e07051c",
+    "simplepir-06.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-07.jsonl.gz": "9a1cab10527989e21aabefb2a6e211280a64d62fb274b797038b1ff1760fe853",
+    "simplepir-07.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-08.jsonl.gz": "029ab140d4cb80d1ffafd2bdc1f0b7761b71f6ff916936085b6923ad55eb5dc5",
+    "simplepir-08.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-09.jsonl.gz": "2e387a64cfb92df662a9d8632bad1c754df1dd768f957badea5849d27673a52e",
+    "simplepir-09.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-10.jsonl.gz": "155eda834f49bc2a3c0780d0919bd8ec0e975112eeb51d6876ce4669108b4004",
+    "simplepir-10.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-11.jsonl.gz": "b94ce1a760c5206453d7be040981ad3486b3effe6b85e6903e93aefbd11d94f6",
+    "simplepir-11.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-12.jsonl.gz": "a8305c50341aa4c121d565988627ae5fb76ce9ad1ce358cf0b29489fc5064ea3",
+    "simplepir-12.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-13.jsonl.gz": "745d09a8a35adb0deab33a1a6af8bdf56750c32bdc326adbaa26c69d82522aa1",
+    "simplepir-13.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-14.jsonl.gz": "2880c942ce1651a0879d9e294cf1fe50261cd34d8bcc7f95cc17e87d89c9441f",
+    "simplepir-14.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-15.jsonl.gz": "bb4f539848cf2028dd1c019fc0382cb5d43be67fd273758c6a94f18938a0ea46",
+    "simplepir-15.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-16.jsonl.gz": "eef5af0bd358f42975a95fb687ac2dcd8f9e5149519ba8b2ded607ee95d7754a",
+    "simplepir-16.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-17.jsonl.gz": "2e8b324efb2334f280e3f1abb56f16c0f71bd6d84e9b54aafeb0cae236dc1e0d",
+    "simplepir-17.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-18.jsonl.gz": "da751be95ec17088a06ecd49c2e4e00acc7e1d8aca32c753f50312e4bfa491a2",
+    "simplepir-18.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-19.jsonl.gz": "92a60c91c223f825e75c99660121c61b2b71699e3686a21598d2fe492e680496",
+    "simplepir-19.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-20.jsonl.gz": "6786f04cd4a8d12f1fed0113ab0f388095f27aead4924b41f5d34ece45c0d57e",
+    "simplepir-20.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-21.jsonl.gz": "07685a756a384e6c575232dd59b7e3a8b9ded080d309bcbe29ddf4a94c69f7e6",
+    "simplepir-21.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-22.jsonl.gz": "68a982c28a63aff6cc66e1f4b220b392b68f0b66926915b4a4dec53123a9e3c2",
+    "simplepir-22.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-23.jsonl.gz": "d62a7c29a598bddbc13798ac0c8a99287ab3e00992dfdb38e43e51cf4160c44e",
+    "simplepir-23.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-24.jsonl.gz": "f46838ec0efb81c8925f36904ed0afa106f13340212fecad163687e630c79e2a",
+    "simplepir-24.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-25.jsonl.gz": "9de447d87bfd95b762f0be48924299745980e1032ee522e5545c93f75932d516",
+    "simplepir-25.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-26.jsonl.gz": "063b571b9c7f43a95cba0d3e1198be4211c4483b1b530ed3bc879915d6a3dbc5",
+    "simplepir-26.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-27.jsonl.gz": "df8d38134b252dc30d37baf6c85192e3c1753c0fbb35b85098ebb786ef81cf3c",
+    "simplepir-27.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-28.jsonl.gz": "ebceb4454d3454dfcf4b17a7e81100e90c831f3b04a7ef45aab48eef21da94f6",
+    "simplepir-28.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "simplepir-29.jsonl.gz": "c5af6ff1065ff0ceef97a56c8d0921a616c4df4dc367514084ef1fd239ce30e5",
+    "simplepir-29.log": "69944a9bf3f7564074e29fae7162254a429527b947f2d475c76d0a2df133a7c2",
+    "summary.json": "da95420566836b07eec9bcae6ee1c5312384d77ea72cd0c3a70292962de65914"
+  }
+}

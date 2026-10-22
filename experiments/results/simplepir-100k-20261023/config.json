@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "count": 10000,
+  "record_bytes": 8,
+  "trials": 30,
+  "queries_per_trial": 3334,
+  "seed": 9001,
+  "bootstrap_resamples": 10000,
+  "bootstrap_seed": 61721,
+  "order_seed": 73191,
+  "reference_commit": "e9020b03bf2872c75b8954e749e32408b5db87ed",
+  "lwe_dimension": 1024,
+  "log_ciphertext_modulus": 32,
+  "reference_shared_matrix": "uncompressed",
+  "methodology": "30 fresh process/setup runs per scheme; one untimed warmup per process; 3334 deterministic public target indices per run, 100020 measured queries per scheme; real pinned SimplePIR LWE preprocessing and full 64-bit output oracle checks. Cryptographic randomness is freshly OS-seeded in each process; workload seed is public only. Frozen copied executables hashed before/after. In-process single-thread timings exclude network/authentication/compilation. Shared host; query outcomes share setup and are not independent setup trials.",
+  "compress_raw": true,
+  "write_aggregate": false
+}
