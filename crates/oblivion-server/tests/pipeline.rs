@@ -1,5 +1,53 @@
 use rand::RngCore;
 use std::{fs, process::Command};
+
+// Called only by failed assertions for these synthetic integration fixtures.
+// Never attach private runtime records to the public protocol or observer log.
+fn fixture_diagnostics(path: &std::path::Path) -> String {
+    use std::io::{Read, Seek, SeekFrom};
+    let mut message = format!("synthetic fixture retained at {}", path.display());
+    for name in ["executor-private.jsonl", "publication-private.jsonl"] {
+        let tail = (|| -> std::io::Result<String> {
+            let mut file = fs::File::open(path.join(name))?;
+            let offset = file.metadata()?.len().saturating_sub(1024);
+            file.seek(SeekFrom::Start(offset))?;
+            let mut bytes = Vec::new();
+            file.take(1024).read_to_end(&mut bytes)?;
+            let text = String::from_utf8_lossy(&bytes);
+            let mut rows: Vec<_> = text.lines().rev().take(4).collect();
+            rows.reverse();
+            Ok(rows.join("\n"))
+        })();
+        match tail {
+            Ok(rows) => message.push_str(&format!("\n{name} (last <=1024 bytes/4 rows):\n{rows}")),
+            Err(error) => message.push_str(&format!("\n{name}: unavailable ({error})")),
+        }
+    }
+    message
+}
+
+#[test]
+fn failure_diagnostics_are_bounded_and_keep_private_tail_or_missing_reason() {
+    let path = std::env::temp_dir().join(format!(
+        "oblivion-diagnostic-{}",
+        rand::rngs::OsRng.next_u64()
+    ));
+    fs::create_dir(&path).unwrap();
+    fs::write(
+        path.join("executor-private.jsonl"),
+        format!(
+            "old-record\n{}\n{{\"status\":\"Timeout\",\"epoch\":7}}\n",
+            "x".repeat(10000)
+        ),
+    )
+    .unwrap();
+    let message = fixture_diagnostics(&path);
+    assert!(message.contains("Timeout"));
+    assert!(message.contains("publication-private.jsonl: unavailable"));
+    assert!(!message.contains("old-record"));
+    assert!(message.len() < 8192);
+    fs::remove_dir_all(path).unwrap();
+}
 #[test]
 fn actual_process_pipeline_real_dummy_and_oram_state() {
     let path = std::env::temp_dir().join(format!(
@@ -12,8 +60,9 @@ fn actual_process_pipeline_real_dummy_and_oram_state() {
         .unwrap();
     assert!(
         output.status.success(),
-        "{}",
-        String::from_utf8_lossy(&output.stderr)
+        "{}\n{}",
+        String::from_utf8_lossy(&output.stderr),
+        fixture_diagnostics(&path)
     );
     let summary: serde_json::Value =
         serde_json::from_slice(&fs::read(path.join("client-summary.json")).unwrap()).unwrap();
@@ -68,7 +117,12 @@ fn invalid_selection_and_reserved_dummy_address_do_not_mutate_user_state() {
         let result = client
             .receive(&Envelope::from_bytes(&frame).unwrap())
             .unwrap();
-        assert_eq!(result[0], u8::from(expected_error));
+        assert_eq!(
+            result[0],
+            u8::from(expected_error),
+            "{}",
+            fixture_diagnostics(&path)
+        );
         if !expected_error {
             assert_eq!(
                 u32::from_le_bytes(result[1..5].try_into().unwrap()),
@@ -91,8 +145,9 @@ fn multiple_clients_execute_mixed_functions_with_isolated_state_and_fixed_traces
         .unwrap();
     assert!(
         output.status.success(),
-        "{}",
-        String::from_utf8_lossy(&output.stderr)
+        "{}\n{}",
+        String::from_utf8_lossy(&output.stderr),
+        fixture_diagnostics(&path)
     );
     let summary: serde_json::Value =
         serde_json::from_slice(&fs::read(path.join("client-summary.json")).unwrap()).unwrap();
@@ -128,8 +183,9 @@ fn sse_metadata_discovery_precedes_real_mixed_invocation() {
         .unwrap();
     assert!(
         output.status.success(),
-        "{}",
-        String::from_utf8_lossy(&output.stderr)
+        "{}\n{}",
+        String::from_utf8_lossy(&output.stderr),
+        fixture_diagnostics(&path)
     );
     let summary: serde_json::Value =
         serde_json::from_slice(&fs::read(path.join("client-summary.json")).unwrap()).unwrap();
@@ -315,7 +371,7 @@ fn lost_pir_server_returns_authenticated_zero_error_without_user_state() {
     // Ensure cleanup even when the assertion catches a disclosed dummy result.
     drop(input);
     assert!(bounded_exit(&mut child, Duration::from_secs(3)).success());
-    assert_eq!(result[0], 1);
+    assert_eq!(result[0], 1, "{}", fixture_diagnostics(&path));
     assert!(
         result[1..].iter().all(|&b| b == 0),
         "PIR failure must not disclose dummy output"
@@ -472,10 +528,10 @@ fn tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched() {
             .receive(&Envelope::from_bytes(&response).unwrap())
             .unwrap();
         if epoch == 0 {
-            assert_eq!(result[0], 1);
+            assert_eq!(result[0], 1, "{}", fixture_diagnostics(&path));
             assert!(result[1..].iter().all(|&b| b == 0));
         } else {
-            assert_eq!(result[0], 0);
+            assert_eq!(result[0], 0, "{}", fixture_diagnostics(&path));
             assert_eq!(u32::from_le_bytes(result[1..5].try_into().unwrap()), 1);
         }
     }
@@ -538,8 +594,9 @@ fn open_loop_arrivals_continue_while_executor_is_busy_and_queue_is_bounded() {
         .unwrap();
     assert!(
         output.status.success(),
-        "{}",
-        String::from_utf8_lossy(&output.stderr)
+        "{}\n{}",
+        String::from_utf8_lossy(&output.stderr),
+        fixture_diagnostics(&path)
     );
     let summary: serde_json::Value =
         serde_json::from_slice(&fs::read(path.join("open-loop-summary.json")).unwrap()).unwrap();
@@ -594,8 +651,9 @@ fn open_loop_underload_completes_every_offered_stateful_request() {
         .unwrap();
     assert!(
         output.status.success(),
-        "{}",
-        String::from_utf8_lossy(&output.stderr)
+        "{}\n{}",
+        String::from_utf8_lossy(&output.stderr),
+        fixture_diagnostics(&path)
     );
     let summary: serde_json::Value =
         serde_json::from_slice(&fs::read(path.join("open-loop-summary.json")).unwrap()).unwrap();

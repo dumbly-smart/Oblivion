@@ -69,7 +69,7 @@ def main():
     environment = os.environ.copy()
     environment.update({name: str((ROOT/path).resolve()) for name, path in FIXTURES.items()})
     metadata = dict(schema_version=2, source_sha256_before=before, platform=platform.platform(), python=sys.version,
-                    configuration='locked workspace + real release fixtures + explicit million-operation stress',
+                    configuration='locked workspace + serial Rust correctness fixtures + real release fixtures + explicit million-operation stress',
                     include_reference=args.with_reference, fixture_environment={name: environment[name] for name in FIXTURES},
                     digest_scope='source, guest WAT, manifests/locks, CI and experiment configs; caches/upstream/result snapshots excluded',
                     output=str(args.output.resolve()))
