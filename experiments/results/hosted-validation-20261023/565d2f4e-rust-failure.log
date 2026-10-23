@@ -1,0 +1,300 @@
+rust	Run cargo test --locked --workspace	﻿2026-10-23T14:28:03.7776757Z ##[group]Run cargo test --locked --workspace
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:03.7777194Z ^[[36;1mcargo test --locked --workspace^[[0m
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:03.7840561Z shell: /usr/bin/bash -e {0}
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:03.7840855Z env:
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:03.7841096Z   CARGO_HOME: /home/runner/.cargo
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:03.7841411Z   CARGO_INCREMENTAL: 0
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:03.7841681Z   CARGO_TERM_COLOR: always
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:03.7841961Z ##[endgroup]
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:03.9024332Z ^[[1m^[[92m   Compiling^[[0m cfg-if v1.0.5
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:03.9025612Z ^[[1m^[[92m   Compiling^[[0m libc v0.2.191
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:03.9026893Z ^[[1m^[[92m   Compiling^[[0m typenum v1.20.1
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:03.9057408Z ^[[1m^[[92m   Compiling^[[0m serde_core v1.0.229
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:03.9358919Z ^[[1m^[[92m   Compiling^[[0m subtle v2.6.1
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:04.0357492Z ^[[1m^[[92m   Compiling^[[0m cpufeatures v0.2.17
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:04.0735177Z ^[[1m^[[92m   Compiling^[[0m thiserror v2.0.21
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:04.1167409Z ^[[1m^[[92m   Compiling^[[0m zerocopy v0.8.63
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:04.5866603Z ^[[1m^[[92m   Compiling^[[0m generic-array v0.14.7
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:04.9627512Z ^[[1m^[[92m   Compiling^[[0m getrandom v0.2.17
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:05.0652904Z ^[[1m^[[92m   Compiling^[[0m rand_core v0.6.4
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:05.1097499Z ^[[1m^[[92m   Compiling^[[0m block-buffer v0.10.4
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:05.1697145Z ^[[1m^[[92m   Compiling^[[0m crypto-common v0.1.7
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:05.1937632Z ^[[1m^[[92m   Compiling^[[0m inout v0.1.4
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:05.2217893Z ^[[1m^[[92m   Compiling^[[0m digest v0.10.7
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:05.2547653Z ^[[1m^[[92m   Compiling^[[0m zeroize v1.9.1
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:05.3467586Z ^[[1m^[[92m   Compiling^[[0m cipher v0.4.4
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:05.3727295Z ^[[1m^[[92m   Compiling^[[0m sha2 v0.10.9
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:05.4858414Z ^[[1m^[[92m   Compiling^[[0m universal-hash v0.5.1
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:05.5347319Z ^[[1m^[[92m   Compiling^[[0m opaque-debug v0.3.1
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:05.5557273Z ^[[1m^[[92m   Compiling^[[0m poly1305 v0.8.0
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:05.6627485Z ^[[1m^[[92m   Compiling^[[0m chacha20 v0.9.1
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:05.7895378Z ^[[1m^[[92m   Compiling^[[0m hmac v0.12.1
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:05.8429456Z ^[[1m^[[92m   Compiling^[[0m aead v0.5.2
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:05.8531759Z ^[[1m^[[92m   Compiling^[[0m hkdf v0.12.4
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:05.9106875Z ^[[1m^[[92m   Compiling^[[0m chacha20poly1305 v0.10.1
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:05.9120338Z ^[[1m^[[92m   Compiling^[[0m memchr v2.8.3
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:05.9644325Z ^[[1m^[[92m   Compiling^[[0m zmij v1.0.23
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:06.2256429Z ^[[1m^[[92m   Compiling^[[0m serde v1.0.229
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:06.2543736Z ^[[1m^[[92m   Compiling^[[0m itoa v1.0.18
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:06.3597404Z ^[[1m^[[92m   Compiling^[[0m serde_json v1.0.154
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:06.4687273Z ^[[1m^[[92m   Compiling^[[0m hashbrown v0.17.1
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:06.7488228Z ^[[1m^[[92m   Compiling^[[0m anyhow v1.0.104
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:06.9887293Z ^[[1m^[[92m   Compiling^[[0m allocator-api2 v0.2.21
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:07.0238767Z ^[[1m^[[92m   Compiling^[[0m wasmtime-internal-core v49.0.4
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:07.2597474Z ^[[1m^[[92m   Compiling^[[0m equivalent v1.0.3
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:07.2917740Z ^[[1m^[[92m   Compiling^[[0m indexmap v2.14.2
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:07.3557755Z ^[[1m^[[92m   Compiling^[[0m bumpalo v3.20.3
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:07.5347537Z ^[[1m^[[92m   Compiling^[[0m cranelift-bitset v0.136.4
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:07.5517318Z ^[[1m^[[92m   Compiling^[[0m smallvec v1.16.3
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:07.6619185Z ^[[1m^[[92m   Compiling^[[0m cranelift-entity v0.136.4
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:07.7097410Z ^[[1m^[[92m   Compiling^[[0m cobs v0.3.0
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:07.8017548Z ^[[1m^[[92m   Compiling^[[0m ppv-lite86 v0.2.21
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:07.8427597Z ^[[1m^[[92m   Compiling^[[0m hashbrown v0.16.1
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:07.9197477Z ^[[1m^[[92m   Compiling^[[0m bitflags v2.13.2
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:07.9767308Z ^[[1m^[[92m   Compiling^[[0m fnv v1.0.7
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:08.0057336Z ^[[1m^[[92m   Compiling^[[0m leb128fmt v0.1.0
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:08.0597762Z ^[[1m^[[92m   Compiling^[[0m cranelift-bforest v0.136.4
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:08.0857294Z ^[[1m^[[92m   Compiling^[[0m postcard v1.1.3
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:08.1117926Z ^[[1m^[[92m   Compiling^[[0m rand_chacha v0.3.1
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:08.2867384Z ^[[1m^[[92m   Compiling^[[0m rand v0.8.8
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:08.3567520Z ^[[1m^[[92m   Compiling^[[0m gimli v0.33.0
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:08.3667828Z ^[[1m^[[92m   Compiling^[[0m target-lexicon v0.13.5
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:08.3847189Z ^[[1m^[[92m   Compiling^[[0m arbitrary v1.5.0
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:08.6237676Z ^[[1m^[[92m   Compiling^[[0m rustc-hash v2.1.3
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:08.6677281Z ^[[1m^[[92m   Compiling^[[0m regalloc2 v0.15.2
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:08.8737931Z ^[[1m^[[92m   Compiling^[[0m oblivion-pir v0.1.0 (/home/runner/work/Oblivion/Oblivion/crates/oblivion-pir)
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:09.1237649Z ^[[1m^[[92m   Compiling^[[0m cranelift-control v0.136.4
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:09.1558172Z ^[[1m^[[92m   Compiling^[[0m cranelift-assembler-x64 v0.136.4
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:09.2397396Z ^[[1m^[[92m   Compiling^[[0m pulley-interpreter v49.0.4
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:11.0417412Z ^[[1m^[[92m   Compiling^[[0m semver v1.0.28
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:11.2517746Z ^[[1m^[[92m   Compiling^[[0m wasmparser v0.258.3
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:11.9458883Z ^[[1m^[[92m   Compiling^[[0m oblivion-store v0.1.0 (/home/runner/work/Oblivion/Oblivion/crates/oblivion-store)
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:12.2929460Z ^[[1m^[[92m   Compiling^[[0m crc32fast v1.5.3
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:12.4108138Z ^[[1m^[[92m   Compiling^[[0m termcolor v1.4.1
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:12.6287406Z ^[[1m^[[92m   Compiling^[[0m object v0.40.0
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:17.0227714Z ^[[1m^[[92m   Compiling^[[0m oblivion-batcher v0.1.0 (/home/runner/work/Oblivion/Oblivion/crates/oblivion-batcher)
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:17.2987639Z ^[[1m^[[92m   Compiling^[[0m wasmprinter v0.258.3
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:19.2137451Z ^[[1m^[[92m   Compiling^[[0m wasm-encoder v0.258.3
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:19.5297279Z ^[[1m^[[92m   Compiling^[[0m cranelift-codegen v0.136.4
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:19.5947786Z ^[[1m^[[92m   Compiling^[[0m wasmtime-internal-component-util v49.0.4
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:19.6335784Z ^[[1m^[[92m   Compiling^[[0m wasm-encoder v0.262.0
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:20.0238222Z ^[[1m^[[92m   Compiling^[[0m linux-raw-sys v0.12.1
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:20.2997722Z ^[[1m^[[92m   Compiling^[[0m wasmtime-environ v49.0.4
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:20.3787491Z ^[[1m^[[92m   Compiling^[[0m unicode-width v0.2.2
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:20.5428436Z ^[[1m^[[92m   Compiling^[[0m either v1.19.0
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:20.7007518Z ^[[1m^[[92m   Compiling^[[0m itertools v0.14.0
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:20.8107816Z ^[[1m^[[92m   Compiling^[[0m wast v262.0.0
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:21.9837468Z ^[[1m^[[92m   Compiling^[[0m rustix v1.1.5
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:24.3877293Z ^[[1m^[[92m   Compiling^[[0m memfd v0.6.6
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:24.4877437Z ^[[1m^[[92m   Compiling^[[0m wasmtime-internal-jit-icache-coherence v49.0.4
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:24.5174745Z ^[[1m^[[92m   Compiling^[[0m once_cell v1.21.4
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:24.6474338Z ^[[1m^[[92m   Compiling^[[0m cpu-time v1.0.0
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:24.7078800Z ^[[1m^[[92m   Compiling^[[0m oblivion-sse v0.1.0 (/home/runner/work/Oblivion/Oblivion/crates/oblivion-sse)
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:25.9608618Z ^[[1m^[[92m   Compiling^[[0m wat v1.262.0
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:36.7109158Z ^[[1m^[[92m   Compiling^[[0m cranelift-native v0.136.4
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:36.7117105Z ^[[1m^[[92m   Compiling^[[0m wasmtime-internal-unwinder v49.0.4
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:36.7117938Z ^[[1m^[[92m   Compiling^[[0m cranelift-frontend v0.136.4
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:37.0126329Z ^[[1m^[[92m   Compiling^[[0m wasmtime-internal-cranelift v49.0.4
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:40.1415317Z ^[[1m^[[92m   Compiling^[[0m wasmtime v49.0.4
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:43.8672617Z ^[[1m^[[92m   Compiling^[[0m oblivion-exec v0.1.0 (/home/runner/work/Oblivion/Oblivion/crates/oblivion-exec)
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:44.8467531Z ^[[1m^[[92m   Compiling^[[0m oblivion-harness v0.1.0 (/home/runner/work/Oblivion/Oblivion/crates/oblivion-harness)
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:46.3077798Z ^[[1m^[[92m   Compiling^[[0m oblivion-server v0.1.0 (/home/runner/work/Oblivion/Oblivion/crates/oblivion-server)
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0681726Z ^[[1m^[[92m    Finished^[[0m `test` profile [unoptimized] target(s) in 44.26s
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0778259Z ^[[1m^[[92m     Running^[[0m unittests src/lib.rs (target/debug/deps/oblivion_batcher-368d139f39272e2b)
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0788995Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0789190Z running 0 tests
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0789458Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0791412Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0793070Z ^[[1m^[[92m     Running^[[0m tests/epochs.rs (target/debug/deps/epochs-f01fbaf01e35f4cc)
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0793764Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0800772Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0800992Z running 6 tests
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0816922Z test queues_reject_future_epochs_and_out_of_range_slots ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0818086Z test bootstrap_over_private_pipe_preserves_directional_keys ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0819063Z test delayed_unseen_response_cannot_satisfy_a_new_request ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0827219Z test tamper_wrong_direction_and_unknown_participant_are_rejected ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0848375Z test fixed_batches_across_real_ratios_and_missing_clients ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0862329Z test real_and_dummy_envelopes_have_same_shape_and_replay_is_rejected ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0862963Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0863398Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0864033Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0864746Z ^[[1m^[[92m     Running^[[0m unittests src/lib.rs (target/debug/deps/oblivion_exec-df6c577069c03e5d)
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0874400Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0874722Z running 0 tests
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0874895Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0875154Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0875776Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0878372Z ^[[1m^[[92m     Running^[[0m tests/execution.rs (target/debug/deps/execution-4ba2d8b456ea189a)
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0895723Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.0895862Z running 5 tests
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.2093530Z test deadline_interrupts_guest_with_large_fuel_budget ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.2125989Z test deliberately_unpadded_baseline_returns_actual_guest_length ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.6242716Z test medium_class_runs_real_modules_and_pads_errors_to_its_own_public_size ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.7431162Z test invalid_input_traps_fuel_and_memory_failures_have_uniform_shape ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.7671099Z test executes_five_real_modules_with_fixed_responses_and_padding ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.7671554Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.7671880Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.68s
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.7672355Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.7679518Z ^[[1m^[[92m     Running^[[0m tests/storage_schedule.rs (target/debug/deps/storage_schedule-7e41f76475e26306)
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.7700345Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.7700516Z running 5 tests
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.8901134Z test guest_write_followed_by_trap_is_not_committed ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:48.9646726Z test trusted_driver_can_prepare_before_owning_the_response_publication_deadline ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:49.0191550Z test staging_budget_accounts_for_rollback_and_mutable_copies ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:49.3942810Z test namespaces_prevent_guest_cross_client_and_dummy_accesses ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:49.4192099Z test protected_functions_and_failures_have_identical_storage_structure ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:49.4192735Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:49.4193379Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.65s
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:49.4194180Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:49.4201768Z ^[[1m^[[92m     Running^[[0m unittests src/main.rs (target/debug/deps/oblivion_harness-4fcfba5ccd0123ed)
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:49.4222535Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:49.4222707Z running 2 tests
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:49.4232777Z test tests::traffic_oracle_rejects_corrupt_success_and_unmasked_or_wrong_shape_errors ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:49.6452381Z test tests::real_guest_timeouts_are_recorded_with_actual_masked_shapes_and_private_status ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:49.6453567Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:49.6454239Z test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.22s
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:49.6455249Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:49.6460774Z ^[[1m^[[92m     Running^[[0m tests/dataset.rs (target/debug/deps/dataset-cabf9c57dd8644ea)
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:49.6471832Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:28:49.6472033Z running 1 test
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:16.3228344Z test component_dataset_uses_actual_lengths_and_separate_labels ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:16.3229309Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:16.3229763Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 26.68s
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:16.3230406Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:16.3231138Z ^[[1m^[[92m     Running^[[0m tests/system.rs (target/debug/deps/system-fb9c085cd0396b44)
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:16.3240533Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:16.3240749Z running 1 test
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2491680Z test actual_ablation_paths_emit_joint_observers_and_separate_truth ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2492570Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2493217Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 10.93s
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2494130Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2495178Z ^[[1m^[[92m     Running^[[0m unittests src/lib.rs (target/debug/deps/oblivion_pir-c0550a884513576e)
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2504953Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2505267Z running 0 tests
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2505557Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2506428Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2507283Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2508179Z ^[[1m^[[92m     Running^[[0m unittests src/bin/pir-client.rs (target/debug/deps/pir_client-0f6f661a0c6b0fd6)
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2517183Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2517407Z running 0 tests
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2517729Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2518302Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2519222Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2519824Z ^[[1m^[[92m     Running^[[0m unittests src/bin/pir-server.rs (target/debug/deps/pir_server-e25cca050965edc5)
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2528946Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2529151Z running 0 tests
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2529431Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2529985Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2530740Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2532297Z ^[[1m^[[92m     Running^[[0m unittests src/bin/secure-pir-server.rs (target/debug/deps/secure_pir_server-9f5d457aa63fbb18)
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2540713Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2540948Z running 0 tests
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2541268Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2542008Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2542924Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2543773Z ^[[1m^[[92m     Running^[[0m tests/processes.rs (target/debug/deps/processes-ec7a73919f4a42b3)
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2552228Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2552479Z running 1 test
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2589230Z test separate_process_retrieval_malformed_request_and_server_failure ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2589776Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2590238Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2591072Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2591828Z ^[[1m^[[92m     Running^[[0m tests/retrieval.rs (target/debug/deps/retrieval-4a9ee1b076abc26b)
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2601046Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2601340Z running 4 tests
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2627832Z test malformed_database_queries_and_answers_rejected ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2643664Z test retrieves_all_indices_with_fixed_shapes ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:27.2803981Z test bit_marginals_do_not_depend_on_requested_index ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:31.5710318Z test ten_thousand_kib_records ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:31.5710635Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:31.5710892Z test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.31s
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:31.5711256Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:31.5714362Z ^[[1m^[[92m     Running^[[0m tests/secure_processes.rs (target/debug/deps/secure_processes-8e0b57fda10af1dd)
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:31.5725639Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:31.5725798Z running 1 test
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.3817193Z test private_pipe_bootstrap_large_process_retrieval_and_server_loss ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.3817939Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.3818396Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.81s
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.3819034Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.3820078Z ^[[1m^[[92m     Running^[[0m tests/secure_transport.rs (target/debug/deps/secure_transport-d3f3555e346c74a8)
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.3831013Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.3831184Z running 7 tests
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.3844294Z test independent_sessions_and_tampered_answers_are_rejected_without_consuming_pending ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.3846324Z test authenticates_geometry_version_epoch_sequence_and_payload_before_accepting ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.3848267Z test private_bootstrap_round_trip_and_geometry_bounds ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.3864599Z test tampered_and_replayed_tcp_queries_never_produce_an_answer ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.5355355Z test server_deadline_bounds_trickled_input_and_rejects_database_geometry_mismatch ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6128210Z test large_database_over_real_tcp_has_geometry_sized_frames ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6128896Z test timeout_disconnect_and_delayed_answer_do_not_match_a_new_request ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6129335Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6129658Z test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.23s
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6130122Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6131639Z ^[[1m^[[92m     Running^[[0m tests/sqrt.rs (target/debug/deps/sqrt-33c178350cbd637e)
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6142700Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6142857Z running 5 tests
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6148426Z test nonsquare_geometry_zero_pads_the_last_row ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6149616Z test joint_shares_reveal_row_and_do_not_encode_the_private_column ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6150649Z test rejects_bad_server_dimensions_and_malformed_shapes ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6152029Z test validates_limits_without_overflow_or_large_allocation ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6387866Z test all_indices_match_full_record_oracle_with_independent_servers ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6388432Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6388729Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6389092Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6391275Z ^[[1m^[[92m     Running^[[0m unittests src/main.rs (target/debug/deps/oblivion_server-cc05b3ddae2d4b10)
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6414223Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6414382Z running 7 tests
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6426467Z test pipeline::tests::default_metadata_period_rejects_invalid_participants_before_output ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6430968Z test pipeline::tests::deployment_pin_rejects_version_rollback_tamper_and_wrong_identity ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6441237Z test secure_pir::tests::startup_rejects_unbounded_address_and_dead_child ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6508659Z test discovery::tests::metadata_search_returns_exact_deployment_ids_and_rejects_missing_keyword ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6721703Z test pipeline::tests::buffered_pipe_frames_keep_reader_timestamps_when_consumer_is_slow ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6763702Z test pipeline::tests::actual_overdue_executor_error_is_retained_only_by_sweep_and_must_be_masked ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6951122Z test secure_pir::tests::startup_wait_is_bounded_and_child_is_reaped ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6951980Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6952429Z test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6953048Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6960226Z ^[[1m^[[92m     Running^[[0m tests/epoch_sweep.rs (target/debug/deps/epoch_sweep-e4b425e11c35a5da)
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6971536Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.6971768Z running 4 tests
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.7037578Z test enormous_legacy_participant_count_is_rejected_without_panic_or_output ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:32.7115049Z test schedule_rejects_invalid_bounds_before_creating_output ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:33.8521251Z test actual_sweep_uses_exact_metadata_oracles_and_arrival_latency ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:34.4310410Z test original_demo_defaults_remain_eight_epochs_and_150ms_per_client ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:34.4311414Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:34.4311988Z test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.73s
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:34.4312624Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:34.4313474Z ^[[1m^[[92m     Running^[[0m tests/pipeline.rs (target/debug/deps/pipeline-9fbbe56cf0b9ef57)
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:34.4325039Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:34.4325273Z running 14 tests
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:34.6778018Z test eof_midway_through_multi_client_epoch_is_rejected ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:34.8367828Z test duplicate_and_skipped_epochs_fail_closed_without_second_execution ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:35.3079307Z test invalid_selection_and_reserved_dummy_address_do_not_mutate_user_state ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:36.0349008Z test actual_process_pipeline_real_dummy_and_oram_state ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:36.2667415Z test lost_pir_server_returns_authenticated_zero_error_without_user_state ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:37.3877657Z test late_frame_after_idle_timeout_cannot_resume_session ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:37.8271101Z test open_loop_arrivals_continue_while_executor_is_busy_and_queue_is_bounded ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:38.6119245Z test open_loop_underload_completes_every_offered_stateful_request ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:38.7681681Z test executor_bootstrap_and_partial_frames_have_bounded_lifetimes ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:39.0570351Z test abandoned_response_pipe_cannot_hold_executor_forever ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:39.3361705Z test tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:41.6006755Z test sse_metadata_discovery_precedes_real_mixed_invocation ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:42.3953942Z test multiple_clients_execute_mixed_functions_with_isolated_state_and_fixed_traces ... FAILED
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:43.6225359Z test orphaned_pir_worker_exits_after_idle_bound ... ok
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:43.6228773Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:43.6228983Z failures:
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:43.6229196Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:43.6229758Z ---- multiple_clients_execute_mixed_functions_with_isolated_state_and_fixed_traces stdout ----
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:43.6230554Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:43.6231742Z thread 'multiple_clients_execute_mixed_functions_with_isolated_state_and_fixed_traces' (5766) panicked at crates/oblivion-server/tests/pipeline.rs:92:5:
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:43.6233444Z Error: "invocation failed (trusted client result)"
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:43.6233953Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:43.6234393Z note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:43.6235105Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:43.6235960Z ^[[1m^[[91merror^[[0m: test failed, to rerun pass `-p oblivion-server --test pipeline`
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:43.6237015Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:43.6237195Z failures:
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:43.6237943Z     multiple_clients_execute_mixed_functions_with_isolated_state_and_fixed_traces
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:43.6238836Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:43.6239479Z test result: FAILED. 13 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 9.19s
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:43.6240432Z 
+rust	Run cargo test --locked --workspace	2026-10-23T14:29:43.6269191Z ##[error]Process completed with exit code 101.
