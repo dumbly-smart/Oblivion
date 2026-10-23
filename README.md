@@ -2,7 +2,7 @@
 
 An experimental privacy-preserving serverless research prototype in Rust. Oblivion combines private registry lookup, oblivious state, bounded WebAssembly execution and scheduled cover traffic, and measures the leakage that remains.
 
-**Status, 2026-10-23:** the selected process pipeline and later component/evaluation artifacts are implemented and mapped in the [completion audit](docs/COMPLETION_AUDIT.md). The current-source local gate passed with matching fingerprints; final-head hosted CI and PR review remain pending; the full roadmap is not declared complete. This is an unaudited prototype under a **TrustedExecutor** assumption; ordinary processes and Wasmtime provide no hardware TEE protection.
+**Status, 2026-10-23:** the selected process pipeline and later component/evaluation artifacts are implemented and mapped in the [completion audit](docs/COMPLETION_AUDIT.md). The selected implementation/evaluation and serial local/hosted source gates are accepted. [PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is the review artifact. This does not certify optional deployment properties or cryptographic security. This is an unaudited prototype under a **TrustedExecutor** assumption; ordinary processes and Wasmtime provide no hardware TEE protection.
 
 ## Implemented
 
@@ -46,10 +46,16 @@ The demo launches an executor and two PIR workers. Each run has eight epochs, a 
 
 ## Validation and experiments
 
+**Selected-scope acceptance:** the [serial local gate](experiments/results/validation-20261023-serial/commands.json) passed all ten commands, including 91 core Rust tests, one reference test, 120 Python tests without skips and the million-operation oracle. [Before/after source fingerprints](experiments/results/validation-20261023-serial/metadata.json) match: `a83d606782f63e9f5c9f8b95a3c80b299f57da30c916de670f61751e8068becc`. All three jobs in [hosted run 39971009249](https://github.com/dumbly-smart/Oblivion/actions/runs/39971009249) for `ade31d2c` passed. The selected roadmap software and empirical deliverables, local gate and hosted source gate are accepted within the documented boundaries. [PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is ready for delivery; no merge is claimed. Subsequent closing Markdown-only checks are accessible on the PR and do not create a new unfinished source requirement.
+
+The later failed [historical run 39969711451](https://github.com/dumbly-smart/Oblivion/actions/runs/39969711451) remains preserved: Rust failed while analysis/stress passed, and its specific cause remains unproved. [Three-arm scheduling diagnostics](docs/PIPELINE_TEST_SCHEDULING.md) reproduced authenticated timeouts under CPU contention: pinned two-CPU parallel tests had two timeouts, the same serial suite passed, and one CPU with 16 competitors produced an actual 218 ms Timeout with both PIR operations and 128 storage events. Correctness suites explicitly use `--test-threads=1`; production budgets, benchmark concurrency and retry behavior are unchanged.
+
+[Correctness test scheduling](docs/PIPELINE_TEST_SCHEDULING.md) records the explicit serial correctness policy and CPU-contention diagnostics. This changes neither production deadlines nor benchmark concurrency and does not silently retry failures.
+
 ```sh
 cargo fmt --all --check
 cargo clippy --locked --workspace --all-targets -- -D warnings
-cargo test --locked --workspace
+cargo test --locked --workspace -- --test-threads=1
 cargo test --locked --release -p oblivion-store million_operation_oracle -- --ignored --exact
 python3 -m venv .venv
 .venv/bin/python -m pip install -r research/requirements.lock
@@ -68,13 +74,13 @@ The default full validator builds the separate GPL reference fixture as well as 
 
 Two ten-command local attempts remain preserved and unaccepted as complete gates. `validation-20261023-final/` has nine zero exits and a workspace harness Timeout. `validation-20261023-current-source/` passes workspace tests but its 112-test Python run has one authenticated `demo-sweep` invocation failure; its private cause was not retained and remains unknown. A deterministic Timeout regression does not establish that historical cause.
 
-The fresh [verified local gate](experiments/results/validation-20261023-verified/commands.json) passed all ten commands: 90 core Rust tests, one reference test, 119 Python tests with all four runtime fixtures and no skips, both workspaces' quality/build checks, and the million-operation oracle. [Before/after source fingerprints](experiments/results/validation-20261023-verified/metadata.json) match; this local gate is accepted.
+The fresh [verified local gate](experiments/results/validation-20261023-verified/commands.json) passed all ten commands: 90 core Rust tests, one reference test, 119 Python tests with all four runtime fixtures and no skips, both workspaces' quality/build checks, and the million-operation oracle. [Before/after source fingerprints](experiments/results/validation-20261023-verified/metadata.json) match; that historical gate passed for its recorded source.
 
-Hosted run 39968400558 for `1d741580` is green. The latest pushed `d80f258c` has run 39969191581 in progress as of this refresh; final-head hosted acceptance remains pending. [Draft PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is available for review. Earlier green runs 39931999451/39921151648 and locally corrected Clippy failure 39921929791 remain historical evidence. No merge is claimed.
+All three jobs in [hosted run 39971009249](https://github.com/dumbly-smart/Oblivion/actions/runs/39971009249) for `ade31d2c` passed. The selected roadmap software and empirical deliverables, local gate and hosted source gate are accepted within the documented boundaries. [PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is ready for delivery; no merge is claimed. Subsequent closing Markdown-only checks are accessible on the PR and do not create a new unfinished source requirement.
 
 The research sweep now retains authenticated masked errors and charges zero-success trial costs by ratios of sums; legacy demos remain strict, with no deadline increase or silent retry. See [epoch accounting](docs/EPOCH_SYSTEM_EVALUATION.md#post-measurement-runtime-error-retention).
 
-[The figure reproduction audit](docs/FIGURE_REPRODUCTION.md) now records raw-derived reconstruction of the required plots without ignored measurement executables, including raw-only autoscaler report reconstruction. Numerical reports and images matched on the audited environment; final-head hosted CI and PR review remain open.
+[The figure reproduction audit](docs/FIGURE_REPRODUCTION.md) now records raw-derived reconstruction of the required plots without ignored measurement executables, including raw-only autoscaler report reconstruction. Numerical reports and images matched on the audited environment; the serial local and hosted source gates passed; PR #1 carries delivery and subsequent closing Markdown-only checks.
 
 [EXPERIMENTS.md](docs/EXPERIMENTS.md) documents component experiments and their historical configurations. [SSE_IMPLEMENTATION.md](docs/SSE_IMPLEMENTATION.md), [SIMPLEPIR_REFERENCE.md](docs/SIMPLEPIR_REFERENCE.md) and [AUTOSCALER.md](docs/AUTOSCALER.md) describe additional components and reproducible commands. SimplePIR comparison records are eight bytes; the independent XOR experiment uses 1 KiB records. These geometries must not be conflated.
 
