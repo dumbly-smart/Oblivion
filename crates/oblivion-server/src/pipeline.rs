@@ -109,6 +109,93 @@ pub(crate) fn spawn(mode: &str, arguments: &[&str]) -> Result<Process> {
             .spawn()?,
     ))
 }
+/// Timestamp each complete pipe read before handoff to the trusted client.
+/// Consumer decryption/oracle/logging delay must not move this public boundary.
+fn read_response_frames(
+    mut responses: impl Read,
+    tx: std::sync::mpsc::SyncSender<(Vec<u8>, Instant)>,
+) {
+    let mut ready = [0; 1];
+    if responses.read_exact(&mut ready).is_err() {
+        return;
+    }
+    let read_at = Instant::now();
+    if tx.send((ready.to_vec(), read_at)).is_err() {
+        return;
+    }
+    loop {
+        let mut bytes = vec![0; ENVELOPE_BYTES];
+        if responses.read_exact(&mut bytes).is_err() {
+            break;
+        }
+        let read_at = Instant::now();
+        if tx.send((bytes, read_at)).is_err() {
+            break;
+        }
+    }
+}
+
+#[derive(Clone, Copy)]
+enum RunMode {
+    Demo { discovery: bool },
+    Sweep,
+}
+
+/// Validate the entire authenticated reply, retaining masked failures only for
+/// research sweeps. A failure is never reinterpreted as a successful guest call.
+fn verify_client_reply(
+    result: &[u8; PAYLOAD_BYTES],
+    mode: RunMode,
+    is_real: bool,
+    id: u32,
+    argument: &[u8; 64],
+    counter: &mut u32,
+) -> Result<bool> {
+    if result[0] == 1 {
+        if result[1..].iter().any(|&byte| byte != 0) {
+            return Err("runtime error disclosed nonzero payload".into());
+        }
+        return match mode {
+            RunMode::Sweep => Ok(false),
+            RunMode::Demo { .. } => Err("invocation failed (trusted client result)".into()),
+        };
+    }
+    if result[0] != 0 {
+        return Err("invalid authenticated response status".into());
+    }
+    let mut expected = [0; PAYLOAD_BYTES];
+    let mut next_counter = *counter;
+    if is_real {
+        match id {
+            0 => expected[1..65].copy_from_slice(argument),
+            1 => expected[1..5].copy_from_slice(
+                &argument
+                    .iter()
+                    .map(|&byte| u32::from(byte))
+                    .sum::<u32>()
+                    .to_le_bytes(),
+            ),
+            2 => expected[1..5].copy_from_slice(&55u32.to_le_bytes()),
+            3 => {
+                let hash = argument.iter().fold(2166136261u32, |hash, &byte| {
+                    (hash ^ u32::from(byte)).wrapping_mul(16777619)
+                });
+                expected[1..5].copy_from_slice(&hash.to_le_bytes());
+            }
+            4 => {
+                next_counter = counter.checked_add(1).ok_or("client counter exhausted")?;
+                expected[1..5].copy_from_slice(&next_counter.to_le_bytes());
+            }
+            _ => return Err("oracle function".into()),
+        }
+    }
+    if result != &expected {
+        return Err("WASM result mismatches independent client oracle".into());
+    }
+    *counter = next_counter;
+    Ok(true)
+}
+
 pub fn demo(output: &Path, real_percent: u32, participants: usize, mixed: bool) -> Result<()> {
     demo_with_discovery(output, real_percent, participants, mixed, false)
 }
@@ -124,8 +211,8 @@ pub fn demo_with_discovery(
         real_percent,
         participants,
         mixed,
-        discovery,
-        150 * participants as u64,
+        RunMode::Demo { discovery },
+        default_epoch_ms(participants)?,
         8,
     )
 }
@@ -143,7 +230,7 @@ pub fn demo_sweep(
         real_percent,
         participants,
         mixed,
-        false,
+        RunMode::Sweep,
         epoch_ms,
         epochs,
     )
@@ -154,10 +241,11 @@ fn demo_schedule(
     real_percent: u32,
     participants: usize,
     mixed: bool,
-    discovery: bool,
+    mode: RunMode,
     epoch_ms: u64,
     epochs: u64,
 ) -> Result<()> {
+    let discovery = matches!(mode, RunMode::Demo { discovery: true });
     if ![0, 50, 100].contains(&real_percent) || !(1..=4).contains(&participants) {
         return Err("real percent must be 0, 50 or 100; participants 1..4".into());
     }
@@ -180,19 +268,7 @@ fn demo_schedule(
     // One fixed-frame reader owns the pipe. A stalled worker cannot hold the
     // client forever: recv_timeout triggers Process cleanup and kills/reaps it.
     let (tx, rx) = std::sync::mpsc::sync_channel(4);
-    std::thread::spawn(move || {
-        let mut responses = responses;
-        let mut ready = [0; 1];
-        if responses.read_exact(&mut ready).is_err() || tx.send(ready.to_vec()).is_err() {
-            return;
-        }
-        loop {
-            let mut bytes = vec![0; ENVELOPE_BYTES];
-            if responses.read_exact(&mut bytes).is_err() || tx.send(bytes).is_err() {
-                break;
-            }
-        }
-    });
+    std::thread::spawn(move || read_response_frames(responses, tx));
     let mut discoveries = (0..participants)
         .map(|_| {
             if discovery {
@@ -206,7 +282,7 @@ fn demo_schedule(
     for slot in 0..participants {
         clients.push(Endpoint::provision_over_pipe(slot as u32, &mut input)?);
     }
-    if rx.recv_timeout(Duration::from_secs(10))? != [1] {
+    if rx.recv_timeout(Duration::from_secs(10))?.0 != [1] {
         return Err("executor startup failed".into());
     }
     let start = Instant::now();
@@ -218,6 +294,8 @@ fn demo_schedule(
         BufWriter::new(File::create(output.join("client-private-latency.jsonl"))?);
     let mut real = 0u64;
     let mut dummy = 0u64;
+    let (mut real_successes, mut real_failures, mut dummy_successes, mut dummy_failures) =
+        (0u64, 0u64, 0u64, 0u64);
     let mut counters = vec![0u32; participants];
     let mut functions = std::collections::BTreeSet::new();
     for epoch in 0..epochs {
@@ -262,45 +340,24 @@ fn demo_schedule(
         for (slot, (client, (is_real, id, argument, ready_at))) in
             clients.iter_mut().zip(requests).enumerate()
         {
-            let bytes = rx.recv_timeout(Duration::from_secs(5))?;
-            let completed = Instant::now();
+            let (bytes, completed) = rx.recv_timeout(Duration::from_secs(5))?;
             let result = client.receive(&Envelope::from_bytes(&bytes)?)?;
-            if result[0] != 0 {
-                return Err("invocation failed (trusted client result)".into());
-            }
+            let succeeded =
+                verify_client_reply(&result, mode, is_real, id, &argument, &mut counters[slot])?;
             if is_real {
                 real += 1;
-                functions.insert(id);
-                let mut expected = vec![0; 64];
-                match id {
-                    0 => expected.copy_from_slice(&argument),
-                    1 => expected[..4].copy_from_slice(
-                        &argument
-                            .iter()
-                            .map(|&b| u32::from(b))
-                            .sum::<u32>()
-                            .to_le_bytes(),
-                    ),
-                    2 => expected[..4].copy_from_slice(&55u32.to_le_bytes()),
-                    3 => {
-                        let hash = argument.iter().fold(2166136261u32, |h, &b| {
-                            (h ^ u32::from(b)).wrapping_mul(16777619)
-                        });
-                        expected[..4].copy_from_slice(&hash.to_le_bytes());
-                    }
-                    4 => {
-                        counters[slot] += 1;
-                        expected[..4].copy_from_slice(&counters[slot].to_le_bytes());
-                    }
-                    _ => return Err("oracle function".into()),
-                }
-                if result[1..65] != expected {
-                    return Err("WASM result mismatches independent client oracle".into());
+                if succeeded {
+                    real_successes += 1;
+                    functions.insert(id);
+                } else {
+                    real_failures += 1;
                 }
             } else {
                 dummy += 1;
-                if result[1..].iter().any(|&b| b != 0) {
-                    return Err("dummy disclosed output".into());
+                if succeeded {
+                    dummy_successes += 1;
+                } else {
+                    dummy_failures += 1;
                 }
             }
             serde_json::to_writer(
@@ -315,7 +372,7 @@ fn demo_schedule(
             writeln!(client_latency)?;
             serde_json::to_writer(
                 &mut labels,
-                &serde_json::json!({"epoch":epoch,"slot":slot,"real":is_real,"function":id}),
+                &serde_json::json!({"epoch":epoch,"slot":slot,"real":is_real,"function":id,"success":succeeded}),
             )?;
             writeln!(labels)?;
         }
@@ -339,7 +396,7 @@ fn demo_schedule(
         }
         trace.flush()?;
     }
-    let summary = serde_json::json!({"sse_metadata_discovery":discovery,"sse_searches_verified":discoveries.iter().flatten().map(|index|index.verified).sum::<u64>(),"registry_version":REGISTRY_VERSION,"registry_deployment_sha256":Deployment::pinned().digest_hex(),"real_invocations":real,"dummy_invocations":dummy,"last_real_counter":counters[0],"client_state_counters":counters,"participants":participants,"functions_verified":functions.len(),"request_bytes":ENVELOPE_BYTES,"response_bytes":ENVELOPE_BYTES,"processes":4,"encrypted_pir_links":true,"real_percent":real_percent,"epoch_ms":period.as_millis(),"epochs":epochs,"measurement_wall_ns":start.elapsed().as_nanos() as u64,"execution_class_ms":Class::small().deadline_ms,"state_working_set_blocks":8,"logical_oram_operations_per_invocation":16,"limitations":["PIR servers must not collude","inherited pipes simulate trusted provisioning; no hardware TEE","demo state is ephemeral, durable store API tested separately","public sequential slots and bounded eight-block working set; deadline misses and resource leakage remain"]});
+    let summary = serde_json::json!({"sse_metadata_discovery":discovery,"sse_searches_verified":discoveries.iter().flatten().map(|index|index.verified).sum::<u64>(),"registry_version":REGISTRY_VERSION,"registry_deployment_sha256":Deployment::pinned().digest_hex(),"real_invocations":real,"dummy_invocations":dummy,"offered_invocations":epochs*participants as u64,"completed_invocations":real+dummy,"successful_real_invocations":real_successes,"failed_real_invocations":real_failures,"successful_dummy_invocations":dummy_successes,"failed_dummy_invocations":dummy_failures,"retains_runtime_errors":matches!(mode,RunMode::Sweep),"last_real_counter":counters[0],"client_state_counters":counters,"participants":participants,"functions_verified":functions.len(),"request_bytes":ENVELOPE_BYTES,"response_bytes":ENVELOPE_BYTES,"processes":4,"encrypted_pir_links":true,"real_percent":real_percent,"epoch_ms":period.as_millis(),"epochs":epochs,"measurement_wall_ns":start.elapsed().as_nanos() as u64,"execution_class_ms":Class::small().deadline_ms,"state_working_set_blocks":8,"logical_oram_operations_per_invocation":16,"limitations":["PIR servers must not collude","inherited pipes simulate trusted provisioning; no hardware TEE","demo state is ephemeral, durable store API tested separately","public sequential slots and bounded eight-block working set; deadline misses and resource leakage remain"]});
     fs::write(
         output.join("client-summary.json"),
         serde_json::to_vec_pretty(&summary)?,
@@ -486,10 +543,13 @@ pub fn worker(output: &Path, participants: usize) -> Result<()> {
         let selected = if valid { requested } else { 4 };
         // Every real, valid dummy, or authentication-failed cover frame uses PIR.
         let shares = QueryPair::generate(5, selected as usize)?;
+        let mut completed_pir_queries = 0usize;
         let answer = first.request(epoch, &shares.first).and_then(|a| {
-            second
-                .request(epoch, &shares.second)
-                .and_then(|b| recover(&a, &b).map_err(Into::into))
+            completed_pir_queries += 1;
+            second.request(epoch, &shares.second).and_then(|b| {
+                completed_pir_queries += 1;
+                recover(&a, &b).map_err(Into::into)
+            })
         });
         let authenticated = answer
             .as_ref()
@@ -524,18 +584,19 @@ pub fn worker(output: &Path, participants: usize) -> Result<()> {
         }
         let response = endpoint.send(epoch, &body)?;
 
-        for event in state
+        let storage_events = state
             .lock()
             .map_err(|_| "storage lock")?
             .backend_mut()
-            .take_trace()
-        {
+            .take_trace();
+        let storage_bytes: usize = storage_events.iter().map(|event| event.bytes).sum();
+        for event in &storage_events {
             serde_json::to_writer(&mut observer, &event)?;
             writeln!(observer)?;
         }
         serde_json::to_writer(
             &mut private,
-            &serde_json::json!({"epoch":epoch,"slot":slot,"real":real,"function":selected,"status":format!("{:?}",result.status),"work_ns":result.work_ns,"prepare_ns":result.total_ns,"deadline_missed":result.deadline_missed,"pir_queries_completed":if answer.is_ok(){2}else{0},"pir_application_frame_bytes":if answer.is_ok(){Some(2*(oblivion_pir::secure::Geometry::new(5,128)?.query_frame_bytes()+oblivion_pir::secure::Geometry::new(5,128)?.answer_frame_bytes()))}else{None}}),
+            &serde_json::json!({"epoch":epoch,"slot":slot,"real":real,"function":selected,"status":format!("{:?}",result.status),"registry_authenticated":authenticated,"request_authenticated":authenticated_frame,"request_valid":valid,"storage_events":storage_events.len(),"storage_bytes":storage_bytes,"work_ns":result.work_ns,"prepare_ns":result.total_ns,"deadline_missed":result.deadline_missed,"pir_queries_completed":completed_pir_queries,"pir_application_frame_bytes":if completed_pir_queries==2{Some(2*(oblivion_pir::secure::Geometry::new(5,128)?.query_frame_bytes()+oblivion_pir::secure::Geometry::new(5,128)?.answer_frame_bytes()))}else{None}}),
         )?;
         writeln!(private)?;
         observer.flush()?;
@@ -562,6 +623,15 @@ pub fn worker(output: &Path, participants: usize) -> Result<()> {
     Ok(())
 }
 
+fn default_epoch_ms(participants: usize) -> Result<u64> {
+    if !(1..=4).contains(&participants) {
+        return Err("participants must be 1..4".into());
+    }
+    (participants as u64)
+        .checked_mul(150)
+        .ok_or_else(|| "default epoch period overflow".into())
+}
+
 pub(crate) fn write_metadata(
     output: &Path,
     real_percent: u32,
@@ -573,7 +643,7 @@ pub(crate) fn write_metadata(
         real_percent,
         participants,
         mixed,
-        150 * participants as u64,
+        default_epoch_ms(participants)?,
         8,
     )
 }
@@ -630,6 +700,134 @@ fn write_schedule_metadata(
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn actual_overdue_executor_error_is_retained_only_by_sweep_and_must_be_masked() {
+        let state = Arc::new(Mutex::new(
+            PathOram::new(Config::new(8, 64).unwrap(), MemoryBackend::default()).unwrap(),
+        ));
+        let mut executor = Executor::new(Class::small()).unwrap();
+        executor.register(0, SOURCES[0]).unwrap();
+        let argument = [10u8; 64];
+        let execution = executor.execute_scheduled(
+            0,
+            &argument,
+            state,
+            Namespace {
+                first: 0,
+                blocks: 8,
+            },
+            Instant::now() - Duration::from_millis(200),
+        );
+        assert_eq!(execution.status, Status::Timeout);
+        let (mut client, mut server) = Endpoint::provision(0).unwrap();
+        server
+            .receive(&client.send(0, &[0; PAYLOAD_BYTES]).unwrap())
+            .unwrap();
+        let mut payload = [0; PAYLOAD_BYTES];
+        payload[0] = 1;
+        payload[1..65].copy_from_slice(&execution.body);
+        let decoded = client.receive(&server.send(0, &payload).unwrap()).unwrap();
+        let mut counter = 0;
+        assert!(
+            !verify_client_reply(&decoded, RunMode::Sweep, true, 0, &argument, &mut counter)
+                .unwrap()
+        );
+        assert_eq!(counter, 0);
+        assert!(
+            verify_client_reply(
+                &decoded,
+                RunMode::Demo { discovery: false },
+                true,
+                0,
+                &argument,
+                &mut counter
+            )
+            .is_err()
+        );
+        let mut corrupt = decoded;
+        corrupt[127] = 1;
+        assert!(
+            verify_client_reply(&corrupt, RunMode::Sweep, true, 0, &argument, &mut counter)
+                .is_err()
+        );
+        let mut false_success = decoded;
+        false_success[0] = 0;
+        assert!(
+            verify_client_reply(
+                &false_success,
+                RunMode::Sweep,
+                true,
+                0,
+                &argument,
+                &mut counter
+            )
+            .is_err()
+        );
+        let mut success = [0; PAYLOAD_BYTES];
+        success[1..65].copy_from_slice(&argument);
+        assert!(
+            verify_client_reply(&success, RunMode::Sweep, true, 0, &argument, &mut counter)
+                .unwrap()
+        );
+        success[0] = 2;
+        assert!(
+            verify_client_reply(&success, RunMode::Sweep, true, 0, &argument, &mut counter)
+                .is_err()
+        );
+        let mut stateful = [0; PAYLOAD_BYTES];
+        stateful[1..5].copy_from_slice(&1u32.to_le_bytes());
+        assert!(
+            verify_client_reply(&stateful, RunMode::Sweep, true, 4, &argument, &mut counter)
+                .unwrap()
+        );
+        assert_eq!(counter, 1);
+        assert!(
+            !verify_client_reply(&decoded, RunMode::Sweep, true, 4, &argument, &mut counter)
+                .unwrap()
+        );
+        assert_eq!(counter, 1);
+        assert!(
+            verify_client_reply(&stateful, RunMode::Sweep, true, 4, &argument, &mut counter)
+                .is_err()
+        );
+        assert_eq!(counter, 1);
+    }
+
+    #[test]
+    fn buffered_pipe_frames_keep_reader_timestamps_when_consumer_is_slow() {
+        let (read, write) = rustix::pipe::pipe().unwrap();
+        let mut writer = File::from(write);
+        writer.write_all(&[1]).unwrap();
+        writer.write_all(&[7; ENVELOPE_BYTES]).unwrap();
+        writer.write_all(&[9; ENVELOPE_BYTES]).unwrap();
+        drop(writer);
+        let (tx, rx) = std::sync::mpsc::sync_channel(4);
+        let reader = std::thread::spawn(move || read_response_frames(File::from(read), tx));
+        reader.join().unwrap();
+        let all_read_before = Instant::now();
+        std::thread::sleep(Duration::from_millis(30));
+        for expected in [vec![1], vec![7; ENVELOPE_BYTES], vec![9; ENVELOPE_BYTES]] {
+            let (bytes, read_at) = rx.recv_timeout(Duration::from_secs(1)).unwrap();
+            assert_eq!(bytes, expected);
+            assert!(read_at <= all_read_before);
+            assert!(read_at.elapsed() >= Duration::from_millis(20));
+        }
+    }
+
+    #[test]
+    fn default_metadata_period_rejects_invalid_participants_before_output() {
+        for participants in [0, 5, usize::MAX] {
+            assert!(default_epoch_ms(participants).is_err());
+        }
+        assert_eq!(default_epoch_ms(4).unwrap(), 600);
+        let path = std::env::temp_dir().join(format!(
+            "oblivion-invalid-metadata-{}",
+            rand::random::<u64>()
+        ));
+        assert!(write_metadata(&path, 50, usize::MAX, false).is_err());
+        assert!(!path.exists());
+    }
+
     #[test]
     fn deployment_pin_rejects_version_rollback_tamper_and_wrong_identity() {
         let deployment = Deployment::pinned();

@@ -87,11 +87,30 @@ fn actual_sweep_uses_exact_metadata_oracles_and_arrival_latency() {
         assert_eq!(row["response_bytes"], 164);
     }
     assert_eq!(
+        summary["successful_real_invocations"].as_u64().unwrap()
+            + summary["failed_real_invocations"].as_u64().unwrap(),
+        2
+    );
+    assert_eq!(
+        summary["successful_dummy_invocations"].as_u64().unwrap()
+            + summary["failed_dummy_invocations"].as_u64().unwrap(),
+        2
+    );
+    let expected_events: u64 = fs::read_to_string(path.join("executor-private.jsonl"))
+        .unwrap()
+        .lines()
+        .map(|line| {
+            serde_json::from_str::<serde_json::Value>(line).unwrap()["storage_events"]
+                .as_u64()
+                .unwrap()
+        })
+        .sum();
+    assert_eq!(
         fs::read_to_string(path.join("storage-observer.jsonl"))
             .unwrap()
             .lines()
-            .count(),
-        4 * 128
+            .count() as u64,
+        expected_events
     );
     fs::remove_dir_all(path).unwrap();
 }
@@ -116,4 +135,19 @@ fn original_demo_defaults_remain_eight_epochs_and_150ms_per_client() {
     assert_eq!(summary["real_invocations"], 4);
     assert_eq!(summary["last_real_counter"], 4);
     fs::remove_dir_all(path).unwrap();
+}
+
+#[test]
+fn enormous_legacy_participant_count_is_rejected_without_panic_or_output() {
+    for mode in ["demo", "demo-sse"] {
+        let path = output_path();
+        let result = Command::new(env!("CARGO_BIN_EXE_oblivion-server"))
+            .args([mode, path.to_str().unwrap(), "50", &usize::MAX.to_string()])
+            .output()
+            .unwrap();
+        assert!(!result.status.success());
+        assert!(!path.exists());
+        let stderr = String::from_utf8_lossy(&result.stderr);
+        assert!(!stderr.contains("panicked"), "{stderr}");
+    }
 }
