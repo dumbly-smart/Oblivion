@@ -1,0 +1,1774 @@
+[
+  {
+    "participants": 1,
+    "epoch_ms": 200,
+    "real_percent": 0,
+    "epochs": 4,
+    "trials": 30,
+    "wall_seconds": {
+      "mean": 0.9792181056002544,
+      "ci95": [
+        0.9733671013669057,
+        0.9880609735667046
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "real_goodput_per_second": {
+      "mean": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "all_goodput_per_second": {
+      "mean": 4.086701709077897,
+      "ci95": [
+        4.05204140600029,
+        4.109598674655822
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "total_application_bytes": {
+      "mean": 164968,
+      "ci95": [
+        164968,
+        164968
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_application_bytes": {
+      "mean": 164968,
+      "ci95": [
+        164968,
+        164968
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "application_bytes_per_real_success": null,
+    "real_executor_cpu_ns": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_executor_cpu_ns": {
+      "mean": 5914938.233333333,
+      "ci95": [
+        5430008.333333333,
+        6426303.3
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "executor_cpu_ns_per_real_success": null,
+    "arrival_p50_ns": {
+      "mean": 200123647.08333334,
+      "ci95": [
+        200035987.55,
+        200244206.41666666
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "arrival_max_ns": {
+      "mean": 300380611,
+      "ci95": [
+        300331878.5,
+        300426614.56666666
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "queue_mean_ns": {
+      "mean": 124711145.31666666,
+      "ci95": [
+        124658699.59166667,
+        124747804.425
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "forward_mean_ns": {
+      "mean": 100388512.775,
+      "ci95": [
+        100340667.45,
+        100449472.48333333
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "batch_late_max_ns": {
+      "mean": 137979.2,
+      "ci95": [
+        122317.2,
+        153894.96666666667
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "publication_late_max_ns": {
+      "mean": 423876.1666666667,
+      "ci95": [
+        247349.73333333334,
+        667354.6666666666
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "driver_work_overruns": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "attempted_trials": 30,
+    "failed_trials": 0
+  },
+  {
+    "participants": 1,
+    "epoch_ms": 200,
+    "real_percent": 50,
+    "epochs": 4,
+    "trials": 30,
+    "wall_seconds": {
+      "mean": 0.9794432923332957,
+      "ci95": [
+        0.9759470431336619,
+        0.9829453413329854
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "real_goodput_per_second": {
+      "mean": 2.042167730909461,
+      "ci95": [
+        2.034845112204277,
+        2.049428571090423
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "all_goodput_per_second": {
+      "mean": 4.084335461818922,
+      "ci95": [
+        4.069690224408554,
+        4.098857142180846
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "total_application_bytes": {
+      "mean": 164968,
+      "ci95": [
+        164968,
+        164968
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_application_bytes": {
+      "mean": 82484,
+      "ci95": [
+        82484,
+        82484
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "application_bytes_per_real_success": {
+      "mean": 82484.0,
+      "ci95": [
+        82484.0,
+        82484.0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "real_executor_cpu_ns": {
+      "mean": 3250099.3666666667,
+      "ci95": [
+        2974980.2,
+        3535516.3333333335
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_executor_cpu_ns": {
+      "mean": 3221502.533333333,
+      "ci95": [
+        2990227,
+        3462474.2333333334
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "executor_cpu_ns_per_real_success": {
+      "mean": 3235800.95,
+      "ci95": [
+        2995596.466666667,
+        3486603.3
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "arrival_p50_ns": {
+      "mean": 200071930.08333334,
+      "ci95": [
+        200019177.66666666,
+        200149713.65
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "arrival_max_ns": {
+      "mean": 300505208.43333334,
+      "ci95": [
+        300383706.3666667,
+        300703562.73333335
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "queue_mean_ns": {
+      "mean": 124677906.48333333,
+      "ci95": [
+        124569120.38333334,
+        124740403.58333333
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "forward_mean_ns": {
+      "mean": 100401019.35,
+      "ci95": [
+        100333176.54166667,
+        100512504.29166667
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "batch_late_max_ns": {
+      "mean": 203189.06666666668,
+      "ci95": [
+        120234.2,
+        347626.6
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "publication_late_max_ns": {
+      "mean": 271406.4666666667,
+      "ci95": [
+        238614.43333333332,
+        308480.36666666664
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "driver_work_overruns": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "attempted_trials": 30,
+    "failed_trials": 0
+  },
+  {
+    "participants": 1,
+    "epoch_ms": 200,
+    "real_percent": 100,
+    "epochs": 4,
+    "trials": 30,
+    "wall_seconds": {
+      "mean": 0.9826485679335141,
+      "ci95": [
+        0.9761305413666681,
+        0.993102331500207
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "real_goodput_per_second": {
+      "mean": 4.072823104863099,
+      "ci95": [
+        4.033036240202186,
+        4.0977107778342035
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "all_goodput_per_second": {
+      "mean": 4.072823104863099,
+      "ci95": [
+        4.033036240202186,
+        4.0977107778342035
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "total_application_bytes": {
+      "mean": 164968,
+      "ci95": [
+        164968,
+        164968
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_application_bytes": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "application_bytes_per_real_success": {
+      "mean": 41242.0,
+      "ci95": [
+        41242.0,
+        41242.0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "real_executor_cpu_ns": {
+      "mean": 6445249.233333333,
+      "ci95": [
+        5978397.933333334,
+        6904004.366666666
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_executor_cpu_ns": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "executor_cpu_ns_per_real_success": {
+      "mean": 1611312.3083333333,
+      "ci95": [
+        1494599.4833333334,
+        1726001.0916666666
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "arrival_p50_ns": {
+      "mean": 200087205.96666667,
+      "ci95": [
+        200013463.31666666,
+        200206042.31666666
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "arrival_max_ns": {
+      "mean": 300465680.8666667,
+      "ci95": [
+        300391979.1666667,
+        300554140.3666667
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "queue_mean_ns": {
+      "mean": 124688423.29166667,
+      "ci95": [
+        124653874.58333333,
+        124718720.08333333
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "forward_mean_ns": {
+      "mean": 100392821.89166667,
+      "ci95": [
+        100358929.23333333,
+        100432292.55
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "batch_late_max_ns": {
+      "mean": 207824.6,
+      "ci95": [
+        118535.5,
+        371002.73333333334
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "publication_late_max_ns": {
+      "mean": 312047.1666666667,
+      "ci95": [
+        275179.6,
+        355186
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "driver_work_overruns": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "attempted_trials": 30,
+    "failed_trials": 0
+  },
+  {
+    "participants": 1,
+    "epoch_ms": 400,
+    "real_percent": 0,
+    "epochs": 4,
+    "trials": 30,
+    "wall_seconds": {
+      "mean": 1.7809897316665835,
+      "ci95": [
+        1.7765236853999644,
+        1.7859573555667643
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "real_goodput_per_second": {
+      "mean": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "all_goodput_per_second": {
+      "mean": 2.246056876974299,
+      "ci95": [
+        2.2398048207206527,
+        2.251641792652308
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "total_application_bytes": {
+      "mean": 164968,
+      "ci95": [
+        164968,
+        164968
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_application_bytes": {
+      "mean": 164968,
+      "ci95": [
+        164968,
+        164968
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "application_bytes_per_real_success": null,
+    "real_executor_cpu_ns": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_executor_cpu_ns": {
+      "mean": 6412160.9,
+      "ci95": [
+        6043628.833333333,
+        6777136.366666666
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "executor_cpu_ns_per_real_success": null,
+    "arrival_p50_ns": {
+      "mean": 400065681.43333334,
+      "ci95": [
+        400031423.9166667,
+        400107875.98333335
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "arrival_max_ns": {
+      "mean": 500464331.56666666,
+      "ci95": [
+        500408064.8,
+        500525811.3666667
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "queue_mean_ns": {
+      "mean": 324685207.60833335,
+      "ci95": [
+        324654057.5,
+        324710474.725
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "forward_mean_ns": {
+      "mean": 100400166.55,
+      "ci95": [
+        100375100.06666666,
+        100426833.85833333
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "batch_late_max_ns": {
+      "mean": 147442.73333333334,
+      "ci95": [
+        129335.86666666667,
+        164845.5
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "publication_late_max_ns": {
+      "mean": 282266.56666666665,
+      "ci95": [
+        258226.93333333332,
+        307597.76666666666
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "driver_work_overruns": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "attempted_trials": 30,
+    "failed_trials": 0
+  },
+  {
+    "participants": 1,
+    "epoch_ms": 400,
+    "real_percent": 50,
+    "epochs": 4,
+    "trials": 30,
+    "wall_seconds": {
+      "mean": 1.7778536527998463,
+      "ci95": [
+        1.7747783988999193,
+        1.781137144666597
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "real_goodput_per_second": {
+      "mean": 1.1249801712307634,
+      "ci95": [
+        1.1228595404314539,
+        1.1269241771382823
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "all_goodput_per_second": {
+      "mean": 2.249960342461527,
+      "ci95": [
+        2.2457190808629077,
+        2.2538483542765646
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "total_application_bytes": {
+      "mean": 164968,
+      "ci95": [
+        164968,
+        164968
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_application_bytes": {
+      "mean": 82484,
+      "ci95": [
+        82484,
+        82484
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "application_bytes_per_real_success": {
+      "mean": 82484.0,
+      "ci95": [
+        82484.0,
+        82484.0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "real_executor_cpu_ns": {
+      "mean": 3242913.033333333,
+      "ci95": [
+        2972489.2,
+        3504791.8666666667
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_executor_cpu_ns": {
+      "mean": 2997052.4,
+      "ci95": [
+        2768174.2666666666,
+        3222875.933333333
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "executor_cpu_ns_per_real_success": {
+      "mean": 3119982.716666667,
+      "ci95": [
+        2897011.7,
+        3337777.0833333335
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "arrival_p50_ns": {
+      "mean": 400097157.68333334,
+      "ci95": [
+        400032599.76666665,
+        400211394.76666665
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "arrival_max_ns": {
+      "mean": 500496473.96666664,
+      "ci95": [
+        500384630.43333334,
+        500690665.8333333
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "queue_mean_ns": {
+      "mean": 324677101.4583333,
+      "ci95": [
+        324604671.075,
+        324727351.125
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "forward_mean_ns": {
+      "mean": 100402020.39166667,
+      "ci95": [
+        100354215.51666667,
+        100470931.78333333
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "batch_late_max_ns": {
+      "mean": 135281.3,
+      "ci95": [
+        115755.43333333333,
+        159981.5
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "publication_late_max_ns": {
+      "mean": 364652.36666666664,
+      "ci95": [
+        259173.43333333332,
+        550605.8
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "driver_work_overruns": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "attempted_trials": 30,
+    "failed_trials": 0
+  },
+  {
+    "participants": 1,
+    "epoch_ms": 400,
+    "real_percent": 100,
+    "epochs": 4,
+    "trials": 30,
+    "wall_seconds": {
+      "mean": 1.7692894370001038,
+      "ci95": [
+        1.7663352937666787,
+        1.7734464128000278
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "real_goodput_per_second": {
+      "mean": 2.2608666897673353,
+      "ci95": [
+        2.25552743023161,
+        2.264588312493741
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "all_goodput_per_second": {
+      "mean": 2.2608666897673353,
+      "ci95": [
+        2.25552743023161,
+        2.264588312493741
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "total_application_bytes": {
+      "mean": 164968,
+      "ci95": [
+        164968,
+        164968
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_application_bytes": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "application_bytes_per_real_success": {
+      "mean": 41242.0,
+      "ci95": [
+        41242.0,
+        41242.0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "real_executor_cpu_ns": {
+      "mean": 4835622.966666667,
+      "ci95": [
+        4534368.8,
+        5193643.533333333
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_executor_cpu_ns": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "executor_cpu_ns_per_real_success": {
+      "mean": 1208905.7416666667,
+      "ci95": [
+        1133592.2,
+        1298410.8833333333
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "arrival_p50_ns": {
+      "mean": 400116741.01666665,
+      "ci95": [
+        400034378.8333333,
+        400220033.03333336
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "arrival_max_ns": {
+      "mean": 500434778.3333333,
+      "ci95": [
+        500342705.4,
+        500607149.76666665
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "queue_mean_ns": {
+      "mean": 324733381.0416667,
+      "ci95": [
+        324682180.31666666,
+        324774852.475
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "forward_mean_ns": {
+      "mean": 100342364.68333334,
+      "ci95": [
+        100300452.4,
+        100393730.08333333
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "batch_late_max_ns": {
+      "mean": 176994,
+      "ci95": [
+        127002.43333333333,
+        242803.33333333334
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "publication_late_max_ns": {
+      "mean": 234853.23333333334,
+      "ci95": [
+        209987.5,
+        260630.63333333333
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "driver_work_overruns": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "attempted_trials": 30,
+    "failed_trials": 0
+  },
+  {
+    "participants": 2,
+    "epoch_ms": 200,
+    "real_percent": 0,
+    "epochs": 4,
+    "trials": 30,
+    "wall_seconds": {
+      "mean": 1.081305584466827,
+      "ci95": [
+        1.0781924693001808,
+        1.0843157029668873
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "real_goodput_per_second": {
+      "mean": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "all_goodput_per_second": {
+      "mean": 7.398950585698223,
+      "ci95": [
+        7.378144992287857,
+        7.420349187282924
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "total_application_bytes": {
+      "mean": 329936,
+      "ci95": [
+        329936,
+        329936
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_application_bytes": {
+      "mean": 329936,
+      "ci95": [
+        329936,
+        329936
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "application_bytes_per_real_success": null,
+    "real_executor_cpu_ns": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_executor_cpu_ns": {
+      "mean": 14295090.6,
+      "ci95": [
+        13399420.366666667,
+        15024522.2
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "executor_cpu_ns_per_real_success": null,
+    "arrival_p50_ns": {
+      "mean": 200293411.45,
+      "ci95": [
+        200257521.41666666,
+        200325362.93333334
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "arrival_max_ns": {
+      "mean": 400433926.8333333,
+      "ci95": [
+        400391932.5,
+        400477176.2
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "queue_mean_ns": {
+      "mean": 50021461.63333333,
+      "ci95": [
+        50016962.8125,
+        50026647.920833334
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "forward_mean_ns": {
+      "mean": 150355925.52916667,
+      "ci95": [
+        150328342.47916666,
+        150381969.65
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "batch_late_max_ns": {
+      "mean": 1286727.8,
+      "ci95": [
+        1182838.4666666666,
+        1390774.0666666667
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "publication_late_max_ns": {
+      "mean": 308423.8333333333,
+      "ci95": [
+        285222.7,
+        330568.23333333334
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "driver_work_overruns": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "attempted_trials": 30,
+    "failed_trials": 0
+  },
+  {
+    "participants": 2,
+    "epoch_ms": 200,
+    "real_percent": 50,
+    "epochs": 4,
+    "trials": 30,
+    "wall_seconds": {
+      "mean": 1.0779714383999817,
+      "ci95": [
+        1.0754751411666197,
+        1.0803876032998232
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "real_goodput_per_second": {
+      "mean": 3.710831374600833,
+      "ci95": [
+        3.702353931451488,
+        3.719410745773332
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "all_goodput_per_second": {
+      "mean": 7.421662749201666,
+      "ci95": [
+        7.404707862902976,
+        7.438821491546664
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "total_application_bytes": {
+      "mean": 329936,
+      "ci95": [
+        329936,
+        329936
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_application_bytes": {
+      "mean": 164968,
+      "ci95": [
+        164968,
+        164968
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "application_bytes_per_real_success": {
+      "mean": 82484.0,
+      "ci95": [
+        82484.0,
+        82484.0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "real_executor_cpu_ns": {
+      "mean": 6909495.333333333,
+      "ci95": [
+        6372852.333333333,
+        7437335.7
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_executor_cpu_ns": {
+      "mean": 6791523.766666667,
+      "ci95": [
+        6315801.966666667,
+        7234689.7
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "executor_cpu_ns_per_real_success": {
+      "mean": 3425254.775,
+      "ci95": [
+        3173146.825,
+        3671408.566666667
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "arrival_p50_ns": {
+      "mean": 200361167.2,
+      "ci95": [
+        200323095.2,
+        200396600.53333333
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "arrival_max_ns": {
+      "mean": 400574653.53333336,
+      "ci95": [
+        400492675.1,
+        400667753.6666667
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "queue_mean_ns": {
+      "mean": 50035294.67916667,
+      "ci95": [
+        50026409.666666664,
+        50047346.958333336
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "forward_mean_ns": {
+      "mean": 150429031.41666666,
+      "ci95": [
+        150388308.4125,
+        150477756.84583333
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "batch_late_max_ns": {
+      "mean": 1547843,
+      "ci95": [
+        1430493.3666666667,
+        1656900.7333333334
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "publication_late_max_ns": {
+      "mean": 430370.8333333333,
+      "ci95": [
+        323528.73333333334,
+        591685.0666666667
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "driver_work_overruns": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "attempted_trials": 30,
+    "failed_trials": 0
+  },
+  {
+    "participants": 2,
+    "epoch_ms": 200,
+    "real_percent": 100,
+    "epochs": 4,
+    "trials": 30,
+    "wall_seconds": {
+      "mean": 1.0780110218332992,
+      "ci95": [
+        1.0748460099667985,
+        1.0814269400999668
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "real_goodput_per_second": {
+      "mean": 7.421616131679663,
+      "ci95": [
+        7.398027390096478,
+        7.4432524234391
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "all_goodput_per_second": {
+      "mean": 7.421616131679663,
+      "ci95": [
+        7.398027390096478,
+        7.4432524234391
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "total_application_bytes": {
+      "mean": 329936,
+      "ci95": [
+        329936,
+        329936
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_application_bytes": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "application_bytes_per_real_success": {
+      "mean": 41242.0,
+      "ci95": [
+        41242.0,
+        41242.0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "real_executor_cpu_ns": {
+      "mean": 12912507.7,
+      "ci95": [
+        11782409.066666666,
+        13926862.2
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_executor_cpu_ns": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "executor_cpu_ns_per_real_success": {
+      "mean": 1614063.4625,
+      "ci95": [
+        1472801.1333333333,
+        1740857.775
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "arrival_p50_ns": {
+      "mean": 200297873.61666667,
+      "ci95": [
+        200266333.8,
+        200330219.66666666
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "arrival_max_ns": {
+      "mean": 400517486.56666666,
+      "ci95": [
+        400418230,
+        400644998.6333333
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "queue_mean_ns": {
+      "mean": 50029120.5375,
+      "ci95": [
+        50020680.11666667,
+        50042585.3625
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "forward_mean_ns": {
+      "mean": 150375477.85833332,
+      "ci95": [
+        150328445.92083332,
+        150436423.875
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "batch_late_max_ns": {
+      "mean": 1341230.6666666667,
+      "ci95": [
+        1210318.9666666666,
+        1481521.4333333333
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "publication_late_max_ns": {
+      "mean": 332009.6666666667,
+      "ci95": [
+        298767.56666666665,
+        372592.86666666664
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "driver_work_overruns": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "attempted_trials": 30,
+    "failed_trials": 0
+  },
+  {
+    "participants": 2,
+    "epoch_ms": 400,
+    "real_percent": 0,
+    "epochs": 4,
+    "trials": 30,
+    "wall_seconds": {
+      "mean": 1.8790502415666803,
+      "ci95": [
+        1.875205857333458,
+        1.8838901855334067
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "real_goodput_per_second": {
+      "mean": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "all_goodput_per_second": {
+      "mean": 4.257650399566516,
+      "ci95": [
+        4.246805340254858,
+        4.266287165005055
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "total_application_bytes": {
+      "mean": 329936,
+      "ci95": [
+        329936,
+        329936
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_application_bytes": {
+      "mean": 329936,
+      "ci95": [
+        329936,
+        329936
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "application_bytes_per_real_success": null,
+    "real_executor_cpu_ns": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_executor_cpu_ns": {
+      "mean": 11672015.766666668,
+      "ci95": [
+        10868208.3,
+        12480453.433333334
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "executor_cpu_ns_per_real_success": null,
+    "arrival_p50_ns": {
+      "mean": 399649030.8333333,
+      "ci95": [
+        399261847.05,
+        399891122.8666667
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "arrival_max_ns": {
+      "mean": 600394720.8,
+      "ci95": [
+        600342847.6666666,
+        600448307.3333334
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "queue_mean_ns": {
+      "mean": 249664964.29583332,
+      "ci95": [
+        249544744.93333334,
+        249741130.65833333
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "forward_mean_ns": {
+      "mean": 150467612.5875,
+      "ci95": [
+        150357392.79166666,
+        150649838.75
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "batch_late_max_ns": {
+      "mean": 409118.86666666664,
+      "ci95": [
+        181906.86666666667,
+        728637.1666666666
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "publication_late_max_ns": {
+      "mean": 488427.5333333333,
+      "ci95": [
+        280538.2,
+        863759.2666666667
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "driver_work_overruns": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "attempted_trials": 30,
+    "failed_trials": 0
+  },
+  {
+    "participants": 2,
+    "epoch_ms": 400,
+    "real_percent": 50,
+    "epochs": 4,
+    "trials": 30,
+    "wall_seconds": {
+      "mean": 1.8770471275000697,
+      "ci95": [
+        1.8740474776664997,
+        1.8800125423998906
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "real_goodput_per_second": {
+      "mean": 2.131049576936537,
+      "ci95": [
+        2.1275645316007297,
+        2.1344466151139736
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "all_goodput_per_second": {
+      "mean": 4.262099153873074,
+      "ci95": [
+        4.255129063201459,
+        4.268893230227947
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "total_application_bytes": {
+      "mean": 329936,
+      "ci95": [
+        329936,
+        329936
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_application_bytes": {
+      "mean": 164968,
+      "ci95": [
+        164968,
+        164968
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "application_bytes_per_real_success": {
+      "mean": 82484.0,
+      "ci95": [
+        82484.0,
+        82484.0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "real_executor_cpu_ns": {
+      "mean": 6125436.5,
+      "ci95": [
+        5668312.966666667,
+        6586814.133333334
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_executor_cpu_ns": {
+      "mean": 6122752.666666667,
+      "ci95": [
+        5651591.033333333,
+        6602501.166666667
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "executor_cpu_ns_per_real_success": {
+      "mean": 3062047.2916666665,
+      "ci95": [
+        2839088.125,
+        3284962.7
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "arrival_p50_ns": {
+      "mean": 399887627.3,
+      "ci95": [
+        399837746.5,
+        399925921.98333335
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "arrival_max_ns": {
+      "mean": 600437475.3333334,
+      "ci95": [
+        600386686.6,
+        600485481.8666667
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "queue_mean_ns": {
+      "mean": 249704388.39166668,
+      "ci95": [
+        249639684.16666666,
+        249759869.86666667
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "forward_mean_ns": {
+      "mean": 150417744.73333332,
+      "ci95": [
+        150370046.5625,
+        150468069.67083332
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "batch_late_max_ns": {
+      "mean": 219786.83333333334,
+      "ci95": [
+        139513.9,
+        352716.06666666665
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "publication_late_max_ns": {
+      "mean": 534051.3666666667,
+      "ci95": [
+        334490.56666666665,
+        916220.1
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "driver_work_overruns": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "attempted_trials": 30,
+    "failed_trials": 0
+  },
+  {
+    "participants": 2,
+    "epoch_ms": 400,
+    "real_percent": 100,
+    "epochs": 4,
+    "trials": 30,
+    "wall_seconds": {
+      "mean": 1.8756763661000757,
+      "ci95": [
+        1.8734114534001491,
+        1.8780415287002445
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "real_goodput_per_second": {
+      "mean": 4.265183436236336,
+      "ci95": [
+        4.25974438180534,
+        4.270321084123961
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "all_goodput_per_second": {
+      "mean": 4.265183436236336,
+      "ci95": [
+        4.25974438180534,
+        4.270321084123961
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "total_application_bytes": {
+      "mean": 329936,
+      "ci95": [
+        329936,
+        329936
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_application_bytes": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "application_bytes_per_real_success": {
+      "mean": 41242.0,
+      "ci95": [
+        41242.0,
+        41242.0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "real_executor_cpu_ns": {
+      "mean": 13204439.733333332,
+      "ci95": [
+        12105987.2,
+        14295697.033333333
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "dummy_executor_cpu_ns": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "executor_cpu_ns_per_real_success": {
+      "mean": 1650554.9666666666,
+      "ci95": [
+        1513248.4,
+        1786962.1291666667
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "arrival_p50_ns": {
+      "mean": 399833306.48333335,
+      "ci95": [
+        399704240.71666664,
+        399912387.68333334
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "arrival_max_ns": {
+      "mean": 600447493.2333333,
+      "ci95": [
+        600388116.5666667,
+        600521363.8666667
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "queue_mean_ns": {
+      "mean": 249710323.75833333,
+      "ci95": [
+        249632462.57083333,
+        249798060.08333334
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "forward_mean_ns": {
+      "mean": 150402149.40416667,
+      "ci95": [
+        150370482.02083334,
+        150435078.6625
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "batch_late_max_ns": {
+      "mean": 286608.23333333334,
+      "ci95": [
+        138369.36666666667,
+        528481.6
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "publication_late_max_ns": {
+      "mean": 385149.56666666665,
+      "ci95": [
+        310328.4,
+        489595.23333333334
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "driver_work_overruns": {
+      "mean": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "trials": 30,
+      "unit": "whole fresh demo process tree"
+    },
+    "attempted_trials": 30,
+    "failed_trials": 0
+  }
+]
