@@ -1,0 +1,10 @@
+{
+  "binary_hash_matches_after_launch": true,
+  "observer_private_timing_separated": true,
+  "response_timestamp_scope": "reader thread immediately after read_exact, before channel handoff",
+  "attempted_trials": 360,
+  "failed_trials": 0,
+  "successful_trials": 360,
+  "oracle_passed": true,
+  "invocations": 2160
+}
