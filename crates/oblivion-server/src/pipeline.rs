@@ -119,11 +119,55 @@ pub fn demo_with_discovery(
     mixed: bool,
     discovery: bool,
 ) -> Result<()> {
+    demo_schedule(
+        output,
+        real_percent,
+        participants,
+        mixed,
+        discovery,
+        150 * participants as u64,
+        8,
+    )
+}
+
+pub fn demo_sweep(
+    output: &Path,
+    real_percent: u32,
+    participants: usize,
+    mixed: bool,
+    epoch_ms: u64,
+    epochs: u64,
+) -> Result<()> {
+    demo_schedule(
+        output,
+        real_percent,
+        participants,
+        mixed,
+        false,
+        epoch_ms,
+        epochs,
+    )
+}
+
+fn demo_schedule(
+    output: &Path,
+    real_percent: u32,
+    participants: usize,
+    mixed: bool,
+    discovery: bool,
+    epoch_ms: u64,
+    epochs: u64,
+) -> Result<()> {
     if ![0, 50, 100].contains(&real_percent) || !(1..=4).contains(&participants) {
         return Err("real percent must be 0, 50 or 100; participants 1..4".into());
     }
+    if !(100 * participants as u64..=1000).contains(&epoch_ms) || !(1..=128).contains(&epochs) {
+        return Err(
+            "epoch_ms must cover sequential public slots and be at most1000; epochs1..128".into(),
+        );
+    }
     fs::create_dir(output)?;
-    write_metadata(output, real_percent, participants, mixed)?;
+    write_schedule_metadata(output, real_percent, participants, mixed, epoch_ms, epochs)?;
     let mut executor = spawn(
         "executor-worker",
         &[
@@ -166,15 +210,17 @@ pub fn demo_with_discovery(
         return Err("executor startup failed".into());
     }
     let start = Instant::now();
-    let period = Duration::from_millis(150 * participants as u64);
+    let period = Duration::from_millis(epoch_ms);
     let mut batcher = EpochBatcher::new(participants, period, start)?;
     let mut observer = BufWriter::new(File::create(output.join("envelope-observer.jsonl"))?);
     let mut labels = BufWriter::new(File::create(output.join("client-ground-truth.jsonl"))?);
+    let mut client_latency =
+        BufWriter::new(File::create(output.join("client-private-latency.jsonl"))?);
     let mut real = 0u64;
     let mut dummy = 0u64;
     let mut counters = vec![0u32; participants];
     let mut functions = std::collections::BTreeSet::new();
-    for epoch in 0..8u64 {
+    for epoch in 0..epochs {
         let mut requests = Vec::new();
         let mut ready_frames = Vec::new();
         for (slot, client) in clients.iter_mut().enumerate() {
@@ -196,8 +242,9 @@ pub fn demo_with_discovery(
             payload[0] = u8::from(is_real);
             payload[1..5].copy_from_slice(&id.to_be_bytes());
             payload[5..69].copy_from_slice(&argument);
+            let ready_at = Instant::now();
             ready_frames.push(client.send(epoch, &payload)?);
-            requests.push((is_real, id, argument));
+            requests.push((is_real, id, argument, ready_at));
         }
         let due = start + period * (epoch as u32 + 1);
         if let Some(remaining) = due.checked_duration_since(Instant::now()) {
@@ -212,10 +259,11 @@ pub fn demo_with_discovery(
             input.write_all(frame.as_bytes())?;
         }
         input.flush()?;
-        for (slot, (client, (is_real, id, argument))) in
+        for (slot, (client, (is_real, id, argument, ready_at))) in
             clients.iter_mut().zip(requests).enumerate()
         {
             let bytes = rx.recv_timeout(Duration::from_secs(5))?;
+            let completed = Instant::now();
             let result = client.receive(&Envelope::from_bytes(&bytes)?)?;
             if result[0] != 0 {
                 return Err("invocation failed (trusted client result)".into());
@@ -257,9 +305,14 @@ pub fn demo_with_discovery(
             }
             serde_json::to_writer(
                 &mut observer,
-                &serde_json::json!({"version":1,"epoch":epoch,"slot":slot,"observer":"batch-pipe","request_bytes":ENVELOPE_BYTES,"response_bytes":ENVELOPE_BYTES,"batch_count":batch.envelopes.len(),"latency_ns":sent.elapsed().as_nanos() as u64,"late_by_ns":batch.late_by_ns}),
+                &serde_json::json!({"version":1,"epoch":epoch,"slot":slot,"observer":"batch-pipe","request_bytes":ENVELOPE_BYTES,"response_bytes":ENVELOPE_BYTES,"batch_count":batch.envelopes.len(),"latency_ns":completed.duration_since(sent).as_nanos() as u64,"epoch_due_ns":due.duration_since(start).as_nanos() as u64,"batch_sent_ns":sent.duration_since(start).as_nanos() as u64,"late_by_ns":batch.late_by_ns}),
             )?;
             writeln!(observer)?;
+            serde_json::to_writer(
+                &mut client_latency,
+                &serde_json::json!({"version":1,"epoch":epoch,"slot":slot,"queue_wait_ns":sent.duration_since(ready_at).as_nanos() as u64,"arrival_to_response_ns":completed.duration_since(ready_at).as_nanos() as u64,"client_ready_ns":ready_at.duration_since(start).as_nanos() as u64}),
+            )?;
+            writeln!(client_latency)?;
             serde_json::to_writer(
                 &mut labels,
                 &serde_json::json!({"epoch":epoch,"slot":slot,"real":is_real,"function":id}),
@@ -286,7 +339,7 @@ pub fn demo_with_discovery(
         }
         trace.flush()?;
     }
-    let summary = serde_json::json!({"sse_metadata_discovery":discovery,"sse_searches_verified":discoveries.iter().flatten().map(|index|index.verified).sum::<u64>(),"registry_version":REGISTRY_VERSION,"registry_deployment_sha256":Deployment::pinned().digest_hex(),"real_invocations":real,"dummy_invocations":dummy,"last_real_counter":counters[0],"client_state_counters":counters,"participants":participants,"functions_verified":functions.len(),"request_bytes":ENVELOPE_BYTES,"response_bytes":ENVELOPE_BYTES,"processes":4,"encrypted_pir_links":true,"real_percent":real_percent,"epoch_ms":period.as_millis(),"execution_class_ms":Class::small().deadline_ms,"state_working_set_blocks":8,"logical_oram_operations_per_invocation":16,"limitations":["PIR servers must not collude","inherited pipes simulate trusted provisioning; no hardware TEE","demo state is ephemeral, durable store API tested separately","public sequential slots and bounded eight-block working set; deadline misses and resource leakage remain"]});
+    let summary = serde_json::json!({"sse_metadata_discovery":discovery,"sse_searches_verified":discoveries.iter().flatten().map(|index|index.verified).sum::<u64>(),"registry_version":REGISTRY_VERSION,"registry_deployment_sha256":Deployment::pinned().digest_hex(),"real_invocations":real,"dummy_invocations":dummy,"last_real_counter":counters[0],"client_state_counters":counters,"participants":participants,"functions_verified":functions.len(),"request_bytes":ENVELOPE_BYTES,"response_bytes":ENVELOPE_BYTES,"processes":4,"encrypted_pir_links":true,"real_percent":real_percent,"epoch_ms":period.as_millis(),"epochs":epochs,"measurement_wall_ns":start.elapsed().as_nanos() as u64,"execution_class_ms":Class::small().deadline_ms,"state_working_set_blocks":8,"logical_oram_operations_per_invocation":16,"limitations":["PIR servers must not collude","inherited pipes simulate trusted provisioning; no hardware TEE","demo state is ephemeral, durable store API tested separately","public sequential slots and bounded eight-block working set; deadline misses and resource leakage remain"]});
     fs::write(
         output.join("client-summary.json"),
         serde_json::to_vec_pretty(&summary)?,
@@ -404,6 +457,7 @@ pub fn worker(output: &Path, participants: usize) -> Result<()> {
         .map_err(|_| "executor request timed out")??
     {
         let frame = Envelope::from_bytes(&bytes)?;
+        let request_cpu_start = cpu_time::ProcessTime::try_now()?;
         let received_at = Instant::now();
         let epoch = frame.epoch();
         let slot = sequence as usize % participants;
@@ -481,7 +535,7 @@ pub fn worker(output: &Path, participants: usize) -> Result<()> {
         }
         serde_json::to_writer(
             &mut private,
-            &serde_json::json!({"epoch":epoch,"slot":slot,"real":real,"function":selected,"status":format!("{:?}",result.status),"work_ns":result.work_ns,"prepare_ns":result.total_ns,"deadline_missed":result.deadline_missed}),
+            &serde_json::json!({"epoch":epoch,"slot":slot,"real":real,"function":selected,"status":format!("{:?}",result.status),"work_ns":result.work_ns,"prepare_ns":result.total_ns,"deadline_missed":result.deadline_missed,"pir_queries_completed":if answer.is_ok(){2}else{0},"pir_application_frame_bytes":if answer.is_ok(){Some(2*(oblivion_pir::secure::Geometry::new(5,128)?.query_frame_bytes()+oblivion_pir::secure::Geometry::new(5,128)?.answer_frame_bytes()))}else{None}}),
         )?;
         writeln!(private)?;
         observer.flush()?;
@@ -497,7 +551,7 @@ pub fn worker(output: &Path, participants: usize) -> Result<()> {
         responses.write_all(response.as_bytes())?;
         serde_json::to_writer(
             &mut publication,
-            &serde_json::json!({"epoch":epoch,"slot":slot,"ready_elapsed_ns":ready_elapsed_ns,"driver_work_overrun_ns":driver_work_overrun_ns,"response_elapsed_ns":started.elapsed().as_nanos(),"publication_lateness_ns":Instant::now().saturating_duration_since(deadline).as_nanos()}),
+            &serde_json::json!({"epoch":epoch,"slot":slot,"ready_elapsed_ns":ready_elapsed_ns,"driver_work_overrun_ns":driver_work_overrun_ns,"response_elapsed_ns":started.elapsed().as_nanos(),"publication_lateness_ns":Instant::now().saturating_duration_since(deadline).as_nanos(),"executor_process_cpu_ns":request_cpu_start.try_elapsed()?.as_nanos() as u64}),
         )?;
         writeln!(publication)?;
         publication.flush()?;
@@ -513,6 +567,24 @@ pub(crate) fn write_metadata(
     real_percent: u32,
     participants: usize,
     mixed: bool,
+) -> Result<()> {
+    write_schedule_metadata(
+        output,
+        real_percent,
+        participants,
+        mixed,
+        150 * participants as u64,
+        8,
+    )
+}
+
+fn write_schedule_metadata(
+    output: &Path,
+    real_percent: u32,
+    participants: usize,
+    mixed: bool,
+    epoch_ms: u64,
+    epochs: u64,
 ) -> Result<()> {
     fn text_command(program: &str, args: &[&str]) -> String {
         Command::new(program)
@@ -547,7 +619,7 @@ pub(crate) fn write_metadata(
         digest.update([0]);
     }
     let source_sha256 = format!("{:x}", digest.finalize());
-    let metadata = serde_json::json!({"schema_version":1,"software_version":env!("CARGO_PKG_VERSION"),"git_head":text_command("git",&["rev-parse","HEAD"]),"git_status":text_command("git",&["status","--porcelain"]),"source_tree_sha256":source_sha256,"rustc":text_command("rustc",&["--version","--verbose"]),"platform":text_command("uname",&["-a"]),"cpu":fs::read_to_string("/proc/cpuinfo").unwrap_or_else(|_|"unavailable".into()),"configuration":{"real_percent":real_percent,"epochs":8,"participants":participants,"epoch_ms":150*participants,"class_ms":Class::small().deadline_ms,"mixed_functions":mixed},"workload_seed":null,"workload":"fixed deterministic real/dummy schedule and constant inputs; no workload RNG; crypto uses OS randomness","trials":1,"statistical_methodology":"integration smoke check with client oracle and raw observer traces; no inference or statistical conclusion","resource_isolation":"shared host, no CPU pinning","output":output.display().to_string()});
+    let metadata = serde_json::json!({"schema_version":1,"software_version":env!("CARGO_PKG_VERSION"),"git_head":text_command("git",&["rev-parse","HEAD"]),"git_status":text_command("git",&["status","--porcelain"]),"source_tree_sha256":source_sha256,"rustc":text_command("rustc",&["--version","--verbose"]),"platform":text_command("uname",&["-a"]),"cpu":fs::read_to_string("/proc/cpuinfo").unwrap_or_else(|_|"unavailable".into()),"configuration":{"real_percent":real_percent,"epochs":epochs,"participants":participants,"epoch_ms":epoch_ms,"class_ms":Class::small().deadline_ms,"mixed_functions":mixed},"workload_seed":null,"workload":"fixed deterministic real/dummy schedule and constant inputs; no workload RNG; crypto uses OS randomness","trials":1,"statistical_methodology":"integration smoke check with client oracle and raw observer traces; no inference or statistical conclusion","resource_isolation":"shared host, no CPU pinning","output":output.display().to_string()});
     fs::write(
         output.join("metadata.json"),
         serde_json::to_vec_pretty(&metadata)?,

@@ -26,6 +26,10 @@ fn main() -> Result<()> {
             Path::new(&args[2]), args[3].parse()?, args[4].parse()?,
             args.get(5).map_or(Ok(4), |value| value.parse())?,
         )?,
+        Some("demo-sweep") if (7..=8).contains(&args.len()) => {
+            if args.get(7).is_some_and(|value| value != "mixed") { return Err("expected mixed flag".into()); }
+            pipeline::demo_sweep(Path::new(&args[2]), args[3].parse()?, args[4].parse()?, args.get(7).is_some(), args[5].parse()?, args[6].parse()?)?
+        }
         Some("demo-sse") if (3..=6).contains(&args.len()) => pipeline::demo_with_discovery(
             Path::new(&args[2]),
             args.get(3).map_or(Ok(50), |s| s.parse::<u32>())?,
@@ -39,7 +43,7 @@ fn main() -> Result<()> {
             args.get(4).map_or(Ok(1), |s| s.parse::<usize>())?,
             args.get(5).is_some_and(|s|s=="mixed"),
         )?,
-        _ => return Err("usage: oblivion-server demo|demo-sse NEW_OUTPUT_DIRECTORY [0|50|100] [1..4 PARTICIPANTS] [mixed]; or open-loop NEW_OUTPUT_DIRECTORY INTERVAL_MS COUNT [QUEUE_CAPACITY]".into()),
+        _ => return Err("usage: oblivion-server demo-sweep NEW_OUTPUT_DIRECTORY REAL_PERCENT PARTICIPANTS EPOCH_MS EPOCH_COUNT [mixed]; or demo|demo-sse NEW_OUTPUT_DIRECTORY [0|50|100] [1..4 PARTICIPANTS] [mixed]; or open-loop NEW_OUTPUT_DIRECTORY INTERVAL_MS COUNT [QUEUE_CAPACITY]".into()),
     }
     Ok(())
 }
