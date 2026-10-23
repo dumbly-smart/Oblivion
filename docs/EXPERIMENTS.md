@@ -1,6 +1,6 @@
 # Reproducing experiments
 
-Updated 2026-10-22. Run from the repository root with a **new output directory**. [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) and [REQUIREMENTS_MATRIX.md](REQUIREMENTS_MATRIX.md) distinguish executed results, current source and pending evaluation.
+Updated 2026-10-23. Run from the repository root with a **new output directory**. [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) and [REQUIREMENTS_MATRIX.md](REQUIREMENTS_MATRIX.md) distinguish executed results, current source and pending evaluation.
 
 ## Environment and provenance
 
@@ -9,10 +9,13 @@ Use Rust 1.96+, a C toolchain and Cargo.lock; historical Linux records used Rust
 ```sh
 python3 -m venv .venv
 .venv/bin/python -m pip install -r research/requirements.lock
-.venv/bin/python -m unittest discover -s research/tests
+cargo build --locked --release --workspace --bins --examples
+cargo build --locked --release --manifest-path research/oram_reference/Cargo.toml
+PRESENCE_BINARY=target/release/examples/presence EXECUTOR_RESOURCES_BINARY=target/release/examples/resource_measure EXEC_TIMING_BINARY=target/release/examples/timing_measure EPOCH_SYSTEM_BINARY=target/release/oblivion-server .venv/bin/python -m unittest discover -s research/tests
+.venv/bin/python scripts/validate.py target/validation-new
 ```
 
-Scripted runs record configuration/seeds, source SHA-256 including uncommitted implementation, toolchains, host/CPU, repository state, commands and methodology. Current source changes do not alter the meaning of saved launch-time hashes. Runs use a shared host without CPU affinity/resource isolation. Logical workload seeds are separate from OS cryptographic randomness; repeated seeds do not reproduce keys, ciphertexts, leaves or exact latency.
+Scripted runs record configuration/seeds, source SHA-256 including uncommitted implementation, toolchains, host/CPU, repository state, commands and methodology. Current source changes do not alter the meaning of saved launch-time hashes. Runs use a shared host without CPU affinity/resource isolation. Logical workload seeds are separate from OS cryptographic randomness; repeated seeds do not reproduce keys, ciphertexts, leaves or exact latency. The default validator includes the separate GPL reference build/tests; `--with-reference` is retained for compatibility. Modern campaigns freeze an executable/config and write durable provenance before measurement; historical weaker provenance remains explicitly labeled.
 
 ## Store correctness, stress and component measurements
 
@@ -40,7 +43,7 @@ The saved `pir-30trials-20261020/` run has 30 independent trials × 16 queries o
 
 The original generic loopback worker remains plaintext for individual-server-view component experiments. The reusable `oblivion_pir::secure` protocol supports bounded arbitrary geometry, including 10,000 × 1 KiB, authenticated sequence/epoch/direction/slot and independent encrypted links. New real TCP/process tests cover tamper, replay, timeout, server loss and trickled input. [PIR_TRANSPORT.md](PIR_TRANSPORT.md) specifies framing and bootstrap assumptions. Encrypted transport and query sharing still require PIR server non-collusion.
 
-Use [SIMPLEPIR_REFERENCE.md](SIMPLEPIR_REFERENCE.md) for the genuine upstream comparison and reproduction commands. Saved `simplepir-reference-small-20261020/` contains 30 fresh processes/scheme × 16 measured queries on **10,000 eight-byte records**, real SimplePIR setup/hint, upstream correctness log and all 960 measured full-output oracle checks. Setup/online traffic and timing are separate. This experiment does not replace runtime PIR or the 1 KiB XOR benchmark.
+Use [SIMPLEPIR_REFERENCE.md](SIMPLEPIR_REFERENCE.md) for the genuine upstream comparison and reproduction commands. Saved `simplepir-reference-small-20261020/` contains 30 fresh processes/scheme × 16 measured queries on **10,000 eight-byte records**, real SimplePIR setup/hint, upstream correctness log and all 960 measured full-output oracle checks. Setup/online traffic and timing are separate. This experiment does not replace runtime PIR or the 1 KiB XOR benchmark. The later [100k matched correctness run](../experiments/results/simplepir-100k-20261023/summary.json) uses 30 setups and 3,334 queries/setup per scheme: 100,020 full eight-byte results each for genuine SimplePIR and XOR, all correct. Within-setup outcomes share matrices/hints and are not independent setup trials.
 
 ## Current process path and historical demo results
 
@@ -51,6 +54,8 @@ cargo run --locked -p oblivion-server -- demo target/demo-full 100 2 mixed
 ```
 
 Arguments enroll one to four participants; `mixed` selects all five functions over eight epochs. Current epochs are 150 ms per enrolled participant and the execution class targets 100 ms, with sequential slots. Each invocation has 164-byte request/response envelopes, encrypted PIR, an independent trusted-client output/counter oracle and eight actual ORAM reads plus eight writes. At N=8/Z=4/64-byte blocks, each invocation has 128 bucket events of 316 bytes. Guest calls operate within trusted namespaces/staging; failed guest mutations are discarded before physical commit. Backend failures and deadline misses remain visible.
+
+The built-in real/dummy/function schedule is deterministic and public from the demo code, percentage and epoch. These commands exercise topology/oracles; they do not hide identity from an adversary who already knows that schedule. Experimental seeds/target truth are separate research-driver inputs excluded from each declared attacker contract, while cadence/classes/geometry remain public.
 
 Historical `demo-{0,50,100}-final-20261020/` instead ran one stateful participant, 20 ms epochs, a 10 ms execution class and two logical ORAM operations per invocation. Their eight invocations had **128 bucket events per entire run**, with final real counters 0/4/8. They are retained historical smoke evidence and must not be relabeled current schedule measurements.
 
@@ -93,8 +98,39 @@ These historical component scores do not establish joint runtime privacy or zero
 
 [SYSTEM_EXPERIMENTS.md](SYSTEM_EXPERIMENTS.md) records the final `system-fixed-publication-30-20261022/` A–G/disabled-layer run, raw observer/truth/metrics and all four system plots. Its G balanced accuracy is 33.40% [32.29,34.51] against 33.33% chance. The stopped 18-trial pilot is excluded; the completed earlier corrected campaign's possible arrival signal is retained. Final trusted drivers prepare response encryption/instrumentation before the 100 ms publication wait, clients precompute frames before public emission, and slots have fixed epoch-relative origins. Publication lateness and driver work overrun remain separate diagnostics; shared-host timers are not exact-time guarantees. Library payload accounting is separate from scoped genuine PIR packet capture.
 
-[RUNTIME_BENCHMARKS.md](RUNTIME_BENCHMARKS.md) records 60 offered-load processes and 270 epoch/real-ratio trials; [DEMO.md](DEMO.md) records the actual mixed-client SSE/PIR/WASM/ORAM subprocess and generated local MP4/terminalcast. [Recorded validation](../experiments/results/validation-20261022-current/commands.json) has five zero exits, but source changed during that campaign and a final frozen-source rerun remains required. Hosted CI must be observed separately.
+[RUNTIME_BENCHMARKS.md](RUNTIME_BENCHMARKS.md) preserves the earlier 60 offered-load processes and 270 epoch/real-ratio trials and adds 180 extended-load processes / 5,760 offers; [DEMO.md](DEMO.md) records the actual mixed-client SSE/PIR/WASM/ORAM subprocess and generated local MP4/terminalcast. [Recorded validation](../experiments/results/validation-20261022-current/commands.json) has five zero exits, but source changed during that campaign and a final frozen-source rerun remains required. Hosted CI must be observed separately.
 
-## Required remaining evaluation
+## Later selected studies and retained results
 
-Broad open-loop/parameter/fault sweeps, well-resolved population tails, detailed cold/warm/high-resolution resource measurements, presence/intersection inference, realistic licensed corpora and auxiliary-knowledge drift remain incomplete. Existing system/component/autoscaler figures satisfy their bounded artifact requirements; they do not imply comprehensive calibrated runtime/cloud or significant Pareto dominance. The full requirement matrix retains these gaps and separates optional native TEE, DP, recursive/Circuit ORAM, PIR variants and persistent/backward-private SSE. No configuration alone is a result.
+Use each linked component document's exact configuration and fresh-directory runner. All result counts below refer to actual saved runs, not merely available configurations.
+
+| Study | Retained output | Execution/scope |
+| --- | --- | --- |
+| [Licensed corpus/drift](CORPUS_EVALUATION.md) | `corpus-real-frozen-20261023/` | 30 conditional real-text splits, genuine SSE/dummy postings; fixed synthetic queries and private target labels |
+| [Presence/intersection](PRESENCE_EVALUATION.md) | Presence raw and independent-tie/Wilson analyses linked there | Real authenticated frames with virtual epochs; semantic-beacon negative outcome, no network timing |
+| [Geometry/stash](GEOMETRY_EVALUATION.md) | `geometry-20261022/` | 42 cells × 30, 138,240 ORAM accesses / 2,880 PIR queries; payload/state accounting |
+| [Leaf+timing](ORAM_LEAF_TIMING.md) | `oram-leaf-timing-20261023/` | 30 fits/mode with disjoint sessions; possible weak AUC retained |
+| [PIR target timing](PIR_TARGET_TIMING.md) | `pir-target-timing-20261023/` | 46,080 full-record checks; own-share/local-time observer; actual control first |
+| [Square-root PIR](SQRT_PIR.md) | `sqrt-pir-20261023/` | 5,760 checked actual matrix retrievals; full scans and sometimes larger total payload |
+| [Matched Circuit reference](CIRCUIT_ORAM_REFERENCE.md) | `circuit-reference-20261023/` | 61,440 timed accesses / 193,920 full-record checks; genuine separately licensed upstream, matched unencrypted heap |
+| [Direct CPU/classes](EXECUTOR_RESOURCES.md) | `executor-cpu-20261023/` | 180 processes / 2,160 calls; engine/compile/first/warm and per-invocation process/thread CPU |
+| [Extended offered load](RUNTIME_BENCHMARKS.md) | `runtime-extended-30-20261023/` | Six cells × 30, 5,760 offers; admission/drop/SLO counts and bounded-process quantiles |
+| [Repeated faults](FAULT_CAMPAIGN.md) | `fault-campaign-30-20261023-retry/` | 210 assertion-bearing launches; original ENOSPC attempt preserved, no general availability proof |
+| [Joint batch load](BATCH_LOAD_EVALUATION.md) | `batch-load-centroid-20261023/` | 720 independent processes, 30 fits/mode, same22 public features; control100%, protected28.33% [22.78,33.89]. Both failed forest controls retained separately |
+| [Integrated reader-pipe epochs](EPOCH_SYSTEM_EVALUATION.md) | `epoch-system-pipe-timestamps-20261023/` | 360 process trees / 2,160 verified calls; actual reader completion timestamps and strict separate private rows |
+
+The integrated epoch campaign's immutable executable/source copy is authoritative. Live checkout fingerprints changed for an unrelated PIR example; later default-wrapper input hardening is separately recorded. The older mixed/private epoch observer files are never attacker input, and the intermediate separated campaign timestamps client consumption rather than pure pipe reads. Neither is relabeled as the current measurement.
+
+## Current acceptance and further research
+
+Two ten-command local attempts remain preserved and unaccepted as complete gates. `validation-20261023-final/` has nine zero exits and a workspace harness Timeout. `validation-20261023-current-source/` passes workspace tests but its 112-test Python run has one authenticated `demo-sweep` invocation failure; its private cause was not retained and remains unknown. A deterministic Timeout regression does not establish that historical cause.
+
+The fresh [verified local gate](../experiments/results/validation-20261023-verified/commands.json) passed all ten commands: 90 core Rust tests, one reference test, 119 Python tests with all four runtime fixtures and no skips, both workspaces' quality/build checks, and the million-operation oracle. [Before/after source fingerprints](../experiments/results/validation-20261023-verified/metadata.json) match; this local gate is accepted.
+
+Hosted run 39968400558 for `1d741580` is green. The latest pushed `d80f258c` has run 39969191581 in progress as of this refresh; final-head hosted acceptance remains pending. [Draft PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is available for review. Earlier green runs 39931999451/39921151648 and locally corrected Clippy failure 39921929791 remain historical evidence. No merge is claimed.
+
+The research-only `demo-sweep` now retains authenticated masked runtime failures, including their timing, CPU and completed interface work, while successful outputs still require full independent oracles. Legacy `demo`/`demo-sse` stay strict; budgets, reader timestamps and retry behavior are unchanged. Primary CPU/byte cost per real success is a ratio of sums that includes zero-success trials' costs; unknown partial PIR-byte costs, undefined totals and bootstrap draws are explicit, with no unconditional finite interval when a draw is undefined. Historical completed campaigns had zero runtime errors and were not rerun or rewritten. See [the post-measurement policy](EPOCH_SYSTEM_EVALUATION.md#post-measurement-runtime-error-retention).
+
+[The figure reproduction audit](FIGURE_REPRODUCTION.md) now records raw-derived regeneration of all eight required main figures and the supplemental three-axis/SLO plot without ignored measurement executables. Both autoscaler campaigns rebuild from four raw/config files rather than cached reports; audited numerical reports and PNG bytes matched, and accepted inputs stayed unchanged. Local validation is accepted separately; final-head hosted CI/PR review remain open.
+
+[The completion audit](COMPLETION_AUDIT.md) maps original requirements without adding remote-RSS/provider-calibration/universal-dominance obligations or dropping required square-root/Circuit work. Selected synthetic arrival simulation, explicit hypothetical prices, trusted payload memory and nominal Pareto+CIs/SLO/extreme panels have documented scopes. Longer tails, real query traces, stronger attackers, remote deployment/resource calibration and independent repetition of weak signals are further research. Actual TEE/DP, recursion/native Circuit, DPF/native runtime LWE, persistent/backward SSE and durable invocation acknowledgment remain unselected extensions. No configuration alone is a result, and finite near-chance accuracy is not a security theorem.
