@@ -1,0 +1,13 @@
+{
+ "version":1,
+ "blocks":[64,1024],
+ "algorithms":["path","circuit"],
+ "logical_block_bytes":1024,
+ "bucket_capacity":4,
+ "stash_capacity":128,
+ "trials":30,
+ "operations":512,
+ "warmup":16,
+ "seed":20261023,
+ "order_seed":55319
+}
