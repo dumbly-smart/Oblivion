@@ -32,8 +32,52 @@ fn component_dataset_uses_actual_lengths_and_separate_labels() {
     let defended = rows(&out.join("traffic/padded/0-0/observer.jsonl"));
     assert_eq!(plain.len(), 32);
     assert_eq!(defended.len(), 32);
-    assert!(plain.iter().any(|r| r["bytes"] == 4));
-    assert!(plain.iter().any(|r| r["bytes"] == 64));
+    // Match actual statuses rather than selecting for successful calls under
+    // uncontrolled host scheduling. Successful values are oracle-checked by the
+    // generator; runtime errors retain their measured empty baseline response.
+    for (mode, visible) in [("unpadded", &plain), ("padded", &defended)] {
+        let details = rows(&out.join(format!("traffic/{mode}/0-0/execution-private.jsonl")));
+        assert_eq!(details.len(), 34);
+        assert_eq!(
+            details
+                .iter()
+                .filter(|row| row["phase"] == "warmup")
+                .count(),
+            2
+        );
+        let measured: Vec<_> = details
+            .iter()
+            .filter(|row| row["phase"] == "measurement")
+            .collect();
+        assert_eq!(measured.len(), 32);
+        let labels = rows(&out.join(format!("traffic/{mode}/0-0/ground-truth.jsonl")));
+        for (step, ((row, private), label)) in visible.iter().zip(measured).zip(labels).enumerate()
+        {
+            assert_eq!(private["step"], step);
+            assert_eq!(private["function"], label["label"]);
+            assert_eq!(private["mode"], mode);
+            assert_eq!(private["output_bytes"], row["bytes"]);
+            assert_eq!(private["total_ns"], row["latency_ns"]);
+            let expected = if mode == "padded" {
+                64
+            } else if private["status"] != "Success" {
+                0
+            } else if label["label"] == 0 {
+                64
+            } else {
+                4
+            };
+            assert_eq!(row["bytes"], expected);
+            assert!(private["work_ns"].is_u64() && private["deadline_missed"].is_boolean());
+            assert_eq!(row.as_object().unwrap().len(), 5);
+            assert_eq!(label.as_object().unwrap().len(), 2);
+            assert!(
+                row.get("status").is_none()
+                    && row.get("work_ns").is_none()
+                    && row.get("deadline_missed").is_none()
+            );
+        }
+    }
     assert!(
         defended
             .iter()
