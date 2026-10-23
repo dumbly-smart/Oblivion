@@ -1,0 +1,711 @@
+{
+  "summary": [
+    {
+      "mode": "exact_count_control",
+      "view": "matched",
+      "attack": "count_volume",
+      "split_resample_trials": 30,
+      "target_sessions": 240,
+      "accuracy": 1.0,
+      "accuracy_trial_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "balanced_accuracy": 1.0,
+      "balanced_accuracy_trial_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "top3_accuracy": 1.0,
+      "top3_accuracy_trial_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "majority_accuracy": 0.225,
+      "majority_accuracy_trial_bootstrap_95": [
+        0.175,
+        0.27708333333333335
+      ],
+      "oracle_majority_accuracy": 0.9708333333333333,
+      "oracle_majority_accuracy_trial_bootstrap_95": [
+        0.9541666666666667,
+        0.9854166666666667
+      ],
+      "chance_accuracy": 0.125,
+      "chance_accuracy_trial_bootstrap_95": [
+        0.125,
+        0.125
+      ],
+      "advantage_over_profile_majority": 0.775,
+      "advantage_over_profile_majority_trial_bootstrap_95": [
+        0.7229166666666667,
+        0.825
+      ],
+      "mean_postings": 40.645833333333336,
+      "mean_postings_trial_bootstrap_95": [
+        38.12916666666667,
+        43.02104166666667
+      ],
+      "mean_response_json_bytes": 10244.70625,
+      "mean_response_json_bytes_trial_bootstrap_95": [
+        9616.113802083333,
+        10839.231302083334
+      ],
+      "objective_gap": 0.0,
+      "objective_gap_trial_bootstrap_95": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "mode": "exact_count_control",
+      "view": "matched",
+      "attack": "exact_markov_bound",
+      "split_resample_trials": 30,
+      "target_sessions": 240,
+      "accuracy": 0.9875,
+      "accuracy_trial_bootstrap_95": [
+        0.9729166666666667,
+        0.9979166666666667
+      ],
+      "balanced_accuracy": 0.9875,
+      "balanced_accuracy_trial_bootstrap_95": [
+        0.9729166666666667,
+        0.9979166666666667
+      ],
+      "top3_accuracy": 0.9979166666666667,
+      "top3_accuracy_trial_bootstrap_95": [
+        0.99375,
+        1.0
+      ],
+      "majority_accuracy": 0.225,
+      "majority_accuracy_trial_bootstrap_95": [
+        0.175,
+        0.27708333333333335
+      ],
+      "oracle_majority_accuracy": 0.9708333333333333,
+      "oracle_majority_accuracy_trial_bootstrap_95": [
+        0.9541666666666667,
+        0.9854166666666667
+      ],
+      "chance_accuracy": 0.125,
+      "chance_accuracy_trial_bootstrap_95": [
+        0.125,
+        0.125
+      ],
+      "advantage_over_profile_majority": 0.7625,
+      "advantage_over_profile_majority_trial_bootstrap_95": [
+        0.7104166666666667,
+        0.8145833333333333
+      ],
+      "mean_postings": 40.645833333333336,
+      "mean_postings_trial_bootstrap_95": [
+        38.12916666666667,
+        43.02104166666667
+      ],
+      "mean_response_json_bytes": 10244.70625,
+      "mean_response_json_bytes_trial_bootstrap_95": [
+        9616.113802083333,
+        10839.231302083334
+      ],
+      "objective_gap": 0.0,
+      "objective_gap_trial_bootstrap_95": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "mode": "exact_count_control",
+      "view": "matched",
+      "attack": "iterative_hungarian_markov",
+      "split_resample_trials": 30,
+      "target_sessions": 240,
+      "accuracy": 1.0,
+      "accuracy_trial_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "balanced_accuracy": 1.0,
+      "balanced_accuracy_trial_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "top3_accuracy": 1.0,
+      "top3_accuracy_trial_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "majority_accuracy": 0.225,
+      "majority_accuracy_trial_bootstrap_95": [
+        0.175,
+        0.27708333333333335
+      ],
+      "oracle_majority_accuracy": 0.9708333333333333,
+      "oracle_majority_accuracy_trial_bootstrap_95": [
+        0.9541666666666667,
+        0.9854166666666667
+      ],
+      "chance_accuracy": 0.125,
+      "chance_accuracy_trial_bootstrap_95": [
+        0.125,
+        0.125
+      ],
+      "advantage_over_profile_majority": 0.775,
+      "advantage_over_profile_majority_trial_bootstrap_95": [
+        0.7229166666666667,
+        0.825
+      ],
+      "mean_postings": 40.645833333333336,
+      "mean_postings_trial_bootstrap_95": [
+        38.12916666666667,
+        43.02104166666667
+      ],
+      "mean_response_json_bytes": 10244.70625,
+      "mean_response_json_bytes_trial_bootstrap_95": [
+        9616.113802083333,
+        10839.231302083334
+      ],
+      "objective_gap": 0.013457996373601115,
+      "objective_gap_trial_bootstrap_95": [
+        0.00016466537940189595,
+        0.03317264814085282
+      ]
+    },
+    {
+      "mode": "exact_count_control",
+      "view": "matched",
+      "attack": "likelihood_assignment",
+      "split_resample_trials": 30,
+      "target_sessions": 240,
+      "accuracy": 1.0,
+      "accuracy_trial_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "balanced_accuracy": 1.0,
+      "balanced_accuracy_trial_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "top3_accuracy": 1.0,
+      "top3_accuracy_trial_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "majority_accuracy": 0.225,
+      "majority_accuracy_trial_bootstrap_95": [
+        0.175,
+        0.27708333333333335
+      ],
+      "oracle_majority_accuracy": 0.9708333333333333,
+      "oracle_majority_accuracy_trial_bootstrap_95": [
+        0.9541666666666667,
+        0.9854166666666667
+      ],
+      "chance_accuracy": 0.125,
+      "chance_accuracy_trial_bootstrap_95": [
+        0.125,
+        0.125
+      ],
+      "advantage_over_profile_majority": 0.775,
+      "advantage_over_profile_majority_trial_bootstrap_95": [
+        0.7229166666666667,
+        0.825
+      ],
+      "mean_postings": 40.645833333333336,
+      "mean_postings_trial_bootstrap_95": [
+        38.12916666666667,
+        43.02104166666667
+      ],
+      "mean_response_json_bytes": 10244.70625,
+      "mean_response_json_bytes_trial_bootstrap_95": [
+        9616.113802083333,
+        10839.231302083334
+      ],
+      "objective_gap": 0.0,
+      "objective_gap_trial_bootstrap_95": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "mode": "padded_sse",
+      "view": "matched",
+      "attack": "count_volume",
+      "split_resample_trials": 30,
+      "target_sessions": 240,
+      "accuracy": 0.225,
+      "accuracy_trial_bootstrap_95": [
+        0.175,
+        0.27708333333333335
+      ],
+      "balanced_accuracy": 0.225,
+      "balanced_accuracy_trial_bootstrap_95": [
+        0.175,
+        0.27708333333333335
+      ],
+      "top3_accuracy": 0.6020833333333333,
+      "top3_accuracy_trial_bootstrap_95": [
+        0.5375,
+        0.6645833333333333
+      ],
+      "majority_accuracy": 0.225,
+      "majority_accuracy_trial_bootstrap_95": [
+        0.175,
+        0.27708333333333335
+      ],
+      "oracle_majority_accuracy": 0.9708333333333333,
+      "oracle_majority_accuracy_trial_bootstrap_95": [
+        0.9541666666666667,
+        0.9854166666666667
+      ],
+      "chance_accuracy": 0.125,
+      "chance_accuracy_trial_bootstrap_95": [
+        0.125,
+        0.125
+      ],
+      "advantage_over_profile_majority": 0.0,
+      "advantage_over_profile_majority_trial_bootstrap_95": [
+        0.0,
+        0.0
+      ],
+      "mean_postings": 2048.0,
+      "mean_postings_trial_bootstrap_95": [
+        2048.0,
+        2048.0
+      ],
+      "mean_response_json_bytes": 514975.56666666665,
+      "mean_response_json_bytes_trial_bootstrap_95": [
+        514952.3783333333,
+        514997.49078125
+      ],
+      "objective_gap": 0.0,
+      "objective_gap_trial_bootstrap_95": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "mode": "padded_sse",
+      "view": "matched",
+      "attack": "exact_markov_bound",
+      "split_resample_trials": 30,
+      "target_sessions": 240,
+      "accuracy": 0.21875,
+      "accuracy_trial_bootstrap_95": [
+        0.16666666666666666,
+        0.27291666666666664
+      ],
+      "balanced_accuracy": 0.21875,
+      "balanced_accuracy_trial_bootstrap_95": [
+        0.16666666666666666,
+        0.27291666666666664
+      ],
+      "top3_accuracy": 0.6020833333333333,
+      "top3_accuracy_trial_bootstrap_95": [
+        0.5375,
+        0.6645833333333333
+      ],
+      "majority_accuracy": 0.225,
+      "majority_accuracy_trial_bootstrap_95": [
+        0.175,
+        0.27708333333333335
+      ],
+      "oracle_majority_accuracy": 0.9708333333333333,
+      "oracle_majority_accuracy_trial_bootstrap_95": [
+        0.9541666666666667,
+        0.9854166666666667
+      ],
+      "chance_accuracy": 0.125,
+      "chance_accuracy_trial_bootstrap_95": [
+        0.125,
+        0.125
+      ],
+      "advantage_over_profile_majority": -0.00625,
+      "advantage_over_profile_majority_trial_bootstrap_95": [
+        -0.014583333333333334,
+        0.0020833333333333333
+      ],
+      "mean_postings": 2048.0,
+      "mean_postings_trial_bootstrap_95": [
+        2048.0,
+        2048.0
+      ],
+      "mean_response_json_bytes": 514975.56666666665,
+      "mean_response_json_bytes_trial_bootstrap_95": [
+        514952.3783333333,
+        514997.49078125
+      ],
+      "objective_gap": 0.0,
+      "objective_gap_trial_bootstrap_95": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "mode": "padded_sse",
+      "view": "matched",
+      "attack": "iterative_hungarian_markov",
+      "split_resample_trials": 30,
+      "target_sessions": 240,
+      "accuracy": 0.21666666666666667,
+      "accuracy_trial_bootstrap_95": [
+        0.1625,
+        0.2729687499999992
+      ],
+      "balanced_accuracy": 0.21666666666666667,
+      "balanced_accuracy_trial_bootstrap_95": [
+        0.1625,
+        0.2729687499999992
+      ],
+      "top3_accuracy": 0.6020833333333333,
+      "top3_accuracy_trial_bootstrap_95": [
+        0.5375,
+        0.6645833333333333
+      ],
+      "majority_accuracy": 0.225,
+      "majority_accuracy_trial_bootstrap_95": [
+        0.175,
+        0.27708333333333335
+      ],
+      "oracle_majority_accuracy": 0.9708333333333333,
+      "oracle_majority_accuracy_trial_bootstrap_95": [
+        0.9541666666666667,
+        0.9854166666666667
+      ],
+      "chance_accuracy": 0.125,
+      "chance_accuracy_trial_bootstrap_95": [
+        0.125,
+        0.125
+      ],
+      "advantage_over_profile_majority": -0.008333333333333333,
+      "advantage_over_profile_majority_trial_bootstrap_95": [
+        -0.01875,
+        0.0020833333333333333
+      ],
+      "mean_postings": 2048.0,
+      "mean_postings_trial_bootstrap_95": [
+        2048.0,
+        2048.0
+      ],
+      "mean_response_json_bytes": 514975.56666666665,
+      "mean_response_json_bytes_trial_bootstrap_95": [
+        514952.3783333333,
+        514997.49078125
+      ],
+      "objective_gap": 0.017979514255388938,
+      "objective_gap_trial_bootstrap_95": [
+        0.006521176550381238,
+        0.030782816271182057
+      ]
+    },
+    {
+      "mode": "padded_sse",
+      "view": "matched",
+      "attack": "likelihood_assignment",
+      "split_resample_trials": 30,
+      "target_sessions": 240,
+      "accuracy": 0.21666666666666667,
+      "accuracy_trial_bootstrap_95": [
+        0.1625,
+        0.2729687499999992
+      ],
+      "balanced_accuracy": 0.21666666666666667,
+      "balanced_accuracy_trial_bootstrap_95": [
+        0.1625,
+        0.2729687499999992
+      ],
+      "top3_accuracy": 0.6020833333333333,
+      "top3_accuracy_trial_bootstrap_95": [
+        0.5375,
+        0.6645833333333333
+      ],
+      "majority_accuracy": 0.225,
+      "majority_accuracy_trial_bootstrap_95": [
+        0.175,
+        0.27708333333333335
+      ],
+      "oracle_majority_accuracy": 0.9708333333333333,
+      "oracle_majority_accuracy_trial_bootstrap_95": [
+        0.9541666666666667,
+        0.9854166666666667
+      ],
+      "chance_accuracy": 0.125,
+      "chance_accuracy_trial_bootstrap_95": [
+        0.125,
+        0.125
+      ],
+      "advantage_over_profile_majority": -0.008333333333333333,
+      "advantage_over_profile_majority_trial_bootstrap_95": [
+        -0.01875,
+        0.0020833333333333333
+      ],
+      "mean_postings": 2048.0,
+      "mean_postings_trial_bootstrap_95": [
+        2048.0,
+        2048.0
+      ],
+      "mean_response_json_bytes": 514975.56666666665,
+      "mean_response_json_bytes_trial_bootstrap_95": [
+        514952.3783333333,
+        514997.49078125
+      ],
+      "objective_gap": 0.0,
+      "objective_gap_trial_bootstrap_95": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "mode": "sse",
+      "view": "matched",
+      "attack": "count_volume",
+      "split_resample_trials": 30,
+      "target_sessions": 240,
+      "accuracy": 1.0,
+      "accuracy_trial_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "balanced_accuracy": 1.0,
+      "balanced_accuracy_trial_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "top3_accuracy": 1.0,
+      "top3_accuracy_trial_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "majority_accuracy": 0.225,
+      "majority_accuracy_trial_bootstrap_95": [
+        0.175,
+        0.27708333333333335
+      ],
+      "oracle_majority_accuracy": 0.9708333333333333,
+      "oracle_majority_accuracy_trial_bootstrap_95": [
+        0.9541666666666667,
+        0.9854166666666667
+      ],
+      "chance_accuracy": 0.125,
+      "chance_accuracy_trial_bootstrap_95": [
+        0.125,
+        0.125
+      ],
+      "advantage_over_profile_majority": 0.775,
+      "advantage_over_profile_majority_trial_bootstrap_95": [
+        0.7229166666666667,
+        0.825
+      ],
+      "mean_postings": 40.645833333333336,
+      "mean_postings_trial_bootstrap_95": [
+        38.12916666666667,
+        43.02104166666667
+      ],
+      "mean_response_json_bytes": 10244.83125,
+      "mean_response_json_bytes_trial_bootstrap_95": [
+        9616.739895833334,
+        10839.073229166666
+      ],
+      "objective_gap": 0.0,
+      "objective_gap_trial_bootstrap_95": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "mode": "sse",
+      "view": "matched",
+      "attack": "exact_markov_bound",
+      "split_resample_trials": 30,
+      "target_sessions": 240,
+      "accuracy": 0.9875,
+      "accuracy_trial_bootstrap_95": [
+        0.9729166666666667,
+        0.9979166666666667
+      ],
+      "balanced_accuracy": 0.9875,
+      "balanced_accuracy_trial_bootstrap_95": [
+        0.9729166666666667,
+        0.9979166666666667
+      ],
+      "top3_accuracy": 0.9979166666666667,
+      "top3_accuracy_trial_bootstrap_95": [
+        0.99375,
+        1.0
+      ],
+      "majority_accuracy": 0.225,
+      "majority_accuracy_trial_bootstrap_95": [
+        0.175,
+        0.27708333333333335
+      ],
+      "oracle_majority_accuracy": 0.9708333333333333,
+      "oracle_majority_accuracy_trial_bootstrap_95": [
+        0.9541666666666667,
+        0.9854166666666667
+      ],
+      "chance_accuracy": 0.125,
+      "chance_accuracy_trial_bootstrap_95": [
+        0.125,
+        0.125
+      ],
+      "advantage_over_profile_majority": 0.7625,
+      "advantage_over_profile_majority_trial_bootstrap_95": [
+        0.7104166666666667,
+        0.8145833333333333
+      ],
+      "mean_postings": 40.645833333333336,
+      "mean_postings_trial_bootstrap_95": [
+        38.12916666666667,
+        43.02104166666667
+      ],
+      "mean_response_json_bytes": 10244.83125,
+      "mean_response_json_bytes_trial_bootstrap_95": [
+        9616.739895833334,
+        10839.073229166666
+      ],
+      "objective_gap": 0.0,
+      "objective_gap_trial_bootstrap_95": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "mode": "sse",
+      "view": "matched",
+      "attack": "iterative_hungarian_markov",
+      "split_resample_trials": 30,
+      "target_sessions": 240,
+      "accuracy": 1.0,
+      "accuracy_trial_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "balanced_accuracy": 1.0,
+      "balanced_accuracy_trial_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "top3_accuracy": 1.0,
+      "top3_accuracy_trial_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "majority_accuracy": 0.225,
+      "majority_accuracy_trial_bootstrap_95": [
+        0.175,
+        0.27708333333333335
+      ],
+      "oracle_majority_accuracy": 0.9708333333333333,
+      "oracle_majority_accuracy_trial_bootstrap_95": [
+        0.9541666666666667,
+        0.9854166666666667
+      ],
+      "chance_accuracy": 0.125,
+      "chance_accuracy_trial_bootstrap_95": [
+        0.125,
+        0.125
+      ],
+      "advantage_over_profile_majority": 0.775,
+      "advantage_over_profile_majority_trial_bootstrap_95": [
+        0.7229166666666667,
+        0.825
+      ],
+      "mean_postings": 40.645833333333336,
+      "mean_postings_trial_bootstrap_95": [
+        38.12916666666667,
+        43.02104166666667
+      ],
+      "mean_response_json_bytes": 10244.83125,
+      "mean_response_json_bytes_trial_bootstrap_95": [
+        9616.739895833334,
+        10839.073229166666
+      ],
+      "objective_gap": 0.013457996373601115,
+      "objective_gap_trial_bootstrap_95": [
+        0.00016466537940189595,
+        0.03317264814085282
+      ]
+    },
+    {
+      "mode": "sse",
+      "view": "matched",
+      "attack": "likelihood_assignment",
+      "split_resample_trials": 30,
+      "target_sessions": 240,
+      "accuracy": 1.0,
+      "accuracy_trial_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "balanced_accuracy": 1.0,
+      "balanced_accuracy_trial_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "top3_accuracy": 1.0,
+      "top3_accuracy_trial_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "majority_accuracy": 0.225,
+      "majority_accuracy_trial_bootstrap_95": [
+        0.175,
+        0.27708333333333335
+      ],
+      "oracle_majority_accuracy": 0.9708333333333333,
+      "oracle_majority_accuracy_trial_bootstrap_95": [
+        0.9541666666666667,
+        0.9854166666666667
+      ],
+      "chance_accuracy": 0.125,
+      "chance_accuracy_trial_bootstrap_95": [
+        0.125,
+        0.125
+      ],
+      "advantage_over_profile_majority": 0.775,
+      "advantage_over_profile_majority_trial_bootstrap_95": [
+        0.7229166666666667,
+        0.825
+      ],
+      "mean_postings": 40.645833333333336,
+      "mean_postings_trial_bootstrap_95": [
+        38.12916666666667,
+        43.02104166666667
+      ],
+      "mean_response_json_bytes": 10244.83125,
+      "mean_response_json_bytes_trial_bootstrap_95": [
+        9616.739895833334,
+        10839.073229166666
+      ],
+      "objective_gap": 0.0,
+      "objective_gap_trial_bootstrap_95": [
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "paired_auxiliary_differences": [],
+  "query_coverage": {
+    "mean": 0.12210011524337841,
+    "min": 0.10194155793421361,
+    "max": 0.12637217751386828,
+    "sessions_per_trial": 8
+  },
+  "source_summary": {
+    "query_rows": 414362,
+    "source_rows_with_searchable_terms": 411616,
+    "source_rows_without_searchable_terms": 2746,
+    "mean_distinct_searchable_terms_per_query": 2.3954389528103865,
+    "raw_query_text_retained": false
+  },
+  "scope": "Filtered real Bing query text is used as a token workload; each source query is one session, and only its distinct in-vocabulary terms become sequential single-keyword SSE accesses. No synthetic labels or query text are retained in output.",
+  "limitations": "MIMICS-Click contains unique query-clarification rows, not query arrivals or session history; no frequency or temporal weighting is available. The token workload models single-keyword accesses derived from a multiword search string, not a full web-search engine. Terms absent from each trial's auxiliary-selected vocabulary are omitted; coverage is reported. This is not representative-arrival or population privacy measurement.",
+  "controls": {
+    "passed": true,
+    "scored_before_defenses": true,
+    "control_session_metrics": 960,
+    "threshold_advantage_over_profile_majority": 0.2
+  },
+  "uncertainty": "95% bootstrap intervals resample 30 seeded whole-query split/workload trial means; source records recur across independent trial resamples, so trials are not independent corpus collections."
+}

@@ -74,3 +74,14 @@ supports new isolated-service observations but does not reproduce the earlier
 weak timing AUC. The independent attack, positive controls, declared primary
 metric, broader workloads and repeated evaluation remain open. See
 [ORAM isolated timing](ORAM_ISOLATED_TIMING.md).
+
+## Optional follow-up: real query content
+
+A 30-trial MIMICS-Click token-workload evaluation now uses the real constrained
+GGM SSE implementation. Exact-count and unpadded positive controls pass;
+padding reduces the measured count-volume attack to the profile-majority range
+on the evaluated 12.2%-coverage subset. Aggregate-only output and source
+provenance are retained in
+[the human-query report](HUMAN_QUERY_EVALUATION.md). The source has no
+arrival-frequency or temporal data and licensing terms remain ambiguous, so
+this is not a representative search-traffic study.
