@@ -1,0 +1,137 @@
+[
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--all",
+      "--check"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.1638896289987315,
+    "log": "0.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--workspace",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.6451831220001623,
+    "log": "1.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--workspace"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 127.41425719299878,
+    "log": "2.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "build",
+      "--locked",
+      "--release",
+      "--workspace",
+      "--bins",
+      "--examples"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.1868373680008517,
+    "log": "3.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "research/oram_reference/Cargo.toml",
+      "--",
+      "--check"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.05725012800030527,
+    "log": "4.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "research/oram_reference/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.12839949100089143,
+    "log": "5.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "research/oram_reference/Cargo.toml"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.09315281799717923,
+    "log": "6.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "build",
+      "--locked",
+      "--release",
+      "--manifest-path",
+      "research/oram_reference/Cargo.toml"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.03175108100185753,
+    "log": "7.log"
+  },
+  {
+    "command": [
+      "/home/xtrmn8/oblivion/.venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "research/tests"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 17.520584848,
+    "log": "8.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--release",
+      "-p",
+      "oblivion-store",
+      "million_operation_oracle",
+      "--",
+      "--ignored",
+      "--exact"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 41.753537338998285,
+    "log": "9.log"
+  }
+]
