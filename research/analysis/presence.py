@@ -36,21 +36,32 @@ def read_jsonl(path):
 
 
 def verify_retained_artifacts(source, config):
-    """Verify every recorded artifact and require fingerprints for consumed raw files."""
+    """Verify retained data; an ignored measurement executable is not reanalysis input."""
     source = source.resolve()
     manifest = json.loads((source/'artifact-sha256.json').read_text())
     if not isinstance(manifest, dict) or not manifest:
         raise ValueError('invalid artifact manifest')
+    verified = 0
+    verified_data = 0
     for name, expected in manifest.items():
         if (not isinstance(name, str) or not name or Path(name).is_absolute()
+                or '..' in Path(name).parts
                 or not isinstance(expected, str) or len(expected) != 64
                 or any(character not in '0123456789abcdef' for character in expected)):
             raise ValueError('invalid artifact manifest entry')
         artifact = (source/name).resolve()
-        if not artifact.is_relative_to(source) or not artifact.is_file():
+        if not artifact.is_relative_to(source):
+            raise ValueError(f'artifact path outside source: {name}')
+        if not artifact.is_file():
+            # Only this exact historical manifest entry can lack local bytes.
+            # Its expected hash must subsequently match verified provenance.
+            if name == 'bin/presence' and not artifact.exists():
+                continue
             raise ValueError(f'artifact path missing or outside source: {name}')
         if digest(artifact) != expected:
             raise ValueError(f'artifact digest mismatch: {name}')
+        verified += 1
+        verified_data += name != 'bin/presence'
     required = {'provenance.json'}
     for percent in config['online_percent']:
         for seed in config['seeds']:
@@ -59,7 +70,25 @@ def verify_retained_artifacts(source, config):
     missing = required-set(manifest)
     if missing:
         raise ValueError(f'consumed artifacts missing from manifest: {sorted(missing)}')
-    return len(manifest)
+    # provenance.json has already passed its recorded digest before it is trusted.
+    provenance = json.loads((source/'provenance.json').read_text())
+    expected_binary = provenance.get('binary_sha256') if isinstance(provenance, dict) else None
+    if (not isinstance(expected_binary, str) or len(expected_binary) != 64
+            or any(character not in '0123456789abcdef' for character in expected_binary)):
+        raise ValueError('invalid measurement executable fingerprint in verified provenance')
+    if 'bin/presence' in manifest and manifest['bin/presence'] != expected_binary:
+        raise ValueError('measurement executable manifest/provenance fingerprints disagree')
+    binary = (source/'bin/presence').resolve()
+    if not binary.is_relative_to(source):
+        raise ValueError('measurement executable path outside source')
+    if binary.exists() and not binary.is_file():
+        raise ValueError('measurement executable is not a file')
+    available = binary.is_file()
+    if available and digest(binary) != expected_binary:
+        raise ValueError('measurement executable digest mismatch: bin/presence')
+    return {'verified_artifacts': verified, 'verified_data_artifacts': verified_data,
+            'measurement_executable': {'path': 'bin/presence', 'available': available,
+                                       'verified': available, 'expected_sha256': expected_binary}}
 
 
 def summarize(out, config, raw_out=None):
@@ -178,7 +207,8 @@ def run(binary, config_path, out):
                         shutil.copyfileobj(inp, dest)
     (out/'commands.json').write_text(json.dumps(commands, indent=2)+'\n')
     summarize(out, config)
-    artifacts = {str(p.relative_to(out)): digest(p) for p in out.rglob('*') if p.is_file()}
+    artifacts = {str(p.relative_to(out)): digest(p) for p in out.rglob('*')
+                 if p.is_file() and 'bin' not in p.relative_to(out).parts}
     (out/'artifact-sha256.json').write_text(json.dumps(artifacts, indent=2)+'\n')
 
 
@@ -197,7 +227,9 @@ if __name__ == '__main__':
         provenance = {'created_before_analysis_utc': datetime.now(timezone.utc).isoformat(),
                       'raw_source': str(source), 'raw_artifact_manifest_sha256': digest(source/'artifact-sha256.json'),
                       'raw_provenance_sha256': digest(source/'provenance.json'),
-                      'verified_source_artifacts': verified_artifacts,
+                      'verified_source_artifacts': verified_artifacts['verified_artifacts'],
+                      'verified_data_artifacts': verified_artifacts['verified_data_artifacts'],
+                      'measurement_executable': verified_artifacts['measurement_executable'],
                       'config_sha256': digest(args.config), 'tie_seed': 90000,
                       'tie_seed_semantics': 'public constant independent of workload seeds; no latent seed passed to attack',
                       'source_sha256': {p: digest(p) for p in ('research/analysis/presence.py', 'research/attacks/presence.py')}}

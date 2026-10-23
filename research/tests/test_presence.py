@@ -75,6 +75,53 @@ class PresenceTests(unittest.TestCase):
             self.assertIn('artifact digest mismatch', result.stderr)
             self.assertEqual(before, {str(path.relative_to(source)): path.read_bytes() for path in source.rglob('*') if path.is_file()})
 
+    def retained_fixture(self, root):
+        source=root/'source';(source/'raw').mkdir(parents=True);(source/'bin').mkdir()
+        binary=source/'bin/presence';binary.write_bytes(b'measurement executable fingerprint fixture')
+        expected=hashlib.sha256(binary.read_bytes()).hexdigest()
+        (source/'provenance.json').write_text(json.dumps({'binary_sha256':expected}))
+        for channel in ['observer','truth','beacon']:
+            with gzip.open(source/'raw'/f'p50-s1.{channel}.jsonl.gz','wt') as stream:stream.write('{}\n')
+        manifest={str(p.relative_to(source)):hashlib.sha256(p.read_bytes()).hexdigest() for p in source.rglob('*') if p.is_file()}
+        (source/'artifact-sha256.json').write_text(json.dumps(manifest))
+        return source,{'online_percent':[50],'seeds':[1]},expected
+
+    def test_clone_without_ignored_binary_verifies_only_available_bytes(self):
+        from research.analysis.presence import verify_retained_artifacts
+        with tempfile.TemporaryDirectory() as directory:
+            source,config,expected=self.retained_fixture(Path(directory))
+            (source/'bin/presence').unlink()
+            result=verify_retained_artifacts(source,config)
+            self.assertEqual(result['verified_artifacts'],4)
+            self.assertEqual(result['verified_data_artifacts'],4)
+            self.assertEqual(result['measurement_executable'],dict(path='bin/presence',available=False,verified=False,expected_sha256=expected))
+
+    def test_wrong_binary_and_unknown_missing_artifacts_are_rejected(self):
+        from research.analysis.presence import verify_retained_artifacts
+        for change in ['wrong-binary','missing-raw','traversal','outside-symlink','mismatched-provenance']:
+            with self.subTest(change=change),tempfile.TemporaryDirectory() as directory:
+                source,config,_=self.retained_fixture(Path(directory))
+                manifest_path=source/'artifact-sha256.json';manifest=json.loads(manifest_path.read_text())
+                if change=='wrong-binary':(source/'bin/presence').write_bytes(b'wrong executable')
+                elif change=='missing-raw':(source/'raw/p50-s1.truth.jsonl.gz').unlink()
+                elif change=='traversal':manifest['../outside']='0'*64;manifest_path.write_text(json.dumps(manifest))
+                elif change=='outside-symlink':
+                    (source/'bin/presence').unlink();(source/'bin/presence').symlink_to(source.parent/'outside')
+                else:
+                    (source/'bin/presence').unlink();(source/'provenance.json').write_text(json.dumps({'binary_sha256':'0'*64}))
+                    manifest['provenance.json']=hashlib.sha256((source/'provenance.json').read_bytes()).hexdigest();manifest_path.write_text(json.dumps(manifest))
+                with self.assertRaises(ValueError):verify_retained_artifacts(source,config)
+
+    def test_new_manifest_excludes_binary_but_existing_binary_is_checked(self):
+        from research.analysis.presence import verify_retained_artifacts
+        with tempfile.TemporaryDirectory() as directory:
+            source,config,_=self.retained_fixture(Path(directory))
+            manifest_path=source/'artifact-sha256.json';manifest=json.loads(manifest_path.read_text());del manifest['bin/presence'];manifest_path.write_text(json.dumps(manifest))
+            result=verify_retained_artifacts(source,config)
+            self.assertTrue(result['measurement_executable']['verified'])
+            (source/'bin/presence').write_bytes(b'wrong executable')
+            with self.assertRaises(ValueError):verify_retained_artifacts(source,config)
+
     @unittest.skipUnless(os.environ.get('PRESENCE_BINARY'), 'set PRESENCE_BINARY for actual library integration')
     def test_actual_batcher_export_oracle(self):
         binary = os.environ['PRESENCE_BINARY']
