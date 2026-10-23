@@ -1,0 +1,9 @@
+{
+  "seed": 30261023,
+  "trials": 30,
+  "period_ms": 10,
+  "epochs": 32,
+  "participants": 8,
+  "profile_processes_per_class": 2,
+  "target_processes_per_class": 2
+}
