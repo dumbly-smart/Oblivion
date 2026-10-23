@@ -35,6 +35,14 @@ class ValidationRunnerTests(unittest.TestCase):
     def test_default_validation_includes_required_reference_fixture(self):
         self.assertTrue(any('research/oram_reference/Cargo.toml' in command for command in validation.commands()))
 
+    def test_correctness_suites_do_not_race_deadline_bound_process_trees(self):
+        suites = [command for command in validation.commands()
+                  if command[:2] == ['cargo', 'test'] and '--release' not in command]
+        self.assertEqual(len(suites), 2)
+        for command in suites:
+            self.assertIn('--', command)
+            self.assertIn('--test-threads=1', command[command.index('--')+1:])
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -37,14 +37,14 @@ def commands(with_reference=True):
     result = [
         ['cargo', 'fmt', '--all', '--check'],
         ['cargo', 'clippy', '--locked', '--workspace', '--all-targets', '--', '-D', 'warnings'],
-        ['cargo', 'test', '--locked', '--workspace'],
+        ['cargo', 'test', '--locked', '--workspace', '--', '--test-threads=1'],
         ['cargo', 'build', '--locked', '--release', '--workspace', '--bins', '--examples'],
     ]
     if with_reference:
         result += [
             ['cargo', 'fmt', '--manifest-path', REFERENCE, '--', '--check'],
             ['cargo', 'clippy', '--locked', '--manifest-path', REFERENCE, '--all-targets', '--', '-D', 'warnings'],
-            ['cargo', 'test', '--locked', '--manifest-path', REFERENCE],
+            ['cargo', 'test', '--locked', '--manifest-path', REFERENCE, '--', '--test-threads=1'],
             ['cargo', 'build', '--locked', '--release', '--manifest-path', REFERENCE],
         ]
     return result+[
