@@ -1,0 +1,4309 @@
+[
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 131737,
+    "stash_histogram": {
+      "0": 508,
+      "1": 4
+    },
+    "max_measured_stash": 1,
+    "latency": {
+      "all": {
+        "p50_ns": 197402.5,
+        "p95_ns": 219233.75,
+        "p99_ns": 263368.29999999993,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 197640.0,
+        "p95_ns": 220470.54999999996,
+        "p99_ns": 272574.72,
+        "count": 248
+      },
+      "write": {
+        "p50_ns": 197345.5,
+        "p95_ns": 218838.1,
+        "p99_ns": 234405.69000000003,
+        "count": 264
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 0
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 129040,
+    "stash_histogram": {
+      "0": 506,
+      "1": 4,
+      "2": 2
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 196001.0,
+        "p95_ns": 217100.6,
+        "p99_ns": 221044.94999999998,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 196162.0,
+        "p95_ns": 217363.4,
+        "p99_ns": 221114.88,
+        "count": 273
+      },
+      "write": {
+        "p50_ns": 195874.0,
+        "p95_ns": 215746.6,
+        "p99_ns": 218526.32,
+        "count": 239
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 1
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 126743,
+    "stash_histogram": {
+      "0": 509,
+      "1": 1,
+      "2": 2
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 197633.0,
+        "p95_ns": 219094.85,
+        "p99_ns": 224807.63,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 197606.5,
+        "p95_ns": 218655.8,
+        "p99_ns": 224873.73,
+        "count": 258
+      },
+      "write": {
+        "p50_ns": 197682.0,
+        "p95_ns": 219234.45,
+        "p99_ns": 223750.44,
+        "count": 254
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 2
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 114995,
+    "stash_histogram": {
+      "0": 511,
+      "1": 1
+    },
+    "max_measured_stash": 1,
+    "latency": {
+      "all": {
+        "p50_ns": 201455.0,
+        "p95_ns": 306728.85,
+        "p99_ns": 317354.45999999996,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 200806.0,
+        "p95_ns": 307623.39999999997,
+        "p99_ns": 321948.87999999995,
+        "count": 263
+      },
+      "write": {
+        "p50_ns": 202083.0,
+        "p95_ns": 305329.4,
+        "p99_ns": 315917.96,
+        "count": 249
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 3
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 124192,
+    "stash_histogram": {
+      "0": 504,
+      "1": 6,
+      "2": 2
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 203571.0,
+        "p95_ns": 360776.05,
+        "p99_ns": 652095.4199999999,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 203825.5,
+        "p95_ns": 361874.8999999996,
+        "p99_ns": 649129.9800000001,
+        "count": 260
+      },
+      "write": {
+        "p50_ns": 202950.0,
+        "p95_ns": 358626.64999999997,
+        "p99_ns": 619060.330000001,
+        "count": 252
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 4
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 340546,
+    "stash_histogram": {
+      "0": 509,
+      "1": 1,
+      "2": 2
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 199206.5,
+        "p95_ns": 301439.6,
+        "p99_ns": 308384.15,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 199047.0,
+        "p95_ns": 301361.75,
+        "p99_ns": 308603.48,
+        "count": 270
+      },
+      "write": {
+        "p50_ns": 199992.5,
+        "p95_ns": 301432.15,
+        "p99_ns": 307520.44,
+        "count": 242
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 5
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 265103,
+    "stash_histogram": {
+      "0": 508,
+      "1": 2,
+      "2": 2
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 216147.5,
+        "p95_ns": 304287.4,
+        "p99_ns": 308422.23,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 217530.0,
+        "p95_ns": 304297.0,
+        "p99_ns": 308401.9,
+        "count": 231
+      },
+      "write": {
+        "p50_ns": 212792.0,
+        "p95_ns": 304182.0,
+        "p99_ns": 308262.2,
+        "count": 281
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 6
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 126079,
+    "stash_histogram": {
+      "0": 504,
+      "1": 6,
+      "2": 2
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 201322.0,
+        "p95_ns": 346503.39999999997,
+        "p99_ns": 419396.1899999999,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 200903.0,
+        "p95_ns": 349592.39999999997,
+        "p99_ns": 413217.4200000001,
+        "count": 255
+      },
+      "write": {
+        "p50_ns": 201582.0,
+        "p95_ns": 341123.6,
+        "p99_ns": 414954.24,
+        "count": 257
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 7
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 130822,
+    "stash_histogram": {
+      "0": 501,
+      "1": 8,
+      "2": 3
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 198698.5,
+        "p95_ns": 218509.8,
+        "p99_ns": 222557.47,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 199080.0,
+        "p95_ns": 218482.4,
+        "p99_ns": 219728.84,
+        "count": 265
+      },
+      "write": {
+        "p50_ns": 198377.0,
+        "p95_ns": 218567.7,
+        "p99_ns": 224347.08,
+        "count": 247
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 8
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 75030,
+    "stash_histogram": {
+      "0": 504,
+      "1": 6,
+      "2": 1,
+      "3": 1
+    },
+    "max_measured_stash": 3,
+    "latency": {
+      "all": {
+        "p50_ns": 198605.5,
+        "p95_ns": 239906.74999999997,
+        "p99_ns": 354756.83,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 198571.0,
+        "p95_ns": 229112.8,
+        "p99_ns": 353387.32,
+        "count": 265
+      },
+      "write": {
+        "p50_ns": 198731.0,
+        "p95_ns": 265362.3,
+        "p99_ns": 356764.98,
+        "count": 247
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 9
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 82946,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 201227.0,
+        "p95_ns": 446754.0999999999,
+        "p99_ns": 548938.73,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 204001.5,
+        "p95_ns": 462280.0,
+        "p99_ns": 551105.7000000002,
+        "count": 266
+      },
+      "write": {
+        "p50_ns": 200244.5,
+        "p95_ns": 384928.0,
+        "p99_ns": 517363.3500000001,
+        "count": 246
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 10
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 130911,
+    "stash_histogram": {
+      "0": 511,
+      "1": 1
+    },
+    "max_measured_stash": 1,
+    "latency": {
+      "all": {
+        "p50_ns": 198847.5,
+        "p95_ns": 280165.0499999999,
+        "p99_ns": 312661.52999999997,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 198771.5,
+        "p95_ns": 263480.6999999999,
+        "p99_ns": 321206.9300000002,
+        "count": 252
+      },
+      "write": {
+        "p50_ns": 199020.5,
+        "p95_ns": 294290.44999999995,
+        "p99_ns": 309599.53000000014,
+        "count": 260
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 11
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 126517,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 197545.0,
+        "p95_ns": 222579.94999999998,
+        "p99_ns": 286186.63,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 197139.5,
+        "p95_ns": 222372.65,
+        "p99_ns": 272519.4600000001,
+        "count": 258
+      },
+      "write": {
+        "p50_ns": 197693.5,
+        "p95_ns": 221775.55,
+        "p99_ns": 287551.94,
+        "count": 254
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 12
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 92569,
+    "stash_histogram": {
+      "0": 511,
+      "1": 1
+    },
+    "max_measured_stash": 1,
+    "latency": {
+      "all": {
+        "p50_ns": 197497.5,
+        "p95_ns": 219458.0,
+        "p99_ns": 225423.97,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 197487.0,
+        "p95_ns": 219408.5,
+        "p99_ns": 225847.54,
+        "count": 239
+      },
+      "write": {
+        "p50_ns": 197504.0,
+        "p95_ns": 219458.0,
+        "p99_ns": 223397.27999999997,
+        "count": 273
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 13
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 132919,
+    "stash_histogram": {
+      "0": 509,
+      "1": 2,
+      "2": 1
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 198075.5,
+        "p95_ns": 222880.8,
+        "p99_ns": 309241.8499999999,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 198520.5,
+        "p95_ns": 223771.05,
+        "p99_ns": 314462.08,
+        "count": 254
+      },
+      "write": {
+        "p50_ns": 197450.5,
+        "p95_ns": 221053.35,
+        "p99_ns": 267458.63000000024,
+        "count": 258
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 14
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 150199,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 198043.5,
+        "p95_ns": 222271.6,
+        "p99_ns": 300196.57,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 197726.0,
+        "p95_ns": 221107.1,
+        "p99_ns": 297536.66,
+        "count": 263
+      },
+      "write": {
+        "p50_ns": 198405.0,
+        "p95_ns": 223357.0,
+        "p99_ns": 338982.9600000002,
+        "count": 249
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 15
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 88181,
+    "stash_histogram": {
+      "0": 509,
+      "1": 3
+    },
+    "max_measured_stash": 1,
+    "latency": {
+      "all": {
+        "p50_ns": 200800.5,
+        "p95_ns": 277173.69999999995,
+        "p99_ns": 303255.68,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 200904.0,
+        "p95_ns": 297510.0,
+        "p99_ns": 303200.8,
+        "count": 261
+      },
+      "write": {
+        "p50_ns": 200546.0,
+        "p95_ns": 234654.0,
+        "p99_ns": 303145.0,
+        "count": 251
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 16
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 116351,
+    "stash_histogram": {
+      "0": 506,
+      "1": 4,
+      "2": 2
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 198532.0,
+        "p95_ns": 303514.39999999997,
+        "p99_ns": 316482.83,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 199290.5,
+        "p95_ns": 302663.5,
+        "p99_ns": 315191.45,
+        "count": 266
+      },
+      "write": {
+        "p50_ns": 197949.5,
+        "p95_ns": 303746.0,
+        "p99_ns": 323216.8500000001,
+        "count": 246
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 17
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 121866,
+    "stash_histogram": {
+      "0": 501,
+      "1": 8,
+      "2": 3
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 196958.0,
+        "p95_ns": 218425.3,
+        "p99_ns": 221751.12,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 196930.0,
+        "p95_ns": 217283.94999999998,
+        "p99_ns": 221191.76,
+        "count": 248
+      },
+      "write": {
+        "p50_ns": 196962.0,
+        "p95_ns": 218797.8,
+        "p99_ns": 222111.41,
+        "count": 264
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 18
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 124498,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 195986.5,
+        "p95_ns": 218432.6,
+        "p99_ns": 262059.68,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 195597.0,
+        "p95_ns": 217592.69999999998,
+        "p99_ns": 262543.56,
+        "count": 267
+      },
+      "write": {
+        "p50_ns": 196560.0,
+        "p95_ns": 218821.4,
+        "p99_ns": 242075.72000000006,
+        "count": 245
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 19
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 141117,
+    "stash_histogram": {
+      "0": 505,
+      "1": 5,
+      "2": 2
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 199153.0,
+        "p95_ns": 209953.85,
+        "p99_ns": 223656.33,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 198939.5,
+        "p95_ns": 208129.25,
+        "p99_ns": 222968.25,
+        "count": 276
+      },
+      "write": {
+        "p50_ns": 199548.5,
+        "p95_ns": 214458.5,
+        "p99_ns": 223737.75,
+        "count": 236
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 20
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 141864,
+    "stash_histogram": {
+      "0": 503,
+      "1": 9
+    },
+    "max_measured_stash": 1,
+    "latency": {
+      "all": {
+        "p50_ns": 196553.0,
+        "p95_ns": 218856.1,
+        "p99_ns": 222816.45,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 196116.0,
+        "p95_ns": 218112.19999999998,
+        "p99_ns": 222631.76,
+        "count": 257
+      },
+      "write": {
+        "p50_ns": 196893.0,
+        "p95_ns": 219471.1,
+        "p99_ns": 225795.14000000004,
+        "count": 255
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 21
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 115725,
+    "stash_histogram": {
+      "0": 501,
+      "1": 8,
+      "2": 3
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 197127.5,
+        "p95_ns": 218074.3,
+        "p99_ns": 224745.91999999998,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 197218.0,
+        "p95_ns": 218094.6,
+        "p99_ns": 229455.15999999965,
+        "count": 267
+      },
+      "write": {
+        "p50_ns": 196941.0,
+        "p95_ns": 217659.8,
+        "p99_ns": 220070.64,
+        "count": 245
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 22
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 125719,
+    "stash_histogram": {
+      "0": 508,
+      "1": 4
+    },
+    "max_measured_stash": 1,
+    "latency": {
+      "all": {
+        "p50_ns": 197369.5,
+        "p95_ns": 218886.05,
+        "p99_ns": 268763.45999999985,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 197451.0,
+        "p95_ns": 217778.8,
+        "p99_ns": 220892.16,
+        "count": 237
+      },
+      "write": {
+        "p50_ns": 197368.0,
+        "p95_ns": 219879.80000000002,
+        "p99_ns": 282845.37999999995,
+        "count": 275
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 23
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 119387,
+    "stash_histogram": {
+      "0": 511,
+      "1": 1
+    },
+    "max_measured_stash": 1,
+    "latency": {
+      "all": {
+        "p50_ns": 196656.5,
+        "p95_ns": 218754.95,
+        "p99_ns": 227292.1,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 196660.0,
+        "p95_ns": 218838.4,
+        "p99_ns": 230508.89999999976,
+        "count": 267
+      },
+      "write": {
+        "p50_ns": 196648.0,
+        "p95_ns": 218605.0,
+        "p99_ns": 222709.68,
+        "count": 245
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 24
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 131729,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 297510.5,
+        "p95_ns": 333239.39999999997,
+        "p99_ns": 393668.72,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 297220.0,
+        "p95_ns": 330602.0,
+        "p99_ns": 375801.59999999934,
+        "count": 261
+      },
+      "write": {
+        "p50_ns": 297599.0,
+        "p95_ns": 333881.0,
+        "p99_ns": 398294.5,
+        "count": 251
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 25
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 125943,
+    "stash_histogram": {
+      "0": 510,
+      "1": 2
+    },
+    "max_measured_stash": 1,
+    "latency": {
+      "all": {
+        "p50_ns": 279862.0,
+        "p95_ns": 327444.94999999995,
+        "p99_ns": 401987.79999999993,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 279365.0,
+        "p95_ns": 309066.89999999997,
+        "p99_ns": 412488.3599999987,
+        "count": 259
+      },
+      "write": {
+        "p50_ns": 280190.0,
+        "p95_ns": 342721.39999999985,
+        "p99_ns": 399806.5999999999,
+        "count": 253
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 26
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 99122,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 196304.5,
+        "p95_ns": 217546.9,
+        "p99_ns": 222522.38999999998,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 196355.0,
+        "p95_ns": 218086.0,
+        "p99_ns": 222692.6,
+        "count": 261
+      },
+      "write": {
+        "p50_ns": 196303.0,
+        "p95_ns": 216900.5,
+        "p99_ns": 221067.5,
+        "count": 251
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 27
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 140579,
+    "stash_histogram": {
+      "0": 510,
+      "1": 1,
+      "2": 1
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 198721.5,
+        "p95_ns": 227712.44999999998,
+        "p99_ns": 277634.16999999987,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 199221.0,
+        "p95_ns": 227502.15,
+        "p99_ns": 272733.7900000001,
+        "count": 258
+      },
+      "write": {
+        "p50_ns": 198319.0,
+        "p95_ns": 230209.59999999995,
+        "p99_ns": 281932.72,
+        "count": 254
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 28
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 143577,
+    "stash_histogram": {
+      "0": 501,
+      "1": 6,
+      "2": 4,
+      "3": 1
+    },
+    "max_measured_stash": 3,
+    "latency": {
+      "all": {
+        "p50_ns": 196822.5,
+        "p95_ns": 217642.9,
+        "p99_ns": 221629.61,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 196825.0,
+        "p95_ns": 218168.0,
+        "p99_ns": 221554.35,
+        "count": 256
+      },
+      "write": {
+        "p50_ns": 196822.5,
+        "p95_ns": 217408.75,
+        "p99_ns": 221608.05,
+        "count": 256
+      }
+    },
+    "blocks": 64,
+    "algorithm": "path",
+    "trial": 29
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 82822,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 47530.5,
+        "p95_ns": 50622.65,
+        "p99_ns": 53546.909999999996,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 47631.0,
+        "p95_ns": 50848.34999999999,
+        "p99_ns": 53767.5,
+        "count": 248
+      },
+      "write": {
+        "p50_ns": 47457.5,
+        "p95_ns": 50504.2,
+        "p99_ns": 53138.89,
+        "count": 264
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 0
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 115133,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 48590.5,
+        "p95_ns": 53221.95,
+        "p99_ns": 55914.049999999996,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 49075.0,
+        "p95_ns": 53314.6,
+        "p99_ns": 55007.11999999999,
+        "count": 273
+      },
+      "write": {
+        "p50_ns": 48241.0,
+        "p95_ns": 52941.2,
+        "p99_ns": 57180.68000000001,
+        "count": 239
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 1
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 78745,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 47373.5,
+        "p95_ns": 50873.0,
+        "p99_ns": 53136.79,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 47411.5,
+        "p95_ns": 51056.799999999996,
+        "p99_ns": 53052.67,
+        "count": 258
+      },
+      "write": {
+        "p50_ns": 47312.0,
+        "p95_ns": 50591.3,
+        "p99_ns": 54502.52,
+        "count": 254
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 2
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 124332,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 46239.5,
+        "p95_ns": 49341.35,
+        "p99_ns": 50818.38,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 46254.0,
+        "p95_ns": 49705.49999999999,
+        "p99_ns": 51971.079999999994,
+        "count": 263
+      },
+      "write": {
+        "p50_ns": 46209.0,
+        "p95_ns": 48987.6,
+        "p99_ns": 50194.76,
+        "count": 249
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 3
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 123365,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 76841.0,
+        "p95_ns": 85089.34999999999,
+        "p99_ns": 90315.26,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 76871.5,
+        "p95_ns": 85016.15,
+        "p99_ns": 90651.78000000001,
+        "count": 260
+      },
+      "write": {
+        "p50_ns": 76775.0,
+        "p95_ns": 85091.59999999999,
+        "p99_ns": 89566.91,
+        "count": 252
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 4
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 142112,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 50375.5,
+        "p95_ns": 52677.8,
+        "p99_ns": 56110.56999999999,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 50419.0,
+        "p95_ns": 52466.799999999996,
+        "p99_ns": 55938.630000000005,
+        "count": 270
+      },
+      "write": {
+        "p50_ns": 50357.0,
+        "p95_ns": 53801.549999999996,
+        "p99_ns": 55986.67,
+        "count": 242
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 5
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 133653,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 47687.0,
+        "p95_ns": 50892.6,
+        "p99_ns": 53931.28,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 47691.0,
+        "p95_ns": 51980.0,
+        "p99_ns": 57272.599999999984,
+        "count": 231
+      },
+      "write": {
+        "p50_ns": 47683.0,
+        "p95_ns": 50457.0,
+        "p99_ns": 52743.2,
+        "count": 281
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 6
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 128252,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 46282.5,
+        "p95_ns": 48875.1,
+        "p99_ns": 50139.29,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 46284.0,
+        "p95_ns": 48804.0,
+        "p99_ns": 49999.00000000001,
+        "count": 255
+      },
+      "write": {
+        "p50_ns": 46281.0,
+        "p95_ns": 48890.6,
+        "p99_ns": 50066.84,
+        "count": 257
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 7
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 120060,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 50013.5,
+        "p95_ns": 52458.45,
+        "p99_ns": 55290.96999999999,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 50043.0,
+        "p95_ns": 52482.2,
+        "p99_ns": 53974.8,
+        "count": 265
+      },
+      "write": {
+        "p50_ns": 49930.0,
+        "p95_ns": 52380.0,
+        "p99_ns": 55670.159999999996,
+        "count": 247
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 8
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 155684,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 46387.5,
+        "p95_ns": 50655.5,
+        "p99_ns": 54709.86999999997,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 46465.0,
+        "p95_ns": 50666.0,
+        "p99_ns": 52720.28,
+        "count": 265
+      },
+      "write": {
+        "p50_ns": 46342.0,
+        "p95_ns": 50533.7,
+        "p99_ns": 55059.619999999995,
+        "count": 247
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 9
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 128424,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 46786.5,
+        "p95_ns": 50707.35,
+        "p99_ns": 58554.66999999999,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 46713.5,
+        "p95_ns": 51529.25,
+        "p99_ns": 59354.65000000005,
+        "count": 266
+      },
+      "write": {
+        "p50_ns": 46802.5,
+        "p95_ns": 50466.5,
+        "p99_ns": 56056.45000000002,
+        "count": 246
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 10
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 126768,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 46713.0,
+        "p95_ns": 75482.3,
+        "p99_ns": 77482.84,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 46660.0,
+        "p95_ns": 75608.4,
+        "p99_ns": 78347.93000000001,
+        "count": 252
+      },
+      "write": {
+        "p50_ns": 46806.5,
+        "p95_ns": 75268.55,
+        "p99_ns": 75706.37,
+        "count": 260
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 11
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 153218,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 47454.5,
+        "p95_ns": 51058.399999999994,
+        "p99_ns": 64330.97,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 47395.5,
+        "p95_ns": 50781.549999999996,
+        "p99_ns": 64251.39,
+        "count": 258
+      },
+      "write": {
+        "p50_ns": 47511.0,
+        "p95_ns": 52389.4,
+        "p99_ns": 63583.67,
+        "count": 254
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 12
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 145339,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 47496.0,
+        "p95_ns": 74241.85,
+        "p99_ns": 75123.47,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 47635.0,
+        "p95_ns": 67582.69999999997,
+        "p99_ns": 74832.36,
+        "count": 239
+      },
+      "write": {
+        "p50_ns": 47348.0,
+        "p95_ns": 74444.0,
+        "p99_ns": 76030.27999999996,
+        "count": 273
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 13
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 118551,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 46776.0,
+        "p95_ns": 59575.799999999974,
+        "p99_ns": 75963.63,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 46822.0,
+        "p95_ns": 64535.34999999999,
+        "p99_ns": 75678.31,
+        "count": 254
+      },
+      "write": {
+        "p50_ns": 46732.0,
+        "p95_ns": 56084.79999999993,
+        "p99_ns": 80858.47000000007,
+        "count": 258
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 14
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 129843,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 46306.5,
+        "p95_ns": 49187.65,
+        "p99_ns": 50979.04,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 46269.0,
+        "p95_ns": 49040.6,
+        "p99_ns": 50584.92,
+        "count": 263
+      },
+      "write": {
+        "p50_ns": 46351.0,
+        "p95_ns": 49361.2,
+        "p99_ns": 51219.600000000006,
+        "count": 249
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 15
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 126896,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 46656.0,
+        "p95_ns": 49362.7,
+        "p99_ns": 50461.9,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 46693.0,
+        "p95_ns": 49790.0,
+        "p99_ns": 50815.59999999998,
+        "count": 261
+      },
+      "write": {
+        "p50_ns": 46635.0,
+        "p95_ns": 49159.0,
+        "p99_ns": 50458.0,
+        "count": 251
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 16
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 128099,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 47046.0,
+        "p95_ns": 50959.05,
+        "p99_ns": 55742.00999999999,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 47042.5,
+        "p95_ns": 50979.0,
+        "p99_ns": 54777.30000000004,
+        "count": 266
+      },
+      "write": {
+        "p50_ns": 47059.5,
+        "p95_ns": 50722.5,
+        "p99_ns": 55458.25000000001,
+        "count": 246
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 17
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 122918,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 46820.0,
+        "p95_ns": 49805.9,
+        "p99_ns": 52176.93,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 46830.5,
+        "p95_ns": 49806.3,
+        "p99_ns": 54161.22,
+        "count": 248
+      },
+      "write": {
+        "p50_ns": 46813.5,
+        "p95_ns": 49774.2,
+        "p99_ns": 51782.5,
+        "count": 264
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 18
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 122797,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 50441.0,
+        "p95_ns": 53553.25,
+        "p99_ns": 56387.65,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 50457.0,
+        "p95_ns": 53641.4,
+        "p99_ns": 57009.299999999974,
+        "count": 267
+      },
+      "write": {
+        "p50_ns": 50434.0,
+        "p95_ns": 53470.6,
+        "p99_ns": 55360.76,
+        "count": 245
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 19
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 76024,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 50353.0,
+        "p95_ns": 53525.4,
+        "p99_ns": 59008.48999999995,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 50283.0,
+        "p95_ns": 54087.5,
+        "p99_ns": 62554.0,
+        "count": 276
+      },
+      "write": {
+        "p50_ns": 50411.0,
+        "p95_ns": 53122.0,
+        "p99_ns": 54731.05,
+        "count": 236
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 20
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 142500,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 48323.0,
+        "p95_ns": 52447.35,
+        "p99_ns": 55566.649999999994,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 48208.0,
+        "p95_ns": 52297.0,
+        "p99_ns": 54773.88,
+        "count": 257
+      },
+      "write": {
+        "p50_ns": 48473.0,
+        "p95_ns": 52520.3,
+        "p99_ns": 57073.520000000026,
+        "count": 255
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 21
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 121145,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 47607.5,
+        "p95_ns": 53182.75,
+        "p99_ns": 58400.51999999999,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 47719.0,
+        "p95_ns": 53244.5,
+        "p99_ns": 59989.03999999989,
+        "count": 267
+      },
+      "write": {
+        "p50_ns": 47497.0,
+        "p95_ns": 52971.6,
+        "p99_ns": 56763.92,
+        "count": 245
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 22
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 74150,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 47049.0,
+        "p95_ns": 49421.05,
+        "p99_ns": 51494.25,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 47088.0,
+        "p95_ns": 49537.799999999996,
+        "p99_ns": 52314.479999999996,
+        "count": 237
+      },
+      "write": {
+        "p50_ns": 47018.0,
+        "p95_ns": 49277.3,
+        "p99_ns": 51101.18,
+        "count": 275
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 23
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 125100,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 47047.5,
+        "p95_ns": 52425.75,
+        "p99_ns": 65757.62999999999,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 47255.0,
+        "p95_ns": 52983.4,
+        "p99_ns": 67387.15999999989,
+        "count": 267
+      },
+      "write": {
+        "p50_ns": 46856.0,
+        "p95_ns": 51555.2,
+        "p99_ns": 55013.560000000005,
+        "count": 245
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 24
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 108050,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 67839.0,
+        "p95_ns": 72375.8,
+        "p99_ns": 78027.23,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 67749.0,
+        "p95_ns": 72320.0,
+        "p99_ns": 77631.79999999999,
+        "count": 261
+      },
+      "write": {
+        "p50_ns": 67958.0,
+        "p95_ns": 72177.5,
+        "p99_ns": 78293.5,
+        "count": 251
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 25
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 110492,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 65890.0,
+        "p95_ns": 81455.84999999999,
+        "p99_ns": 306668.5799999995,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 65976.0,
+        "p95_ns": 85648.2,
+        "p99_ns": 410473.3399999998,
+        "count": 259
+      },
+      "write": {
+        "p50_ns": 65615.0,
+        "p95_ns": 75677.39999999997,
+        "p99_ns": 99071.71999999997,
+        "count": 253
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 26
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 131925,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 47867.5,
+        "p95_ns": 51483.95,
+        "p99_ns": 55301.94999999998,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 47870.0,
+        "p95_ns": 50699.0,
+        "p99_ns": 53161.19999999997,
+        "count": 261
+      },
+      "write": {
+        "p50_ns": 47850.0,
+        "p95_ns": 52172.5,
+        "p99_ns": 55704.0,
+        "count": 251
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 27
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 121455,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 47208.5,
+        "p95_ns": 73074.35,
+        "p99_ns": 75109.59,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 47176.0,
+        "p95_ns": 72859.65,
+        "p99_ns": 74898.38,
+        "count": 258
+      },
+      "write": {
+        "p50_ns": 47237.0,
+        "p95_ns": 73508.3,
+        "p99_ns": 75133.87,
+        "count": 254
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 28
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 64,
+    "warmup_checks": 16,
+    "final_audit_checks": 64,
+    "oracle_checks": 656,
+    "setup_ns": 128752,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 48407.5,
+        "p95_ns": 53870.35,
+        "p99_ns": 72000.29999999986,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 48498.0,
+        "p95_ns": 54926.0,
+        "p99_ns": 74181.99999999971,
+        "count": 256
+      },
+      "write": {
+        "p50_ns": 48350.5,
+        "p95_ns": 53132.25,
+        "p99_ns": 67239.49999999988,
+        "count": 256
+      }
+    },
+    "blocks": 64,
+    "algorithm": "circuit",
+    "trial": 29
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 398930,
+    "stash_histogram": {
+      "0": 509,
+      "1": 3
+    },
+    "max_measured_stash": 1,
+    "latency": {
+      "all": {
+        "p50_ns": 362534.0,
+        "p95_ns": 401612.2,
+        "p99_ns": 407859.35,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 362580.0,
+        "p95_ns": 401321.4,
+        "p99_ns": 407258.76,
+        "count": 255
+      },
+      "write": {
+        "p50_ns": 362406.0,
+        "p95_ns": 402046.6,
+        "p99_ns": 408863.92,
+        "count": 257
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 0
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 663660,
+    "stash_histogram": {
+      "0": 504,
+      "1": 4,
+      "2": 4
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 362706.0,
+        "p95_ns": 398156.6,
+        "p99_ns": 404793.44,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 362891.0,
+        "p95_ns": 398034.2,
+        "p99_ns": 407678.86,
+        "count": 238
+      },
+      "write": {
+        "p50_ns": 362681.0,
+        "p95_ns": 398016.1,
+        "p99_ns": 404415.89,
+        "count": 274
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 1
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 511822,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 363004.5,
+        "p95_ns": 396035.0,
+        "p99_ns": 405604.5,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 363400.5,
+        "p95_ns": 400150.45,
+        "p99_ns": 406381.13,
+        "count": 270
+      },
+      "write": {
+        "p50_ns": 362607.5,
+        "p95_ns": 370612.85,
+        "p99_ns": 402236.61,
+        "count": 242
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 2
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 415182,
+    "stash_histogram": {
+      "0": 505,
+      "1": 6,
+      "2": 1
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 362322.0,
+        "p95_ns": 390991.64999999997,
+        "p99_ns": 400406.8,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 362771.0,
+        "p95_ns": 392517.1,
+        "p99_ns": 400757.38,
+        "count": 275
+      },
+      "write": {
+        "p50_ns": 361960.0,
+        "p95_ns": 386956.0,
+        "p99_ns": 399627.48,
+        "count": 237
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 3
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 483538,
+    "stash_histogram": {
+      "0": 507,
+      "1": 4,
+      "2": 1
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 363242.5,
+        "p95_ns": 398254.6,
+        "p99_ns": 404000.23,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 363486.0,
+        "p95_ns": 399199.0,
+        "p99_ns": 404125.74,
+        "count": 262
+      },
+      "write": {
+        "p50_ns": 363118.5,
+        "p95_ns": 395703.35,
+        "p99_ns": 402834.32,
+        "count": 250
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 4
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 300033,
+    "stash_histogram": {
+      "0": 510,
+      "1": 2
+    },
+    "max_measured_stash": 1,
+    "latency": {
+      "all": {
+        "p50_ns": 362032.5,
+        "p95_ns": 376605.39999999997,
+        "p99_ns": 401449.04,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 362070.0,
+        "p95_ns": 395208.29999999993,
+        "p99_ns": 401809.45,
+        "count": 262
+      },
+      "write": {
+        "p50_ns": 361920.0,
+        "p95_ns": 369393.5,
+        "p99_ns": 395383.2799999999,
+        "count": 250
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 5
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 418114,
+    "stash_histogram": {
+      "0": 503,
+      "1": 5,
+      "2": 4
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 363824.0,
+        "p95_ns": 398518.35,
+        "p99_ns": 410908.0599999999,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 364124.0,
+        "p95_ns": 398356.65,
+        "p99_ns": 415745.45999999996,
+        "count": 254
+      },
+      "write": {
+        "p50_ns": 363410.5,
+        "p95_ns": 398641.95,
+        "p99_ns": 403408.98000000004,
+        "count": 258
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 6
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 346652,
+    "stash_histogram": {
+      "0": 510,
+      "1": 2
+    },
+    "max_measured_stash": 1,
+    "latency": {
+      "all": {
+        "p50_ns": 361443.0,
+        "p95_ns": 396242.15,
+        "p99_ns": 400630.52999999997,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 361156.0,
+        "p95_ns": 388535.7,
+        "p99_ns": 401029.22000000003,
+        "count": 264
+      },
+      "write": {
+        "p50_ns": 361781.0,
+        "p95_ns": 396333.5,
+        "p99_ns": 400264.14,
+        "count": 248
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 7
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 239370,
+    "stash_histogram": {
+      "0": 509,
+      "1": 2,
+      "2": 1
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 362860.0,
+        "p95_ns": 399588.15,
+        "p99_ns": 460974.5099999996,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 362751.0,
+        "p95_ns": 398972.0,
+        "p99_ns": 484286.59999999986,
+        "count": 241
+      },
+      "write": {
+        "p50_ns": 362910.0,
+        "p95_ns": 399603.5,
+        "p99_ns": 414841.5000000003,
+        "count": 271
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 8
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 398091,
+    "stash_histogram": {
+      "0": 505,
+      "1": 5,
+      "2": 1,
+      "3": 1
+    },
+    "max_measured_stash": 3,
+    "latency": {
+      "all": {
+        "p50_ns": 361040.5,
+        "p95_ns": 398733.65,
+        "p99_ns": 406890.71,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 361384.0,
+        "p95_ns": 397951.0,
+        "p99_ns": 404788.36,
+        "count": 259
+      },
+      "write": {
+        "p50_ns": 360669.0,
+        "p95_ns": 399725.2,
+        "p99_ns": 431043.23999999947,
+        "count": 253
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 9
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 431612,
+    "stash_histogram": {
+      "0": 494,
+      "1": 15,
+      "2": 3
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 363210.5,
+        "p95_ns": 400924.05,
+        "p99_ns": 408330.15,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 362897.0,
+        "p95_ns": 399226.2,
+        "p99_ns": 405473.5999999999,
+        "count": 279
+      },
+      "write": {
+        "p50_ns": 363512.0,
+        "p95_ns": 402480.8,
+        "p99_ns": 428298.20000000007,
+        "count": 233
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 10
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 417745,
+    "stash_histogram": {
+      "0": 507,
+      "1": 5
+    },
+    "max_measured_stash": 1,
+    "latency": {
+      "all": {
+        "p50_ns": 361658.5,
+        "p95_ns": 368502.5,
+        "p99_ns": 399078.67,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 361196.0,
+        "p95_ns": 368231.3,
+        "p99_ns": 381448.1399999995,
+        "count": 267
+      },
+      "write": {
+        "p50_ns": 362065.0,
+        "p95_ns": 368755.4,
+        "p99_ns": 401718.64,
+        "count": 245
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 11
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 408191,
+    "stash_histogram": {
+      "0": 507,
+      "1": 4,
+      "2": 1
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 365230.5,
+        "p95_ns": 399164.55,
+        "p99_ns": 422008.3299999999,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 365090.0,
+        "p95_ns": 397916.2,
+        "p99_ns": 409159.4699999998,
+        "count": 280
+      },
+      "write": {
+        "p50_ns": 365536.0,
+        "p95_ns": 399743.5,
+        "p99_ns": 724102.0399999998,
+        "count": 232
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 12
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 224161,
+    "stash_histogram": {
+      "0": 504,
+      "1": 6,
+      "2": 2
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 364166.5,
+        "p95_ns": 392255.89999999997,
+        "p99_ns": 403667.56,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 364266.5,
+        "p95_ns": 399548.15,
+        "p99_ns": 403149.78,
+        "count": 248
+      },
+      "write": {
+        "p50_ns": 364131.5,
+        "p95_ns": 372783.0,
+        "p99_ns": 403880.25,
+        "count": 264
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 13
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 389142,
+    "stash_histogram": {
+      "0": 503,
+      "1": 4,
+      "2": 4,
+      "3": 1
+    },
+    "max_measured_stash": 3,
+    "latency": {
+      "all": {
+        "p50_ns": 363530.0,
+        "p95_ns": 397743.5,
+        "p99_ns": 403895.56,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 363361.0,
+        "p95_ns": 378073.0,
+        "p99_ns": 402390.8,
+        "count": 241
+      },
+      "write": {
+        "p50_ns": 363681.0,
+        "p95_ns": 398956.5,
+        "p99_ns": 405072.10000000003,
+        "count": 271
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 14
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 462550,
+    "stash_histogram": {
+      "0": 509,
+      "1": 3
+    },
+    "max_measured_stash": 1,
+    "latency": {
+      "all": {
+        "p50_ns": 361918.0,
+        "p95_ns": 401211.55,
+        "p99_ns": 503109.5399999998,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 362160.0,
+        "p95_ns": 400839.8,
+        "p99_ns": 503887.6400000005,
+        "count": 265
+      },
+      "write": {
+        "p50_ns": 361874.0,
+        "p95_ns": 401267.5,
+        "p99_ns": 494015.25999999983,
+        "count": 247
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 15
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 379639,
+    "stash_histogram": {
+      "0": 500,
+      "1": 8,
+      "2": 4
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 360646.5,
+        "p95_ns": 399282.35,
+        "p99_ns": 409605.48,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 360595.0,
+        "p95_ns": 398825.4,
+        "p99_ns": 404642.55,
+        "count": 228
+      },
+      "write": {
+        "p50_ns": 360761.0,
+        "p95_ns": 399398.25,
+        "p99_ns": 409932.45,
+        "count": 284
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 16
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 323846,
+    "stash_histogram": {
+      "0": 511,
+      "1": 1
+    },
+    "max_measured_stash": 1,
+    "latency": {
+      "all": {
+        "p50_ns": 363275.0,
+        "p95_ns": 369947.75,
+        "p99_ns": 400625.86,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 363105.0,
+        "p95_ns": 369552.0,
+        "p99_ns": 383844.9399999998,
+        "count": 243
+      },
+      "write": {
+        "p50_ns": 363331.0,
+        "p95_ns": 370562.8,
+        "p99_ns": 401860.88,
+        "count": 269
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 17
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 389565,
+    "stash_histogram": {
+      "0": 511,
+      "1": 1
+    },
+    "max_measured_stash": 1,
+    "latency": {
+      "all": {
+        "p50_ns": 362033.0,
+        "p95_ns": 397872.55,
+        "p99_ns": 401977.11,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 362047.0,
+        "p95_ns": 398813.0,
+        "p99_ns": 402449.6,
+        "count": 245
+      },
+      "write": {
+        "p50_ns": 362029.0,
+        "p95_ns": 397104.1,
+        "p99_ns": 400658.19999999995,
+        "count": 267
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 18
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 498172,
+    "stash_histogram": {
+      "0": 508,
+      "1": 3,
+      "2": 1
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 360926.5,
+        "p95_ns": 397824.0,
+        "p99_ns": 401422.88,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 360791.5,
+        "p95_ns": 396477.75,
+        "p99_ns": 401126.88,
+        "count": 262
+      },
+      "write": {
+        "p50_ns": 361017.0,
+        "p95_ns": 398272.6,
+        "p99_ns": 401108.35,
+        "count": 250
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 19
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 463746,
+    "stash_histogram": {
+      "0": 496,
+      "1": 8,
+      "2": 5,
+      "3": 2,
+      "4": 1
+    },
+    "max_measured_stash": 4,
+    "latency": {
+      "all": {
+        "p50_ns": 362425.0,
+        "p95_ns": 399656.85,
+        "p99_ns": 407561.87,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 362180.0,
+        "p95_ns": 398430.9,
+        "p99_ns": 405580.99999999994,
+        "count": 267
+      },
+      "write": {
+        "p50_ns": 362495.0,
+        "p95_ns": 400052.2,
+        "p99_ns": 439551.2400000001,
+        "count": 245
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 20
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 363229,
+    "stash_histogram": {
+      "0": 508,
+      "1": 3,
+      "2": 1
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 364643.5,
+        "p95_ns": 600303.25,
+        "p99_ns": 850863.5999999999,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 364738.0,
+        "p95_ns": 636799.25,
+        "p99_ns": 907643.1999999993,
+        "count": 256
+      },
+      "write": {
+        "p50_ns": 364607.0,
+        "p95_ns": 554612.25,
+        "p99_ns": 747835.2499999994,
+        "count": 256
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 21
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 972996,
+    "stash_histogram": {
+      "0": 510,
+      "1": 1,
+      "2": 1
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 363763.0,
+        "p95_ns": 402933.25,
+        "p99_ns": 407156.88,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 363440.0,
+        "p95_ns": 401551.0,
+        "p99_ns": 406676.39999999997,
+        "count": 256
+      },
+      "write": {
+        "p50_ns": 364254.5,
+        "p95_ns": 403265.25,
+        "p99_ns": 407309.89999999997,
+        "count": 256
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 22
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 379630,
+    "stash_histogram": {
+      "0": 497,
+      "1": 6,
+      "2": 5,
+      "3": 2,
+      "4": 2
+    },
+    "max_measured_stash": 4,
+    "latency": {
+      "all": {
+        "p50_ns": 363625.0,
+        "p95_ns": 367963.0,
+        "p99_ns": 401643.45999999996,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 363719.0,
+        "p95_ns": 369115.0,
+        "p99_ns": 402236.44,
+        "count": 249
+      },
+      "write": {
+        "p50_ns": 363528.0,
+        "p95_ns": 367785.2,
+        "p99_ns": 398643.22,
+        "count": 263
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 23
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 229265,
+    "stash_histogram": {
+      "0": 493,
+      "1": 12,
+      "2": 6,
+      "3": 1
+    },
+    "max_measured_stash": 3,
+    "latency": {
+      "all": {
+        "p50_ns": 364154.5,
+        "p95_ns": 414967.14999999997,
+        "p99_ns": 535461.9299999999,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 364309.0,
+        "p95_ns": 437083.99999999994,
+        "p99_ns": 563443.1,
+        "count": 259
+      },
+      "write": {
+        "p50_ns": 364112.0,
+        "p95_ns": 407151.0,
+        "p99_ns": 531899.76,
+        "count": 253
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 24
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 496140,
+    "stash_histogram": {
+      "0": 510,
+      "1": 2
+    },
+    "max_measured_stash": 1,
+    "latency": {
+      "all": {
+        "p50_ns": 528934.0,
+        "p95_ns": 613682.1,
+        "p99_ns": 772268.7099999998,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 528344.5,
+        "p95_ns": 594102.0,
+        "p99_ns": 738421.6200000006,
+        "count": 278
+      },
+      "write": {
+        "p50_ns": 529650.5,
+        "p95_ns": 627991.25,
+        "p99_ns": 784648.5899999997,
+        "count": 234
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 25
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 437679,
+    "stash_histogram": {
+      "0": 489,
+      "1": 11,
+      "2": 7,
+      "3": 3,
+      "4": 1,
+      "5": 1
+    },
+    "max_measured_stash": 5,
+    "latency": {
+      "all": {
+        "p50_ns": 363928.5,
+        "p95_ns": 465823.4499999996,
+        "p99_ns": 573593.36,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 363178.0,
+        "p95_ns": 460857.39999999944,
+        "p99_ns": 572878.1,
+        "count": 255
+      },
+      "write": {
+        "p50_ns": 364328.0,
+        "p95_ns": 419567.79999999906,
+        "p99_ns": 565913.0399999999,
+        "count": 257
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 26
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 1003384,
+    "stash_histogram": {
+      "0": 498,
+      "1": 7,
+      "2": 1,
+      "3": 5,
+      "4": 1
+    },
+    "max_measured_stash": 4,
+    "latency": {
+      "all": {
+        "p50_ns": 364083.0,
+        "p95_ns": 392837.9,
+        "p99_ns": 401041.83999999997,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 363718.0,
+        "p95_ns": 393349.9,
+        "p99_ns": 400189.5,
+        "count": 264
+      },
+      "write": {
+        "p50_ns": 364612.0,
+        "p95_ns": 390157.29999999993,
+        "p99_ns": 401229.91,
+        "count": 248
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 27
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 463401,
+    "stash_histogram": {
+      "6": 2,
+      "0": 473,
+      "1": 23,
+      "2": 9,
+      "3": 1,
+      "4": 3,
+      "5": 1
+    },
+    "max_measured_stash": 6,
+    "latency": {
+      "all": {
+        "p50_ns": 360775.5,
+        "p95_ns": 385372.19999999995,
+        "p99_ns": 406781.69,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 360751.0,
+        "p95_ns": 370453.2,
+        "p99_ns": 399939.24,
+        "count": 249
+      },
+      "write": {
+        "p50_ns": 360786.0,
+        "p95_ns": 395414.0,
+        "p99_ns": 407029.94,
+        "count": 263
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 28
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 469893,
+    "stash_histogram": {
+      "0": 509,
+      "1": 1,
+      "2": 2
+    },
+    "max_measured_stash": 2,
+    "latency": {
+      "all": {
+        "p50_ns": 363861.5,
+        "p95_ns": 402705.75,
+        "p99_ns": 531709.03,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 363664.5,
+        "p95_ns": 403054.45,
+        "p99_ns": 531177.3400000001,
+        "count": 260
+      },
+      "write": {
+        "p50_ns": 364137.0,
+        "p95_ns": 401732.64999999997,
+        "p99_ns": 534571.7400000001,
+        "count": 252
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "path",
+    "trial": 29
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 417789,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 59007.5,
+        "p95_ns": 62241.15,
+        "p99_ns": 63834.009999999995,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 59025.0,
+        "p95_ns": 62184.5,
+        "p99_ns": 63882.76,
+        "count": 255
+      },
+      "write": {
+        "p50_ns": 58980.0,
+        "p95_ns": 62413.2,
+        "p99_ns": 63567.92,
+        "count": 257
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 0
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 405978,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 58893.0,
+        "p95_ns": 62760.8,
+        "p99_ns": 64850.45,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 58907.0,
+        "p95_ns": 62821.24999999999,
+        "p99_ns": 64580.94,
+        "count": 238
+      },
+      "write": {
+        "p50_ns": 58886.5,
+        "p95_ns": 62361.1,
+        "p99_ns": 65998.53,
+        "count": 274
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 1
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 464676,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 59946.5,
+        "p95_ns": 78811.24999999999,
+        "p99_ns": 84319.34,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 59958.0,
+        "p95_ns": 73530.09999999987,
+        "p99_ns": 82445.86,
+        "count": 270
+      },
+      "write": {
+        "p50_ns": 59934.5,
+        "p95_ns": 80581.8,
+        "p99_ns": 84823.78,
+        "count": 242
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 2
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 367390,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 60144.0,
+        "p95_ns": 65333.549999999996,
+        "p99_ns": 72191.65,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 60057.0,
+        "p95_ns": 64778.0,
+        "p99_ns": 71886.09999999999,
+        "count": 275
+      },
+      "write": {
+        "p50_ns": 60295.0,
+        "p95_ns": 65942.99999999999,
+        "p99_ns": 73344.99999999994,
+        "count": 237
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 3
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 402951,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 63322.5,
+        "p95_ns": 66738.3,
+        "p99_ns": 70355.48,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 63427.0,
+        "p95_ns": 66836.15,
+        "p99_ns": 69823.45999999999,
+        "count": 262
+      },
+      "write": {
+        "p50_ns": 63201.0,
+        "p95_ns": 66618.59999999999,
+        "p99_ns": 70503.45,
+        "count": 250
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 4
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 394756,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 60330.0,
+        "p95_ns": 65441.6,
+        "p99_ns": 87440.4,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 60255.5,
+        "p95_ns": 72207.54999999993,
+        "p99_ns": 88175.83999999998,
+        "count": 262
+      },
+      "write": {
+        "p50_ns": 60429.5,
+        "p95_ns": 64642.9,
+        "p99_ns": 85977.47,
+        "count": 250
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 5
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 427218,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 60422.0,
+        "p95_ns": 63444.1,
+        "p99_ns": 91599.7099999997,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 60504.5,
+        "p95_ns": 63715.75,
+        "p99_ns": 82385.32999999997,
+        "count": 254
+      },
+      "write": {
+        "p50_ns": 60335.0,
+        "p95_ns": 63040.35,
+        "p99_ns": 86973.7800000003,
+        "count": 258
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 6
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 224842,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 60363.0,
+        "p95_ns": 63004.35,
+        "p99_ns": 64880.95,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 60462.5,
+        "p95_ns": 62625.5,
+        "p99_ns": 64736.07,
+        "count": 264
+      },
+      "write": {
+        "p50_ns": 60271.5,
+        "p95_ns": 63386.34999999999,
+        "p99_ns": 64923.97,
+        "count": 248
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 7
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 411573,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 60555.0,
+        "p95_ns": 63495.9,
+        "p99_ns": 79856.78,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 60555.0,
+        "p95_ns": 63450.0,
+        "p99_ns": 78776.59999999999,
+        "count": 241
+      },
+      "write": {
+        "p50_ns": 60555.0,
+        "p95_ns": 63592.0,
+        "p99_ns": 80014.20000000001,
+        "count": 271
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 8
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 531167,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 59873.0,
+        "p95_ns": 63096.15,
+        "p99_ns": 66179.59999999999,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 59860.0,
+        "p95_ns": 63493.0,
+        "p99_ns": 68571.91999999997,
+        "count": 259
+      },
+      "write": {
+        "p50_ns": 59933.0,
+        "p95_ns": 62933.0,
+        "p99_ns": 64189.159999999996,
+        "count": 253
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 9
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 624606,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 60304.0,
+        "p95_ns": 62842.75,
+        "p99_ns": 64225.57,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 60328.0,
+        "p95_ns": 62860.79999999999,
+        "p99_ns": 64242.4,
+        "count": 279
+      },
+      "write": {
+        "p50_ns": 60258.0,
+        "p95_ns": 62832.0,
+        "p99_ns": 63990.00000000001,
+        "count": 233
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 10
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 412065,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 60043.5,
+        "p95_ns": 63265.6,
+        "p99_ns": 64280.27,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 60059.0,
+        "p95_ns": 63315.8,
+        "p99_ns": 64220.11999999999,
+        "count": 267
+      },
+      "write": {
+        "p50_ns": 60041.0,
+        "p95_ns": 63090.6,
+        "p99_ns": 64233.08,
+        "count": 245
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 11
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 502376,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 60550.0,
+        "p95_ns": 66619.15,
+        "p99_ns": 72958.64,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 60594.0,
+        "p95_ns": 67820.95000000001,
+        "p99_ns": 74082.92,
+        "count": 280
+      },
+      "write": {
+        "p50_ns": 60496.0,
+        "p95_ns": 65849.09999999999,
+        "p99_ns": 69597.88,
+        "count": 232
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 12
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 244461,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 60613.0,
+        "p95_ns": 64077.85,
+        "p99_ns": 73021.11999999995,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 60621.0,
+        "p95_ns": 65326.4,
+        "p99_ns": 74416.05,
+        "count": 248
+      },
+      "write": {
+        "p50_ns": 60590.0,
+        "p95_ns": 63491.35,
+        "p99_ns": 65151.880000000005,
+        "count": 264
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 13
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 447337,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 60515.5,
+        "p95_ns": 63184.45,
+        "p99_ns": 64289.43,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 60552.0,
+        "p95_ns": 62966.0,
+        "p99_ns": 64772.799999999996,
+        "count": 241
+      },
+      "write": {
+        "p50_ns": 60500.0,
+        "p95_ns": 63230.0,
+        "p99_ns": 63949.4,
+        "count": 271
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 14
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 350164,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 60288.5,
+        "p95_ns": 63121.6,
+        "p99_ns": 65248.619999999995,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 60473.0,
+        "p95_ns": 63206.6,
+        "p99_ns": 65325.12,
+        "count": 265
+      },
+      "write": {
+        "p50_ns": 60105.0,
+        "p95_ns": 62540.9,
+        "p99_ns": 64489.899999999994,
+        "count": 247
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 15
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 249577,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 60467.5,
+        "p95_ns": 63292.85,
+        "p99_ns": 64493.31,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 60463.5,
+        "p95_ns": 63605.99999999999,
+        "p99_ns": 64549.45,
+        "count": 228
+      },
+      "write": {
+        "p50_ns": 60467.5,
+        "p95_ns": 63141.7,
+        "p99_ns": 64296.3,
+        "count": 284
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 16
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 403632,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 60448.5,
+        "p95_ns": 63374.2,
+        "p99_ns": 64964.159999999996,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 60411.0,
+        "p95_ns": 63084.19999999999,
+        "p99_ns": 64748.91999999999,
+        "count": 243
+      },
+      "write": {
+        "p50_ns": 60454.0,
+        "p95_ns": 63820.2,
+        "p99_ns": 64939.08,
+        "count": 269
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 17
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 399034,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 60028.0,
+        "p95_ns": 62760.4,
+        "p99_ns": 64579.7,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 60031.0,
+        "p95_ns": 62764.6,
+        "p99_ns": 64636.2,
+        "count": 245
+      },
+      "write": {
+        "p50_ns": 60025.0,
+        "p95_ns": 62640.4,
+        "p99_ns": 64465.219999999994,
+        "count": 267
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 18
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 415553,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 59718.0,
+        "p95_ns": 62679.65,
+        "p99_ns": 64698.61,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 59761.0,
+        "p95_ns": 63376.7,
+        "p99_ns": 65057.19999999999,
+        "count": 262
+      },
+      "write": {
+        "p50_ns": 59679.0,
+        "p95_ns": 62195.1,
+        "p99_ns": 63314.42,
+        "count": 250
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 19
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 408232,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 59736.5,
+        "p95_ns": 63476.9,
+        "p99_ns": 78294.12999999995,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 59738.0,
+        "p95_ns": 63766.1,
+        "p99_ns": 92411.75999999924,
+        "count": 267
+      },
+      "write": {
+        "p50_ns": 59734.0,
+        "p95_ns": 62302.4,
+        "p99_ns": 65985.6,
+        "count": 245
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 20
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 405656,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 60530.0,
+        "p95_ns": 79072.04999999999,
+        "p99_ns": 81963.4,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 60479.0,
+        "p95_ns": 79811.5,
+        "p99_ns": 85038.49999999999,
+        "count": 256
+      },
+      "write": {
+        "p50_ns": 60601.0,
+        "p95_ns": 70635.0,
+        "p99_ns": 81627.2,
+        "count": 256
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 21
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 397540,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 63203.5,
+        "p95_ns": 65915.0,
+        "p99_ns": 67470.76,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 63148.0,
+        "p95_ns": 66163.75,
+        "p99_ns": 67315.7,
+        "count": 256
+      },
+      "write": {
+        "p50_ns": 63290.0,
+        "p95_ns": 65603.0,
+        "p99_ns": 67487.65,
+        "count": 256
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 22
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 398903,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 60061.0,
+        "p95_ns": 62920.9,
+        "p99_ns": 64192.89,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 59891.0,
+        "p95_ns": 62751.0,
+        "p99_ns": 64409.32000000001,
+        "count": 249
+      },
+      "write": {
+        "p50_ns": 60151.0,
+        "p95_ns": 62989.7,
+        "p99_ns": 63953.299999999996,
+        "count": 263
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 23
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 402899,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 63765.0,
+        "p95_ns": 66001.55,
+        "p99_ns": 67496.88,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 63816.0,
+        "p95_ns": 66169.5,
+        "p99_ns": 67098.24,
+        "count": 259
+      },
+      "write": {
+        "p50_ns": 63742.0,
+        "p95_ns": 65579.0,
+        "p99_ns": 67798.4,
+        "count": 253
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 24
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 582279,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 60121.5,
+        "p95_ns": 62543.25,
+        "p99_ns": 63919.89,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 60111.0,
+        "p95_ns": 62384.8,
+        "p99_ns": 63475.18000000001,
+        "count": 278
+      },
+      "write": {
+        "p50_ns": 60138.0,
+        "p95_ns": 62688.9,
+        "p99_ns": 63934.07,
+        "count": 234
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 25
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 376129,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 60462.5,
+        "p95_ns": 64049.15,
+        "p99_ns": 66715.65999999999,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 60326.0,
+        "p95_ns": 63728.6,
+        "p99_ns": 67253.98000000003,
+        "count": 255
+      },
+      "write": {
+        "p50_ns": 60537.0,
+        "p95_ns": 64124.4,
+        "p99_ns": 66538.36,
+        "count": 257
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 26
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 906168,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 60905.0,
+        "p95_ns": 69718.95,
+        "p99_ns": 72635.95,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 60937.5,
+        "p95_ns": 69652.25,
+        "p99_ns": 72213.99,
+        "count": 264
+      },
+      "write": {
+        "p50_ns": 60875.0,
+        "p95_ns": 69800.8,
+        "p99_ns": 73201.16,
+        "count": 248
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 27
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 872190,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 59720.0,
+        "p95_ns": 63596.05,
+        "p99_ns": 71853.92,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 59617.0,
+        "p95_ns": 62689.2,
+        "p99_ns": 73189.4000000001,
+        "count": 249
+      },
+      "write": {
+        "p50_ns": 59754.0,
+        "p95_ns": 63945.4,
+        "p99_ns": 71686.64,
+        "count": 263
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 28
+  },
+  {
+    "measured_checks": 512,
+    "initialization_checks": 1024,
+    "warmup_checks": 16,
+    "final_audit_checks": 1024,
+    "oracle_checks": 2576,
+    "setup_ns": 466682,
+    "stash_histogram": {
+      "0": 512
+    },
+    "max_measured_stash": 0,
+    "latency": {
+      "all": {
+        "p50_ns": 60213.0,
+        "p95_ns": 63057.95,
+        "p99_ns": 65018.69,
+        "count": 512
+      },
+      "read": {
+        "p50_ns": 60271.0,
+        "p95_ns": 63056.75,
+        "p99_ns": 64978.520000000004,
+        "count": 260
+      },
+      "write": {
+        "p50_ns": 60155.0,
+        "p95_ns": 63046.4,
+        "p99_ns": 65305.270000000004,
+        "count": 252
+      }
+    },
+    "blocks": 1024,
+    "algorithm": "circuit",
+    "trial": 29
+  }
+]

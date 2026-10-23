@@ -1,0 +1,13 @@
+[package]
+name = "oblivion-oram-reference"
+version = "0.1.0"
+edition = "2024"
+license = "GPL-3.0"
+description = "Isolated matched heap-storage benchmark of MobileCoin Path and Circuit ORAM references"
+[workspace]
+[dependencies]
+mc-oblivious-ram = "=2.3.0"
+mc-oblivious-traits = "=2.3.0"
+rand = "=0.8.5"
+rand_chacha = "=0.3.1"
+serde_json = "=1.0.154"

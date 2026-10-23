@@ -1,0 +1,412 @@
+{
+  "schema_version": 1,
+  "cells": [
+    {
+      "blocks": 64,
+      "algorithm": "path",
+      "trials": 30,
+      "max_measured_stash": 3,
+      "stash_histogram": {
+        "0": 15232,
+        "1": 94,
+        "2": 32,
+        "3": 2
+      },
+      "latency": {
+        "all": {
+          "mean_trial_p50_ns": {
+            "mean": 204987.86666666667,
+            "ci95_trials": [
+              198411.43791666668,
+              214030.73249999998
+            ],
+            "trials": 30
+          },
+          "mean_trial_p95_ns": {
+            "mean": 259111.61333333337,
+            "ci95_trials": [
+              239626.31520833334,
+              281389.39570833324
+            ],
+            "trials": 30
+          },
+          "mean_trial_p99_ns": {
+            "mean": 302103.43899999995,
+            "ci95_trials": [
+              270049.8036,
+              339660.8983166666
+            ],
+            "trials": 30
+          }
+        },
+        "read": {
+          "mean_trial_p50_ns": {
+            "mean": 205096.96666666667,
+            "ci95_trials": [
+              198508.67875,
+              214084.65375
+            ],
+            "trials": 30
+          },
+          "mean_trial_p95_ns": {
+            "mean": 258689.42833333334,
+            "ci95_trials": [
+              238819.75516666667,
+              281949.6807916666
+            ],
+            "trials": 30
+          },
+          "mean_trial_p99_ns": {
+            "mean": 300317.1339999999,
+            "ci95_trials": [
+              268337.108175,
+              338209.3738083333
+            ],
+            "trials": 30
+          }
+        },
+        "write": {
+          "mean_trial_p50_ns": {
+            "mean": 204879.21666666667,
+            "ci95_trials": [
+              198377.56291666668,
+              214019.72
+            ],
+            "trials": 30
+          },
+          "mean_trial_p95_ns": {
+            "mean": 257350.66499999998,
+            "ci95_trials": [
+              239403.61237499997,
+              276704.80975
+            ],
+            "trials": 30
+          },
+          "mean_trial_p99_ns": {
+            "mean": 298542.6770000001,
+            "ci95_trials": [
+              267772.62037500006,
+              334112.63374166674
+            ],
+            "trials": 30
+          }
+        }
+      },
+      "mean_trial_setup_ns": {
+        "mean": 133866.86666666667,
+        "ci95_trials": [
+          118576.57166666667,
+          154453.57416666666
+        ],
+        "trials": 30
+      },
+      "oracle_checks": 19680
+    },
+    {
+      "blocks": 64,
+      "algorithm": "circuit",
+      "trials": 30,
+      "max_measured_stash": 0,
+      "stash_histogram": {
+        "0": 15360
+      },
+      "latency": {
+        "all": {
+          "mean_trial_p50_ns": {
+            "mean": 49913.63333333333,
+            "ci95_trials": [
+              47693.31208333333,
+              52586.25041666667
+            ],
+            "trials": 30
+          },
+          "mean_trial_p95_ns": {
+            "mean": 56730.153333333335,
+            "ci95_trials": [
+              53182.63875,
+              60473.377083333326
+            ],
+            "trials": 30
+          },
+          "mean_trial_p99_ns": {
+            "mean": 68948.38899999997,
+            "ci95_trials": [
+              57904.52193333333,
+              86547.88798333328
+            ],
+            "trials": 30
+          }
+        },
+        "read": {
+          "mean_trial_p50_ns": {
+            "mean": 49949.5,
+            "ci95_trials": [
+              47734.4625,
+              52623.09374999999
+            ],
+            "trials": 30
+          },
+          "mean_trial_p95_ns": {
+            "mean": 56941.266666666656,
+            "ci95_trials": [
+              53391.93637499998,
+              60667.542624999995
+            ],
+            "trials": 30
+          },
+          "mean_trial_p99_ns": {
+            "mean": 72717.79066666664,
+            "ci95_trials": [
+              58177.417591666665,
+              97166.36778333328
+            ],
+            "trials": 30
+          }
+        },
+        "write": {
+          "mean_trial_p50_ns": {
+            "mean": 49878.2,
+            "ci95_trials": [
+              47657.82833333333,
+              52546.61291666666
+            ],
+            "trials": 30
+          },
+          "mean_trial_p95_ns": {
+            "mean": 56381.12833333332,
+            "ci95_trials": [
+              52953.115,
+              60069.24045833333
+            ],
+            "trials": 30
+          },
+          "mean_trial_p99_ns": {
+            "mean": 61358.34733333333,
+            "ci95_trials": [
+              57100.03409999999,
+              65801.86970833334
+            ],
+            "trials": 30
+          }
+        }
+      },
+      "mean_trial_setup_ns": {
+        "mean": 121553.46666666666,
+        "ci95_trials": [
+          114117.32416666666,
+          128573.87083333333
+        ],
+        "trials": 30
+      },
+      "oracle_checks": 19680
+    },
+    {
+      "blocks": 1024,
+      "algorithm": "path",
+      "trials": 30,
+      "max_measured_stash": 6,
+      "stash_histogram": {
+        "0": 15111,
+        "1": 157,
+        "2": 64,
+        "3": 16,
+        "4": 8,
+        "5": 2,
+        "6": 2
+      },
+      "latency": {
+        "all": {
+          "mean_trial_p50_ns": {
+            "mean": 368393.25,
+            "ci95_trials": [
+              362508.2104166667,
+              379697.7875
+            ],
+            "trials": 30
+          },
+          "mean_trial_p95_ns": {
+            "mean": 410857.045,
+            "ci95_trials": [
+              393945.93620833335,
+              433383.2005833333
+            ],
+            "trials": 30
+          },
+          "mean_trial_p99_ns": {
+            "mean": 451510.6893333332,
+            "ci95_trials": [
+              417636.78657499986,
+              494666.2934166666
+            ],
+            "trials": 30
+          }
+        },
+        "read": {
+          "mean_trial_p50_ns": {
+            "mean": 368338.81666666665,
+            "ci95_trials": [
+              362484.10541666666,
+              379605.6291666667
+            ],
+            "trials": 30
+          },
+          "mean_trial_p95_ns": {
+            "mean": 411418.1899999999,
+            "ci95_trials": [
+              393808.3258749999,
+              434964.8832083333
+            ],
+            "trials": 30
+          },
+          "mean_trial_p99_ns": {
+            "mean": 451987.3433333333,
+            "ci95_trials": [
+              416638.12759166665,
+              497501.3782500001
+            ],
+            "trials": 30
+          }
+        },
+        "write": {
+          "mean_trial_p50_ns": {
+            "mean": 368463.7,
+            "ci95_trials": [
+              362531.7816666667,
+              379827.14375
+            ],
+            "trials": 30
+          },
+          "mean_trial_p95_ns": {
+            "mean": 406469.52999999997,
+            "ci95_trials": [
+              391229.6491249999,
+              427990.2539166667
+            ],
+            "trials": 30
+          },
+          "mean_trial_p99_ns": {
+            "mean": 458406.61066666653,
+            "ci95_trials": [
+              422915.54600833333,
+              500396.00423333334
+            ],
+            "trials": 30
+          }
+        }
+      },
+      "mean_trial_setup_ns": {
+        "mean": 445979.26666666666,
+        "ci95_trials": [
+          391247.70083333337,
+          509224.68166666664
+        ],
+        "trials": 30
+      },
+      "oracle_checks": 77280
+    },
+    {
+      "blocks": 1024,
+      "algorithm": "circuit",
+      "trials": 30,
+      "max_measured_stash": 0,
+      "stash_histogram": {
+        "0": 15360
+      },
+      "latency": {
+        "all": {
+          "mean_trial_p50_ns": {
+            "mean": 60485.03333333333,
+            "ci95_trials": [
+              60129.33416666667,
+              60904.54833333333
+            ],
+            "trials": 30
+          },
+          "mean_trial_p95_ns": {
+            "mean": 64997.91333333333,
+            "ci95_trials": [
+              63708.07604166666,
+              66616.81662499999
+            ],
+            "trials": 30
+          },
+          "mean_trial_p99_ns": {
+            "mean": 70260.99899999998,
+            "ci95_trials": [
+              67671.550075,
+              73154.55483333327
+            ],
+            "trials": 30
+          }
+        },
+        "read": {
+          "mean_trial_p50_ns": {
+            "mean": 60487.98333333333,
+            "ci95_trials": [
+              60128.44333333333,
+              60911.85666666667
+            ],
+            "trials": 30
+          },
+          "mean_trial_p95_ns": {
+            "mean": 65138.10999999999,
+            "ci95_trials": [
+              63880.43991666666,
+              66672.10116666666
+            ],
+            "trials": 30
+          },
+          "mean_trial_p99_ns": {
+            "mean": 70623.35499999997,
+            "ci95_trials": [
+              67894.566825,
+              73613.98638333323
+            ],
+            "trials": 30
+          }
+        },
+        "write": {
+          "mean_trial_p50_ns": {
+            "mean": 60480.45,
+            "ci95_trials": [
+              60126.816666666666,
+              60902.271250000005
+            ],
+            "trials": 30
+          },
+          "mean_trial_p95_ns": {
+            "mean": 64635.28833333332,
+            "ci95_trials": [
+              63544.18241666667,
+              66083.82429166666
+            ],
+            "trials": 30
+          },
+          "mean_trial_p99_ns": {
+            "mean": 69208.73566666667,
+            "ci95_trials": [
+              66839.77072499998,
+              71925.82826666668
+            ],
+            "trials": 30
+          }
+        }
+      },
+      "mean_trial_setup_ns": {
+        "mean": 443794.1,
+        "ci95_trials": [
+          396948.5208333333,
+          497613.49749999994
+        ],
+        "trials": 30
+      },
+      "oracle_checks": 77280
+    }
+  ],
+  "reference_version": "mc-oblivious-ram=2.3.0; mc-oblivious-traits=2.3.0",
+  "analysis_sha256": "b332b85643da6eb2838b87619a174e963851b95ff6f49ba3941a00a17ede3f06",
+  "methodology": "30 fresh processes/controllers per cell; seeded uniform read/write workload only, every creator RNG freshly OS-seeded ChaCha20Rng; setup creation separate, initialization/warmup/final audit excluded from operation timings; means of trial p50/p95/p99, 5000 percentile bootstrap resamples at trial level",
+  "backend": "Vendor HeapORAMStorage, unencrypted trusted heap, same for both reference algorithms; not the encrypted Oblivion backend and not an untrusted-storage security benchmark",
+  "bandwidth": "Not instrumented. No backend bytes or network bandwidth inferred from formulas.",
+  "license": "Separate GPL-3.0 benchmark program; Oblivion workspace has no dependency on it"
+}
