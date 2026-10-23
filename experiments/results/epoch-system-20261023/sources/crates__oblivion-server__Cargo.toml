@@ -1,0 +1,23 @@
+[package]
+name = "oblivion-server"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+cpu-time = "1.0.0"
+oblivion-sse = { path = "../oblivion-sse" }
+oblivion-store = { path = "../oblivion-store" }
+oblivion-pir = { path = "../oblivion-pir" }
+oblivion-exec = { path = "../oblivion-exec" }
+oblivion-batcher = { path = "../oblivion-batcher" }
+serde_json.workspace = true
+sha2.workspace = true
+rand.workspace = true
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+rustix = { version = "1", features = ["pipe"] }

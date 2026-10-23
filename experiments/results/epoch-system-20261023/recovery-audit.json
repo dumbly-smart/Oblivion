@@ -1,0 +1,24 @@
+{
+  "original_artifact_manifest_sha256": "9f13174abc4bdd0aeaa39f2ab2ac7f6f44379d4c83b757de2c2bda2a04de13e7",
+  "original_artifact_hashes_verified": 2595,
+  "expected_unique_process_tree_trials": 360,
+  "successful_process_tree_trials": 360,
+  "failed_trials": 0,
+  "raw_trials_reanalyzed": 360,
+  "retained_metrics_exactly_reproduced": true,
+  "invocations": 2160,
+  "real_successes": 1080,
+  "dummy_successes": 1080,
+  "frozen_source_hashes_match_current": true,
+  "rust_tests": {
+    "command": "cargo test -p oblivion-server --test epoch_sweep --release",
+    "count": 3,
+    "exit": 0
+  },
+  "python_tests": {
+    "command": "EPOCH_SYSTEM_BINARY=$PWD/experiments/results/epoch-system-20261023/bin/oblivion-server .venv/bin/python -m unittest research.tests.test_epoch_system -v",
+    "count": 2,
+    "exit": 0
+  },
+  "scope": "audit only; no campaign rerun or original artifact mutation"
+}
