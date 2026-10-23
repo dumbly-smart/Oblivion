@@ -1,0 +1,104 @@
+{
+  "output": "/tmp/oblivion-figure-audit-20261023-bxf3q0pf",
+  "tracked_input_counts": {
+    "system": 4211,
+    "oram": 258,
+    "batch": 547,
+    "scaler": 7
+  },
+  "source_sha256": {
+    "research/analysis/system.py": "250f9836cce295f2c14ac724ca03f2b363e105195b0aaa7f99be61212f230800",
+    "research/attacks/joint.py": "32b34d78fa5e2fcccd1acf1bd7b04afddde58efe6b55efd11af1e6f9bca0a35d",
+    "scripts/sweep_oram.py": "1b10e7450e646a99327f0de5301391fcc5484092e8457741ad3f7349438b8af1",
+    "research/analysis/open_loop.py": "c7f54682eff8141b9834c8c716f0ddaabde457767c529ea4f698e73e54f97b42",
+    "research/simulation/run.py": "64182dd9e18dc16016da5dd21e3ae0f61babaadfe6380e6b96a2da100069a940",
+    "research/simulation/scaler.py": "ca38bdf58c402cb9c30ce4f0e754c7db97abaf8b3aa8ef75a19919d459d09568"
+  },
+  "commands": {
+    "system": [
+      "/home/xtrmn8/oblivion/.venv/bin/python",
+      "-m",
+      "research.analysis.system",
+      "/tmp/oblivion-figure-audit-20261023-bxf3q0pf/system"
+    ],
+    "oram": [
+      "/home/xtrmn8/oblivion/.venv/bin/python",
+      "scripts/sweep_oram.py",
+      "/tmp/oblivion-figure-audit-20261023-bxf3q0pf/oram",
+      "--plot-only"
+    ],
+    "batch": [
+      "/home/xtrmn8/oblivion/.venv/bin/python",
+      "-m",
+      "research.analysis.open_loop",
+      "--batch",
+      "/tmp/oblivion-figure-audit-20261023-bxf3q0pf/batch"
+    ],
+    "scaler": [
+      "/home/xtrmn8/oblivion/.venv/bin/python",
+      "-m",
+      "research.simulation.run",
+      "--plot-only",
+      "/tmp/oblivion-figure-audit-20261023-bxf3q0pf/scaler"
+    ]
+  },
+  "figure_sha256": {
+    "system/pareto-three-axis-slo.png": "8c6a61749145882b488eb73395090ef078dc3ad999aa713cb4fd350c12132152",
+    "system/latency-privacy.png": "4c670182daf1a12f74aa03528f08442b50b70847a7a848035409da6fa4d5926e",
+    "system/cost-attack.png": "ab0bb524e475f54acef235a53e706406f5b42c228fc3bf64200276be30258d00",
+    "system/bandwidth-privacy.png": "9207f13c5af8a6cb01a689727adea07932057e0fca71c8298c9f6829fc4d33da",
+    "system/ablation-attacks.png": "9ba836d5f34e6bdc63c170486ea1df8c80e9616bae904b1a4615e69e6427c2e8",
+    "oram/oram-size.png": "5121467088e66dfcbac65053f5d85f5c01d3e332c5869825ebd9893d2f48cda5",
+    "batch/batching-overhead-vs-epoch.png": "ba9fd034d6881603c9ecf2ddc6b6c9ba56f6ace5caf0c7442a91d5405346a7d9",
+    "scaler/pareto-intensity.png": "77239c1e8fadfb56bc737f232d15a7cb07e6b63eaf2f28a0ad24b41924223b10",
+    "scaler/pareto-hot.png": "187705169d39b11f194936b3f718f71ee0ec02d5bac1fc653bfce8b2dc8b6717"
+  },
+  "numeric_results_equal": true,
+  "original_artifacts_unchanged": true,
+  "audit_recorded_utc": "2026-10-23T14:22:01.255386+00:00",
+  "input_digest_verification": {
+    "system": {
+      "accepted_path": "experiments/results/system-fixed-publication-30-20261022",
+      "retained_preanalysis_snapshot": "/tmp/oblivion-figure-audit-20261023-bxf3q0pf/system",
+      "consumed_files": 1682,
+      "snapshot_input_tree_sha256": "2a9a197e59b58a19e4db35feb55a6d17eb929e88a3c8acd9196251db0eacb333",
+      "current_accepted_input_tree_sha256": "2a9a197e59b58a19e4db35feb55a6d17eb929e88a3c8acd9196251db0eacb333",
+      "matched": true,
+      "tree_hash_algorithm": "SHA256 of sorted relative path + NUL + ASCII file SHA256 + NUL",
+      "notes": "Snapshot raw inputs were copied before the audit and are read-only to these analysis functions. Digests collected from retained snapshot and accepted inputs after the recorded audit; original audit independently checked every copied tracked file before/after."
+    },
+    "oram": {
+      "accepted_path": "experiments/results/oram-size-30-20261021",
+      "retained_preanalysis_snapshot": "/tmp/oblivion-figure-audit-20261023-bxf3q0pf/oram",
+      "consumed_files": 8,
+      "snapshot_input_tree_sha256": "e9c4d20b17c098df8fb890b416bb1666f0ff7fe5627b45a77bc863290600a377",
+      "current_accepted_input_tree_sha256": "e9c4d20b17c098df8fb890b416bb1666f0ff7fe5627b45a77bc863290600a377",
+      "matched": true,
+      "tree_hash_algorithm": "SHA256 of sorted relative path + NUL + ASCII file SHA256 + NUL",
+      "notes": "Snapshot raw inputs were copied before the audit and are read-only to these analysis functions. Digests collected from retained snapshot and accepted inputs after the recorded audit; original audit independently checked every copied tracked file before/after."
+    },
+    "batch": {
+      "accepted_path": "experiments/results/batch-epoch-current",
+      "retained_preanalysis_snapshot": "/tmp/oblivion-figure-audit-20261023-bxf3q0pf/batch",
+      "consumed_files": 272,
+      "snapshot_input_tree_sha256": "d9bf3c05a33a0925c25c3435bf009bab01d520725259f65db6c94e16bea324f6",
+      "current_accepted_input_tree_sha256": "d9bf3c05a33a0925c25c3435bf009bab01d520725259f65db6c94e16bea324f6",
+      "matched": true,
+      "tree_hash_algorithm": "SHA256 of sorted relative path + NUL + ASCII file SHA256 + NUL",
+      "notes": "Snapshot raw inputs were copied before the audit and are read-only to these analysis functions. Digests collected from retained snapshot and accepted inputs after the recorded audit; original audit independently checked every copied tracked file before/after."
+    }
+  },
+  "required_main_figures": 8,
+  "supplemental_figures": 1,
+  "counts": {
+    "system_trials_per_mode": 30,
+    "system_modes": 7,
+    "system_sessions_per_trial": 4,
+    "system_opportunities": 13440,
+    "oram_controller_trials": 120,
+    "batching_trials": 270,
+    "batching_arrival_frames": 69120,
+    "batching_emissions": 8640
+  },
+  "cached_scaler_plot_note": "This component pass used scaler report plots; the separate raw-only scaler audit below supersedes that dependency for both required autoscaler figures."
+}
