@@ -1,5 +1,11 @@
 //! Reproducible workload generator; cryptographic randomness remains OS sourced.
-use oblivion_store::{Config, MemoryBackend, PathOram};
+#[path = "isolated.rs"]
+mod isolated;
+
+use isolated::{IsolatedBackend, ServiceEvent};
+use oblivion_store::{
+    Config, MemoryBackend, PathOram, PrivateStats, StorageDirection, StorageEvent,
+};
 use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha20Rng;
 use serde::{Deserialize, Serialize};
@@ -24,6 +30,109 @@ struct Experiment {
     trials: usize,
     seed: u64,
     workload: String,
+    #[serde(default = "default_backend")]
+    backend: String,
+}
+
+fn default_backend() -> String {
+    "memory".to_owned()
+}
+
+enum Store {
+    Memory(PathOram<MemoryBackend>),
+    Isolated {
+        store: PathOram<IsolatedBackend>,
+        worker_pid: u32,
+        request_bytes: usize,
+        response_bytes: usize,
+    },
+}
+
+impl Store {
+    fn read(&mut self, address: usize) -> Result<Vec<u8>, oblivion_store::Error> {
+        match self {
+            Self::Memory(store) => store.read(address),
+            Self::Isolated { store, .. } => store.read(address),
+        }
+    }
+    fn write(&mut self, address: usize, value: &[u8]) -> Result<(), oblivion_store::Error> {
+        match self {
+            Self::Memory(store) => store.write(address, value),
+            Self::Isolated { store, .. } => store.write(address, value),
+        }
+    }
+    fn private_stats(&self) -> PrivateStats {
+        match self {
+            Self::Memory(store) => store.private_stats(),
+            Self::Isolated { store, .. } => store.private_stats(),
+        }
+    }
+    fn set_tracing(&mut self, enabled: bool) {
+        match self {
+            Self::Memory(store) => store.backend_mut().set_tracing(enabled),
+            Self::Isolated { store, .. } => store.backend_mut().set_recording(enabled),
+        }
+    }
+    fn take_events(&mut self) -> Vec<VisibleEvent> {
+        match self {
+            Self::Memory(store) => store
+                .backend_mut()
+                .take_trace()
+                .into_iter()
+                .map(VisibleEvent::from)
+                .collect(),
+            Self::Isolated { store, .. } => store
+                .backend_mut()
+                .take_events()
+                .into_iter()
+                .map(VisibleEvent::from)
+                .collect(),
+        }
+    }
+    fn isolated_metadata(&self) -> Option<(u32, usize, usize)> {
+        match self {
+            Self::Memory(_) => None,
+            Self::Isolated {
+                worker_pid,
+                request_bytes,
+                response_bytes,
+                ..
+            } => Some((*worker_pid, *request_bytes, *response_bytes)),
+        }
+    }
+}
+
+#[derive(Serialize)]
+struct VisibleEvent {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    step: Option<usize>,
+    direction: StorageDirection,
+    bucket: usize,
+    bytes: usize,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    service_ns: Option<u64>,
+}
+impl From<StorageEvent> for VisibleEvent {
+    fn from(event: StorageEvent) -> Self {
+        Self {
+            step: None,
+            direction: event.direction,
+            bucket: event.bucket,
+            bytes: event.bytes,
+            service_ns: None,
+        }
+    }
+}
+impl From<ServiceEvent> for VisibleEvent {
+    fn from(event: ServiceEvent) -> Self {
+        Self {
+            step: None,
+            direction: event.direction,
+            bucket: event.bucket,
+            bytes: event.bytes,
+            service_ns: Some(event.service_ns),
+        }
+    }
 }
 
 fn default_bucket_capacity() -> usize {
@@ -32,6 +141,18 @@ fn default_bucket_capacity() -> usize {
 
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<String> = std::env::args().collect();
+    if args.get(1).is_some_and(|arg| arg == "--bucket-server") {
+        if args.len() != 4 {
+            return Err("usage: oram-measure --bucket-server BUCKET_COUNT BUCKET_BYTES".into());
+        }
+        return isolated::serve(
+            std::io::stdin().lock(),
+            std::io::stdout().lock(),
+            args[2].parse()?,
+            args[3].parse()?,
+        )
+        .map_err(Into::into);
+    }
     if args.len() != 3 {
         return Err("usage: measure CONFIG.json NEW_OUTPUT_DIRECTORY".into());
     }
@@ -43,6 +164,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         || config.trials == 0
         || config.trials > 1000
         || !["same", "uniform"].contains(&config.workload.as_str())
+        || !["memory", "isolated_process"].contains(&config.backend.as_str())
     {
         return Err("invalid experiment configuration".into());
     }
@@ -62,8 +184,27 @@ fn main() -> Result<(), Box<dyn Error>> {
             .checked_add(trial as u64)
             .ok_or("seed overflow")?;
         let mut rng = ChaCha20Rng::seed_from_u64(seed);
-        let mut store = PathOram::new(geometry.clone(), MemoryBackend::default())?;
-        store.backend_mut().set_tracing(false);
+        let mut store = match config.backend.as_str() {
+            "memory" => Store::Memory(PathOram::new(geometry.clone(), MemoryBackend::default())?),
+            "isolated_process" => {
+                let backend = IsolatedBackend::spawn(
+                    &std::env::current_exe()?,
+                    geometry.bucket_count(),
+                    geometry.bucket_bytes(),
+                )?;
+                let worker_pid = backend.worker_pid();
+                let request_bytes = backend.request_bytes();
+                let response_bytes = backend.response_bytes();
+                Store::Isolated {
+                    store: PathOram::new(geometry.clone(), backend)?,
+                    worker_pid,
+                    request_bytes,
+                    response_bytes,
+                }
+            }
+            _ => unreachable!("validated backend"),
+        };
+        store.set_tracing(false);
         // Materialize the entire logical dataset before warm-up/measurement.
         for id in 0..config.blocks {
             store.write(id, &vec![0; config.block_bytes])?;
@@ -71,9 +212,24 @@ fn main() -> Result<(), Box<dyn Error>> {
         for _ in 0..config.warmup {
             store.read(rng.gen_range(0..config.blocks))?;
         }
-        store.backend_mut().set_tracing(true);
-        let mut observer =
-            BufWriter::new(File::create(out.join(format!("observer-{trial}.jsonl")))?);
+        store.set_tracing(true);
+        if let Some((worker_pid, request_bytes, response_bytes)) = store.isolated_metadata() {
+            fs::write(
+                out.join("isolated-service.json"),
+                serde_json::to_vec_pretty(&serde_json::json!({
+                    "worker_pid": worker_pid, "controller_pid": std::process::id(),
+                    "request_bytes": request_bytes, "response_bytes": response_bytes,
+                    "bucket_bytes": geometry.bucket_bytes(), "path_buckets": geometry.path_buckets(),
+                    "timing_scope": "bucket-handler-only; excludes pipe wait, path computation, request decoding, response encoding, and file output"
+                }))?,
+            )?;
+        }
+        let observer_name = if config.backend == "isolated_process" {
+            format!("isolated-observer-{trial}.jsonl")
+        } else {
+            format!("observer-{trial}.jsonl")
+        };
+        let mut observer = BufWriter::new(File::create(out.join(observer_name))?);
         let mut private = BufWriter::new(File::create(out.join(format!("private-{trial}.jsonl")))?);
         let mut reads = Vec::new();
         let mut writes = Vec::new();
@@ -90,6 +246,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             let mut value = vec![0; config.block_bytes];
             rng.fill(value.as_mut_slice());
             let mut recovered = None;
+            let mut oracle_verified = false;
             let start = Instant::now();
             if is_write {
                 store.write(address, &value)?;
@@ -104,6 +261,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                 if recovered.as_ref().unwrap() != &oracle[address] {
                     return Err("ORAM full-record oracle mismatch".into());
                 }
+                oracle_verified = true;
                 reads.push(ns);
             }
             let stats = store.private_stats();
@@ -111,12 +269,15 @@ fn main() -> Result<(), Box<dyn Error>> {
             *stash_histogram.entry(stats.stash_blocks).or_default() += 1;
             serde_json::to_writer(
                 &mut private,
-                &serde_json::json!({"step":step, "logical_address":address,"write":is_write,"latency_ns":ns,"stash":stats.stash_blocks}),
+                &serde_json::json!({"step":step, "logical_address":address,"write":is_write,"latency_ns":ns,"stash":stats.stash_blocks,"oracle_verified":oracle_verified}),
             )?;
             writeln!(private)?;
-            let events = store.backend_mut().take_trace();
+            let mut events = store.take_events();
             assert_eq!(events.len(), 2 * geometry.path_buckets());
-            for event in events {
+            for event in &mut events {
+                if config.backend == "isolated_process" {
+                    event.step = Some(step);
+                }
                 serde_json::to_writer(&mut observer, &event)?;
                 writeln!(observer)?;
             }

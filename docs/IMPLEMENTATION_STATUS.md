@@ -64,3 +64,13 @@ The research-only `demo-sweep` now retains authenticated masked runtime failures
 [The figure reproduction audit](FIGURE_REPRODUCTION.md) now records raw-derived regeneration of all eight required main figures and the supplemental three-axis/SLO plot without ignored measurement executables. Both autoscaler campaigns rebuild from four raw/config files rather than cached reports; audited numerical reports and PNG bytes matched, and accepted inputs stayed unchanged. The serial local and hosted source gates are accepted; subsequent closing Markdown-only checks are accessible on PR #1.
 
 Selected implementation/evaluation and the serial local/hosted source gates are accepted within their bounded scope. [PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is ready for delivery on `codex/oblivion-research-platform`; no main merge is claimed. Hardware isolation, formal DP, recursive/native Circuit storage, DPF/native single-server runtime selection, persistent/backward-private SSE and durable application acknowledgments remain explicitly unselected extensions/deployment obligations. Human P1–P12 study and mutable bibliography/course listings are context, not machine-proof software gates.
+
+## Optional follow-up: isolated ORAM timing
+
+The ORAM measurement example now has an opt-in child-process bucket service.
+The process boundary and fixed-size pipe protocol are exercised by focused
+tests; the service timer measures only its in-memory bucket handler. This
+supports new isolated-service observations but does not reproduce the earlier
+weak timing AUC. The independent attack, positive controls, declared primary
+metric, broader workloads and repeated evaluation remain open. See
+[ORAM isolated timing](ORAM_ISOLATED_TIMING.md).
