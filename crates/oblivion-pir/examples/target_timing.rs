@@ -37,8 +37,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         || !(4..=32768).contains(&count)
         || width == 0
         || width > 4096
-        || queries < 6
-        || queries > 3000
+        || !(6..=3000).contains(&queries)
         || !queries.is_multiple_of(3)
         || session.is_empty()
         || session.len() > 128
