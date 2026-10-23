@@ -10,12 +10,12 @@ class AttackRegistry(unittest.TestCase):
         from research.attacks import registry
         return registry
 
-    def test_all_eleven_real_adapters_have_stable_descriptions(self):
+    def test_all_thirteen_real_adapters_have_stable_descriptions(self):
         registry = self.registry()
         descriptions = registry.list_attacks()
         self.assertEqual([x['name'] for x in descriptions], sorted([
             'frequency', 'traffic', 'joint', 'count', 'searchpattern',
-            'likelihood', 'iterativeLAP', 'exactboundedcomparison', 'chosenupdateassociation', 'presence', 'leafTiming']))
+            'likelihood', 'iterativeLAP', 'exactboundedcomparison', 'chosenupdateassociation', 'presence', 'leafTiming', 'pirTargetTiming', 'batchLoad']))
         for entry in descriptions:
             self.assertIn('not a published attack reproduction', entry['limitations'])
         self.assertEqual(json.loads(json.dumps(descriptions)), descriptions)

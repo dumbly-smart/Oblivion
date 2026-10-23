@@ -322,3 +322,21 @@ def _leaf_timing():
 register_attack(AttackSpec('leafTiming', 'Session-separated visible leaf/tag frequency and timing forest',
                           ('session', 'tag', 'bytes', 'latency_ns'),
                           ('target_session_ids',), True), _leaf_timing)
+
+
+def _pir_timing():
+    from research.attacks.pir_timing import PirTimingAttack
+    return PirTimingAttack()
+
+
+def _batch_load():
+    from research.attacks.batch_load import BatchLoadAttack
+    return BatchLoadAttack()
+
+
+register_attack(AttackSpec('pirTargetTiming', 'Single-server query and answer-timing classifier',
+                          ('session', 'step', 'server_ns', 'query_bytes', 'visible_index'),
+                          ('target_session_ids',), True), _pir_timing)
+register_attack(AttackSpec('batchLoad', 'Joint complete-process load classifier for epoch batching',
+                          ('type', 'epoch', 'slot', 'arrived_ns', 'emitted_ns', 'destination', 'frame', 'frames'),
+                          ('profiles', 'process_id', 'seed')), _batch_load)
