@@ -5,3 +5,6 @@ __pycache__/
 /research/pir_reference/upstream/
 /research/pir_reference/build/
 /experiments/results/**/bin/
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/
