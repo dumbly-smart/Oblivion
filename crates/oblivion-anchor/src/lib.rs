@@ -18,6 +18,11 @@ use std::path::Path;
 use std::time::Duration;
 use zeroize::Zeroizing;
 
+#[cfg(unix)]
+mod local;
+#[cfg(unix)]
+pub use local::{UnixAnchorClient, UnixCheckpointAnchor, UnixRegistryAnchor, serve_unix};
+
 const NONCE_BYTES: usize = 12;
 const HANDLE_BYTES: usize = 88;
 const MAX_SLOT_BYTES: usize = 128;
@@ -43,6 +48,12 @@ pub enum Error {
     InvalidHandle,
     #[error("anchor database schema version {0} is unsupported")]
     UnsupportedSchema(u32),
+    #[error("anchor service socket operation failed: {0}")]
+    Socket(String),
+    #[error("anchor service protocol message is malformed or unsupported")]
+    Protocol,
+    #[error("anchor socket mode must be 0600 or 0660")]
+    InvalidSocketMode,
 }
 
 impl From<rusqlite::Error> for Error {

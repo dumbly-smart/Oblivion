@@ -1,11 +1,13 @@
-# Durable anchor adapter
+# Local durable anchor service
 
 `oblivion-anchor` provides SQLite-backed implementations of the store's
-`CheckpointAnchor` and the registry's `RegistryVersionAnchor` contracts. Each
-anchor has a validated opaque slot name. Updates use SQLite `IMMEDIATE`
-transactions, compare the caller's expected generation/version, and commit
-with `synchronous=FULL`. Concurrent compare-and-swap callers cannot both
-publish the same generation.
+`CheckpointAnchor` and registry's `RegistryVersionAnchor` contracts, plus a
+separate local service process over a versioned Unix-domain socket. The service
+can hold the database and master key under its own OS account while the
+executor uses socket client adapters. Each anchor has a validated opaque slot
+name. Updates use SQLite `IMMEDIATE` transactions, compare the caller's
+expected generation/version, and commit with `synchronous=FULL`. Concurrent
+compare-and-swap callers cannot both publish the same generation.
 
 The database schema is versioned with SQLite `user_version`. A new database
 is initialized transactionally as schema 1; unknown versions are rejected
@@ -26,26 +28,51 @@ operating-system CSPRNG and are reserved in a unique database table before
 encryption, so failed CAS attempts burn their nonce. Registry versions contain
 no secret payload.
 
-The caller supplies a zeroizing 32-byte master key when opening the database. It must
-come from a separate trusted secret source, such as a service secret manager,
-and must not be stored with the database. The adapter zeroizes its in-memory
-key. Deployments must also restrict database file and backup access.
+The caller supplies a zeroizing 32-byte master key when opening the database.
+It must come from a separate trusted secret source, such as a service secret
+manager, and must not be stored with the database. The CLI accepts a raw
+32-byte key file only when it is a regular file with no group/world
+permissions; the service zeroizes its in-memory key. Deployments must also
+restrict database file and backup access.
+
+## Local service protocol
+
+The `oblivion-anchor` binary accepts:
+
+```sh
+oblivion-anchor serve SOCKET DATABASE MASTER_KEY_FILE [0600|0660]
+```
+
+Socket mode `0600` restricts access to the service account. Mode `0660` also
+allows members of the socket's preconfigured group. The socket's parent
+directory and group configuration must be controlled by the service operator.
+Existing socket paths are not removed automatically; verify the prior service
+has stopped before cleaning a stale path.
+
+Each connection carries one length-prefixed JSON request, limited to 2 KiB.
+Requests and responses have protocol version 1, strict operation/status tags,
+validated slots, and a five-second read/write timeout. The client exposes
+separate checkpoint and registry adapters. Its CAS methods classify any lost
+or malformed response after sending as an indeterminate commit and require
+caller reconciliation.
 
 ## Trust limits
 
-This is a durable local adapter, not a remotely authenticated anchor service.
-The SQLite database operator and master-key source must be trusted separately
-from the ORAM snapshot and registry publication path. SQLite transactions
-provide atomic updates and process-crash durability; they do not provide a
-hardware monotonic counter. An operator or attacker able to restore an older
-database image can roll back both version state and checkpoint handles. A
-separate service process, authenticated remote protocol, key provisioning,
-backup/restore policy, and an anti-rollback source remain to be implemented
-before deployment under the project's untrusted-storage threat model.
+This is a trusted local service, not a remotely authenticated network anchor.
+The Unix socket limits clients through OS filesystem permissions, while a
+host administrator can still inspect the service process, key and socket
+traffic. The SQLite database operator and master-key source must be trusted
+separately from the ORAM snapshot and registry publication path. SQLite
+transactions provide atomic updates and process-crash durability; they do not
+provide a hardware monotonic counter. An operator or attacker able to restore
+an older database image can roll back both version state and checkpoint
+handles. A remote authenticated protocol, production key provisioning,
+backup/restore policy, and an anti-rollback source remain open under the
+project's untrusted-storage threat model.
 
-The adapter does not prove the identity of a registry publisher. Registry
+The service does not prove the identity of a registry publisher. Registry
 signature verification and publisher-key custody remain separate concerns.
-The demo does not yet use this adapter: its runtime registry signer is
+The demo does not yet use this service: its runtime registry signer is
 ephemeral, and its ORAM is not restored from persistent checkpoints.
 
 Run its adapter tests with:
@@ -59,5 +86,8 @@ and ciphertext rejection, namespaced registry versions, stale CAS rejection,
 competing checkpoint writers, real Path ORAM checkpoint/restore and stale
 writer rejection, and signed registry activation through the persistent
 version adapter. A database-copy rollback control demonstrates the residual
-rollback. The tests do not test power-loss behavior of every filesystem or
-establish rollback resistance.
+rollback. The local RPC tests exercise registry and checkpoint requests and
+fail-closed transport errors. CLI integration tests run the service as a
+separate process, check socket permissions, exercise persistent registry CAS,
+and reject a group-readable master key. The tests do not test power-loss
+behavior of every filesystem or establish rollback resistance.

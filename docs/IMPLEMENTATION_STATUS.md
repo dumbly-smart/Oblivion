@@ -410,3 +410,17 @@ WASM correctness test under host load; two isolated reruns passed. The test
 now uses a 500 ms test-only budget to exercise module behavior, while the
 dedicated deadline-interruption test continues to check enforcement. The full
 workspace suite passed after this adjustment.
+
+## 2026-10-25: local anchor service protocol
+
+Added a separate `oblivion-anchor serve` process with protocol-v1 bounded
+length-prefixed JSON over Unix-domain sockets, 0600/0660 access modes, a
+restricted raw key-file input, and typed checkpoint/registry client adapters.
+The adapters classify uncertain CAS transport outcomes as indeterminate.
+Two in-process socket tests pass for registry/checkpoint round trips and
+transport failure handling; two process-level tests check socket access,
+persistent CAS and key-file permissions. The 11 anchor unit tests, CLI help,
+and warning-denied anchor Clippy pass. The post-service full workspace suite
+also passed, with the million-operation ORAM stress test intentionally ignored.
+Remote authenticated transport, host-root isolation, whole-database rollback
+resistance, and demo integration remain open.
