@@ -356,3 +356,31 @@ see [REGISTRY_RUNTIME.md](REGISTRY_RUNTIME.md). The full workspace test suite
 also passed (`cargo test --workspace -- --test-threads=1`, exit 0; the million-
 operation ORAM stress test remains intentionally ignored), as did workspace
 formatting, warning-denied Clippy, and `git diff --check`.
+
+## 2026-10-25: persistent anchor adapter
+
+Added `oblivion-anchor`, a SQLite-backed adapter for both checkpoint and
+registry version CAS contracts. Checkpoint handles use HKDF-separated
+ChaCha20-Poly1305 keys, bound associated data, OS-random nonces reserved
+uniquely in the database, and encrypted persistence. Tests cover reopen,
+stale and concurrent CAS, wrong keys, ciphertext tampering, and registry
+namespace isolation, plus a deliberate database-copy rollback control
+(5 passed). This adapter is not wired into the demo and is not a remote anchor
+service; the database operator and separately supplied
+master key are trusted, and restoring a previous database copy defeats
+freshness. The post-adapter workspace suite passed with the million-operation
+ORAM stress test intentionally ignored; warning-denied workspace Clippy and
+formatting also pass. The full pinned Python research suite passed 188 tests
+with 4 documented skips. See [ANCHOR_SERVICE.md](ANCHOR_SERVICE.md).
+
+## 2026-10-25: research CI oracle follow-up
+
+The signed registry increased each PIR answer from 128 to 160 bytes. CI found
+an epoch-system evaluator still expecting the old 466-byte two-server
+application-frame total; it now derives the expected total from the current
+fixed registry and frame geometry (530 bytes). CI also found a test assuming
+the particle filter could never report a non-finite class likelihood. Since
+the documented Monte Carlo model deliberately reports zero-particle events as
+`-inf`, the test now checks that every such score is represented as `null` and
+included in the health counter. The full research test suite passed after both
+changes (188 tests, 4 documented skips).

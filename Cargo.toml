@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/oblivion-store", "crates/oblivion-pir", "crates/oblivion-exec", "crates/oblivion-batcher", "crates/oblivion-server", "crates/oblivion-harness", "crates/oblivion-sse", "crates/oblivion-registry"]
+members = ["crates/oblivion-store", "crates/oblivion-pir", "crates/oblivion-exec", "crates/oblivion-batcher", "crates/oblivion-server", "crates/oblivion-harness", "crates/oblivion-sse", "crates/oblivion-registry", "crates/oblivion-anchor"]
 resolver = "3"
 
 [workspace.package]

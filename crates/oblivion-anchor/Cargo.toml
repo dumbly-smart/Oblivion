@@ -1,0 +1,20 @@
+[package]
+name = "oblivion-anchor"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+chacha20poly1305.workspace = true
+hkdf.workspace = true
+rand.workspace = true
+rusqlite = { version = "0.37", features = ["bundled"] }
+sha2.workspace = true
+thiserror.workspace = true
+zeroize.workspace = true
+oblivion-registry = { path = "../oblivion-registry" }
+oblivion-store = { path = "../oblivion-store" }
+
+[lints]
+workspace = true

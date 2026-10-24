@@ -33,6 +33,7 @@ PIR occurs after epoch release on behalf of the trusted client. Each worker sees
 | `oblivion-batcher` | Directional authenticated endpoints and bounded fixed epoch queues |
 | `oblivion-server` | Process orchestration, verified signed registry rows over encrypted PIR, enrolled slot validation and client oracle |
 | `oblivion-registry` | Fixed-size signed registry catalogs/records and rollback-aware version-activation adapter |
+| `oblivion-anchor` | SQLite-backed atomic checkpoint/version CAS adapters; trusted database and key operator required |
 | `oblivion-harness` | Actual component workloads with separate public observations and truth |
 | `oblivion-sse` | Ephemeral append-only encrypted posting index with constrained GGM prefix capabilities |
 | Python research tools | Attack analysis, trial-cluster confidence intervals, autoscaler event simulation and reference comparisons |
