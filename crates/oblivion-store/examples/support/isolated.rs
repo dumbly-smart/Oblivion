@@ -1,10 +1,63 @@
 //! Fixed-size bucket RPC for isolated service-side timing measurements.
 use oblivion_store::{Backend, Error, StorageDirection};
+use rand::Rng;
+use std::collections::BTreeMap;
 use std::io::{self, Read, Write};
 use std::process::{Child, ChildStdin, ChildStdout, Command, Stdio};
 use std::time::Instant;
 
 const HEADER_BYTES: usize = 9;
+
+pub fn validate_distribution(
+    distribution: &BTreeMap<usize, f64>,
+    blocks: usize,
+    hot_addresses: &[usize],
+) -> Result<(), &'static str> {
+    if distribution.is_empty()
+        || distribution.len() > blocks
+        || distribution.keys().copied().ne(0..distribution.len())
+        || distribution
+            .iter()
+            .any(|(address, weight)| *address >= blocks || !weight.is_finite() || *weight <= 0.0)
+        || (distribution.values().sum::<f64>() - 1.0).abs() > 1e-12
+        || hot_addresses.is_empty()
+        || hot_addresses
+            .iter()
+            .any(|address| !distribution.contains_key(address))
+    {
+        return Err("invalid address distribution or hot-address labels");
+    }
+    let hot = hot_addresses
+        .iter()
+        .copied()
+        .collect::<std::collections::BTreeSet<_>>();
+    if hot.len() != hot_addresses.len() {
+        return Err("duplicate hot-address labels");
+    }
+    let hot_mass = distribution
+        .iter()
+        .filter(|(address, _)| hot.contains(address))
+        .map(|(_, weight)| weight)
+        .sum::<f64>();
+    if !(0.0..1.0).contains(&hot_mass) {
+        return Err("hot/cold labels must both have nonzero probability");
+    }
+    Ok(())
+}
+
+pub fn sample_address<R: Rng + ?Sized>(rng: &mut R, distribution: &BTreeMap<usize, f64>) -> usize {
+    let draw = rng.gen_range(0.0..1.0);
+    let mut cumulative = 0.0;
+    let mut last = 0;
+    for (&address, &weight) in distribution {
+        last = address;
+        cumulative += weight;
+        if draw < cumulative {
+            return address;
+        }
+    }
+    last
+}
 
 #[derive(Clone, Debug)]
 pub struct ServiceEvent {
@@ -271,7 +324,26 @@ pub fn serve(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rand::SeedableRng;
+    use rand_chacha::ChaCha20Rng;
     use std::os::unix::net::UnixStream;
+
+    #[test]
+    fn configured_distribution_samples_addresses_and_rejects_invalid_labels() {
+        let distribution = BTreeMap::from([(0, 0.7), (1, 0.2), (2, 0.1)]);
+        validate_distribution(&distribution, 8, &[0]).unwrap();
+        let mut rng = ChaCha20Rng::seed_from_u64(73);
+        let mut counts = [0usize; 3];
+        for _ in 0..10_000 {
+            counts[sample_address(&mut rng, &distribution)] += 1;
+        }
+        assert!((counts[0] as f64 / 10_000.0 - 0.7).abs() < 0.02);
+        assert!((counts[1] as f64 / 10_000.0 - 0.2).abs() < 0.02);
+        assert!((counts[2] as f64 / 10_000.0 - 0.1).abs() < 0.02);
+        assert!(validate_distribution(&distribution, 8, &[0, 0]).is_err());
+        assert!(validate_distribution(&distribution, 8, &[3]).is_err());
+        assert!(validate_distribution(&BTreeMap::from([(0, 0.5)]), 8, &[0]).is_err());
+    }
 
     #[test]
     fn requests_and_replies_have_equal_fixed_shape_and_actual_server_timing() {

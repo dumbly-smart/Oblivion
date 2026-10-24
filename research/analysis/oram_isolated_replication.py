@@ -6,6 +6,7 @@ import hashlib
 import json
 from pathlib import Path
 import platform
+import math
 import subprocess
 import tempfile
 import time
@@ -18,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[2]
 MODES = ("plaintext", "encrypt_only", "oram")
 
 
-def collapse_accesses(session, events, private):
+def collapse_accesses(session, events, private, hot_addresses=(0,)):
     """Collapse one fixed Path ORAM/control access to a labeled-free observer row."""
     if not isinstance(session, str) or not 1 <= len(session) <= 128:
         raise ValueError("invalid observer session identifier")
@@ -45,7 +46,7 @@ def collapse_accesses(session, events, private):
                 or set(private_row) - required - {"stash"}
                 or private_row["step"] != step
                 or type(private_row["logical_address"]) is not int
-                or private_row["logical_address"] not in (0, 1)
+                or private_row["logical_address"] < 0
                 or type(private_row["write"]) is not bool
                 or type(private_row["oracle_verified"]) is not bool
                 or type(private_row["latency_ns"]) is not int
@@ -70,7 +71,7 @@ def collapse_accesses(session, events, private):
             "bytes": sum(event["bytes"] for event in access),
             "latency_ns": sum(event["service_ns"] for event in access),
         })
-        labels.append(int(private_row["logical_address"] == 0))
+        labels.append(int(private_row["logical_address"] in hot_addresses))
     return rows, labels
 
 
@@ -159,7 +160,7 @@ def bootstrap_interval(values, seed, replicates=5000):
     return [float(np.quantile(means, 0.025)), float(np.quantile(means, 0.975))]
 
 
-def load_trial(raw_root, mode, trial, sessions):
+def load_trial(raw_root, mode, trial, sessions, hot_addresses):
     rows, labels, ids = [], [], []
     for session_number in range(sessions):
         session = f"{mode}-trial-{trial:02}-session-{session_number:02}"
@@ -170,34 +171,37 @@ def load_trial(raw_root, mode, trial, sessions):
             events = [json.loads(line) for line in stream]
         with gzip.open(private_path, "rt", encoding="utf-8") as stream:
             private = [json.loads(line) for line in stream]
-        operation_rows, operation_labels = collapse_accesses(session, events, private)
+        operation_rows, operation_labels = collapse_accesses(
+            session, events, private, hot_addresses
+        )
         rows.extend(operation_rows)
         labels.extend(operation_labels)
         ids.append(session)
     return rows, labels, ids
 
 
-def workload_signature(private):
+def workload_signature(private, address_count):
     if not private:
         raise ValueError("non-empty private schedule required")
     signature = []
     for step, row in enumerate(private):
         if (row.get("step") != step or type(row.get("logical_address")) is not int
-                or row["logical_address"] not in (0, 1) or type(row.get("write")) is not bool):
+                or row["logical_address"] < 0 or row["logical_address"] >= address_count
+                or type(row.get("write")) is not bool):
             raise ValueError("invalid private workload schedule")
         signature.append((row["step"], row["logical_address"], row["write"]))
     return tuple(signature)
 
 
-def require_paired_schedules(private_sequences):
+def require_paired_schedules(private_sequences, address_count=2):
     if len(private_sequences) < 2:
         raise ValueError("at least two paired workloads required")
-    signatures = [workload_signature(rows) for rows in private_sequences]
+    signatures = [workload_signature(rows, address_count) for rows in private_sequences]
     if any(signature != signatures[0] for signature in signatures[1:]):
         raise ValueError("seeded workload schedules differ between configurations")
 
 
-def verify_paired_schedules(raw_root, modes, trials, sessions):
+def verify_paired_schedules(raw_root, modes, trials, sessions, address_count=2):
     for trial in range(trials):
         for session in range(sessions):
             sequences = []
@@ -205,7 +209,7 @@ def verify_paired_schedules(raw_root, modes, trials, sessions):
                 path = raw_root / mode / f"trial-{trial:02}" / f"driver-{session:02}.jsonl.gz"
                 with gzip.open(path, "rt", encoding="utf-8") as stream:
                     sequences.append([json.loads(line) for line in stream])
-            require_paired_schedules(sequences)
+            require_paired_schedules(sequences, address_count)
 
 
 def capture_mode(mode, config, binaries, output, temporary):
@@ -221,7 +225,9 @@ def capture_mode(mode, config, binaries, output, temporary):
             "operations": config["operations"], "warmup": config["warmup"],
             "trials": config["sessions_per_trial"],
             "seed": config["seed"] + trial * config["sessions_per_trial"],
-            "workload": "two_record_skewed",
+            "workload": "configured_distribution",
+            "address_distribution": config["address_distribution"],
+            "hot_addresses": config["hot_addresses"],
         }
         if mode == "oram":
             run_config["backend"] = "isolated_process"
@@ -259,7 +265,7 @@ def evaluate_mode(mode, raw_root, config):
     predictions_dir.mkdir(parents=True, exist_ok=True)
     for trial in range(config["trials"]):
         rows, labels, session_ids = load_trial(
-            raw_root, mode, trial, config["sessions_per_trial"]
+            raw_root, mode, trial, config["sessions_per_trial"], config["hot_addresses"]
         )
         profile_count = config["sessions_per_trial"] // 2
         profile_ids, target_ids = set(session_ids[:profile_count]), set(session_ids[profile_count:])
@@ -301,13 +307,32 @@ def evaluate_mode(mode, raw_root, config):
 def run(config_path, output, oram_binary, control_binary):
     started = time.time()
     config = json.loads(Path(config_path).read_text())
+    distribution = config.get("address_distribution", {"0": 0.75, "1": 0.25})
+    hot_addresses = config.get("hot_addresses", [0])
+    try:
+        numeric_distribution = {int(address): weight for address, weight in distribution.items()}
+    except (AttributeError, TypeError, ValueError) as error:
+        raise ValueError("address_distribution must map contiguous address ids to weights") from error
     if (config.get("trials") != 30 or config.get("sessions_per_trial") != 8
             or config.get("primary_metric") != "roc_auc"
-            or config.get("address_distribution") != {"0": 0.75, "1": 0.25}
             or config.get("positive_control_ci_lower_must_exceed") != 0.5
             or config.get("positive_control_min_mean_auc", 0) <= 0.5
-            or config.get("read_probability") != 0.5):
+            or config.get("read_probability") != 0.5
+            or not isinstance(hot_addresses, list) or not hot_addresses
+            or any(type(address) is not int for address in hot_addresses)
+            or sorted(numeric_distribution) != list(range(len(numeric_distribution)))
+            or any(not isinstance(weight, (int, float)) or isinstance(weight, bool)
+                   or not math.isfinite(weight) or weight <= 0 for weight in numeric_distribution.values())
+            or not math.isclose(sum(numeric_distribution.values()), 1.0, abs_tol=1e-12)
+            or any(address not in numeric_distribution for address in hot_addresses)
+            or len(set(hot_addresses)) != len(hot_addresses)):
         raise ValueError("recorded study requires 30 trials, eight sessions and the declared primary metric")
+    hot_mass = sum(numeric_distribution[address] for address in hot_addresses)
+    if not 0.0 < hot_mass < 1.0:
+        raise ValueError("hot/cold labels must both have nonzero probability")
+    config["address_distribution"] = {str(address): numeric_distribution[address]
+                                      for address in sorted(numeric_distribution)}
+    config["hot_addresses"] = sorted(hot_addresses)
     output = Path(output)
     if output.exists():
         raise ValueError("output directory must be new to preserve raw data")
@@ -322,7 +347,7 @@ def run(config_path, output, oram_binary, control_binary):
             process_metadata[mode] = capture_mode(mode, config, binaries, output, temporary)
         verify_paired_schedules(
             output / "raw", ("plaintext", "encrypt_only"),
-            config["trials"], config["sessions_per_trial"],
+            config["trials"], config["sessions_per_trial"], len(numeric_distribution),
         )
         for mode in ("plaintext", "encrypt_only"):
             summary, trials = evaluate_mode(mode, output / "raw", config)
@@ -345,6 +370,7 @@ def run(config_path, output, oram_binary, control_binary):
         process_metadata["oram"] = capture_mode("oram", config, binaries, output, temporary)
         verify_paired_schedules(
             output / "raw", MODES, config["trials"], config["sessions_per_trial"],
+            len(numeric_distribution),
         )
         summary, trials = evaluate_mode("oram", output / "raw", config)
         summaries.append(summary)
@@ -375,10 +401,11 @@ def run(config_path, output, oram_binary, control_binary):
             "recent visible identifier repetition and 4/8/16-access windows",
         ],
         "attacker_knowledge": "Labeled complete plaintext/encrypt-only profiling sessions; unlabeled whole target sessions; no private operation labels during fit/prediction.",
+        "target_labels": f"logical address in configured hot set {config['hot_addresses']} versus remaining logical addresses",
         "attacker_model": "RandomForestClassifier(n_estimators=128, max_depth=8, min_samples_leaf=5, class_weight=balanced, random_state=1907, n_jobs=1)",
         "methodology": "30 seeded attack trials per mode; each trial uses four complete profile sessions and four disjoint target sessions, eight sessions total. Same seeded hot/cold and read/write workload is run in every mode; each session has fresh process state and fresh ORAM state or AEAD key. Primary metric is AUC; intervals bootstrap the 30 fitted-trial means. All baseline controls are run and scored before ORAM.",
         "timing_scope": "Local separate bucket-service process; handler-only time excludes pipe waiting, Path ORAM controller work, request parsing and response encoding. Not remote timing.",
-        "limitations": "Two-address, 75/25 synthetic workload; local process IPC and in-memory bucket service; only short-window temporal features; one binary classifier family. This is not a cryptographic security proof, remote-network experiment, or general workload result.",
+        "limitations": "Synthetic configured address distribution; local process IPC and in-memory bucket service; only short-window temporal features; one binary classifier family. Each reported result applies only to its configured address universe and hot/cold partition. This is not a cryptographic security proof, remote-network experiment, or general workload result.",
         "process_metadata": process_metadata,
         "source_sha256": source_hashes,
         "raw_session_sha256": raw_hashes,

@@ -54,10 +54,30 @@ class IsolatedTraceTests(unittest.TestCase):
             {"step": 1, "logical_address": 1, "write": True},
         ]
         second = [dict(row) for row in first]
-        self.assertIsNone(study.require_paired_schedules((first, second)))
+        self.assertIsNone(study.require_paired_schedules((first, second), address_count=8))
         second[1]["logical_address"] = 0
         with self.assertRaises(ValueError):
-            study.require_paired_schedules((first, second))
+            study.require_paired_schedules((first, second), address_count=8)
+
+    def test_larger_address_universe_maps_only_configured_hot_set_to_label(self):
+        events = [
+            {"step": 0, "direction": "read", "bucket": 1, "bytes": 128, "service_ns": 11},
+            {"step": 0, "direction": "write", "bucket": 1, "bytes": 128, "service_ns": 13},
+        ]
+        private = [{"step": 0, "logical_address": 7, "write": True,
+                    "oracle_verified": False, "latency_ns": 4}]
+        rows, labels = study.collapse_accesses("session-eight", events, private, hot_addresses=[0, 1])
+        self.assertEqual(labels, [0])
+        self.assertEqual(set(rows[0]), {"session", "step", "tag", "bytes", "latency_ns"})
+        private[0]["logical_address"] = 1
+        rows, labels = study.collapse_accesses("session-eight", events, private, hot_addresses=[0, 1])
+        self.assertEqual(labels, [1])
+
+    def test_schedule_domain_is_bounded_by_declared_address_universe(self):
+        schedule = [{"step": 0, "logical_address": 7, "write": False}]
+        self.assertEqual(study.workload_signature(schedule, address_count=8), ((0, 7, False),))
+        with self.assertRaises(ValueError):
+            study.workload_signature(schedule, address_count=4)
 
 
 if __name__ == "__main__":

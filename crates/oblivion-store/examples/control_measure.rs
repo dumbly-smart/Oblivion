@@ -12,6 +12,7 @@ use rand::{Rng, RngCore, SeedableRng};
 use rand_chacha::ChaCha20Rng;
 use serde::{Deserialize, Serialize};
 use std::{
+    collections::BTreeMap,
     error::Error,
     fs::{self, File},
     io::{BufWriter, Write},
@@ -31,6 +32,10 @@ struct Experiment {
     trials: usize,
     seed: u64,
     workload: String,
+    #[serde(default)]
+    address_distribution: BTreeMap<usize, f64>,
+    #[serde(default)]
+    hot_addresses: Vec<usize>,
 }
 
 struct DirectStore {
@@ -214,9 +219,16 @@ fn main() -> Result<(), Box<dyn Error>> {
         || config.warmup > 100_000
         || config.trials == 0
         || config.trials > 1000
-        || config.workload != "two_record_skewed"
+        || !["two_record_skewed", "configured_distribution"].contains(&config.workload.as_str())
     {
         return Err("invalid direct-control configuration".into());
+    }
+    if config.workload == "configured_distribution" {
+        isolated::validate_distribution(
+            &config.address_distribution,
+            config.blocks,
+            &config.hot_addresses,
+        )?;
     }
     let geometry = oblivion_store::Config::with_parameters(
         config.blocks,
@@ -256,7 +268,13 @@ fn main() -> Result<(), Box<dyn Error>> {
             .ok_or("seed overflow")?;
         let mut warmup_rng = ChaCha20Rng::seed_from_u64(seed ^ 0x4f52_414d_5741_524d);
         for _ in 0..config.warmup {
-            let address = if warmup_rng.gen_bool(0.75) { 0 } else { 1 };
+            let address = if config.workload == "configured_distribution" {
+                isolated::sample_address(&mut warmup_rng, &config.address_distribution)
+            } else if warmup_rng.gen_bool(0.75) {
+                0
+            } else {
+                1
+            };
             store.read(address)?;
         }
         store.backend.set_recording(true);
@@ -281,7 +299,13 @@ fn main() -> Result<(), Box<dyn Error>> {
             BufWriter::new(File::create(output.join(format!("private-{trial}.jsonl")))?);
         let mut latencies = Vec::new();
         for step in 0..config.operations {
-            let address = if rng.gen_bool(0.75) { 0 } else { 1 };
+            let address = if config.workload == "configured_distribution" {
+                isolated::sample_address(&mut rng, &config.address_distribution)
+            } else if rng.gen_bool(0.75) {
+                0
+            } else {
+                1
+            };
             let is_write = rng.gen_bool(0.5);
             let mut value = vec![0; config.block_bytes];
             rng.fill(value.as_mut_slice());

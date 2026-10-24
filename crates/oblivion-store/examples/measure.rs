@@ -10,6 +10,7 @@ use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha20Rng;
 use serde::{Deserialize, Serialize};
 use std::{
+    collections::BTreeMap,
     error::Error,
     fs::{self, File},
     io::{BufWriter, Write},
@@ -30,6 +31,10 @@ struct Experiment {
     trials: usize,
     seed: u64,
     workload: String,
+    #[serde(default)]
+    address_distribution: BTreeMap<usize, f64>,
+    #[serde(default)]
+    hot_addresses: Vec<usize>,
     #[serde(default = "default_backend")]
     backend: String,
 }
@@ -163,10 +168,23 @@ fn main() -> Result<(), Box<dyn Error>> {
         || config.warmup > 100_000
         || config.trials == 0
         || config.trials > 1000
-        || !["same", "uniform", "two_record_skewed"].contains(&config.workload.as_str())
+        || ![
+            "same",
+            "uniform",
+            "two_record_skewed",
+            "configured_distribution",
+        ]
+        .contains(&config.workload.as_str())
         || !["memory", "isolated_process"].contains(&config.backend.as_str())
     {
         return Err("invalid experiment configuration".into());
+    }
+    if config.workload == "configured_distribution" {
+        isolated::validate_distribution(
+            &config.address_distribution,
+            config.blocks,
+            &config.hot_addresses,
+        )?;
     }
     let geometry = Config::with_parameters(
         config.blocks,
@@ -211,7 +229,9 @@ fn main() -> Result<(), Box<dyn Error>> {
         }
         let mut warmup_rng = ChaCha20Rng::seed_from_u64(seed ^ 0x4f52_414d_5741_524d);
         for _ in 0..config.warmup {
-            let address = if config.workload == "two_record_skewed" {
+            let address = if config.workload == "configured_distribution" {
+                isolated::sample_address(&mut warmup_rng, &config.address_distribution)
+            } else if config.workload == "two_record_skewed" {
                 if warmup_rng.gen_bool(0.75) { 0 } else { 1 }
             } else {
                 warmup_rng.gen_range(0..config.blocks)
@@ -252,6 +272,9 @@ fn main() -> Result<(), Box<dyn Error>> {
                     } else {
                         1
                     }
+                }
+                "configured_distribution" => {
+                    isolated::sample_address(&mut rng, &config.address_distribution)
                 }
                 _ => unreachable!("validated workload"),
             };
