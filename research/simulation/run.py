@@ -4,6 +4,8 @@ from dataclasses import asdict
 from datetime import datetime, timezone
 import gzip
 import hashlib
+from contextlib import ExitStack
+import io
 import json
 from pathlib import Path
 import platform
@@ -130,7 +132,16 @@ def run(config_path, output):
     (output / 'config.json').write_text(json.dumps(raw, indent=2) + '\n')
     start = time.perf_counter()
     trial_results, imports = [], []
-    with gzip.open(output / 'observer.jsonl.gz', 'wt') as obs, gzip.open(output / 'private.jsonl.gz', 'wt') as private, gzip.open(output / 'workloads-private.jsonl.gz', 'wt') as truth:
+    with ExitStack() as stack:
+        def gzip_text(name):
+            raw_file = stack.enter_context((output / name).open('wb'))
+            compressed = stack.enter_context(gzip.GzipFile(
+                filename='', fileobj=raw_file, mode='wb', mtime=0))
+            return stack.enter_context(io.TextIOWrapper(compressed, encoding='utf-8'))
+
+        obs = gzip_text('observer.jsonl.gz')
+        private = gzip_text('private.jsonl.gz')
+        truth = gzip_text('workloads-private.jsonl.gz')
         for trial in range(raw['trials']):
             for kind in raw['workloads']:
                 sessions = {policy: [] for policy in policies}

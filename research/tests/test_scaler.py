@@ -170,6 +170,11 @@ class ScalerTests(unittest.TestCase):
             default_rebuilt = regenerate(default_output, Path(directory) / 'default-rebuilt')
             self.assertEqual({row['policy'] for row in default_rebuilt['summary']},
                 {'naive', 'ewma', 'quantized', 'fixed', 'noisy'})
+            repeated_output = Path(directory) / 'default-repeat'
+            run(default_config, repeated_output)
+            for name in ['observer.jsonl.gz', 'private.jsonl.gz', 'workloads-private.jsonl.gz']:
+                self.assertEqual((default_output / name).read_bytes(),
+                    (repeated_output / name).read_bytes(), name)
 
     def test_trial_interval_preserves_correlated_clusters(self):
         self.assertEqual(trial_interval([[0] * 8, [1] * 8]), [0, 1])
