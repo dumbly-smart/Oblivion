@@ -67,6 +67,19 @@ class CappedNoisePmfTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "disjoint"):
             attack.score_visible_counts([[1]], "p0")
 
+    def test_profile_labels_reject_boolean_values(self):
+        profile = [
+            {"session_id": "p0",
+             "labels": [{"intensity": 1}, {"intensity": True}],
+             "arrival_counts": [[1], [2]]},
+            {"session_id": "p1",
+             "labels": [{"intensity": 0}, {"intensity": 0}],
+             "arrival_counts": [[1], [2]]},
+        ]
+
+        with self.assertRaisesRegex(ValueError, "stable binary"):
+            CappedNoiseLikelihoodAttack("intensity").fit(profile)
+
     def test_dp_particle_likelihood_matches_single_epoch_poisson_mass(self):
         cfg = Config(duration=1, epoch=1, service=1, utilization=1, alpha=1,
                      initial=1, maximum=4, functions=1)

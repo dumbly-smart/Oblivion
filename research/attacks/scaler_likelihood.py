@@ -92,6 +92,7 @@ class CappedNoiseLikelihoodAttack:
             value = labels[0].get(self.task) if isinstance(labels[0], dict) else None
             if (type(value) is not int or value not in (0, 1)
                     or any(not isinstance(label, dict)
+                           or type(label.get(self.task)) is not int
                            or label.get(self.task) != value for label in labels)):
                 raise ValueError("profile task labels must be stable binary values")
             counts = _count_matrix(session["arrival_counts"])
