@@ -152,12 +152,55 @@ price and is not a provider quote.
 Six intervals include the 0.50 balanced-chance baseline. Zipf intensity's
 unadjusted interval begins at 0.501, a marginal result across multiple tasks
 and workloads; it is not presented as significant evidence. The selected
-classifier is intentionally modest. A public-seed-aware attacker, a
-policy-aware inverse controller, or a stronger temporal model is not included
-in this empirical comparison. The DP policy's scale-up-only behavior leaves
+classifier is intentionally modest. The DP policy's scale-up-only behavior leaves
 roughly 263–269 instance-seconds in these synthetic runs and does not meet the
 1% SLO filter for three of four workloads. These results do not establish an
 improved privacy/cost trade-off.
+
+## Public-seed replay attack
+
+The follow-up attacker regenerates the per-session Laplace stream from the
+public experiment seed, public trial/session/workload identifiers, and the
+published seed derivation. It combines those values with public instance and
+scale-up transitions to invert the capacity quantizer. The inverse is
+censored when a pool does not scale up or reaches its capacity cap. It never
+uses private request lists; profile labels train the classifier, and target
+labels are read only for scoring.
+
+All seven naive positive controls passed the same `> 0.60` criterion. The
+table compares the original public-feature profiler with the seed-replay
+variant on the same DP sessions:
+
+| Workload | Task | Public features | Known-seed replay [95% CI] |
+| --- | --- | ---: | ---: |
+| Uniform | Intensity | 0.508 | 0.519 [0.456, 0.578] |
+| Zipf | Intensity | 0.562 | 0.526 [0.478, 0.577] |
+| Zipf | Hot pool | 0.489 | 0.498 [0.439, 0.560] |
+| Diurnal | Intensity | 0.518 | 0.533 [0.478, 0.589] |
+| Diurnal | Hot pool | 0.541 | 0.512 [0.470, 0.552] |
+| Burst | Intensity | 0.493 | 0.542 [0.485, 0.595] |
+| Burst | Hot pool | 0.513 | 0.508 [0.437, 0.581] |
+
+Every seed-replay interval includes balanced chance. This attack did not
+produce strong workload recovery: quantization and maximum-capacity clipping
+discard information, and the classifier is still deliberately simple. Its
+weak empirical accuracy does not restore a DP guarantee. A regression test
+constructs adjacent empty/one-request workloads with the same public seed and
+observes different transcripts, demonstrating that this deterministic seeded
+release is not constant over that adjacent pair.
+
+Recreate the post-hoc evaluation from retained raw data:
+
+```sh
+.venv/bin/python -m research.analysis.scaler_seed_replay \
+  experiments/results/scaler-dp-event-20261024 \
+  experiments/results/scaler-dp-seed-replay-reproduction
+```
+
+The resulting report is retained in
+[`experiments/results/scaler-dp-seed-replay-20261024/`](../experiments/results/scaler-dp-seed-replay-20261024/).
+Its input hashes identify the public transcript and separately held-out
+labels used by the evaluation harness.
 
 ## Next work
 
@@ -166,9 +209,8 @@ improved privacy/cost trade-off.
    experiments and tests.
 2. Specify user-level adjacency through a bounded per-user contribution and
    account for composition across users, epochs, pools, and deployments.
-3. Add a seed-aware positive-control attacker and an inverse-controller
-   attack, then report how much of the nominal noise is recoverable from the
-   public transcript.
+3. Test stronger policy-aware inversion and temporal classifiers against the
+   capacity censoring, and report their limits with positive controls.
 4. Evaluate whether scheduled scale-down can be added as public post-processing
    without exposing busy state, and measure the resulting cost/SLO trade-off.
 5. Revisit the claim against a complete scheduler/network/runtime observer

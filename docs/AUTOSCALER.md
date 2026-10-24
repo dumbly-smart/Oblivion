@@ -84,7 +84,7 @@ Three-axis Pareto membership minimizes mean session p99 latency, instance-second
 
 ## Verification and measured results
 
-The Python research suite passed **147 tests with four existing fixture skips**, including the autoscaler mechanisms, selected-policy raw regeneration, positive controls, and byte-for-byte reproducibility of seeded gzip traces. The prior five-policy campaigns remain the default when `policies` is omitted; optional policy lists are carried through the runner and raw-data reanalysis.
+The Python research suite passed **151 tests with four existing fixture skips**, including the autoscaler mechanisms, selected-policy raw regeneration, positive controls, byte-for-byte reproducibility of seeded gzip traces, and the public-seed replay attack. The prior five-policy campaigns remain the default when `policies` is omitted; optional policy lists are carried through the runner and raw-data reanalysis.
 
 Recorded artifacts are `experiments/results/scaler-paper-30-final/` (one prewarmed instance per pool) and `experiments/results/scaler-prewarm2-30-final/` (two). Each contains 35 policy/task/workload summaries and all raw runs. The final experiments took approximately 17.2 and 17.1 wall seconds on the recorded Intel Core i7-14650HX host. Simulation time remains independent of that execution speed.
 
@@ -110,4 +110,4 @@ This is a model with seeded arrivals, two known function pools, constant service
 
 Useful subsequent experiments would calibrate service/cold-start distributions from separately measured runtime samples, obtain licensed real traces with documented provenance, test stronger policy-aware classifiers, vary noise/quantum/hysteresis/utilization and horizon, and compare additional prewarming schedules. Those extensions require fresh independent trials and updated observation contracts. Noise without an adjacency definition, sensitivity bound, and composition accounting must continue to be described as engineering noise.
 
-The optional DP policy and its retained raw results are documented separately in [`AUTOSCALER_DP.md`](AUTOSCALER_DP.md); do not read its ideal-randomness theorem as a guarantee for this seeded simulation.
+The optional DP policy, retained raw results, and public-seed replay attack are documented separately in [`AUTOSCALER_DP.md`](AUTOSCALER_DP.md); do not read its ideal-randomness theorem as a guarantee for this seeded simulation.

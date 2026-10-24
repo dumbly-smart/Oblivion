@@ -65,7 +65,7 @@ The built-in demo's real/dummy/function schedule is public given its code, real 
 | [Integrated epochs](EPOCH_SYSTEM_EVALUATION.md) | Final reader-thread pipe campaign: 360 process trees / 2,160 verified calls | 12 cells × 30; strict public/private separation, 1,080 real/1,080 dummy successes, 2,955 artifact hashes; scoped provenance differences below |
 | [Joint batching load](BATCH_LOAD_EVALUATION.md) | 720 independent processes; 30 fitted models/mode, 180 held-out targets/mode | Actual plaintext control 100%; AEAD protected 28.33% [22.78,33.89] against 33.33%. Same 22 public features/metric; two failed forest controls retained |
 | [Repeated faults](FAULT_CAMPAIGN.md) | Seven assertion-bearing fixtures × 30, 210 launches | All assertions pass for stated scenarios. Original ENOSPC/truncated-publication attempt remains excluded/incomplete, not silently overwritten |
-| [Autoscaler](AUTOSCALER.md), [event-level Laplace follow-up](AUTOSCALER_DP.md) | Five-policy baseline campaigns plus a six-policy 30-trial study; raw-only analysis regeneration tested | Conditional mechanism-design calculation only; deterministic public seed means no DP guarantee for the saved experiment. Hypothetical prices and no real provisioning |
+| [Autoscaler](AUTOSCALER.md), [event-level Laplace and seed-replay study](AUTOSCALER_DP.md) | Five-policy baseline campaigns, a six-policy 30-trial study, and a post-hoc known-seed attack with positive controls | Conditional mechanism-design calculation only; deterministic public seed means no DP guarantee for the saved experiment. Hypothetical prices and no real provisioning |
 | [Attack API](ATTACK_INTERFACE.md) | 13 registered adapters with common PredictionResult and strict schemas | Uncalibrated confidence remains absent. Adapter availability is not extra experimental evidence |
 | [Actual demo](DEMO.md) | Three-client mixed SSE/PIR/WASM/ORAM run | 24 calls, 12 real, all five functions, 24 metadata queries and 3,072 storage events; MP4/terminalcast/raw records. Public deterministic schedule, not privacy evidence |
 
@@ -91,7 +91,7 @@ The research-only `demo-sweep` now retains authenticated masked runtime failures
 
 [The figure reproduction audit](FIGURE_REPRODUCTION.md) now records raw-derived regeneration of all eight required main figures and the supplemental three-axis/SLO plot without ignored measurement executables. Both autoscaler campaigns rebuild from four raw/config files rather than cached reports; audited numerical reports and PNG bytes matched, and accepted inputs stayed unchanged. The serial local and hosted source gates are accepted; subsequent closing Markdown-only checks are accessible on PR #1.
 
-Selected implementation/evaluation and the serial local/hosted source gates are accepted within their bounded scope. [PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is ready for delivery on `codex/oblivion-research-platform`; no main merge is claimed. Hardware isolation, formal DP, recursive/native Circuit storage, DPF/native single-server runtime selection, persistent/backward-private SSE and durable application acknowledgments remain explicitly unselected extensions/deployment obligations. Human P1–P12 study and mutable bibliography/course listings are context, not machine-proof software gates.
+Selected implementation/evaluation and the serial local/hosted source gates are accepted within their bounded scope. [PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is ready for delivery on `codex/oblivion-research-platform`; no main merge is claimed. Hardware isolation, production DP randomness and user-level accounting, recursive/native Circuit storage, DPF/native single-server runtime selection, persistent/backward-private SSE and durable application acknowledgments remain explicitly unimplemented extensions/deployment obligations. Human P1–P12 study and mutable bibliography/course listings are context, not machine-proof software gates.
 
 ## Optional follow-up: isolated ORAM timing
 
@@ -155,7 +155,15 @@ burst workloads. These measurements describe one classifier and this model.
 
 The design argument assumes ideal independent hidden Laplace samples, but the
 reproducible experiment publishes its deterministic seed. It therefore has no
-formal DP guarantee; a seed-aware attacker was not evaluated. The study is
-not connected to the Rust request path, scheduler, or a full runtime observer.
-See [`AUTOSCALER_DP.md`](AUTOSCALER_DP.md) for the adjacency, derivation,
-artifact hashes, results, and remaining CSPRNG/user-level/seed-aware work.
+formal DP guarantee. The post-hoc seed-replay classifier uses public capacity
+changes to estimate the de-noised EWMA; all seven naive positive controls pass.
+Every seed-replay DP-arm interval includes chance. In the original DP-arm
+profiler, the Zipf-intensity interval began at 0.501, an unadjusted marginal
+result. A simple adjacent-input test also observes distinct transcripts under
+one public seed. This remains a bounded classifier evaluation, not a universal
+attack result. The mechanism is not connected to the Rust request path,
+scheduler, or a full runtime observer. See [`AUTOSCALER_DP.md`](AUTOSCALER_DP.md)
+for the derivation, raw hashes, attack protocol, and remaining CSPRNG,
+user-level, stronger-inversion, and full-runtime work. The full Python
+research suite passed 151 tests with four existing fixture skips after the
+adjacent-input seed-replay regression was added.
