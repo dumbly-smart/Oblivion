@@ -1,6 +1,6 @@
 # Research notes and decisions
 
-Updated 2026-10-21. Current status and acceptance evidence are maintained in [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) and [REQUIREMENTS_MATRIX.md](REQUIREMENTS_MATRIX.md). Historical results retain their launch-time source hashes.
+Updated 2026-10-24. Current status and acceptance evidence are maintained in [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) and [REQUIREMENTS_MATRIX.md](REQUIREMENTS_MATRIX.md). Historical results retain their launch-time source hashes.
 
 ## Specification reconciliation
 
@@ -15,7 +15,7 @@ The supplied roadmap was initially missing, then supplied during this session an
 | L5 epochs | Fixed rate/shape queues and cover/dummy processing; DP variant deferred as specified |
 | Week 8 integration/L7 | Actual local path; component attacks with positive controls; full-transcript and larger integration evaluation pending |
 | L1 SSE | Actual bounded ephemeral constrained-GGM component and 100,000-operation oracle; Diana-inspired label, no exact theorem-port or backward-privacy claim |
-| L6 scaling | Five-policy event simulator with two saved 30-trial experiments, explicit SLO failures and hypothetical costs; no runtime scaling or DP |
+| L6 scaling | Five-policy default plus optional event-level Laplace analysis, known-seed attacks, four-budget sweep and a separate OS-CSPRNG public-feature study; no runtime scaling or formal DP claim for either implemented sampler |
 | Weeks 10–14 research | Genuine reference PIR and scaling simulations recorded; metadata integration, full attack suite, system sweeps/ablations and final writeup still require acceptance evidence |
 
 The roadmap's autoscaler acceptance asks for a policy that dominates naive scaling. Whether such a policy exists depends on workload, attacker and cost model. A future implementation must report negative results rather than force that outcome. Likewise, statistical non-rejection in the ORAM/execution acceptance criteria is interpreted as finite empirical evidence, never a proof.
@@ -26,6 +26,9 @@ The roadmap's autoscaler acceptance asks for a policy that dominates naive scali
 - [facebook/oram](https://github.com/facebook/oram), including its [trait](https://raw.githubusercontent.com/facebook/oram/main/src/lib.rs) and [Path ORAM implementation](https://raw.githubusercontent.com/facebook/oram/main/src/path_oram.rs). Its enclave-memory-encryption assumption is material: it does not itself encrypt bucket writes. Oblivion instead explicitly AEAD-encrypts the bucket interface. Its oblivious client structures and recursion are not reproduced here. No source code was copied.
 - Official [Wasmtime interruption documentation](https://docs.wasmtime.dev/examples-interrupting-wasm.html), [Config](https://docs.rs/wasmtime/49.0.4/wasmtime/struct.Config.html), and resource-limit APIs. Local Wasmtime 49.0.4 sources were checked for owned/static host state and current resource-limiter signatures. This dependency requires Rust 1.96; the workspace declares that minimum.
 - RustCrypto [ChaCha20-Poly1305 documentation](https://docs.rs/chacha20poly1305/0.10.1/chacha20poly1305/). The implementation uses the established library, not a homemade primitive.
+- Ghosh, Roughgarden and Sundararajan, [Universally Utility-Maximizing Privacy Mechanisms](https://timroughgarden.org/papers/priv.pdf), especially the two-sided geometric count mechanism and its neighboring-count probability-ratio argument. This supports the ideal discrete mechanism derivation for sensitivity-one counts, not the finite-precision Python sampler in this repository.
+- OpenDP's [discrete additive-noise guide](https://docs.opendp.org/en/stable/api/user-guide/measurements/additive-noise-mechanisms.html) and [`make_laplace` API](https://docs.opendp.org/en/stable/api/python/opendp.measurements.html) describe integer-domain discrete Laplace sampling and a proof interface. The current Python API marks the constructor as `contrib`; it was not added as a runtime dependency. OpenDP remains a candidate for a separately reviewed exact-discrete backend.
+- [Verified Foundations for Differential Privacy](https://doi.org/10.1145/3729294) provides machine-checked sampler proofs, including discrete Laplace. This supports the feasibility of verified samplers; it does not verify Oblivion's sampler or establish a guarantee for its generated traces.
 
 The roadmap's complete literature list has **not** been independently verified. SSE construction/source verification is now recorded in SSE_DESIGN.md and the genuine reference pin/license in SIMPLEPIR_REFERENCE.md. Attack algorithms/artifacts, recent ORAM follow-ups, external datasets/licensing and the broader literature still require targeted verification before use. No published IKK, IHOP, Cash or Diana reproduction is claimed. No external dataset was used.
 
