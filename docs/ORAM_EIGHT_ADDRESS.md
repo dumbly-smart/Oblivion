@@ -52,8 +52,10 @@ network timing nor a hardware trust-boundary experiment. Additional attacker
 families, operation mixes, and workload distributions remain open. A separate
 [tag-frequency-only attacker](ORAM_ATTACK_FAMILIES.md) has since been scored
 against these same retained sessions with its own positive controls. The
-[read-heavy follow-up](ORAM_READ_HEAVY.md) also evaluates a 90% read mix on the
-same address schedules.
+[read-heavy follow-up](ORAM_READ_HEAVY.md) also evaluates a 90% read mix on
+the same address schedules. The fresh-seed [write-heavy follow-up](ORAM_WRITE_HEAVY.md)
+evaluates a 10% read mix; both follow-ups retain complete raw evidence and
+positive controls.
 
 ## Reproduction
 
