@@ -374,6 +374,9 @@ fn map_registry_error(error: Error) -> registry::Error {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use ed25519_dalek::SigningKey;
+    use oblivion_registry::{Record, SignedRegistry, VerifiedRegistry};
+    use oblivion_store::{Config, MemoryBackend, PathOram, TrustedCheckpoint};
     use std::time::{SystemTime, UNIX_EPOCH};
 
     fn path(label: &str) -> std::path::PathBuf {
@@ -443,6 +446,7 @@ mod tests {
         assert_eq!(b.current_version().unwrap(), None);
         drop(b);
         assert!(db.checkpoint_anchor("../other").is_err());
+        drop(db);
         let _ = std::fs::remove_file(&path);
     }
 
@@ -482,6 +486,7 @@ mod tests {
         }
         let mut db = AnchorDatabase::open(&path, Zeroizing::new(key)).unwrap();
         assert!(db.checkpoint_anchor("store-a").unwrap().load().is_err());
+        drop(db);
         let _ = std::fs::remove_file(&path);
     }
 
@@ -547,5 +552,100 @@ mod tests {
         drop(rolled_back);
         let _ = std::fs::remove_file(path);
         let _ = std::fs::remove_file(backup);
+    }
+
+    #[test]
+    fn sqlite_checkpoint_anchor_drives_real_oram_recovery_and_stale_writer_rejection() {
+        let root = path("oram-recovery");
+        std::fs::create_dir(&root).unwrap();
+        let database = root.join("anchor.sqlite");
+        let checkpoint_one = root.join("checkpoint-one.bin");
+        let checkpoint_two = root.join("checkpoint-two.bin");
+        let stale_checkpoint = root.join("stale-checkpoint.bin");
+        let key = [0x63; 32];
+        let config = Config::new(8, 16).unwrap();
+        let mut store = PathOram::new(config.clone(), MemoryBackend::default()).unwrap();
+        store.write(3, &[3; 16]).unwrap();
+        {
+            let mut db = AnchorDatabase::open(&database, Zeroizing::new(key)).unwrap();
+            let mut anchor = db.checkpoint_anchor("state-a").unwrap();
+            store
+                .checkpoint_anchored(&checkpoint_one, "snapshot-one", &mut anchor)
+                .unwrap();
+        }
+        let (mut live, mut stale) = {
+            let mut db = AnchorDatabase::open(&database, Zeroizing::new(key)).unwrap();
+            let mut anchor = db.checkpoint_anchor("state-a").unwrap();
+            let record = anchor.load().unwrap().unwrap();
+            let trusted = TrustedCheckpoint::from_secret_bytes(record.secret_handle()).unwrap();
+            (
+                PathOram::restore(&checkpoint_one, &trusted, MemoryBackend::default()).unwrap(),
+                PathOram::restore(&checkpoint_one, &trusted, MemoryBackend::default()).unwrap(),
+            )
+        };
+        live.write(3, &[9; 16]).unwrap();
+        live.write(4, &[4; 16]).unwrap();
+        {
+            let mut db = AnchorDatabase::open(&database, Zeroizing::new(key)).unwrap();
+            let mut anchor = db.checkpoint_anchor("state-a").unwrap();
+            live.checkpoint_anchored(&checkpoint_two, "snapshot-two", &mut anchor)
+                .unwrap();
+            assert!(
+                stale
+                    .checkpoint_anchored(&stale_checkpoint, "snapshot-stale", &mut anchor)
+                    .is_err()
+            );
+        }
+        let mut db = AnchorDatabase::open(&database, Zeroizing::new(key)).unwrap();
+        let mut anchor = db.checkpoint_anchor("state-a").unwrap();
+        let current = anchor.load().unwrap().unwrap();
+        assert_eq!(current.snapshot_id(), "snapshot-two");
+        let trusted = TrustedCheckpoint::from_secret_bytes(current.secret_handle()).unwrap();
+        let mut restored =
+            PathOram::restore(&checkpoint_two, &trusted, MemoryBackend::default()).unwrap();
+        assert_eq!(restored.read(3).unwrap(), vec![9; 16]);
+        assert_eq!(restored.read(4).unwrap(), vec![4; 16]);
+        drop(anchor);
+        drop(db);
+        let _ = std::fs::remove_dir_all(root);
+    }
+
+    #[test]
+    fn sqlite_registry_anchor_drives_signed_monotonic_activation() {
+        let path = path("registry-activation");
+        let signing = SigningKey::from_bytes(&[0x29; 32]);
+        let verifying = signing.verifying_key();
+        let catalog = |version| {
+            let record = Record::sign(0, version, [0x31; 32], [0x42; 32], 0, &signing).unwrap();
+            SignedRegistry::sign(version, vec![record], &signing).unwrap()
+        };
+        {
+            let mut db = AnchorDatabase::open(&path, Zeroizing::new([0x73; 32])).unwrap();
+            let mut anchor = db.registry_anchor("functions").unwrap();
+            VerifiedRegistry::verify(&catalog(1), &verifying)
+                .unwrap()
+                .activate(&mut anchor)
+                .unwrap();
+            assert!(
+                VerifiedRegistry::verify(&catalog(1), &verifying)
+                    .unwrap()
+                    .activate(&mut anchor)
+                    .is_err()
+            );
+            VerifiedRegistry::verify(&catalog(2), &verifying)
+                .unwrap()
+                .activate(&mut anchor)
+                .unwrap();
+        }
+        let mut db = AnchorDatabase::open(&path, Zeroizing::new([0x73; 32])).unwrap();
+        assert_eq!(
+            db.registry_anchor("functions")
+                .unwrap()
+                .current_version()
+                .unwrap(),
+            Some(2)
+        );
+        drop(db);
+        let _ = std::fs::remove_file(path);
     }
 }

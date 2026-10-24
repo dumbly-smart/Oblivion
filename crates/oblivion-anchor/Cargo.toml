@@ -16,5 +16,8 @@ zeroize.workspace = true
 oblivion-registry = { path = "../oblivion-registry" }
 oblivion-store = { path = "../oblivion-store" }
 
+[dev-dependencies]
+ed25519-dalek.workspace = true
+
 [lints]
 workspace = true

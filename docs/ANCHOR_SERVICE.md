@@ -44,5 +44,8 @@ cargo test -p oblivion-anchor -- --test-threads=1
 
 The tests cover persistence across reopen, encrypted handle storage, wrong-key
 and ciphertext rejection, namespaced registry versions, stale CAS rejection,
-and competing checkpoint writers. They do not test power-loss behavior of
-every filesystem or establish rollback resistance.
+competing checkpoint writers, real Path ORAM checkpoint/restore and stale
+writer rejection, and signed registry activation through the persistent
+version adapter. A database-copy rollback control demonstrates the residual
+rollback. The tests do not test power-loss behavior of every filesystem or
+establish rollback resistance.
