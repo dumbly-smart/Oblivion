@@ -13,6 +13,12 @@ existing skips; and the million-operation ORAM oracle. The Python validator
 also supplied freshly built ORAM binaries to the isolated-process integration
 tests.
 
+After adding the population-sweep analysis and tests, a fresh
+`.venv/bin/python -m unittest discover -s research/tests` run passed all 137
+tests with four existing runtime-fixture skips. The population runner's
+configured 120-trial execution and raw-hash verification also completed; see
+[`POPULATION_SWEEP.md`](POPULATION_SWEEP.md).
+
 Updated 2026-10-23. The selected pipeline and later bounded research artifacts now have evidence in [the requirements matrix](REQUIREMENTS_MATRIX.md) and [completion audit](COMPLETION_AUDIT.md). The selected artifacts and earlier passing gates are recorded. PR #1 is the review artifact while latest validation closure is held; no production-security or merge claim follows. TrustedExecutor is simulated by ordinary processes, without a hardware TEE or attestation.
 
 ## Implemented system
