@@ -65,7 +65,7 @@ The built-in demo's real/dummy/function schedule is public given its code, real 
 | [Integrated epochs](EPOCH_SYSTEM_EVALUATION.md) | Final reader-thread pipe campaign: 360 process trees / 2,160 verified calls | 12 cells × 30; strict public/private separation, 1,080 real/1,080 dummy successes, 2,955 artifact hashes; scoped provenance differences below |
 | [Joint batching load](BATCH_LOAD_EVALUATION.md) | 720 independent processes; 30 fitted models/mode, 180 held-out targets/mode | Actual plaintext control 100%; AEAD protected 28.33% [22.78,33.89] against 33.33%. Same 22 public features/metric; two failed forest controls retained |
 | [Repeated faults](FAULT_CAMPAIGN.md) | Seven assertion-bearing fixtures × 30, 210 launches | All assertions pass for stated scenarios. Original ENOSPC/truncated-publication attempt remains excluded/incomplete, not silently overwritten |
-| [Autoscaler](AUTOSCALER.md), [event-level Laplace, seed-replay, epsilon sweep and CSPRNG attack study](AUTOSCALER_DP.md) | Five-policy baseline campaigns, a six-policy 30-trial study, centroid/forest known-seed attacks, a paired 4-budget/30-trial sweep, and a 30-trial CSPRNG public-feature evaluation; all declared naïve controls pass | Conditional mechanism-design calculation only; seeded artifacts have no formal DP guarantee, and the finite-precision CSPRNG sampler is also not proved DP. Hypothetical prices and no real provisioning |
+| [Autoscaler](AUTOSCALER.md), [event-level discrete-geometric mechanism and attack studies](AUTOSCALER_DP.md) | Five-policy baseline campaigns, a six-policy 30-trial study, centroid/forest known-seed attacks, a paired 4-budget/30-trial sweep, and a fresh 30-trial bounded-geometric CSPRNG evaluation; all declared naive controls pass | Conditional event-level `(epsilon, delta)` claim for integer count releases under independent hidden bits; one protected burst hot-pool attack interval is marginally above chance before multiplicity correction. Public-seed artifacts have no DP guarantee. No user-level bound, full-runtime transcript or real provisioning; hypothetical prices |
 | [Attack API](ATTACK_INTERFACE.md) | 13 registered adapters with common PredictionResult and strict schemas | Uncalibrated confidence remains absent. Adapter availability is not extra experimental evidence |
 | [Actual demo](DEMO.md) | Three-client mixed SSE/PIR/WASM/ORAM run | 24 calls, 12 real, all five functions, 24 metadata queries and 3,072 storage events; MP4/terminalcast/raw records. Public deterministic schedule, not privacy evidence |
 
@@ -178,3 +178,30 @@ CSPRNG-aware attack evaluator was added. The separate CSPRNG study passed all
 The four-budget study passed all 28 naive positive controls; results and its root hash
 manifest are retained at
 [`scaler-dp-epsilon-sweep-20261024`](../experiments/results/scaler-dp-epsilon-sweep-20261024/).
+
+## Optional follow-up: bounded discrete-geometric CSPRNG mechanism
+
+The autoscaler now noises each integer per-pool arrival count with the
+difference of two capped geometric samples. The finite 64-bit rational `q` is
+rounded conservatively; the configured cap supplies a reported composed
+approximate-DP delta for the fixed-horizon event-level observer. EWMA,
+nonnegative clipping and capacity decisions follow as post-processing. The
+public deterministic-seed mode uses the same sampler for debugging but makes
+no DP claim. The OS-CSPRNG mode's claim remains conditional on independent
+uniform entropy and the fixed observer definition; it has no independent code
+audit and does not cover a full runtime transcript or user-level adjacency.
+
+The fresh 30-trial CSPRNG campaign is retained in
+[`scaler-dp-discrete-csprng-20261024`](../experiments/results/scaler-dp-discrete-csprng-20261024/)
+with its separate whole-session attack analysis in
+[`scaler-dp-discrete-csprng-attack-20261024`](../experiments/results/scaler-dp-discrete-csprng-attack-20261024/).
+All 14 naive controls passed. The final v2 artifacts are in
+[`scaler-dp-discrete-csprng-20261024-v2`](../experiments/results/scaler-dp-discrete-csprng-20261024-v2/)
+and [`scaler-dp-discrete-csprng-attack-20261024-v2`](../experiments/results/scaler-dp-discrete-csprng-attack-20261024-v2/);
+the earlier run is preserved but superseded after expanding observer
+exclusions. In v2, the protected burst hot-pool forest interval was 0.559
+[0.501, 0.613], a marginal above-chance interval before multiplicity
+correction. The other six protected forest intervals include chance. This is
+a residual inference result, not a contradiction of request-level DP and not
+a security proof. `.venv/bin/python -m unittest discover -s research/tests`
+passed 161 tests with four existing fixture skips after this change.

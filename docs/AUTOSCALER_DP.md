@@ -1,4 +1,4 @@
-# Event-level Laplace autoscaler study
+# Event-level discrete-geometric autoscaler study
 
 ## Status and scope
 
@@ -10,26 +10,36 @@ does not cover response timing, errors, billing, worker scheduling, the Rust
 runtime, or a joint system transcript.
 
 The report distinguishes a conditional mechanism-design argument from an
-actual DP release. The simulator uses deterministic NumPy randomness and
-publishes the experiment seed. The seed and its derivation are public, so an
-attacker who follows the code can reproduce the nominal noise. **The retained
-experiment has no formal DP guarantee.** Near-chance results from the selected
-classifier do not repair that failure and are not evidence of cryptographic
-or differential privacy.
+actual DP release. Earlier retained experiments use a public deterministic
+seed, so their transcripts have **no DP guarantee**. The current optional
+CSPRNG path uses a bounded discrete-geometric sampler with an explicit
+approximate-DP bound for the declared observer, conditional on independent
+uniform random bits. It has not received an independent code audit. Near-chance
+classifier results do not establish differential privacy.
 
 ## Mechanism-design argument
 
 Let `H = ceil(duration / epoch)` be a public, fixed number of releases, and
-let each epoch produce an EWMA arrival vector `s_t` across the public function
-pools. The adjacency relation adds or removes exactly one `Request` record
-from the whole fixed-horizon workload. One such record affects one pool's
-arrival count in one epoch. With EWMA coefficient `alpha` in `(0, 1]`, its
-contribution to that pool is at most `alpha * (1-alpha)^k` at later release
-`k`; thus the per-release vector has L1 sensitivity at most one. Each release
-adds independent coordinate-wise Laplace noise with scale `H / epsilon`.
-The Laplace mechanism is therefore `epsilon/H` for that release, and basic
-sequential composition over the fixed `H` releases gives the declared
-event-level `epsilon`, `delta = 0` bound for the noisy signal transcript.
+let each epoch produce an integer arrival-count vector across the public
+function pools. The adjacency relation adds or removes exactly one `Request`
+record from the whole fixed-horizon workload, so one per-epoch vector changes
+by one in one coordinate and has L1 sensitivity at most one. The current
+sampler uses the two-sided geometric distribution
+`P[Z=z]=(1-q)/(1+q) * q^|z|`, the discrete analogue of Laplace noise described
+by Ghosh, Roughgarden, and Sundararajan. The probability parameter is a
+64-bit rational rounded conservatively so `q >= exp(-epsilon/H)`; therefore
+`-ln(q) <= epsilon/H` for each ideal unbounded release.
+
+To keep execution bounded, each geometric variate is capped at the public
+integer `K`. Coupling a capped geometric sample to the unbounded one fails
+with probability at most `q^(K+1)` per variate. The implementation reports a
+per-release approximate-DP bound
+`delta_i = 2 * (1 + exp(epsilon_i)) * q^(K+1)` and composes these bounds over
+the fixed public release count `H`, while basic sequential composition sums
+the per-release epsilons. The cap is selected so the reported composed delta
+does not exceed configured `dp_delta`. Tests check the calibration and
+sampler marginals; they do not constitute a formal verification of the code.
+See [the discrete Laplace reference](https://timroughgarden.org/papers/priv.pdf).
 
 Capacity selection is deterministic post-processing: clip the noisy value at
 zero, convert it to the requested capacity, cap at the configured maximum,
@@ -39,20 +49,23 @@ and cold-start fields are functions of the noisy signals and public state;
 request-dependent worker-busy state cannot affect those fields. This boundary
 does not include measurements outside the simulator's declared observer.
 
-The argument is conditional on ideal independent Laplace draws hidden from
-the observer. The experiment's PRNG seed is part of the public configuration,
-and the per-session PRNG seed is deterministically derived from it by public
-code. The output is consequently deterministic given public experiment
-parameters and workload class identifiers. A secure, hidden production RNG,
-finite-precision sampler analysis, and an end-to-end observer contract have
-not been implemented.
+The sampler adds noise to integer arrival counts before the controller clips
+negative counts and computes an EWMA; smoothing, capacity selection and the
+declared instance/event transcript are post-processing of the noisy count
+sequence. For CSPRNG mode, the argument assumes OS-CSPRNG bits are independent
+and uniform from the observer's perspective. Public-seed mode uses Python's
+deterministic PRNG; its transcript is reproducible from public configuration
+and workload identifiers and has no DP guarantee. The result covers only the
+fixed-horizon count/event observer, not the full runtime transcript.
 
 The adjacency is request-level, not user-level. A user issuing `m` requests
 can incur up to the corresponding group-privacy composition; no per-user
-contribution bound is enforced. Replacement/move adjacency is not claimed.
-Variable horizons, externally visible queue state, latency, errors, billing,
-and the full runtime transcript are outside the argument. The legacy `noisy`
-policy remains engineering noise without a formal privacy analysis.
+contribution bound is enforced. Repeated sessions or deployments over shared
+person-level data also require additional composition. Replacement/move
+adjacency is not claimed. Variable horizons, externally visible queue state,
+latency, errors, sampler execution timing/CPU, billing, and the full runtime
+transcript are outside the argument. The legacy `noisy` policy remains
+engineering noise without a formal privacy analysis.
 
 ## Reproduction
 
@@ -251,29 +264,77 @@ manifest are retained in
 The report SHA-256 is
 `dcaa4818ef0e0859f2812ea6051ba9b99c277eeddc3c515e9f6504cf0a823260`.
 
-## OS-CSPRNG sampling path
+## Historical 52-bit CSPRNG campaign
 
-The runner accepts top-level `"dp_noise_source": "os_csprng"`. In that mode,
-each `dp_laplace` pool/tick samples a 52-bit word through Python's
-`secrets.randbits` and applies an open-interval inverse-CDF transform. The
-default `seeded_experiment` mode remains unchanged and reproducible; it exists
-for experiments, not as a private release. The report marks CSPRNG runs as
-non-reproducible from the public seed and distinguishes their randomness
-source. Raw reanalysis preserves this distinction.
+This retained campaign used a 52-bit word and an open-interval binary64
+inverse-CDF transform. It is preserved as historical data and is not produced
+by the current bounded discrete-geometric sampler. The old sampler had no
+proved DP guarantee, and these classifier results must not be attributed to
+the current mechanism.
 
 The seed-replay evaluator inspects this setting and omits its known-seed
 attacker for `os_csprng` traces; it evaluates only public-feature models there.
 The naïve arm remains a positive control. This avoids attributing a
 reconstructed seed stream to a transcript generated from OS entropy.
 
-This is a research sampler, not a DP implementation: finite word support,
-binary64 rounding and the transformation have not been analyzed as a discrete
-mechanism, so the report makes no formal guarantee even when the OS CSPRNG is
-used. The retained event/epsilon studies still use seeded randomness and do
-not characterize this new path; their classifier results must not be
-attributed to it. The separate 30-trial CSPRNG campaign below passes its
-positive controls, but a formally analyzed discrete mechanism and independent
-cryptographic review remain open.
+## Current bounded discrete-geometric CSPRNG mechanism
+
+The current implementation uses the two-sided geometric sampler and explicit
+approximate-DP calculation described above. The exact mechanism configuration
+and fresh positive-control campaign are recorded in
+[`scaler-dp-discrete-csprng-20261024`](../experiments/configs/scaler-dp-discrete-csprng-20261024.json)
+and [the final retained raw output](../experiments/results/scaler-dp-discrete-csprng-20261024-v2/).
+For `H=20`, `epsilon=1`, and configured `delta=10^-6`, the report gives
+`epsilon_i=0.05`, `K=364`, and composed `delta=9.7322e-7`. The deterministic
+seeded mode now uses the same sampler for reproducible mechanism debugging,
+but the public seed makes those transcripts non-private. The earlier
+`20261024/` capture is preserved but superseded: the final v2 report records
+the expanded exclusions for sampler timing/CPU and shared data across
+sessions. This study is separate from the historical 52-bit run and prior
+seeded epsilon sweep.
+
+### Fresh public-feature attack evaluation
+
+The same whole-session split, known-policy diagonal centroid, 64-tree random
+forest, 30 independent trial clusters, and public count/event feature set were
+used. The naive policy is the deliberately leaky positive control; every one
+of its 14 task/model controls exceeded the predeclared balanced-accuracy
+threshold of 0.60. The protected CSPRNG arm shows a marginal residual signal
+for the burst hot-pool task: the forest's unadjusted 95% trial-bootstrap
+interval is 0.501–0.613. The other six protected forest intervals include
+chance.
+
+| Workload | Task | Naive forest [95% CI] | CSPRNG forest [95% CI] |
+| --- | --- | ---: | ---: |
+| Uniform | Intensity | 0.979 [0.965, 0.990] | 0.503 [0.443, 0.562] |
+| Zipf | Intensity | 0.937 [0.903, 0.966] | 0.492 [0.436, 0.550] |
+| Zipf | Hot pool | 0.827 [0.783, 0.869] | 0.544 [0.492, 0.598] |
+| Diurnal | Intensity | 0.930 [0.904, 0.953] | 0.550 [0.490, 0.609] |
+| Diurnal | Hot pool | 0.799 [0.754, 0.842] | 0.514 [0.464, 0.565] |
+| Burst | Intensity | 0.893 [0.863, 0.918] | 0.522 [0.477, 0.567] |
+| Burst | Hot pool | 0.840 [0.805, 0.874] | 0.559 [0.501, 0.613] |
+
+This is a marginal, unadjusted indication that the selected attack can infer
+the burst hot pool above chance under this configuration. It is one
+comparison among several tasks and workloads, so multiplicity is not
+controlled. It neither contradicts the
+request-level DP statement nor proves it: the target label concerns many
+requests and the stated guarantee is request-level, while the attacker has a
+whole session of auxiliary workload structure. No user-level contribution
+bound is implemented. Raw public/private traces, config, code hashes, report,
+and plots are retained in
+[`scaler-dp-discrete-csprng-attack-20261024-v2`](../experiments/results/scaler-dp-discrete-csprng-attack-20261024-v2/).
+
+Reproduce with fresh output directories:
+
+```sh
+.venv/bin/python -m research.simulation.run \
+  experiments/configs/scaler-dp-discrete-csprng-20261024.json \
+  experiments/results/scaler-dp-discrete-csprng-reproduction
+.venv/bin/python -m research.analysis.scaler_seed_replay \
+  experiments/results/scaler-dp-discrete-csprng-reproduction \
+  experiments/results/scaler-dp-discrete-csprng-analysis-reproduction
+```
 
 ### CSPRNG attack campaign
 
@@ -316,8 +377,8 @@ The attack report SHA-256 is
 
 ## Next work
 
-1. Review/audit the separate OS-CSPRNG path and replace its finite-precision
-   transform with a formally analyzed discrete mechanism.
+1. Independently review the bounded sampler/calibration and test stronger
+   policy-aware inversion and temporal classifiers against capacity censoring.
 2. Specify user-level adjacency through a bounded per-user contribution and
    account for composition across users, epochs, pools, and deployments.
 3. Test stronger policy-aware inversion and temporal classifiers against the
