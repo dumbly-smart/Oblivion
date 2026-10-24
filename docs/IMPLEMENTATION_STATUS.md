@@ -431,7 +431,10 @@ The Unix service now rejects database symlinks and special files, verifies the
 opened path remains a regular file, and restricts its mode to `0600` before
 binding the socket. The database parent directory remains a trusted deployment
 boundary to prevent path replacement. Process tests verify mode enforcement
-and specific symlink rejection. The anchor package tests and complete workspace
-suite pass; formatting, whitespace checks, and warning-denied workspace
-Clippy also pass. The million-operation ORAM stress test remains intentionally
-ignored in the default suite.
+and specific symlink rejection. A process-level integration test now writes a
+real Path ORAM checkpoint through the Unix service, restarts the service, and
+restores the snapshot from the persisted SQLite anchor. Anchor package tests,
+formatting, whitespace checks, and warning-denied workspace Clippy pass. The
+full workspace suite passed immediately before this integration-test-only
+follow-up; the million-operation ORAM stress test remains intentionally ignored
+in the default suite.

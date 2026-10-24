@@ -2,6 +2,7 @@
 
 use oblivion_anchor::UnixAnchorClient;
 use oblivion_registry::RegistryVersionAnchor;
+use oblivion_store::{CheckpointAnchor, Config, FileBackend, PathOram, TrustedCheckpoint};
 use std::{
     os::unix::fs::PermissionsExt,
     process::{Command, Stdio},
@@ -147,5 +148,84 @@ fn cli_rejects_symlink_database_path_before_binding_socket() {
         std::fs::read(&target).unwrap(),
         b"keep this target untouched"
     );
+    std::fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn cli_service_restart_recovers_a_real_path_oram_checkpoint() {
+    let nonce = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_nanos();
+    let root = std::env::temp_dir().join(format!(
+        "oblivion-anchor-oram-restart-{}-{nonce}",
+        std::process::id()
+    ));
+    std::fs::create_dir(&root).unwrap();
+    let socket = root.join("anchor.sock");
+    let database = root.join("anchor.sqlite");
+    let key_file = root.join("master.key");
+    let snapshot = root.join("snapshot-1");
+    std::fs::write(&key_file, [0x39; 32]).unwrap();
+    std::fs::set_permissions(&key_file, std::fs::Permissions::from_mode(0o600)).unwrap();
+
+    let spawn_service = || {
+        Command::new(env!("CARGO_BIN_EXE_oblivion-anchor"))
+            .args([
+                "serve",
+                socket.to_str().unwrap(),
+                database.to_str().unwrap(),
+                key_file.to_str().unwrap(),
+                "0600",
+            ])
+            .stdout(Stdio::null())
+            .stderr(Stdio::null())
+            .spawn()
+            .unwrap()
+    };
+    let wait_until_ready = |service: &mut std::process::Child| {
+        for _ in 0..500 {
+            if socket.exists() {
+                return;
+            }
+            if let Some(status) = service.try_wait().unwrap() {
+                panic!("anchor service exited before readiness: {status}");
+            }
+            thread::sleep(Duration::from_millis(10));
+        }
+        panic!("anchor service did not create its Unix socket");
+    };
+
+    let mut service = spawn_service();
+    wait_until_ready(&mut service);
+    let config = Config::new(8, 16).unwrap();
+    let mut store = PathOram::new(
+        config.clone(),
+        FileBackend::create(root.join("working-store"), &config).unwrap(),
+    )
+    .unwrap();
+    store.write(3, &[0xa7; 16]).unwrap();
+    let mut anchor = UnixAnchorClient::checkpoint(&socket, "oram-state").unwrap();
+    let checkpoint = store
+        .checkpoint_anchored(&snapshot, "snapshot-1", &mut anchor)
+        .unwrap();
+    assert_eq!(checkpoint.generation(), 1);
+
+    service.kill().unwrap();
+    service.wait().unwrap();
+    std::fs::remove_file(&socket).unwrap();
+    let mut service = spawn_service();
+    wait_until_ready(&mut service);
+    let mut anchor = UnixAnchorClient::checkpoint(&socket, "oram-state").unwrap();
+    let record = anchor.load().unwrap().unwrap();
+    let trusted = TrustedCheckpoint::from_secret_bytes(record.secret_handle()).unwrap();
+    assert_eq!(record.snapshot_id(), "snapshot-1");
+    assert_eq!(trusted.generation(), 1);
+    let backend = FileBackend::create(root.join("recovered-store"), &config).unwrap();
+    let mut restored = PathOram::restore(&snapshot, &trusted, backend).unwrap();
+    assert_eq!(restored.read(3).unwrap(), vec![0xa7; 16]);
+
+    service.kill().unwrap();
+    service.wait().unwrap();
     std::fs::remove_dir_all(root).unwrap();
 }

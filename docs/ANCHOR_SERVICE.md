@@ -93,5 +93,7 @@ rollback. The local RPC tests exercise registry and checkpoint requests and
 fail-closed transport errors. CLI integration tests run the service as a
 separate process, check socket and database permissions, exercise persistent
 registry CAS, and reject a group-readable master key and symlink database path.
-The tests do not test power-loss
+Another process-level test checkpoints real Path ORAM state through the service,
+restarts the service, and restores the snapshot through the durable checkpoint
+adapter. The tests do not test power-loss
 behavior of every filesystem or establish rollback resistance.
