@@ -8,25 +8,33 @@ use chacha20poly1305::{
     ChaCha20Poly1305, Nonce,
     aead::{Aead, KeyInit, Payload},
 };
+use ed25519_dalek::{Signature, VerifyingKey};
 use hkdf::Hkdf;
+use hmac::{Hmac, Mac};
 use oblivion_registry::{self as registry, RegistryVersionAnchor};
 use oblivion_store::{self as store, CheckpointAnchor, CheckpointAnchorRecord};
 use rand::{RngCore, rngs::OsRng};
 use rusqlite::{Connection, OptionalExtension, TransactionBehavior, params};
+use serde::{Deserialize, Serialize};
 use sha2::Sha256;
 use std::path::Path;
 use std::time::Duration;
-use zeroize::Zeroizing;
+use zeroize::{Zeroize, Zeroizing};
 
 #[cfg(unix)]
 mod local;
 #[cfg(unix)]
-pub use local::{UnixAnchorClient, UnixCheckpointAnchor, UnixRegistryAnchor, serve_unix};
+pub use local::{
+    UnixAnchorClient, UnixCheckpointAnchor, UnixInvocationAnchor, UnixRegistryAnchor, serve_unix,
+};
 
 const NONCE_BYTES: usize = 12;
 const HANDLE_BYTES: usize = 88;
 const MAX_SLOT_BYTES: usize = 128;
-const SCHEMA_VERSION: u32 = 1;
+pub const INVOCATION_ID_BYTES: usize = 16;
+pub const INVOCATION_DIGEST_BYTES: usize = 32;
+pub const MAX_INVOCATION_RESPONSE_BYTES: usize = 64 * 1024;
+const SCHEMA_VERSION: u32 = 2;
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
@@ -46,6 +54,12 @@ pub enum Error {
     Randomness,
     #[error("stored checkpoint handle is malformed")]
     InvalidHandle,
+    #[error("invocation identity signature is invalid")]
+    InvalidInvocationSignature,
+    #[error("stored invocation receipt is malformed or unauthentic")]
+    InvalidInvocationReceipt,
+    #[error("invocation response exceeds the configured receipt bound")]
+    InvocationResponseTooLarge,
     #[error("anchor database schema version {0} is unsupported")]
     UnsupportedSchema(u32),
     #[error("anchor service socket operation failed: {0}")]
@@ -69,6 +83,119 @@ impl From<rusqlite::Error> for Error {
 pub struct AnchorDatabase {
     connection: Connection,
     master_key: Zeroizing<[u8; 32]>,
+}
+
+/// Stable client-signed invocation identity. The signature authenticates
+/// control of the public key for this ID and request digest; it does not grant
+/// function-level authorization.
+#[derive(Clone)]
+pub struct SignedInvocationId {
+    public_key: [u8; 32],
+    invocation_id: [u8; INVOCATION_ID_BYTES],
+    request_digest: [u8; INVOCATION_DIGEST_BYTES],
+    signature: [u8; 64],
+}
+
+impl SignedInvocationId {
+    pub fn new(
+        public_key: [u8; 32],
+        invocation_id: [u8; INVOCATION_ID_BYTES],
+        request_digest: [u8; INVOCATION_DIGEST_BYTES],
+        signature: [u8; 64],
+    ) -> Self {
+        Self {
+            public_key,
+            invocation_id,
+            request_digest,
+            signature,
+        }
+    }
+
+    /// Canonical message clients sign for an invocation ID and request digest.
+    pub fn signing_message(
+        invocation_id: &[u8; INVOCATION_ID_BYTES],
+        request_digest: &[u8; INVOCATION_DIGEST_BYTES],
+    ) -> Vec<u8> {
+        let mut message = b"OBLIVION::INVOCATION-ID::v1\0".to_vec();
+        message.extend_from_slice(invocation_id);
+        message.extend_from_slice(request_digest);
+        message
+    }
+
+    pub fn public_key(&self) -> &[u8; 32] {
+        &self.public_key
+    }
+
+    pub fn invocation_id(&self) -> &[u8; INVOCATION_ID_BYTES] {
+        &self.invocation_id
+    }
+
+    pub fn request_digest(&self) -> &[u8; INVOCATION_DIGEST_BYTES] {
+        &self.request_digest
+    }
+
+    pub(crate) fn signature(&self) -> &[u8; 64] {
+        &self.signature
+    }
+
+    fn verify(&self) -> Result<(), Error> {
+        let key = VerifyingKey::from_bytes(&self.public_key)
+            .map_err(|_| Error::InvalidInvocationSignature)?;
+        key.verify_strict(
+            &Self::signing_message(&self.invocation_id, &self.request_digest),
+            &Signature::from_bytes(&self.signature),
+        )
+        .map_err(|_| Error::InvalidInvocationSignature)
+    }
+}
+
+/// Durable result bound to a signed invocation and checkpoint generation.
+pub struct InvocationReceipt {
+    snapshot_id: Box<str>,
+    generation: u64,
+    response: Zeroizing<Vec<u8>>,
+}
+
+impl InvocationReceipt {
+    pub(crate) fn from_parts(
+        snapshot_id: String,
+        generation: u64,
+        response: Vec<u8>,
+    ) -> Result<Self, Error> {
+        let response = Zeroizing::new(response);
+        if !valid_snapshot_id(&snapshot_id)
+            || generation == 0
+            || response.len() > MAX_INVOCATION_RESPONSE_BYTES
+        {
+            return Err(Error::InvalidInvocationReceipt);
+        }
+        Ok(Self {
+            snapshot_id: snapshot_id.into_boxed_str(),
+            generation,
+            response,
+        })
+    }
+
+    pub fn snapshot_id(&self) -> &str {
+        &self.snapshot_id
+    }
+
+    pub fn generation(&self) -> u64 {
+        self.generation
+    }
+
+    pub fn response(&self) -> &[u8] {
+        self.response.as_slice()
+    }
+}
+
+#[derive(Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct StoredInvocationReceipt {
+    request_digest: [u8; INVOCATION_DIGEST_BYTES],
+    snapshot_id: String,
+    generation: u64,
+    response: Vec<u8>,
 }
 
 impl AnchorDatabase {
@@ -96,7 +223,28 @@ impl AnchorDatabase {
             CREATE TABLE IF NOT EXISTS used_nonce (
                 nonce BLOB PRIMARY KEY NOT NULL CHECK (length(nonce) = 12)
             );
-            PRAGMA user_version = 1;",
+            CREATE TABLE IF NOT EXISTS invocation_receipt (
+                slot TEXT NOT NULL,
+                lookup_token BLOB NOT NULL CHECK (length(lookup_token) = 32),
+                nonce BLOB NOT NULL CHECK (length(nonce) = 12),
+                ciphertext BLOB NOT NULL,
+                PRIMARY KEY (slot, lookup_token)
+            );
+            PRAGMA user_version = 2;",
+                )?;
+                tx.commit()?;
+            }
+            1 => {
+                let tx = connection.transaction_with_behavior(TransactionBehavior::Exclusive)?;
+                tx.execute_batch(
+                    "CREATE TABLE invocation_receipt (
+                slot TEXT NOT NULL,
+                lookup_token BLOB NOT NULL CHECK (length(lookup_token) = 32),
+                nonce BLOB NOT NULL CHECK (length(nonce) = 12),
+                ciphertext BLOB NOT NULL,
+                PRIMARY KEY (slot, lookup_token)
+            );
+            PRAGMA user_version = 2;",
                 )?;
                 tx.commit()?;
             }
@@ -123,6 +271,148 @@ impl AnchorDatabase {
         Ok(RegistrySlot {
             connection: &mut self.connection,
             slot: slot.to_owned(),
+        })
+    }
+
+    /// Load a previously committed result for this signed invocation. A
+    /// matching ID with a different request digest is rejected as a conflict.
+    pub fn load_invocation_receipt(
+        &self,
+        slot: &str,
+        invocation: &SignedInvocationId,
+    ) -> Result<Option<InvocationReceipt>, Error> {
+        validate_slot(slot)?;
+        invocation.verify()?;
+        let lookup = invocation_lookup_token(&self.master_key, slot, invocation)?;
+        load_invocation_receipt(
+            &self.connection,
+            &self.master_key,
+            slot,
+            &lookup,
+            invocation.request_digest(),
+        )
+    }
+
+    /// Atomically advance a checkpoint and persist the exact invocation
+    /// response. Retries of the same signed ID and request return the first
+    /// receipt, even if the caller's proposed checkpoint is now stale.
+    pub fn commit_invocation(
+        &mut self,
+        slot: &str,
+        invocation: &SignedInvocationId,
+        expected_generation: Option<u64>,
+        next_record: CheckpointAnchorRecord,
+        response: &[u8],
+    ) -> Result<InvocationReceipt, Error> {
+        validate_slot(slot)?;
+        invocation.verify()?;
+        if response.len() > MAX_INVOCATION_RESPONSE_BYTES {
+            return Err(Error::InvocationResponseTooLarge);
+        }
+        let lookup = invocation_lookup_token(&self.master_key, slot, invocation)?;
+        if let Some(receipt) = load_invocation_receipt(
+            &self.connection,
+            &self.master_key,
+            slot,
+            &lookup,
+            invocation.request_digest(),
+        )? {
+            return Ok(receipt);
+        }
+
+        let next_generation = expected_generation
+            .unwrap_or(0)
+            .checked_add(1)
+            .ok_or(Error::IntegerRange)?;
+        if next_record.generation() != next_generation {
+            return Err(Error::Conflict);
+        }
+        let expected_i64 = expected_generation
+            .map(i64::try_from)
+            .transpose()
+            .map_err(|_| Error::IntegerRange)?;
+        let next_i64 = i64::try_from(next_generation).map_err(|_| Error::IntegerRange)?;
+
+        let checkpoint_nonce = reserve_nonce(&mut self.connection)?;
+        let checkpoint_key = derive_key(&self.master_key, b"checkpoint", slot)?;
+        let checkpoint_cipher = ChaCha20Poly1305::new(checkpoint_key.as_ref().into());
+        let checkpoint_ciphertext = checkpoint_cipher
+            .encrypt(
+                Nonce::from_slice(&checkpoint_nonce),
+                Payload {
+                    msg: next_record.secret_handle(),
+                    aad: &checkpoint_aad(slot, next_record.snapshot_id(), next_generation),
+                },
+            )
+            .map_err(|_| Error::Cryptography)?;
+
+        let mut stored = StoredInvocationReceipt {
+            request_digest: *invocation.request_digest(),
+            snapshot_id: next_record.snapshot_id().to_owned(),
+            generation: next_generation,
+            response: response.to_vec(),
+        };
+        let encoded = serde_json::to_vec(&stored);
+        stored.response.zeroize();
+        let plaintext = Zeroizing::new(encoded.map_err(|_| Error::InvalidInvocationReceipt)?);
+        let receipt_nonce = reserve_nonce(&mut self.connection)?;
+        let receipt_key = derive_key(&self.master_key, b"invocation-receipt", slot)?;
+        let receipt_cipher = ChaCha20Poly1305::new(receipt_key.as_ref().into());
+        let receipt_ciphertext = receipt_cipher
+            .encrypt(
+                Nonce::from_slice(&receipt_nonce),
+                Payload {
+                    msg: plaintext.as_slice(),
+                    aad: &invocation_receipt_aad(slot, &lookup),
+                },
+            )
+            .map_err(|_| Error::Cryptography)?;
+
+        let tx = self
+            .connection
+            .transaction_with_behavior(TransactionBehavior::Immediate)?;
+        if let Some(receipt) = load_invocation_receipt(
+            &tx,
+            &self.master_key,
+            slot,
+            &lookup,
+            invocation.request_digest(),
+        )? {
+            return Ok(receipt);
+        }
+        let current: Option<i64> = tx
+            .query_row(
+                "SELECT generation FROM checkpoint_anchor WHERE slot = ?1",
+                [slot],
+                |row| row.get(0),
+            )
+            .optional()?;
+        if current != expected_i64 {
+            return Err(Error::Conflict);
+        }
+        match current {
+            None => {
+                tx.execute(
+                    "INSERT INTO checkpoint_anchor(slot, snapshot_id, generation, nonce, ciphertext) VALUES (?1, ?2, ?3, ?4, ?5)",
+                    params![slot, next_record.snapshot_id(), next_i64, checkpoint_nonce.as_slice(), checkpoint_ciphertext],
+                )?;
+            }
+            Some(_) => {
+                tx.execute(
+                    "UPDATE checkpoint_anchor SET snapshot_id = ?2, generation = ?3, nonce = ?4, ciphertext = ?5 WHERE slot = ?1",
+                    params![slot, next_record.snapshot_id(), next_i64, checkpoint_nonce.as_slice(), checkpoint_ciphertext],
+                )?;
+            }
+        }
+        tx.execute(
+            "INSERT INTO invocation_receipt(slot, lookup_token, nonce, ciphertext) VALUES (?1, ?2, ?3, ?4)",
+            params![slot, lookup.as_slice(), receipt_nonce.as_slice(), receipt_ciphertext],
+        )?;
+        tx.commit().map_err(|_| Error::CommitIndeterminate)?;
+        Ok(InvocationReceipt {
+            snapshot_id: next_record.snapshot_id().into(),
+            generation: next_generation,
+            response: Zeroizing::new(response.to_vec()),
         })
     }
 }
@@ -200,6 +490,93 @@ fn derive_key(
     hkdf.expand(&info, key.as_mut())
         .map_err(|_| Error::Cryptography)?;
     Ok(key)
+}
+
+fn invocation_lookup_token(
+    master_key: &[u8; 32],
+    slot: &str,
+    invocation: &SignedInvocationId,
+) -> Result<[u8; 32], Error> {
+    let key = derive_key(master_key, b"invocation-lookup", slot)?;
+    let mut mac =
+        <Hmac<Sha256> as Mac>::new_from_slice(key.as_ref()).map_err(|_| Error::Cryptography)?;
+    mac.update(b"oblivion-anchor-invocation-lookup-v1\0");
+    mac.update(invocation.public_key());
+    mac.update(invocation.invocation_id());
+    let digest = mac.finalize().into_bytes();
+    let mut lookup = [0; 32];
+    lookup.copy_from_slice(&digest);
+    Ok(lookup)
+}
+
+fn invocation_receipt_aad(slot: &str, lookup: &[u8; 32]) -> Vec<u8> {
+    let mut aad = b"oblivion-anchor-invocation-receipt-v1\0".to_vec();
+    aad.extend_from_slice(slot.as_bytes());
+    aad.push(0);
+    aad.extend_from_slice(lookup);
+    aad
+}
+
+fn load_invocation_receipt(
+    connection: &Connection,
+    master_key: &[u8; 32],
+    slot: &str,
+    lookup: &[u8; 32],
+    request_digest: &[u8; INVOCATION_DIGEST_BYTES],
+) -> Result<Option<InvocationReceipt>, Error> {
+    let row: Option<(Vec<u8>, Vec<u8>)> = connection
+        .query_row(
+            "SELECT nonce, ciphertext FROM invocation_receipt WHERE slot = ?1 AND lookup_token = ?2",
+            params![slot, lookup.as_slice()],
+            |row| Ok((row.get(0)?, row.get(1)?)),
+        )
+        .optional()?;
+    let Some((nonce, ciphertext)) = row else {
+        return Ok(None);
+    };
+    let nonce: [u8; NONCE_BYTES] = nonce
+        .try_into()
+        .map_err(|_| Error::InvalidInvocationReceipt)?;
+    let key = derive_key(master_key, b"invocation-receipt", slot)?;
+    let cipher = ChaCha20Poly1305::new(key.as_ref().into());
+    let plaintext = Zeroizing::new(
+        cipher
+            .decrypt(
+                Nonce::from_slice(&nonce),
+                Payload {
+                    msg: &ciphertext,
+                    aad: &invocation_receipt_aad(slot, lookup),
+                },
+            )
+            .map_err(|_| Error::InvalidInvocationReceipt)?,
+    );
+    let stored: StoredInvocationReceipt = serde_json::from_slice(plaintext.as_slice())
+        .map_err(|_| Error::InvalidInvocationReceipt)?;
+    let response = Zeroizing::new(stored.response);
+    if stored.request_digest != *request_digest
+        || stored.generation == 0
+        || !valid_snapshot_id(&stored.snapshot_id)
+        || response.len() > MAX_INVOCATION_RESPONSE_BYTES
+    {
+        return if stored.request_digest != *request_digest {
+            Err(Error::Conflict)
+        } else {
+            Err(Error::InvalidInvocationReceipt)
+        };
+    }
+    Ok(Some(InvocationReceipt {
+        snapshot_id: stored.snapshot_id.into_boxed_str(),
+        generation: stored.generation,
+        response,
+    }))
+}
+
+fn valid_snapshot_id(snapshot_id: &str) -> bool {
+    !snapshot_id.is_empty()
+        && snapshot_id.len() <= MAX_SLOT_BYTES
+        && snapshot_id
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b'_' | b'-'))
 }
 
 fn reserve_nonce(connection: &mut Connection) -> Result<[u8; NONCE_BYTES], Error> {
@@ -408,7 +785,7 @@ fn map_registry_error(error: Error) -> registry::Error {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use ed25519_dalek::SigningKey;
+    use ed25519_dalek::{Signer, SigningKey};
     use oblivion_registry::{Record, SignedRegistry, VerifiedRegistry};
     use oblivion_store::{Config, MemoryBackend, PathOram, TrustedCheckpoint};
     use std::time::{SystemTime, UNIX_EPOCH};
@@ -432,6 +809,134 @@ mod tests {
         bytes[24..56].fill(generation as u8);
         bytes[56..].fill(0xA5);
         bytes
+    }
+
+    fn invocation(seed: u8, id: [u8; 16], request_digest: [u8; 32]) -> SignedInvocationId {
+        let signing_key = SigningKey::from_bytes(&[seed; 32]);
+        let signature = signing_key
+            .sign(&SignedInvocationId::signing_message(&id, &request_digest))
+            .to_bytes();
+        SignedInvocationId::new(
+            signing_key.verifying_key().to_bytes(),
+            id,
+            request_digest,
+            signature,
+        )
+    }
+
+    #[test]
+    fn invocation_receipt_and_checkpoint_commit_atomically_and_replay_durably() {
+        let path = path("invocation-receipt");
+        let master_key = [0x91; 32];
+        let token = invocation(7, [0x42; 16], [0x53; 32]);
+        let initial_response = b"first fixed-shape response".to_vec();
+        {
+            let mut db = AnchorDatabase::open(&path, Zeroizing::new(master_key)).unwrap();
+            let oversized = invocation(7, [0x41; 16], [0x52; 32]);
+            assert!(matches!(
+                db.commit_invocation(
+                    "store-a",
+                    &oversized,
+                    None,
+                    CheckpointAnchorRecord::new("oversized", &handle(1)).unwrap(),
+                    &vec![0; MAX_INVOCATION_RESPONSE_BYTES + 1],
+                ),
+                Err(Error::InvocationResponseTooLarge)
+            ));
+            let receipt = db
+                .commit_invocation(
+                    "store-a",
+                    &token,
+                    None,
+                    CheckpointAnchorRecord::new("snapshot-1", &handle(1)).unwrap(),
+                    &initial_response,
+                )
+                .unwrap();
+            assert_eq!(receipt.snapshot_id(), "snapshot-1");
+            assert_eq!(receipt.generation(), 1);
+            assert_eq!(receipt.response(), initial_response);
+
+            let invalid_signature = SignedInvocationId::new(
+                *token.public_key(),
+                *token.invocation_id(),
+                *token.request_digest(),
+                [0; 64],
+            );
+            assert!(matches!(
+                db.load_invocation_receipt("store-a", &invalid_signature),
+                Err(Error::InvalidInvocationSignature)
+            ));
+
+            let replay = db
+                .commit_invocation(
+                    "store-a",
+                    &token,
+                    Some(1),
+                    CheckpointAnchorRecord::new("snapshot-2", &handle(2)).unwrap(),
+                    b"response from a duplicate execution",
+                )
+                .unwrap();
+            assert_eq!(replay.snapshot_id(), receipt.snapshot_id());
+            assert_eq!(replay.generation(), receipt.generation());
+            assert_eq!(replay.response(), receipt.response());
+
+            let other_client = invocation(8, [0x42; 16], [0x53; 32]);
+            assert!(
+                db.load_invocation_receipt("store-a", &other_client)
+                    .unwrap()
+                    .is_none()
+            );
+
+            let conflict = invocation(7, [0x42; 16], [0x54; 32]);
+            assert!(matches!(
+                db.load_invocation_receipt("store-a", &conflict),
+                Err(Error::Conflict)
+            ));
+
+            let uncommitted = invocation(7, [0x43; 16], [0x53; 32]);
+            assert!(matches!(
+                db.commit_invocation(
+                    "store-a",
+                    &uncommitted,
+                    None,
+                    CheckpointAnchorRecord::new("snapshot-stale", &handle(1)).unwrap(),
+                    b"must not be receipted",
+                ),
+                Err(Error::Conflict)
+            ));
+            assert!(
+                db.load_invocation_receipt("store-a", &uncommitted)
+                    .unwrap()
+                    .is_none()
+            );
+        }
+
+        let database_bytes = std::fs::read(&path).unwrap();
+        assert!(
+            !database_bytes
+                .windows(initial_response.len())
+                .any(|window| window == initial_response)
+        );
+
+        let db = AnchorDatabase::open(&path, Zeroizing::new(master_key)).unwrap();
+        let recovered = db
+            .load_invocation_receipt("store-a", &token)
+            .unwrap()
+            .unwrap();
+        assert_eq!(recovered.snapshot_id(), "snapshot-1");
+        assert_eq!(recovered.generation(), 1);
+        assert_eq!(recovered.response(), initial_response);
+        drop(db);
+        let mut db = AnchorDatabase::open(&path, Zeroizing::new(master_key)).unwrap();
+        let checkpoint = db
+            .checkpoint_anchor("store-a")
+            .unwrap()
+            .load()
+            .unwrap()
+            .unwrap();
+        assert_eq!(checkpoint.snapshot_id(), "snapshot-1");
+        assert_eq!(checkpoint.generation(), 1);
+        let _ = std::fs::remove_file(path);
     }
 
     #[test]
@@ -617,6 +1122,34 @@ mod tests {
             .unwrap();
         assert_eq!(version, 99);
         drop(connection);
+        let _ = std::fs::remove_file(path);
+    }
+
+    #[test]
+    fn schema_one_database_migrates_receipt_table_transactionally() {
+        let path = path("schema-one-migration");
+        {
+            let _db = AnchorDatabase::open(&path, Zeroizing::new([0xA7; 32])).unwrap();
+        }
+        let connection = Connection::open(&path).unwrap();
+        connection
+            .execute_batch("DROP TABLE invocation_receipt; PRAGMA user_version = 1;")
+            .unwrap();
+        drop(connection);
+
+        let db = AnchorDatabase::open(&path, Zeroizing::new([0xA7; 32])).unwrap();
+        let token = invocation(12, [0x21; 16], [0x32; 32]);
+        assert!(
+            db.load_invocation_receipt("store-a", &token)
+                .unwrap()
+                .is_none()
+        );
+        let schema_version: u32 = db
+            .connection
+            .pragma_query_value(None, "user_version", |row| row.get(0))
+            .unwrap();
+        assert_eq!(schema_version, 2);
+        drop(db);
         let _ = std::fs::remove_file(path);
     }
 

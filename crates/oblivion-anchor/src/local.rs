@@ -4,7 +4,10 @@
 //! transport is intended for a trusted local executor/service deployment; it
 //! is not a remote-network protocol and does not protect against host root.
 
-use crate::{AnchorDatabase, Error, validate_slot};
+use crate::{
+    AnchorDatabase, Error, InvocationReceipt, MAX_INVOCATION_RESPONSE_BYTES, SignedInvocationId,
+    validate_slot,
+};
 use oblivion_registry::{self as registry, RegistryVersionAnchor};
 use oblivion_store::{self as store, CheckpointAnchor, CheckpointAnchorRecord};
 use serde::{Deserialize, Serialize};
@@ -20,7 +23,7 @@ use std::{
 };
 
 const PROTOCOL_VERSION: u8 = 1;
-const MAX_FRAME_BYTES: usize = 2048;
+const MAX_FRAME_BYTES: usize = 512 * 1024;
 const IO_TIMEOUT: Duration = Duration::from_secs(5);
 
 #[derive(Serialize, Deserialize)]
@@ -47,6 +50,26 @@ enum Request {
         snapshot_id: String,
         secret_handle: Vec<u8>,
     },
+    InvocationLoad {
+        version: u8,
+        slot: String,
+        public_key: [u8; 32],
+        invocation_id: [u8; 16],
+        request_digest: [u8; 32],
+        signature: Vec<u8>,
+    },
+    InvocationCommit {
+        version: u8,
+        slot: String,
+        public_key: [u8; 32],
+        invocation_id: [u8; 16],
+        request_digest: [u8; 32],
+        signature: Vec<u8>,
+        expected_generation: Option<u64>,
+        snapshot_id: String,
+        secret_handle: Vec<u8>,
+        response: Vec<u8>,
+    },
 }
 
 #[derive(Serialize, Deserialize)]
@@ -59,6 +82,10 @@ enum Response {
     Checkpoint {
         version: u8,
         record: Option<WireCheckpoint>,
+    },
+    Invocation {
+        version: u8,
+        receipt: Option<WireInvocationReceipt>,
     },
     Ack {
         version: u8,
@@ -83,6 +110,30 @@ struct WireCheckpoint {
     snapshot_id: String,
     generation: u64,
     secret_handle: Vec<u8>,
+}
+
+#[derive(Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct WireInvocationReceipt {
+    snapshot_id: String,
+    generation: u64,
+    response: Vec<u8>,
+}
+
+impl From<InvocationReceipt> for WireInvocationReceipt {
+    fn from(receipt: InvocationReceipt) -> Self {
+        Self {
+            snapshot_id: receipt.snapshot_id().to_owned(),
+            generation: receipt.generation(),
+            response: receipt.response().to_vec(),
+        }
+    }
+}
+
+impl WireInvocationReceipt {
+    fn into_receipt(self) -> Result<InvocationReceipt, Error> {
+        InvocationReceipt::from_parts(self.snapshot_id, self.generation, self.response)
+    }
 }
 
 fn serve_request(database: &mut AnchorDatabase, request: Request) -> Response {
@@ -203,6 +254,102 @@ fn serve_request(database: &mut AnchorDatabase, request: Request) -> Response {
                     },
                 },
                 Err(_) => Response::Invalid {
+                    version: PROTOCOL_VERSION,
+                },
+            }
+        }
+        Request::InvocationLoad {
+            version,
+            slot,
+            public_key,
+            invocation_id,
+            request_digest,
+            signature,
+        } => {
+            if version != PROTOCOL_VERSION || validate_slot(&slot).is_err() || signature.len() != 64
+            {
+                return Response::Invalid {
+                    version: PROTOCOL_VERSION,
+                };
+            }
+            let Ok(signature) = <[u8; 64]>::try_from(signature.as_slice()) else {
+                return Response::Invalid {
+                    version: PROTOCOL_VERSION,
+                };
+            };
+            let token =
+                SignedInvocationId::new(public_key, invocation_id, request_digest, signature);
+            match database.load_invocation_receipt(&slot, &token) {
+                Ok(receipt) => Response::Invocation {
+                    version: PROTOCOL_VERSION,
+                    receipt: receipt.map(WireInvocationReceipt::from),
+                },
+                Err(Error::Conflict) => Response::Conflict {
+                    version: PROTOCOL_VERSION,
+                },
+                Err(Error::InvalidInvocationSignature) => Response::Invalid {
+                    version: PROTOCOL_VERSION,
+                },
+                Err(_) => Response::Internal {
+                    version: PROTOCOL_VERSION,
+                },
+            }
+        }
+        Request::InvocationCommit {
+            version,
+            slot,
+            public_key,
+            invocation_id,
+            request_digest,
+            signature,
+            expected_generation,
+            snapshot_id,
+            secret_handle,
+            response,
+        } => {
+            if version != PROTOCOL_VERSION
+                || validate_slot(&slot).is_err()
+                || secret_handle.len() != 88
+                || signature.len() != 64
+                || response.len() > MAX_INVOCATION_RESPONSE_BYTES
+            {
+                return Response::Invalid {
+                    version: PROTOCOL_VERSION,
+                };
+            }
+            let Ok(signature) = <[u8; 64]>::try_from(signature.as_slice()) else {
+                return Response::Invalid {
+                    version: PROTOCOL_VERSION,
+                };
+            };
+            let token =
+                SignedInvocationId::new(public_key, invocation_id, request_digest, signature);
+            let record = match CheckpointAnchorRecord::new(&snapshot_id, &secret_handle) {
+                Ok(record) => record,
+                Err(_) => {
+                    return Response::Invalid {
+                        version: PROTOCOL_VERSION,
+                    };
+                }
+            };
+            match database.commit_invocation(&slot, &token, expected_generation, record, &response)
+            {
+                Ok(receipt) => Response::Invocation {
+                    version: PROTOCOL_VERSION,
+                    receipt: Some(WireInvocationReceipt::from(receipt)),
+                },
+                Err(Error::Conflict) => Response::Conflict {
+                    version: PROTOCOL_VERSION,
+                },
+                Err(Error::CommitIndeterminate) => Response::CommitUnknown {
+                    version: PROTOCOL_VERSION,
+                },
+                Err(Error::InvalidInvocationSignature | Error::InvocationResponseTooLarge) => {
+                    Response::Invalid {
+                        version: PROTOCOL_VERSION,
+                    }
+                }
+                Err(_) => Response::Internal {
                     version: PROTOCOL_VERSION,
                 },
             }
@@ -345,6 +492,13 @@ impl UnixAnchorClient {
         Ok(UnixCheckpointAnchor(Self::new(socket_path, slot)?))
     }
 
+    pub fn invocation(
+        socket_path: impl Into<PathBuf>,
+        slot: &str,
+    ) -> Result<UnixInvocationAnchor, Error> {
+        Ok(UnixInvocationAnchor(Self::new(socket_path, slot)?))
+    }
+
     fn exchange(&self, request: Request) -> Result<Response, Error> {
         let frame = serde_json::to_vec(&request).map_err(|_| Error::Protocol)?;
         if frame.is_empty() || frame.len() > MAX_FRAME_BYTES {
@@ -367,6 +521,68 @@ impl UnixAnchorClient {
 pub struct UnixRegistryAnchor(UnixAnchorClient);
 
 pub struct UnixCheckpointAnchor(UnixAnchorClient);
+
+pub struct UnixInvocationAnchor(UnixAnchorClient);
+
+impl UnixInvocationAnchor {
+    pub fn load(
+        &self,
+        invocation: &SignedInvocationId,
+    ) -> Result<Option<InvocationReceipt>, Error> {
+        match self.0.exchange(Request::InvocationLoad {
+            version: PROTOCOL_VERSION,
+            slot: self.0.slot.clone(),
+            public_key: *invocation.public_key(),
+            invocation_id: *invocation.invocation_id(),
+            request_digest: *invocation.request_digest(),
+            signature: invocation.signature().to_vec(),
+        })? {
+            Response::Invocation { version, receipt } if version == PROTOCOL_VERSION => {
+                receipt.map(WireInvocationReceipt::into_receipt).transpose()
+            }
+            Response::Conflict { .. } => Err(Error::Conflict),
+            Response::Invalid { .. } => Err(Error::InvalidInvocationSignature),
+            _ => Err(Error::Protocol),
+        }
+    }
+
+    pub fn commit(
+        &self,
+        invocation: &SignedInvocationId,
+        expected_generation: Option<u64>,
+        next_record: CheckpointAnchorRecord,
+        response: &[u8],
+    ) -> Result<InvocationReceipt, Error> {
+        if response.len() > MAX_INVOCATION_RESPONSE_BYTES {
+            return Err(Error::InvocationResponseTooLarge);
+        }
+        let result = self.0.exchange(Request::InvocationCommit {
+            version: PROTOCOL_VERSION,
+            slot: self.0.slot.clone(),
+            public_key: *invocation.public_key(),
+            invocation_id: *invocation.invocation_id(),
+            request_digest: *invocation.request_digest(),
+            signature: invocation.signature().to_vec(),
+            expected_generation,
+            snapshot_id: next_record.snapshot_id().to_owned(),
+            secret_handle: next_record.secret_handle().to_vec(),
+            response: response.to_vec(),
+        });
+        match result {
+            Ok(Response::Invocation {
+                version,
+                receipt: Some(receipt),
+            }) if version == PROTOCOL_VERSION => receipt.into_receipt(),
+            Ok(Response::Conflict { .. }) => Err(Error::Conflict),
+            Ok(Response::Invalid { .. }) => Err(Error::InvalidInvocationSignature),
+            Ok(Response::CommitUnknown { .. }) | Err(_) => Err(Error::CommitIndeterminate),
+            Ok(Response::Internal { .. }) => {
+                Err(Error::Database("anchor service internal error".into()))
+            }
+            _ => Err(Error::Protocol),
+        }
+    }
+}
 
 impl RegistryVersionAnchor for UnixRegistryAnchor {
     fn current_version(&mut self) -> Result<Option<u64>, registry::Error> {
@@ -463,6 +679,7 @@ impl CheckpointAnchor for UnixCheckpointAnchor {
 mod tests {
     use super::*;
     use crate::AnchorDatabase;
+    use ed25519_dalek::{Signer, SigningKey};
     use oblivion_registry::RegistryVersionAnchor;
     use oblivion_store::{CheckpointAnchor, CheckpointAnchorRecord};
     use std::time::{SystemTime, UNIX_EPOCH};
@@ -522,6 +739,70 @@ mod tests {
         assert_eq!(loaded.snapshot_id(), "snapshot-a");
         assert_eq!(loaded.secret_handle(), secret);
         assert_eq!(registry.current_version().unwrap(), Some(1));
+
+        server.join().unwrap();
+        std::fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn local_service_round_trips_signed_invocation_receipts() {
+        let root = root("invocation");
+        let socket_path = root.join("anchor.sock");
+        let database_path = root.join("anchor.sqlite");
+        let listener = UnixListener::bind(&socket_path).unwrap();
+        let mut database =
+            AnchorDatabase::open(&database_path, Zeroizing::new([0x77; 32])).unwrap();
+        let server = std::thread::spawn(move || {
+            for _ in 0..4 {
+                let (stream, _) = listener.accept().unwrap();
+                serve_connection(stream, &mut database).unwrap();
+            }
+        });
+
+        let signing_key = SigningKey::from_bytes(&[0x33; 32]);
+        let invocation_id = [0x44; 16];
+        let request_digest = [0x55; 32];
+        let signature = signing_key
+            .sign(&SignedInvocationId::signing_message(
+                &invocation_id,
+                &request_digest,
+            ))
+            .to_bytes();
+        let token = SignedInvocationId::new(
+            signing_key.verifying_key().to_bytes(),
+            invocation_id,
+            request_digest,
+            signature,
+        );
+        let client = UnixAnchorClient::invocation(&socket_path, "state-a").unwrap();
+        assert!(client.load(&token).unwrap().is_none());
+        let invalid = SignedInvocationId::new(
+            *token.public_key(),
+            *token.invocation_id(),
+            *token.request_digest(),
+            [0; 64],
+        );
+        assert!(matches!(
+            client.load(&invalid),
+            Err(Error::InvalidInvocationSignature)
+        ));
+
+        let response = b"exact response bytes";
+        let committed = client
+            .commit(
+                &token,
+                None,
+                CheckpointAnchorRecord::new("snapshot-a", &handle()).unwrap(),
+                response,
+            )
+            .unwrap();
+        assert_eq!(committed.snapshot_id(), "snapshot-a");
+        assert_eq!(committed.generation(), 1);
+        assert_eq!(committed.response(), response);
+        let replayed = client.load(&token).unwrap().unwrap();
+        assert_eq!(replayed.snapshot_id(), committed.snapshot_id());
+        assert_eq!(replayed.generation(), committed.generation());
+        assert_eq!(replayed.response(), committed.response());
 
         server.join().unwrap();
         std::fs::remove_dir_all(root).unwrap();

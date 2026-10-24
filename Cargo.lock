@@ -783,6 +783,7 @@ dependencies = [
  "chacha20poly1305",
  "ed25519-dalek",
  "hkdf",
+ "hmac",
  "libc",
  "oblivion-registry",
  "oblivion-store",
