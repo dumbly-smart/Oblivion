@@ -32,6 +32,15 @@ study retained the same address schedules, passed both controls, and measured
 ORAM AUC 0.497 [0.490, 0.505]. All 1,440 trace hashes were verified; see
 [`ORAM_READ_HEAVY.md`](ORAM_READ_HEAVY.md).
 
+The checkpoint recovery API now includes a caller-supplied `CheckpointAnchor`
+CAS path. It rejects a controller whose generation is stale before publishing,
+and its recovery tests cover successful advancement, stale writers, and a
+definite non-commit retry. Fresh package verification passed formatting,
+`cargo test -p oblivion-store -- --test-threads=1` (20 passed, one million-op
+stress test intentionally ignored), and warning-free Clippy. The anchor service,
+snapshot catalog, durable invocation acknowledgment/side-effect transaction,
+and ambiguous remote-CAS recovery remain unimplemented.
+
 Updated 2026-10-24. The selected pipeline and later bounded research artifacts now have evidence in [the requirements matrix](REQUIREMENTS_MATRIX.md) and [completion audit](COMPLETION_AUDIT.md). The selected artifacts and earlier passing gates are recorded. PR #1 is the review artifact while latest validation closure is held; no production-security or merge claim follows. TrustedExecutor is simulated by ordinary processes, without a hardware TEE or attestation.
 
 ## Implemented system

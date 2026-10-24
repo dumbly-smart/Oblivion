@@ -12,7 +12,7 @@ mod oram;
 pub use backend::{Backend, MemoryBackend, StorageDirection, StorageEvent};
 pub use config::Config;
 pub use file_backend::FileBackend;
-pub use oram::{MAX_SNAPSHOT_BYTES, PathOram, PrivateStats, TrustedCheckpoint};
+pub use oram::{CheckpointAnchor, MAX_SNAPSHOT_BYTES, PathOram, PrivateStats, TrustedCheckpoint};
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
@@ -34,6 +34,8 @@ pub enum Error {
     Randomness,
     #[error("nonce or version counter exhausted")]
     Exhausted,
+    #[error("trusted checkpoint anchor changed or does not match this controller")]
+    AnchorConflict,
     #[error("backend failure: {0}")]
     Backend(String),
 }

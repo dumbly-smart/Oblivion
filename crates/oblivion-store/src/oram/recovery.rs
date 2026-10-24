@@ -65,6 +65,27 @@ impl TrustedCheckpoint {
     }
 }
 
+/// Adapter for independently protected, durable, rollback-resistant storage.
+/// Implementations must keep returned and published handle bytes secret and
+/// make `compare_and_swap` atomic and durable. `Err` must mean the replacement
+/// definitely did not commit; after an ambiguous remote failure, reload the
+/// anchor and reconcile before continuing. A local file beside the snapshot is
+/// not a trusted anchor.
+pub trait CheckpointAnchor {
+    /// Return the current secret handle, if initialized. The returned bytes
+    /// contain the checkpoint decryption key and must be zeroized on drop.
+    fn load(&mut self) -> Result<Option<Zeroizing<Vec<u8>>>, Error>;
+
+    /// Atomically replace the handle only when its current generation equals
+    /// `expected_generation`. Implementations should reject nonconsecutive new
+    /// generations and bind this slot to one store identity.
+    fn compare_and_swap(
+        &mut self,
+        expected_generation: Option<u64>,
+        next_handle: &[u8],
+    ) -> Result<(), Error>;
+}
+
 impl<B: Backend> PathOram<B> {
     /// Full-tree checkpoint, separate from invocation paths. A fresh one-use
     /// snapshot key is generated internally on each attempt, including retries.
@@ -110,6 +131,38 @@ impl<B: Backend> PathOram<B> {
             key,
             snapshot_bytes: total,
         })
+    }
+
+    /// Publish a checkpoint through an external trusted freshness anchor.
+    /// `path` must be a new, immutable snapshot path for each generation. A
+    /// failed compare-and-swap can leave an unanchored snapshot at that path;
+    /// it is safe to discard. The adapter must provide an atomic durable CAS.
+    /// This method does not make an untrusted filesystem rollback resistant.
+    pub fn checkpoint_anchored<A: CheckpointAnchor>(
+        &mut self,
+        path: impl AsRef<Path>,
+        anchor: &mut A,
+    ) -> Result<TrustedCheckpoint, Error> {
+        let current = anchor
+            .load()?
+            .map(|bytes| TrustedCheckpoint::from_secret_bytes(&bytes))
+            .transpose()?;
+        let expected = current.as_ref().map(TrustedCheckpoint::generation);
+        let local_generation =
+            (self.checkpoint_generation != 0).then_some(self.checkpoint_generation);
+        if expected != local_generation {
+            return Err(Error::AnchorConflict);
+        }
+
+        let checkpoint = self.checkpoint(path)?;
+        let handle = checkpoint.to_secret_bytes();
+        if let Err(error) = anchor.compare_and_swap(expected, handle.as_ref()) {
+            // The anchor contract guarantees a definite non-commit on Err, so
+            // retain the previous local generation and permit a safe retry.
+            self.checkpoint_generation = expected.unwrap_or(0);
+            return Err(error);
+        }
+        Ok(checkpoint)
     }
 
     fn encode_checkpoint(&mut self) -> Result<Zeroizing<Vec<u8>>, Error> {

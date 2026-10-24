@@ -16,6 +16,16 @@ handle from independently protected trusted storage.
   placement/uniqueness and controller bounds, encrypts the complete image, and
   atomically publishes it. It returns `TrustedCheckpoint` after the snapshot
   file and its containing directory have both been synchronized.
+- `PathOram::checkpoint_anchored(path, anchor)` reads the current secret anchor,
+  rejects a handle whose generation differs from this controller, publishes a
+  checkpoint, then asks the adapter to atomically compare-and-swap to the new
+  handle. Use a new immutable snapshot path for each generation. A failed
+  definite CAS leaves an unanchored snapshot that can be discarded; the live
+  controller generation remains retryable. The `CheckpointAnchor` trait is an
+  integration contract, not an anchor implementation. Its backend must provide
+  durable rollback-resistant secret storage, per-store identity binding, and
+  unambiguous atomic CAS results. If a remote operation has an ambiguous result,
+  reload and reconcile the anchor before any retry or acknowledgment.
 - `PathOram::restore(path, &trusted_checkpoint, backend)` requires an external
   trusted handle, checks exact length/digest/version/generation, authenticates
   the snapshot, validates its geometry and controller state, authenticates all
@@ -71,7 +81,7 @@ rename and file/directory synchronization is required. This is a local file
 protocol, not a transaction across an external trusted anchor service.
 
 An application that needs to acknowledge durable operations must implement this
-ordering:
+ordering (the anchored helper covers only snapshot/handle publication):
 
 1. Finish the writes and checkpoint into a **new, unique snapshot path**. Retain
    the prior snapshot and its trusted handle until the transition commits.
@@ -85,7 +95,9 @@ A crash before step 2 leaves the previous trusted checkpoint authoritative;
 unacknowledged writes can be lost. A crash after step 2 recovers the new image.
 An uncertain anchor publication requires querying that trusted service before
 further acknowledgement or recovery. The library intentionally supplies no
-acknowledge-after-checkpoint wrapper or fake local monotonic counter.
+anchor service or acknowledge-after-checkpoint wrapper. A local counter or file
+next to the snapshots remains rollbackable and cannot serve as the external
+trust anchor.
 
 If rename succeeds but directory synchronization fails, checkpoint returns an
 error and no new handle. The target image may have changed despite that error.
