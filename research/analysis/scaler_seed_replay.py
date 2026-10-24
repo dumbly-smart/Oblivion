@@ -13,9 +13,10 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 from research.attacks.scaler_seed_replay import public_policy_seed, seed_replay_features
+from research.attacks.scaler_interval import interval_features
 from research.simulation.run import score
 from research.simulation.scaler import (Config, POLICIES, ProfileAttack, features,
-    session_features, trial_interval)
+    dp_laplace_parameters, session_features, trial_interval)
 
 
 def read_jsonl(path):
@@ -55,12 +56,22 @@ def plot_summary(output, summary):
     plt.close(fig)
 
 
-def classifier_score(profile, target, task, cfg, replay_seed, model='centroid', random_state=1907):
-    if replay_seed:
+def classifier_score(profile, target, task, cfg, replay_seed, model='centroid',
+                     random_state=1907, feature_mode='public'):
+    if feature_mode == 'policy_interval':
+        def feature(session):
+            policy = session['policy']
+            cap = (dp_laplace_parameters(cfg)['geometric_cap']
+                   if policy == 'dp_laplace' else 0)
+            intervals = interval_features(session['observer'], cfg, policy, cap)
+            return np.hstack([session_features(session['observer']), intervals])
+    elif feature_mode == 'public' and replay_seed:
         feature = lambda session: seed_replay_features(
             session['observer'], cfg, session['policy_seed'])
-    else:
+    elif feature_mode == 'public':
         feature = lambda session: session_features(session['observer'])
+    else:
+        raise ValueError('unknown scaler attack feature mode')
     x = np.vstack([feature(session) for session in profile])
     y = np.concatenate([np.asarray([label[task] for label in session['labels']])
                         for session in profile])
@@ -82,7 +93,7 @@ def classifier_score(profile, target, task, cfg, replay_seed, model='centroid', 
     return score(np.concatenate(predictions), np.concatenate(truths), majority)
 
 
-def evaluate(source, output, models=('centroid', 'forest')):
+def evaluate(source, output, models=('centroid', 'forest'), study_config=None):
     source = Path(source).resolve()
     output = Path(output).resolve()
     if output.exists():
@@ -97,6 +108,36 @@ def evaluate(source, output, models=('centroid', 'forest')):
     replay_applicable = noise_source == 'seeded_experiment'
     cfg = Config(**raw['simulation'])
     cfg.validate()
+    study = None
+    study_config_hash = None
+    positive_control_min = 0.6
+    include_policy_interval = False
+    if study_config is not None:
+        study_config = Path(study_config).resolve()
+        study = json.loads(study_config.read_text())
+        required = {
+            'version', 'study_id', 'dp_noise_source', 'trials', 'sessions',
+            'profile_sessions', 'target_sessions', 'models', 'feature_modes',
+            'primary_metric', 'positive_control_min',
+        }
+        if not isinstance(study, dict) or set(study) != required:
+            raise ValueError('invalid predeclared scaler attack configuration schema')
+        if (study['version'] != 1 or not isinstance(study['study_id'], str)
+                or not study['study_id'] or study['dp_noise_source'] != noise_source
+                or study['trials'] != raw['trials'] or study['sessions'] != raw['sessions']
+                or study['profile_sessions'] + study['target_sessions'] != raw['sessions']
+                or study['profile_sessions'] != raw['sessions'] // 2
+                or study['target_sessions'] != raw['sessions'] - raw['sessions'] // 2
+                or study['models'] != list(models)
+                or not isinstance(study['feature_modes'], list)
+                or study['feature_modes'] != ['public', 'policy_interval']
+                or study['primary_metric'] != 'balanced_accuracy'
+                or not isinstance(study['positive_control_min'], (int, float))
+                or not 0 <= study['positive_control_min'] <= 1):
+            raise ValueError('predeclared scaler attack configuration does not match raw run')
+        study_config_hash = hashlib.sha256(study_config.read_bytes()).hexdigest()
+        positive_control_min = float(study['positive_control_min'])
+        include_policy_interval = 'policy_interval' in study['feature_modes']
     policies = raw.get('policies', ['naive', 'ewma', 'quantized', 'fixed', 'noisy'])
     if 'dp_laplace' not in policies or 'naive' not in policies:
         raise ValueError('seed-replay analysis requires dp_laplace and naive positive control')
@@ -154,8 +195,12 @@ def evaluate(source, output, models=('centroid', 'forest')):
                     truth_key = key[:3]
                     if key not in observers or truth_key not in truths:
                         raise ValueError('incomplete observer/label session set')
-                    sessions.append(dict(observer=observers[key], labels=truths[truth_key],
-                        policy_seed=public_policy_seed(raw['seed'], trial, session, workload_index)))
+                    session_record = dict(observer=observers[key], labels=truths[truth_key],
+                        policy=policy)
+                    if replay_applicable:
+                        session_record['policy_seed'] = public_policy_seed(
+                            raw['seed'], trial, session, workload_index)
+                    sessions.append(session_record)
                 session_sets[policy] = sessions
             split = raw['sessions'] // 2
             for task in task_names(workload):
@@ -165,6 +210,12 @@ def evaluate(source, output, models=('centroid', 'forest')):
                         replay_seed=False, model=model, random_state=raw['seed'] + trial)
                     trial_metrics.append(dict(trial=trial, workload=workload, task=task,
                         policy='naive', attacker=f'{model}_public', **result))
+                    if include_policy_interval:
+                        interval_result = classifier_score(profile, target, task, cfg,
+                            replay_seed=False, model=model, random_state=raw['seed'] + trial,
+                            feature_mode='policy_interval')
+                        trial_metrics.append(dict(trial=trial, workload=workload, task=task,
+                            policy='naive', attacker=f'{model}_interval', **interval_result))
                 profile, target = session_sets['dp_laplace'][:split], session_sets['dp_laplace'][split:]
                 for model in models:
                     for replay in ((False, True) if replay_applicable else (False,)):
@@ -174,14 +225,26 @@ def evaluate(source, output, models=('centroid', 'forest')):
                             replay_seed=replay, model=model, random_state=raw['seed'] + trial)
                         trial_metrics.append(dict(trial=trial, workload=workload, task=task,
                             policy='dp_laplace', attacker=attacker_name, **result))
+                    if include_policy_interval:
+                        interval_result = classifier_score(profile, target, task, cfg,
+                            replay_seed=False, model=model, random_state=raw['seed'] + trial,
+                            feature_mode='policy_interval')
+                        trial_metrics.append(dict(trial=trial, workload=workload, task=task,
+                            policy='dp_laplace', attacker=f'{model}_interval', **interval_result))
 
     summary = []
     for workload in raw['workloads']:
         for task in task_names(workload):
             for policy in ('naive', 'dp_laplace'):
                 modes = ('public', 'seed_replay') if replay_applicable else ('public',)
-                attackers = [f'{model}_public' for model in models] if policy == 'naive' else [
-                    f'{model}_{mode}' for model in models for mode in modes]
+                naive_modes = ('public', 'interval') if include_policy_interval else ('public',)
+                dp_modes = (('public', 'seed_replay') if replay_applicable else ('public',))
+                if include_policy_interval:
+                    dp_modes += ('interval',)
+                attackers = ([f'{model}_{mode}' for model in models
+                              for mode in naive_modes]
+                    if policy == 'naive' else [
+                        f'{model}_{mode}' for model in models for mode in dp_modes])
                 for attacker in attackers:
                     group = [row for row in trial_metrics if
                         (row['workload'], row['task'], row['policy'], row['attacker']) ==
@@ -196,21 +259,53 @@ def evaluate(source, output, models=('centroid', 'forest')):
                     summary.append(point)
 
     positive_controls = [dict(workload=row['workload'], task=row['task'],
-        balanced_accuracy=row['balanced_accuracy'], passed=row['balanced_accuracy'] > .6)
+        balanced_accuracy=row['balanced_accuracy'],
+        passed=row['balanced_accuracy'] > positive_control_min)
         for row in summary if row['policy'] == 'naive']
+    paired_feature_differences = []
+    for workload in raw['workloads'] if include_policy_interval else ():
+        for task in task_names(workload):
+            for policy in ('naive', 'dp_laplace'):
+                for model in models:
+                    public = {
+                        row['trial']: row['balanced_accuracy']
+                        for row in trial_metrics
+                        if (row['workload'], row['task'], row['policy'], row['attacker'])
+                        == (workload, task, policy, f'{model}_public')
+                    }
+                    interval = {
+                        row['trial']: row['balanced_accuracy']
+                        for row in trial_metrics
+                        if (row['workload'], row['task'], row['policy'], row['attacker'])
+                        == (workload, task, policy, f'{model}_interval')
+                    }
+                    if set(public) != set(interval) or not public:
+                        raise ValueError('paired public/interval trial set is incomplete')
+                    differences = [interval[trial] - public[trial]
+                                   for trial in sorted(public)]
+                    paired_feature_differences.append(dict(
+                        workload=workload, task=task, policy=policy, model=model,
+                        independent_trials=len(differences),
+                        balanced_accuracy_difference_mean=float(np.mean(differences)),
+                        balanced_accuracy_difference_ci95=trial_interval(
+                            [[value] for value in differences]),
+                    ))
     source_files = ['research/attacks/scaler_seed_replay.py',
+                    'research/attacks/scaler_interval.py',
                     'research/analysis/scaler_seed_replay.py',
                     'research/simulation/scaler.py',
                     'research/simulation/run.py']
     if input_hashes != {name: hashlib.sha256((source / name).read_bytes()).hexdigest()
                         for name in input_files}:
         raise ValueError('input artifacts changed during attack evaluation')
-    methodology = ('Whole-session known-policy attacks. First half sessions profile; second half are held out. Selected models use per-epoch public features. The seed-replay variants additionally regenerate each public deterministic discrete-geometric stream and invert public scale-up transitions; capacity quantization and maximum clipping produce censored estimates. The target seed is computed only from public config, public session identifiers, and public seed derivation. Labels are used for profile training and target scoring only.'
+    interval_method = (' Policy-interval variants additionally derive conservative hidden-arrival intervals from public capacity transitions, public policy parameters and the sampler noise support; they do not replay or infer the noise draw.'
+        if include_policy_interval else '')
+    methodology = ('Whole-session known-policy attacks. First half sessions profile; second half are held out. Public variants use public per-epoch features.' + interval_method + ' Seed-replay variants regenerate the public deterministic discrete-geometric stream from the public seed derivation and invert public scale-up transitions, with capacity quantization and maximum clipping producing censored estimates. Labels are used for profile training and target scoring only.'
         if replay_applicable else
-        'Whole-session known-policy attacks. First half sessions profile; second half are held out. Selected models use per-epoch public features. For os_csprng, known-seed replay was skipped because the public experiment seed does not determine the OS-CSPRNG noise stream. Labels are used for profile training and target scoring only.')
+        'Whole-session known-policy attacks. First half sessions profile; second half are held out. Public variants use public per-epoch features.' + interval_method + ' For os_csprng, known-seed replay is skipped because the public experiment seed does not determine the OS-CSPRNG noise stream. Labels are used for profile training and target scoring only.')
     limitations = ('The retained DP-labeled transcript is deterministic because the seed is public, so its randomized-mechanism DP claim does not apply. This attack estimates EWMA signals from quantized capacity transitions and may lose information to clipping; failure to classify does not establish privacy. The naive arm is the leaky positive control. The experiment excludes latency, errors, billing, network and runtime observations.'
         if replay_applicable else
-        'The OS-CSPRNG transcript cannot be replayed from the public seed. Its sampler has a conditional approximate-DP bound under independent uniform bits, but this analysis is not an independent implementation audit. The attack tests only the declared public features; failure to classify does not establish privacy. The naive arm is the leaky positive control. The experiment excludes latency, sampler timing/CPU, errors, billing, network and runtime observations.')
+        'The OS-CSPRNG transcript cannot be replayed from the public seed. ' + ('Interval features are conservative deterministic transforms of public counts, not additional observations or an optimal likelihood attack; capacity censoring can make them uninformative. ' if include_policy_interval else '') + 'Its sampler has a conditional approximate-DP bound under independent uniform bits, but this analysis is not an independent implementation audit. Failure to classify does not establish privacy. The naive arm is the leaky positive control. The experiment excludes latency, sampler timing/CPU, errors, billing, network and runtime observations.')
     report = dict(config=raw, dp_noise_source=noise_source,
         known_seed_replay_applicable=replay_applicable,
         input_sha256=input_hashes, source_sha256={name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
@@ -219,9 +314,16 @@ def evaluate(source, output, models=('centroid', 'forest')):
         git_dirty=bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT, text=True)),
         python=platform.python_version(), platform=platform.platform(), summary=summary,
         trial_metrics=trial_metrics, positive_controls=positive_controls,
-        attack_models=list(models),
+        paired_feature_differences=paired_feature_differences,
+        attack_models=list(models), attack_feature_modes=['public']
+            + (['policy_interval'] if include_policy_interval else [])
+            + (['seed_replay'] if replay_applicable else []),
+        study_configuration=study, study_config_sha256=study_config_hash,
+        positive_control_min=positive_control_min,
         methodology=methodology, limitations=limitations)
     output.mkdir(parents=True)
+    if study is not None:
+        (output / 'study-config.json').write_text(json.dumps(study, indent=2) + '\n')
     (output / 'report.json').write_text(json.dumps(report, indent=2) + '\n')
     plot_summary(output, summary)
     manifest = {path.name: hashlib.sha256(path.read_bytes()).hexdigest()
@@ -234,7 +336,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('raw_source', type=Path)
     parser.add_argument('new_output', type=Path)
+    parser.add_argument('--study-config', type=Path)
     args = parser.parse_args()
-    result = evaluate(args.raw_source, args.new_output)
+    result = evaluate(args.raw_source, args.new_output, study_config=args.study_config)
     print(json.dumps({'summaries': len(result['summary']),
         'positive_controls': result['positive_controls']}, indent=2))

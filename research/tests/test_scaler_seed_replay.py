@@ -144,14 +144,35 @@ class SeedReplayTests(unittest.TestCase):
                 dp_noise_source='os_csprng', simulation=dict(duration=4, dp_epsilon=2))))
             raw = root / 'raw'
             run(config, raw)
-            report = evaluate(raw, root / 'analysis', models=('forest',))
+            study_config = root / 'study.json'
+            study = dict(version=1, study_id='test-csprng-interval',
+                dp_noise_source='os_csprng', trials=2, sessions=8,
+                profile_sessions=4, target_sessions=4, models=['forest'],
+                feature_modes=['public', 'policy_interval'],
+                primary_metric='balanced_accuracy', positive_control_min=0.6)
+            study_config.write_text(json.dumps(study))
+            report = evaluate(raw, root / 'analysis', models=('forest',),
+                              study_config=study_config)
 
             pairs = {(row['policy'], row['attacker']) for row in report['summary']}
             self.assertEqual(pairs, {
-                ('naive', 'forest_public'), ('dp_laplace', 'forest_public')})
+                ('naive', 'forest_public'), ('naive', 'forest_interval'),
+                ('dp_laplace', 'forest_public'), ('dp_laplace', 'forest_interval')})
             self.assertTrue(all(row['passed'] for row in report['positive_controls']))
-            self.assertIn('known-seed replay was skipped', report['methodology'])
+            self.assertIn('known-seed replay is skipped', report['methodology'])
+            self.assertEqual(report['study_configuration'], study)
+            self.assertTrue(report['study_config_sha256'])
+            paired = next(row for row in report['paired_feature_differences']
+                          if row['policy'] == 'dp_laplace')
+            self.assertEqual(paired['model'], 'forest')
+            self.assertEqual(paired['independent_trials'], 2)
+            self.assertIn('balanced_accuracy_difference_ci95', paired)
             self.assertTrue((root / 'analysis' / 'attack-accuracy.png').is_file())
+            study['dp_noise_source'] = 'seeded_experiment'
+            study_config.write_text(json.dumps(study))
+            with self.assertRaises(ValueError):
+                evaluate(raw, root / 'analysis-mismatch', models=('forest',),
+                         study_config=study_config)
 
 
 if __name__ == '__main__':
