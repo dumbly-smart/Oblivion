@@ -438,13 +438,30 @@ The raw transcript, config, and runner report are at
 The attack report SHA-256 is
 `f030c7f9fb7a9d42de34e7bfb295b9eb1e68e9535e3bfc7b283cb9cd3a9b3fd1`.
 
+## Policy-aware CSPRNG interval attack
+
+A follow-up used public scale transitions and the known bounded-noise support
+to derive conservative intervals for hidden arrival counts, without
+replaying CSPRNG noise. It retained all 30 trials, four whole profile and
+four whole target sessions per trial, and passed all 28 naïve controls. The
+interval features did not reliably improve paired protected balanced
+accuracy over the public-feature classifiers: all 14 paired protected
+95%-trial intervals include zero. Four of 28 individual protected results
+had unadjusted intervals just above chance, including Zipf/burst hot-pool
+predictions; this is exploratory evidence of a possible residual synthetic
+signal, not a general attack or privacy conclusion. See the
+[full method and results](AUTOSCALER_INTERVAL_ATTACK.md) and the
+[retained report](../experiments/results/scaler-dp-policy-interval-csprng-attack-20261024/).
+
 ## Next work
 
 1. Independently review the bounded sampler/calibration and test stronger
-   policy-aware inversion and temporal classifiers against capacity censoring.
+   likelihood-based policy-aware inversion and temporal classifiers against
+   capacity censoring. The interval-bound attack is conservative feature
+   engineering, not a likelihood attack.
 2. Specify user-level adjacency through a bounded per-user contribution and
    account for composition across users, epochs, pools, and deployments.
-3. Test stronger policy-aware inversion and temporal classifiers against the
+3. Test stronger likelihood-based inversion and temporal classifiers against
    capacity censoring, and report their limits with positive controls.
 4. Evaluate whether scheduled scale-down can be added as public post-processing
    without exposing busy state, and measure the resulting cost/SLO trade-off.

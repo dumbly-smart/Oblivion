@@ -279,3 +279,15 @@ total delta. This verifies the finite law for these test cases, not arbitrary
 pool counts, user caps or the end-to-end mechanism. See
 [`SAMPLER_AUDIT.md`](SAMPLER_AUDIT.md). Both focused checks passed; the full
 research suite then passed 172 tests with four existing fixture skips.
+
+A preregistered profile-trained interval attack was then evaluated against
+the retained 30-trial OS-CSPRNG scaler data. It derived conservative arrival
+bounds from public scale transitions and the public finite noise support,
+without replaying the noise. All 28 naive controls passed. Paired protected
+interval-feature differences from public-feature baselines all include zero;
+four individual protected intervals were unadjusted and just above chance for
+hot-pool prediction. This is a possible residual signal in these synthetic
+workloads, not evidence of general attacker advantage. See
+[`AUTOSCALER_INTERVAL_ATTACK.md`](AUTOSCALER_INTERVAL_ATTACK.md). Full-suite
+verification after the final implementation refinement passed: 176 tests,
+with four existing fixture skips.
