@@ -293,11 +293,14 @@ verification after the final implementation refinement passed: 176 tests,
 with four existing fixture skips. After adding the finite PMF helper, the
 full research suite passed 180 tests with four existing fixture skips.
 
-The next attack stage now has an exact finite PMF helper for the difference
-of the two capped geometric draws used by the sampler. Its four focused tests
-cover exhaustive pair enumeration, normalization, symmetry, cap zero, and
-invalid parameters. This is probability-model groundwork only; dynamic
-likelihood inference and its positive-control evaluation are still pending.
+The autoscaler likelihood attack now fits class-conditional per-epoch,
+per-pool Poisson rates from labeled whole profile sessions. It scores a clear
+count positive control with exact Poisson likelihood and scores DP instance
+transcripts using a bootstrap particle filter over the exact finite capped
+noise PMF. The analyzer enforces disjoint profile/target sessions and stops
+before DP scoring if any positive control fails. Eight likelihood/PMF unit
+tests and two end-to-end fixture tests pass. Fresh 30-trial OS-CSPRNG run and
+attack configs are committed; the full dataset evaluation has not yet run.
 
 The isolated ORAM timing replication was independently rechecked: all 1,440
 retained observer/driver files match their hashes, schedules are paired across
