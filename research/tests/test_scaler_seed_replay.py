@@ -53,6 +53,15 @@ class SeedReplayTests(unittest.TestCase):
         expected_upper = max(0.0, active - noise[2])
         self.assertAlmostEqual(recovered[2, 0], expected_upper / 2)
 
+    def test_public_seed_makes_adjacent_inputs_deterministically_distinguishable(self):
+        cfg = Config(duration=2, epoch=1, service=1, initial=0, maximum=100,
+                     functions=1, alpha=1, utilization=1, dp_epsilon=1000)
+        seed = 77
+        empty = simulate(cfg, [], 'dp_laplace', seed)['observer']
+        one_request = simulate(cfg, [Request(.1, 0)], 'dp_laplace', seed)['observer']
+
+        self.assertNotEqual(empty, one_request)
+
     def test_analysis_uses_public_seed_and_keeps_labels_in_evaluation_layer(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
