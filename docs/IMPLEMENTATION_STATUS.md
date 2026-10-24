@@ -298,3 +298,19 @@ of the two capped geometric draws used by the sampler. Its four focused tests
 cover exhaustive pair enumeration, normalization, symmetry, cap zero, and
 invalid parameters. This is probability-model groundwork only; dynamic
 likelihood inference and its positive-control evaluation are still pending.
+
+The isolated ORAM timing replication was independently rechecked: all 1,440
+retained observer/driver files match their hashes, schedules are paired across
+plaintext, encrypt-only, and ORAM modes, deterministic analysis matches the
+saved trial AUCs, and the nine focused replication/timing tests pass. The
+confidence interval still supports only the specified two-address synthetic
+workload and observer boundary.
+
+A preregistered full-path load extension ran 30 fresh processes/profile at
+128 offers/150 ms and 256 offers/25 ms. All 60 launches succeeded, source and
+binary fingerprints stayed stable, trial accounting and 128 storage events
+per completion validated, and archive-based reanalysis reproduced the
+analysis byte for byte. See
+[`RUNTIME_POPULATION_EXTENDED.md`](RUNTIME_POPULATION_EXTENDED.md). The full
+86 MB local result is retained as a 5.8 MB raw-trial archive plus summaries
+and a hash manifest; multi-host capacity and provider cost remain unmeasured.
