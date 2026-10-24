@@ -1,0 +1,17 @@
+{
+  "host_hardware": {
+    "architecture": "x86_64",
+    "cpu_model": "Intel(R) Core(TM) i7-14650HX",
+    "logical_cpus_visible": 24,
+    "captured_from": "lscpu",
+    "captured_after_collection": true
+  },
+  "pre_collection_host_state": {
+    "local_time": "2026-10-25 04:32:29 Asia/Kolkata",
+    "load_average_1m_5m_15m": [2.26, 3.52, 4.33],
+    "unrelated_background_cpu_activity_present": true,
+    "repository_benchmark_or_test_concurrent": false,
+    "cpu_affinity_pinned": false
+  },
+  "interpretation": "The bucket handler was measured in a separate process, but this was not an idle-host or CPU-isolated run. Host scheduling contention may add service-time noise and reduce attack power."
+}

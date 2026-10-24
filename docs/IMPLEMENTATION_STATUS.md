@@ -455,3 +455,16 @@ permissions and regular-file type on the opened descriptor, and reads at most
 symlink-swap window and avoids blocking on a FIFO. Process tests cover symlink,
 permission and 0/31/33-byte files. Anchor package tests, formatting, whitespace
 checks, and warning-denied workspace Clippy pass; CI is pending after push.
+
+## 2026-10-25: preregistered fresh ORAM signal replication
+
+Committed the configuration and preregistration before collection. The new
+eight-address workload uses a 35% hot-address class and 70% reads, paired
+across plaintext, encrypt-only and ORAM controls. The predeclared per-access
+AUC primary metric gave 1.000 for each positive control and 0.5015
+([0.4935, 0.5095]) for ORAM across 30 whole-session trials. Post-run audit
+verified all 1,440 raw-file hashes and all 240 paired schedules. Targeted
+harness tests passed before collection. The separate service process measured
+bucket-handler time, but host load was present and affinity was not pinned;
+the study is limited to this workload and classifier, with no security or
+quiet-host claim. See the preregistration, result report and retained raw data.
