@@ -6,13 +6,32 @@ from pathlib import Path
 
 import numpy as np
 
-from research.analysis.scaler_seed_replay import evaluate
+from research.analysis.scaler_seed_replay import classifier_score, evaluate
 from research.attacks.scaler_seed_replay import recover_noisy_signal
 from research.simulation.run import run
 from research.simulation.scaler import Config, Request, simulate
 
 
 class SeedReplayTests(unittest.TestCase):
+    def test_random_forest_profile_attack_classifies_disjoint_sessions(self):
+        cfg = Config(duration=10, epoch=1, functions=2)
+
+        def session(identifier, label):
+            count = 1 if label == 0 else 12
+            rows = [dict(epoch=epoch, instances=[count, count],
+                scale_up=[count - 1, count - 1], scale_down=[0, 0],
+                cold_starts=[count - 1, count - 1]) for epoch in range(10)]
+            return dict(observer=rows, labels=[{'intensity': label}] * 10,
+                        session_id=identifier)
+
+        profile = [session(i, i // 2) for i in range(4)]
+        target = [session(i, 0 if i < 6 else 1) for i in range(4, 8)]
+
+        result = classifier_score(profile, target, 'intensity', cfg,
+                                  replay_seed=False, model='forest')
+
+        self.assertEqual(result['balanced_accuracy'], 1.0)
+
     def test_public_capacity_changes_reveal_seed_debiased_ewma(self):
         cfg = Config(duration=4, epoch=1, service=1, initial=0, maximum=100,
                      functions=1, alpha=1, utilization=1, dp_epsilon=1000)
@@ -75,11 +94,14 @@ class SeedReplayTests(unittest.TestCase):
 
             pairs = {(row['policy'], row['attacker']) for row in report['summary']}
             self.assertEqual(pairs, {
-                ('naive', 'public_features'),
-                ('dp_laplace', 'public_features'),
-                ('dp_laplace', 'known_seed_replay'),
+                ('naive', 'centroid_public'),
+                ('naive', 'forest_public'),
+                ('dp_laplace', 'centroid_public'),
+                ('dp_laplace', 'centroid_seed_replay'),
+                ('dp_laplace', 'forest_public'),
+                ('dp_laplace', 'forest_seed_replay'),
             })
-            self.assertEqual(len(report['positive_controls']), 1)
+            self.assertEqual(len(report['positive_controls']), 2)
             self.assertIn('seed derivation', report['methodology'])
             self.assertTrue((root / 'analysis' / 'artifact-sha256.json').exists())
 
