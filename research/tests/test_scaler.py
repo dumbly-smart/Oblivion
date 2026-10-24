@@ -3,10 +3,39 @@ import tempfile
 import unittest
 from pathlib import Path
 from research.simulation.scaler import (Config, Request, simulate, workload, load_imported,
-    features, trial_interval, dp_laplace_parameters)
+    features, trial_interval, dp_laplace_parameters, laplace_from_bits)
 
 
 class ScalerTests(unittest.TestCase):
+    def test_laplace_sampler_uses_open_interval_and_symmetric_inverse_cdf(self):
+        low = laplace_from_bits(2.0, lambda bits: 0)
+        high = laplace_from_bits(2.0, lambda bits: (1 << bits) - 1)
+        self.assertLess(low, 0)
+        self.assertGreater(high, 0)
+        self.assertAlmostEqual(low, -high)
+        self.assertAlmostEqual(laplace_from_bits(4.0, lambda bits: 0), 2 * low)
+
+    def test_laplace_sampler_rejects_invalid_scale_and_entropy_words(self):
+        for scale, draw in [(0, lambda bits: 0), (-1, lambda bits: 0),
+                            (float('inf'), lambda bits: 0),
+                            (1, lambda bits: -1), (1, lambda bits: 1 << 52)]:
+            with self.subTest(scale=scale):
+                with self.assertRaises(ValueError):
+                    laplace_from_bits(scale, draw)
+
+    def test_simulator_rejects_unknown_dp_noise_source(self):
+        with self.assertRaises(ValueError):
+            simulate(Config(duration=2), [], 'dp_laplace', 5,
+                     dp_noise_source='public_seed')
+
+    def test_csprng_mode_draws_fresh_noise_at_each_pool_tick(self):
+        from unittest.mock import patch
+        cfg = Config(duration=2, epoch=1, functions=1, dp_epsilon=1)
+        with patch('research.simulation.scaler.secrets.randbits', return_value=0) as entropy:
+            result = simulate(cfg, [], 'dp_laplace', 5, dp_noise_source='os_csprng')
+        self.assertEqual(entropy.call_count, 2)
+        self.assertEqual([row['epoch'] for row in result['observer']], [0, 1])
+
     def test_fifo_service_and_cold_start_latency(self):
         cfg = Config(duration=4, epoch=1, service=0.5, cold_start=1, initial=0, maximum=1, functions=1)
         result = simulate(cfg, [Request(0, 0), Request(.1, 0)], 'naive', 3)
@@ -152,8 +181,8 @@ class ScalerTests(unittest.TestCase):
             self.assertEqual(claim['release_count'], 4)
             self.assertIn('one added or removed Request record', claim['adjacency'])
             self.assertIn('ideal independent Laplace draws', claim['mechanism_design_claim'])
-            self.assertEqual(claim['artifact_guarantee'], 'none: the reproducible experiment uses a deterministic seed that is recorded in public configuration')
-            self.assertIn('publishes the experiment seed', claim['randomness'])
+            self.assertEqual(claim['artifact_guarantee'], 'none: deterministic noise is derived from the public experiment seed')
+            self.assertIn('public experiment seed', claim['randomness'])
             rebuilt_path = Path(directory) / 'rebuilt'
             rebuilt = regenerate(output, rebuilt_path)
             self.assertEqual({row['policy'] for row in rebuilt['summary']}, {'naive', 'dp_laplace'})
@@ -175,6 +204,19 @@ class ScalerTests(unittest.TestCase):
             for name in ['observer.jsonl.gz', 'private.jsonl.gz', 'workloads-private.jsonl.gz']:
                 self.assertEqual((default_output / name).read_bytes(),
                     (repeated_output / name).read_bytes(), name)
+
+            secure_config = Path(directory) / 'secure.json'
+            secure_config.write_text(json.dumps(dict(**base, policies=['naive', 'dp_laplace'],
+                dp_noise_source='os_csprng')))
+            secure_report = run(secure_config, Path(directory) / 'secure-run')
+            secure_claim = secure_report['privacy_claims']['dp_laplace']
+            self.assertFalse(secure_claim['noise_reproducible'])
+            self.assertIn('OS CSPRNG', secure_claim['randomness'])
+            self.assertIn('no proved DP guarantee', secure_claim['randomness'])
+            secure_rebuilt = regenerate(Path(directory) / 'secure-run',
+                                        Path(directory) / 'secure-rebuilt')
+            self.assertEqual(secure_rebuilt['privacy_claims']['dp_laplace'], secure_claim)
+            self.assertIn('finite-precision CSPRNG', secure_rebuilt['limitations'])
 
     def test_trial_interval_preserves_correlated_clusters(self):
         self.assertEqual(trial_interval([[0] * 8, [1] * 8]), [0, 1])

@@ -5,11 +5,13 @@ import csv
 import heapq
 import math
 from pathlib import Path
+import secrets
 import numpy as np
 
 DEFAULT_POLICIES = ('naive', 'ewma', 'quantized', 'fixed', 'noisy')
 POLICIES = DEFAULT_POLICIES + ('dp_laplace',)
 OBSERVABLE = {'epoch', 'instances', 'scale_up', 'scale_down', 'cold_starts'}
+DP_NOISE_SOURCES = ('seeded_experiment', 'os_csprng')
 
 
 @dataclass(frozen=True)
@@ -112,10 +114,12 @@ def workload(cfg, kind, seed, intensity=0, hot=0):
     return requests, labels
 
 
-def simulate(cfg, requests, policy, seed):
+def simulate(cfg, requests, policy, seed, dp_noise_source='seeded_experiment'):
     cfg.validate()
     if policy not in POLICIES:
         raise ValueError('unknown scaling policy')
+    if dp_noise_source not in DP_NOISE_SOURCES:
+        raise ValueError('unknown DP noise source')
     validate_requests(requests, cfg)
     rng = np.random.default_rng(seed)
     queues = [deque() for _ in range(cfg.functions)]
@@ -201,7 +205,11 @@ def simulate(cfg, requests, policy, seed):
                 if policy == 'noisy':
                     measured = max(0., measured + rng.laplace(0, cfg.noise_scale))
                 elif policy == 'dp_laplace':
-                    measured = max(0., measured + rng.laplace(0, dp_laplace_scale(cfg)))
+                    if dp_noise_source == 'os_csprng':
+                        noise = laplace_from_bits(dp_laplace_scale(cfg), secrets.randbits)
+                    else:
+                        noise = rng.laplace(0, dp_laplace_scale(cfg))
+                    measured = max(0., measured + noise)
                 backlog = len(queues[pool])
                 scaler_load = measured if policy == 'dp_laplace' else measured + backlog
                 target = math.ceil(scaler_load * cfg.service / (cfg.epoch * cfg.utilization))
@@ -254,6 +262,25 @@ def dp_laplace_parameters(cfg):
     return dict(releases=releases, epsilon_per_release=epsilon_per_release,
                 l1_sensitivity_bound=1.0,
                 laplace_scale=1.0 / epsilon_per_release)
+
+
+def laplace_from_bits(scale, randbits):
+    """Finite-precision inverse-CDF Laplace draw from a 53-bit word source.
+
+    Pass secrets.randbits for OS-CSPRNG-backed sampling. This finite digital
+    sampler is research tooling and has not been proved to implement exact DP.
+    """
+    # 52 midpoint bits are exactly representable as binary64 and stay strictly
+    # inside (0, 1), including the two extreme words.
+    bits = 52
+    if not isinstance(scale, (int, float)) or not math.isfinite(scale) or scale <= 0:
+        raise ValueError('Laplace scale must be finite and positive')
+    word = randbits(bits)
+    if type(word) is not int or not 0 <= word < (1 << bits):
+        raise ValueError('entropy source returned an invalid word')
+    centered = (word + 0.5) / (1 << bits) - 0.5
+    sign = 1.0 if centered > 0 else -1.0
+    return -float(scale) * sign * math.log1p(-2.0 * abs(centered))
 
 
 def dp_laplace_scale(cfg):

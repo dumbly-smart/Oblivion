@@ -50,13 +50,15 @@ def nondominated(points, fields):
                     for j, other in enumerate(points) if i != j) for i, point in enumerate(points)]
 
 
-def privacy_claims(cfg, policies):
+def privacy_claims(cfg, policies, dp_noise_source='seeded_experiment'):
     if 'dp_laplace' not in policies:
         return {}
     parameters = dp_laplace_parameters(cfg)
     return {'dp_laplace': dict(
         mechanism_design_claim='Under ideal independent Laplace draws hidden from the observer, the declared scaler observer is pure epsilon-DP under add/remove-one-request adjacency.',
-        artifact_guarantee='none: the reproducible experiment uses a deterministic seed that is recorded in public configuration',
+        artifact_guarantee=('none: deterministic noise is derived from the public experiment seed'
+            if dp_noise_source == 'seeded_experiment' else
+            'none claimed: finite-precision floating-point sampling has not been proved to satisfy DP'),
         epsilon=cfg.dp_epsilon, delta=0.0, adjacency='workload request lists differ by exactly one added or removed Request record over the whole fixed horizon; not user-level adjacency',
         release_count=parameters['releases'],
         per_release_epsilon=parameters['epsilon_per_release'],
@@ -65,7 +67,11 @@ def privacy_claims(cfg, policies):
         composition='basic pure-DP sequential composition over the fixed public release count; one request changes one pool EWMA by at most 1 at any tick',
         postprocessing_boundary='only epoch, instance counts, scale events and cold-start counts; no true queue term in the scaling target and no downscale/retirement, so worker busy state cannot alter observed pool counts or launches',
         exclusions=['one user contributing multiple requests', 'replace/move adjacency', 'response latency/errors and workload-private performance outputs', 'external billing or other runtime transcript'],
-        randomness='the theorem is conditional on ideal independent hidden draws; this simulator uses deterministic NumPy PRNG output and publishes the experiment seed, so the saved transcript has no formal DP guarantee; this is not a production randomness implementation')}
+        randomness=(
+            'seeded_experiment: deterministic NumPy PRNG output is derived from the public experiment seed; saved transcript has no formal DP guarantee'
+            if dp_noise_source == 'seeded_experiment' else
+            'os_csprng: each noise sample draws 52 bits from Python secrets/OS CSPRNG; finite-precision floating-point implementation is research-only and has no proved DP guarantee'),
+        noise_reproducible=dp_noise_source == 'seeded_experiment')}
 
 
 def plot(output):
@@ -105,7 +111,7 @@ def plot(output):
 
 def run(config_path, output):
     raw = json.loads(config_path.read_text())
-    if set(raw) - {'version', 'seed', 'trials', 'sessions', 'workloads', 'simulation', 'imports', 'policies'}:
+    if set(raw) - {'version', 'seed', 'trials', 'sessions', 'workloads', 'simulation', 'imports', 'policies', 'dp_noise_source'}:
         raise ValueError('unknown experiment parameter')
     if raw['version'] != 1 or not 2 <= raw['trials'] <= 100 or raw['sessions'] < 8 or raw['sessions'] > 64 or raw['sessions'] % 8:
         raise ValueError('version1; 2..100 trials; sessions multiple of8 in8..64')
@@ -117,6 +123,9 @@ def run(config_path, output):
             or len(set(policies)) != len(policies)
             or set(policies) - set(POLICIES) or 'naive' not in policies):
         raise ValueError('policies must be unique known names and include the naive positive control')
+    dp_noise_source = raw.get('dp_noise_source', 'seeded_experiment')
+    if dp_noise_source not in ('seeded_experiment', 'os_csprng'):
+        raise ValueError('dp_noise_source must be seeded_experiment or os_csprng')
     cfg = Config(**raw['simulation']); cfg.validate()
     if cfg.functions != 2:
         raise ValueError('binary hot-class experiment requires two function pools')
@@ -154,7 +163,8 @@ def run(config_path, output):
                     context = dict(trial=trial, session=session, workload=kind)
                     write_row(truth, dict(**context, seed=int(seed), labels=labels, requests=[asdict(r) for r in requests]))
                     for policy in policies:
-                        result = simulate(cfg, requests, policy, int(seed) + 991)
+                        result = simulate(cfg, requests, policy, int(seed) + 991,
+                                          dp_noise_source=dp_noise_source)
                         write_row(obs, dict(**context, policy=policy, rows=result['observer']))
                         write_row(private, dict(**context, policy=policy, metrics=result['metrics'], requests=result['requests']))
                         sessions[policy].append(dict(observer=result['observer'], labels=labels, metrics=result['metrics']))
@@ -170,7 +180,8 @@ def run(config_path, output):
                         trial_results.append(dict(trial=trial, workload=kind, policy=policy, task=task, **metrics))
             for spec, requests, digest in imported:
                 for policy in policies:
-                    result = simulate(cfg, requests, policy, raw['seed'] + trial)
+                    result = simulate(cfg, requests, policy, raw['seed'] + trial,
+                                      dp_noise_source=dp_noise_source)
                     context = dict(trial=trial, workload=spec['path'], policy=policy)
                     write_row(obs, dict(**context, rows=result['observer']))
                     write_row(private, dict(**context, metrics=result['metrics'], requests=result['requests']))
@@ -211,7 +222,7 @@ def run(config_path, output):
         git_head=subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
         git_dirty=bool(subprocess.check_output(['git', 'status', '--porcelain'], text=True)),
         workload_source='seeded synthetic Poisson arrivals; not calibrated to production traces')
-    claims = privacy_claims(cfg, policies)
+    claims = privacy_claims(cfg, policies, dp_noise_source)
     report = dict(config=raw, provenance=provenance, summary=summary, trial_metrics=trial_results,
         imported_runs=imports, positive_controls=positive, privacy_claims=claims,
         methodology='Known-policy diagonal nearest-centroid profiler on current, previous and cumulative observer counts/events only. First half independent sessions profile; second half test. Session classes balanced across each half; trial-pooled balanced recall. Equal-weight independent trial bootstrap with5000 resamples. Public function pool identities are visible. Demand task is binary latent session demand regime, not exact arrival recovery. Uniform workload has no hot-function task.',

@@ -251,11 +251,29 @@ manifest are retained in
 The report SHA-256 is
 `dcaa4818ef0e0859f2812ea6051ba9b99c277eeddc3c515e9f6504cf0a823260`.
 
+## OS-CSPRNG sampling path
+
+The runner accepts top-level `"dp_noise_source": "os_csprng"`. In that mode,
+each `dp_laplace` pool/tick samples a 52-bit word through Python's
+`secrets.randbits` and applies an open-interval inverse-CDF transform. The
+default `seeded_experiment` mode remains unchanged and reproducible; it exists
+for experiments, not as a private release. The report marks CSPRNG runs as
+non-reproducible from the public seed and distinguishes their randomness
+source. Raw reanalysis preserves this distinction.
+
+This is a research sampler, not a DP implementation: finite word support,
+binary64 rounding and the transformation have not been analyzed as a discrete
+mechanism, so the report makes no formal guarantee even when the OS CSPRNG is
+used. The retained event/epsilon studies still use seeded randomness and do
+not evaluate this new path; their classifier results must not be attributed
+to it. A formally analyzed discrete mechanism and a fresh positive-control
+attack study remain open.
+
 ## Next work
 
-1. Implement a production-like sampler backed by cryptographically secure,
-   non-public randomness, while keeping deterministic randomness isolated to
-   experiments and tests.
+1. Review/audit the separate OS-CSPRNG path, replace its finite-precision
+   transform with a formally analyzed discrete mechanism, and evaluate it
+   using independent sessions and successful positive controls.
 2. Specify user-level adjacency through a bounded per-user contribution and
    account for composition across users, epochs, pools, and deployments.
 3. Test stronger policy-aware inversion and temporal classifiers against the
