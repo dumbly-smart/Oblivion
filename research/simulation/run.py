@@ -55,22 +55,29 @@ def privacy_claims(cfg, policies, dp_noise_source='seeded_experiment'):
         return {}
     parameters = dp_laplace_parameters(cfg)
     return {'dp_laplace': dict(
-        mechanism_design_claim='Under ideal independent Laplace draws hidden from the observer, the declared scaler observer is pure epsilon-DP under add/remove-one-request adjacency.',
+        mechanism_design_claim=('For add/remove-one-request adjacency over this fixed horizon, the bounded discrete sampler has a conditional (epsilon, delta) guarantee '
+            'for the declared count/event transcript under independent uniform random bits; it is not a code audit or an end-to-end runtime guarantee.'),
         artifact_guarantee=('none: deterministic noise is derived from the public experiment seed'
             if dp_noise_source == 'seeded_experiment' else
-            'none claimed: finite-precision floating-point sampling has not been proved to satisfy DP'),
-        epsilon=cfg.dp_epsilon, delta=0.0, adjacency='workload request lists differ by exactly one added or removed Request record over the whole fixed horizon; not user-level adjacency',
+            'conditional on OS-CSPRNG output modeling independent uniform bits and the documented sampler/calibration; no independent implementation audit'),
+        epsilon=cfg.dp_epsilon, delta=parameters['composed_delta_bound'],
+        configured_delta=cfg.dp_delta,
+        adjacency='workload request lists differ by exactly one added or removed Request record over the whole fixed horizon; not user-level adjacency',
         release_count=parameters['releases'],
         per_release_epsilon=parameters['epsilon_per_release'],
+        effective_per_release_epsilon=parameters['epsilon_effective_per_release'],
         per_release_l1_sensitivity_bound=parameters['l1_sensitivity_bound'],
-        independent_laplace_scale_per_pool_per_tick=parameters['laplace_scale'],
-        composition='basic pure-DP sequential composition over the fixed public release count; one request changes one pool EWMA by at most 1 at any tick',
-        postprocessing_boundary='only epoch, instance counts, scale events and cold-start counts; no true queue term in the scaling target and no downscale/retirement, so worker busy state cannot alter observed pool counts or launches',
-        exclusions=['one user contributing multiple requests', 'replace/move adjacency', 'response latency/errors and workload-private performance outputs', 'external billing or other runtime transcript'],
+        geometric_parameter_numerator=parameters['geometric_numerator'],
+        geometric_parameter_denominator=parameters['geometric_denominator'],
+        geometric_cap=parameters['geometric_cap'],
+        per_release_delta_bound=parameters['per_release_delta_bound'],
+        composition='basic approximate-DP sequential composition over the fixed public release count; each per-tick integer arrival vector has L1 sensitivity at most 1',
+        postprocessing_boundary='discrete noise is added to per-tick integer arrival counts; nonnegative clipping, EWMA smoothing, scaling targets, epoch, instance counts, scale events and cold-start counts are post-processing; no true queue term and no downscale/retirement, so worker busy state cannot alter observed pool counts or launches',
+        exclusions=['one user contributing multiple requests', 'same person/data spanning multiple sessions or deployments', 'replace/move adjacency', 'response latency/errors, sampler execution timing/CPU, and workload-private performance outputs', 'external billing or other runtime transcript'],
         randomness=(
-            'seeded_experiment: deterministic NumPy PRNG output is derived from the public experiment seed; saved transcript has no formal DP guarantee'
+            'seeded_experiment: deterministic Python PRNG output is derived from the public experiment seed; saved transcript has no DP guarantee'
             if dp_noise_source == 'seeded_experiment' else
-            'os_csprng: each noise sample draws 52 bits from Python secrets/OS CSPRNG; finite-precision floating-point implementation is research-only and has no proved DP guarantee'),
+            'os_csprng: each noise sample draws fixed-size random bits from Python secrets/OS CSPRNG; the finite-rational capped-geometric sampler has a stated approximate-DP bound under the documented assumptions'),
         noise_reproducible=dp_noise_source == 'seeded_experiment')}
 
 
@@ -226,7 +233,7 @@ def run(config_path, output):
     report = dict(config=raw, provenance=provenance, summary=summary, trial_metrics=trial_results,
         imported_runs=imports, positive_controls=positive, privacy_claims=claims,
         methodology='Known-policy diagonal nearest-centroid profiler on current, previous and cumulative observer counts/events only. First half independent sessions profile; second half test. Session classes balanced across each half; trial-pooled balanced recall. Equal-weight independent trial bootstrap with5000 resamples. Public function pool identities are visible. Demand task is binary latent session demand regime, not exact arrival recovery. Uniform workload has no hot-function task.',
-        limitations='Function-affine fixed-service single-request workers; no runtime/ORAM/network integration. Simulated seconds, not measured service latency. Horizon-censored requests count as SLO violations; p95/p99 concern completed requests only. Price is a hypothetical configurable input. The legacy noisy policy has no adjacency/sensitivity/composition guarantee. The optional dp_laplace policy has only a conditional mechanism-design claim for an event-level fixed-horizon observer under ideal independent hidden randomness; the recorded deterministic-seed experiment itself has no formal DP guarantee. No user-level or full-runtime guarantee, security proof, or universal attack bound. Public count/event observer excludes queue, true arrivals, response latency, billing, active scheduling and joint transcripts. Imported repeated traces support performance only. Pareto membership uses point estimates, not significance tests. No policy dominance required or forced.')
+        limitations='Function-affine fixed-service single-request workers; no runtime/ORAM/network integration. Simulated seconds, not measured service latency. Horizon-censored requests count as SLO violations; p95/p99 concern completed requests only. Price is a hypothetical configurable input. The legacy noisy policy has no adjacency/sensitivity/composition guarantee. The optional dp_laplace sampler has a conditional event-level approximate-DP bound only for its declared fixed-horizon count/event observer with independent hidden uniform random bits; the recorded deterministic-seed experiment itself has no DP guarantee. This is not a formal code audit. No user-level or full-runtime guarantee, or universal attack bound. Public count/event observer excludes queue, true arrivals, response latency, sampler execution timing/CPU, billing, active scheduling and joint transcripts. Imported repeated traces support performance only. Pareto membership uses point estimates, not significance tests. No policy dominance required or forced.')
     (output / 'report.json').write_text(json.dumps(report, indent=2) + '\n')
     plot(output)
     manifest = {path.name: hashlib.sha256(path.read_bytes()).hexdigest()

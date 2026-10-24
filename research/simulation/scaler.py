@@ -2,9 +2,11 @@
 from collections import deque
 from dataclasses import asdict, dataclass
 import csv
+from decimal import Decimal, ROUND_CEILING, localcontext
 import heapq
 import math
 from pathlib import Path
+import random
 import secrets
 import numpy as np
 
@@ -31,6 +33,7 @@ class Config:
     hysteresis: int = 3
     noise_scale: float = 2
     dp_epsilon: float = 1.0
+    dp_delta: float = 1e-6
     low_rate: float = 2
     high_rate: float = 12
     price_per_instance_second: float = .00001  # explicit hypothetical input
@@ -52,6 +55,8 @@ class Config:
             raise ValueError('invalid signal/cost parameters')
         if self.dp_epsilon <= 0:
             raise ValueError('dp_epsilon must be positive')
+        if not 0 < self.dp_delta < 1:
+            raise ValueError('dp_delta must be strictly between zero and one')
         if self.high_rate * self.duration > 1e6:
             raise ValueError('workload exceeds prototype allocation cap')
 
@@ -122,6 +127,8 @@ def simulate(cfg, requests, policy, seed, dp_noise_source='seeded_experiment'):
         raise ValueError('unknown DP noise source')
     validate_requests(requests, cfg)
     rng = np.random.default_rng(seed)
+    replayable_noise_rng = random.Random(seed)
+    dp_noise_parameters = dp_laplace_parameters(cfg) if policy == 'dp_laplace' else None
     queues = [deque() for _ in range(cfg.functions)]
     workers, events, records, observer = {}, [], [], []
     arrivals = np.zeros(cfg.functions, dtype=int)
@@ -200,16 +207,22 @@ def simulate(cfg, requests, policy, seed, dp_noise_source='seeded_experiment'):
                 group = [(wid, w) for wid, w in workers.items() if w['pool'] == pool]
                 active = sum(not w['retiring'] for _, w in group)
                 raw = float(arrivals[pool])
-                signal[pool] = cfg.alpha * raw + (1 - cfg.alpha) * signal[pool]
-                measured = raw if policy == 'naive' else signal[pool]
+                if policy == 'dp_laplace':
+                    # Noise the integer per-epoch count query first; smoothing
+                    # afterward is post-processing of the released count stream.
+                    noise = discrete_laplace_from_bits(
+                        dp_noise_parameters,
+                        secrets.randbits if dp_noise_source == 'os_csprng'
+                        else replayable_noise_rng.getrandbits)
+                    noisy_count = max(0.0, raw + noise)
+                    signal[pool] = (cfg.alpha * noisy_count
+                                    + (1 - cfg.alpha) * signal[pool])
+                    measured = signal[pool]
+                else:
+                    signal[pool] = cfg.alpha * raw + (1 - cfg.alpha) * signal[pool]
+                    measured = raw if policy == 'naive' else signal[pool]
                 if policy == 'noisy':
                     measured = max(0., measured + rng.laplace(0, cfg.noise_scale))
-                elif policy == 'dp_laplace':
-                    if dp_noise_source == 'os_csprng':
-                        noise = laplace_from_bits(dp_laplace_scale(cfg), secrets.randbits)
-                    else:
-                        noise = rng.laplace(0, dp_laplace_scale(cfg))
-                    measured = max(0., measured + noise)
                 backlog = len(queues[pool])
                 scaler_load = measured if policy == 'dp_laplace' else measured + backlog
                 target = math.ceil(scaler_load * cfg.service / (cfg.epoch * cfg.utilization))
@@ -256,35 +269,76 @@ def simulate(cfg, requests, policy, seed, dp_noise_source='seeded_experiment'):
 
 
 def dp_laplace_parameters(cfg):
-    """Conservative per-tick composition parameters for the finite-horizon policy."""
+    """Conservative finite-randomness parameters for the finite-horizon policy."""
     releases = math.ceil(cfg.duration / cfg.epoch)
-    epsilon_per_release = cfg.dp_epsilon / releases
-    return dict(releases=releases, epsilon_per_release=epsilon_per_release,
-                l1_sensitivity_bound=1.0,
-                laplace_scale=1.0 / epsilon_per_release)
+    with localcontext() as context:
+        context.prec = 100
+        epsilon = Decimal(str(cfg.dp_epsilon)) / Decimal(releases)
+        delta = Decimal(str(cfg.dp_delta)) / Decimal(releases)
+        denominator = 1 << 64
+        # Decimal.exp is correctly rounded. The small positive margin makes
+        # integer ceiling conservative despite its finite decimal precision.
+        q_upper = (-epsilon).exp() + Decimal('1e-90')
+        numerator = int((q_upper * denominator).to_integral_value(rounding=ROUND_CEILING))
+        if not 0 < numerator < denominator:
+            raise ValueError('dp_epsilon per release is below sampler resolution')
+        q = Decimal(numerator) / Decimal(denominator)
+        epsilon_effective = -q.ln()
+        tail_bound = Decimal(2) * (Decimal(1) + epsilon_effective.exp()) * q
+        cap = 0
+        while tail_bound > delta:
+            cap += 1
+            if cap > 100000:
+                raise ValueError('dp_delta requires an impractical geometric sampler cap')
+            tail_bound *= q
+        composed_delta = Decimal(releases) * tail_bound
+        return dict(
+            releases=releases,
+            epsilon_per_release=float(epsilon),
+            epsilon_effective_per_release=float(epsilon_effective),
+            l1_sensitivity_bound=1.0,
+            geometric_numerator=numerator,
+            geometric_denominator=denominator,
+            geometric_cap=cap,
+            coin_bits=64,
+            per_release_delta_bound=float(tail_bound),
+            composed_delta_bound=float(composed_delta),
+            dp_epsilon=float(cfg.dp_epsilon),
+            dp_delta=float(composed_delta))
 
 
-def laplace_from_bits(scale, randbits):
-    """Finite-precision inverse-CDF Laplace draw from a 53-bit word source.
+def discrete_laplace_from_bits(parameters, randbits):
+    """Sample capped difference-of-geometric noise from a fixed-size bit draw.
 
-    Pass secrets.randbits for OS-CSPRNG-backed sampling. This finite digital
-    sampler is research tooling and has not been proved to implement exact DP.
+    The uncapped difference is a two-sided geometric distribution. Capping
+    each geometric variate at K changes the joint draw with probability at
+    most 2*q**(K+1); the reported delta bound composes that coupling error
+    with the ideal geometric mechanism's pure-DP bound.
     """
-    # 52 midpoint bits are exactly representable as binary64 and stay strictly
-    # inside (0, 1), including the two extreme words.
-    bits = 52
-    if not isinstance(scale, (int, float)) or not math.isfinite(scale) or scale <= 0:
-        raise ValueError('Laplace scale must be finite and positive')
-    word = randbits(bits)
-    if type(word) is not int or not 0 <= word < (1 << bits):
+    bits = parameters['coin_bits']
+    cap = parameters['geometric_cap']
+    numerator = parameters['geometric_numerator']
+    denominator = parameters['geometric_denominator']
+    if (bits != 64 or type(cap) is not int or cap < 0
+            or type(numerator) is not int or not 0 < numerator < denominator
+            or denominator != 1 << bits):
+        raise ValueError('invalid discrete-noise parameters')
+    requested = 2 * cap * bits
+    word = randbits(requested)
+    if type(word) is not int or not 0 <= word < (1 << requested):
         raise ValueError('entropy source returned an invalid word')
-    centered = (word + 0.5) / (1 << bits) - 0.5
-    sign = 1.0 if centered > 0 else -1.0
-    return -float(scale) * sign * math.log1p(-2.0 * abs(centered))
-
-
-def dp_laplace_scale(cfg):
-    return dp_laplace_parameters(cfg)['laplace_scale']
+    counts = [0, 0]
+    active = [True, True]
+    mask = denominator - 1
+    for position in range(cap):
+        for stream in range(2):
+            coin = (word >> ((stream * cap + position) * bits)) & mask
+            success = coin < numerator
+            if active[stream] and success:
+                counts[stream] += 1
+            else:
+                active[stream] = False
+    return counts[0] - counts[1]
 
 
 def features(row):

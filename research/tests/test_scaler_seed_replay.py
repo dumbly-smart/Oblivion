@@ -2,6 +2,7 @@ import unittest
 import json
 import copy
 import tempfile
+import random
 from pathlib import Path
 
 import numpy as np
@@ -9,7 +10,8 @@ import numpy as np
 from research.analysis.scaler_seed_replay import classifier_score, evaluate
 from research.attacks.scaler_seed_replay import recover_noisy_signal
 from research.simulation.run import run
-from research.simulation.scaler import Config, Request, simulate
+from research.simulation.scaler import (Config, Request, simulate,
+    dp_laplace_parameters, discrete_laplace_from_bits)
 
 
 class SeedReplayTests(unittest.TestCase):
@@ -79,15 +81,26 @@ class SeedReplayTests(unittest.TestCase):
                     for i in range(count)]
         policy_seed = 123
         rows = simulate(cfg, requests, 'dp_laplace', policy_seed)['observer']
-        noise_rng = np.random.default_rng(policy_seed)
-        noise = [float(noise_rng.laplace(0, 4)) for _ in range(4)]
+        noise_rng = random.Random(policy_seed)
+        parameters = dp_laplace_parameters(cfg)
+        noise = [discrete_laplace_from_bits(parameters, noise_rng.getrandbits)
+                 for _ in range(4)]
         self.assertEqual(rows[2]['scale_up'], [0])
 
         recovered = recover_noisy_signal(rows, cfg, policy_seed)
 
-        active = rows[1]['instances'][0]
-        expected_upper = max(0.0, active - noise[2])
-        self.assertAlmostEqual(recovered[2, 0], expected_upper / 2)
+        def signal_midpoint(epoch, before):
+            after = rows[epoch]['instances'][0]
+            if after > before:
+                return (after - .5) / cfg.service
+            return before / (2 * cfg.service)
+
+        signal0 = signal_midpoint(0, cfg.initial)
+        signal1 = signal_midpoint(1, rows[0]['instances'][0])
+        signal2 = rows[1]['instances'][0] / (2 * cfg.service)
+        noisy_count2 = (signal2 - (1 - cfg.alpha) * signal1) / cfg.alpha
+        expected = max(0.0, noisy_count2 - noise[2])
+        self.assertAlmostEqual(recovered[2, 0], expected)
 
     def test_public_seed_makes_adjacent_inputs_deterministically_distinguishable(self):
         cfg = Config(duration=2, epoch=1, service=1, initial=0, maximum=100,

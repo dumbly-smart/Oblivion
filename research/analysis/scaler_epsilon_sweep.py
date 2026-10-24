@@ -107,8 +107,8 @@ def run_sweep(config_path, output):
                 instance_seconds=metrics['instance_seconds'],
                 mean_session_p99=metrics['p99'],
                 slo_violation_rate=metrics['slo_violation_rate'],
-                laplace_scale=run_report['privacy_claims']['dp_laplace'][
-                    'independent_laplace_scale_per_pool_per_tick']))
+                geometric_log_scale=1 / run_report['privacy_claims']['dp_laplace'][
+                    'effective_per_release_epsilon']))
         positive_controls.extend(dict(epsilon=float(epsilon), **row)
                                  for row in attack_report['positive_controls'])
         runs.append(dict(epsilon=float(epsilon), run_summaries=len(run_report['summary']),

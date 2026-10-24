@@ -3,25 +3,50 @@ import tempfile
 import unittest
 from pathlib import Path
 from research.simulation.scaler import (Config, Request, simulate, workload, load_imported,
-    features, trial_interval, dp_laplace_parameters, laplace_from_bits)
+    features, trial_interval, dp_laplace_parameters, discrete_laplace_from_bits)
 
 
 class ScalerTests(unittest.TestCase):
-    def test_laplace_sampler_uses_open_interval_and_symmetric_inverse_cdf(self):
-        low = laplace_from_bits(2.0, lambda bits: 0)
-        high = laplace_from_bits(2.0, lambda bits: (1 << bits) - 1)
-        self.assertLess(low, 0)
-        self.assertGreater(high, 0)
-        self.assertAlmostEqual(low, -high)
-        self.assertAlmostEqual(laplace_from_bits(4.0, lambda bits: 0), 2 * low)
+    def test_bounded_discrete_laplace_parameters_certify_composed_delta(self):
+        cfg = Config(duration=5.5, epoch=1, dp_epsilon=2.0, dp_delta=1e-6)
+        cfg.validate()
+        parameters = dp_laplace_parameters(cfg)
+        self.assertEqual(parameters['releases'], 6)
+        self.assertLessEqual(parameters['epsilon_effective_per_release'],
+                             parameters['epsilon_per_release'])
+        self.assertLessEqual(parameters['composed_delta_bound'], cfg.dp_delta)
+        self.assertGreater(parameters['geometric_cap'], 0)
 
-    def test_laplace_sampler_rejects_invalid_scale_and_entropy_words(self):
-        for scale, draw in [(0, lambda bits: 0), (-1, lambda bits: 0),
-                            (float('inf'), lambda bits: 0),
-                            (1, lambda bits: -1), (1, lambda bits: 1 << 52)]:
-            with self.subTest(scale=scale):
+    def test_bounded_discrete_laplace_sampler_has_fixed_entropy_shape(self):
+        parameters = dp_laplace_parameters(Config(duration=2, epoch=1))
+        bits = parameters['geometric_cap'] * parameters['coin_bits']
+        all_successes = discrete_laplace_from_bits(parameters, lambda requested: (1 << requested) - 1)
+        all_failures = discrete_laplace_from_bits(parameters, lambda requested: 0)
+        self.assertEqual(all_successes, 0)
+        self.assertEqual(all_failures, 0)
+        calls = []
+        discrete_laplace_from_bits(parameters, lambda requested: calls.append(requested) or 0)
+        self.assertEqual(calls, [2 * bits])
+
+    def test_bounded_discrete_laplace_sampler_rejects_malformed_entropy(self):
+        parameters = dp_laplace_parameters(Config(duration=2, epoch=1))
+        bits = 2 * parameters['geometric_cap'] * parameters['coin_bits']
+        for draw in (lambda requested: -1, lambda requested: 1 << requested,
+                     lambda requested: 1.5):
+            with self.subTest(draw=draw):
                 with self.assertRaises(ValueError):
-                    laplace_from_bits(scale, draw)
+                    discrete_laplace_from_bits(parameters, draw)
+
+    def test_difference_of_geometric_sampler_matches_reference_marginals(self):
+        import random
+        parameters = dict(coin_bits=64, geometric_cap=20,
+                         geometric_numerator=1 << 63,
+                         geometric_denominator=1 << 64)
+        rng = random.Random(4481)
+        values = [discrete_laplace_from_bits(parameters, rng.getrandbits)
+                  for _ in range(12000)]
+        self.assertLess(abs(sum(values) / len(values)), 0.08)
+        self.assertAlmostEqual(values.count(0) / len(values), 1 / 3, delta=0.025)
 
     def test_simulator_rejects_unknown_dp_noise_source(self):
         with self.assertRaises(ValueError):
@@ -104,9 +129,12 @@ class ScalerTests(unittest.TestCase):
         parameters = dp_laplace_parameters(cfg)
         self.assertEqual(parameters['releases'], 6)
         self.assertAlmostEqual(parameters['epsilon_per_release'], 1 / 3)
-        self.assertAlmostEqual(parameters['laplace_scale'], 3.0)
+        self.assertAlmostEqual(1 / parameters['epsilon_effective_per_release'], 3.0,
+                               places=12)
         with self.assertRaises(ValueError):
             Config(dp_epsilon=0).validate()
+        with self.assertRaises(ValueError):
+            Config(dp_delta=0).validate()
 
     def test_dp_policy_never_retires_busy_workers_based_on_queue_state(self):
         from research.simulation.scaler import simulate
@@ -177,10 +205,10 @@ class ScalerTests(unittest.TestCase):
             self.assertEqual({row['policy'] for row in report['summary']}, {'naive', 'dp_laplace'})
             claim = report['privacy_claims']['dp_laplace']
             self.assertEqual(claim['epsilon'], 2)
-            self.assertEqual(claim['delta'], 0.0)
+            self.assertLessEqual(claim['delta'], claim['configured_delta'])
             self.assertEqual(claim['release_count'], 4)
             self.assertIn('one added or removed Request record', claim['adjacency'])
-            self.assertIn('ideal independent Laplace draws', claim['mechanism_design_claim'])
+            self.assertIn('conditional (epsilon, delta) guarantee', claim['mechanism_design_claim'])
             self.assertEqual(claim['artifact_guarantee'], 'none: deterministic noise is derived from the public experiment seed')
             self.assertIn('public experiment seed', claim['randomness'])
             rebuilt_path = Path(directory) / 'rebuilt'
@@ -212,11 +240,11 @@ class ScalerTests(unittest.TestCase):
             secure_claim = secure_report['privacy_claims']['dp_laplace']
             self.assertFalse(secure_claim['noise_reproducible'])
             self.assertIn('OS CSPRNG', secure_claim['randomness'])
-            self.assertIn('no proved DP guarantee', secure_claim['randomness'])
+            self.assertIn('stated approximate-DP bound', secure_claim['randomness'])
             secure_rebuilt = regenerate(Path(directory) / 'secure-run',
                                         Path(directory) / 'secure-rebuilt')
             self.assertEqual(secure_rebuilt['privacy_claims']['dp_laplace'], secure_claim)
-            self.assertIn('finite-precision CSPRNG', secure_rebuilt['limitations'])
+            self.assertIn('approximate-DP bound', secure_rebuilt['limitations'])
 
     def test_trial_interval_preserves_correlated_clusters(self):
         self.assertEqual(trial_interval([[0] * 8, [1] * 8]), [0, 1])

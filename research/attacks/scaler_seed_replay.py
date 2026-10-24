@@ -1,7 +1,9 @@
 """Recover an autoscaler's noisy signal when its deterministic seed is public."""
 import numpy as np
+import random
 
-from research.simulation.scaler import Config, features, dp_laplace_scale, session_features
+from research.simulation.scaler import (Config, features, dp_laplace_parameters,
+    discrete_laplace_from_bits, session_features)
 
 
 def public_policy_seed(experiment_seed, trial, session, workload_index):
@@ -30,9 +32,10 @@ def recover_noisy_signal(rows, cfg, policy_seed):
         raise ValueError('invalid capacity conversion')
 
     factor = cfg.service / (cfg.epoch * cfg.utilization)
-    noise_scale = dp_laplace_scale(cfg)
-    rng = np.random.default_rng(policy_seed)
+    parameters = dp_laplace_parameters(cfg)
+    rng = random.Random(policy_seed)
     previous = np.full(cfg.functions, cfg.initial, dtype=int)
+    previous_signal = np.zeros(cfg.functions, dtype=float)
     recovered = np.zeros((horizon, cfg.functions), dtype=float)
 
     for epoch, row in enumerate(rows):
@@ -52,22 +55,25 @@ def recover_noisy_signal(rows, cfg, policy_seed):
             raise ValueError('public instance deltas disagree with scale-up events')
 
         for pool in range(cfg.functions):
-            noise = float(rng.laplace(0.0, noise_scale))
+            noise = discrete_laplace_from_bits(parameters, rng.getrandbits)
             before = int(previous[pool])
             after = row['instances'][pool]
             if after > before:
                 if after < cfg.maximum:
-                    low_signal = max(0.0, (after - 1) / factor - noise)
-                    high_signal = max(0.0, after / factor - noise)
-                    recovered[epoch, pool] = (low_signal + high_signal) / 2
+                    low_signal = max(0.0, (after - 1) / factor)
+                    high_signal = max(0.0, after / factor)
+                    signal_estimate = (low_signal + high_signal) / 2
                 else:
                     # The capacity cap exposes only the lower threshold.
-                    recovered[epoch, pool] = max(
-                        0.0, (after - 1) / factor - noise)
+                    signal_estimate = max(0.0, (after - 1) / factor)
             else:
                 # No new worker means the target did not exceed current count.
-                upper_signal = max(0.0, before / factor - noise)
-                recovered[epoch, pool] = upper_signal / 2
+                signal_estimate = max(0.0, before / factor) / 2
+            noisy_count = (signal_estimate - (1 - cfg.alpha)
+                           * previous_signal[pool]) / cfg.alpha
+            # The nonnegative clamp is part of the released-count postprocess.
+            recovered[epoch, pool] = max(0.0, noisy_count - noise)
+            previous_signal[pool] = signal_estimate
         previous = np.asarray(row['instances'], dtype=int)
     return recovered
 
