@@ -270,15 +270,54 @@ This is a research sampler, not a DP implementation: finite word support,
 binary64 rounding and the transformation have not been analyzed as a discrete
 mechanism, so the report makes no formal guarantee even when the OS CSPRNG is
 used. The retained event/epsilon studies still use seeded randomness and do
-not evaluate this new path; their classifier results must not be attributed
-to it. A formally analyzed discrete mechanism and a fresh positive-control
-attack study remain open.
+not characterize this new path; their classifier results must not be
+attributed to it. The separate 30-trial CSPRNG campaign below passes its
+positive controls, but a formally analyzed discrete mechanism and independent
+cryptographic review remain open.
+
+### CSPRNG attack campaign
+
+Recreate the sampled transcript and its attack analysis with:
+
+```sh
+.venv/bin/python -m research.simulation.run \
+  experiments/configs/scaler-dp-csprng-20261024.json \
+  experiments/results/scaler-dp-csprng-reproduction
+.venv/bin/python -m research.analysis.scaler_seed_replay \
+  experiments/results/scaler-dp-csprng-reproduction \
+  experiments/results/scaler-dp-csprng-analysis-reproduction
+```
+
+Because the noise is drawn from OS entropy, reruns reproduce the design and
+analysis, not the raw noise samples. The 30-trial, eight-session, four-family
+campaign uses the same seeded workload/session streams as the ε=1 seeded arm.
+The forest public-feature attack results are:
+
+| Workload | Task | Naïve positive control | CSPRNG `dp_laplace` [95% CI] |
+| --- | --- | ---: | ---: |
+| Uniform | Intensity | 0.979 | 0.518 [0.466, 0.571] |
+| Zipf | Intensity | 0.937 | 0.552 [0.490, 0.612] |
+| Zipf | Hot pool | 0.827 | 0.498 [0.433, 0.565] |
+| Diurnal | Intensity | 0.930 | 0.542 [0.487, 0.600] |
+| Diurnal | Hot pool | 0.799 | 0.491 [0.435, 0.551] |
+| Burst | Intensity | 0.893 | 0.468 [0.395, 0.542] |
+| Burst | Hot pool | 0.840 | 0.462 [0.377, 0.547] |
+
+All 14 naïve centroid/forest controls exceeded 0.60. All seven forest
+intervals are unadjusted 95% trial-cluster bootstrap intervals and include
+0.50; results are limited to the declared count/event features and workload
+classes, and do not establish a privacy guarantee. The report also retains
+centroid results, all controls, and the plot at
+[`scaler-dp-csprng-attack-20261024-plotted`](../experiments/results/scaler-dp-csprng-attack-20261024-plotted/).
+The raw transcript, config, and runner report are at
+[`scaler-dp-csprng-20261024`](../experiments/results/scaler-dp-csprng-20261024/).
+The attack report SHA-256 is
+`f030c7f9fb7a9d42de34e7bfb295b9eb1e68e9535e3bfc7b283cb9cd3a9b3fd1`.
 
 ## Next work
 
-1. Review/audit the separate OS-CSPRNG path, replace its finite-precision
-   transform with a formally analyzed discrete mechanism, and evaluate it
-   using independent sessions and successful positive controls.
+1. Review/audit the separate OS-CSPRNG path and replace its finite-precision
+   transform with a formally analyzed discrete mechanism.
 2. Specify user-level adjacency through a bounded per-user contribution and
    account for composition across users, epochs, pools, and deployments.
 3. Test stronger policy-aware inversion and temporal classifiers against the
