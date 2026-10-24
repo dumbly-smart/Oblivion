@@ -438,3 +438,11 @@ formatting, whitespace checks, and warning-denied workspace Clippy pass. The
 full workspace suite passed immediately before this integration-test-only
 follow-up; the million-operation ORAM stress test remains intentionally ignored
 in the default suite.
+
+## 2026-10-25: million-operation ORAM stress run
+
+Ran the ignored ORAM oracle in release mode after the anchor follow-ups:
+`cargo test -p oblivion-store --release --test oracle million_operation_oracle
+-- --ignored --exact --test-threads=1`. The one-million-operation HashMap
+oracle test passed in 41.87 seconds; it remains excluded from the fast default
+suite and is independently runnable with that command.
