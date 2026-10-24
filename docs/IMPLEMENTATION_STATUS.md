@@ -135,7 +135,7 @@ The research-only `demo-sweep` now retains authenticated masked runtime failures
 
 [The figure reproduction audit](FIGURE_REPRODUCTION.md) now records raw-derived regeneration of all eight required main figures and the supplemental three-axis/SLO plot without ignored measurement executables. Both autoscaler campaigns rebuild from four raw/config files rather than cached reports; audited numerical reports and PNG bytes matched, and accepted inputs stayed unchanged. The serial local and hosted source gates are accepted; subsequent closing Markdown-only checks are accessible on PR #1.
 
-Selected implementation/evaluation and the serial local/hosted source gates are accepted within their bounded scope. [PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is ready for delivery on `codex/oblivion-research-platform`; no main merge is claimed. A bounded-user autoscaler simulator mode now exists, but authenticated identity binding, cross-session composition, production DP integration, and a full independent sampler/code audit remain open. A narrow exact-rational one-coordinate check is now retained; see [SAMPLER_AUDIT.md](SAMPLER_AUDIT.md). Hardware isolation, recursive/native Circuit storage, DPF/native single-server runtime selection, persistent/backward-private SSE and durable application acknowledgments remain deployment/research extensions. Human P1–P12 study and mutable bibliography/course listings are context, not machine-proof software gates.
+Selected implementation/evaluation and the serial local/hosted source gates are accepted within their bounded scope. [PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is ready for delivery on `codex/oblivion-research-platform`; no main merge is claimed. A bounded-user autoscaler simulator mode now exists, but authenticated identity binding, cross-session composition, production DP integration, and an external sampler/code audit remain open. Expanded finite exact-rational checks and the source-review findings are recorded in [SAMPLER_AUDIT.md](SAMPLER_AUDIT.md). Hardware isolation, recursive/native Circuit storage, DPF/native single-server runtime selection, persistent/backward-private SSE and durable application acknowledgments remain deployment/research extensions. Human P1–P12 study and mutable bibliography/course listings are context, not machine-proof software gates.
 
 ## Optional follow-up: isolated ORAM timing
 
@@ -307,6 +307,19 @@ workload results are not a DP audit or privacy proof. The full research suite
 passed 187 tests with four existing fixture skips.
 Reanalysis from the retained CSPRNG observer and profile/target labels
 reproduced the final attack report and prediction file byte for byte.
+
+## 2026-10-25: bounded sampler review
+
+Expanded the exact bounded-user hockey-stick regression across three
+parameter sets, enumerating every nonnegative pool shift up to the cap and
+both neighboring directions. All exact divergences stayed below the reported
+per-release bounds. A source-level pass over the finite sampler and calibration
+found no discrepancy in that path, but does not establish arbitrary-parameter
+composition or cover timing, authenticated identity, CSPRNG implementation,
+or a deployable transcript. The review did find that `Config.validate`
+accepted Python booleans as numeric fields; added rejection and regression
+coverage before parameter calibration. The full research suite passed 188
+tests with four existing fixture skips.
 
 The isolated ORAM timing replication was independently rechecked: all 1,440
 retained observer/driver files match their hashes, schedules are paired across

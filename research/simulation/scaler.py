@@ -41,7 +41,8 @@ class Config:
 
     def validate(self):
         values = asdict(self)
-        if not all(isinstance(v, (int, float)) and math.isfinite(v) for v in values.values()):
+        if not all(isinstance(v, (int, float)) and not isinstance(v, bool)
+                   and math.isfinite(v) for v in values.values()):
             raise ValueError('finite numeric parameters required')
         for key in ('initial', 'maximum', 'functions', 'queue_limit', 'quantum',
                     'hysteresis', 'dp_user_contribution_cap'):

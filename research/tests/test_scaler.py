@@ -8,6 +8,12 @@ from research.simulation.scaler import (Config, Request, simulate, workload, loa
 
 
 class ScalerTests(unittest.TestCase):
+    def test_config_rejects_boolean_numeric_parameters(self):
+        for field in ('duration', 'dp_epsilon', 'dp_delta'):
+            with self.subTest(field=field):
+                with self.assertRaisesRegex(ValueError, 'finite numeric parameters'):
+                    Config(**{field: True}).validate()
+
     def test_bounded_discrete_laplace_parameters_certify_composed_delta(self):
         cfg = Config(duration=5.5, epoch=1, dp_epsilon=2.0, dp_delta=1e-6)
         cfg.validate()
@@ -63,40 +69,56 @@ class ScalerTests(unittest.TestCase):
 
     def test_exact_bounded_user_two_pool_hockey_stick_is_below_declared_delta(self):
         from fractions import Fraction
+        from itertools import product
 
-        cfg = Config(duration=1, epoch=1, functions=2, dp_epsilon=2.0,
-                     dp_delta=1e-3, dp_user_contribution_cap=2)
-        cfg.validate()
-        parameters = dp_laplace_parameters(cfg)
-        q = Fraction(parameters['geometric_numerator'],
-                     parameters['geometric_denominator'])
-        cap = parameters['geometric_cap']
-        geometric = [(1 - q) * q ** count for count in range(cap)]
-        geometric.append(q ** cap)
-        one_pool = {}
-        for left, p_left in enumerate(geometric):
-            for right, p_right in enumerate(geometric):
-                value = left - right
-                one_pool[value] = one_pool.get(value, Fraction(0)) + p_left * p_right
+        cases = (
+            Config(duration=1, epoch=1, functions=2, dp_epsilon=2.0,
+                   dp_delta=1e-3, dp_user_contribution_cap=2),
+            Config(duration=1, epoch=1, functions=3, dp_epsilon=1.5,
+                   dp_delta=1e-2, dp_user_contribution_cap=2),
+            Config(duration=1, epoch=1, functions=2, dp_epsilon=3.0,
+                   dp_delta=1e-2, dp_user_contribution_cap=3),
+        )
+        for cfg in cases:
+            with self.subTest(functions=cfg.functions,
+                              user_cap=cfg.dp_user_contribution_cap):
+                cfg.validate()
+                parameters = dp_laplace_parameters(cfg)
+                q = Fraction(parameters['geometric_numerator'],
+                             parameters['geometric_denominator'])
+                cap = parameters['geometric_cap']
+                geometric = [(1 - q) * q ** count for count in range(cap)]
+                geometric.append(q ** cap)
+                one_pool = {}
+                for left, p_left in enumerate(geometric):
+                    for right, p_right in enumerate(geometric):
+                        value = left - right
+                        one_pool[value] = (one_pool.get(value, Fraction(0))
+                                           + p_left * p_right)
 
-        multiplier = 1 / q ** 2  # Two changed requests at epsilon effective 2 * -ln(q).
-        for shift in ((2, 0), (1, 1)):
-            upper = cap + max(shift)
-            forward = Fraction(0)
-            reverse = Fraction(0)
-            for first in range(-cap, upper + 1):
-                for second in range(-cap, upper + 1):
-                    p = one_pool.get(first, Fraction(0)) * one_pool.get(second, Fraction(0))
-                    q_neighbor = (
-                        one_pool.get(first - shift[0], Fraction(0))
-                        * one_pool.get(second - shift[1], Fraction(0))
+                contribution_cap = cfg.dp_user_contribution_cap
+                multiplier = 1 / q ** contribution_cap
+                shifts = (shift for shift in product(
+                    range(contribution_cap + 1), repeat=cfg.functions)
+                    if 0 < sum(shift) <= contribution_cap)
+                outputs = range(-cap, cap + contribution_cap + 1)
+                for shift in shifts:
+                    forward = Fraction(0)
+                    reverse = Fraction(0)
+                    for output in product(outputs, repeat=cfg.functions):
+                        p = Fraction(1)
+                        q_neighbor = Fraction(1)
+                        for value, displacement in zip(output, shift):
+                            p *= one_pool.get(value, Fraction(0))
+                            q_neighbor *= one_pool.get(
+                                value - displacement, Fraction(0))
+                        forward += max(p - multiplier * q_neighbor, Fraction(0))
+                        reverse += max(q_neighbor - multiplier * p, Fraction(0))
+                    self.assertLessEqual(
+                        float(max(forward, reverse)),
+                        parameters['per_release_delta_bound'],
+                        msg=f'bounded-user shift {shift}',
                     )
-                    forward += max(p - multiplier * q_neighbor, Fraction(0))
-                    reverse += max(q_neighbor - multiplier * p, Fraction(0))
-            self.assertLessEqual(
-                float(max(forward, reverse)), parameters['per_release_delta_bound'],
-                msg=f"bounded-user shift {shift}",
-            )
 
     def test_user_level_cap_limits_whole_horizon_count_sensitivity(self):
         cfg = Config(duration=4, epoch=1, functions=1,
