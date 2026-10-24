@@ -59,6 +59,10 @@ def evaluate(source, output, models=('centroid', 'forest')):
     input_hashes = {name: hashlib.sha256((source / name).read_bytes()).hexdigest()
                     for name in input_files}
     raw = json.loads((source / 'config.json').read_text())
+    noise_source = raw.get('dp_noise_source', 'seeded_experiment')
+    if noise_source not in ('seeded_experiment', 'os_csprng'):
+        raise ValueError('unknown DP noise source in retained run')
+    replay_applicable = noise_source == 'seeded_experiment'
     cfg = Config(**raw['simulation'])
     cfg.validate()
     policies = raw.get('policies', ['naive', 'ewma', 'quantized', 'fixed', 'noisy'])
@@ -131,7 +135,7 @@ def evaluate(source, output, models=('centroid', 'forest')):
                         policy='naive', attacker=f'{model}_public', **result))
                 profile, target = session_sets['dp_laplace'][:split], session_sets['dp_laplace'][split:]
                 for model in models:
-                    for replay in (False, True):
+                    for replay in ((False, True) if replay_applicable else (False,)):
                         suffix = '_seed_replay' if replay else '_public'
                         attacker_name = f'{model}{suffix}'
                         result = classifier_score(profile, target, task, cfg,
@@ -143,8 +147,9 @@ def evaluate(source, output, models=('centroid', 'forest')):
     for workload in raw['workloads']:
         for task in task_names(workload):
             for policy in ('naive', 'dp_laplace'):
+                modes = ('public', 'seed_replay') if replay_applicable else ('public',)
                 attackers = [f'{model}_public' for model in models] if policy == 'naive' else [
-                    f'{model}_{mode}' for model in models for mode in ('public', 'seed_replay')]
+                    f'{model}_{mode}' for model in models for mode in modes]
                 for attacker in attackers:
                     group = [row for row in trial_metrics if
                         (row['workload'], row['task'], row['policy'], row['attacker']) ==
@@ -168,15 +173,22 @@ def evaluate(source, output, models=('centroid', 'forest')):
     if input_hashes != {name: hashlib.sha256((source / name).read_bytes()).hexdigest()
                         for name in input_files}:
         raise ValueError('input artifacts changed during attack evaluation')
-    report = dict(config=raw, input_sha256=input_hashes, source_sha256={name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
+    methodology = ('Whole-session known-policy attacks. First half sessions profile; second half are held out. Selected models use per-epoch public features. The seed-replay variants additionally regenerate each public deterministic Laplace stream and invert public scale-up transitions; capacity quantization and maximum clipping produce censored estimates. The target seed is computed only from public config, public session identifiers, and public seed derivation. Labels are used for profile training and target scoring only.'
+        if replay_applicable else
+        'Whole-session known-policy attacks. First half sessions profile; second half are held out. Selected models use per-epoch public features. For os_csprng, known-seed replay was skipped because the public experiment seed does not determine the OS-CSPRNG noise stream. Labels are used for profile training and target scoring only.')
+    limitations = ('The retained DP-labeled transcript is deterministic because the seed is public, so its randomized-mechanism DP claim does not apply. This attack estimates EWMA signals from quantized capacity transitions and may lose information to clipping; failure to classify does not establish privacy. The naive arm is the leaky positive control. The experiment excludes latency, errors, billing, network and runtime observations.'
+        if replay_applicable else
+        'The OS-CSPRNG transcript cannot be replayed from the public seed, but finite-precision floating-point sampling has not been proved to satisfy DP. This attack tests only the declared public features; failure to classify does not establish privacy. The naive arm is the leaky positive control. The experiment excludes latency, errors, billing, network and runtime observations.')
+    report = dict(config=raw, dp_noise_source=noise_source,
+        known_seed_replay_applicable=replay_applicable,
+        input_sha256=input_hashes, source_sha256={name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
         for name in source_files}, git_head=subprocess.check_output(
         ['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
         git_dirty=bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT, text=True)),
         python=platform.python_version(), platform=platform.platform(), summary=summary,
         trial_metrics=trial_metrics, positive_controls=positive_controls,
         attack_models=list(models),
-        methodology='Whole-session known-policy attacks. First half sessions profile; second half are held out. Selected models use per-epoch public features. The seed-replay variants additionally regenerate each public deterministic Laplace stream and invert public scale-up transitions; capacity quantization and maximum clipping produce censored estimates. The target seed is computed only from public config, public session identifiers, and public seed derivation. Labels are used for profile training and target scoring only.',
-        limitations='The retained DP-labeled transcript is deterministic because the seed is public, so its randomized-mechanism DP claim does not apply. This attack estimates EWMA signals from quantized capacity transitions and may lose information to clipping; failure to classify does not establish privacy. The naive arm is the leaky positive control. The experiment excludes latency, errors, billing, network and runtime observations.')
+        methodology=methodology, limitations=limitations)
     output.mkdir(parents=True)
     (output / 'report.json').write_text(json.dumps(report, indent=2) + '\n')
     manifest = {path.name: hashlib.sha256(path.read_bytes()).hexdigest()

@@ -122,6 +122,23 @@ class SeedReplayTests(unittest.TestCase):
             self.assertIn('seed derivation', report['methodology'])
             self.assertTrue((root / 'analysis' / 'artifact-sha256.json').exists())
 
+    def test_csprng_analysis_omits_inapplicable_known_seed_replay(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            config = root / 'config.json'
+            config.write_text(json.dumps(dict(version=1, seed=809, trials=2, sessions=8,
+                workloads=['uniform'], policies=['naive', 'dp_laplace'],
+                dp_noise_source='os_csprng', simulation=dict(duration=4, dp_epsilon=2))))
+            raw = root / 'raw'
+            run(config, raw)
+            report = evaluate(raw, root / 'analysis', models=('forest',))
+
+            pairs = {(row['policy'], row['attacker']) for row in report['summary']}
+            self.assertEqual(pairs, {
+                ('naive', 'forest_public'), ('dp_laplace', 'forest_public')})
+            self.assertTrue(all(row['passed'] for row in report['positive_controls']))
+            self.assertIn('known-seed replay was skipped', report['methodology'])
+
 
 if __name__ == '__main__':
     unittest.main()

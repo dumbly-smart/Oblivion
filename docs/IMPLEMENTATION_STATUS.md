@@ -171,7 +171,10 @@ user-level, stronger-inversion, and full-runtime work. The full Python
 research suite passed 154 tests with four existing fixture skips after the
 epsilon-sweep driver and seed-replay regressions were added. The current
 research suite passed 158 tests with four existing fixture skips after the
-CSPRNG sampler and retained-raw reanalysis support were added. The four-budget
+CSPRNG sampler and retained-raw reanalysis support were added. The current
+research suite passed 159 tests with four existing fixture skips after the
+CSPRNG-aware attack evaluator was added. A full CSPRNG attack campaign has
+not yet been run. The four-budget
 study passed all 28 naive positive controls; results and its root hash
 manifest are retained at
 [`scaler-dp-epsilon-sweep-20261024`](../experiments/results/scaler-dp-epsilon-sweep-20261024/).

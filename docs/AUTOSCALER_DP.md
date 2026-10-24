@@ -261,6 +261,11 @@ for experiments, not as a private release. The report marks CSPRNG runs as
 non-reproducible from the public seed and distinguishes their randomness
 source. Raw reanalysis preserves this distinction.
 
+The seed-replay evaluator inspects this setting and omits its known-seed
+attacker for `os_csprng` traces; it evaluates only public-feature models there.
+The naïve arm remains a positive control. This avoids attributing a
+reconstructed seed stream to a transcript generated from OS entropy.
+
 This is a research sampler, not a DP implementation: finite word support,
 binary64 rounding and the transformation have not been analyzed as a discrete
 mechanism, so the report makes no formal guarantee even when the OS CSPRNG is
