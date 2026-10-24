@@ -1,0 +1,22 @@
+{
+  "captured_at": "2026-10-25T04:46:54+05:30",
+  "capture_scope": "Immediately before the approximately 63-second Markov ORAM study; host-wide observation, not a process-isolation guarantee.",
+  "load_average_1_5_15": [5.20, 4.79, 4.81],
+  "top_process_snapshot_percent_cpu": [
+    {"name": "steam", "cpu_percent": 52.1},
+    {"name": "Isolated Web Co", "cpu_percent": 13.1},
+    {"name": "qemu-system-x86", "cpu_percent": 11.5},
+    {"name": "zen-bin", "cpu_percent": 10.4}
+  ],
+  "hardware_observed_after_run": {
+    "cpu_model": "Intel(R) Core(TM) i7-14650HX",
+    "logical_cpus_visible": 24,
+    "kernel": "Linux 7.2.11-arch1-1",
+    "architecture": "x86_64"
+  },
+  "limitations": [
+    "CPU affinity was not pinned.",
+    "The host was under unrelated desktop and virtual-machine CPU load.",
+    "Bucket-service processes were separate from the ORAM controller but shared the host scheduler and CPU resources."
+  ]
+}

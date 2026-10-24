@@ -475,3 +475,19 @@ scored AUC 1.000; ORAM scored 0.5017 ([0.4931, 0.5101]), balanced accuracy
 0.5002 and raw accuracy 0.6031 versus the 0.6424 majority baseline. It reuses
 the primary study's 30 trials and is not an additional independent repetition.
 All 1,440 input hashes in the derived report were independently rechecked.
+
+## 2026-10-25: preregistered Markov-locality ORAM study
+
+Added a seeded first-order Markov address generator to the isolated ORAM and
+direct-address control runners. Its test checks persistence endpoints,
+resampling distribution and invalid inputs. Clippy, example tests, focused
+Python harness tests, formatting, and release builds passed. After committing
+the workload implementation, the preregistered 30-trial experiment passed both
+positive controls (mean AUC 1.000) and measured ORAM AUC 0.5105 (95% trial
+bootstrap interval 0.4838–0.5389), balanced accuracy 0.5105, and raw accuracy
+below the profile-majority baseline. An independent audit verified the 1,440
+raw hashes, 240 paired schedules, per-session operation counts, and workload
+range; the measured adjacent-repeat rate was 0.8807 against 0.8810 expected.
+The host was CPU-contended and unpinned. This is bounded empirical evidence,
+not a proof or remote timing result. See the preregistration, results, and
+retained data.
