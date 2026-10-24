@@ -122,6 +122,8 @@ Use each linked component document's exact configuration and fresh-directory run
 | [Repeated faults](FAULT_CAMPAIGN.md) | `fault-campaign-30-20261023-retry/` | 210 assertion-bearing launches; original ENOSPC attempt preserved, no general availability proof |
 | [Joint batch load](BATCH_LOAD_EVALUATION.md) | `batch-load-centroid-20261023/` | 720 independent processes, 30 fits/mode, same22 public features; control100%, protected28.33% [22.78,33.89]. Both failed forest controls retained separately |
 | [Integrated reader-pipe epochs](EPOCH_SYSTEM_EVALUATION.md) | `epoch-system-pipe-timestamps-20261023/` | 360 process trees / 2,160 verified calls; actual reader completion timestamps and strict separate private rows |
+| [Isolated ORAM timing replication](ORAM_TIMING_REPLICATION.md) | `oram-isolated-replication-20261025-v2/` | 30 trials/mode, paired schedules and disjoint profiling/target sessions; positive controls succeed, ORAM timing classifier remains near chance for this setup |
+| [Batcher population sweep](POPULATION_SWEEP.md) | `population-sweep-20261025/` | 120 local trials across 1/8/32/64 participants; fixed-shape authenticated batches, observer/private traces separated |
 
 The integrated epoch campaign's immutable executable/source copy is authoritative. Live checkout fingerprints changed for an unrelated PIR example; later default-wrapper input hardening is separately recorded. The older mixed/private epoch observer files are never attacker input, and the intermediate separated campaign timestamps client consumption rather than pure pipe reads. Neither is relabeled as the current measurement.
 

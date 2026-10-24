@@ -94,3 +94,13 @@ provenance are retained in
 [the human-query report](HUMAN_QUERY_EVALUATION.md). The source has no
 arrival-frequency or temporal data and licensing terms remain ambiguous, so
 this is not a representative search-traffic study.
+
+## Optional follow-up: population and epoch load
+
+The authenticated epoch batcher ran 30 process trials each at 1, 8, 32 and 64
+configured client slots, for 100 epochs at 25 ms. The aggregate report retains
+240 separately hashed observer/private files and shows emitted frame rates
+from 40 to 2,560 per second; p95 scheduled queue wait is about 23.6–23.7 ms.
+All simulated endpoints share the local host. Full server execution, remote
+clients, production steady-state and provider costs remain unmeasured. See
+[the population sweep](POPULATION_SWEEP.md).

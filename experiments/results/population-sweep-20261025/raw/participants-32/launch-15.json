@@ -1,0 +1,16 @@
+{
+  "participants": 32,
+  "trial": 15,
+  "seed": 20461040,
+  "command": [
+    "/home/xtrmn8/oblivion/target/release/examples/batch_measure",
+    "25",
+    "100",
+    "32",
+    "50",
+    "20461040"
+  ],
+  "returncode": 0,
+  "wall_ns_including_process_startup": 2504466444,
+  "stderr": ""
+}
