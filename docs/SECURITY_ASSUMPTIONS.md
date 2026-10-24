@@ -14,7 +14,7 @@ Both memory and file backends are supported. An uncertain live backend failure p
 
 ## PIR and invocation sessions
 
-A single XOR query share is uniform under secure randomness. **Both shares reveal the target index.** The two servers must not collude; two local processes do not establish independent operators. Server work is linear in database bytes. PIR itself supplies no answer authenticity. The process pipeline checks complete recovered registry records against trusted pins; the generic API needs application authentication appropriate to its records.
+A single XOR query share is uniform under secure randomness. **Both shares reveal the target index.** The two servers must not collude; two local processes do not establish independent operators. Server work is linear in database bytes. PIR itself supplies no answer authenticity. The process pipeline checks complete recovered registry records against trusted pins. The separate `oblivion-registry` crate offers signed fixed-size records and whole-catalog verification, but runtime registry updates still need trusted signing-key provisioning, external monotonic version storage and integration with PIR responses. See [REGISTRY.md](REGISTRY.md).
 
 Generic `oblivion_pir::secure` sessions encrypt both links, bind geometry/slot/direction/epoch/sequence and use fresh per-session roots. Their private-pipe bootstrap assumes trusted kernel delivery. The deliberately plaintext generic loopback tool provides no protection against a network observer who combines its shares. The genuine SimplePIR reference benchmark separately assumes its upstream LWE parameters and implementation; it is not the runtime backend or evidence of end-to-end integrity.
 

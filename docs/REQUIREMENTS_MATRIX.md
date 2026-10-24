@@ -52,7 +52,7 @@ All three jobs in [hosted run 39971009249](https://github.com/dumbly-smart/Obliv
 
 | ID | Requirement | Status | Evidence / remaining condition |
 | --- | --- | --- | --- |
-| F01 | Preserve original checkout/user artifacts; coherent Rust workspace and lockfile | Complete | Root `Cargo.toml`, `Cargo.lock`; seven real crates. Pre-existing `graft/` preserved |
+| F01 | Preserve original checkout/user artifacts; coherent Rust workspace and lockfile | Complete | Root `Cargo.toml`, `Cargo.lock`; eight real crates. Pre-existing `graft/` preserved |
 | F02 | Explicit threat model A/B/C and trust boundaries | Complete | `THREAT_MODEL.md`, `SECURITY_ASSUMPTIONS.md`: TrustedExecutor simulated with processes; no hardware TEE |
 | F03 | Assets, adversary, leakage functions, residual channels and diagram | Complete | `THREAT_MODEL.md`, `ARCHITECTURE.md`; storage/network/scheduler/billing observations distinguished |
 | F04 | AEAD, HKDF separation, OS entropy and nonce lifecycle | Complete | Store/batcher/PIR/SSE source; assumptions record ephemeral invocation sessions and rekeyed store restore |
@@ -105,7 +105,7 @@ All three jobs in [hosted run 39971009249](https://github.com/dumbly-smart/Obliv
 | P03 | Individual-server query uniformity for varied indices | Complete, bounded | PT23: exact uniform-share/bijection rationale plus own-share bit diagnostics and independent target inference; protected intervals include chance. Finite diagnostics do not prove full timing equivalence or protect colluding servers. |
 | P04 | Fixed query/answer sizes, GB/s/full-scan throughput | Complete | G23 six-cell count/width full-scan curve, 30 fresh-state trials each, fixed share/answer payloads; T22 separate encrypted transport. Reported rates explicitly in-process, not network/production capacity |
 | P05 | Generic encrypted geometry-bound transport and failure/replay tests | Complete | `src/secure.rs`, `tests/secure_transport.rs`, `tests/secure_processes.rs`, `PIR_TRANSPORT.md`; plaintext CLI explicitly retained for experiments |
-| P06 | Authenticated registry/module selection | Complete bundled prototype | Trusted bundled registry/module pins are checked in the process path. Dynamic independent signing/publication and registry rollback policy remain deployment extensions. |
+| P06 | Authenticated registry/module selection | Complete bundled prototype; signed-registry library partial | Trusted bundled registry/module pins are checked in the process path. `oblivion-registry` now signs fixed records and catalog manifests and verifies monotonic activation through an adapter. Runtime PIR integration, signing-key custody, an actual rollback-resistant anchor and inclusion proofs remain deployment work. |
 | P07 | Square-root communication variant; DPF optional | Complete square-root variant | SQ23 implements genuine row-packed two-server XOR queries with private column recovery, fixed shape, bounds and 5,760 full-record checks. DPF remains optional. Server scans are still linear; square layout can increase total bytes. |
 | P08 | Genuine SimplePIR reference on matched DB, real hint/setup | Complete | R20 pinned commit/license and original upstream correctness log; actual 10,000 eight-byte DB, 960 measured oracle checks |
 | P09 | Single-server runtime option or native toy implementation | Extension; reference alternative implemented | The roadmap allows genuine reference benchmarking instead of reimplementation. R20/R23 execute pinned SimplePIR; no native LWE construction or runtime selection option is claimed. |

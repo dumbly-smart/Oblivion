@@ -42,6 +42,15 @@ stress test intentionally ignored), and warning-free Clippy. The anchor service,
 snapshot catalog, durable invocation acknowledgment/side-effect transaction,
 and ambiguous remote-CAS recovery remain unimplemented.
 
+The new `oblivion-registry` crate implements fixed-size Ed25519-signed records,
+a signed catalog digest, bounded exact parsing, per-record strict verification,
+and monotonic activation through a caller-provided version-anchor CAS. Its
+tampering, omission, reorder, duplicate, key, version, rollback and CAS-conflict
+tests pass. The full workspace run passed 96 tests with one million-operation
+stress test intentionally ignored; workspace formatting and warning-denied
+Clippy passed. Runtime PIR integration, signing-key custody, an actual durable
+version anchor and partial-catalog inclusion proofs remain open.
+
 Updated 2026-10-24. The selected pipeline and later bounded research artifacts now have evidence in [the requirements matrix](REQUIREMENTS_MATRIX.md) and [completion audit](COMPLETION_AUDIT.md). The selected artifacts and earlier passing gates are recorded. PR #1 is the review artifact while latest validation closure is held; no production-security or merge claim follows. TrustedExecutor is simulated by ordinary processes, without a hardware TEE or attestation.
 
 ## Implemented system

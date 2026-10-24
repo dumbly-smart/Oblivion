@@ -31,7 +31,8 @@ PIR occurs after epoch release on behalf of the trusted client. Each worker sees
 | `oblivion-pir` | Fixed-record XOR query generation/full scans/recovery; plaintext experimental wire and bounded generic `secure` sessions |
 | `oblivion-exec` | Wasmtime classes, module validation, fixed I/O, staged scheduled execution, namespaces and unpadded baseline |
 | `oblivion-batcher` | Directional authenticated endpoints and bounded fixed epoch queues |
-| `oblivion-server` | Process orchestration, registry pins, encrypted PIR, enrolled slot validation and client oracle |
+| `oblivion-server` | Process orchestration, immutable runtime registry pins, encrypted PIR, enrolled slot validation and client oracle |
+| `oblivion-registry` | Fixed-size signed registry records and rollback-aware version-activation adapter; not yet wired into the demo PIR path |
 | `oblivion-harness` | Actual component workloads with separate public observations and truth |
 | `oblivion-sse` | Ephemeral append-only encrypted posting index with constrained GGM prefix capabilities |
 | Python research tools | Attack analysis, trial-cluster confidence intervals, autoscaler event simulation and reference comparisons |

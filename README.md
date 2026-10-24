@@ -8,6 +8,8 @@ An experimental privacy-preserving serverless research prototype in Rust. Oblivi
 
 - Encrypted Path ORAM with Z=4, a client position map/stash, fixed bucket sizes, corruption/freshness checks and a million-operation oracle stress test.
 - Memory and bounded file backends; authenticated full checkpoints and recovery with fresh bucket keys. Recovery requires an independently protected latest checkpoint handle.
+- A checkpoint CAS integration contract binds a secret handle to an immutable snapshot ID. The caller still supplies rollback-resistant storage; the runtime demo has no durable acknowledgment transaction.
+- A separate [`oblivion-registry` library](docs/REGISTRY.md) signs fixed-size function records and full catalog manifests, verifies strict Ed25519 signatures, and exposes a monotonic version-anchor interface. The runtime demo still uses its immutable compiled pins pending key-custody and anchor integration.
 - Two-server XOR PIR over 10,000 × 1 KiB records, independent processes, full scans and a generic authenticated transport. A deliberately plaintext loopback tool remains available for component experiments.
 - Five real Wasmtime functions, guest fuel/memory/host-call limits, fixed class I/O and deadlines. Protected execution stages an eight-block working set, makes eight actual ORAM reads and eight writes, and discards guest mutations on failure before physical commit.
 - Fixed epochs, bounded queues, real dummy execution, 164-byte authenticated invocation envelopes and enrolled namespaces for one to four clients. The mixed demo exercises all five functions.
@@ -18,7 +20,7 @@ An experimental privacy-preserving serverless research prototype in Rust. Oblivi
 - Genuine separately licensed matched Path/Circuit reference, individual-server PIR timing, joint batch-load inference and integrated reader-thread pipe-timestamp epoch sweeps, with controls and earlier failed evidence preserved.
 - Completed final 30-trial A–G/disabled-layer experiments and figures; eight-class execution/error inference; actual 100k ORAM workload diagnostics and 30-session scoped encrypted PIR packet capture.
 
-Seven Rust crates implement the store, PIR, executor, batcher, server, harness and SSE. [Implementation status](docs/IMPLEMENTATION_STATUS.md) distinguishes current source from historical test/results evidence. The [requirements matrix](docs/REQUIREMENTS_MATRIX.md) tracks the entire supplied roadmap, including remaining validation/delivery gates and unselected extensions.
+Eight Rust crates implement the store, PIR, executor, batcher, server, harness, SSE and signed registry primitives. [Implementation status](docs/IMPLEMENTATION_STATUS.md) distinguishes current source from historical test/results evidence. The [requirements matrix](docs/REQUIREMENTS_MATRIX.md) tracks the entire supplied roadmap, including remaining validation/delivery gates and unselected extensions.
 
 
 The final declared-feature joint attacker scores G at **33.40% balanced accuracy [32.29,34.51]**, versus 33.33% chance; an earlier corrected-version function signal is preserved and documented alongside publication/arrival mitigations. The actual packet evidence establishes bounded structural accounting, with an unvalidated packet classifier removed. These results do not cover every host observation.
