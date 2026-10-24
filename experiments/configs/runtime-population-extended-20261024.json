@@ -1,0 +1,35 @@
+{
+  "study_id": "full-path-open-loop-extended-offers-20261024",
+  "version": 1,
+  "seed": 20261027,
+  "trials": 30,
+  "primary_metric": "offered_load_slo_failure_fraction",
+  "secondary_metrics": [
+    "admission_fraction",
+    "successes_per_second",
+    "admitted_e2e_latency_p95_ms",
+    "admitted_e2e_latency_p99_ms",
+    "executor_cpu_seconds",
+    "peak_executor_rss_bytes"
+  ],
+  "trial_unit": "one fresh executor process per profile and trial",
+  "slo_ms": 250,
+  "open_loop": [
+    {
+      "name": "steady-128-i150-q2",
+      "interval_ms": 150,
+      "count": 128,
+      "queue_capacity": 2
+    },
+    {
+      "name": "overload-256-i25-q2",
+      "interval_ms": 25,
+      "count": 256,
+      "queue_capacity": 2
+    }
+  ],
+  "batch_period_ms": [2, 10, 25],
+  "batch_real_percent": [0, 50, 100],
+  "batch_epochs": 32,
+  "batch_participants": 8
+}
