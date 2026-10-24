@@ -124,6 +124,7 @@ Use each linked component document's exact configuration and fresh-directory run
 | [Integrated reader-pipe epochs](EPOCH_SYSTEM_EVALUATION.md) | `epoch-system-pipe-timestamps-20261023/` | 360 process trees / 2,160 verified calls; actual reader completion timestamps and strict separate private rows |
 | [Isolated ORAM timing replication](ORAM_TIMING_REPLICATION.md) | `oram-isolated-replication-20261025-v2/` | 30 trials/mode, paired schedules and disjoint profiling/target sessions; positive controls succeed, ORAM timing classifier remains near chance for this setup |
 | [Eight-address ORAM timing](ORAM_EIGHT_ADDRESS.md) | `oram-isolated-eight-address-20261024/` | 30 trials/mode over eight addresses; Zipf-like hot/cold labels, positive controls succeed, raw schedules paired and hashes verified |
+| [ORAM frequency-only attacker](ORAM_ATTACK_FAMILIES.md) | `oram-eight-address-frequency-20261024/` | Post-hoc independent tag-count attacker; positive controls pass before ORAM, 1,440 input hashes retained, same held-out sessions as temporal RF |
 | [Batcher population sweep](POPULATION_SWEEP.md) | `population-sweep-20261025/` | 120 local trials across 1/8/32/64 participants; fixed-shape authenticated batches, observer/private traces separated |
 | [Full-path 64-offer load](RUNTIME_POPULATION.md) | `runtime-population-64-20261024/` | 60 fresh processes / 3,840 real end-to-end offers, each checked through PIR/WASM/ORAM; underload and bounded-queue overload retained |
 

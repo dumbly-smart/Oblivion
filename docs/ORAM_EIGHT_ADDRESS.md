@@ -49,7 +49,9 @@ service process. It excludes pipe waiting, Path ORAM controller work, request
 decoding and reply encoding. The study still uses one synthetic skew, one
 random-forest family and a local in-memory backend; it is neither remote
 network timing nor a hardware trust-boundary experiment. Additional attacker
-families, operation mixes, and workload distributions remain open.
+families, operation mixes, and workload distributions remain open. A separate
+[tag-frequency-only attacker](ORAM_ATTACK_FAMILIES.md) has since been scored
+against these same retained sessions with its own positive controls.
 
 ## Reproduction
 
