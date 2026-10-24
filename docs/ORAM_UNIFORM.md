@@ -35,6 +35,10 @@ eight-address distribution and timing features. It neither proves zero
 leakage nor predicts performance for other address spaces, classifiers, or
 remote networks.
 
+The separate tag-frequency-only attacker measured AUC 0.50462
+[0.49350, 0.51545] and balanced accuracy 0.49907 on these same sessions; both
+leaky controls passed. See the [cross-workload comparison](ORAM_ATTACK_FAMILIES.md).
+
 ## Reproduction
 
 ```sh

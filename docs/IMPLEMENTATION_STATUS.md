@@ -43,6 +43,14 @@ both controls and measured ORAM AUC 0.49267 [0.48190, 0.50309]. Independent
 verification checked all 1,440 raw hashes and all 240 paired schedules. See
 [`ORAM_UNIFORM.md`](ORAM_UNIFORM.md).
 
+The frequency-only tag scorer was also applied to all three follow-up raw
+datasets. All six leaky control conditions passed, all 4,320 referenced raw
+hashes and nine source/config inputs were independently verified, and the ORAM
+scores were 0.49871 (read-heavy), 0.48877 (write-heavy), and 0.50462 (uniform
+addresses). The write-heavy fixed score direction is slightly below chance;
+no target-label-based inversion is reported. See
+[`ORAM_ATTACK_FAMILIES.md`](ORAM_ATTACK_FAMILIES.md).
+
 The checkpoint recovery API now includes a caller-supplied `CheckpointAnchor`
 CAS path that atomically stores an opaque snapshot ID with the secret handle.
 It rejects a controller whose generation is stale before publishing, and its

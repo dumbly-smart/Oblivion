@@ -40,6 +40,11 @@ irrelevant or that ORAM is indistinguishable; they report two finite workload
 conditions for one classifier. The service timing remains local and excludes
 pipe/controller timing, and no remote-network or TEE result is implied.
 
+The separate tag-frequency-only attacker on these traces measured AUC 0.49871
+[0.49076, 0.50692] and balanced accuracy 0.49767; both leaky controls passed.
+The [cross-workload comparison](ORAM_ATTACK_FAMILIES.md) records its
+profile-majority baseline and hashed derived report.
+
 ## Reproduction
 
 ```sh

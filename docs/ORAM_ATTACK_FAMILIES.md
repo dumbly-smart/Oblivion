@@ -39,6 +39,30 @@ on one synthetic workload, not a security proof or evidence of universal
 indistinguishability. The frequency-only method is a deliberately simple
 profile-to-tag classifier, not a reproduction of a named published attack.
 
+## Frequency-only attack on the workload follow-ups
+
+The same profile-to-tag scorer was also run after the read-heavy,
+write-heavy, and uniform-address experiments. Each analysis used the matching
+predeclared workload config, all 30 trials, and the existing rule to score
+ORAM only after both controls passed. It collected no new storage traces. Raw
+hashes and the analysis source/config hashes were rechecked independently.
+
+| Workload | Plaintext AUC | Encrypt-only AUC | Path ORAM AUC (95% trial interval) | ORAM balanced accuracy | ORAM raw / majority accuracy |
+|---|---:|---:|---:|---:|---:|
+| 90% reads, skewed addresses | 1.000 | 1.000 | 0.49871 [0.49076, 0.50692] | 0.49767 | 0.58451 / 0.61693 |
+| 10% reads, skewed addresses | 1.000 | 1.000 | 0.48877 [0.47959, 0.49859] | 0.49245 | 0.57207 / 0.61569 |
+| 50/50 reads, uniform addresses | 1.000 | 1.000 | 0.50462 [0.49350, 0.51545] | 0.49907 | 0.73138 / 0.74681 |
+
+The write-heavy result is below chance for this fixed score direction, with an
+unadjusted interval whose upper endpoint is just below 0.5. This does not show
+that an attacker can use an inverse score: target labels were not available to
+choose a direction, and no held-out orientation-selection step was run. It is
+also not evidence that the workload is private. A future attack should
+predeclare any orientation-selection rule using profile-only validation.
+Across these finite workloads, the observed controls show the scorer works on
+the leaky systems while ORAM scores stay near chance and raw accuracy stays
+below the profile-majority baseline.
+
 ## Reproduction
 
 ```sh
@@ -48,6 +72,10 @@ profile-to-tag classifier, not a reproduction of a named published attack.
   --raw experiments/results/oram-isolated-eight-address-20261024 \
   --output experiments/results/oram-eight-address-frequency-new
 ```
+
+The same command can be replayed with the read-heavy, write-heavy or
+uniform-address config and raw directory. The retained reports are under
+`experiments/results/oram-{read-heavy,write-heavy,uniform}-frequency-20261024/`.
 
 The evaluator requires a new derived-output directory. It reads observer
 features and private evaluation labels from separate raw files; only labeled

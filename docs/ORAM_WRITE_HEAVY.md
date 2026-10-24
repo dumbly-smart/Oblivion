@@ -39,6 +39,12 @@ is irrelevant or that ORAM is indistinguishable. The observer still sees local
 bucket-handler service time and access identifiers; it excludes remote
 network timing, controller work, and pipe waiting.
 
+The separately evaluated tag-frequency-only attacker has ORAM AUC 0.48877
+[0.47959, 0.49859] on this data, with balanced accuracy 0.49245 and raw
+accuracy 0.57207 versus a 0.61569 profile-majority baseline. Both positive
+controls pass. The below-chance fixed score direction was not inverted using
+target labels; see [the cross-workload attack report](ORAM_ATTACK_FAMILIES.md).
+
 ## Reproduction
 
 ```sh
