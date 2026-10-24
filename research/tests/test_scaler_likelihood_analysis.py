@@ -90,7 +90,15 @@ class ScalerLikelihoodAnalysisTests(unittest.TestCase):
             self.assertTrue(all("prediction" in row for row in predictions))
             self.assertGreater((root / "analysis/balanced-accuracy.png").stat().st_size,
                                1000)
-            self.assertEqual(report["particle_filter_health"]["nonfinite_class_scores"], 0)
+            dp_predictions = [row for row in predictions if row["policy"] == "dp_laplace"]
+            reported_nonfinite = sum(len(row["nonfinite_classes"]) for row in dp_predictions)
+            self.assertEqual(report["particle_filter_health"]["nonfinite_class_scores"],
+                             reported_nonfinite)
+            for row in dp_predictions:
+                null_classes = sorted(int(key) for key, value
+                                      in row["class_log_likelihoods"].items()
+                                      if value is None)
+                self.assertEqual(sorted(row["nonfinite_classes"]), null_classes)
 
     def test_failed_positive_control_prevents_dp_scoring(self):
         with tempfile.TemporaryDirectory() as directory:

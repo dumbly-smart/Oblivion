@@ -13,6 +13,15 @@ import subprocess
 import tempfile
 import time
 
+PIR_FRAME_HEADER_BYTES=36
+PIR_AEAD_TAG_BYTES=16
+DEMO_PIR_RECORD_COUNT=5
+DEMO_PIR_RECORD_BYTES=160
+EXPECTED_DEMO_PIR_APPLICATION_FRAME_BYTES=2*(
+    PIR_FRAME_HEADER_BYTES+PIR_AEAD_TAG_BYTES+(DEMO_PIR_RECORD_COUNT+7)//8
+    +PIR_FRAME_HEADER_BYTES+PIR_AEAD_TAG_BYTES+DEMO_PIR_RECORD_BYTES
+)
+
 
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
@@ -59,7 +68,7 @@ def analyze_trial(path,cell,wall_seconds):
             require(succeeded,'historical client log cannot certify a retained error')
         require(type(e['pir_queries_completed']) is int and 0<=e['pir_queries_completed']<=2,'PIR completion count')
         framed=e['pir_application_frame_bytes']
-        require(framed==466 if e['pir_queries_completed']==2 else framed is None,'PIR accounting oracle')
+        require(framed==EXPECTED_DEMO_PIR_APPLICATION_FRAME_BYTES if e['pir_queries_completed']==2 else framed is None,'PIR accounting oracle')
         if succeeded:require(e['pir_queries_completed']==2,'success without completed PIR')
         count=e.get('storage_events');byte_count=e.get('storage_bytes')
         if count is None or byte_count is None:

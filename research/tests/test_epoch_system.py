@@ -32,7 +32,7 @@ class EpochSystemTests(unittest.TestCase):
             rows('envelope-observer.jsonl',[{'version':1,'epoch':0,'slot':0,'observer':'batch-pipe','request_bytes':164,'response_bytes':164,'batch_count':1,'latency_ns':100000000,'epoch_due_ns':200000000,'batch_sent_ns':200000000,'late_by_ns':0}])
             rows('client-ground-truth.jsonl',[{'epoch':0,'slot':0,'real':True,'function':0,'success':False}])
             rows('client-private-latency.jsonl',[{'version':1,'epoch':0,'slot':0,'client_ready_ns':0,'queue_wait_ns':200000000,'arrival_to_response_ns':300000000}])
-            engine={'epoch':0,'slot':0,'real':True,'function':0,'status':'Timeout','registry_authenticated':True,'request_authenticated':True,'request_valid':True,'pir_queries_completed':2,'pir_application_frame_bytes':466,'storage_events':128,'storage_bytes':128*316}
+            engine={'epoch':0,'slot':0,'real':True,'function':0,'status':'Timeout','registry_authenticated':True,'request_authenticated':True,'request_valid':True,'pir_queries_completed':2,'pir_application_frame_bytes':530,'storage_events':128,'storage_bytes':128*316}
             rows('executor-private.jsonl',[engine])
             rows('publication-private.jsonl',[{'epoch':0,'slot':0,'executor_process_cpu_ns':123,'publication_lateness_ns':1,'driver_work_overrun_ns':0}])
             rows('storage-observer.jsonl',[{'bytes':316,'direction':'read' if i<64 else 'write'} for i in range(128)])
@@ -58,7 +58,7 @@ class EpochSystemTests(unittest.TestCase):
             success=analyze_trial(path,cell,.3)
             mixed=summarize([result,success])[0]
             self.assertEqual(mixed['real_successes']['mean'],.5)
-            self.assertEqual(mixed['application_bytes_per_real_success']['estimate'],2*(328+466+128*316))
+            self.assertEqual(mixed['application_bytes_per_real_success']['estimate'],2*(328+530+128*316))
             self.assertEqual(mixed['executor_cpu_ns_per_real_success']['estimate'],246)
             self.assertGreater(mixed['executor_cpu_ns_per_real_success']['undefined_denominator_bootstrap_resamples'],0)
             self.assertIsNone(mixed['executor_cpu_ns_per_real_success']['ci95'])
@@ -78,7 +78,7 @@ class EpochSystemTests(unittest.TestCase):
             self.assertEqual(partial['storage_events'],64)
             self.assertIsNone(partial['total_application_bytes'])
             self.assertEqual(partial['failed_executor_cpu_ns'],123)
-            engine.update(status='Success',real=False,function=4,registry_authenticated=True,request_authenticated=False,request_valid=False,pir_queries_completed=2,pir_application_frame_bytes=466,storage_events=128,storage_bytes=128*316)
+            engine.update(status='Success',real=False,function=4,registry_authenticated=True,request_authenticated=False,request_valid=False,pir_queries_completed=2,pir_application_frame_bytes=530,storage_events=128,storage_bytes=128*316)
             rows('executor-private.jsonl',[engine])
             rows('storage-observer.jsonl',[{'bytes':316,'direction':'read' if i<64 else 'write'} for i in range(128)])
             sanitized=analyze_trial(path,cell,.3)
