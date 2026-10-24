@@ -1,0 +1,2485 @@
+{
+  "config": {
+    "version": 1,
+    "seed": 117,
+    "trials": 3,
+    "sessions": 8,
+    "operations": 128
+  },
+  "summary": [
+    {
+      "attack": "frequency",
+      "mode": "plaintext",
+      "accuracy": 1.0,
+      "accuracy_cluster_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "balanced_accuracy": 1.0,
+      "majority_accuracy": 0.7457682291666666,
+      "chance": 0.5,
+      "sessions": 24,
+      "auc_mean": 1.0
+    },
+    {
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "accuracy": 1.0,
+      "accuracy_cluster_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "balanced_accuracy": 1.0,
+      "majority_accuracy": 0.7457682291666666,
+      "chance": 0.5,
+      "sessions": 24,
+      "auc_mean": 1.0
+    },
+    {
+      "attack": "frequency",
+      "mode": "oram",
+      "accuracy": 0.6995442708333334,
+      "accuracy_cluster_bootstrap_95": [
+        0.6852213541666666,
+        0.7138671875
+      ],
+      "balanced_accuracy": 0.49950038930977264,
+      "majority_accuracy": 0.7457682291666666,
+      "chance": 0.5,
+      "sessions": 24,
+      "auc_mean": 0.4995003893097727
+    },
+    {
+      "attack": "traffic",
+      "mode": "unpadded",
+      "accuracy": 1.0,
+      "accuracy_cluster_bootstrap_95": [
+        1.0,
+        1.0
+      ],
+      "balanced_accuracy": 1.0,
+      "majority_accuracy": 0.5,
+      "chance": 0.5,
+      "sessions": 12,
+      "auc_mean": 1.0
+    },
+    {
+      "attack": "traffic",
+      "mode": "padded",
+      "accuracy": 0.5052083333333334,
+      "accuracy_cluster_bootstrap_95": [
+        0.4798177083333333,
+        0.5266927083333334
+      ],
+      "balanced_accuracy": 0.5052083333333334,
+      "majority_accuracy": 0.5,
+      "chance": 0.5,
+      "sessions": 12,
+      "auc_mean": 0.5052083333333334
+    }
+  ],
+  "session_metrics": [
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.7578125,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 0,
+      "session": "0000",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        28.0,
+        30.0,
+        31.0
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.7265625,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 0,
+      "session": "0001",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        31.0,
+        33.0,
+        34.730000000000004
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.7421875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 0,
+      "session": "0002",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        43.0,
+        45.0,
+        46.0
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.6796875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 0,
+      "session": "0003",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        29.0,
+        31.0,
+        33.0
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.75,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 0,
+      "session": "0004",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        31.0,
+        34.0,
+        86.30000000000004
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.7734375,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 0,
+      "session": "0005",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        47.0,
+        50.0,
+        51.0
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.75,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 0,
+      "session": "0006",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        43.0,
+        46.0,
+        46.730000000000004
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.796875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 0,
+      "session": "0007",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        47.0,
+        50.0,
+        51.0
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.703125,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 1,
+      "session": "0000",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        43.0,
+        46.0,
+        48.0
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.796875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 1,
+      "session": "0001",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        37.0,
+        42.0,
+        42.730000000000004
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.75,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 1,
+      "session": "0002",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        40.0,
+        43.0,
+        45.46000000000001
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.7265625,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 1,
+      "session": "0003",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        47.0,
+        50.0,
+        51.0
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.71875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 1,
+      "session": "0004",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        52.0,
+        56.0,
+        57.730000000000004
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.8046875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 1,
+      "session": "0005",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        52.0,
+        55.0,
+        56.730000000000004
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.7578125,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 1,
+      "session": "0006",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        35.0,
+        38.0,
+        40.730000000000004
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.7265625,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 1,
+      "session": "0007",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        52.0,
+        54.64999999999999,
+        57.730000000000004
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.7890625,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 2,
+      "session": "0000",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        47.0,
+        50.0,
+        51.730000000000004
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.71875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 2,
+      "session": "0001",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        47.0,
+        49.0,
+        51.0
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.7890625,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 2,
+      "session": "0002",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        37.0,
+        40.0,
+        41.0
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.71875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 2,
+      "session": "0003",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        43.0,
+        47.0,
+        48.0
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.765625,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 2,
+      "session": "0004",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        41.0,
+        43.0,
+        44.730000000000004
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.6796875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 2,
+      "session": "0005",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        40.0,
+        42.64999999999999,
+        43.0
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.7109375,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 2,
+      "session": "0006",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        47.0,
+        49.64999999999999,
+        50.0
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.765625,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "plaintext",
+      "trial": 2,
+      "session": "0007",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        33.0,
+        35.0,
+        35.0
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.7578125,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 0,
+      "session": "0000",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        2315.0,
+        2360.0,
+        2406.5800000000004
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.7265625,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 0,
+      "session": "0001",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        2831.0,
+        2887.95,
+        2910.41
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.7421875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 0,
+      "session": "0002",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        3942.0,
+        4011.25,
+        4100.64
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.6796875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 0,
+      "session": "0003",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        2678.0,
+        2719.65,
+        2826.1600000000003
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.75,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 0,
+      "session": "0004",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        2995.0,
+        3053.65,
+        7341.73000000002
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.7734375,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 0,
+      "session": "0005",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        3960.0,
+        4336.25,
+        5511.570000000002
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.75,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 0,
+      "session": "0006",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        3955.0,
+        4289.349999999999,
+        4949.070000000003
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.796875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 0,
+      "session": "0007",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        4243.0,
+        4350.65,
+        8997.790000000017
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.703125,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 1,
+      "session": "0000",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        3912.0,
+        3987.85,
+        4073.1600000000003
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.796875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 1,
+      "session": "0001",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        3395.0,
+        3463.65,
+        8012.070000000019
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.75,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 1,
+      "session": "0002",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        3919.0,
+        4003.0,
+        4757.110000000004
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.7265625,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 1,
+      "session": "0003",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        4242.5,
+        4343.6,
+        10709.35
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.71875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 1,
+      "session": "0004",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        4629.0,
+        4711.65,
+        4726.92
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.8046875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 1,
+      "session": "0005",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        4630.5,
+        4729.6,
+        6612.160000000003
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.7578125,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 1,
+      "session": "0006",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        3181.0,
+        3254.65,
+        3963.390000000004
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.7265625,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 1,
+      "session": "0007",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        4661.5,
+        4748.65,
+        5664.770000000005
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.7890625,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 2,
+      "session": "0000",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        4236.5,
+        4397.05,
+        10879.060000000029
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.71875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 2,
+      "session": "0001",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        3910.5,
+        4008.1,
+        5649.800000000003
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.7890625,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 2,
+      "session": "0002",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        3635.0,
+        3719.35,
+        8337.41000000002
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.71875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 2,
+      "session": "0003",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        4234.0,
+        4443.899999999999,
+        8734.620000000015
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.765625,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 2,
+      "session": "0004",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        3399.0,
+        3658.2,
+        4483.650000000004
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.6796875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 2,
+      "session": "0005",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        3913.0,
+        3996.65,
+        4910.240000000002
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.7109375,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 2,
+      "session": "0006",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        4242.5,
+        4337.6,
+        5274.450000000005
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.765625,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "encrypt_only",
+      "trial": 2,
+      "session": "0007",
+      "payload_or_storage_bytes_mean": 80.0,
+      "latency_ns_percentiles": [
+        3182.5,
+        3251.25,
+        3948.3300000000036
+      ]
+    },
+    {
+      "accuracy": 0.71875,
+      "balanced_accuracy": 0.5071499833721317,
+      "auc": 0.5071499833721317,
+      "majority_accuracy": 0.7578125,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 0,
+      "session": "0000",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        25076.0,
+        30480.35,
+        34189.1
+      ]
+    },
+    {
+      "accuracy": 0.6953125,
+      "balanced_accuracy": 0.514132104454685,
+      "auc": 0.514132104454685,
+      "majority_accuracy": 0.7265625,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 0,
+      "session": "0001",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        35507.0,
+        40592.549999999996,
+        43495.030000000006
+      ]
+    },
+    {
+      "accuracy": 0.734375,
+      "balanced_accuracy": 0.5639553429027113,
+      "auc": 0.5639553429027113,
+      "majority_accuracy": 0.7421875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 0,
+      "session": "0002",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        43230.0,
+        59426.94999999997,
+        65381.53
+      ]
+    },
+    {
+      "accuracy": 0.640625,
+      "balanced_accuracy": 0.49705634987384356,
+      "auc": 0.49705634987384356,
+      "majority_accuracy": 0.6796875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 0,
+      "session": "0003",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        35466.5,
+        37153.24999999999,
+        41498.29
+      ]
+    },
+    {
+      "accuracy": 0.7109375,
+      "balanced_accuracy": 0.5052083333333333,
+      "auc": 0.5052083333333334,
+      "majority_accuracy": 0.75,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 0,
+      "session": "0004",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        34065.5,
+        39523.399999999994,
+        43474.46
+      ]
+    },
+    {
+      "accuracy": 0.7265625,
+      "balanced_accuracy": 0.5062695924764891,
+      "auc": 0.5062695924764891,
+      "majority_accuracy": 0.7734375,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 0,
+      "session": "0005",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        42297.5,
+        52759.5,
+        55902.14000000001
+      ]
+    },
+    {
+      "accuracy": 0.6953125,
+      "balanced_accuracy": 0.4947916666666667,
+      "auc": 0.4947916666666667,
+      "majority_accuracy": 0.75,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 0,
+      "session": "0006",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        47813.5,
+        59233.049999999996,
+        64501.79000000001
+      ]
+    },
+    {
+      "accuracy": 0.7578125,
+      "balanced_accuracy": 0.5328054298642534,
+      "auc": 0.5328054298642534,
+      "majority_accuracy": 0.796875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 0,
+      "session": "0007",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        42231.5,
+        52625.6,
+        58958.15000000002
+      ]
+    },
+    {
+      "accuracy": 0.625,
+      "balanced_accuracy": 0.452046783625731,
+      "auc": 0.452046783625731,
+      "majority_accuracy": 0.703125,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 1,
+      "session": "0000",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        39952.0,
+        49511.9,
+        60271.440000000046
+      ]
+    },
+    {
+      "accuracy": 0.734375,
+      "balanced_accuracy": 0.48944193061840124,
+      "auc": 0.4894419306184012,
+      "majority_accuracy": 0.796875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 1,
+      "session": "0001",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        37011.0,
+        44772.049999999996,
+        49169.810000000005
+      ]
+    },
+    {
+      "accuracy": 0.6796875,
+      "balanced_accuracy": 0.4635416666666667,
+      "auc": 0.4635416666666667,
+      "majority_accuracy": 0.75,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 1,
+      "session": "0002",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        41280.5,
+        50228.149999999994,
+        55801.86000000001
+      ]
+    },
+    {
+      "accuracy": 0.6796875,
+      "balanced_accuracy": 0.4855606758832565,
+      "auc": 0.4855606758832565,
+      "majority_accuracy": 0.7265625,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 1,
+      "session": "0003",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        42565.5,
+        53171.45,
+        58594.98000000002
+      ]
+    },
+    {
+      "accuracy": 0.6875,
+      "balanced_accuracy": 0.5120772946859903,
+      "auc": 0.5120772946859904,
+      "majority_accuracy": 0.71875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 1,
+      "session": "0004",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        45266.0,
+        58570.899999999994,
+        65217.01000000001
+      ]
+    },
+    {
+      "accuracy": 0.7578125,
+      "balanced_accuracy": 0.5163106796116506,
+      "auc": 0.5163106796116504,
+      "majority_accuracy": 0.8046875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 1,
+      "session": "0005",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        44988.0,
+        57442.85,
+        62008.790000000015
+      ]
+    },
+    {
+      "accuracy": 0.703125,
+      "balanced_accuracy": 0.48586631193880947,
+      "auc": 0.48586631193880947,
+      "majority_accuracy": 0.7578125,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 1,
+      "session": "0006",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        35454.5,
+        41156.3,
+        45496.00000000001
+      ]
+    },
+    {
+      "accuracy": 0.6796875,
+      "balanced_accuracy": 0.503379416282642,
+      "auc": 0.503379416282642,
+      "majority_accuracy": 0.7265625,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 1,
+      "session": "0007",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        45536.5,
+        57929.549999999996,
+        64045.22
+      ]
+    },
+    {
+      "accuracy": 0.75,
+      "balanced_accuracy": 0.5159515951595159,
+      "auc": 0.5159515951595159,
+      "majority_accuracy": 0.7890625,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 2,
+      "session": "0000",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        42056.0,
+        50160.2,
+        59479.81000000002
+      ]
+    },
+    {
+      "accuracy": 0.6640625,
+      "balanced_accuracy": 0.4788647342995169,
+      "auc": 0.4788647342995169,
+      "majority_accuracy": 0.71875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 2,
+      "session": "0001",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        40063.5,
+        49141.65,
+        56256.570000000014
+      ]
+    },
+    {
+      "accuracy": 0.75,
+      "balanced_accuracy": 0.5159515951595159,
+      "auc": 0.5159515951595159,
+      "majority_accuracy": 0.7890625,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 2,
+      "session": "0002",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        39628.0,
+        46012.9,
+        47311.020000000004
+      ]
+    },
+    {
+      "accuracy": 0.65625,
+      "balanced_accuracy": 0.47342995169082125,
+      "auc": 0.47342995169082125,
+      "majority_accuracy": 0.71875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 2,
+      "session": "0003",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        42104.5,
+        53106.799999999996,
+        60044.25
+      ]
+    },
+    {
+      "accuracy": 0.7109375,
+      "balanced_accuracy": 0.48741496598639455,
+      "auc": 0.48741496598639455,
+      "majority_accuracy": 0.765625,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 2,
+      "session": "0004",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        37616.5,
+        56144.75,
+        61208.84000000002
+      ]
+    },
+    {
+      "accuracy": 0.6484375,
+      "balanced_accuracy": 0.5028034763106252,
+      "auc": 0.5028034763106252,
+      "majority_accuracy": 0.6796875,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 2,
+      "session": "0005",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        41255.5,
+        50111.6,
+        55098.31000000001
+      ]
+    },
+    {
+      "accuracy": 0.671875,
+      "balanced_accuracy": 0.49658449658449655,
+      "auc": 0.4965844965844966,
+      "majority_accuracy": 0.7109375,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 2,
+      "session": "0006",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        45384.5,
+        55075.799999999996,
+        65849.47000000003
+      ]
+    },
+    {
+      "accuracy": 0.7109375,
+      "balanced_accuracy": 0.48741496598639455,
+      "auc": 0.48741496598639455,
+      "majority_accuracy": 0.765625,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "offline frequency rank matching; unmapped tags use majority",
+        "knowledge": "label popularity ordering, no target-session labels",
+        "features": [
+          "tag"
+        ]
+      },
+      "attack": "frequency",
+      "mode": "oram",
+      "trial": 2,
+      "session": "0007",
+      "payload_or_storage_bytes_mean": 3160.0,
+      "latency_ns_percentiles": [
+        39643.0,
+        43425.89999999998,
+        48144.40000000001
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "bytes",
+        "threshold": 34.0,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "unpadded",
+      "trial": 0,
+      "session": "0004",
+      "payload_or_storage_bytes_mean": 34.0,
+      "latency_ns_percentiles": [
+        16308.5,
+        20546.149999999998,
+        25370.79000000002
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "bytes",
+        "threshold": 34.0,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "unpadded",
+      "trial": 0,
+      "session": "0005",
+      "payload_or_storage_bytes_mean": 34.0,
+      "latency_ns_percentiles": [
+        19699.5,
+        27305.949999999993,
+        78876.29000000008
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "bytes",
+        "threshold": 34.0,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "unpadded",
+      "trial": 0,
+      "session": "0006",
+      "payload_or_storage_bytes_mean": 34.0,
+      "latency_ns_percentiles": [
+        17650.0,
+        24623.249999999996,
+        57519.31000000006
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "bytes",
+        "threshold": 34.0,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "unpadded",
+      "trial": 0,
+      "session": "0007",
+      "payload_or_storage_bytes_mean": 34.0,
+      "latency_ns_percentiles": [
+        16381.5,
+        24292.8,
+        61926.94000000018
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "bytes",
+        "threshold": 34.0,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "unpadded",
+      "trial": 1,
+      "session": "0004",
+      "payload_or_storage_bytes_mean": 34.0,
+      "latency_ns_percentiles": [
+        18964.5,
+        23469.35,
+        32307.930000000004
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "bytes",
+        "threshold": 34.0,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "unpadded",
+      "trial": 1,
+      "session": "0005",
+      "payload_or_storage_bytes_mean": 34.0,
+      "latency_ns_percentiles": [
+        20892.5,
+        28128.149999999994,
+        70144.51000000008
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "bytes",
+        "threshold": 34.0,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "unpadded",
+      "trial": 1,
+      "session": "0006",
+      "payload_or_storage_bytes_mean": 34.0,
+      "latency_ns_percentiles": [
+        18709.5,
+        23626.549999999996,
+        28621.800000000003
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "bytes",
+        "threshold": 34.0,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "unpadded",
+      "trial": 1,
+      "session": "0007",
+      "payload_or_storage_bytes_mean": 34.0,
+      "latency_ns_percentiles": [
+        10229.0,
+        14094.149999999992,
+        18106.620000000014
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "bytes",
+        "threshold": 34.0,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "unpadded",
+      "trial": 2,
+      "session": "0004",
+      "payload_or_storage_bytes_mean": 34.0,
+      "latency_ns_percentiles": [
+        18112.0,
+        22724.199999999997,
+        25784.510000000002
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "bytes",
+        "threshold": 34.0,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "unpadded",
+      "trial": 2,
+      "session": "0005",
+      "payload_or_storage_bytes_mean": 34.0,
+      "latency_ns_percentiles": [
+        16359.5,
+        21623.599999999995,
+        29988.33000000002
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "bytes",
+        "threshold": 34.0,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "unpadded",
+      "trial": 2,
+      "session": "0006",
+      "payload_or_storage_bytes_mean": 34.0,
+      "latency_ns_percentiles": [
+        19698.5,
+        25659.449999999993,
+        28997.650000000005
+      ]
+    },
+    {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "auc": 1.0,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "bytes",
+        "threshold": 34.0,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "unpadded",
+      "trial": 2,
+      "session": "0007",
+      "payload_or_storage_bytes_mean": 34.0,
+      "latency_ns_percentiles": [
+        20788.5,
+        27380.849999999988,
+        71006.45000000022
+      ]
+    },
+    {
+      "accuracy": 0.4296875,
+      "balanced_accuracy": 0.4296875,
+      "auc": 0.4296875,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "latency_ns",
+        "threshold": 10081065.5,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "padded",
+      "trial": 0,
+      "session": "0004",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        10080773.5,
+        10175003.4,
+        10198168.38
+      ]
+    },
+    {
+      "accuracy": 0.40625,
+      "balanced_accuracy": 0.40625,
+      "auc": 0.40625,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "latency_ns",
+        "threshold": 10081065.5,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "padded",
+      "trial": 0,
+      "session": "0005",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        10076347.5,
+        10165913.85,
+        10223819.59
+      ]
+    },
+    {
+      "accuracy": 0.5234375,
+      "balanced_accuracy": 0.5234375,
+      "auc": 0.5234375,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "latency_ns",
+        "threshold": 10081065.5,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "padded",
+      "trial": 0,
+      "session": "0006",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        10081651.0,
+        10166370.3,
+        10199931.81
+      ]
+    },
+    {
+      "accuracy": 0.53125,
+      "balanced_accuracy": 0.53125,
+      "auc": 0.53125,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "latency_ns",
+        "threshold": 10081065.5,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "padded",
+      "trial": 0,
+      "session": "0007",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        10079859.5,
+        10157110.6,
+        10197436.51
+      ]
+    },
+    {
+      "accuracy": 0.5390625,
+      "balanced_accuracy": 0.5390625,
+      "auc": 0.5390625,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "latency_ns",
+        "threshold": 10127239.156862745,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "padded",
+      "trial": 1,
+      "session": "0004",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        10068735.5,
+        10167306.95,
+        10182756.92
+      ]
+    },
+    {
+      "accuracy": 0.5390625,
+      "balanced_accuracy": 0.5390625,
+      "auc": 0.5390625,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "latency_ns",
+        "threshold": 10127239.156862745,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "padded",
+      "trial": 1,
+      "session": "0005",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        10070217.0,
+        10159465.8,
+        10201750.38
+      ]
+    },
+    {
+      "accuracy": 0.484375,
+      "balanced_accuracy": 0.484375,
+      "auc": 0.484375,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "latency_ns",
+        "threshold": 10127239.156862745,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "padded",
+      "trial": 1,
+      "session": "0006",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        10074101.0,
+        10168621.35,
+        10189499.68
+      ]
+    },
+    {
+      "accuracy": 0.5546875,
+      "balanced_accuracy": 0.5546875,
+      "auc": 0.5546875,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "latency_ns",
+        "threshold": 10127239.156862745,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "padded",
+      "trial": 1,
+      "session": "0007",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        10077100.0,
+        10171002.2,
+        10203712.76
+      ]
+    },
+    {
+      "accuracy": 0.53125,
+      "balanced_accuracy": 0.53125,
+      "auc": 0.53125,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "latency_ns",
+        "threshold": 10143545.176470589,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "padded",
+      "trial": 2,
+      "session": "0004",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        10073193.5,
+        10173394.4,
+        10209069.72
+      ]
+    },
+    {
+      "accuracy": 0.515625,
+      "balanced_accuracy": 0.515625,
+      "auc": 0.515625,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "latency_ns",
+        "threshold": 10143545.176470589,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "padded",
+      "trial": 2,
+      "session": "0005",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        10074132.0,
+        10171167.25,
+        10205038.16
+      ]
+    },
+    {
+      "accuracy": 0.5078125,
+      "balanced_accuracy": 0.5078125,
+      "auc": 0.5078125,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "latency_ns",
+        "threshold": 10143545.176470589,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "padded",
+      "trial": 2,
+      "session": "0006",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        10078772.0,
+        10171961.6,
+        10186738.91
+      ]
+    },
+    {
+      "accuracy": 0.5,
+      "balanced_accuracy": 0.5,
+      "auc": 0.5,
+      "majority_accuracy": 0.5,
+      "samples": 128,
+      "attack_metadata": {
+        "algorithm": "supervised decision stump",
+        "features_considered": [
+          "bytes",
+          "latency_ns"
+        ],
+        "selected_feature": "latency_ns",
+        "threshold": 10143545.176470589,
+        "knowledge": "public defenses and labeled independent profiling sessions",
+        "scores": "Laplace-smoothed profiling class proportions; not calibrated guarantees"
+      },
+      "attack": "traffic",
+      "mode": "padded",
+      "trial": 2,
+      "session": "0007",
+      "payload_or_storage_bytes_mean": 64.0,
+      "latency_ns_percentiles": [
+        10081867.5,
+        10167647.2,
+        10184490.06
+      ]
+    }
+  ],
+  "methodology": "5000-resample percentile bootstrap across independent target sessions. Target labels confined to scoring. Frequency uses offline unlabeled per-session counts and known popularity ordering; traffic profiles on the first half of sessions of each trial and tests on disjoint remaining sessions. Binary balanced-accuracy chance is 0.5; frequency accuracy must be compared with its imbalanced majority baseline.",
+  "limitations": "Simplified component attacks on synthetic workloads. No reproduction of published inference algorithms. No joint-transcript, scheduler, inter-arrival, cold-start, cache, adversarial-failure or full-pipeline classifier evaluation. Application payload lengths and local component durations are not TCP packet sizes. Near-chance performance is not a security proof. Frequency scores are hard ranking decisions, not calibrated confidence."
+}

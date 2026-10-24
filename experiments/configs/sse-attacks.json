@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "trials": 30,
+  "seed": 20261021,
+  "keywords": 8,
+  "public_corpus_documents": 256,
+  "posting_probabilities": [0.03125, 0.0625, 0.09375, 0.125, 0.15625, 0.1875, 0.21875, 0.25],
+  "profile_queries": 2048,
+  "target_sessions": 2,
+  "queries_per_session": 64,
+  "pad_to": 96,
+  "bootstrap_samples": 5000
+}

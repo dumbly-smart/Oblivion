@@ -1,0 +1,13 @@
+{
+  "pid": 187705,
+  "observed_at_unix": 1792599550.64248,
+  "cmdline": [
+    "/home/xtrmn8/oblivion/target/release/oblivion-harness",
+    "system",
+    "/home/xtrmn8/oblivion/experiments/configs/system-30.json",
+    "/home/xtrmn8/oblivion/experiments/results/system-30-20261021"
+  ],
+  "running_executable_sha256": "df5eb1f37907663e58436467d4c88daae6e4aa85d05143e5dee231c09c02956b",
+  "disk_executable_sha256": "df5eb1f37907663e58436467d4c88daae6e4aa85d05143e5dee231c09c02956b",
+  "method": "read actual live process executable inode through /proc/PID/exe during confirmed active run"
+}

@@ -1,0 +1,24 @@
+[package]
+name = "oblivion-pir"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+chacha20poly1305.workspace = true
+hkdf.workspace = true
+sha2.workspace = true
+rand.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+serde_json.workspace = true
+rand_chacha.workspace = true
+
+[lints]
+workspace = true
+
+[[example]]
+name = "pir-measure"
+path = "examples/measure.rs"

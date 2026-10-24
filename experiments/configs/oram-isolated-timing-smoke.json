@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "blocks": 32,
+  "bucket_capacity": 4,
+  "block_bytes": 64,
+  "operations": 100,
+  "warmup": 10,
+  "trials": 1,
+  "seed": 4501,
+  "workload": "uniform",
+  "backend": "isolated_process"
+}

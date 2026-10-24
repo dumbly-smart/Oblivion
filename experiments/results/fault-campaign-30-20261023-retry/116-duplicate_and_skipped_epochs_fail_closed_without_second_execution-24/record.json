@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+    "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+    "--exact",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "returncode": 0,
+  "timed_out": false,
+  "wall_ns": 365112181,
+  "passed": true,
+  "scenario": "duplicate_and_skipped_epochs_fail_closed_without_second_execution",
+  "trial": 24,
+  "order": 116
+}

@@ -1,0 +1,60 @@
+[
+  {
+    "name": "parallel14_on_two_cpus",
+    "command": [
+      "taskset",
+      "-c",
+      "0,1",
+      "cargo",
+      "test",
+      "-p",
+      "oblivion-server",
+      "--test",
+      "pipeline",
+      "--",
+      "--test-threads=14"
+    ],
+    "exit": 101,
+    "wall_seconds": 5.23919285899683,
+    "stdout": "\nrunning 14 tests\ntest eof_midway_through_multi_client_epoch_is_rejected ... ok\ntest lost_pir_server_returns_authenticated_zero_error_without_user_state ... ok\ntest tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched ... FAILED\ntest invalid_selection_and_reserved_dummy_address_do_not_mutate_user_state ... FAILED\ntest duplicate_and_skipped_epochs_fail_closed_without_second_execution ... ok\ntest open_loop_arrivals_continue_while_executor_is_busy_and_queue_is_bounded ... ok\ntest open_loop_underload_completes_every_offered_stateful_request ... ok\ntest actual_process_pipeline_real_dummy_and_oram_state ... ok\ntest late_frame_after_idle_timeout_cannot_resume_session ... ok\ntest sse_metadata_discovery_precedes_real_mixed_invocation ... ok\ntest executor_bootstrap_and_partial_frames_have_bounded_lifetimes ... ok\ntest multiple_clients_execute_mixed_functions_with_isolated_state_and_fixed_traces ... ok\ntest orphaned_pir_worker_exits_after_idle_bound ... ok\ntest abandoned_response_pipe_cannot_hold_executor_forever ... ok\n\nfailures:\n\n---- tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched stdout ----\n\nthread 'tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched' (497925) panicked at crates/oblivion-server/tests/pipeline.rs:478:13:\nassertion `left == right` failed\n  left: 1\n right: 0\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n\n---- invalid_selection_and_reserved_dummy_address_do_not_mutate_user_state stdout ----\n\nthread 'invalid_selection_and_reserved_dummy_address_do_not_mutate_user_state' (497917) panicked at crates/oblivion-server/tests/pipeline.rs:71:9:\nassertion `left == right` failed\n  left: 1\n right: 0\n\n\nfailures:\n    invalid_selection_and_reserved_dummy_address_do_not_mutate_user_state\n    tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched\n\ntest result: FAILED. 12 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.13s\n\n",
+    "stderr": "    Finished `test` profile [unoptimized] target(s) in 0.09s\n     Running tests/pipeline.rs (target/debug/deps/pipeline-609e0932716dd064)\nerror: test failed, to rerun pass `-p oblivion-server --test pipeline`\n"
+  },
+  {
+    "name": "serial1_on_two_cpus",
+    "command": [
+      "taskset",
+      "-c",
+      "0,1",
+      "cargo",
+      "test",
+      "-p",
+      "oblivion-server",
+      "--test",
+      "pipeline",
+      "--",
+      "--test-threads=1"
+    ],
+    "exit": 0,
+    "wall_seconds": 26.531464988998778,
+    "stdout": "\nrunning 14 tests\ntest abandoned_response_pipe_cannot_hold_executor_forever ... ok\ntest actual_process_pipeline_real_dummy_and_oram_state ... ok\ntest duplicate_and_skipped_epochs_fail_closed_without_second_execution ... ok\ntest eof_midway_through_multi_client_epoch_is_rejected ... ok\ntest executor_bootstrap_and_partial_frames_have_bounded_lifetimes ... ok\ntest invalid_selection_and_reserved_dummy_address_do_not_mutate_user_state ... ok\ntest late_frame_after_idle_timeout_cannot_resume_session ... ok\ntest lost_pir_server_returns_authenticated_zero_error_without_user_state ... ok\ntest multiple_clients_execute_mixed_functions_with_isolated_state_and_fixed_traces ... ok\ntest open_loop_arrivals_continue_while_executor_is_busy_and_queue_is_bounded ... ok\ntest open_loop_underload_completes_every_offered_stateful_request ... ok\ntest orphaned_pir_worker_exits_after_idle_bound ... ok\ntest sse_metadata_discovery_precedes_real_mixed_invocation ... ok\ntest tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched ... ok\n\ntest result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 26.44s\n\n",
+    "stderr": "    Finished `test` profile [unoptimized] target(s) in 0.06s\n     Running tests/pipeline.rs (target/debug/deps/pipeline-609e0932716dd064)\n"
+  },
+  {
+    "name": "strict_demo3_on_one_cpu_with_16_busy_processes",
+    "command": [
+      "taskset",
+      "-c",
+      "0",
+      "/home/xtrmn8/oblivion/target/debug/oblivion-server",
+      "demo",
+      "/home/xtrmn8/oblivion/experiments/results/pipeline-ci-diagnosis-20261023/contended-demo",
+      "50",
+      "3",
+      "mixed"
+    ],
+    "exit": 1,
+    "wall_seconds": 7.761253589000262,
+    "stdout": "",
+    "stderr": "Error: \"invocation failed (trusted client result)\"\n"
+  }
+]

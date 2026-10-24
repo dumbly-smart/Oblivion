@@ -1,0 +1,46 @@
+{
+  "recorded_artifact_hashes_verified": 2955,
+  "expected_unique_trials": 360,
+  "successful_trials": 360,
+  "failed_trials": 0,
+  "raw_trials_reanalyzed": 360,
+  "retained_metrics_exactly_reproduced": true,
+  "strict_public_rows_verified": 2160,
+  "private_latency_rows_joined": 2160,
+  "reader_thread_regression": "real OS pipe with buffered ready+two frames; producer joined before30ms consumer delay; all read_at timestamps precede delay",
+  "reader_function_snapshot_matches_current": true,
+  "current_checkout_source_differences": [
+    "crates/oblivion-pir/examples/target_timing.rs",
+    "crates/oblivion-server/src/pipeline.rs",
+    "crates/oblivion-server/tests/epoch_sweep.rs"
+  ],
+  "postmeasurement_changes": {
+    "crates/oblivion-pir/examples/target_timing.rs": "parent Clippy cleanup in separate executable example, not server call path",
+    "crates/oblivion-server/src/pipeline.rs": "post-campaign legacy/default metadata participant overflow guard and test; reader function and demo-sweep path unchanged",
+    "crates/oblivion-server/tests/epoch_sweep.rs": "post-campaign debug huge-participant regression"
+  },
+  "frozen_snapshot_source_tree_sha256": "0e318364a764b8f9d45ff5c6f29784130463ce8bc9f0e4da277cc92d080e008d",
+  "runtime_metadata_live_checkout_tree_hash_counts": {
+    "0e318364a764b8f9d45ff5c6f29784130463ce8bc9f0e4da277cc92d080e008d": 251,
+    "6210fa8144c56e07f677107af929449c5a8b77249c558d54dbe705321babeb39": 109
+  },
+  "runtime_metadata_hash_scope": "live checkout at metadata emission, not executable provenance; authoritative measurement is immutable binary hash and copied prelaunch sources",
+  "test_results": {
+    "prelaunch_reader_unit": 1,
+    "prelaunch_epoch_integration": 3,
+    "prelaunch_legacy_pipeline": 14,
+    "python_actual_schema": 3,
+    "postguard_debug_epoch_integration": 4,
+    "postguard_pipeline_unit": 3,
+    "all_exits": 0
+  },
+  "guard_tdd": "actual debug demo huge usize::MAX failed with multiplication panic before validation fix, then both demo/demo-sse reject without panic/output",
+  "historical_campaigns": "both original manifests/recorded bytes preserved",
+  "source_tree_hash_order": "Rust Path component ordering, reproduced with Path.parts tuple ordering",
+  "runtime_metadata_frozen_checkout_trials": 251,
+  "runtime_metadata_parent_example_only_change_trials": 109,
+  "live_metadata_variants_fully_explained": true,
+  "postguard_clippy_exit": 0,
+  "postguard_python_actual_schema_tests": 3,
+  "postguard_python_exit": 0
+}

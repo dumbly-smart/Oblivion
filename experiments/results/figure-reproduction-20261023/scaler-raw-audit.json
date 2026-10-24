@@ -1,0 +1,113 @@
+{
+  "audit_recorded_utc": "2026-10-23T14:22:01.282441+00:00",
+  "runs": [
+    {
+      "source": "scaler-paper-30-final",
+      "raw_sha256": {
+        "config.json": "18b0a2a2835fcfa33743f11641ceb83a88064c658bda72383e2fc8f5792b1af4",
+        "observer.jsonl.gz": "95456302d4d475337950c7da146816ce32737b29558c496f3099150450a8e641",
+        "private.jsonl.gz": "17fda95887b760f97f14f8b0ed49cd6d8c40cb3fe28f6aebb0043d62f701e742",
+        "workloads-private.jsonl.gz": "01045b7e0d826ce66d9406a321303509b2ea6f9c4e9abce841a9c019ae21f508"
+      },
+      "public_sessions": 4800,
+      "private_sessions": 4800,
+      "workload_sessions": 960,
+      "trial_metrics": 1050,
+      "summaries": 35,
+      "all_numeric_results_exact_match": true,
+      "images_byte_identical": {
+        "pareto-hot.png": true,
+        "pareto-intensity.png": true
+      },
+      "raw_source": "experiments/results/scaler-paper-30-final",
+      "temporary_raw_source": "/tmp/oblivion-scaler-raw-audit-20261023-l6kdr6hm/scaler-paper-30-final-raw",
+      "temporary_output": "/tmp/oblivion-scaler-raw-audit-20261023-l6kdr6hm/scaler-paper-30-final-rebuilt",
+      "input_sha256_before": {
+        "config.json": "18b0a2a2835fcfa33743f11641ceb83a88064c658bda72383e2fc8f5792b1af4",
+        "observer.jsonl.gz": "95456302d4d475337950c7da146816ce32737b29558c496f3099150450a8e641",
+        "private.jsonl.gz": "17fda95887b760f97f14f8b0ed49cd6d8c40cb3fe28f6aebb0043d62f701e742",
+        "workloads-private.jsonl.gz": "01045b7e0d826ce66d9406a321303509b2ea6f9c4e9abce841a9c019ae21f508"
+      },
+      "input_sha256_after": {
+        "config.json": "18b0a2a2835fcfa33743f11641ceb83a88064c658bda72383e2fc8f5792b1af4",
+        "observer.jsonl.gz": "95456302d4d475337950c7da146816ce32737b29558c496f3099150450a8e641",
+        "private.jsonl.gz": "17fda95887b760f97f14f8b0ed49cd6d8c40cb3fe28f6aebb0043d62f701e742",
+        "workloads-private.jsonl.gz": "01045b7e0d826ce66d9406a321303509b2ea6f9c4e9abce841a9c019ae21f508"
+      },
+      "original_inputs_unchanged": true,
+      "analysis_source_sha256": {
+        "scripts/regenerate_scaler.py": "c801d8fca16758f5b456f21a8c9667a8d7b1e28bf0d5f430208a26a364a43c03",
+        "research/simulation/run.py": "64182dd9e18dc16016da5dd21e3ae0f61babaadfe6380e6b96a2da100069a940",
+        "research/simulation/scaler.py": "ca38bdf58c402cb9c30ce4f0e754c7db97abaf8b3aa8ef75a19919d459d09568"
+      },
+      "raw_source_report_available": false,
+      "read_cached_report": false,
+      "ran_simulator": false,
+      "output_figure_sha256": {
+        "pareto-hot.png": "187705169d39b11f194936b3f718f71ee0ec02d5bac1fc653bfce8b2dc8b6717",
+        "pareto-intensity.png": "77239c1e8fadfb56bc737f232d15a7cb07e6b63eaf2f28a0ad24b41924223b10"
+      },
+      "numerical_fields_compared": [
+        "config",
+        "trial_metrics",
+        "summary",
+        "positive_controls",
+        "imported_runs"
+      ]
+    },
+    {
+      "source": "scaler-prewarm2-30-final",
+      "raw_sha256": {
+        "config.json": "11f47d88b7d9ff1c75cc1738ed3497563794bd9d324841fca6c1ae45fb9a9073",
+        "observer.jsonl.gz": "743be055c8c37ef3c344a186820ccb8c882c6e190f4c609804534e696043748b",
+        "private.jsonl.gz": "d4ba2af6a028c617b7399b549fde182de00ab47d06b150a37d7fac4ce81b653e",
+        "workloads-private.jsonl.gz": "4de556ee3955491ccbf31996d216d20612cbaff52350b149dbb18d8e854be182"
+      },
+      "public_sessions": 4800,
+      "private_sessions": 4800,
+      "workload_sessions": 960,
+      "trial_metrics": 1050,
+      "summaries": 35,
+      "all_numeric_results_exact_match": true,
+      "images_byte_identical": {
+        "pareto-hot.png": true,
+        "pareto-intensity.png": true
+      },
+      "raw_source": "experiments/results/scaler-prewarm2-30-final",
+      "temporary_raw_source": "/tmp/oblivion-scaler-raw-audit-20261023-l6kdr6hm/scaler-prewarm2-30-final-raw",
+      "temporary_output": "/tmp/oblivion-scaler-raw-audit-20261023-l6kdr6hm/scaler-prewarm2-30-final-rebuilt",
+      "input_sha256_before": {
+        "config.json": "11f47d88b7d9ff1c75cc1738ed3497563794bd9d324841fca6c1ae45fb9a9073",
+        "observer.jsonl.gz": "743be055c8c37ef3c344a186820ccb8c882c6e190f4c609804534e696043748b",
+        "private.jsonl.gz": "d4ba2af6a028c617b7399b549fde182de00ab47d06b150a37d7fac4ce81b653e",
+        "workloads-private.jsonl.gz": "4de556ee3955491ccbf31996d216d20612cbaff52350b149dbb18d8e854be182"
+      },
+      "input_sha256_after": {
+        "config.json": "11f47d88b7d9ff1c75cc1738ed3497563794bd9d324841fca6c1ae45fb9a9073",
+        "observer.jsonl.gz": "743be055c8c37ef3c344a186820ccb8c882c6e190f4c609804534e696043748b",
+        "private.jsonl.gz": "d4ba2af6a028c617b7399b549fde182de00ab47d06b150a37d7fac4ce81b653e",
+        "workloads-private.jsonl.gz": "4de556ee3955491ccbf31996d216d20612cbaff52350b149dbb18d8e854be182"
+      },
+      "original_inputs_unchanged": true,
+      "analysis_source_sha256": {
+        "scripts/regenerate_scaler.py": "c801d8fca16758f5b456f21a8c9667a8d7b1e28bf0d5f430208a26a364a43c03",
+        "research/simulation/run.py": "64182dd9e18dc16016da5dd21e3ae0f61babaadfe6380e6b96a2da100069a940",
+        "research/simulation/scaler.py": "ca38bdf58c402cb9c30ce4f0e754c7db97abaf8b3aa8ef75a19919d459d09568"
+      },
+      "raw_source_report_available": false,
+      "read_cached_report": false,
+      "ran_simulator": false,
+      "output_figure_sha256": {
+        "pareto-hot.png": "31988c8d6a0f4a9d20f20bba24657eeb2498359347a0459e835ee7e23f2cb9d6",
+        "pareto-intensity.png": "09a114d322999e82109af8cdbb86c3e4fb17d074b6138b17ba43d20a6405417e"
+      },
+      "numerical_fields_compared": [
+        "config",
+        "trial_metrics",
+        "summary",
+        "positive_controls",
+        "imported_runs"
+      ]
+    }
+  ]
+}

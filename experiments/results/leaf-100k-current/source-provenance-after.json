@@ -1,0 +1,33 @@
+{
+  "recorded_after_measurement_unix_ns": 1792600785357619163,
+  "source_files_sha256_current": {
+    "Cargo.lock": "2b23272b57e02b7bf3b9ced56a09c71387e09c454cbb51a9bbd1a65238de6fb1",
+    "Cargo.toml": "8afb74c874b3e8bd720548ac063fd867b303de18164ff6bb7416c3122997bf9a",
+    "crates/oblivion-pir/Cargo.toml": "839e74206bf67313bcb58ee61a53b16ac6980a1c54da4cc3148d1e586a26f006",
+    "crates/oblivion-pir/examples/capture_driver.rs": "da39bd04cd6e27ab37e6353f71402bc850ff4cbbbc61b6f89ea66eb245f29c70",
+    "crates/oblivion-pir/examples/measure.rs": "3bb9a7edc4246ca855055af5ed03a35f08d0605f7b6573e1e92e6641ce92be9e",
+    "crates/oblivion-pir/src/bin/pir-client.rs": "b3920ae19296bdfeaec7519c0ee3b3c11952883693e4166b4c893199d9d934fe",
+    "crates/oblivion-pir/src/bin/pir-server.rs": "49cfc0ed99fa3eeee4ad16ee06a310858ad3f124e1dffe14a7fa80ae619219c8",
+    "crates/oblivion-pir/src/bin/secure-pir-server.rs": "3a19f4c19b9cc0ec99ef20596bb1c7e77817392082522e87202cd6a7cb6da074",
+    "crates/oblivion-pir/src/lib.rs": "660070a133594fd1b8dae4835911db36409e4907c1d0e48f9418826b279c7b59",
+    "crates/oblivion-pir/src/secure.rs": "b57edea516c76c551b84cdb370e7fe805493808d76798b103fcf96a9c83447c5",
+    "crates/oblivion-pir/src/wire.rs": "93624515c88388f369a68443467812d78fe3db1cceba0fa54cf27da8d8e49b13",
+    "crates/oblivion-pir/tests/processes.rs": "8bb1293d240fec6e037ed7c944045ebe50afd80e73dd2b7b1740653ef959ad76",
+    "crates/oblivion-pir/tests/retrieval.rs": "18cf655378d25c0e9b37cfc80deb9dedec0e9132d54e023e2ac012413171a191",
+    "crates/oblivion-pir/tests/secure_processes.rs": "c53743b4052bb1d4f89ebcea5324283ae414059fef305b915d00c7e723f339f1",
+    "crates/oblivion-pir/tests/secure_transport.rs": "fcc952179ecc050a08589711b664232e2404418459877016fbfc4f61e1221804",
+    "crates/oblivion-store/Cargo.toml": "3fb887cc817dacf7b69b74cb4e54125dcb7158474c842482a5b3b2001efb8d14",
+    "crates/oblivion-store/examples/measure.rs": "d1dae1bf6e761df091a738bf83b632a6469c62bc81b9203b300c8f4b1cbe66c0",
+    "crates/oblivion-store/src/backend.rs": "1497745770d6d760179fde5727506b4b52d14f919580dfcb8210a732355bf831",
+    "crates/oblivion-store/src/config.rs": "151fb8eb3381f0da35528043ca83bde3f5ad305fbee3d02be24176826f3509d0",
+    "crates/oblivion-store/src/file_backend.rs": "f8b91f7ca8be253b71a0e5fd0e511819d1767c650e4a7b10864776bdd17ddc64",
+    "crates/oblivion-store/src/lib.rs": "d1615ea08cb217a4f316c74df402338360642c1468ca2543946f2624491014b2",
+    "crates/oblivion-store/src/oram/recovery.rs": "276bb2ed3753eba31c61aa9bbfd9b4924522c15ef858010805f16c7d86022d56",
+    "crates/oblivion-store/src/oram.rs": "0ae9f0c587e4780a827ff7b8903699465cbaa304cd804475e63285515423e6ee",
+    "crates/oblivion-store/tests/adversarial.rs": "c21e2ae2232e15ab5aa6ca24e11c077059b9ae10982d3a0fd6ea23187bb0891f",
+    "crates/oblivion-store/tests/oracle.rs": "b93488849aea76002804b47a159faa47ba7c8a5b41ee630048d5bf3effb24d48",
+    "crates/oblivion-store/tests/recovery.rs": "1c79f30e657051e3e65ee1f821dc85732cb4145fb2f7f282d77332b2add89ec7"
+  },
+  "git_head_current": "99128ff036c7d6ca0675d4c8126f1d616ede2b0b",
+  "limitation": "These source fingerprints were recorded after measurement; do not reinterpret them as a build-time snapshot. Exact immutable measured executable SHA256 is preserved before and after launch."
+}

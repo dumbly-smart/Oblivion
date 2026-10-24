@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+    "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+    "--exact",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "returncode": 0,
+  "timed_out": false,
+  "wall_ns": 4073546317,
+  "passed": true,
+  "scenario": "executor_bootstrap_and_partial_frames_have_bounded_lifetimes",
+  "trial": 26,
+  "order": 7
+}

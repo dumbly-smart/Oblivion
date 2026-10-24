@@ -1,0 +1,48 @@
+{
+  "trial": 8,
+  "queries": 100,
+  "command": [
+    "/home/xtrmn8/oblivion/experiments/results/pir-capture-current/bin/capture_driver",
+    "/home/xtrmn8/oblivion/experiments/results/pir-capture-current/trial-008",
+    "100",
+    "20261029"
+  ],
+  "ready": {
+    "answer_frame_bytes": 180,
+    "ports": [
+      45341,
+      33173
+    ],
+    "queries": 100,
+    "query_frame_bytes": 53,
+    "ready": true,
+    "record_bytes": 128,
+    "records": 5
+  },
+  "driver_returncode": 0,
+  "stdout": "{\"complete\":true,\"verified\":100}\n",
+  "stderr": "",
+  "capture_command": [
+    "dumpcap",
+    "-i",
+    "lo",
+    "-f",
+    "tcp and host 127.0.0.1 and (port 45341 or port 33173)",
+    "-w",
+    "/home/xtrmn8/oblivion/experiments/results/pir-capture-current/trial-008/capture.pcapng",
+    "-a",
+    "duration:15"
+  ],
+  "capture_ok": true,
+  "capture_log": [
+    "Capturing on 'Loopback: lo'",
+    "File: /home/xtrmn8/oblivion/experiments/results/pir-capture-current/trial-008/capture.pcapng",
+    "",
+    "Packets: 743",
+    "Packets: 1484",
+    "Packets: 2071",
+    "Packets captured: 2071",
+    "Packets received/dropped on interface 'Loopback: lo': 2071/0 (pcap:0/dumpcap:0/flushed:0/ps_ifdrop:0) (100.0%)"
+  ],
+  "capture_returncode": 0
+}

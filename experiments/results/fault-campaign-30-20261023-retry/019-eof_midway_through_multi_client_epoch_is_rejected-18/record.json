@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+    "eof_midway_through_multi_client_epoch_is_rejected",
+    "--exact",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "returncode": 0,
+  "timed_out": false,
+  "wall_ns": 214633370,
+  "passed": true,
+  "scenario": "eof_midway_through_multi_client_epoch_is_rejected",
+  "trial": 18,
+  "order": 19
+}

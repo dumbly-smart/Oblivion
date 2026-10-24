@@ -1,0 +1,5672 @@
+[
+  {
+    "mode": "A",
+    "trial": 0,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261021,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 1,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261022,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 2,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261023,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 3,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261024,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 4,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261025,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 5,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261026,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 6,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261027,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 7,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261028,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 8,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261029,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 9,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261030,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 10,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261031,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 11,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261032,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 12,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261033,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 13,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261034,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 14,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261035,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 15,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261036,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 16,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261037,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 17,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261038,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 18,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261039,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 19,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261040,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 20,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261041,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 21,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261042,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 22,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261043,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 23,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261044,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 24,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261045,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 25,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261046,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 26,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261047,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 27,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261048,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 28,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261049,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "A",
+    "trial": 29,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261050,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 0,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261021,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 1,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261022,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 2,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261023,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 3,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261024,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 4,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261025,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 5,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261026,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 6,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261027,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 7,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261028,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 8,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261029,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 9,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261030,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 10,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261031,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 11,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261032,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 12,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261033,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 13,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261034,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 14,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261035,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 15,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261036,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 16,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261037,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 17,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261038,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 18,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261039,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 19,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261040,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 20,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261041,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 21,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261042,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 22,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261043,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 23,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261044,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 24,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261045,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 25,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261046,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 26,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261047,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 27,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261048,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 28,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261049,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "B",
+    "trial": 29,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261050,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 0,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261021,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 1,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261022,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 2,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261023,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 3,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261024,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 4,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261025,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 5,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261026,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 6,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261027,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 7,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261028,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 8,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261029,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 9,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261030,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 10,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261031,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 11,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261032,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 12,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261033,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 13,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261034,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 14,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261035,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 15,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261036,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 16,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261037,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 17,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261038,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 18,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261039,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 19,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261040,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 20,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261041,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 21,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261042,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 22,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261043,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 23,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261044,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 24,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261045,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 25,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261046,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 26,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261047,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 27,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261048,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 28,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261049,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "C",
+    "trial": 29,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261050,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 0,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261021,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 1,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261022,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 2,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261023,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 3,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261024,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 4,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261025,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 5,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261026,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 6,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261027,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 7,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261028,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 8,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261029,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 9,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261030,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 10,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261031,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 11,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261032,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 12,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261033,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 13,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261034,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 14,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261035,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 15,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261036,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 16,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261037,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 17,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261038,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 18,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261039,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 19,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261040,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 20,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261041,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 21,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261042,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 22,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261043,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 23,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261044,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 24,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261045,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 25,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261046,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 26,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261047,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 27,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261048,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 28,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261049,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "D",
+    "trial": 29,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261050,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 0,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261021,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 1,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261022,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 2,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261023,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 3,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261024,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 4,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261025,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 5,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261026,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 6,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261027,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 7,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261028,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 8,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261029,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 9,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261030,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 10,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261031,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 11,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261032,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 12,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261033,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 13,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261034,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 14,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261035,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 15,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261036,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 16,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261037,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 17,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261038,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 18,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261039,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 19,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261040,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 20,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261041,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 21,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261042,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 22,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261043,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 23,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261044,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 24,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261045,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 25,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261046,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 26,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261047,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 27,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261048,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 28,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261049,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "E",
+    "trial": 29,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261050,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 0,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261021,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 1,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261022,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 2,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261023,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 3,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261024,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 4,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261025,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 5,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261026,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 6,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261027,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 7,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261028,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 8,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261029,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 9,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261030,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 10,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261031,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 11,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261032,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 12,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261033,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 13,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261034,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 14,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261035,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 15,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261036,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 16,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261037,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 17,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261038,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 18,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261039,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 19,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261040,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 20,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261041,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 21,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261042,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 22,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261043,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 23,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261044,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 24,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261045,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 25,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261046,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 26,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261047,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 27,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261048,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 28,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261049,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "F",
+    "trial": 29,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261050,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 0,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261021,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 1,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261022,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 2,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261023,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 3,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261024,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 4,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261025,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 5,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261026,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 6,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261027,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 7,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261028,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 8,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261029,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 9,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261030,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 10,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261031,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 11,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261032,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 12,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261033,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 13,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261034,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 14,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261035,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 15,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261036,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 16,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261037,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 17,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261038,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 18,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261039,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 19,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261040,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 20,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261041,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 21,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261042,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 22,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261043,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 23,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261044,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 24,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261045,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 25,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261046,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 26,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261047,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 27,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261048,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 28,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261049,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  },
+  {
+    "mode": "G",
+    "trial": 29,
+    "metadata": {
+      "algorithm": "bootstrap ensemble of bounded axis-aligned classification trees",
+      "trees": 32,
+      "depth": 5,
+      "minimum_profile_leaf": 3,
+      "features": [
+        "request_bytes",
+        "response_bytes",
+        "registry_bytes",
+        "registry_index",
+        "storage_events",
+        "storage_bytes",
+        "last_bucket",
+        "storage_span_ns",
+        "latency_ns",
+        "late_by_ns",
+        "instance_count",
+        "cold_start_ns"
+      ],
+      "seed": 20261050,
+      "knowledge": "public mechanisms and separately labeled whole profiling sessions",
+      "scores": "smoothed leaf frequencies averaged across trees, not calibrated guarantees"
+    }
+  }
+]

@@ -1,0 +1,25 @@
+{
+  "temporary_clone": "/tmp/oblivion-presence-clone-audit-20261023-6ynnz_57/source",
+  "temporary_output": "/tmp/oblivion-presence-clone-audit-20261023-6ynnz_57/analysis",
+  "verified_source_artifacts": 196,
+  "verified_data_artifacts": 196,
+  "measurement_executable": {
+    "path": "bin/presence",
+    "available": false,
+    "verified": false,
+    "expected_sha256": "e06feb2917a6ccf13c024b543ad4d835f666c3eab8fd47508d88908eaa3f9899"
+  },
+  "comparison_to_accepted": {
+    "summary.json": true,
+    "trial-metrics.json": true,
+    "positive-control-first.json": true,
+    "costs.jsonl": true
+  },
+  "cost_rows": 180,
+  "cost_rows_per_trial_probability": 3,
+  "raw_artifact_manifest_sha256": "0eaae72d5d3d00059c9b466dd529abd971e81fb1298ca534570d8496f66f1aa9",
+  "analysis_source_sha256": {
+    "research/analysis/presence.py": "80ebfa64c0f5bd7205c8db890609959f3ff6d3159e432336a9358f084b1bebfe",
+    "research/attacks/presence.py": "50344ab33ee6008e708c685a08912d8d989cd08b91d87b3d518fe6fbba96e9b3"
+  }
+}

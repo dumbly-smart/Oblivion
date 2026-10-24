@@ -1,0 +1,8 @@
+{
+  "class_ms": 100,
+  "cryptography": "OS randomness; seed only shuffles workload",
+  "mode": "protected",
+  "observations": 8,
+  "seed": 20262322,
+  "startup_ns": 11860705
+}

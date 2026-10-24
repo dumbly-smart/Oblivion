@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "accuracy": 1.0,
+  "threshold": 0.8,
+  "executed_before_protected": true,
+  "whole_trial_bootstrap_95": [
+    1.0,
+    1.0
+  ],
+  "scope": "Actual unauthenticated plaintext request frames, not trusted target flags passed to attacker."
+}

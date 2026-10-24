@@ -1,0 +1,19 @@
+{
+  "dataset": "MIMICS-Click",
+  "source_url": "https://raw.githubusercontent.com/microsoft/MIMICS/6450e8143bd380505bbf047822e41a2a3a2b474f/data/MIMICS-Click.tsv",
+  "repository_commit": "6450e8143bd380505bbf047822e41a2a3a2b474f",
+  "source_bytes": 56296718,
+  "source_sha256": "f0bde328a833a38b71f857764a7e02c7870f3e75ef3816c2d11029ddda7a157e",
+  "raw_query_text_retained": false,
+  "dataset_rows_read": 414362,
+  "license_note": "Repository advertises MIT but README also contains ORCAS research-only terms; use confined to noncommercial research and terms remain ambiguous.",
+  "privacy_note": "Source paper reports >=40 users in prior year, >=10 impressions, proprietary additional privacy filtering, and automatic sensitive/inappropriate-content removal. This does not establish consent or guarantee anonymity.",
+  "binary_sha256": "bfe68b96d99c5b6901abfffa961e9205ec6251b08d80ee9d7a621a0863a509c3",
+  "git_head": "6d33d6a0c77b99aeddd34ea44ff43b3ba03e9204",
+  "python": "3.14.8 (main, Oct  2 2026, 10:23:31) [GCC 16.2.1 20260810]",
+  "numpy": "2.5.4",
+  "scipy": "1.18.1",
+  "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+  "elapsed_seconds": 136.48801231384277,
+  "output_policy": "Aggregate statistics only; query text, query-token incidence, session labels, SSE traces, and attack predictions remained in a temporary directory and were deleted."
+}

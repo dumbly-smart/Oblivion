@@ -1,0 +1,308 @@
+{
+  "simplepir": {
+    "trials": 30,
+    "query_samples": 100020,
+    "all_correct": true,
+    "correctness": {
+      "queries": 100020,
+      "failures": 0,
+      "observed_failure_fraction": 0.0,
+      "setup_trials": 30,
+      "setups_with_failure": 0,
+      "iid_query_reference_only": {
+        "wilson_95_interval": [
+          0.0,
+          3.840543179173572e-05
+        ],
+        "one_sided_95_upper": 2.9950883932365867e-05,
+        "assumption": "IID homogeneous Bernoulli events only; conditional reference, not a cryptographic failure guarantee"
+      },
+      "iid_setup_event_reference_only": {
+        "wilson_95_interval": [
+          0.0,
+          0.11351339317396876
+        ],
+        "one_sided_95_upper": 0.09503385285530414,
+        "assumption": "IID homogeneous Bernoulli events only; conditional reference, not a cryptographic failure guarantee"
+      },
+      "dependence_caveat": "Queries reuse each setup/shared matrix/hint; 100k query outcomes are not 100k independent setup trials. The setup event is any observed failure in this configured finite workload. Fresh OS randomness and fresh processes do not prove an IID noise model or worst-case correctness."
+    },
+    "latency_ns": {
+      "generation_ns": {
+        "mean": 327770.276144771,
+        "median": 300733.0,
+        "p95": 430296.05,
+        "sample_stddev": 64605.40574590617,
+        "trial_mean_95pct_bootstrap_ci": [
+          326323.3549190162,
+          329473.55661892623
+        ]
+      },
+      "server1_ns": {
+        "mean": 5959.450109978005,
+        "median": 5493.0,
+        "p95": 7792.0,
+        "sample_stddev": 2943.4509246808834,
+        "trial_mean_95pct_bootstrap_ci": [
+          5903.404073435313,
+          6020.322843181364
+        ]
+      },
+      "server2_ns": {
+        "mean": 0,
+        "median": 0.0,
+        "p95": 0.0,
+        "sample_stddev": 0.0,
+        "trial_mean_95pct_bootstrap_ci": [
+          0.0,
+          0.0
+        ]
+      },
+      "server_total_ns": {
+        "mean": 5959.450109978005,
+        "median": 5493.0,
+        "p95": 7792.0,
+        "sample_stddev": 2943.4509246808834,
+        "trial_mean_95pct_bootstrap_ci": [
+          5903.404073435313,
+          6020.322843181364
+        ]
+      },
+      "recovery_ns": {
+        "mean": 24648.55448910218,
+        "median": 21869.0,
+        "p95": 38377.0,
+        "sample_stddev": 8983.645019559222,
+        "trial_mean_95pct_bootstrap_ci": [
+          24263.38665616877,
+          25032.387366026796
+        ]
+      },
+      "total_algorithm_ns": {
+        "mean": 358378.2807438512,
+        "median": 330642.5,
+        "p95": 465858.9499999998,
+        "sample_stddev": 67820.34064487396,
+        "trial_mean_95pct_bootstrap_ci": [
+          356808.983069886,
+          360178.9124887523
+        ]
+      }
+    },
+    "setup_latency_ns": {
+      "database_build_ns": {
+        "mean": 1295219.2,
+        "median": 1066208.0,
+        "p95": 1909021.75,
+        "sample_stddev": 358874.31161268125,
+        "trial_mean_95pct_bootstrap_ci": [
+          1171783.2175,
+          1425560.0908333333
+        ]
+      },
+      "shared_init_ns": {
+        "mean": 21381803.4,
+        "median": 20489585.5,
+        "p95": 28670427.599999998,
+        "sample_stddev": 3108214.5390920183,
+        "trial_mean_95pct_bootstrap_ci": [
+          20403304.929166667,
+          22571425.168333333
+        ]
+      },
+      "preprocessing_ns": {
+        "mean": 5119617,
+        "median": 4950177.0,
+        "p95": 5554255.05,
+        "sample_stddev": 657252.8818722512,
+        "trial_mean_95pct_bootstrap_ci": [
+          4956360.3375,
+          5388149.701666666
+        ]
+      }
+    },
+    "setup_mean_ns": {
+      "database_build_ns": 1295219.2,
+      "shared_init_ns": 21381803.4,
+      "preprocessing_ns": 5119617
+    },
+    "communication_bytes": {
+      "query_payload_bytes": [
+        1056
+      ],
+      "response_payload_bytes": [
+        1064
+      ]
+    },
+    "offline_bytes": {
+      "offline_upload_bytes": [
+        1081344
+      ],
+      "offline_download_bytes": [
+        1089536
+      ]
+    },
+    "server_bytes_scanned_per_query": [
+      93632
+    ],
+    "total_protocol_bytes_amortized_per_query": {
+      "1": 2173000.0,
+      "16": 137800.0,
+      "1000": 4290.88,
+      "1000000": 2122.17088
+    }
+  },
+  "naive_xor": {
+    "trials": 30,
+    "query_samples": 100020,
+    "all_correct": true,
+    "correctness": {
+      "queries": 100020,
+      "failures": 0,
+      "observed_failure_fraction": 0.0,
+      "setup_trials": 30,
+      "setups_with_failure": 0,
+      "iid_query_reference_only": {
+        "wilson_95_interval": [
+          0.0,
+          3.840543179173572e-05
+        ],
+        "one_sided_95_upper": 2.9950883932365867e-05,
+        "assumption": "IID homogeneous Bernoulli events only; conditional reference, not a cryptographic failure guarantee"
+      },
+      "iid_setup_event_reference_only": {
+        "wilson_95_interval": [
+          0.0,
+          0.11351339317396876
+        ],
+        "one_sided_95_upper": 0.09503385285530414,
+        "assumption": "IID homogeneous Bernoulli events only; conditional reference, not a cryptographic failure guarantee"
+      },
+      "dependence_caveat": "Queries reuse each setup/shared matrix/hint; 100k query outcomes are not 100k independent setup trials. The setup event is any observed failure in this configured finite workload. Fresh OS randomness and fresh processes do not prove an IID noise model or worst-case correctness."
+    },
+    "latency_ns": {
+      "generation_ns": {
+        "mean": 2693.3851629674064,
+        "median": 2611.0,
+        "p95": 3030.0,
+        "sample_stddev": 470.6236496629661,
+        "trial_mean_95pct_bootstrap_ci": [
+          2660.444598830234,
+          2747.1156596180763
+        ]
+      },
+      "server1_ns": {
+        "mean": 53422.03293341332,
+        "median": 52508.0,
+        "p95": 56998.0,
+        "sample_stddev": 4921.516829520504,
+        "trial_mean_95pct_bootstrap_ci": [
+          52957.602313287345,
+          54137.855810587884
+        ]
+      },
+      "server2_ns": {
+        "mean": 50163.6400119976,
+        "median": 49447.0,
+        "p95": 53845.09999999998,
+        "sample_stddev": 5226.701895337938,
+        "trial_mean_95pct_bootstrap_ci": [
+          49711.11627224555,
+          50875.422682963406
+        ]
+      },
+      "server_total_ns": {
+        "mean": 103585.67294541092,
+        "median": 101989.0,
+        "p95": 108076.04999999999,
+        "sample_stddev": 9232.683042708773,
+        "trial_mean_95pct_bootstrap_ci": [
+          102669.79696235752,
+          105009.9947790442
+        ]
+      },
+      "recovery_ns": {
+        "mean": 37.33291341731654,
+        "median": 34.0,
+        "p95": 48.0,
+        "sample_stddev": 30.16623553171215,
+        "trial_mean_95pct_bootstrap_ci": [
+          36.11891596680663,
+          39.16549015196961
+        ]
+      },
+      "total_algorithm_ns": {
+        "mean": 106316.39102179564,
+        "median": 104657.0,
+        "p95": 110870.09999999998,
+        "sample_stddev": 9472.208415943935,
+        "trial_mean_95pct_bootstrap_ci": [
+          105368.23743176364,
+          107795.31480228955
+        ]
+      }
+    },
+    "setup_latency_ns": {
+      "database_build_ns": {
+        "mean": 700962.8666666667,
+        "median": 582384.5,
+        "p95": 1030651.7999999998,
+        "sample_stddev": 196884.78155225245,
+        "trial_mean_95pct_bootstrap_ci": [
+          634656.0708333333,
+          773982.105
+        ]
+      },
+      "shared_init_ns": {
+        "mean": 0,
+        "median": 0.0,
+        "p95": 0.0,
+        "sample_stddev": 0.0,
+        "trial_mean_95pct_bootstrap_ci": [
+          0.0,
+          0.0
+        ]
+      },
+      "preprocessing_ns": {
+        "mean": 0,
+        "median": 0.0,
+        "p95": 0.0,
+        "sample_stddev": 0.0,
+        "trial_mean_95pct_bootstrap_ci": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "setup_mean_ns": {
+      "database_build_ns": 700962.8666666667,
+      "shared_init_ns": 0,
+      "preprocessing_ns": 0
+    },
+    "communication_bytes": {
+      "query_payload_bytes": [
+        2500
+      ],
+      "response_payload_bytes": [
+        16
+      ]
+    },
+    "offline_bytes": {
+      "offline_upload_bytes": [
+        0
+      ],
+      "offline_download_bytes": [
+        0
+      ]
+    },
+    "server_bytes_scanned_per_query": [
+      160000
+    ],
+    "total_protocol_bytes_amortized_per_query": {
+      "1": 2516.0,
+      "16": 2516.0,
+      "1000": 2516.0,
+      "1000000": 2516.0
+    }
+  }
+}

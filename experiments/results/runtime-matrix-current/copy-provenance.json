@@ -1,0 +1,30 @@
+{
+  "source": "/tmp/oblivion-runtime-validation-txlc0y4w",
+  "copied_to": "/home/xtrmn8/oblivion/experiments/results/runtime-matrix-current",
+  "copied_unix_ns": 1792599962886567138,
+  "files_sha256": {
+    "0/client-ground-truth.jsonl": "de88055d5236c7634c842ae9386dd63f1460cfcd0ed234ed20c4d1b293423c05",
+    "0/client-summary.json": "c9c6ae39b8f407296bc3d5d23565b563f94be07eda4c68920589ace09bd3ce6c",
+    "0/envelope-observer.jsonl": "e561da210f9acec206c2efb5a5853d4fc16ceff57840928cfb0591815954163a",
+    "0/executor-private.jsonl": "54ae0b7afd61a49297aaea5c4a681154b747b0703d4e72886115830f300f4589",
+    "0/metadata-discovery-observer.jsonl": "132bc00f441cf00be2296bf7987beb8c6b0e954f87f9da1bc1f6c989fdc60dcb",
+    "0/metadata.json": "e700defbfbb5cfd382542bfa38163e1a8c9ce91c02bd609297f3c7434ff6c7c8",
+    "0/storage-observer.jsonl": "c12719bb308fa1a96823fe711f3627287ca46136110d8847cad2c4b13fb75d32",
+    "100/client-ground-truth.jsonl": "f015b2ac1531d91b882eb9429ca50d7f0be6d32455771256c548395c7ffe904b",
+    "100/client-summary.json": "620977496e584f5da3523bcab07eb7315e6b24413c8b190b3d75601734a7a918",
+    "100/envelope-observer.jsonl": "c4f00b8a7ed708c56d96a0c2f93ccccd530b765e2db74284559f45caee636ba9",
+    "100/executor-private.jsonl": "9513d97fb7755dfa5cf8f4f74ebae975b67ac950c0c512ee53b161ad8c23aeb6",
+    "100/metadata-discovery-observer.jsonl": "05d56f0a1e879ca390173899951f85d32e52c7726d32aa4468e2cdc5b52f7682",
+    "100/metadata.json": "ed2f85075d9d201b634ee38b52a3a2b30e2760cd2b7157befc293abe0ba4d540",
+    "100/storage-observer.jsonl": "1d6d15e2a8e043c6ec91bc9f2ba6488b72ee393d13406b78aa725579bb8eb97b",
+    "50/client-ground-truth.jsonl": "6b4cd574320ee044fab4712e49a413c033f59f043296554953fb2012849e5d40",
+    "50/client-summary.json": "b50f68728c5fe622c2279c95a196ef1ac6728b62b68e39ca44740e78d4470428",
+    "50/envelope-observer.jsonl": "18f212f388780c6d823a23cfcc6799584dedea407d89cf558eaf7d783bfa84e0",
+    "50/executor-private.jsonl": "fe870d64d6908d3aad92a097e12d39c94f8766ea37dbc22a35a6e7d088368e68",
+    "50/metadata-discovery-observer.jsonl": "7049bcc85573145f293e7040d0f363f6cac58469744e337afc016dd468bd83eb",
+    "50/metadata.json": "6101bea206c706b7b7642cccb5275481906ade2baa86a230073b8a878717688a",
+    "50/storage-observer.jsonl": "2cb432b4bdcacc8f7740acb0fcff5837060a510a0f287caaa98ecddf32baaba6"
+  },
+  "policy": "byte-preserving copy; original metadata retained; historical source/provenance not rewritten",
+  "runner_sha256": "786578f992c4bd6e29c3c154cee184b6ee1e81bb0d3b37b62677d5a73119addd"
+}

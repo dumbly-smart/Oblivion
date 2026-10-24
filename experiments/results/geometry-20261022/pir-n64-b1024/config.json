@@ -1,0 +1,8 @@
+{
+  "count": 64,
+  "queries_per_trial": 16,
+  "record_bytes": 1024,
+  "seed": 20261022,
+  "trials": 30,
+  "version": 1
+}

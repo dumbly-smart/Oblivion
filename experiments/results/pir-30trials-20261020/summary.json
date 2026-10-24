@@ -1,0 +1,34 @@
+{
+  "trials": 30,
+  "queries": 480,
+  "scope": "in-process processing; wall-clock ns; not network latency or throughput",
+  "phases": {
+    "generation_ns": {
+      "p50": 3201.5,
+      "p95": 3671.249999999999,
+      "p99": 6103.84
+    },
+    "server1_ns": {
+      "p50": 200250.0,
+      "p95": 239964.54999999996,
+      "p99": 398614.3199999999
+    },
+    "server2_ns": {
+      "p50": 197588.5,
+      "p95": 234973.3,
+      "p99": 396403.40999999974
+    },
+    "recovery_ns": {
+      "p50": 124.0,
+      "p95": 181.04999999999995,
+      "p99": 299.62999999999994
+    }
+  },
+  "server_scan_GBps_mean": 49.86023654017746,
+  "server_scan_GBps_trial_bootstrap_95": [
+    48.037924460985124,
+    51.07553128709227
+  ],
+  "query_payload_bytes": 2500,
+  "response_payload_bytes": 2048
+}

@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "seed": 20261024,
+  "trials": 30,
+  "sessions": 8,
+  "workloads": [
+    "uniform",
+    "zipf",
+    "diurnal",
+    "burst"
+  ],
+  "policies": [
+    "naive",
+    "dp_laplace"
+  ],
+  "simulation": {
+    "duration": 20,
+    "epoch": 1,
+    "service": 0.2,
+    "cold_start": 0.8,
+    "initial": 1,
+    "maximum": 8,
+    "functions": 2,
+    "queue_limit": 128,
+    "slo": 1.5,
+    "utilization": 0.7,
+    "alpha": 0.35,
+    "quantum": 2,
+    "hysteresis": 3,
+    "noise_scale": 2,
+    "low_rate": 2,
+    "high_rate": 12,
+    "price_per_instance_second": 1e-05,
+    "dp_epsilon": 4.0
+  },
+  "imports": []
+}

@@ -1,0 +1,17 @@
+{"deadline_missed":false,"execution_ns":98448,"registry_ns":2423,"step":0,"work_ns":98381}
+{"deadline_missed":false,"execution_ns":91177,"registry_ns":1769,"step":1,"work_ns":91141}
+{"deadline_missed":false,"execution_ns":0,"registry_ns":0,"step":2,"work_ns":0}
+{"deadline_missed":false,"execution_ns":83368,"registry_ns":1539,"step":3,"work_ns":83329}
+{"deadline_missed":false,"execution_ns":0,"registry_ns":0,"step":4,"work_ns":0}
+{"deadline_missed":false,"execution_ns":0,"registry_ns":0,"step":5,"work_ns":0}
+{"deadline_missed":false,"execution_ns":21296,"registry_ns":1237,"step":6,"work_ns":21259}
+{"deadline_missed":false,"execution_ns":80043,"registry_ns":1092,"step":7,"work_ns":80006}
+{"deadline_missed":false,"execution_ns":0,"registry_ns":0,"step":8,"work_ns":0}
+{"deadline_missed":false,"execution_ns":0,"registry_ns":0,"step":9,"work_ns":0}
+{"deadline_missed":false,"execution_ns":70795,"registry_ns":920,"step":10,"work_ns":70759}
+{"deadline_missed":false,"execution_ns":0,"registry_ns":0,"step":11,"work_ns":0}
+{"deadline_missed":false,"execution_ns":0,"registry_ns":0,"step":12,"work_ns":0}
+{"deadline_missed":false,"execution_ns":20462,"registry_ns":1004,"step":13,"work_ns":20425}
+{"deadline_missed":false,"execution_ns":18773,"registry_ns":1044,"step":14,"work_ns":18735}
+{"deadline_missed":false,"execution_ns":0,"registry_ns":0,"step":15,"work_ns":0}
+{"encrypted_storage_bytes":4740,"private_stats":{"configured_stash_payload_bytes":512,"max_stash_blocks":0,"stash_blocks":0,"trusted_metadata_bytes":184}}

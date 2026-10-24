@@ -1,0 +1,1453 @@
+{
+  "finished_utc": "2026-10-23T08:05:14.830477+00:00",
+  "binary_sha256": "0bf84c5727a038e09d84f72fabcbd02e237ebde6e579252338b8284307b13abc",
+  "adapter_source_after_sha256": {
+    "research/oram_reference/Cargo.toml": "3107b10c3ad41b6d517342bcf2e2a26d160cb0e61e31fb73a24cd707d88db81f",
+    "research/oram_reference/Cargo.lock": "c301fed83225ec911b6924ee94809c2f09f741d8a268e9179c0ce8b98dd1e71c",
+    "research/oram_reference/src/main.rs": "5ae930385c81bd8396d1f4364a2a3c2d3f4ed52765fd20047ce49bc474ad62ad",
+    "research/oram_reference/LICENSE": "c61f12da7cdad526bdcbed47a4c0a603e60dbbfdaf8b66933cd088e9132c303f",
+    "scripts/evaluate_oram_reference.py": "b332b85643da6eb2838b87619a174e963851b95ff6f49ba3941a00a17ede3f06"
+  },
+  "commands": [
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261023",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t0.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261023",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t0.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261024",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t1.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261024",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t1.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261025",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t2.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261025",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t2.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261026",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t3.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261026",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t3.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261027",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t4.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261027",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t4.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261028",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t5.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261028",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t5.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261029",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t6.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261029",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t6.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261030",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t7.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261030",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t7.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261031",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t8.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261031",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t8.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261032",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t9.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261032",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t9.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261033",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t10.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261033",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t10.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261034",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t11.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261034",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t11.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261035",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t12.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261035",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t12.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261036",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t13.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261036",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t13.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261037",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t14.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261037",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t14.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261038",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t15.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261038",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t15.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261039",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t16.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261039",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t16.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261040",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t17.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261040",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t17.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261041",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t18.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261041",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t18.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261042",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t19.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261042",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t19.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261043",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t20.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261043",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t20.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261044",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t21.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261044",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t21.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261045",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t22.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261045",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t22.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261046",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t23.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261046",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t23.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261047",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t24.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261047",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t24.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261048",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t25.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261048",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t25.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261049",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t26.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261049",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t26.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261050",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t27.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261050",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t27.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261051",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t28.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261051",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t28.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "64",
+        "512",
+        "16",
+        "20261052",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n64-t29.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "64",
+        "512",
+        "16",
+        "20261052",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n64-t29.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261023",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t0.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261023",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t0.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261024",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t1.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261024",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t1.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261025",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t2.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261025",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t2.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261026",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t3.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261026",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t3.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261027",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t4.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261027",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t4.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261028",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t5.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261028",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t5.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261029",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t6.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261029",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t6.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261030",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t7.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261030",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t7.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261031",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t8.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261031",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t8.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261032",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t9.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261032",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t9.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261033",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t10.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261033",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t10.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261034",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t11.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261034",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t11.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261035",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t12.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261035",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t12.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261036",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t13.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261036",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t13.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261037",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t14.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261037",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t14.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261038",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t15.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261038",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t15.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261039",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t16.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261039",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t16.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261040",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t17.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261040",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t17.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261041",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t18.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261041",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t18.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261042",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t19.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261042",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t19.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261043",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t20.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261043",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t20.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261044",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t21.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261044",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t21.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261045",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t22.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261045",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t22.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261046",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t23.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261046",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t23.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261047",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t24.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261047",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t24.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261048",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t25.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261048",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t25.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261049",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t26.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261049",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t26.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261050",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t27.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261050",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t27.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261051",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t28.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261051",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t28.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "path",
+        "1024",
+        "512",
+        "16",
+        "20261052",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/path-n1024-t29.jsonl"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/bin/oblivion-oram-reference",
+        "circuit",
+        "1024",
+        "512",
+        "16",
+        "20261052",
+        "/home/xtrmn8/oblivion/experiments/results/circuit-reference-20261023/raw/circuit-n1024-t29.jsonl"
+      ],
+      "exit": 0
+    }
+  ]
+}

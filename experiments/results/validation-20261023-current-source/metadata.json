@@ -1,0 +1,17 @@
+{
+  "schema_version": 2,
+  "source_sha256_before": "a5b1d970b637cd77edc3a1c8b460f731c3e3583d67b1c0146ae8199f13fc613a",
+  "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+  "python": "3.14.8 (main, Oct  2 2026, 10:23:31) [GCC 16.2.1 20260810]",
+  "configuration": "locked workspace + real release fixtures + explicit million-operation stress",
+  "include_reference": true,
+  "fixture_environment": {
+    "PRESENCE_BINARY": "/home/xtrmn8/oblivion/target/release/examples/presence",
+    "EXECUTOR_RESOURCES_BINARY": "/home/xtrmn8/oblivion/target/release/examples/resource_measure",
+    "EXEC_TIMING_BINARY": "/home/xtrmn8/oblivion/target/release/examples/timing_measure",
+    "EPOCH_SYSTEM_BINARY": "/home/xtrmn8/oblivion/target/release/oblivion-server"
+  },
+  "digest_scope": "source, guest WAT, manifests/locks, CI and experiment configs; caches/upstream/result snapshots excluded",
+  "output": "/home/xtrmn8/oblivion/experiments/results/validation-20261023-current-source",
+  "source_sha256_after": "a5b1d970b637cd77edc3a1c8b460f731c3e3583d67b1c0146ae8199f13fc613a"
+}

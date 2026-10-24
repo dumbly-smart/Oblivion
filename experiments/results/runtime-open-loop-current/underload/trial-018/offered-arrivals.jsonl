@@ -1,0 +1,8 @@
+{"admitted":true,"arrival_late_ns":111400,"offered_id":0,"offered_ns":111400,"queue_capacity":2,"scheduled_ns":0}
+{"admitted":true,"arrival_late_ns":174912,"offered_id":1,"offered_ns":150174912,"queue_capacity":2,"scheduled_ns":150000000}
+{"admitted":true,"arrival_late_ns":98798,"offered_id":2,"offered_ns":300098798,"queue_capacity":2,"scheduled_ns":300000000}
+{"admitted":true,"arrival_late_ns":185892,"offered_id":3,"offered_ns":450185892,"queue_capacity":2,"scheduled_ns":450000000}
+{"admitted":true,"arrival_late_ns":110786,"offered_id":4,"offered_ns":600110786,"queue_capacity":2,"scheduled_ns":600000000}
+{"admitted":true,"arrival_late_ns":117994,"offered_id":5,"offered_ns":750117994,"queue_capacity":2,"scheduled_ns":750000000}
+{"admitted":true,"arrival_late_ns":137278,"offered_id":6,"offered_ns":900137278,"queue_capacity":2,"scheduled_ns":900000000}
+{"admitted":true,"arrival_late_ns":74132,"offered_id":7,"offered_ns":1050074132,"queue_capacity":2,"scheduled_ns":1050000000}

@@ -1,0 +1,2431 @@
+{
+  "schema_version": 1,
+  "cells": [
+    {
+      "kind": "oram",
+      "name": "oram-n64-b64-z3-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "bucket_capacity": 3,
+        "block_bytes": 64,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 26138.433333333334,
+          "ci95_trials": [
+            26048.799583333333,
+            26303.57
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 27502.220000000005,
+          "ci95_trials": [
+            27152.19429166667,
+            27923.296541666667
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 29544.775666666672,
+          "ci95_trials": [
+            28934.40575833333,
+            30252.954300000005
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3840
+        },
+        "max_measured_stash": 0,
+        "bytes_per_access": 3416,
+        "encrypted_storage_bytes": 30988,
+        "storage_expansion": 7.5654296875,
+        "private_state": {
+          "configured_stash_payload_bytes": 4096,
+          "max_stash_blocks": 1,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 1528
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b64-z3-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "bucket_capacity": 3,
+        "block_bytes": 64,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 26577.833333333332,
+          "ci95_trials": [
+            26537.0325,
+            26628.083749999998
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 27820.151666666665,
+          "ci95_trials": [
+            27536.070708333333,
+            28166.70420833333
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 29408.594333333334,
+          "ci95_trials": [
+            28898.866900000005,
+            30089.704933333338
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3698,
+          "1": 86,
+          "2": 39,
+          "3": 13,
+          "4": 3,
+          "5": 1
+        },
+        "max_measured_stash": 5,
+        "bytes_per_access": 3416,
+        "encrypted_storage_bytes": 30988,
+        "storage_expansion": 7.5654296875,
+        "private_state": {
+          "configured_stash_payload_bytes": 4096,
+          "max_stash_blocks": 2,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 1528
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b64-z4-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "bucket_capacity": 4,
+        "block_bytes": 64,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 24702.65,
+          "ci95_trials": [
+            24682.316666666666,
+            24723.57
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 25723.433333333334,
+          "ci95_trials": [
+            25485.97845833333,
+            26060.767916666664
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 30557.18000000002,
+          "ci95_trials": [
+            27746.391025,
+            34247.25710833337
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3835,
+          "1": 5
+        },
+        "max_measured_stash": 1,
+        "bytes_per_access": 4424,
+        "encrypted_storage_bytes": 40132,
+        "storage_expansion": 9.7978515625,
+        "private_state": {
+          "configured_stash_payload_bytes": 4096,
+          "max_stash_blocks": 0,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 1528
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b64-z4-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "bucket_capacity": 4,
+        "block_bytes": 64,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 25253.366666666665,
+          "ci95_trials": [
+            25219.499583333334,
+            25295.616666666665
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 26263.035,
+          "ci95_trials": [
+            26105.528,
+            26465.96233333333
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 27711.28366666667,
+          "ci95_trials": [
+            27402.717533333333,
+            28176.017208333335
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3811,
+          "1": 24,
+          "2": 4,
+          "3": 1
+        },
+        "max_measured_stash": 3,
+        "bytes_per_access": 4424,
+        "encrypted_storage_bytes": 40132,
+        "storage_expansion": 9.7978515625,
+        "private_state": {
+          "configured_stash_payload_bytes": 4096,
+          "max_stash_blocks": 0,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 1528
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b64-z5-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "bucket_capacity": 5,
+        "block_bytes": 64,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 26483.316666666666,
+          "ci95_trials": [
+            26466.998333333333,
+            26499.602499999997
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 27319.396666666667,
+          "ci95_trials": [
+            27243.86691666666,
+            27401.232333333333
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 28901.839,
+          "ci95_trials": [
+            28771.50425,
+            29037.41201666667
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3840
+        },
+        "max_measured_stash": 0,
+        "bytes_per_access": 5432,
+        "encrypted_storage_bytes": 49276,
+        "storage_expansion": 12.0302734375,
+        "private_state": {
+          "configured_stash_payload_bytes": 4096,
+          "max_stash_blocks": 1,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 1528
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b64-z5-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "bucket_capacity": 5,
+        "block_bytes": 64,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 26982.416666666668,
+          "ci95_trials": [
+            26957.49875,
+            27009.151250000003
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 28177.693333333325,
+          "ci95_trials": [
+            27935.644375,
+            28500.13770833333
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 30132.30133333334,
+          "ci95_trials": [
+            29169.17570833334,
+            31333.015900000006
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3832,
+          "1": 6,
+          "2": 2
+        },
+        "max_measured_stash": 2,
+        "bytes_per_access": 5432,
+        "encrypted_storage_bytes": 49276,
+        "storage_expansion": 12.0302734375,
+        "private_state": {
+          "configured_stash_payload_bytes": 4096,
+          "max_stash_blocks": 0,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 1528
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b256-z3-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "bucket_capacity": 3,
+        "block_bytes": 256,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 31328.333333333332,
+          "ci95_trials": [
+            31309.68291666667,
+            31347.451250000002
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 32528.91666666667,
+          "ci95_trials": [
+            32418.258166666674,
+            32647.528791666668
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 33767.291000000005,
+          "ci95_trials": [
+            33639.014599999995,
+            33903.02501666667
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3818,
+          "1": 10,
+          "2": 6,
+          "3": 6
+        },
+        "max_measured_stash": 3,
+        "bytes_per_access": 11480,
+        "encrypted_storage_bytes": 104140,
+        "storage_expansion": 6.356201171875,
+        "private_state": {
+          "configured_stash_payload_bytes": 16384,
+          "max_stash_blocks": 1,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 1528
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b256-z3-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "bucket_capacity": 3,
+        "block_bytes": 256,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 32131.066666666666,
+          "ci95_trials": [
+            32085.413333333334,
+            32176.38375
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 33377.380000000005,
+          "ci95_trials": [
+            33227.612666666675,
+            33555.13483333334
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 34601.899666666664,
+          "ci95_trials": [
+            34424.61524166667,
+            34798.03077500001
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3707,
+          "1": 81,
+          "2": 33,
+          "3": 13,
+          "4": 3,
+          "5": 1,
+          "6": 1,
+          "7": 1
+        },
+        "max_measured_stash": 7,
+        "bytes_per_access": 11480,
+        "encrypted_storage_bytes": 104140,
+        "storage_expansion": 6.356201171875,
+        "private_state": {
+          "configured_stash_payload_bytes": 16384,
+          "max_stash_blocks": 7,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 1528
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b256-z4-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "bucket_capacity": 4,
+        "block_bytes": 256,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 35150.2,
+          "ci95_trials": [
+            35077.08041666667,
+            35243.142916666664
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 37059.708333333336,
+          "ci95_trials": [
+            36626.310625,
+            37802.266833333335
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 39183.74266666667,
+          "ci95_trials": [
+            38189.40541666667,
+            40918.30799166667
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3840
+        },
+        "max_measured_stash": 0,
+        "bytes_per_access": 15176,
+        "encrypted_storage_bytes": 137668,
+        "storage_expansion": 8.402587890625,
+        "private_state": {
+          "configured_stash_payload_bytes": 16384,
+          "max_stash_blocks": 0,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 1528
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b256-z4-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "bucket_capacity": 4,
+        "block_bytes": 256,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 35844.76666666667,
+          "ci95_trials": [
+            35792.41375,
+            35897.01666666667
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 37574.85166666666,
+          "ci95_trials": [
+            37439.79533333333,
+            37703.13358333332
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 38796.23766666666,
+          "ci95_trials": [
+            38583.073625000005,
+            39013.28945833333
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3816,
+          "1": 16,
+          "2": 5,
+          "3": 3
+        },
+        "max_measured_stash": 3,
+        "bytes_per_access": 15176,
+        "encrypted_storage_bytes": 137668,
+        "storage_expansion": 8.402587890625,
+        "private_state": {
+          "configured_stash_payload_bytes": 16384,
+          "max_stash_blocks": 0,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 1528
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b256-z5-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "bucket_capacity": 5,
+        "block_bytes": 256,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 39012.316666666666,
+          "ci95_trials": [
+            38582.11541666667,
+            39826.86916666667
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 41142.795,
+          "ci95_trials": [
+            40291.42229166666,
+            42381.38529166665
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 43583.96066666667,
+          "ci95_trials": [
+            42216.79124166667,
+            45227.59131666667
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3839,
+          "1": 1
+        },
+        "max_measured_stash": 1,
+        "bytes_per_access": 18872,
+        "encrypted_storage_bytes": 171196,
+        "storage_expansion": 10.448974609375,
+        "private_state": {
+          "configured_stash_payload_bytes": 16384,
+          "max_stash_blocks": 0,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 1528
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b256-z5-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "bucket_capacity": 5,
+        "block_bytes": 256,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 39354.0,
+          "ci95_trials": [
+            39299.38166666667,
+            39410.12291666667
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 41680.87666666667,
+          "ci95_trials": [
+            41093.72054166666,
+            42495.53308333333
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 45589.38066666667,
+          "ci95_trials": [
+            43863.001783333355,
+            47452.31941666669
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3838,
+          "1": 2
+        },
+        "max_measured_stash": 1,
+        "bytes_per_access": 18872,
+        "encrypted_storage_bytes": 171196,
+        "storage_expansion": 10.448974609375,
+        "private_state": {
+          "configured_stash_payload_bytes": 16384,
+          "max_stash_blocks": 0,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 1528
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b1024-z3-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "bucket_capacity": 3,
+        "block_bytes": 1024,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 61167.51666666667,
+          "ci95_trials": [
+            61125.06333333333,
+            61213.566666666666
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 63247.50833333333,
+          "ci95_trials": [
+            63122.762791666675,
+            63380.280333333336
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 65112.025333333324,
+          "ci95_trials": [
+            64470.05618333333,
+            66046.70073333332
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3837,
+          "1": 3
+        },
+        "max_measured_stash": 1,
+        "bytes_per_access": 43736,
+        "encrypted_storage_bytes": 396748,
+        "storage_expansion": 6.05389404296875,
+        "private_state": {
+          "configured_stash_payload_bytes": 65536,
+          "max_stash_blocks": 6,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 1528
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b1024-z3-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "bucket_capacity": 3,
+        "block_bytes": 1024,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 62547.25,
+          "ci95_trials": [
+            62463.66333333333,
+            62639.92208333333
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 65556.73666666666,
+          "ci95_trials": [
+            64773.46795833332,
+            66776.24987500001
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 67443.99,
+          "ci95_trials": [
+            66326.79627500002,
+            68824.18944166668
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3719,
+          "1": 90,
+          "2": 23,
+          "3": 6,
+          "4": 2
+        },
+        "max_measured_stash": 4,
+        "bytes_per_access": 43736,
+        "encrypted_storage_bytes": 396748,
+        "storage_expansion": 6.05389404296875,
+        "private_state": {
+          "configured_stash_payload_bytes": 65536,
+          "max_stash_blocks": 4,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 1528
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b1024-z4-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "bucket_capacity": 4,
+        "block_bytes": 1024,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 74022.4,
+          "ci95_trials": [
+            73970.39916666666,
+            74074.01875
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 76409.81333333332,
+          "ci95_trials": [
+            76307.60137500001,
+            76509.47524999999
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 77913.555,
+          "ci95_trials": [
+            77528.59517500001,
+            78455.66950833333
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3839,
+          "2": 1
+        },
+        "max_measured_stash": 2,
+        "bytes_per_access": 58184,
+        "encrypted_storage_bytes": 527812,
+        "storage_expansion": 8.05377197265625,
+        "private_state": {
+          "configured_stash_payload_bytes": 65536,
+          "max_stash_blocks": 0,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 1528
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b1024-z4-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "bucket_capacity": 4,
+        "block_bytes": 1024,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 75272.75,
+          "ci95_trials": [
+            75167.49833333334,
+            75404.875
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 77722.61666666667,
+          "ci95_trials": [
+            77540.362625,
+            77939.23
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 79097.88833333334,
+          "ci95_trials": [
+            78780.80817500001,
+            79459.62023333332
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3821,
+          "1": 10,
+          "2": 8,
+          "3": 1
+        },
+        "max_measured_stash": 3,
+        "bytes_per_access": 58184,
+        "encrypted_storage_bytes": 527812,
+        "storage_expansion": 8.05377197265625,
+        "private_state": {
+          "configured_stash_payload_bytes": 65536,
+          "max_stash_blocks": 0,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 1528
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b1024-z5-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "bucket_capacity": 5,
+        "block_bytes": 1024,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 87204.55,
+          "ci95_trials": [
+            87156.89958333333,
+            87254.36708333333
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 89863.12333333332,
+          "ci95_trials": [
+            89717.31916666667,
+            90012.54979166668
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 95884.58733333336,
+          "ci95_trials": [
+            91041.87061666665,
+            105014.25878333341
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3840
+        },
+        "max_measured_stash": 0,
+        "bytes_per_access": 72632,
+        "encrypted_storage_bytes": 658876,
+        "storage_expansion": 10.05364990234375,
+        "private_state": {
+          "configured_stash_payload_bytes": 65536,
+          "max_stash_blocks": 1,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 1528
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b1024-z5-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "bucket_capacity": 5,
+        "block_bytes": 1024,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 88304.25,
+          "ci95_trials": [
+            88263.99958333334,
+            88345.68333333333
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 90906.61333333333,
+          "ci95_trials": [
+            90772.737375,
+            91038.13145833333
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 92842.29000000002,
+          "ci95_trials": [
+            92000.62495833333,
+            94286.97680833336
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3830,
+          "1": 7,
+          "2": 3
+        },
+        "max_measured_stash": 2,
+        "bytes_per_access": 72632,
+        "encrypted_storage_bytes": 658876,
+        "storage_expansion": 10.05364990234375,
+        "private_state": {
+          "configured_stash_payload_bytes": 65536,
+          "max_stash_blocks": 0,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 1528
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b64-z3-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "bucket_capacity": 3,
+        "block_bytes": 64,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 33384.666666666664,
+          "ci95_trials": [
+            33361.863750000004,
+            33407.75
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 34913.95666666667,
+          "ci95_trials": [
+            34778.930916666664,
+            35051.77433333333
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 36330.140666666666,
+          "ci95_trials": [
+            35963.32940833334,
+            36886.41075833334
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3837,
+          "1": 2,
+          "3": 1
+        },
+        "max_measured_stash": 3,
+        "bytes_per_access": 4392,
+        "encrypted_storage_bytes": 124684,
+        "storage_expansion": 7.610107421875,
+        "private_state": {
+          "configured_stash_payload_bytes": 8192,
+          "max_stash_blocks": 6,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 6136
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b64-z3-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "bucket_capacity": 3,
+        "block_bytes": 64,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 34189.35,
+          "ci95_trials": [
+            34150.916249999995,
+            34229.817083333335
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 35722.13166666667,
+          "ci95_trials": [
+            35579.95004166667,
+            35866.380666666664
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 36833.10566666666,
+          "ci95_trials": [
+            36641.84439166666,
+            37038.59336666667
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3617,
+          "1": 140,
+          "2": 53,
+          "3": 21,
+          "4": 6,
+          "5": 3
+        },
+        "max_measured_stash": 5,
+        "bytes_per_access": 4392,
+        "encrypted_storage_bytes": 124684,
+        "storage_expansion": 7.610107421875,
+        "private_state": {
+          "configured_stash_payload_bytes": 8192,
+          "max_stash_blocks": 3,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 6136
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b64-z4-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "bucket_capacity": 4,
+        "block_bytes": 64,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 31578.683333333334,
+          "ci95_trials": [
+            31562.215833333335,
+            31595.700833333332
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 32848.416666666664,
+          "ci95_trials": [
+            32722.328624999995,
+            32989.90775
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 34319.192,
+          "ci95_trials": [
+            34189.69125833335,
+            34461.685000000005
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3839,
+          "1": 1
+        },
+        "max_measured_stash": 1,
+        "bytes_per_access": 5688,
+        "encrypted_storage_bytes": 161476,
+        "storage_expansion": 9.855712890625,
+        "private_state": {
+          "configured_stash_payload_bytes": 8192,
+          "max_stash_blocks": 0,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 6136
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b64-z4-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "bucket_capacity": 4,
+        "block_bytes": 64,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 32294.2,
+          "ci95_trials": [
+            32267.415833333336,
+            32322.833333333332
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 33858.026666666665,
+          "ci95_trials": [
+            33762.857875,
+            33956.12983333333
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 35139.725,
+          "ci95_trials": [
+            35006.40086666667,
+            35288.254825
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3793,
+          "1": 22,
+          "2": 18,
+          "3": 4,
+          "4": 3
+        },
+        "max_measured_stash": 4,
+        "bytes_per_access": 5688,
+        "encrypted_storage_bytes": 161476,
+        "storage_expansion": 9.855712890625,
+        "private_state": {
+          "configured_stash_payload_bytes": 8192,
+          "max_stash_blocks": 2,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 6136
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b64-z5-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "bucket_capacity": 5,
+        "block_bytes": 64,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 33966.53333333333,
+          "ci95_trials": [
+            33933.449166666665,
+            34009.121666666666
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 35413.15166666666,
+          "ci95_trials": [
+            35226.769041666674,
+            35676.71945833333
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 36974.098000000005,
+          "ci95_trials": [
+            36530.95688333334,
+            37591.116891666665
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3840
+        },
+        "max_measured_stash": 0,
+        "bytes_per_access": 6984,
+        "encrypted_storage_bytes": 198268,
+        "storage_expansion": 12.101318359375,
+        "private_state": {
+          "configured_stash_payload_bytes": 8192,
+          "max_stash_blocks": 1,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 6136
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b64-z5-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "bucket_capacity": 5,
+        "block_bytes": 64,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 34693.9,
+          "ci95_trials": [
+            34658.682916666665,
+            34731.585
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 36308.68666666666,
+          "ci95_trials": [
+            36165.17441666666,
+            36461.57091666666
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 37678.60366666667,
+          "ci95_trials": [
+            37440.767166666665,
+            37955.316275
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3832,
+          "1": 6,
+          "2": 1,
+          "3": 1
+        },
+        "max_measured_stash": 3,
+        "bytes_per_access": 6984,
+        "encrypted_storage_bytes": 198268,
+        "storage_expansion": 12.101318359375,
+        "private_state": {
+          "configured_stash_payload_bytes": 8192,
+          "max_stash_blocks": 1,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 6136
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b256-z3-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "bucket_capacity": 3,
+        "block_bytes": 256,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 40154.316666666666,
+          "ci95_trials": [
+            40119.99916666667,
+            40189.4
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 41700.13,
+          "ci95_trials": [
+            41579.48029166666,
+            41826.494249999996
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 43081.234333333334,
+          "ci95_trials": [
+            42856.634000000005,
+            43327.53156666668
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3837,
+          "1": 3
+        },
+        "max_measured_stash": 1,
+        "bytes_per_access": 14760,
+        "encrypted_storage_bytes": 419020,
+        "storage_expansion": 6.39373779296875,
+        "private_state": {
+          "configured_stash_payload_bytes": 32768,
+          "max_stash_blocks": 5,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 6136
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b256-z3-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "bucket_capacity": 3,
+        "block_bytes": 256,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 41246.53333333333,
+          "ci95_trials": [
+            41192.36583333334,
+            41301.085
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 43069.981666666674,
+          "ci95_trials": [
+            42930.627166666665,
+            43209.27662499999
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 44183.19033333333,
+          "ci95_trials": [
+            43992.727575,
+            44379.23684166666
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3538,
+          "1": 177,
+          "2": 83,
+          "3": 27,
+          "4": 12,
+          "5": 3
+        },
+        "max_measured_stash": 5,
+        "bytes_per_access": 14760,
+        "encrypted_storage_bytes": 419020,
+        "storage_expansion": 6.39373779296875,
+        "private_state": {
+          "configured_stash_payload_bytes": 32768,
+          "max_stash_blocks": 7,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 6136
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b256-z4-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "bucket_capacity": 4,
+        "block_bytes": 256,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 45084.55,
+          "ci95_trials": [
+            45034.065,
+            45138.800833333335
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 47215.55,
+          "ci95_trials": [
+            47071.523583333335,
+            47379.43058333333
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 49188.377666666674,
+          "ci95_trials": [
+            48461.15905833334,
+            50128.369383333345
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3838,
+          "1": 2
+        },
+        "max_measured_stash": 1,
+        "bytes_per_access": 19512,
+        "encrypted_storage_bytes": 553924,
+        "storage_expansion": 8.45220947265625,
+        "private_state": {
+          "configured_stash_payload_bytes": 32768,
+          "max_stash_blocks": 1,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 6136
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b256-z4-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "bucket_capacity": 4,
+        "block_bytes": 256,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 46389.71666666667,
+          "ci95_trials": [
+            45963.996666666666,
+            47195.15125
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 48948.27666666666,
+          "ci95_trials": [
+            48052.232458333325,
+            50220.824875000006
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 50741.36566666667,
+          "ci95_trials": [
+            49265.208,
+            52981.80303333332
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3782,
+          "1": 36,
+          "2": 14,
+          "3": 8
+        },
+        "max_measured_stash": 3,
+        "bytes_per_access": 19512,
+        "encrypted_storage_bytes": 553924,
+        "storage_expansion": 8.45220947265625,
+        "private_state": {
+          "configured_stash_payload_bytes": 32768,
+          "max_stash_blocks": 1,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 6136
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b256-z5-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "bucket_capacity": 5,
+        "block_bytes": 256,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 49549.36666666667,
+          "ci95_trials": [
+            49509.34958333333,
+            49591.7025
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 51648.443333333336,
+          "ci95_trials": [
+            51561.40941666666,
+            51741.819375
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 52945.70566666668,
+          "ci95_trials": [
+            52707.558241666666,
+            53237.924975
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3840
+        },
+        "max_measured_stash": 0,
+        "bytes_per_access": 24264,
+        "encrypted_storage_bytes": 688828,
+        "storage_expansion": 10.51068115234375,
+        "private_state": {
+          "configured_stash_payload_bytes": 32768,
+          "max_stash_blocks": 0,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 6136
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b256-z5-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "bucket_capacity": 5,
+        "block_bytes": 256,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 50610.48333333333,
+          "ci95_trials": [
+            50486.51458333334,
+            50800.1325
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 53330.17,
+          "ci95_trials": [
+            52662.50533333334,
+            54543.118291666666
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 55612.89766666666,
+          "ci95_trials": [
+            53816.12054166666,
+            58879.86015833335
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3832,
+          "1": 8
+        },
+        "max_measured_stash": 1,
+        "bytes_per_access": 24264,
+        "encrypted_storage_bytes": 688828,
+        "storage_expansion": 10.51068115234375,
+        "private_state": {
+          "configured_stash_payload_bytes": 32768,
+          "max_stash_blocks": 0,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 6136
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b1024-z3-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "bucket_capacity": 3,
+        "block_bytes": 1024,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 78894.81666666667,
+          "ci95_trials": [
+            78823.4325,
+            78968.83833333333
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 81694.94666666664,
+          "ci95_trials": [
+            81311.11133333332,
+            82285.72533333335
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 84192.25933333332,
+          "ci95_trials": [
+            83357.63854166666,
+            85296.10193333334
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3834,
+          "1": 5,
+          "2": 1
+        },
+        "max_measured_stash": 2,
+        "bytes_per_access": 56232,
+        "encrypted_storage_bytes": 1596364,
+        "storage_expansion": 6.0896453857421875,
+        "private_state": {
+          "configured_stash_payload_bytes": 131072,
+          "max_stash_blocks": 4,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 6136
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b1024-z3-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "bucket_capacity": 3,
+        "block_bytes": 1024,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 80888.35,
+          "ci95_trials": [
+            80731.64958333333,
+            81080.61916666667
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 85572.02833333334,
+          "ci95_trials": [
+            83814.68325,
+            88669.69633333333
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 90588.96633333336,
+          "ci95_trials": [
+            85458.74878333333,
+            97641.46032500005
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3628,
+          "1": 122,
+          "2": 51,
+          "3": 23,
+          "4": 7,
+          "5": 2,
+          "6": 5,
+          "7": 2
+        },
+        "max_measured_stash": 7,
+        "bytes_per_access": 56232,
+        "encrypted_storage_bytes": 1596364,
+        "storage_expansion": 6.0896453857421875,
+        "private_state": {
+          "configured_stash_payload_bytes": 131072,
+          "max_stash_blocks": 2,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 6136
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b1024-z4-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "bucket_capacity": 4,
+        "block_bytes": 1024,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 95268.18333333333,
+          "ci95_trials": [
+            95205.89458333333,
+            95334.10166666667
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 97981.00833333332,
+          "ci95_trials": [
+            97823.37145833332,
+            98135.91124999999
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 99987.216,
+          "ci95_trials": [
+            99591.03489166666,
+            100426.66263333334
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3839,
+          "1": 1
+        },
+        "max_measured_stash": 1,
+        "bytes_per_access": 74808,
+        "encrypted_storage_bytes": 2123716,
+        "storage_expansion": 8.101333618164062,
+        "private_state": {
+          "configured_stash_payload_bytes": 131072,
+          "max_stash_blocks": 0,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 6136
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b1024-z4-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "bucket_capacity": 4,
+        "block_bytes": 1024,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 101274.06666666667,
+          "ci95_trials": [
+            98063.08541666667,
+            104792.86583333334
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 108512.55,
+          "ci95_trials": [
+            103705.64475,
+            114256.19395833334
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 119876.13566666671,
+          "ci95_trials": [
+            110876.64832500002,
+            129516.0586666667
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3777,
+          "1": 40,
+          "2": 14,
+          "3": 7,
+          "4": 2
+        },
+        "max_measured_stash": 4,
+        "bytes_per_access": 74808,
+        "encrypted_storage_bytes": 2123716,
+        "storage_expansion": 8.101333618164062,
+        "private_state": {
+          "configured_stash_payload_bytes": 131072,
+          "max_stash_blocks": 2,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 6136
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b1024-z5-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "bucket_capacity": 5,
+        "block_bytes": 1024,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 116100.31666666667,
+          "ci95_trials": [
+            112611.35666666667,
+            122154.29958333334
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 120799.95333333335,
+          "ci95_trials": [
+            116112.87970833335,
+            128435.45762500001
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 124790.71500000001,
+          "ci95_trials": [
+            119105.86891666669,
+            133974.6022333333
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3840
+        },
+        "max_measured_stash": 0,
+        "bytes_per_access": 93384,
+        "encrypted_storage_bytes": 2651068,
+        "storage_expansion": 10.113021850585938,
+        "private_state": {
+          "configured_stash_payload_bytes": 131072,
+          "max_stash_blocks": 0,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 6136
+        }
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b1024-z5-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "bucket_capacity": 5,
+        "block_bytes": 1024,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      },
+      "metrics": {
+        "mean_trial_p50_ns": {
+          "mean": 113946.43333333333,
+          "ci95_trials": [
+            113845.64416666667,
+            114049.28833333333
+          ],
+          "trials": 30
+        },
+        "mean_trial_p95_ns": {
+          "mean": 117247.02166666665,
+          "ci95_trials": [
+            116967.15379166667,
+            117553.63729166667
+          ],
+          "trials": 30
+        },
+        "mean_trial_p99_ns": {
+          "mean": 119398.33100000002,
+          "ci95_trials": [
+            118638.79153333334,
+            120473.12874166666
+          ],
+          "trials": 30
+        },
+        "stash_histogram": {
+          "0": 3829,
+          "1": 8,
+          "2": 3
+        },
+        "max_measured_stash": 2,
+        "bytes_per_access": 93384,
+        "encrypted_storage_bytes": 2651068,
+        "storage_expansion": 10.113021850585938,
+        "private_state": {
+          "configured_stash_payload_bytes": 131072,
+          "max_stash_blocks": 1,
+          "stash_blocks": 0,
+          "trusted_metadata_bytes": 6136
+        }
+      }
+    },
+    {
+      "kind": "pir",
+      "name": "pir-n64-b64",
+      "config": {
+        "count": 64,
+        "queries_per_trial": 16,
+        "record_bytes": 64,
+        "seed": 20261022,
+        "trials": 30,
+        "version": 1
+      },
+      "metrics": {
+        "generation_ns": {
+          "mean": 299.50625,
+          "ci95_trials": [
+            279.7375,
+            328.67093750000004
+          ],
+          "trials": 30
+        },
+        "server1_ns": {
+          "mean": 415.56041666666664,
+          "ci95_trials": [
+            410.33744791666663,
+            420.66255208333337
+          ],
+          "trials": 30
+        },
+        "server2_ns": {
+          "mean": 327.8979166666667,
+          "ci95_trials": [
+            308.37817708333336,
+            345.4713541666667
+          ],
+          "trials": 30
+        },
+        "recovery_ns": {
+          "mean": 21.654166666666665,
+          "ci95_trials": [
+            20.979114583333335,
+            22.74802083333333
+          ],
+          "trials": 30
+        },
+        "serial_total_ns": {
+          "mean": 1064.61875,
+          "ci95_trials": [
+            1033.9493229166667,
+            1099.0941145833333
+          ],
+          "trials": 30
+        },
+        "two_server_scan_GB_s": {
+          "mean": 11.102661328672404,
+          "ci95_trials": [
+            10.765794990280517,
+            11.4703962807336
+          ],
+          "trials": 30
+        },
+        "query_payload_bytes": 16,
+        "response_payload_bytes": 128,
+        "database_payload_bytes_per_server": 4096,
+        "two_server_database_payload_bytes": 8192
+      }
+    },
+    {
+      "kind": "pir",
+      "name": "pir-n64-b1024",
+      "config": {
+        "count": 64,
+        "queries_per_trial": 16,
+        "record_bytes": 1024,
+        "seed": 20261022,
+        "trials": 30,
+        "version": 1
+      },
+      "metrics": {
+        "generation_ns": {
+          "mean": 302.4166666666667,
+          "ci95_trials": [
+            296.9103125,
+            309.92744791666667
+          ],
+          "trials": 30
+        },
+        "server1_ns": {
+          "mean": 1094.9333333333334,
+          "ci95_trials": [
+            1080.5809895833333,
+            1109.7042708333333
+          ],
+          "trials": 30
+        },
+        "server2_ns": {
+          "mean": 1077.3395833333334,
+          "ci95_trials": [
+            1063.3760937499999,
+            1091.6191145833334
+          ],
+          "trials": 30
+        },
+        "recovery_ns": {
+          "mean": 43.46666666666667,
+          "ci95_trials": [
+            42.0125,
+            45.14807291666666
+          ],
+          "trials": 30
+        },
+        "serial_total_ns": {
+          "mean": 2518.15625,
+          "ci95_trials": [
+            2486.5305729166666,
+            2552.047395833333
+          ],
+          "trials": 30
+        },
+        "two_server_scan_GB_s": {
+          "mean": 60.41700126780571,
+          "ci95_trials": [
+            59.629402843359195,
+            61.20162247637677
+          ],
+          "trials": 30
+        },
+        "query_payload_bytes": 16,
+        "response_payload_bytes": 2048,
+        "database_payload_bytes_per_server": 65536,
+        "two_server_database_payload_bytes": 131072
+      }
+    },
+    {
+      "kind": "pir",
+      "name": "pir-n1024-b64",
+      "config": {
+        "count": 1024,
+        "queries_per_trial": 16,
+        "record_bytes": 64,
+        "seed": 20261022,
+        "trials": 30,
+        "version": 1
+      },
+      "metrics": {
+        "generation_ns": {
+          "mean": 601.425,
+          "ci95_trials": [
+            565.0747916666667,
+            645.6606770833333
+          ],
+          "trials": 30
+        },
+        "server1_ns": {
+          "mean": 6286.71875,
+          "ci95_trials": [
+            6045.56125,
+            6568.068385416666
+          ],
+          "trials": 30
+        },
+        "server2_ns": {
+          "mean": 4632.485416666666,
+          "ci95_trials": [
+            4222.479791666667,
+            5048.841145833333
+          ],
+          "trials": 30
+        },
+        "recovery_ns": {
+          "mean": 38.76875,
+          "ci95_trials": [
+            34.290729166666665,
+            44.56578124999998
+          ],
+          "trials": 30
+        },
+        "serial_total_ns": {
+          "mean": 11559.397916666667,
+          "ci95_trials": [
+            10947.07671875,
+            12212.04421875
+          ],
+          "trials": 30
+        },
+        "two_server_scan_GB_s": {
+          "mean": 12.271417295699882,
+          "ci95_trials": [
+            11.654894434195395,
+            12.879959656826903
+          ],
+          "trials": 30
+        },
+        "query_payload_bytes": 256,
+        "response_payload_bytes": 128,
+        "database_payload_bytes_per_server": 65536,
+        "two_server_database_payload_bytes": 131072
+      }
+    },
+    {
+      "kind": "pir",
+      "name": "pir-n1024-b1024",
+      "config": {
+        "count": 1024,
+        "queries_per_trial": 16,
+        "record_bytes": 1024,
+        "seed": 20261022,
+        "trials": 30,
+        "version": 1
+      },
+      "metrics": {
+        "generation_ns": {
+          "mean": 800.5854166666667,
+          "ci95_trials": [
+            679.1099479166667,
+            935.0484895833333
+          ],
+          "trials": 30
+        },
+        "server1_ns": {
+          "mean": 22868.825,
+          "ci95_trials": [
+            19518.84338541667,
+            26646.30057291666
+          ],
+          "trials": 30
+        },
+        "server2_ns": {
+          "mean": 21545.11875,
+          "ci95_trials": [
+            18332.44484375,
+            25228.787916666664
+          ],
+          "trials": 30
+        },
+        "recovery_ns": {
+          "mean": 95.22916666666667,
+          "ci95_trials": [
+            76.47177083333332,
+            117.43958333333333
+          ],
+          "trials": 30
+        },
+        "serial_total_ns": {
+          "mean": 45309.75833333333,
+          "ci95_trials": [
+            38619.11125,
+            52943.12984375
+          ],
+          "trials": 30
+        },
+        "two_server_scan_GB_s": {
+          "mean": 54.14403567157873,
+          "ci95_trials": [
+            48.21298946584255,
+            59.605597586905006
+          ],
+          "trials": 30
+        },
+        "query_payload_bytes": 256,
+        "response_payload_bytes": 2048,
+        "database_payload_bytes_per_server": 1048576,
+        "two_server_database_payload_bytes": 2097152
+      }
+    },
+    {
+      "kind": "pir",
+      "name": "pir-n10000-b64",
+      "config": {
+        "count": 10000,
+        "queries_per_trial": 16,
+        "record_bytes": 64,
+        "seed": 20261022,
+        "trials": 30,
+        "version": 1
+      },
+      "metrics": {
+        "generation_ns": {
+          "mean": 2795.0583333333334,
+          "ci95_trials": [
+            2726.720208333333,
+            2888.0090104166666
+          ],
+          "trials": 30
+        },
+        "server1_ns": {
+          "mean": 56944.55,
+          "ci95_trials": [
+            56291.61057291667,
+            58010.8375
+          ],
+          "trials": 30
+        },
+        "server2_ns": {
+          "mean": 54678.2875,
+          "ci95_trials": [
+            53946.48817708333,
+            55653.80953125
+          ],
+          "trials": 30
+        },
+        "recovery_ns": {
+          "mean": 44.079166666666666,
+          "ci95_trials": [
+            40.153958333333335,
+            49.02328125
+          ],
+          "trials": 30
+        },
+        "serial_total_ns": {
+          "mean": 114461.975,
+          "ci95_trials": [
+            113061.42151041667,
+            116512.26489583333
+          ],
+          "trials": 30
+        },
+        "two_server_scan_GB_s": {
+          "mean": 11.485885318967307,
+          "ci95_trials": [
+            11.311160803582464,
+            11.60717875711929
+          ],
+          "trials": 30
+        },
+        "query_payload_bytes": 2500,
+        "response_payload_bytes": 128,
+        "database_payload_bytes_per_server": 640000,
+        "two_server_database_payload_bytes": 1280000
+      }
+    },
+    {
+      "kind": "pir",
+      "name": "pir-n10000-b1024",
+      "config": {
+        "count": 10000,
+        "queries_per_trial": 16,
+        "record_bytes": 1024,
+        "seed": 20261022,
+        "trials": 30,
+        "version": 1
+      },
+      "metrics": {
+        "generation_ns": {
+          "mean": 3195.795833333333,
+          "ci95_trials": [
+            3156.4473958333333,
+            3238.4011458333334
+          ],
+          "trials": 30
+        },
+        "server1_ns": {
+          "mean": 257198.69791666666,
+          "ci95_trials": [
+            250585.38947916668,
+            264744.7845833333
+          ],
+          "trials": 30
+        },
+        "server2_ns": {
+          "mean": 259433.2,
+          "ci95_trials": [
+            253864.7552083333,
+            265849.2623958334
+          ],
+          "trials": 30
+        },
+        "recovery_ns": {
+          "mean": 168.40416666666667,
+          "ci95_trials": [
+            159.97078125,
+            178.82302083333332
+          ],
+          "trials": 30
+        },
+        "serial_total_ns": {
+          "mean": 519996.09791666665,
+          "ci95_trials": [
+            507850.19375,
+            533852.3019270834
+          ],
+          "trials": 30
+        },
+        "two_server_scan_GB_s": {
+          "mean": 39.82622279962156,
+          "ci95_trials": [
+            38.82564070671925,
+            40.74824159711247
+          ],
+          "trials": 30
+        },
+        "query_payload_bytes": 2500,
+        "response_payload_bytes": 2048,
+        "database_payload_bytes_per_server": 10240000,
+        "two_server_database_payload_bytes": 20480000
+      }
+    }
+  ],
+  "analysis_sha256": "22cd67e606680411a0e2379cace21c2f4b8a4d7c3e8ee8cd8f76c47d2a30769e",
+  "analysis_revisions_sha256": [
+    "927ea1de2b680981fe29861272fc65a50aa310c2281fdfb3d0db16faa874fb23",
+    "22cd67e606680411a0e2379cace21c2f4b8a4d7c3e8ee8cd8f76c47d2a30769e"
+  ],
+  "measurement_provenance_sha256": "18915614c096af6201af32cdb7756a033fefa4013ea930a95fec7306d9356878",
+  "methodology": "30 independent fresh controllers/server states per cell; bootstrap means of trial estimates, 5000 resamples; ORAM p95 uses linear sample quantile; OS crypto randomness, seeded workload only. PIR throughput is sum of both database payloads divided by serial server answer time, decimal GB/s, in-process and warm-up excluded. Payload memory excludes allocator overhead. Shared host; timing instrumentation and scheduling affect results."
+}

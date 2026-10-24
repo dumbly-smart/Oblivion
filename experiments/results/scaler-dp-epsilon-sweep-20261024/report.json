@@ -1,0 +1,2313 @@
+{
+  "config": {
+    "version": 1,
+    "seed": 20261024,
+    "trials": 30,
+    "sessions": 8,
+    "workloads": [
+      "uniform",
+      "zipf",
+      "diurnal",
+      "burst"
+    ],
+    "epsilons": [
+      0.5,
+      1.0,
+      2.0,
+      4.0
+    ],
+    "simulation": {
+      "duration": 20,
+      "epoch": 1,
+      "service": 0.2,
+      "cold_start": 0.8,
+      "initial": 1,
+      "maximum": 8,
+      "functions": 2,
+      "queue_limit": 128,
+      "slo": 1.5,
+      "utilization": 0.7,
+      "alpha": 0.35,
+      "quantum": 2,
+      "hysteresis": 3,
+      "noise_scale": 2,
+      "low_rate": 2,
+      "high_rate": 12,
+      "price_per_instance_second": 1e-05
+    }
+  },
+  "epsilons": [
+    0.5,
+    1.0,
+    2.0,
+    4.0
+  ],
+  "paired_workloads": true,
+  "runs": [
+    {
+      "epsilon": 0.5,
+      "run_summaries": 14,
+      "attack_summaries": 21,
+      "run_git_head": "f9ade992dffd8d8bb1fab78df568e2a2333220c1",
+      "attack_git_head": "f9ade992dffd8d8bb1fab78df568e2a2333220c1"
+    },
+    {
+      "epsilon": 1.0,
+      "run_summaries": 14,
+      "attack_summaries": 21,
+      "run_git_head": "f9ade992dffd8d8bb1fab78df568e2a2333220c1",
+      "attack_git_head": "f9ade992dffd8d8bb1fab78df568e2a2333220c1"
+    },
+    {
+      "epsilon": 2.0,
+      "run_summaries": 14,
+      "attack_summaries": 21,
+      "run_git_head": "f9ade992dffd8d8bb1fab78df568e2a2333220c1",
+      "attack_git_head": "f9ade992dffd8d8bb1fab78df568e2a2333220c1"
+    },
+    {
+      "epsilon": 4.0,
+      "run_summaries": 14,
+      "attack_summaries": 21,
+      "run_git_head": "f9ade992dffd8d8bb1fab78df568e2a2333220c1",
+      "attack_git_head": "f9ade992dffd8d8bb1fab78df568e2a2333220c1"
+    }
+  ],
+  "summary": [
+    {
+      "epsilon": 0.5,
+      "workload": "uniform",
+      "task": "intensity",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.97875,
+      "accuracy_ci95": [
+        0.9650000000000001,
+        0.99
+      ],
+      "balanced_accuracy": 0.97875,
+      "balanced_accuracy_ci95": [
+        0.9650000000000001,
+        0.99
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 63.80763345655369,
+      "mean_session_p99": 1.450885207754551,
+      "slo_violation_rate": 0.10795557345142867,
+      "laplace_scale": 40.0
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "uniform",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.5004166666666667,
+      "accuracy_ci95": [
+        0.4245833333333333,
+        0.5733437499999999
+      ],
+      "balanced_accuracy": 0.5004166666666667,
+      "balanced_accuracy_ci95": [
+        0.4245833333333333,
+        0.5733437499999999
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 280.96666666666664,
+      "mean_session_p99": 0.6632118077112639,
+      "slo_violation_rate": 0.013433819537969054,
+      "laplace_scale": 40.0
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "uniform",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.50625,
+      "accuracy_ci95": [
+        0.4275,
+        0.5779270833333333
+      ],
+      "balanced_accuracy": 0.50625,
+      "balanced_accuracy_ci95": [
+        0.4275,
+        0.5779270833333333
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 280.96666666666664,
+      "mean_session_p99": 0.6632118077112639,
+      "slo_violation_rate": 0.013433819537969054,
+      "laplace_scale": 40.0
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "zipf",
+      "task": "intensity",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.9370833333333333,
+      "accuracy_ci95": [
+        0.9033333333333334,
+        0.96625
+      ],
+      "balanced_accuracy": 0.9370833333333333,
+      "balanced_accuracy_ci95": [
+        0.9033333333333334,
+        0.96625
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 62.38241884643458,
+      "mean_session_p99": 1.5799605219354658,
+      "slo_violation_rate": 0.0986573546951993,
+      "laplace_scale": 40.0
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "zipf",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.5458333333333332,
+      "accuracy_ci95": [
+        0.47208333333333335,
+        0.6216666666666666
+      ],
+      "balanced_accuracy": 0.5458333333333332,
+      "balanced_accuracy_ci95": [
+        0.47208333333333335,
+        0.6216666666666666
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 281.93333333333334,
+      "mean_session_p99": 0.8004728678427299,
+      "slo_violation_rate": 0.01868059786808153,
+      "laplace_scale": 40.0
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "zipf",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.5195833333333333,
+      "accuracy_ci95": [
+        0.45125,
+        0.5891666666666667
+      ],
+      "balanced_accuracy": 0.5195833333333333,
+      "balanced_accuracy_ci95": [
+        0.45125,
+        0.5891666666666667
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 281.93333333333334,
+      "mean_session_p99": 0.8004728678427299,
+      "slo_violation_rate": 0.01868059786808153,
+      "laplace_scale": 40.0
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "zipf",
+      "task": "hot",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.8270833333333335,
+      "accuracy_ci95": [
+        0.7825000000000001,
+        0.8691666666666666
+      ],
+      "balanced_accuracy": 0.8270833333333335,
+      "balanced_accuracy_ci95": [
+        0.7825000000000001,
+        0.8691666666666666
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 62.38241884643458,
+      "mean_session_p99": 1.5799605219354658,
+      "slo_violation_rate": 0.0986573546951993,
+      "laplace_scale": 40.0
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "zipf",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.43875,
+      "accuracy_ci95": [
+        0.3708333333333334,
+        0.5079166666666667
+      ],
+      "balanced_accuracy": 0.43875,
+      "balanced_accuracy_ci95": [
+        0.3708333333333334,
+        0.5079166666666667
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 281.93333333333334,
+      "mean_session_p99": 0.8004728678427299,
+      "slo_violation_rate": 0.01868059786808153,
+      "laplace_scale": 40.0
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "zipf",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.46291666666666664,
+      "accuracy_ci95": [
+        0.41083333333333344,
+        0.5166666666666667
+      ],
+      "balanced_accuracy": 0.46291666666666664,
+      "balanced_accuracy_ci95": [
+        0.41083333333333344,
+        0.5166666666666667
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 281.93333333333334,
+      "mean_session_p99": 0.8004728678427299,
+      "slo_violation_rate": 0.01868059786808153,
+      "laplace_scale": 40.0
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "diurnal",
+      "task": "intensity",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.9295833333333334,
+      "accuracy_ci95": [
+        0.9037500000000002,
+        0.9529166666666666
+      ],
+      "balanced_accuracy": 0.9295833333333334,
+      "balanced_accuracy_ci95": [
+        0.9037500000000002,
+        0.9529166666666666
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 61.139964155777065,
+      "mean_session_p99": 1.5805656275888809,
+      "slo_violation_rate": 0.09413019018980134,
+      "laplace_scale": 40.0
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "diurnal",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.48625000000000007,
+      "accuracy_ci95": [
+        0.4233333333333334,
+        0.5504166666666667
+      ],
+      "balanced_accuracy": 0.48625000000000007,
+      "balanced_accuracy_ci95": [
+        0.4233333333333334,
+        0.5504166666666667
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 282.8333333333333,
+      "mean_session_p99": 0.8094398347957916,
+      "slo_violation_rate": 0.0214032437421423,
+      "laplace_scale": 40.0
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "diurnal",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.4895833333333333,
+      "accuracy_ci95": [
+        0.4375,
+        0.5408333333333333
+      ],
+      "balanced_accuracy": 0.4895833333333333,
+      "balanced_accuracy_ci95": [
+        0.4375,
+        0.5408333333333333
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 282.8333333333333,
+      "mean_session_p99": 0.8094398347957916,
+      "slo_violation_rate": 0.0214032437421423,
+      "laplace_scale": 40.0
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "diurnal",
+      "task": "hot",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.7991666666666667,
+      "accuracy_ci95": [
+        0.7541562499999998,
+        0.8416770833333331
+      ],
+      "balanced_accuracy": 0.7991666666666666,
+      "balanced_accuracy_ci95": [
+        0.7541562499999998,
+        0.8416770833333331
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 61.139964155777065,
+      "mean_session_p99": 1.5805656275888809,
+      "slo_violation_rate": 0.09413019018980134,
+      "laplace_scale": 40.0
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "diurnal",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.5045833333333333,
+      "accuracy_ci95": [
+        0.43375,
+        0.5754166666666668
+      ],
+      "balanced_accuracy": 0.5045833333333333,
+      "balanced_accuracy_ci95": [
+        0.43375,
+        0.5754166666666668
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 282.8333333333333,
+      "mean_session_p99": 0.8094398347957916,
+      "slo_violation_rate": 0.0214032437421423,
+      "laplace_scale": 40.0
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "diurnal",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.4970833333333333,
+      "accuracy_ci95": [
+        0.4375,
+        0.5575104166666666
+      ],
+      "balanced_accuracy": 0.4970833333333333,
+      "balanced_accuracy_ci95": [
+        0.4375,
+        0.5575104166666666
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 282.8333333333333,
+      "mean_session_p99": 0.8094398347957916,
+      "slo_violation_rate": 0.0214032437421423,
+      "laplace_scale": 40.0
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "burst",
+      "task": "intensity",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.8925,
+      "accuracy_ci95": [
+        0.8629166666666667,
+        0.9183333333333333
+      ],
+      "balanced_accuracy": 0.8925,
+      "balanced_accuracy_ci95": [
+        0.8629166666666667,
+        0.9183333333333333
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 59.95083996811364,
+      "mean_session_p99": 1.7556287902542864,
+      "slo_violation_rate": 0.10865476810553319,
+      "laplace_scale": 40.0
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "burst",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.53375,
+      "accuracy_ci95": [
+        0.4570833333333334,
+        0.6145833333333334
+      ],
+      "balanced_accuracy": 0.53375,
+      "balanced_accuracy_ci95": [
+        0.4570833333333334,
+        0.6145833333333334
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 279.15833333333336,
+      "mean_session_p99": 0.44518931834854264,
+      "slo_violation_rate": 0.007382710906839533,
+      "laplace_scale": 40.0
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "burst",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.5724999999999999,
+      "accuracy_ci95": [
+        0.5075000000000001,
+        0.6404166666666665
+      ],
+      "balanced_accuracy": 0.5724999999999999,
+      "balanced_accuracy_ci95": [
+        0.5075000000000001,
+        0.6404166666666665
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 279.15833333333336,
+      "mean_session_p99": 0.44518931834854264,
+      "slo_violation_rate": 0.007382710906839533,
+      "laplace_scale": 40.0
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "burst",
+      "task": "hot",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.8404166666666665,
+      "accuracy_ci95": [
+        0.8049895833333331,
+        0.8737604166666664
+      ],
+      "balanced_accuracy": 0.8404166666666665,
+      "balanced_accuracy_ci95": [
+        0.8049895833333331,
+        0.8737604166666664
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 59.95083996811364,
+      "mean_session_p99": 1.7556287902542864,
+      "slo_violation_rate": 0.10865476810553319,
+      "laplace_scale": 40.0
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "burst",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.4945833333333333,
+      "accuracy_ci95": [
+        0.41457291666666657,
+        0.5737604166666666
+      ],
+      "balanced_accuracy": 0.4945833333333333,
+      "balanced_accuracy_ci95": [
+        0.41457291666666657,
+        0.5737604166666666
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 279.15833333333336,
+      "mean_session_p99": 0.44518931834854264,
+      "slo_violation_rate": 0.007382710906839533,
+      "laplace_scale": 40.0
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "burst",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.4995833333333334,
+      "accuracy_ci95": [
+        0.4391666666666667,
+        0.5583333333333333
+      ],
+      "balanced_accuracy": 0.4995833333333334,
+      "balanced_accuracy_ci95": [
+        0.4391666666666667,
+        0.5583333333333333
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 279.15833333333336,
+      "mean_session_p99": 0.44518931834854264,
+      "slo_violation_rate": 0.007382710906839533,
+      "laplace_scale": 40.0
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "uniform",
+      "task": "intensity",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.97875,
+      "accuracy_ci95": [
+        0.9650000000000001,
+        0.99
+      ],
+      "balanced_accuracy": 0.97875,
+      "balanced_accuracy_ci95": [
+        0.9650000000000001,
+        0.99
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 63.80763345655369,
+      "mean_session_p99": 1.450885207754551,
+      "slo_violation_rate": 0.10795557345142867,
+      "laplace_scale": 20.0
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "uniform",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.5408333333333334,
+      "accuracy_ci95": [
+        0.45875000000000005,
+        0.6204166666666668
+      ],
+      "balanced_accuracy": 0.5408333333333334,
+      "balanced_accuracy_ci95": [
+        0.45875000000000005,
+        0.6204166666666668
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 267.3833333333333,
+      "mean_session_p99": 0.6591522787408464,
+      "slo_violation_rate": 0.01304362182784938,
+      "laplace_scale": 20.0
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "uniform",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.5533333333333333,
+      "accuracy_ci95": [
+        0.4841666666666667,
+        0.6179166666666667
+      ],
+      "balanced_accuracy": 0.5533333333333333,
+      "balanced_accuracy_ci95": [
+        0.4841666666666667,
+        0.6179166666666667
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 267.3833333333333,
+      "mean_session_p99": 0.6591522787408464,
+      "slo_violation_rate": 0.01304362182784938,
+      "laplace_scale": 20.0
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "zipf",
+      "task": "intensity",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.9370833333333333,
+      "accuracy_ci95": [
+        0.9033333333333334,
+        0.96625
+      ],
+      "balanced_accuracy": 0.9370833333333333,
+      "balanced_accuracy_ci95": [
+        0.9033333333333334,
+        0.96625
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 62.38241884643458,
+      "mean_session_p99": 1.5799605219354658,
+      "slo_violation_rate": 0.0986573546951993,
+      "laplace_scale": 20.0
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "zipf",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.5429166666666667,
+      "accuracy_ci95": [
+        0.48250000000000004,
+        0.6058333333333333
+      ],
+      "balanced_accuracy": 0.5429166666666667,
+      "balanced_accuracy_ci95": [
+        0.48250000000000004,
+        0.6058333333333333
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 266.05833333333334,
+      "mean_session_p99": 0.8025481816027328,
+      "slo_violation_rate": 0.01938333921782108,
+      "laplace_scale": 20.0
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "zipf",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.53125,
+      "accuracy_ci95": [
+        0.47166666666666657,
+        0.5945937499999999
+      ],
+      "balanced_accuracy": 0.53125,
+      "balanced_accuracy_ci95": [
+        0.47166666666666657,
+        0.5945937499999999
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 266.05833333333334,
+      "mean_session_p99": 0.8025481816027328,
+      "slo_violation_rate": 0.01938333921782108,
+      "laplace_scale": 20.0
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "zipf",
+      "task": "hot",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.8270833333333335,
+      "accuracy_ci95": [
+        0.7825000000000001,
+        0.8691666666666666
+      ],
+      "balanced_accuracy": 0.8270833333333335,
+      "balanced_accuracy_ci95": [
+        0.7825000000000001,
+        0.8691666666666666
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 62.38241884643458,
+      "mean_session_p99": 1.5799605219354658,
+      "slo_violation_rate": 0.0986573546951993,
+      "laplace_scale": 20.0
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "zipf",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.5145833333333335,
+      "accuracy_ci95": [
+        0.45416666666666666,
+        0.5762604166666666
+      ],
+      "balanced_accuracy": 0.5145833333333334,
+      "balanced_accuracy_ci95": [
+        0.45416666666666666,
+        0.5762604166666666
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 266.05833333333334,
+      "mean_session_p99": 0.8025481816027328,
+      "slo_violation_rate": 0.01938333921782108,
+      "laplace_scale": 20.0
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "zipf",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.5141666666666668,
+      "accuracy_ci95": [
+        0.45916666666666667,
+        0.5729166666666666
+      ],
+      "balanced_accuracy": 0.5141666666666668,
+      "balanced_accuracy_ci95": [
+        0.45916666666666667,
+        0.5729166666666666
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 266.05833333333334,
+      "mean_session_p99": 0.8025481816027328,
+      "slo_violation_rate": 0.01938333921782108,
+      "laplace_scale": 20.0
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "diurnal",
+      "task": "intensity",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.9295833333333334,
+      "accuracy_ci95": [
+        0.9037500000000002,
+        0.9529166666666666
+      ],
+      "balanced_accuracy": 0.9295833333333334,
+      "balanced_accuracy_ci95": [
+        0.9037500000000002,
+        0.9529166666666666
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 61.139964155777065,
+      "mean_session_p99": 1.5805656275888809,
+      "slo_violation_rate": 0.09413019018980134,
+      "laplace_scale": 20.0
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "diurnal",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.5191666666666667,
+      "accuracy_ci95": [
+        0.45125000000000004,
+        0.5850104166666665
+      ],
+      "balanced_accuracy": 0.5191666666666667,
+      "balanced_accuracy_ci95": [
+        0.45125000000000004,
+        0.5850104166666666
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 268.60833333333335,
+      "mean_session_p99": 0.8027335945616536,
+      "slo_violation_rate": 0.02161329883775586,
+      "laplace_scale": 20.0
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "diurnal",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.5175,
+      "accuracy_ci95": [
+        0.45375,
+        0.5795833333333332
+      ],
+      "balanced_accuracy": 0.5175,
+      "balanced_accuracy_ci95": [
+        0.45375,
+        0.5795833333333332
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 268.60833333333335,
+      "mean_session_p99": 0.8027335945616536,
+      "slo_violation_rate": 0.02161329883775586,
+      "laplace_scale": 20.0
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "diurnal",
+      "task": "hot",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.7991666666666667,
+      "accuracy_ci95": [
+        0.7541562499999998,
+        0.8416770833333331
+      ],
+      "balanced_accuracy": 0.7991666666666666,
+      "balanced_accuracy_ci95": [
+        0.7541562499999998,
+        0.8416770833333331
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 61.139964155777065,
+      "mean_session_p99": 1.5805656275888809,
+      "slo_violation_rate": 0.09413019018980134,
+      "laplace_scale": 20.0
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "diurnal",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.5387500000000001,
+      "accuracy_ci95": [
+        0.4766666666666667,
+        0.6008437499999999
+      ],
+      "balanced_accuracy": 0.5387500000000001,
+      "balanced_accuracy_ci95": [
+        0.4766666666666667,
+        0.6008437499999999
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 268.60833333333335,
+      "mean_session_p99": 0.8027335945616536,
+      "slo_violation_rate": 0.02161329883775586,
+      "laplace_scale": 20.0
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "diurnal",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.5195833333333334,
+      "accuracy_ci95": [
+        0.465,
+        0.5775104166666666
+      ],
+      "balanced_accuracy": 0.5195833333333334,
+      "balanced_accuracy_ci95": [
+        0.465,
+        0.5775104166666666
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 268.60833333333335,
+      "mean_session_p99": 0.8027335945616536,
+      "slo_violation_rate": 0.02161329883775586,
+      "laplace_scale": 20.0
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "burst",
+      "task": "intensity",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.8925,
+      "accuracy_ci95": [
+        0.8629166666666667,
+        0.9183333333333333
+      ],
+      "balanced_accuracy": 0.8925,
+      "balanced_accuracy_ci95": [
+        0.8629166666666667,
+        0.9183333333333333
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 59.95083996811364,
+      "mean_session_p99": 1.7556287902542864,
+      "slo_violation_rate": 0.10865476810553319,
+      "laplace_scale": 20.0
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "burst",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.5287499999999999,
+      "accuracy_ci95": [
+        0.4608333333333334,
+        0.5975
+      ],
+      "balanced_accuracy": 0.5287499999999999,
+      "balanced_accuracy_ci95": [
+        0.4608333333333334,
+        0.5974999999999999
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 263.4916666666667,
+      "mean_session_p99": 0.47944618842958636,
+      "slo_violation_rate": 0.007419913287791915,
+      "laplace_scale": 20.0
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "burst",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.5625,
+      "accuracy_ci95": [
+        0.5058333333333334,
+        0.61875
+      ],
+      "balanced_accuracy": 0.5625,
+      "balanced_accuracy_ci95": [
+        0.5058333333333334,
+        0.61875
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 263.4916666666667,
+      "mean_session_p99": 0.47944618842958636,
+      "slo_violation_rate": 0.007419913287791915,
+      "laplace_scale": 20.0
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "burst",
+      "task": "hot",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.8404166666666665,
+      "accuracy_ci95": [
+        0.8049895833333331,
+        0.8737604166666664
+      ],
+      "balanced_accuracy": 0.8404166666666665,
+      "balanced_accuracy_ci95": [
+        0.8049895833333331,
+        0.8737604166666664
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 59.95083996811364,
+      "mean_session_p99": 1.7556287902542864,
+      "slo_violation_rate": 0.10865476810553319,
+      "laplace_scale": 20.0
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "burst",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.51,
+      "accuracy_ci95": [
+        0.45373958333333336,
+        0.5708437499999999
+      ],
+      "balanced_accuracy": 0.51,
+      "balanced_accuracy_ci95": [
+        0.45373958333333336,
+        0.57084375
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 263.4916666666667,
+      "mean_session_p99": 0.47944618842958636,
+      "slo_violation_rate": 0.007419913287791915,
+      "laplace_scale": 20.0
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "burst",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.5175000000000001,
+      "accuracy_ci95": [
+        0.45750000000000013,
+        0.5808333333333333
+      ],
+      "balanced_accuracy": 0.5175000000000001,
+      "balanced_accuracy_ci95": [
+        0.45750000000000013,
+        0.5808333333333333
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 263.4916666666667,
+      "mean_session_p99": 0.47944618842958636,
+      "slo_violation_rate": 0.007419913287791915,
+      "laplace_scale": 20.0
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "uniform",
+      "task": "intensity",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.97875,
+      "accuracy_ci95": [
+        0.9650000000000001,
+        0.99
+      ],
+      "balanced_accuracy": 0.97875,
+      "balanced_accuracy_ci95": [
+        0.9650000000000001,
+        0.99
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 63.80763345655369,
+      "mean_session_p99": 1.450885207754551,
+      "slo_violation_rate": 0.10795557345142867,
+      "laplace_scale": 10.0
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "uniform",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.51625,
+      "accuracy_ci95": [
+        0.45375,
+        0.5804166666666667
+      ],
+      "balanced_accuracy": 0.51625,
+      "balanced_accuracy_ci95": [
+        0.45375,
+        0.5804166666666667
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 230.10833333333332,
+      "mean_session_p99": 0.658121360787932,
+      "slo_violation_rate": 0.012686339146609856,
+      "laplace_scale": 10.0
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "uniform",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.5558333333333334,
+      "accuracy_ci95": [
+        0.4949895833333332,
+        0.61875
+      ],
+      "balanced_accuracy": 0.5558333333333334,
+      "balanced_accuracy_ci95": [
+        0.4949895833333332,
+        0.61875
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 230.10833333333332,
+      "mean_session_p99": 0.658121360787932,
+      "slo_violation_rate": 0.012686339146609856,
+      "laplace_scale": 10.0
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "zipf",
+      "task": "intensity",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.9370833333333333,
+      "accuracy_ci95": [
+        0.9033333333333334,
+        0.96625
+      ],
+      "balanced_accuracy": 0.9370833333333333,
+      "balanced_accuracy_ci95": [
+        0.9033333333333334,
+        0.96625
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 62.38241884643458,
+      "mean_session_p99": 1.5799605219354658,
+      "slo_violation_rate": 0.0986573546951993,
+      "laplace_scale": 10.0
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "zipf",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.5687500000000001,
+      "accuracy_ci95": [
+        0.5075000000000001,
+        0.6329166666666667
+      ],
+      "balanced_accuracy": 0.5687500000000001,
+      "balanced_accuracy_ci95": [
+        0.5075000000000001,
+        0.6329166666666667
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 223.71666666666667,
+      "mean_session_p99": 0.8179065236828836,
+      "slo_violation_rate": 0.02021989772504247,
+      "laplace_scale": 10.0
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "zipf",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.5733333333333334,
+      "accuracy_ci95": [
+        0.5104166666666666,
+        0.6400104166666666
+      ],
+      "balanced_accuracy": 0.5733333333333334,
+      "balanced_accuracy_ci95": [
+        0.5104166666666666,
+        0.6400104166666666
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 223.71666666666667,
+      "mean_session_p99": 0.8179065236828836,
+      "slo_violation_rate": 0.02021989772504247,
+      "laplace_scale": 10.0
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "zipf",
+      "task": "hot",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.8270833333333335,
+      "accuracy_ci95": [
+        0.7825000000000001,
+        0.8691666666666666
+      ],
+      "balanced_accuracy": 0.8270833333333335,
+      "balanced_accuracy_ci95": [
+        0.7825000000000001,
+        0.8691666666666666
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 62.38241884643458,
+      "mean_session_p99": 1.5799605219354658,
+      "slo_violation_rate": 0.0986573546951993,
+      "laplace_scale": 10.0
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "zipf",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.5179166666666667,
+      "accuracy_ci95": [
+        0.44625000000000004,
+        0.5904166666666666
+      ],
+      "balanced_accuracy": 0.5179166666666667,
+      "balanced_accuracy_ci95": [
+        0.44625000000000004,
+        0.5904166666666666
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 223.71666666666667,
+      "mean_session_p99": 0.8179065236828836,
+      "slo_violation_rate": 0.02021989772504247,
+      "laplace_scale": 10.0
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "zipf",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.5220833333333333,
+      "accuracy_ci95": [
+        0.4466666666666667,
+        0.59875
+      ],
+      "balanced_accuracy": 0.5220833333333333,
+      "balanced_accuracy_ci95": [
+        0.4466666666666667,
+        0.59875
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 223.71666666666667,
+      "mean_session_p99": 0.8179065236828836,
+      "slo_violation_rate": 0.02021989772504247,
+      "laplace_scale": 10.0
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "diurnal",
+      "task": "intensity",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.9295833333333334,
+      "accuracy_ci95": [
+        0.9037500000000002,
+        0.9529166666666666
+      ],
+      "balanced_accuracy": 0.9295833333333334,
+      "balanced_accuracy_ci95": [
+        0.9037500000000002,
+        0.9529166666666666
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 61.139964155777065,
+      "mean_session_p99": 1.5805656275888809,
+      "slo_violation_rate": 0.09413019018980134,
+      "laplace_scale": 10.0
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "diurnal",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.5545833333333333,
+      "accuracy_ci95": [
+        0.4824895833333333,
+        0.6233333333333333
+      ],
+      "balanced_accuracy": 0.5545833333333333,
+      "balanced_accuracy_ci95": [
+        0.4824895833333333,
+        0.6233333333333333
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 231.39166666666668,
+      "mean_session_p99": 0.8378431912900235,
+      "slo_violation_rate": 0.02481304962413029,
+      "laplace_scale": 10.0
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "diurnal",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.5762499999999999,
+      "accuracy_ci95": [
+        0.5091666666666668,
+        0.6391666666666667
+      ],
+      "balanced_accuracy": 0.5762499999999999,
+      "balanced_accuracy_ci95": [
+        0.5091666666666668,
+        0.6391666666666667
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 231.39166666666668,
+      "mean_session_p99": 0.8378431912900235,
+      "slo_violation_rate": 0.02481304962413029,
+      "laplace_scale": 10.0
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "diurnal",
+      "task": "hot",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.7991666666666667,
+      "accuracy_ci95": [
+        0.7541562499999998,
+        0.8416770833333331
+      ],
+      "balanced_accuracy": 0.7991666666666666,
+      "balanced_accuracy_ci95": [
+        0.7541562499999998,
+        0.8416770833333331
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 61.139964155777065,
+      "mean_session_p99": 1.5805656275888809,
+      "slo_violation_rate": 0.09413019018980134,
+      "laplace_scale": 10.0
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "diurnal",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.5204166666666666,
+      "accuracy_ci95": [
+        0.45290625,
+        0.5854166666666666
+      ],
+      "balanced_accuracy": 0.5204166666666666,
+      "balanced_accuracy_ci95": [
+        0.45290625,
+        0.5854166666666666
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 231.39166666666668,
+      "mean_session_p99": 0.8378431912900235,
+      "slo_violation_rate": 0.02481304962413029,
+      "laplace_scale": 10.0
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "diurnal",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.5270833333333333,
+      "accuracy_ci95": [
+        0.4616666666666667,
+        0.59
+      ],
+      "balanced_accuracy": 0.5270833333333333,
+      "balanced_accuracy_ci95": [
+        0.4616666666666667,
+        0.59
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 231.39166666666668,
+      "mean_session_p99": 0.8378431912900235,
+      "slo_violation_rate": 0.02481304962413029,
+      "laplace_scale": 10.0
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "burst",
+      "task": "intensity",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.8925,
+      "accuracy_ci95": [
+        0.8629166666666667,
+        0.9183333333333333
+      ],
+      "balanced_accuracy": 0.8925,
+      "balanced_accuracy_ci95": [
+        0.8629166666666667,
+        0.9183333333333333
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 59.95083996811364,
+      "mean_session_p99": 1.7556287902542864,
+      "slo_violation_rate": 0.10865476810553319,
+      "laplace_scale": 10.0
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "burst",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.5145833333333333,
+      "accuracy_ci95": [
+        0.46332291666666653,
+        0.5670833333333333
+      ],
+      "balanced_accuracy": 0.5145833333333334,
+      "balanced_accuracy_ci95": [
+        0.46332291666666653,
+        0.5670833333333333
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 221.55,
+      "mean_session_p99": 0.5737719613624107,
+      "slo_violation_rate": 0.011919526570619936,
+      "laplace_scale": 10.0
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "burst",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.5316666666666667,
+      "accuracy_ci95": [
+        0.47998958333333325,
+        0.58375
+      ],
+      "balanced_accuracy": 0.5316666666666667,
+      "balanced_accuracy_ci95": [
+        0.47998958333333325,
+        0.58375
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 221.55,
+      "mean_session_p99": 0.5737719613624107,
+      "slo_violation_rate": 0.011919526570619936,
+      "laplace_scale": 10.0
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "burst",
+      "task": "hot",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.8404166666666665,
+      "accuracy_ci95": [
+        0.8049895833333331,
+        0.8737604166666664
+      ],
+      "balanced_accuracy": 0.8404166666666665,
+      "balanced_accuracy_ci95": [
+        0.8049895833333331,
+        0.8737604166666664
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 59.95083996811364,
+      "mean_session_p99": 1.7556287902542864,
+      "slo_violation_rate": 0.10865476810553319,
+      "laplace_scale": 10.0
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "burst",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.5466666666666666,
+      "accuracy_ci95": [
+        0.49291666666666667,
+        0.6016666666666666
+      ],
+      "balanced_accuracy": 0.5466666666666666,
+      "balanced_accuracy_ci95": [
+        0.49291666666666667,
+        0.6016666666666666
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 221.55,
+      "mean_session_p99": 0.5737719613624107,
+      "slo_violation_rate": 0.011919526570619936,
+      "laplace_scale": 10.0
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "burst",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.56,
+      "accuracy_ci95": [
+        0.5037500000000001,
+        0.6150104166666666
+      ],
+      "balanced_accuracy": 0.56,
+      "balanced_accuracy_ci95": [
+        0.5037500000000001,
+        0.6150104166666666
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 221.55,
+      "mean_session_p99": 0.5737719613624107,
+      "slo_violation_rate": 0.011919526570619936,
+      "laplace_scale": 10.0
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "uniform",
+      "task": "intensity",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.97875,
+      "accuracy_ci95": [
+        0.9650000000000001,
+        0.99
+      ],
+      "balanced_accuracy": 0.97875,
+      "balanced_accuracy_ci95": [
+        0.9650000000000001,
+        0.99
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 63.80763345655369,
+      "mean_session_p99": 1.450885207754551,
+      "slo_violation_rate": 0.10795557345142867,
+      "laplace_scale": 5.0
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "uniform",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.5858333333333333,
+      "accuracy_ci95": [
+        0.5187499999999998,
+        0.6562499999999999
+      ],
+      "balanced_accuracy": 0.5858333333333333,
+      "balanced_accuracy_ci95": [
+        0.5187499999999999,
+        0.6562499999999999
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 164.45,
+      "mean_session_p99": 0.6845022347036124,
+      "slo_violation_rate": 0.012775791089051436,
+      "laplace_scale": 5.0
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "uniform",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.6249999999999999,
+      "accuracy_ci95": [
+        0.5520833333333334,
+        0.6970833333333333
+      ],
+      "balanced_accuracy": 0.6249999999999999,
+      "balanced_accuracy_ci95": [
+        0.5520833333333334,
+        0.6970833333333333
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 164.45,
+      "mean_session_p99": 0.6845022347036124,
+      "slo_violation_rate": 0.012775791089051436,
+      "laplace_scale": 5.0
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "zipf",
+      "task": "intensity",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.9370833333333333,
+      "accuracy_ci95": [
+        0.9033333333333334,
+        0.96625
+      ],
+      "balanced_accuracy": 0.9370833333333333,
+      "balanced_accuracy_ci95": [
+        0.9033333333333334,
+        0.96625
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 62.38241884643458,
+      "mean_session_p99": 1.5799605219354658,
+      "slo_violation_rate": 0.0986573546951993,
+      "laplace_scale": 5.0
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "zipf",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.6145833333333334,
+      "accuracy_ci95": [
+        0.5495833333333333,
+        0.6829166666666666
+      ],
+      "balanced_accuracy": 0.6145833333333334,
+      "balanced_accuracy_ci95": [
+        0.5495833333333333,
+        0.6829166666666666
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 157.30833333333334,
+      "mean_session_p99": 0.8423901860396906,
+      "slo_violation_rate": 0.022617448356345018,
+      "laplace_scale": 5.0
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "zipf",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.6424999999999998,
+      "accuracy_ci95": [
+        0.5829166666666665,
+        0.7041666666666665
+      ],
+      "balanced_accuracy": 0.6424999999999998,
+      "balanced_accuracy_ci95": [
+        0.5829166666666665,
+        0.7041666666666665
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 157.30833333333334,
+      "mean_session_p99": 0.8423901860396906,
+      "slo_violation_rate": 0.022617448356345018,
+      "laplace_scale": 5.0
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "zipf",
+      "task": "hot",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.8270833333333335,
+      "accuracy_ci95": [
+        0.7825000000000001,
+        0.8691666666666666
+      ],
+      "balanced_accuracy": 0.8270833333333335,
+      "balanced_accuracy_ci95": [
+        0.7825000000000001,
+        0.8691666666666666
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 62.38241884643458,
+      "mean_session_p99": 1.5799605219354658,
+      "slo_violation_rate": 0.0986573546951993,
+      "laplace_scale": 5.0
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "zipf",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.4929166666666667,
+      "accuracy_ci95": [
+        0.4254166666666667,
+        0.56125
+      ],
+      "balanced_accuracy": 0.4929166666666667,
+      "balanced_accuracy_ci95": [
+        0.4254166666666667,
+        0.56125
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 157.30833333333334,
+      "mean_session_p99": 0.8423901860396906,
+      "slo_violation_rate": 0.022617448356345018,
+      "laplace_scale": 5.0
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "zipf",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.5375,
+      "accuracy_ci95": [
+        0.47375000000000006,
+        0.6004166666666665
+      ],
+      "balanced_accuracy": 0.5375,
+      "balanced_accuracy_ci95": [
+        0.47375000000000006,
+        0.6004166666666665
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 157.30833333333334,
+      "mean_session_p99": 0.8423901860396906,
+      "slo_violation_rate": 0.022617448356345018,
+      "laplace_scale": 5.0
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "diurnal",
+      "task": "intensity",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.9295833333333334,
+      "accuracy_ci95": [
+        0.9037500000000002,
+        0.9529166666666666
+      ],
+      "balanced_accuracy": 0.9295833333333334,
+      "balanced_accuracy_ci95": [
+        0.9037500000000002,
+        0.9529166666666666
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 61.139964155777065,
+      "mean_session_p99": 1.5805656275888809,
+      "slo_violation_rate": 0.09413019018980134,
+      "laplace_scale": 5.0
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "diurnal",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.6291666666666669,
+      "accuracy_ci95": [
+        0.5587500000000001,
+        0.6950000000000001
+      ],
+      "balanced_accuracy": 0.6291666666666669,
+      "balanced_accuracy_ci95": [
+        0.5587500000000001,
+        0.6950000000000001
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 169.40833333333333,
+      "mean_session_p99": 0.8747374103910267,
+      "slo_violation_rate": 0.030364147994033912,
+      "laplace_scale": 5.0
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "diurnal",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.6600000000000003,
+      "accuracy_ci95": [
+        0.5924999999999999,
+        0.7241666666666668
+      ],
+      "balanced_accuracy": 0.6600000000000003,
+      "balanced_accuracy_ci95": [
+        0.5924999999999999,
+        0.7241666666666668
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 169.40833333333333,
+      "mean_session_p99": 0.8747374103910267,
+      "slo_violation_rate": 0.030364147994033912,
+      "laplace_scale": 5.0
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "diurnal",
+      "task": "hot",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.7991666666666667,
+      "accuracy_ci95": [
+        0.7541562499999998,
+        0.8416770833333331
+      ],
+      "balanced_accuracy": 0.7991666666666666,
+      "balanced_accuracy_ci95": [
+        0.7541562499999998,
+        0.8416770833333331
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 61.139964155777065,
+      "mean_session_p99": 1.5805656275888809,
+      "slo_violation_rate": 0.09413019018980134,
+      "laplace_scale": 5.0
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "diurnal",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.5487500000000001,
+      "accuracy_ci95": [
+        0.48207291666666663,
+        0.6141666666666666
+      ],
+      "balanced_accuracy": 0.5487500000000001,
+      "balanced_accuracy_ci95": [
+        0.48207291666666663,
+        0.6141666666666666
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 169.40833333333333,
+      "mean_session_p99": 0.8747374103910267,
+      "slo_violation_rate": 0.030364147994033912,
+      "laplace_scale": 5.0
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "diurnal",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.5887499999999999,
+      "accuracy_ci95": [
+        0.5358229166666666,
+        0.6391770833333331
+      ],
+      "balanced_accuracy": 0.5887499999999999,
+      "balanced_accuracy_ci95": [
+        0.5358229166666665,
+        0.6391770833333331
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 169.40833333333333,
+      "mean_session_p99": 0.8747374103910267,
+      "slo_violation_rate": 0.030364147994033912,
+      "laplace_scale": 5.0
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "burst",
+      "task": "intensity",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.8925,
+      "accuracy_ci95": [
+        0.8629166666666667,
+        0.9183333333333333
+      ],
+      "balanced_accuracy": 0.8925,
+      "balanced_accuracy_ci95": [
+        0.8629166666666667,
+        0.9183333333333333
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 59.95083996811364,
+      "mean_session_p99": 1.7556287902542864,
+      "slo_violation_rate": 0.10865476810553319,
+      "laplace_scale": 5.0
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "burst",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.6166666666666668,
+      "accuracy_ci95": [
+        0.5645833333333333,
+        0.6683437499999999
+      ],
+      "balanced_accuracy": 0.6166666666666668,
+      "balanced_accuracy_ci95": [
+        0.5645833333333333,
+        0.6683437499999999
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 163.00833333333333,
+      "mean_session_p99": 0.7420240708380289,
+      "slo_violation_rate": 0.023663674347538452,
+      "laplace_scale": 5.0
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "burst",
+      "task": "intensity",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.6058333333333333,
+      "accuracy_ci95": [
+        0.5583333333333333,
+        0.6545833333333334
+      ],
+      "balanced_accuracy": 0.6058333333333333,
+      "balanced_accuracy_ci95": [
+        0.5583333333333333,
+        0.6545833333333333
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 163.00833333333333,
+      "mean_session_p99": 0.7420240708380289,
+      "slo_violation_rate": 0.023663674347538452,
+      "laplace_scale": 5.0
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "burst",
+      "task": "hot",
+      "policy": "naive",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.8404166666666665,
+      "accuracy_ci95": [
+        0.8049895833333331,
+        0.8737604166666664
+      ],
+      "balanced_accuracy": 0.8404166666666665,
+      "balanced_accuracy_ci95": [
+        0.8049895833333331,
+        0.8737604166666664
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 59.95083996811364,
+      "mean_session_p99": 1.7556287902542864,
+      "slo_violation_rate": 0.10865476810553319,
+      "laplace_scale": 5.0
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "burst",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_public",
+      "independent_trials": 30,
+      "accuracy": 0.6133333333333333,
+      "accuracy_ci95": [
+        0.5779166666666667,
+        0.6466770833333332
+      ],
+      "balanced_accuracy": 0.6133333333333333,
+      "balanced_accuracy_ci95": [
+        0.5779166666666667,
+        0.6466770833333332
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 163.00833333333333,
+      "mean_session_p99": 0.7420240708380289,
+      "slo_violation_rate": 0.023663674347538452,
+      "laplace_scale": 5.0
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "burst",
+      "task": "hot",
+      "policy": "dp_laplace",
+      "attacker": "forest_seed_replay",
+      "independent_trials": 30,
+      "accuracy": 0.6300000000000001,
+      "accuracy_ci95": [
+        0.5924999999999999,
+        0.6683333333333334
+      ],
+      "balanced_accuracy": 0.6300000000000001,
+      "balanced_accuracy_ci95": [
+        0.5924999999999999,
+        0.6683333333333334
+      ],
+      "majority_accuracy": 0.5,
+      "balanced_chance": 0.5,
+      "instance_seconds": 163.00833333333333,
+      "mean_session_p99": 0.7420240708380289,
+      "slo_violation_rate": 0.023663674347538452,
+      "laplace_scale": 5.0
+    }
+  ],
+  "positive_controls": [
+    {
+      "epsilon": 0.5,
+      "workload": "uniform",
+      "task": "intensity",
+      "balanced_accuracy": 0.97875,
+      "passed": true
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "zipf",
+      "task": "intensity",
+      "balanced_accuracy": 0.9370833333333333,
+      "passed": true
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "zipf",
+      "task": "hot",
+      "balanced_accuracy": 0.8270833333333335,
+      "passed": true
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "diurnal",
+      "task": "intensity",
+      "balanced_accuracy": 0.9295833333333334,
+      "passed": true
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "diurnal",
+      "task": "hot",
+      "balanced_accuracy": 0.7991666666666666,
+      "passed": true
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "burst",
+      "task": "intensity",
+      "balanced_accuracy": 0.8925,
+      "passed": true
+    },
+    {
+      "epsilon": 0.5,
+      "workload": "burst",
+      "task": "hot",
+      "balanced_accuracy": 0.8404166666666665,
+      "passed": true
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "uniform",
+      "task": "intensity",
+      "balanced_accuracy": 0.97875,
+      "passed": true
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "zipf",
+      "task": "intensity",
+      "balanced_accuracy": 0.9370833333333333,
+      "passed": true
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "zipf",
+      "task": "hot",
+      "balanced_accuracy": 0.8270833333333335,
+      "passed": true
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "diurnal",
+      "task": "intensity",
+      "balanced_accuracy": 0.9295833333333334,
+      "passed": true
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "diurnal",
+      "task": "hot",
+      "balanced_accuracy": 0.7991666666666666,
+      "passed": true
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "burst",
+      "task": "intensity",
+      "balanced_accuracy": 0.8925,
+      "passed": true
+    },
+    {
+      "epsilon": 1.0,
+      "workload": "burst",
+      "task": "hot",
+      "balanced_accuracy": 0.8404166666666665,
+      "passed": true
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "uniform",
+      "task": "intensity",
+      "balanced_accuracy": 0.97875,
+      "passed": true
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "zipf",
+      "task": "intensity",
+      "balanced_accuracy": 0.9370833333333333,
+      "passed": true
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "zipf",
+      "task": "hot",
+      "balanced_accuracy": 0.8270833333333335,
+      "passed": true
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "diurnal",
+      "task": "intensity",
+      "balanced_accuracy": 0.9295833333333334,
+      "passed": true
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "diurnal",
+      "task": "hot",
+      "balanced_accuracy": 0.7991666666666666,
+      "passed": true
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "burst",
+      "task": "intensity",
+      "balanced_accuracy": 0.8925,
+      "passed": true
+    },
+    {
+      "epsilon": 2.0,
+      "workload": "burst",
+      "task": "hot",
+      "balanced_accuracy": 0.8404166666666665,
+      "passed": true
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "uniform",
+      "task": "intensity",
+      "balanced_accuracy": 0.97875,
+      "passed": true
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "zipf",
+      "task": "intensity",
+      "balanced_accuracy": 0.9370833333333333,
+      "passed": true
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "zipf",
+      "task": "hot",
+      "balanced_accuracy": 0.8270833333333335,
+      "passed": true
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "diurnal",
+      "task": "intensity",
+      "balanced_accuracy": 0.9295833333333334,
+      "passed": true
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "diurnal",
+      "task": "hot",
+      "balanced_accuracy": 0.7991666666666666,
+      "passed": true
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "burst",
+      "task": "intensity",
+      "balanced_accuracy": 0.8925,
+      "passed": true
+    },
+    {
+      "epsilon": 4.0,
+      "workload": "burst",
+      "task": "hot",
+      "balanced_accuracy": 0.8404166666666665,
+      "passed": true
+    }
+  ],
+  "all_positive_controls_passed": true,
+  "methodology": "Each epsilon uses the same public experiment seed, generated workload streams, trials, session split, and policy-noise base streams. Each setting has a separate raw capture and attack reanalysis. The fixed 64-tree seed-replay forest uses whole-session profiling/target splits. Cost and SLO metrics are simulated, not deployment measurements.",
+  "limitations": "The public seed makes each nominal Laplace transcript deterministic and invalidates a formal DP guarantee for these saved artifacts. Four epsilon values and multiple attack/task comparisons are exploratory; intervals are unadjusted. No CSPRNG-backed production mechanism, user-level adjacency, runtime integration, provider costs, or hardware TEE is evaluated.",
+  "provenance": {
+    "git_head": "f9ade992dffd8d8bb1fab78df568e2a2333220c1",
+    "git_dirty": true,
+    "python": "3.14.8",
+    "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+    "numpy": "2.5.4",
+    "sklearn": "1.9.1",
+    "matplotlib": "3.11.2",
+    "elapsed_wall_seconds": 371.39633802699973,
+    "source_sha256": {
+      "research/analysis/scaler_epsilon_sweep.py": "827a6a779e3332c3a622d1f9afa8d67c9a92c03cd1ec51a4626337567ecc8ccb",
+      "research/analysis/scaler_seed_replay.py": "ee36a3c258d7538aef16be46cca19fddd5904504893fd6aa4aff892b02787ba2",
+      "research/attacks/scaler_seed_replay.py": "fa36fb7ed19fdb754ea86205086e1596ccbed3dbdbcae16e044cde6aac363d05",
+      "research/simulation/run.py": "da4ebb1c49b1b73462f6fd73bcf60f3aae26f0034ba19dd511df77d3e321f050",
+      "research/simulation/scaler.py": "5ac166d38544dbe88217c366aa5b7801e79341d0c31464c62aa909c389c4b259"
+    },
+    "config_sha256": "99a2af97bd765764458cab8cd61bda13d796bfad2567a212fa541727dbb881bb"
+  }
+}

@@ -1,0 +1,469 @@
+{
+  "attacker_observables": [
+    "client identity presence by epoch",
+    "semantic beacon bit by epoch"
+  ],
+  "bootstrap_replicates": 2000,
+  "epochs": 64,
+  "label": "synthetic explicitly labeled sensitivity scenarios",
+  "limitations": [
+    "synthetic scenarios only; no real network capture or packet timing is modeled",
+    "simulated noisy beacon is not differential privacy",
+    "attacker receives only per-session client-presence observations and the public beacon bit sequence",
+    "sessions, not epochs, are the independent sampling and split units"
+  ],
+  "method": "Per-session likelihood ranking using only client-presence markers and semantic beacon bits.",
+  "positive_controls": [
+    {
+      "accuracy": {
+        "ci95": [
+          0.7444444444444445,
+          0.8555555555555555
+        ],
+        "mean": 0.8,
+        "unit": "whole independent test session"
+      },
+      "lower_ci95_exceeds_uniform_random": true,
+      "scenario": "strong_stable_control",
+      "uniform_random_expected_accuracy": 0.125
+    },
+    {
+      "accuracy": {
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "mean": 1.0,
+        "unit": "whole independent test session"
+      },
+      "lower_ci95_exceeds_uniform_random": true,
+      "scenario": "strong_churn_control",
+      "uniform_random_expected_accuracy": 0.11769280102613436
+    }
+  ],
+  "provenance": {
+    "analysis_sha256": "79fb8c347d9749a4136fea59eb3a95b9372180cd8f79b55cb0618580edd5b150",
+    "config_sha256": "a07780aab549a4cce67babb06f53593e1b6de8291928f9110d1dea3a103913ac",
+    "frozen_presence_analysis_sha256": "80ebfa64c0f5bd7205c8db890609959f3ff6d3159e432336a9358f084b1bebfe",
+    "frozen_presence_attack_sha256": "50344ab33ee6008e708c685a08912d8d989cd08b91d87b3d518fe6fbba96e9b3"
+  },
+  "run_parameters": {
+    "bootstrap_replicates": 2000,
+    "epochs_per_session": 64,
+    "seed": 20261024,
+    "sessions_per_scenario": 240,
+    "train_fraction": 0.25
+  },
+  "scenarios": [
+    {
+      "attacker": {
+        "accuracy": {
+          "ci95": [
+            0.7444444444444445,
+            0.8555555555555555
+          ],
+          "mean": 0.8,
+          "unit": "whole independent test session"
+        },
+        "successes": 144
+      },
+      "chance_by_population": {
+        "8": 0.125
+      },
+      "class_baselines": {
+        "fixed_first_candidate_accuracy": {
+          "ci95": [
+            0.08333333333333333,
+            0.17777777777777778
+          ],
+          "mean": 0.12777777777777777,
+          "unit": "whole independent test session"
+        },
+        "uniform_random_expected_accuracy": 0.125
+      },
+      "description": "Positive control: strong semantic signal, stable enrollment, few missed cover observations, fixed eight-client population.",
+      "label": "synthetic explicitly labeled scenario",
+      "name": "strong_stable_control",
+      "parameters": {
+        "beacon_false_positive": 0.02,
+        "beacon_sensitivity": 0.98,
+        "enrollment_churn": 0.01,
+        "missed_cover_rate": 0.02,
+        "owner_online_probability": 0.98,
+        "population": [
+          8,
+          8
+        ]
+      },
+      "split": {
+        "test_sessions": 180,
+        "train_base_beacon_rate": 0.7346354166666667,
+        "train_sessions": 60,
+        "unit": "whole independent session"
+      }
+    },
+    {
+      "attacker": {
+        "accuracy": {
+          "ci95": [
+            1.0,
+            1.0
+          ],
+          "mean": 1.0,
+          "unit": "whole independent test session"
+        },
+        "successes": 180
+      },
+      "chance_by_population": {
+        "10": 0.1,
+        "11": 0.09090909090909091,
+        "12": 0.08333333333333333,
+        "6": 0.16666666666666666,
+        "7": 0.14285714285714285,
+        "8": 0.125,
+        "9": 0.1111111111111111
+      },
+      "class_baselines": {
+        "fixed_first_candidate_accuracy": {
+          "ci95": [
+            0.07777777777777778,
+            0.17222222222222222
+          ],
+          "mean": 0.12222222222222222,
+          "unit": "whole independent test session"
+        },
+        "uniform_random_expected_accuracy": 0.11769280102613436
+      },
+      "description": "Positive control: strong semantic signal under substantial enrollment churn and a changing client population.",
+      "label": "synthetic explicitly labeled scenario",
+      "name": "strong_churn_control",
+      "parameters": {
+        "beacon_false_positive": 0.02,
+        "beacon_sensitivity": 0.98,
+        "enrollment_churn": 0.3,
+        "missed_cover_rate": 0.05,
+        "owner_online_probability": 0.9,
+        "population": [
+          6,
+          12
+        ]
+      },
+      "split": {
+        "test_sessions": 180,
+        "train_base_beacon_rate": 0.475,
+        "train_sessions": 60,
+        "unit": "whole independent session"
+      }
+    },
+    {
+      "attacker": {
+        "accuracy": {
+          "ci95": [
+            0.9055555555555556,
+            0.9777777777777777
+          ],
+          "mean": 0.9444444444444444,
+          "unit": "whole independent test session"
+        },
+        "successes": 170
+      },
+      "chance_by_population": {
+        "8": 0.125
+      },
+      "class_baselines": {
+        "fixed_first_candidate_accuracy": {
+          "ci95": [
+            0.08888888888888889,
+            0.18888888888888888
+          ],
+          "mean": 0.13333333333333333,
+          "unit": "whole independent test session"
+        },
+        "uniform_random_expected_accuracy": 0.125
+      },
+      "description": "Reduced semantic signal with moderate false positives; stable population and low churn.",
+      "label": "synthetic explicitly labeled scenario",
+      "name": "weaker_semantic_beacon",
+      "parameters": {
+        "beacon_false_positive": 0.2,
+        "beacon_sensitivity": 0.7,
+        "enrollment_churn": 0.03,
+        "missed_cover_rate": 0.05,
+        "owner_online_probability": 0.9,
+        "population": [
+          8,
+          8
+        ]
+      },
+      "split": {
+        "test_sessions": 180,
+        "train_base_beacon_rate": 0.5153645833333333,
+        "train_sessions": 60,
+        "unit": "whole independent session"
+      }
+    },
+    {
+      "attacker": {
+        "accuracy": {
+          "ci95": [
+            0.2833333333333333,
+            0.4222222222222222
+          ],
+          "mean": 0.35,
+          "unit": "whole independent test session"
+        },
+        "successes": 63
+      },
+      "chance_by_population": {
+        "8": 0.125
+      },
+      "class_baselines": {
+        "fixed_first_candidate_accuracy": {
+          "ci95": [
+            0.08888888888888889,
+            0.18888888888888888
+          ],
+          "mean": 0.1388888888888889,
+          "unit": "whole independent test session"
+        },
+        "uniform_random_expected_accuracy": 0.125
+      },
+      "description": "Weak distinction between beacon events and non-events, with otherwise stable enrollment.",
+      "label": "synthetic explicitly labeled scenario",
+      "name": "high_beacon_noise",
+      "parameters": {
+        "beacon_false_positive": 0.42,
+        "beacon_sensitivity": 0.58,
+        "enrollment_churn": 0.03,
+        "missed_cover_rate": 0.05,
+        "owner_online_probability": 0.9,
+        "population": [
+          8,
+          8
+        ]
+      },
+      "split": {
+        "test_sessions": 180,
+        "train_base_beacon_rate": 0.5130208333333334,
+        "train_sessions": 60,
+        "unit": "whole independent session"
+      }
+    },
+    {
+      "attacker": {
+        "accuracy": {
+          "ci95": [
+            1.0,
+            1.0
+          ],
+          "mean": 1.0,
+          "unit": "whole independent test session"
+        },
+        "successes": 180
+      },
+      "chance_by_population": {
+        "8": 0.125
+      },
+      "class_baselines": {
+        "fixed_first_candidate_accuracy": {
+          "ci95": [
+            0.07777777777777778,
+            0.17222222222222222
+          ],
+          "mean": 0.12222222222222222,
+          "unit": "whole independent test session"
+        },
+        "uniform_random_expected_accuracy": 0.125
+      },
+      "description": "Strong beacon semantics but rapid enrollment state changes and moderate missed cover observations.",
+      "label": "synthetic explicitly labeled scenario",
+      "name": "high_enrollment_churn",
+      "parameters": {
+        "beacon_false_positive": 0.02,
+        "beacon_sensitivity": 0.98,
+        "enrollment_churn": 0.45,
+        "missed_cover_rate": 0.25,
+        "owner_online_probability": 0.9,
+        "population": [
+          8,
+          8
+        ]
+      },
+      "split": {
+        "test_sessions": 180,
+        "train_base_beacon_rate": 0.4395833333333333,
+        "train_sessions": 60,
+        "unit": "whole independent session"
+      }
+    },
+    {
+      "attacker": {
+        "accuracy": {
+          "ci95": [
+            0.7055555555555556,
+            0.8277777777777777
+          ],
+          "mean": 0.7666666666666667,
+          "unit": "whole independent test session"
+        },
+        "successes": 138
+      },
+      "chance_by_population": {
+        "8": 0.125
+      },
+      "class_baselines": {
+        "fixed_first_candidate_accuracy": {
+          "ci95": [
+            0.07222222222222222,
+            0.16666666666666666
+          ],
+          "mean": 0.11666666666666667,
+          "unit": "whole independent test session"
+        },
+        "uniform_random_expected_accuracy": 0.125
+      },
+      "description": "Strong beacon semantics with frequent missed cover observations.",
+      "label": "synthetic explicitly labeled scenario",
+      "name": "high_missed_cover",
+      "parameters": {
+        "beacon_false_positive": 0.02,
+        "beacon_sensitivity": 0.98,
+        "enrollment_churn": 0.03,
+        "missed_cover_rate": 0.55,
+        "owner_online_probability": 0.9,
+        "population": [
+          8,
+          8
+        ]
+      },
+      "split": {
+        "test_sessions": 180,
+        "train_base_beacon_rate": 0.5619791666666667,
+        "train_sessions": 60,
+        "unit": "whole independent session"
+      }
+    },
+    {
+      "attacker": {
+        "accuracy": {
+          "ci95": [
+            0.9833333333333333,
+            1.0
+          ],
+          "mean": 0.9944444444444445,
+          "unit": "whole independent test session"
+        },
+        "successes": 179
+      },
+      "chance_by_population": {
+        "10": 0.1,
+        "11": 0.09090909090909091,
+        "12": 0.08333333333333333,
+        "13": 0.07692307692307693,
+        "14": 0.07142857142857142,
+        "15": 0.06666666666666667,
+        "16": 0.0625,
+        "4": 0.25,
+        "5": 0.2,
+        "6": 0.16666666666666666,
+        "7": 0.14285714285714285,
+        "8": 0.125,
+        "9": 0.1111111111111111
+      },
+      "class_baselines": {
+        "fixed_first_candidate_accuracy": {
+          "ci95": [
+            0.1,
+            0.2
+          ],
+          "mean": 0.15,
+          "unit": "whole independent test session"
+        },
+        "uniform_random_expected_accuracy": 0.11322311176477844
+      },
+      "description": "Strong signal with client populations varying from four to sixteen candidates between whole sessions.",
+      "label": "synthetic explicitly labeled scenario",
+      "name": "changing_population",
+      "parameters": {
+        "beacon_false_positive": 0.02,
+        "beacon_sensitivity": 0.98,
+        "enrollment_churn": 0.08,
+        "missed_cover_rate": 0.1,
+        "owner_online_probability": 0.9,
+        "population": [
+          4,
+          16
+        ]
+      },
+      "split": {
+        "test_sessions": 180,
+        "train_base_beacon_rate": 0.46119791666666665,
+        "train_sessions": 60,
+        "unit": "whole independent session"
+      }
+    },
+    {
+      "attacker": {
+        "accuracy": {
+          "ci95": [
+            0.7333333333333333,
+            0.85
+          ],
+          "mean": 0.7944444444444444,
+          "unit": "whole independent test session"
+        },
+        "successes": 143
+      },
+      "chance_by_population": {
+        "10": 0.1,
+        "11": 0.09090909090909091,
+        "12": 0.08333333333333333,
+        "13": 0.07692307692307693,
+        "14": 0.07142857142857142,
+        "15": 0.06666666666666667,
+        "16": 0.0625,
+        "4": 0.25,
+        "5": 0.2,
+        "6": 0.16666666666666666,
+        "7": 0.14285714285714285,
+        "8": 0.125,
+        "9": 0.1111111111111111
+      },
+      "class_baselines": {
+        "fixed_first_candidate_accuracy": {
+          "ci95": [
+            0.07777777777777778,
+            0.17222222222222222
+          ],
+          "mean": 0.12222222222222222,
+          "unit": "whole independent test session"
+        },
+        "uniform_random_expected_accuracy": 0.11463322171655506
+      },
+      "description": "Reduced semantic signal combined with churn, missed cover observations, and changing client populations.",
+      "label": "synthetic explicitly labeled scenario",
+      "name": "combined_adverse_conditions",
+      "parameters": {
+        "beacon_false_positive": 0.24,
+        "beacon_sensitivity": 0.72,
+        "enrollment_churn": 0.35,
+        "missed_cover_rate": 0.4,
+        "owner_online_probability": 0.75,
+        "population": [
+          4,
+          16
+        ]
+      },
+      "split": {
+        "test_sessions": 180,
+        "train_base_beacon_rate": 0.4192708333333333,
+        "train_sessions": 60,
+        "unit": "whole independent session"
+      }
+    }
+  ],
+  "schema": 1,
+  "seed": 20261024,
+  "sessions": 240,
+  "train_fraction": 0.25
+}

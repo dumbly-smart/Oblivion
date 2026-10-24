@@ -1,0 +1,74 @@
+[
+  {
+    "process_id": "m0-t24-s00",
+    "role": "profile",
+    "private_label": 2,
+    "workload_seed": 20263424
+  },
+  {
+    "process_id": "m0-t24-s01",
+    "role": "profile",
+    "private_label": 1,
+    "workload_seed": 20263425
+  },
+  {
+    "process_id": "m0-t24-s02",
+    "role": "target",
+    "private_label": 0,
+    "workload_seed": 20263426
+  },
+  {
+    "process_id": "m0-t24-s03",
+    "role": "target",
+    "private_label": 2,
+    "workload_seed": 20263427
+  },
+  {
+    "process_id": "m0-t24-s04",
+    "role": "profile",
+    "private_label": 2,
+    "workload_seed": 20263428
+  },
+  {
+    "process_id": "m0-t24-s05",
+    "role": "profile",
+    "private_label": 1,
+    "workload_seed": 20263429
+  },
+  {
+    "process_id": "m0-t24-s06",
+    "role": "profile",
+    "private_label": 0,
+    "workload_seed": 20263430
+  },
+  {
+    "process_id": "m0-t24-s07",
+    "role": "target",
+    "private_label": 2,
+    "workload_seed": 20263431
+  },
+  {
+    "process_id": "m0-t24-s08",
+    "role": "profile",
+    "private_label": 0,
+    "workload_seed": 20263432
+  },
+  {
+    "process_id": "m0-t24-s09",
+    "role": "target",
+    "private_label": 0,
+    "workload_seed": 20263433
+  },
+  {
+    "process_id": "m0-t24-s10",
+    "role": "target",
+    "private_label": 1,
+    "workload_seed": 20263434
+  },
+  {
+    "process_id": "m0-t24-s11",
+    "role": "target",
+    "private_label": 1,
+    "workload_seed": 20263435
+  }
+]

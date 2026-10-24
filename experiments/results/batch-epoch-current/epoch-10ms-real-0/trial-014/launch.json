@@ -1,0 +1,18 @@
+{
+  "order": 27,
+  "period_ms": 10,
+  "real_percent": 0,
+  "trial": 14,
+  "seed": 20261035,
+  "command": [
+    "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+    "10",
+    "32",
+    "8",
+    "0",
+    "20261035"
+  ],
+  "returncode": 0,
+  "stderr": "",
+  "process_wall_ns": 322369348
+}

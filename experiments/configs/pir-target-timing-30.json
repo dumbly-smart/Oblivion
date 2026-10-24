@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "counts": [128, 1024],
+  "record_bytes": 64,
+  "trials": 30,
+  "sessions": 4,
+  "profile_sessions": 2,
+  "queries_per_session": 96,
+  "seed": 20261023,
+  "model_seed": 1907
+}

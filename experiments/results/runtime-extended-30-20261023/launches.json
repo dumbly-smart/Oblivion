@@ -1,0 +1,3062 @@
+[
+  {
+    "order": 0,
+    "profile": "i50-q2",
+    "trial": 8,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-008",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1884054374,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-008\n",
+    "stderr": ""
+  },
+  {
+    "order": 1,
+    "profile": "i50-q8",
+    "trial": 24,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-024",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2488727174,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-024\n",
+    "stderr": ""
+  },
+  {
+    "order": 2,
+    "profile": "i50-q2",
+    "trial": 29,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-029",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1893559299,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-029\n",
+    "stderr": ""
+  },
+  {
+    "order": 3,
+    "profile": "i50-q2",
+    "trial": 2,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-002",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1895101371,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-002\n",
+    "stderr": ""
+  },
+  {
+    "order": 4,
+    "profile": "i10-q2",
+    "trial": 0,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-000",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 677737459,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-000\n",
+    "stderr": ""
+  },
+  {
+    "order": 5,
+    "profile": "i50-q8",
+    "trial": 22,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-022",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2483922241,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-022\n",
+    "stderr": ""
+  },
+  {
+    "order": 6,
+    "profile": "i50-q8",
+    "trial": 9,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-009",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2491931291,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-009\n",
+    "stderr": ""
+  },
+  {
+    "order": 7,
+    "profile": "i150-q8",
+    "trial": 5,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-005",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4820018709,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-005\n",
+    "stderr": ""
+  },
+  {
+    "order": 8,
+    "profile": "i150-q2",
+    "trial": 29,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-029",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4825714890,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-029\n",
+    "stderr": ""
+  },
+  {
+    "order": 9,
+    "profile": "i10-q8",
+    "trial": 12,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-012",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1286061200,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-012\n",
+    "stderr": ""
+  },
+  {
+    "order": 10,
+    "profile": "i150-q8",
+    "trial": 22,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-022",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4835064721,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-022\n",
+    "stderr": ""
+  },
+  {
+    "order": 11,
+    "profile": "i50-q2",
+    "trial": 13,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-013",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1885458392,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-013\n",
+    "stderr": ""
+  },
+  {
+    "order": 12,
+    "profile": "i150-q2",
+    "trial": 5,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-005",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4823885774,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-005\n",
+    "stderr": ""
+  },
+  {
+    "order": 13,
+    "profile": "i10-q8",
+    "trial": 19,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-019",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1275005446,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-019\n",
+    "stderr": ""
+  },
+  {
+    "order": 14,
+    "profile": "i150-q2",
+    "trial": 2,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-002",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4817132907,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-002\n",
+    "stderr": ""
+  },
+  {
+    "order": 15,
+    "profile": "i50-q8",
+    "trial": 18,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-018",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2486787683,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-018\n",
+    "stderr": ""
+  },
+  {
+    "order": 16,
+    "profile": "i10-q8",
+    "trial": 15,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-015",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1276626970,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-015\n",
+    "stderr": ""
+  },
+  {
+    "order": 17,
+    "profile": "i10-q2",
+    "trial": 25,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-025",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 678922537,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-025\n",
+    "stderr": ""
+  },
+  {
+    "order": 18,
+    "profile": "i10-q8",
+    "trial": 3,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-003",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1283934470,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-003\n",
+    "stderr": ""
+  },
+  {
+    "order": 19,
+    "profile": "i150-q8",
+    "trial": 3,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-003",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4808862797,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-003\n",
+    "stderr": ""
+  },
+  {
+    "order": 20,
+    "profile": "i10-q8",
+    "trial": 26,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-026",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1275417473,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-026\n",
+    "stderr": ""
+  },
+  {
+    "order": 21,
+    "profile": "i50-q8",
+    "trial": 4,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-004",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2497826425,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-004\n",
+    "stderr": ""
+  },
+  {
+    "order": 22,
+    "profile": "i150-q8",
+    "trial": 17,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-017",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4815192398,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-017\n",
+    "stderr": ""
+  },
+  {
+    "order": 23,
+    "profile": "i10-q8",
+    "trial": 4,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-004",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1286251842,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-004\n",
+    "stderr": ""
+  },
+  {
+    "order": 24,
+    "profile": "i150-q2",
+    "trial": 11,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-011",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4823918030,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-011\n",
+    "stderr": ""
+  },
+  {
+    "order": 25,
+    "profile": "i150-q8",
+    "trial": 9,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-009",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4809008898,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-009\n",
+    "stderr": ""
+  },
+  {
+    "order": 26,
+    "profile": "i10-q2",
+    "trial": 9,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-009",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 675345368,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-009\n",
+    "stderr": ""
+  },
+  {
+    "order": 27,
+    "profile": "i150-q8",
+    "trial": 26,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-026",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4836645529,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-026\n",
+    "stderr": ""
+  },
+  {
+    "order": 28,
+    "profile": "i10-q2",
+    "trial": 27,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-027",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 671960631,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-027\n",
+    "stderr": ""
+  },
+  {
+    "order": 29,
+    "profile": "i10-q2",
+    "trial": 8,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-008",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 675283600,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-008\n",
+    "stderr": ""
+  },
+  {
+    "order": 30,
+    "profile": "i50-q2",
+    "trial": 18,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-018",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1878359566,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-018\n",
+    "stderr": ""
+  },
+  {
+    "order": 31,
+    "profile": "i10-q2",
+    "trial": 6,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-006",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 663040036,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-006\n",
+    "stderr": ""
+  },
+  {
+    "order": 32,
+    "profile": "i150-q2",
+    "trial": 28,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-028",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4823317580,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-028\n",
+    "stderr": ""
+  },
+  {
+    "order": 33,
+    "profile": "i150-q2",
+    "trial": 23,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-023",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4831880972,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-023\n",
+    "stderr": ""
+  },
+  {
+    "order": 34,
+    "profile": "i10-q8",
+    "trial": 17,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-017",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1277646907,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-017\n",
+    "stderr": ""
+  },
+  {
+    "order": 35,
+    "profile": "i10-q2",
+    "trial": 21,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-021",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 689092669,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-021\n",
+    "stderr": ""
+  },
+  {
+    "order": 36,
+    "profile": "i10-q8",
+    "trial": 13,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-013",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1284259099,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-013\n",
+    "stderr": ""
+  },
+  {
+    "order": 37,
+    "profile": "i10-q2",
+    "trial": 16,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-016",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 683758961,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-016\n",
+    "stderr": ""
+  },
+  {
+    "order": 38,
+    "profile": "i10-q2",
+    "trial": 3,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-003",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 681316641,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-003\n",
+    "stderr": ""
+  },
+  {
+    "order": 39,
+    "profile": "i150-q8",
+    "trial": 16,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-016",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4811346725,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-016\n",
+    "stderr": ""
+  },
+  {
+    "order": 40,
+    "profile": "i150-q2",
+    "trial": 21,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-021",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4819684339,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-021\n",
+    "stderr": ""
+  },
+  {
+    "order": 41,
+    "profile": "i10-q8",
+    "trial": 14,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-014",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1286362651,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-014\n",
+    "stderr": ""
+  },
+  {
+    "order": 42,
+    "profile": "i50-q8",
+    "trial": 20,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-020",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2479063293,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-020\n",
+    "stderr": ""
+  },
+  {
+    "order": 43,
+    "profile": "i10-q2",
+    "trial": 26,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-026",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 666659186,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-026\n",
+    "stderr": ""
+  },
+  {
+    "order": 44,
+    "profile": "i150-q8",
+    "trial": 15,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-015",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4826119892,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-015\n",
+    "stderr": ""
+  },
+  {
+    "order": 45,
+    "profile": "i150-q2",
+    "trial": 15,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-015",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4828139486,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-015\n",
+    "stderr": ""
+  },
+  {
+    "order": 46,
+    "profile": "i150-q2",
+    "trial": 18,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-018",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4821321168,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-018\n",
+    "stderr": ""
+  },
+  {
+    "order": 47,
+    "profile": "i50-q8",
+    "trial": 8,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-008",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2478645362,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-008\n",
+    "stderr": ""
+  },
+  {
+    "order": 48,
+    "profile": "i150-q8",
+    "trial": 28,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-028",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4815361679,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-028\n",
+    "stderr": ""
+  },
+  {
+    "order": 49,
+    "profile": "i10-q8",
+    "trial": 16,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-016",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1279408880,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-016\n",
+    "stderr": ""
+  },
+  {
+    "order": 50,
+    "profile": "i10-q2",
+    "trial": 28,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-028",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 680798154,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-028\n",
+    "stderr": ""
+  },
+  {
+    "order": 51,
+    "profile": "i10-q8",
+    "trial": 23,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-023",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1281163186,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-023\n",
+    "stderr": ""
+  },
+  {
+    "order": 52,
+    "profile": "i50-q8",
+    "trial": 17,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-017",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2489444615,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-017\n",
+    "stderr": ""
+  },
+  {
+    "order": 53,
+    "profile": "i50-q8",
+    "trial": 16,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-016",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2476921047,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-016\n",
+    "stderr": ""
+  },
+  {
+    "order": 54,
+    "profile": "i10-q2",
+    "trial": 14,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-014",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 674735556,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-014\n",
+    "stderr": ""
+  },
+  {
+    "order": 55,
+    "profile": "i150-q2",
+    "trial": 19,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-019",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4824998884,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-019\n",
+    "stderr": ""
+  },
+  {
+    "order": 56,
+    "profile": "i150-q2",
+    "trial": 24,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-024",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4809340519,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-024\n",
+    "stderr": ""
+  },
+  {
+    "order": 57,
+    "profile": "i150-q2",
+    "trial": 6,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-006",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4813144244,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-006\n",
+    "stderr": ""
+  },
+  {
+    "order": 58,
+    "profile": "i150-q2",
+    "trial": 4,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-004",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4828688534,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-004\n",
+    "stderr": ""
+  },
+  {
+    "order": 59,
+    "profile": "i50-q2",
+    "trial": 25,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-025",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1875739466,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-025\n",
+    "stderr": ""
+  },
+  {
+    "order": 60,
+    "profile": "i50-q2",
+    "trial": 27,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-027",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1888031648,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-027\n",
+    "stderr": ""
+  },
+  {
+    "order": 61,
+    "profile": "i10-q8",
+    "trial": 25,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-025",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1284557420,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-025\n",
+    "stderr": ""
+  },
+  {
+    "order": 62,
+    "profile": "i50-q2",
+    "trial": 20,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-020",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1892089700,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-020\n",
+    "stderr": ""
+  },
+  {
+    "order": 63,
+    "profile": "i150-q8",
+    "trial": 18,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-018",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4817562054,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-018\n",
+    "stderr": ""
+  },
+  {
+    "order": 64,
+    "profile": "i50-q8",
+    "trial": 10,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-010",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2486762353,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-010\n",
+    "stderr": ""
+  },
+  {
+    "order": 65,
+    "profile": "i10-q2",
+    "trial": 20,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-020",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 693575529,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-020\n",
+    "stderr": ""
+  },
+  {
+    "order": 66,
+    "profile": "i10-q8",
+    "trial": 1,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-001",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1265923397,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-001\n",
+    "stderr": ""
+  },
+  {
+    "order": 67,
+    "profile": "i150-q8",
+    "trial": 13,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-013",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4811292564,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-013\n",
+    "stderr": ""
+  },
+  {
+    "order": 68,
+    "profile": "i150-q8",
+    "trial": 1,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-001",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4815890319,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-001\n",
+    "stderr": ""
+  },
+  {
+    "order": 69,
+    "profile": "i150-q2",
+    "trial": 1,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-001",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4830569970,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-001\n",
+    "stderr": ""
+  },
+  {
+    "order": 70,
+    "profile": "i50-q2",
+    "trial": 0,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-000",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1904223980,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-000\n",
+    "stderr": ""
+  },
+  {
+    "order": 71,
+    "profile": "i150-q2",
+    "trial": 9,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-009",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4827380827,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-009\n",
+    "stderr": ""
+  },
+  {
+    "order": 72,
+    "profile": "i10-q2",
+    "trial": 15,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-015",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 668080353,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-015\n",
+    "stderr": ""
+  },
+  {
+    "order": 73,
+    "profile": "i50-q2",
+    "trial": 21,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-021",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1873102196,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-021\n",
+    "stderr": ""
+  },
+  {
+    "order": 74,
+    "profile": "i10-q2",
+    "trial": 2,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-002",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 678242166,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-002\n",
+    "stderr": ""
+  },
+  {
+    "order": 75,
+    "profile": "i10-q8",
+    "trial": 28,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-028",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1291405810,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-028\n",
+    "stderr": ""
+  },
+  {
+    "order": 76,
+    "profile": "i150-q2",
+    "trial": 7,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-007",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4821579719,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-007\n",
+    "stderr": ""
+  },
+  {
+    "order": 77,
+    "profile": "i150-q8",
+    "trial": 8,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-008",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4822618949,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-008\n",
+    "stderr": ""
+  },
+  {
+    "order": 78,
+    "profile": "i10-q8",
+    "trial": 24,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-024",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1285934127,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-024\n",
+    "stderr": ""
+  },
+  {
+    "order": 79,
+    "profile": "i10-q8",
+    "trial": 2,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-002",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1284184589,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-002\n",
+    "stderr": ""
+  },
+  {
+    "order": 80,
+    "profile": "i10-q8",
+    "trial": 29,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-029",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1299348383,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-029\n",
+    "stderr": ""
+  },
+  {
+    "order": 81,
+    "profile": "i150-q2",
+    "trial": 3,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-003",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4830059803,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-003\n",
+    "stderr": ""
+  },
+  {
+    "order": 82,
+    "profile": "i10-q2",
+    "trial": 18,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-018",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 697588077,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-018\n",
+    "stderr": ""
+  },
+  {
+    "order": 83,
+    "profile": "i50-q8",
+    "trial": 27,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-027",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2482315018,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-027\n",
+    "stderr": ""
+  },
+  {
+    "order": 84,
+    "profile": "i50-q8",
+    "trial": 28,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-028",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2478438381,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-028\n",
+    "stderr": ""
+  },
+  {
+    "order": 85,
+    "profile": "i10-q2",
+    "trial": 22,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-022",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 678554572,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-022\n",
+    "stderr": ""
+  },
+  {
+    "order": 86,
+    "profile": "i150-q8",
+    "trial": 14,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-014",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4831700943,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-014\n",
+    "stderr": ""
+  },
+  {
+    "order": 87,
+    "profile": "i50-q8",
+    "trial": 11,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-011",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2469344958,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-011\n",
+    "stderr": ""
+  },
+  {
+    "order": 88,
+    "profile": "i10-q8",
+    "trial": 18,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-018",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1277442087,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-018\n",
+    "stderr": ""
+  },
+  {
+    "order": 89,
+    "profile": "i50-q2",
+    "trial": 5,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-005",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1890118213,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-005\n",
+    "stderr": ""
+  },
+  {
+    "order": 90,
+    "profile": "i10-q8",
+    "trial": 20,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-020",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1283209281,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-020\n",
+    "stderr": ""
+  },
+  {
+    "order": 91,
+    "profile": "i50-q2",
+    "trial": 3,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-003",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1896103976,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-003\n",
+    "stderr": ""
+  },
+  {
+    "order": 92,
+    "profile": "i150-q8",
+    "trial": 27,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-027",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4811430498,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-027\n",
+    "stderr": ""
+  },
+  {
+    "order": 93,
+    "profile": "i150-q8",
+    "trial": 11,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-011",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4826929247,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-011\n",
+    "stderr": ""
+  },
+  {
+    "order": 94,
+    "profile": "i50-q8",
+    "trial": 19,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-019",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2505132404,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-019\n",
+    "stderr": ""
+  },
+  {
+    "order": 95,
+    "profile": "i50-q8",
+    "trial": 7,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-007",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2504920738,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-007\n",
+    "stderr": ""
+  },
+  {
+    "order": 96,
+    "profile": "i50-q8",
+    "trial": 23,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-023",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2503518915,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-023\n",
+    "stderr": ""
+  },
+  {
+    "order": 97,
+    "profile": "i10-q8",
+    "trial": 5,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-005",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1269826086,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-005\n",
+    "stderr": ""
+  },
+  {
+    "order": 98,
+    "profile": "i10-q8",
+    "trial": 11,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-011",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1290113770,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-011\n",
+    "stderr": ""
+  },
+  {
+    "order": 99,
+    "profile": "i10-q2",
+    "trial": 17,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-017",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 674451799,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-017\n",
+    "stderr": ""
+  },
+  {
+    "order": 100,
+    "profile": "i50-q2",
+    "trial": 23,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-023",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1881817819,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-023\n",
+    "stderr": ""
+  },
+  {
+    "order": 101,
+    "profile": "i150-q2",
+    "trial": 22,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-022",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4810322218,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-022\n",
+    "stderr": ""
+  },
+  {
+    "order": 102,
+    "profile": "i50-q2",
+    "trial": 26,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-026",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1877943554,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-026\n",
+    "stderr": ""
+  },
+  {
+    "order": 103,
+    "profile": "i50-q8",
+    "trial": 21,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-021",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2488655433,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-021\n",
+    "stderr": ""
+  },
+  {
+    "order": 104,
+    "profile": "i10-q8",
+    "trial": 0,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-000",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1274473999,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-000\n",
+    "stderr": ""
+  },
+  {
+    "order": 105,
+    "profile": "i10-q2",
+    "trial": 1,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-001",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 661989823,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-001\n",
+    "stderr": ""
+  },
+  {
+    "order": 106,
+    "profile": "i10-q2",
+    "trial": 23,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-023",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 666406797,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-023\n",
+    "stderr": ""
+  },
+  {
+    "order": 107,
+    "profile": "i50-q2",
+    "trial": 10,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-010",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1871255250,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-010\n",
+    "stderr": ""
+  },
+  {
+    "order": 108,
+    "profile": "i50-q8",
+    "trial": 2,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-002",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2473989495,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-002\n",
+    "stderr": ""
+  },
+  {
+    "order": 109,
+    "profile": "i150-q2",
+    "trial": 10,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-010",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4817871532,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-010\n",
+    "stderr": ""
+  },
+  {
+    "order": 110,
+    "profile": "i50-q2",
+    "trial": 16,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-016",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1882258443,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-016\n",
+    "stderr": ""
+  },
+  {
+    "order": 111,
+    "profile": "i150-q2",
+    "trial": 14,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-014",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4815303760,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-014\n",
+    "stderr": ""
+  },
+  {
+    "order": 112,
+    "profile": "i150-q8",
+    "trial": 19,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-019",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4815534366,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-019\n",
+    "stderr": ""
+  },
+  {
+    "order": 113,
+    "profile": "i50-q8",
+    "trial": 1,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-001",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2476268204,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-001\n",
+    "stderr": ""
+  },
+  {
+    "order": 114,
+    "profile": "i50-q8",
+    "trial": 25,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-025",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2499633037,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-025\n",
+    "stderr": ""
+  },
+  {
+    "order": 115,
+    "profile": "i150-q2",
+    "trial": 17,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-017",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4835958115,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-017\n",
+    "stderr": ""
+  },
+  {
+    "order": 116,
+    "profile": "i150-q8",
+    "trial": 7,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-007",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4821274556,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-007\n",
+    "stderr": ""
+  },
+  {
+    "order": 117,
+    "profile": "i10-q8",
+    "trial": 10,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-010",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1269884778,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-010\n",
+    "stderr": ""
+  },
+  {
+    "order": 118,
+    "profile": "i150-q8",
+    "trial": 4,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-004",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4818804801,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-004\n",
+    "stderr": ""
+  },
+  {
+    "order": 119,
+    "profile": "i150-q8",
+    "trial": 23,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-023",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4821997195,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-023\n",
+    "stderr": ""
+  },
+  {
+    "order": 120,
+    "profile": "i10-q2",
+    "trial": 4,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-004",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 684383394,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-004\n",
+    "stderr": ""
+  },
+  {
+    "order": 121,
+    "profile": "i50-q8",
+    "trial": 29,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-029",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2503567138,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-029\n",
+    "stderr": ""
+  },
+  {
+    "order": 122,
+    "profile": "i10-q2",
+    "trial": 12,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-012",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 671836356,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-012\n",
+    "stderr": ""
+  },
+  {
+    "order": 123,
+    "profile": "i10-q2",
+    "trial": 24,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-024",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 682477500,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-024\n",
+    "stderr": ""
+  },
+  {
+    "order": 124,
+    "profile": "i10-q2",
+    "trial": 29,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-029",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 661407436,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-029\n",
+    "stderr": ""
+  },
+  {
+    "order": 125,
+    "profile": "i50-q8",
+    "trial": 15,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-015",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2483252583,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-015\n",
+    "stderr": ""
+  },
+  {
+    "order": 126,
+    "profile": "i150-q2",
+    "trial": 0,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-000",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4837412913,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-000\n",
+    "stderr": ""
+  },
+  {
+    "order": 127,
+    "profile": "i150-q2",
+    "trial": 13,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-013",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4835792123,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-013\n",
+    "stderr": ""
+  },
+  {
+    "order": 128,
+    "profile": "i10-q8",
+    "trial": 8,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-008",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1293393978,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-008\n",
+    "stderr": ""
+  },
+  {
+    "order": 129,
+    "profile": "i50-q2",
+    "trial": 11,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-011",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1898264257,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-011\n",
+    "stderr": ""
+  },
+  {
+    "order": 130,
+    "profile": "i150-q8",
+    "trial": 6,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-006",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4823581948,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-006\n",
+    "stderr": ""
+  },
+  {
+    "order": 131,
+    "profile": "i150-q8",
+    "trial": 10,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-010",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4828882513,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-010\n",
+    "stderr": ""
+  },
+  {
+    "order": 132,
+    "profile": "i50-q2",
+    "trial": 17,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-017",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1881389998,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-017\n",
+    "stderr": ""
+  },
+  {
+    "order": 133,
+    "profile": "i150-q2",
+    "trial": 20,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-020",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4837561795,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-020\n",
+    "stderr": ""
+  },
+  {
+    "order": 134,
+    "profile": "i50-q2",
+    "trial": 22,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-022",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1870764966,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-022\n",
+    "stderr": ""
+  },
+  {
+    "order": 135,
+    "profile": "i150-q8",
+    "trial": 24,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-024",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4823469815,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-024\n",
+    "stderr": ""
+  },
+  {
+    "order": 136,
+    "profile": "i150-q2",
+    "trial": 8,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-008",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4816212900,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-008\n",
+    "stderr": ""
+  },
+  {
+    "order": 137,
+    "profile": "i150-q2",
+    "trial": 12,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-012",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4818904612,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-012\n",
+    "stderr": ""
+  },
+  {
+    "order": 138,
+    "profile": "i10-q8",
+    "trial": 9,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-009",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1270208364,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-009\n",
+    "stderr": ""
+  },
+  {
+    "order": 139,
+    "profile": "i150-q8",
+    "trial": 29,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-029",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4810879568,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-029\n",
+    "stderr": ""
+  },
+  {
+    "order": 140,
+    "profile": "i50-q2",
+    "trial": 9,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-009",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1871187108,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-009\n",
+    "stderr": ""
+  },
+  {
+    "order": 141,
+    "profile": "i10-q2",
+    "trial": 7,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-007",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 670476226,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-007\n",
+    "stderr": ""
+  },
+  {
+    "order": 142,
+    "profile": "i10-q2",
+    "trial": 10,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-010",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 673490729,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-010\n",
+    "stderr": ""
+  },
+  {
+    "order": 143,
+    "profile": "i50-q2",
+    "trial": 24,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-024",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1874014567,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-024\n",
+    "stderr": ""
+  },
+  {
+    "order": 144,
+    "profile": "i50-q8",
+    "trial": 5,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-005",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2485846837,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-005\n",
+    "stderr": ""
+  },
+  {
+    "order": 145,
+    "profile": "i150-q8",
+    "trial": 12,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-012",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4824240136,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-012\n",
+    "stderr": ""
+  },
+  {
+    "order": 146,
+    "profile": "i150-q8",
+    "trial": 20,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-020",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4827406555,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-020\n",
+    "stderr": ""
+  },
+  {
+    "order": 147,
+    "profile": "i10-q8",
+    "trial": 27,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-027",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1282905007,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-027\n",
+    "stderr": ""
+  },
+  {
+    "order": 148,
+    "profile": "i50-q2",
+    "trial": 12,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-012",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1880865474,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-012\n",
+    "stderr": ""
+  },
+  {
+    "order": 149,
+    "profile": "i10-q2",
+    "trial": 13,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-013",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 683201276,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-013\n",
+    "stderr": ""
+  },
+  {
+    "order": 150,
+    "profile": "i50-q2",
+    "trial": 14,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-014",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1898043894,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-014\n",
+    "stderr": ""
+  },
+  {
+    "order": 151,
+    "profile": "i10-q8",
+    "trial": 7,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-007",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1273610330,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-007\n",
+    "stderr": ""
+  },
+  {
+    "order": 152,
+    "profile": "i50-q8",
+    "trial": 6,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-006",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2484430677,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-006\n",
+    "stderr": ""
+  },
+  {
+    "order": 153,
+    "profile": "i150-q8",
+    "trial": 2,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-002",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4831708822,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-002\n",
+    "stderr": ""
+  },
+  {
+    "order": 154,
+    "profile": "i50-q8",
+    "trial": 26,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-026",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2494160127,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-026\n",
+    "stderr": ""
+  },
+  {
+    "order": 155,
+    "profile": "i10-q8",
+    "trial": 6,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-006",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1298458938,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-006\n",
+    "stderr": ""
+  },
+  {
+    "order": 156,
+    "profile": "i150-q8",
+    "trial": 21,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-021",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4813679335,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-021\n",
+    "stderr": ""
+  },
+  {
+    "order": 157,
+    "profile": "i50-q8",
+    "trial": 13,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-013",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2491923496,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-013\n",
+    "stderr": ""
+  },
+  {
+    "order": 158,
+    "profile": "i150-q2",
+    "trial": 25,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-025",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4825077512,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-025\n",
+    "stderr": ""
+  },
+  {
+    "order": 159,
+    "profile": "i10-q2",
+    "trial": 11,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-011",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 661926604,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-011\n",
+    "stderr": ""
+  },
+  {
+    "order": 160,
+    "profile": "i150-q8",
+    "trial": 25,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-025",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4827106845,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-025\n",
+    "stderr": ""
+  },
+  {
+    "order": 161,
+    "profile": "i150-q2",
+    "trial": 27,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-027",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4823462929,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-027\n",
+    "stderr": ""
+  },
+  {
+    "order": 162,
+    "profile": "i50-q2",
+    "trial": 6,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-006",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1877957835,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-006\n",
+    "stderr": ""
+  },
+  {
+    "order": 163,
+    "profile": "i150-q8",
+    "trial": 0,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-000",
+      "150",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 4806209336,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q8/trial-000\n",
+    "stderr": ""
+  },
+  {
+    "order": 164,
+    "profile": "i50-q2",
+    "trial": 15,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-015",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1890440984,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-015\n",
+    "stderr": ""
+  },
+  {
+    "order": 165,
+    "profile": "i50-q2",
+    "trial": 28,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-028",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1879314662,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-028\n",
+    "stderr": ""
+  },
+  {
+    "order": 166,
+    "profile": "i50-q2",
+    "trial": 19,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-019",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1873484594,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-019\n",
+    "stderr": ""
+  },
+  {
+    "order": 167,
+    "profile": "i10-q8",
+    "trial": 22,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-022",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1263008903,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-022\n",
+    "stderr": ""
+  },
+  {
+    "order": 168,
+    "profile": "i50-q8",
+    "trial": 12,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-012",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2476634622,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-012\n",
+    "stderr": ""
+  },
+  {
+    "order": 169,
+    "profile": "i10-q2",
+    "trial": 19,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-019",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 678958161,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-019\n",
+    "stderr": ""
+  },
+  {
+    "order": 170,
+    "profile": "i50-q8",
+    "trial": 14,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-014",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2482009152,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-014\n",
+    "stderr": ""
+  },
+  {
+    "order": 171,
+    "profile": "i10-q2",
+    "trial": 5,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-005",
+      "10",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 683909598,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 6 admitted, 26 dropped, 6 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q2/trial-005\n",
+    "stderr": ""
+  },
+  {
+    "order": 172,
+    "profile": "i50-q8",
+    "trial": 3,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-003",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2511496533,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-003\n",
+    "stderr": ""
+  },
+  {
+    "order": 173,
+    "profile": "i150-q2",
+    "trial": 26,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-026",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4830639492,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-026\n",
+    "stderr": ""
+  },
+  {
+    "order": 174,
+    "profile": "i50-q2",
+    "trial": 1,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-001",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1880054710,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-001\n",
+    "stderr": ""
+  },
+  {
+    "order": 175,
+    "profile": "i50-q8",
+    "trial": 0,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-000",
+      "50",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 2507134187,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 24 admitted, 8 dropped, 24 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q8/trial-000\n",
+    "stderr": ""
+  },
+  {
+    "order": 176,
+    "profile": "i150-q2",
+    "trial": 16,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-016",
+      "150",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 4819916526,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 32 admitted, 0 dropped, 32 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i150-q2/trial-016\n",
+    "stderr": ""
+  },
+  {
+    "order": 177,
+    "profile": "i10-q8",
+    "trial": 21,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-021",
+      "10",
+      "32",
+      "8"
+    ],
+    "process_wall_ns_including_startup_teardown": 1267635556,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 12 admitted, 20 dropped, 12 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i10-q8/trial-021\n",
+    "stderr": ""
+  },
+  {
+    "order": 178,
+    "profile": "i50-q2",
+    "trial": 7,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-007",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1874884483,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-007\n",
+    "stderr": ""
+  },
+  {
+    "order": 179,
+    "profile": "i50-q2",
+    "trial": 4,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-004",
+      "50",
+      "32",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1867036388,
+    "returncode": 0,
+    "stdout": "Open-loop: 32 offered, 18 admitted, 14 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-extended-30-20261023/i50-q2/trial-004\n",
+    "stderr": ""
+  }
+]

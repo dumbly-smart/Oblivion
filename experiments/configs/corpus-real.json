@@ -1,0 +1,17 @@
+{
+  "seed": 20261022,
+  "trials": 30,
+  "keywords": 8,
+  "documents": 128,
+  "profile_queries": 2048,
+  "queries_per_session": 64,
+  "target_sessions": 2,
+  "pad_to": 128,
+  "source_url": "https://archive.ics.uci.edu/static/public/228/sms%2Bspam%2Bcollection.zip",
+  "source_sha256": "1587ea43e58e82b14ff1f5425c88e17f8496bfcdb67a583dbff9eefaf9963ce3",
+  "member_sha256": "7d039a24a6083ed9ef0f806ebad56bbb976e3aeb8de05669173bfdc4996c239d",
+  "dataset_doi": "10.24432/C5CC84",
+  "license": "CC BY 4.0 per official UCI page checked 2026-10-22",
+  "attribution": "Almeida, T. & Hidalgo, J. (2011). SMS Spam Collection [Dataset]. UCI Machine Learning Repository.",
+  "drift_spam_fractions": [0.5, 0.9]
+}

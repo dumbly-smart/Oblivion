@@ -1,0 +1,289 @@
+{
+  "workloads": {
+    "same": {
+      "accesses": 100000,
+      "visible_leaf_count": 64,
+      "physical_events": 1400000,
+      "bucket_bytes": [
+        316
+      ],
+      "chi2_uniform_statistic": 56.42496,
+      "chi2_uniform_p": 0.7079819227205572,
+      "discrete_ks_vs_uniform_D": 0.001495000000000024,
+      "discrete_ks_multinomial_p": 0.9296140771845631,
+      "ks_null_simulations": 5000,
+      "leaf_counts": [
+        1567,
+        1576,
+        1558,
+        1569,
+        1543,
+        1588,
+        1599,
+        1575,
+        1596,
+        1518,
+        1578,
+        1554,
+        1589,
+        1566,
+        1548,
+        1560,
+        1598,
+        1475,
+        1566,
+        1595,
+        1579,
+        1561,
+        1629,
+        1554,
+        1555,
+        1557,
+        1569,
+        1527,
+        1503,
+        1594,
+        1635,
+        1507,
+        1498,
+        1568,
+        1597,
+        1594,
+        1530,
+        1533,
+        1516,
+        1644,
+        1596,
+        1520,
+        1539,
+        1603,
+        1511,
+        1576,
+        1474,
+        1574,
+        1542,
+        1577,
+        1631,
+        1534,
+        1607,
+        1523,
+        1579,
+        1580,
+        1597,
+        1600,
+        1520,
+        1543,
+        1559,
+        1540,
+        1594,
+        1513
+      ],
+      "numeric_leaf_autocorrelation": {
+        "1": 0.0035520606892421895,
+        "2": -0.0013673888535453659,
+        "4": 0.0002606833964557525,
+        "8": -0.0012202418221024115,
+        "16": 0.0002924791606045327
+      },
+      "consecutive_equal_fraction": 0.016110161101611016,
+      "consecutive_equal_uniform_expectation": 0.015625,
+      "leaf_write_dependence": {
+        "plugin_bits": 0.00044729528572243026,
+        "null_mean_bits": 0.00044998543360840496,
+        "null_95_range_bits": [
+          0.00031881202873716637,
+          0.0006184472510752735
+        ],
+        "permutation_p": 0.5,
+        "permutations": 499
+      },
+      "adjacent_leaf_dependence": {
+        "plugin_bits": 0.029861857524635937,
+        "null_mean_bits": 0.02888225887238363,
+        "null_95_range_bits": [
+          0.02758702459151319,
+          0.030153174687548925
+        ],
+        "permutation_p": 0.068,
+        "permutations": 499
+      },
+      "leaf_logical_address_dependence": {
+        "not_identifiable": "logical address is constant; zero entropy makes an independence test vacuous"
+      }
+    },
+    "uniform": {
+      "accesses": 100000,
+      "visible_leaf_count": 64,
+      "physical_events": 1400000,
+      "bucket_bytes": [
+        316
+      ],
+      "chi2_uniform_statistic": 66.54208,
+      "chi2_uniform_p": 0.3560676159908883,
+      "discrete_ks_vs_uniform_D": 0.002929999999999988,
+      "discrete_ks_multinomial_p": 0.27954409118176365,
+      "ks_null_simulations": 5000,
+      "leaf_counts": [
+        1646,
+        1596,
+        1543,
+        1591,
+        1527,
+        1540,
+        1514,
+        1591,
+        1497,
+        1580,
+        1601,
+        1560,
+        1540,
+        1531,
+        1534,
+        1598,
+        1500,
+        1498,
+        1524,
+        1554,
+        1553,
+        1580,
+        1568,
+        1504,
+        1599,
+        1529,
+        1576,
+        1551,
+        1614,
+        1549,
+        1504,
+        1529,
+        1637,
+        1581,
+        1606,
+        1462,
+        1578,
+        1605,
+        1590,
+        1566,
+        1544,
+        1578,
+        1577,
+        1543,
+        1509,
+        1521,
+        1573,
+        1589,
+        1548,
+        1542,
+        1556,
+        1580,
+        1518,
+        1559,
+        1605,
+        1519,
+        1655,
+        1618,
+        1584,
+        1640,
+        1590,
+        1617,
+        1539,
+        1550
+      ],
+      "numeric_leaf_autocorrelation": {
+        "1": 0.0012310015847658883,
+        "2": 0.0019053173723680042,
+        "4": -3.259409008582801e-05,
+        "8": 0.006339805487343965,
+        "16": -0.0007083310760854035
+      },
+      "consecutive_equal_fraction": 0.015490154901549015,
+      "consecutive_equal_uniform_expectation": 0.015625,
+      "leaf_write_dependence": {
+        "plugin_bits": 0.0005051508188303575,
+        "null_mean_bits": 0.0004597076486065662,
+        "null_95_range_bits": [
+          0.0003134452808051545,
+          0.0006248325989633296
+        ],
+        "permutation_p": 0.286,
+        "permutations": 499
+      },
+      "adjacent_leaf_dependence": {
+        "plugin_bits": 0.028869237702509966,
+        "null_mean_bits": 0.02886067925468256,
+        "null_95_range_bits": [
+          0.027610167719476143,
+          0.030159326671267837
+        ],
+        "permutation_p": 0.49,
+        "permutations": 499
+      },
+      "leaf_logical_address_dependence": {
+        "plugin_bits": 0.029024734929849024,
+        "null_mean_bits": 0.028767463451956514,
+        "null_95_range_bits": [
+          0.027523985440791272,
+          0.030035879959417987
+        ],
+        "permutation_p": 0.334,
+        "permutations": 499
+      }
+    }
+  },
+  "same_vs_uniform": {
+    "homogeneity_chi2": 71.81563785875399,
+    "homogeneity_p": 0.2089043938630127,
+    "discrete_KS_D": 0.0038900000000000046,
+    "discrete_KS_permutation_p": 0.32,
+    "permutations": 499
+  },
+  "predefined_diagnostic_family_holm": {
+    "same.adjacent_leaf_MI": {
+      "raw_p": 0.068,
+      "holm_adjusted_p": 0.748
+    },
+    "same_vs_uniform.homogeneity": {
+      "raw_p": 0.2089043938630127,
+      "holm_adjusted_p": 1
+    },
+    "uniform.ks_uniform": {
+      "raw_p": 0.27954409118176365,
+      "holm_adjusted_p": 1
+    },
+    "uniform.leaf_write_MI": {
+      "raw_p": 0.286,
+      "holm_adjusted_p": 1
+    },
+    "same_vs_uniform.discrete_KS": {
+      "raw_p": 0.32,
+      "holm_adjusted_p": 1
+    },
+    "uniform.leaf_logical_MI": {
+      "raw_p": 0.334,
+      "holm_adjusted_p": 1
+    },
+    "uniform.chi2_uniform": {
+      "raw_p": 0.3560676159908883,
+      "holm_adjusted_p": 1
+    },
+    "uniform.adjacent_leaf_MI": {
+      "raw_p": 0.49,
+      "holm_adjusted_p": 1
+    },
+    "same.leaf_write_MI": {
+      "raw_p": 0.5,
+      "holm_adjusted_p": 1
+    },
+    "same.chi2_uniform": {
+      "raw_p": 0.7079819227205572,
+      "holm_adjusted_p": 1
+    },
+    "same.ks_uniform": {
+      "raw_p": 0.9296140771845631,
+      "holm_adjusted_p": 1
+    }
+  },
+  "minimum_adjusted_p": 0.748,
+  "methodology": "One fresh OS-crypto session per workload; exactly100000 measured actualORAM accesses each, materialization+1000warmup excluded. Discrete KS uniform null calibrated by5000multinomial draws; two-workload KS and MI by499permutations. Holm correction across11 predefined diagnosticpvalues. MI is biased plugin estimate with reported permutationnull baseline. Numeric leaf autocorrelations at stated lags are exploratory features.",
+  "limitations": "One trial per workload cannot establish cross-session robustness, statistical independence or indistinguishability. Permutation/multinomial references model exchangeable IID nulls; failure to reject does not prove them. Correlation depends on arbitrary numeric leaf labels. Same-address logical dependence is unidentifiable because the logical variable is constant. No timing classifier, cache, network, composition or active-attack claim. Workloadseed reproducible; cryptographic leaves/keys/nonces intentionally OS-random."
+}

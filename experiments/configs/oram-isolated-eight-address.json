@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "blocks": 32,
+  "bucket_capacity": 4,
+  "block_bytes": 64,
+  "operations": 128,
+  "warmup": 8,
+  "sessions_per_trial": 8,
+  "trials": 30,
+  "seed": 20261024,
+  "address_distribution": {
+    "0": 0.4,
+    "1": 0.22,
+    "2": 0.13,
+    "3": 0.09,
+    "4": 0.06,
+    "5": 0.045,
+    "6": 0.03,
+    "7": 0.025
+  },
+  "hot_addresses": [0, 1],
+  "read_probability": 0.5,
+  "primary_metric": "roc_auc",
+  "positive_control_min_mean_auc": 0.8,
+  "positive_control_ci_lower_must_exceed": 0.5,
+  "ci_method": "bootstrap 5000 resamples of 30 fitted-trial scores"
+}

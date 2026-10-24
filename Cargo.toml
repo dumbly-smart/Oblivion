@@ -1,0 +1,36 @@
+[workspace]
+members = ["crates/oblivion-store", "crates/oblivion-pir", "crates/oblivion-exec", "crates/oblivion-batcher", "crates/oblivion-server", "crates/oblivion-harness", "crates/oblivion-sse", "crates/oblivion-registry"]
+resolver = "3"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+rust-version = "1.96"
+
+[workspace.dependencies]
+chacha20poly1305 = "0.10.1"
+hkdf = "0.12.4"
+sha2 = "0.10.9"
+rand = "0.8.5"
+rand_chacha = "0.3.1"
+ed25519-dalek = "3.0.0"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+zeroize = "1"
+
+wasmtime = { version = "49.0.4", default-features = false, features = ["cranelift", "runtime", "wat", "std", "anyhow"] }
+anyhow = "1"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+# Wasmtime debug symbols otherwise consume several GiB in local/CI builds.
+[profile.dev]
+debug = 0
+incremental = false
+
+[profile.test]
+debug = 0
+incremental = false

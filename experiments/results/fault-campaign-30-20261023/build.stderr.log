@@ -1,0 +1,9 @@
+   Compiling rand_chacha v0.3.1
+   Compiling rand v0.8.8
+   Compiling oblivion-store v0.1.0 (/home/xtrmn8/oblivion/crates/oblivion-store)
+   Compiling oblivion-pir v0.1.0 (/home/xtrmn8/oblivion/crates/oblivion-pir)
+   Compiling oblivion-sse v0.1.0 (/home/xtrmn8/oblivion/crates/oblivion-sse)
+   Compiling oblivion-batcher v0.1.0 (/home/xtrmn8/oblivion/crates/oblivion-batcher)
+   Compiling oblivion-exec v0.1.0 (/home/xtrmn8/oblivion/crates/oblivion-exec)
+   Compiling oblivion-server v0.1.0 (/home/xtrmn8/oblivion/crates/oblivion-server)
+    Finished `test` profile [unoptimized] target(s) in 1.93s
