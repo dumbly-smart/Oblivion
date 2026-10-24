@@ -271,10 +271,11 @@ The full `.venv/bin/python -m unittest discover -s research/tests` suite passed
 166 tests with four existing fixture skips after this addition.
 
 A separate exact-rational test enumerates the capped one-function noise PMF
-and both one-count hockey-stick directions for three parameter sets. The
-actual single-release divergences were below their configured conservative
-bounds; all three composed bounds remained within the requested total delta.
-This verifies the finite law for those test cases, not the full
-multi-function bounded-user or end-to-end mechanism. See
-[`SAMPLER_AUDIT.md`](SAMPLER_AUDIT.md). The focused check passed; the full
-research suite then passed 171 tests with four existing fixture skips.
+and both one-count hockey-stick directions for three parameter sets. A second
+test checks both directions for the two-pool cap-2 user-level shifts `(2, 0)`
+and `(1, 1)`. The exact divergences were below their configured conservative
+bounds; all three one-function composed bounds remained within the requested
+total delta. This verifies the finite law for these test cases, not arbitrary
+pool counts, user caps or the end-to-end mechanism. See
+[`SAMPLER_AUDIT.md`](SAMPLER_AUDIT.md). Both focused checks passed; the full
+research suite then passed 172 tests with four existing fixture skips.

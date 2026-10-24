@@ -1,10 +1,11 @@
 # Exact finite-distribution check for scaler noise
 
-The autoscaler roadmap marks independent sampler review as open. This change
-adds an exact-rational regression check for a narrow part of that review: the
-one-function, request-level add/remove mechanism for a single released count.
-It complements the seeded Monte Carlo marginal test with a deterministic
-calculation over the full finite support of the implemented capped sampler.
+The autoscaler roadmap marks independent sampler review as open. This adds
+exact-rational regression checks for narrow parts of that review:
+one-function request-level adjacency and one two-function bounded-user
+adjacency, each for a single release. They complement the seeded Monte Carlo
+marginal test with deterministic calculations over the full finite support
+of the implemented capped sampler.
 
 ## Calculation
 
@@ -36,13 +37,19 @@ for these cases. The independent exact check is in
 check parameter composition, the fixed entropy draw shape, malformed entropy
 rejection, and empirical sampler marginals.
 
+The cap-2 bounded-user check uses two pools, one release, total epsilon 2,
+and the declared one-release delta bound 5.6044601951e-4. It enumerates both
+possible placements of two added requests across pools: `(2, 0)` and `(1, 1)`.
+Exact divergences are 8.8567362761e-5 and 5.7395634356e-5, respectively, in
+both neighboring directions.
+
 ## Scope limits
 
-This is not an independent source-code or cryptographic audit. The test uses
+This is not an independent source-code or cryptographic audit. The tests use
 the production parameter generator's `q` and cap, then independently
-reconstructs the finite probability law and its one-coordinate divergence.
-It does not prove the coupling bound for every cap and epsilon, the
-multi-function vector mechanism under bounded-user adjacency, the full
+reconstruct the finite probability law and its one-coordinate or two-pool
+divergence for the listed settings. They do not prove the coupling bound for
+every cap and epsilon, arbitrary pool counts or bounded-user shifts, the full
 composition theorem, any identity-authentication assumption, OS-CSPRNG
 behavior, runtime timing leakage, or the end-to-end autoscaler transcript.
 The public-seed experiment artifacts still have no differential-privacy
@@ -54,4 +61,6 @@ Run the exact check with:
 ```sh
 .venv/bin/python -m unittest \
   research.tests.test_scaler.ScalerTests.test_exact_capped_noise_hockey_stick_is_below_declared_delta
+.venv/bin/python -m unittest \
+  research.tests.test_scaler.ScalerTests.test_exact_bounded_user_two_pool_hockey_stick_is_below_declared_delta
 ```

@@ -61,6 +61,43 @@ class ScalerTests(unittest.TestCase):
                     float(max(forward, reverse)), parameters['per_release_delta_bound']
                 )
 
+    def test_exact_bounded_user_two_pool_hockey_stick_is_below_declared_delta(self):
+        from fractions import Fraction
+
+        cfg = Config(duration=1, epoch=1, functions=2, dp_epsilon=2.0,
+                     dp_delta=1e-3, dp_user_contribution_cap=2)
+        cfg.validate()
+        parameters = dp_laplace_parameters(cfg)
+        q = Fraction(parameters['geometric_numerator'],
+                     parameters['geometric_denominator'])
+        cap = parameters['geometric_cap']
+        geometric = [(1 - q) * q ** count for count in range(cap)]
+        geometric.append(q ** cap)
+        one_pool = {}
+        for left, p_left in enumerate(geometric):
+            for right, p_right in enumerate(geometric):
+                value = left - right
+                one_pool[value] = one_pool.get(value, Fraction(0)) + p_left * p_right
+
+        multiplier = 1 / q ** 2  # Two changed requests at epsilon effective 2 * -ln(q).
+        for shift in ((2, 0), (1, 1)):
+            upper = cap + max(shift)
+            forward = Fraction(0)
+            reverse = Fraction(0)
+            for first in range(-cap, upper + 1):
+                for second in range(-cap, upper + 1):
+                    p = one_pool.get(first, Fraction(0)) * one_pool.get(second, Fraction(0))
+                    q_neighbor = (
+                        one_pool.get(first - shift[0], Fraction(0))
+                        * one_pool.get(second - shift[1], Fraction(0))
+                    )
+                    forward += max(p - multiplier * q_neighbor, Fraction(0))
+                    reverse += max(q_neighbor - multiplier * p, Fraction(0))
+            self.assertLessEqual(
+                float(max(forward, reverse)), parameters['per_release_delta_bound'],
+                msg=f"bounded-user shift {shift}",
+            )
+
     def test_user_level_cap_limits_whole_horizon_count_sensitivity(self):
         cfg = Config(duration=4, epoch=1, functions=1,
                      dp_user_contribution_cap=3)
