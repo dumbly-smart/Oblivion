@@ -65,7 +65,12 @@ def load_inputs(source):
             fail(type(label['arrivals']) is int and label['arrivals']>=0 and number(label['rate']),'invalid label diagnostics')
         fail(isinstance(row['requests'],list) and len(row['requests'])==sum(x['arrivals'] for x in row['labels']),'workload arrival totals differ')
         for request in row['requests']:
-            fail(isinstance(request,dict) and set(request)=={'time','function'} and number(request['time'],0,cfg.duration) and request['time']<cfg.duration and type(request['function']) is int and 0<=request['function']<cfg.functions,'invalid retained workload request')
+            valid_keys=isinstance(request,dict) and set(request) in ({'time','function'},{'time','function','user_id'})
+            user_id=request.get('user_id') if isinstance(request,dict) else None
+            valid_user=(user_id is None or isinstance(user_id,str) and bool(user_id))
+            if cfg.dp_user_contribution_cap:
+                valid_user=isinstance(user_id,str) and bool(user_id)
+            fail(valid_keys and valid_user and number(request['time'],0,cfg.duration) and request['time']<cfg.duration and type(request['function']) is int and 0<=request['function']<cfg.functions,'invalid retained workload request')
         fail([r['time'] for r in row['requests']]==sorted(r['time'] for r in row['requests']),'unsorted workload requests')
         truth[key]=row
     fail(set(truth)==expected_truth,'missing workload truth trial/session')
@@ -141,19 +146,24 @@ def rebuild(raw,public,private,truth):
     positive=[dict(workload=p['workload'],task=p['task'],balanced_accuracy=p['balanced_accuracy'],passed=p['balanced_accuracy']>.6) for p in summary if p['policy']=='naive']
     cfg=Config(**raw['simulation'])
     policies=raw.get('policies',DEFAULT_POLICIES)
+    user_scope=(f' Synthetic IDs are treated as stable, non-spoofable principals with a cap of {cfg.dp_user_contribution_cap} included requests per horizon.'
+                if cfg.dp_user_contribution_cap else ' No user-level contribution bound is enforced.')
     return dict(config=raw,summary=summary,trial_metrics=trial_results,positive_controls=positive,
         imported_runs=[],privacy_claims=privacy_claims(cfg,policies,raw.get('dp_noise_source','seeded_experiment')),
         methodology='Known-policy diagonal nearest-centroid profiler fitted on first-half whole sessions and tested on disjoint second-half sessions. Equal-weight independent-trial bootstrap with 5,000 resamples. Public function-pool identities are visible; target labels are used only for scoring.',
         limitations=(
-            'Synthetic function-affine simulator, not a deployed scheduler. The optional dp_laplace sampler has a conditional approximate-DP bound only under independent hidden uniform bits for its fixed-horizon observer; the recorded deterministic-seed experiment itself has no DP guarantee. No user-level or complete-runtime privacy guarantee. Exact cost/queue counters use retained private session metrics; public observer excludes those fields.'
+            'Synthetic function-affine simulator, not a deployed scheduler. The optional dp_laplace sampler has a conditional approximate-DP bound only under independent hidden uniform bits for its fixed-horizon observer; the recorded deterministic-seed experiment itself has no DP guarantee.'+user_scope+' No complete-runtime privacy guarantee. Exact cost/queue counters use retained private session metrics; public observer excludes those fields.'
             if raw.get('dp_noise_source','seeded_experiment') == 'seeded_experiment' else
-            'Synthetic function-affine simulator, not a deployed scheduler. The optional dp_laplace sampler has a conditional approximate-DP bound under independent OS-CSPRNG bits for its fixed-horizon observer; the mechanism has not received an independent code audit. No user-level or complete-runtime privacy guarantee. Exact cost/queue counters use retained private session metrics; public observer excludes those fields. CSPRNG outputs are not reproducible from the public experiment seed.'))
+            'Synthetic function-affine simulator, not a deployed scheduler. The optional dp_laplace sampler has a conditional approximate-DP bound under independent OS-CSPRNG bits for its fixed-horizon observer; the mechanism has not received an independent code audit.'+user_scope+' No complete-runtime privacy guarantee. Exact cost/queue counters use retained private session metrics; public observer excludes those fields. CSPRNG outputs are not reproducible from the public experiment seed.'))
 
 def regenerate(source,output):
     source=Path(source).resolve();output=Path(output).resolve()
     if output.exists():raise FileExistsError('choose a fresh analysis output directory')
     inputs={name:sha(source/name) for name in RAW_FILES}
     raw,cfg,public,private,truth=load_inputs(source)
+    cfg=Config(**raw['simulation'])
+    user_scope=(f' Synthetic IDs are treated as stable, non-spoofable principals with a cap of {cfg.dp_user_contribution_cap} included requests per horizon.'
+                if cfg.dp_user_contribution_cap else ' No user-level contribution bound is enforced.')
     report=rebuild(raw,public,private,truth)
     if inputs!={name:sha(source/name) for name in RAW_FILES}:raise ValueError('retained raw inputs changed during analysis')
     report['provenance']=dict(created_before_output_utc=datetime.now(timezone.utc).isoformat(),raw_source=str(source),raw_sha256=inputs,
@@ -161,9 +171,9 @@ def regenerate(source,output):
         public_sessions=len(public),private_sessions=len(private),workload_sessions=len(truth),read_cached_report=False,ran_simulator=False)
     report['methodology']='Existing known-policy diagonal nearest-centroid fit on first-half whole profiling sessions; second-half target predictions scored afterward. Refit every independent trial from retained public rows/private labels. Equal-weight trial bootstrap,5000resamples. Per-session raw performance counters aggregate only held-out sessions, with lifecycle/price consistency checks; no new workload generation or simulation.'
     report['limitations']=(
-        'Synthetic function-affine model, not a deployment. Exact instance-seconds and queue maximum use recorded private session counters; incomplete worker identities prevent reconstructing those counters from public snapshots alone. Horizon-censored/dropped requests count as SLO failures. Point-estimate Pareto/SLO flags; hypothetical configured instance-second price. The deterministic seeded artifact has no DP guarantee; the optional dp_laplace sampler has a conditional approximate-DP bound for its fixed-horizon observer under independent hidden uniform bits. No user-level or full-runtime guarantee. Supports recorded synthetic-session campaigns without imported traces.'
+        'Synthetic function-affine model, not a deployment. Exact instance-seconds and queue maximum use recorded private session counters; incomplete worker identities prevent reconstructing those counters from public snapshots alone. Horizon-censored/dropped requests count as SLO failures. Point-estimate Pareto/SLO flags; hypothetical configured instance-second price. The deterministic seeded artifact has no DP guarantee; the optional dp_laplace sampler has a conditional approximate-DP bound for its fixed-horizon observer under independent hidden uniform bits.'+user_scope+' No full-runtime guarantee. Supports recorded synthetic-session campaigns without imported traces.'
         if raw.get('dp_noise_source','seeded_experiment') == 'seeded_experiment' else
-        'Synthetic function-affine model, not a deployment. Exact instance-seconds and queue maximum use recorded private session counters; incomplete worker identities prevent reconstructing those counters from public snapshots alone. Horizon-censored/dropped requests count as SLO failures. Point-estimate Pareto/SLO flags; hypothetical configured instance-second price. The optional dp_laplace sampler has a conditional approximate-DP bound under independent OS-CSPRNG bits for its fixed-horizon observer; it has no independent code audit. No user-level or full-runtime guarantee. Supports recorded synthetic-session campaigns without imported traces; CSPRNG outputs are not reproducible from the public experiment seed.')
+        'Synthetic function-affine model, not a deployment. Exact instance-seconds and queue maximum use recorded private session counters; incomplete worker identities prevent reconstructing those counters from public snapshots alone. Horizon-censored/dropped requests count as SLO failures. Point-estimate Pareto/SLO flags; hypothetical configured instance-second price. The optional dp_laplace sampler has a conditional approximate-DP bound under independent OS-CSPRNG bits for its fixed-horizon observer; it has no independent code audit.'+user_scope+' No full-runtime guarantee. Supports recorded synthetic-session campaigns without imported traces; CSPRNG outputs are not reproducible from the public experiment seed.')
     output.mkdir(parents=True)
     (output/'config.json').write_text(json.dumps(raw,indent=2)+'\n');(output/'report.json').write_text(json.dumps(report,indent=2)+'\n');plot(output)
     manifest={p.name:sha(p) for p in output.iterdir() if p.is_file()};(output/'artifact-sha256.json').write_text(json.dumps(manifest,indent=2)+'\n')

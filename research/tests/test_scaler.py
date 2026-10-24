@@ -3,7 +3,8 @@ import tempfile
 import unittest
 from pathlib import Path
 from research.simulation.scaler import (Config, Request, simulate, workload, load_imported,
-    features, trial_interval, dp_laplace_parameters, discrete_laplace_from_bits)
+    features, trial_interval, dp_laplace_parameters, discrete_laplace_from_bits,
+    bounded_arrival_counts)
 
 
 class ScalerTests(unittest.TestCase):
@@ -16,6 +17,67 @@ class ScalerTests(unittest.TestCase):
                              parameters['epsilon_per_release'])
         self.assertLessEqual(parameters['composed_delta_bound'], cfg.dp_delta)
         self.assertGreater(parameters['geometric_cap'], 0)
+
+    def test_user_level_cap_limits_whole_horizon_count_sensitivity(self):
+        cfg = Config(duration=4, epoch=1, functions=1,
+                     dp_user_contribution_cap=3)
+        both = sorted([Request(.1, 0, 'a'), Request(.2, 0, 'a'),
+                Request(1.1, 0, 'a'), Request(2.1, 0, 'a'),
+                Request(2.2, 0, 'a'), Request(2.3, 0, 'a'),
+                Request(.3, 0, 'b'), Request(.4, 0, 'b'),
+                Request(3.1, 0, 'b')], key=lambda request: request.time)
+        a = bounded_arrival_counts(both, cfg)
+        without_a = bounded_arrival_counts(
+            [request for request in both if request.user_id != 'a'], cfg)
+        self.assertEqual(a[:, 0].tolist(), [4, 1, 0, 1])
+        self.assertEqual(sum(abs(int(left - right))
+                             for left, right in zip(a.flat, without_a.flat)), 3)
+        self.assertEqual(dp_laplace_parameters(cfg)['l1_sensitivity_bound'], 3)
+
+    def test_user_level_mode_requires_stable_user_identity(self):
+        cfg = Config(duration=2, epoch=1, dp_user_contribution_cap=2)
+        with self.assertRaises(ValueError):
+            simulate(cfg, [Request(.1, 0)], 'dp_laplace', 4)
+
+    def test_user_level_runner_emits_and_rebuilds_declared_adjacency(self):
+        import json
+        from research.simulation.run import run
+        from scripts.regenerate_scaler import regenerate
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            config = root / 'config.json'
+            config.write_text(json.dumps(dict(version=1, seed=18, trials=2,
+                sessions=8, workloads=['uniform'], policies=['naive', 'dp_laplace'],
+                simulation=dict(duration=4, dp_epsilon=2,
+                                dp_user_contribution_cap=2))))
+            output = root / 'run'
+            report = run(config, output)
+            claim = report['privacy_claims']['dp_laplace']
+            self.assertEqual(claim['privacy_unit'], 'bounded_user')
+            self.assertEqual(claim['per_user_request_cap'], 2)
+            self.assertLessEqual(claim['effective_per_release_epsilon'],
+                                 claim['per_release_epsilon'])
+            self.assertLessEqual(claim['delta'], claim['configured_delta'])
+            rebuilt = regenerate(output, root / 'rebuilt')
+            self.assertEqual(rebuilt['privacy_claims']['dp_laplace'], claim)
+
+    def test_user_level_import_requires_user_id_column(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'users.csv'
+            path.write_text('time,function\n0.1,0\n')
+            with self.assertRaises(ValueError):
+                load_imported(path, Config(dp_user_contribution_cap=2))
+            path.write_text('time,function,user_id\n0.1,0,account-a\n')
+            self.assertEqual(load_imported(path, Config(dp_user_contribution_cap=2)),
+                             [Request(.1, 0, 'account-a')])
+
+    def test_user_level_synthetic_workload_assigns_reproducible_identities(self):
+        cfg = Config(duration=8, dp_user_contribution_cap=2)
+        left = workload(cfg, 'uniform', 101)[0]
+        right = workload(cfg, 'uniform', 101)[0]
+        self.assertEqual(left, right)
+        self.assertTrue(left)
+        self.assertTrue(all(request.user_id for request in left))
 
     def test_bounded_discrete_laplace_sampler_has_fixed_entropy_shape(self):
         parameters = dp_laplace_parameters(Config(duration=2, epoch=1))

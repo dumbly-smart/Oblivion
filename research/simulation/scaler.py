@@ -34,6 +34,7 @@ class Config:
     noise_scale: float = 2
     dp_epsilon: float = 1.0
     dp_delta: float = 1e-6
+    dp_user_contribution_cap: int = 0
     low_rate: float = 2
     high_rate: float = 12
     price_per_instance_second: float = .00001  # explicit hypothetical input
@@ -42,7 +43,8 @@ class Config:
         values = asdict(self)
         if not all(isinstance(v, (int, float)) and math.isfinite(v) for v in values.values()):
             raise ValueError('finite numeric parameters required')
-        for key in ('initial', 'maximum', 'functions', 'queue_limit', 'quantum', 'hysteresis'):
+        for key in ('initial', 'maximum', 'functions', 'queue_limit', 'quantum',
+                    'hysteresis', 'dp_user_contribution_cap'):
             if type(values[key]) is not int:
                 raise ValueError(f'{key} must be an integer')
         if not (0 < self.duration <= 86400 and 0 < self.epoch <= self.duration and self.duration / self.epoch <= 10000):
@@ -55,6 +57,8 @@ class Config:
             raise ValueError('invalid signal/cost parameters')
         if self.dp_epsilon <= 0:
             raise ValueError('dp_epsilon must be positive')
+        if not 0 <= self.dp_user_contribution_cap <= 1000000:
+            raise ValueError('dp_user_contribution_cap must be in 0..1,000,000')
         if not 0 < self.dp_delta < 1:
             raise ValueError('dp_delta must be strictly between zero and one')
         if self.high_rate * self.duration > 1e6:
@@ -65,6 +69,7 @@ class Config:
 class Request:
     time: float
     function: int
+    user_id: str | None = None
 
 
 def load_imported(path, cfg):
@@ -72,9 +77,12 @@ def load_imported(path, cfg):
     cfg.validate()
     with Path(path).open() as source:
         reader = csv.DictReader(source)
-        if reader.fieldnames != ['time', 'function']:
-            raise ValueError('expected CSV header time,function')
-        requests = [Request(float(r['time']), int(r['function'])) for r in reader]
+        expected = (['time', 'function', 'user_id']
+                    if cfg.dp_user_contribution_cap else ['time', 'function'])
+        if reader.fieldnames != expected:
+            raise ValueError(f'expected CSV header {",".join(expected)}')
+        requests = [Request(float(r['time']), int(r['function']),
+                            r.get('user_id')) for r in reader]
     validate_requests(requests, cfg)
     return requests
 
@@ -87,6 +95,29 @@ def validate_requests(requests, cfg):
         if not math.isfinite(r.time) or not last <= r.time < cfg.duration or r.time < 0 or not 0 <= r.function < cfg.functions:
             raise ValueError('requests must be sorted, in horizon and valid pools')
         last = r.time
+        if r.user_id is not None and (not isinstance(r.user_id, str) or not r.user_id):
+            raise ValueError('user_id must be a nonempty string when provided')
+        if cfg.dp_user_contribution_cap and not r.user_id:
+            raise ValueError('user-level DP requires a stable user_id on every request')
+
+
+def bounded_arrival_counts(requests, cfg):
+    """Return per-epoch integer counts after the public per-user contribution cap."""
+    cfg.validate()
+    validate_requests(requests, cfg)
+    horizon = math.ceil(cfg.duration / cfg.epoch)
+    counts = np.zeros((horizon, cfg.functions), dtype=np.int64)
+    contributions = {}
+    for request in requests:
+        if cfg.dp_user_contribution_cap:
+            used = contributions.get(request.user_id, 0)
+            if used >= cfg.dp_user_contribution_cap:
+                continue
+            contributions[request.user_id] = used + 1
+        epoch = min(horizon - 1,
+                    max(0, math.ceil(request.time / cfg.epoch) - 1))
+        counts[epoch, request.function] += 1
+    return counts
 
 
 def workload(cfg, kind, seed, intensity=0, hot=0):
@@ -116,6 +147,10 @@ def workload(cfg, kind, seed, intensity=0, hot=0):
         requests.extend(Request(float(t), int(f)) for t, f in zip(times, pools))
         labels.append({'epoch': epoch, 'intensity': intensity, 'hot': hot, 'arrivals': int(n), 'rate': rate * factor})
     requests.sort(key=lambda r: r.time)
+    if cfg.dp_user_contribution_cap:
+        requests = [Request(request.time, request.function,
+                            f'synthetic-user-{index % 64}')
+                    for index, request in enumerate(requests)]
     return requests, labels
 
 
@@ -129,6 +164,8 @@ def simulate(cfg, requests, policy, seed, dp_noise_source='seeded_experiment'):
     rng = np.random.default_rng(seed)
     replayable_noise_rng = random.Random(seed)
     dp_noise_parameters = dp_laplace_parameters(cfg) if policy == 'dp_laplace' else None
+    dp_arrival_counts = (bounded_arrival_counts(requests, cfg)
+                         if policy == 'dp_laplace' else None)
     queues = [deque() for _ in range(cfg.functions)]
     workers, events, records, observer = {}, [], [], []
     arrivals = np.zeros(cfg.functions, dtype=int)
@@ -206,7 +243,8 @@ def simulate(cfg, requests, policy, seed, dp_noise_source='seeded_experiment'):
             for pool in range(cfg.functions):
                 group = [(wid, w) for wid, w in workers.items() if w['pool'] == pool]
                 active = sum(not w['retiring'] for _, w in group)
-                raw = float(arrivals[pool])
+                raw = (float(dp_arrival_counts[data, pool])
+                       if policy == 'dp_laplace' else float(arrivals[pool]))
                 if policy == 'dp_laplace':
                     # Noise the integer per-epoch count query first; smoothing
                     # afterward is post-processing of the released count stream.
@@ -271,9 +309,12 @@ def simulate(cfg, requests, policy, seed, dp_noise_source='seeded_experiment'):
 def dp_laplace_parameters(cfg):
     """Conservative finite-randomness parameters for the finite-horizon policy."""
     releases = math.ceil(cfg.duration / cfg.epoch)
+    sensitivity = max(1, cfg.dp_user_contribution_cap)
+    changed_dimensions = min(cfg.functions, sensitivity)
     with localcontext() as context:
         context.prec = 100
-        epsilon = Decimal(str(cfg.dp_epsilon)) / Decimal(releases)
+        epsilon = (Decimal(str(cfg.dp_epsilon))
+                   / Decimal(releases * sensitivity))
         delta = Decimal(str(cfg.dp_delta)) / Decimal(releases)
         denominator = 1 << 64
         # Decimal.exp is correctly rounded. The small positive margin makes
@@ -283,8 +324,9 @@ def dp_laplace_parameters(cfg):
         if not 0 < numerator < denominator:
             raise ValueError('dp_epsilon per release is below sampler resolution')
         q = Decimal(numerator) / Decimal(denominator)
-        epsilon_effective = -q.ln()
-        tail_bound = Decimal(2) * (Decimal(1) + epsilon_effective.exp()) * q
+        epsilon_effective = Decimal(sensitivity) * -q.ln()
+        tail_bound = (Decimal(2 * changed_dimensions)
+                      * (Decimal(1) + epsilon_effective.exp()) * q)
         cap = 0
         while tail_bound > delta:
             cap += 1
@@ -294,9 +336,13 @@ def dp_laplace_parameters(cfg):
         composed_delta = Decimal(releases) * tail_bound
         return dict(
             releases=releases,
-            epsilon_per_release=float(epsilon),
+            epsilon_per_release=cfg.dp_epsilon / releases,
+            epsilon_per_unit=float(epsilon),
+            epsilon_effective_per_unit=float(-q.ln()),
             epsilon_effective_per_release=float(epsilon_effective),
-            l1_sensitivity_bound=1.0,
+            l1_sensitivity_bound=float(sensitivity),
+            privacy_unit='user' if cfg.dp_user_contribution_cap else 'request',
+            user_contribution_cap=cfg.dp_user_contribution_cap or None,
             geometric_numerator=numerator,
             geometric_denominator=denominator,
             geometric_cap=cap,

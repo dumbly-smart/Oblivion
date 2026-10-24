@@ -54,26 +54,40 @@ def privacy_claims(cfg, policies, dp_noise_source='seeded_experiment'):
     if 'dp_laplace' not in policies:
         return {}
     parameters = dp_laplace_parameters(cfg)
+    if cfg.dp_user_contribution_cap:
+        adjacency = (f'add/remove one stable authenticated principal and all its requests over the fixed horizon; '
+                     f'at most {cfg.dp_user_contribution_cap} requests per user are counted')
+        privacy_unit = 'bounded_user'
+        contribution_exclusion = []
+    else:
+        adjacency = 'workload request lists differ by exactly one added or removed Request record over the whole fixed horizon; not user-level adjacency'
+        privacy_unit = 'request'
+        contribution_exclusion = ['one user contributing multiple requests']
     return {'dp_laplace': dict(
-        mechanism_design_claim=('For add/remove-one-request adjacency over this fixed horizon, the bounded discrete sampler has a conditional (epsilon, delta) guarantee '
-            'for the declared count/event transcript under independent uniform random bits; it is not a code audit or an end-to-end runtime guarantee.'),
+        mechanism_design_claim=(f'For the declared {privacy_unit} adjacency over this fixed horizon, the bounded discrete sampler has a conditional (epsilon, delta) guarantee '
+            'for the count/event transcript under independent uniform random bits; it is not a code audit or an end-to-end runtime guarantee.'),
         artifact_guarantee=('none: deterministic noise is derived from the public experiment seed'
             if dp_noise_source == 'seeded_experiment' else
             'conditional on OS-CSPRNG output modeling independent uniform bits and the documented sampler/calibration; no independent implementation audit'),
         epsilon=cfg.dp_epsilon, delta=parameters['composed_delta_bound'],
         configured_delta=cfg.dp_delta,
-        adjacency='workload request lists differ by exactly one added or removed Request record over the whole fixed horizon; not user-level adjacency',
+        privacy_unit=privacy_unit,
+        adjacency=adjacency,
+        per_user_request_cap=cfg.dp_user_contribution_cap or None,
         release_count=parameters['releases'],
         per_release_epsilon=parameters['epsilon_per_release'],
+        per_unit_epsilon=parameters['epsilon_per_unit'],
+        effective_per_unit_epsilon=parameters['epsilon_effective_per_unit'],
         effective_per_release_epsilon=parameters['epsilon_effective_per_release'],
         per_release_l1_sensitivity_bound=parameters['l1_sensitivity_bound'],
         geometric_parameter_numerator=parameters['geometric_numerator'],
         geometric_parameter_denominator=parameters['geometric_denominator'],
         geometric_cap=parameters['geometric_cap'],
         per_release_delta_bound=parameters['per_release_delta_bound'],
-        composition='basic approximate-DP sequential composition over the fixed public release count; each per-tick integer arrival vector has L1 sensitivity at most 1',
+        composition=(f'basic approximate-DP sequential composition over {parameters["releases"]} public releases; '
+                     f'each per-tick integer arrival vector has L1 sensitivity at most {parameters["l1_sensitivity_bound"]:g}'),
         postprocessing_boundary='discrete noise is added to per-tick integer arrival counts; nonnegative clipping, EWMA smoothing, scaling targets, epoch, instance counts, scale events and cold-start counts are post-processing; no true queue term and no downscale/retirement, so worker busy state cannot alter observed pool counts or launches',
-        exclusions=['one user contributing multiple requests', 'same person/data spanning multiple sessions or deployments', 'replace/move adjacency', 'response latency/errors, sampler execution timing/CPU, and workload-private performance outputs', 'external billing or other runtime transcript'],
+        exclusions=contribution_exclusion + ['same person/data spanning multiple sessions or deployments', 'replace/move adjacency', 'response latency/errors, sampler execution timing/CPU, and workload-private performance outputs', 'external billing or other runtime transcript'],
         randomness=(
             'seeded_experiment: deterministic Python PRNG output is derived from the public experiment seed; saved transcript has no DP guarantee'
             if dp_noise_source == 'seeded_experiment' else
@@ -228,12 +242,18 @@ def run(config_path, output):
         config_sha256=hashlib.sha256(config_path.read_bytes()).hexdigest(),
         git_head=subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
         git_dirty=bool(subprocess.check_output(['git', 'status', '--porcelain'], text=True)),
-        workload_source='seeded synthetic Poisson arrivals; not calibrated to production traces')
+        workload_source=('seeded synthetic Poisson arrivals with deterministic round-robin synthetic principals for bounded-user experiments; not calibrated to production traces'
+            if cfg.dp_user_contribution_cap else
+            'seeded synthetic Poisson arrivals; not calibrated to production traces'))
     claims = privacy_claims(cfg, policies, dp_noise_source)
+    privacy_limit = (
+        'User IDs are synthetic/account metadata assumed stable and non-spoofable; each user contributes at most the configured request cap to the private scaling count. '
+        if cfg.dp_user_contribution_cap else
+        'No user-level contribution bound is enforced. ')
     report = dict(config=raw, provenance=provenance, summary=summary, trial_metrics=trial_results,
         imported_runs=imports, positive_controls=positive, privacy_claims=claims,
         methodology='Known-policy diagonal nearest-centroid profiler on current, previous and cumulative observer counts/events only. First half independent sessions profile; second half test. Session classes balanced across each half; trial-pooled balanced recall. Equal-weight independent trial bootstrap with5000 resamples. Public function pool identities are visible. Demand task is binary latent session demand regime, not exact arrival recovery. Uniform workload has no hot-function task.',
-        limitations='Function-affine fixed-service single-request workers; no runtime/ORAM/network integration. Simulated seconds, not measured service latency. Horizon-censored requests count as SLO violations; p95/p99 concern completed requests only. Price is a hypothetical configurable input. The legacy noisy policy has no adjacency/sensitivity/composition guarantee. The optional dp_laplace sampler has a conditional event-level approximate-DP bound only for its declared fixed-horizon count/event observer with independent hidden uniform random bits; the recorded deterministic-seed experiment itself has no DP guarantee. This is not a formal code audit. No user-level or full-runtime guarantee, or universal attack bound. Public count/event observer excludes queue, true arrivals, response latency, sampler execution timing/CPU, billing, active scheduling and joint transcripts. Imported repeated traces support performance only. Pareto membership uses point estimates, not significance tests. No policy dominance required or forced.')
+        limitations='Function-affine fixed-service single-request workers; no runtime/ORAM/network integration. Simulated seconds, not measured service latency. Horizon-censored requests count as SLO violations; p95/p99 concern completed requests only. Price is a hypothetical configurable input. The legacy noisy policy has no adjacency/sensitivity/composition guarantee. The optional dp_laplace sampler has a conditional approximate-DP bound only for its declared fixed-horizon count/event observer with independent hidden uniform random bits; the recorded deterministic-seed experiment itself has no DP guarantee. This is not a formal code audit. ' + privacy_limit + 'No full-runtime guarantee or universal attack bound. Public count/event observer excludes queue, true arrivals, response latency, sampler execution timing/CPU, billing, active scheduling and joint transcripts. Imported repeated traces support performance only. Pareto membership uses point estimates, not significance tests. No policy dominance required or forced.')
     (output / 'report.json').write_text(json.dumps(report, indent=2) + '\n')
     plot(output)
     manifest = {path.name: hashlib.sha256(path.read_bytes()).hexdigest()
