@@ -290,4 +290,11 @@ hot-pool prediction. This is a possible residual signal in these synthetic
 workloads, not evidence of general attacker advantage. See
 [`AUTOSCALER_INTERVAL_ATTACK.md`](AUTOSCALER_INTERVAL_ATTACK.md). Full-suite
 verification after the final implementation refinement passed: 176 tests,
-with four existing fixture skips.
+with four existing fixture skips. After adding the finite PMF helper, the
+full research suite passed 180 tests with four existing fixture skips.
+
+The next attack stage now has an exact finite PMF helper for the difference
+of the two capped geometric draws used by the sampler. Its four focused tests
+cover exhaustive pair enumeration, normalization, symmetry, cap zero, and
+invalid parameters. This is probability-model groundwork only; dynamic
+likelihood inference and its positive-control evaluation are still pending.
