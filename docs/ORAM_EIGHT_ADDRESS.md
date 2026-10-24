@@ -55,7 +55,9 @@ against these same retained sessions with its own positive controls. The
 [read-heavy follow-up](ORAM_READ_HEAVY.md) also evaluates a 90% read mix on
 the same address schedules. The fresh-seed [write-heavy follow-up](ORAM_WRITE_HEAVY.md)
 evaluates a 10% read mix; both follow-ups retain complete raw evidence and
-positive controls.
+positive controls. A [uniform-address study](ORAM_UNIFORM.md) changes the
+address distribution independently and retains the same control-first timing
+method.
 
 ## Reproduction
 

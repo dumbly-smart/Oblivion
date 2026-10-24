@@ -38,6 +38,11 @@ primary AUC metric and positive controls. Both controls passed; ORAM measured
 all 240 paired address/read-write schedules. See
 [`ORAM_WRITE_HEAVY.md`](ORAM_WRITE_HEAVY.md).
 
+A separate fresh-seed uniform-address run with a 50/50 operation mix passed
+both controls and measured ORAM AUC 0.49267 [0.48190, 0.50309]. Independent
+verification checked all 1,440 raw hashes and all 240 paired schedules. See
+[`ORAM_UNIFORM.md`](ORAM_UNIFORM.md).
+
 The checkpoint recovery API now includes a caller-supplied `CheckpointAnchor`
 CAS path that atomically stores an opaque snapshot ID with the secret handle.
 It rejects a controller whose generation is stale before publishing, and its

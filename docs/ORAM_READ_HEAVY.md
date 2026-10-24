@@ -14,7 +14,9 @@ and compressed observer/private traces are retained. The report hashes all
 1,440 raw files; an independent verification checked their hashes, matching
 address/read/write schedules across modes, and matching address schedules
 against the 50/50 study. A separate fresh-seed [write-heavy study](ORAM_WRITE_HEAVY.md)
-uses the same observer and primary metric at a 10% read probability.
+uses the same observer and primary metric at a 10% read probability. The
+[uniform-address study](ORAM_UNIFORM.md) changes the address prior with the
+balanced operation mix.
 
 ## Method and results
 
