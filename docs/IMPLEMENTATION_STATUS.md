@@ -491,3 +491,12 @@ range; the measured adjacent-repeat rate was 0.8807 against 0.8810 expected.
 The host was CPU-contended and unpinned. This is bounded empirical evidence,
 not a proof or remote timing result. See the preregistration, results, and
 retained data.
+
+The same traces were then scored by a post-hoc one-step profile transition
+lookup. Plaintext and encrypt-only controls scored AUC 0.9216
+([0.9162, 0.9271]); ORAM scored 0.4967 ([0.4891, 0.5043]) over the same 30
+trials, with raw accuracy below the profile-majority baseline. The controls
+passed before ORAM was scored. All 1,440 raw input hashes and four source/config
+hashes were rechecked. Since this attack was selected after the primary result
+and reuses those sessions, it is exploratory rather than an independent
+replication. See the transition-attack report and retained predictions.
