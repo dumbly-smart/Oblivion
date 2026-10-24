@@ -276,7 +276,12 @@ pub fn serve_unix(
     if !matches!(socket_mode, 0o600 | 0o660) {
         return Err(Error::InvalidSocketMode);
     }
+    let database_path = database_path.as_ref();
+    validate_database_path(database_path, true)?;
     let mut database = AnchorDatabase::open(database_path, master_key)?;
+    validate_database_path(database_path, false)?;
+    fs::set_permissions(database_path, Permissions::from_mode(0o600))
+        .map_err(|error| Error::Database(error.to_string()))?;
     let socket_path = socket_path.as_ref();
     let listener =
         UnixListener::bind(socket_path).map_err(|error| Error::Socket(error.to_string()))?;
@@ -295,6 +300,18 @@ pub fn serve_unix(
         }
     }
     Ok(())
+}
+
+fn validate_database_path(path: &Path, allow_missing: bool) -> Result<(), Error> {
+    match fs::symlink_metadata(path) {
+        Ok(metadata) if metadata.file_type().is_file() => Ok(()),
+        Ok(_) => Err(Error::InvalidDatabasePath),
+        Err(error) if allow_missing && error.kind() == std::io::ErrorKind::NotFound => Ok(()),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+            Err(Error::InvalidDatabasePath)
+        }
+        Err(error) => Err(Error::Database(error.to_string())),
+    }
 }
 
 /// Client adapter for one validated service slot. Unix socket permissions are

@@ -32,8 +32,11 @@ The caller supplies a zeroizing 32-byte master key when opening the database.
 It must come from a separate trusted secret source, such as a service secret
 manager, and must not be stored with the database. The CLI accepts a raw
 32-byte key file only when it is a regular file with no group/world
-permissions; the service zeroizes its in-memory key. Deployments must also
-restrict database file and backup access.
+permissions; the service zeroizes its in-memory key. The local service rejects
+database symlinks and special files, then restricts the SQLite database file
+to mode `0600` before binding its socket. The database parent directory must
+be trusted to prevent path replacement during startup. Deployments must also
+restrict database backup access.
 
 ## Local service protocol
 
@@ -88,6 +91,7 @@ writer rejection, and signed registry activation through the persistent
 version adapter. A database-copy rollback control demonstrates the residual
 rollback. The local RPC tests exercise registry and checkpoint requests and
 fail-closed transport errors. CLI integration tests run the service as a
-separate process, check socket permissions, exercise persistent registry CAS,
-and reject a group-readable master key. The tests do not test power-loss
+separate process, check socket and database permissions, exercise persistent
+registry CAS, and reject a group-readable master key and symlink database path.
+The tests do not test power-loss
 behavior of every filesystem or establish rollback resistance.

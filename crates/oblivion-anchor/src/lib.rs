@@ -54,6 +54,8 @@ pub enum Error {
     Protocol,
     #[error("anchor socket mode must be 0600 or 0660")]
     InvalidSocketMode,
+    #[error("anchor database path must refer to a regular file, not a symlink or special file")]
+    InvalidDatabasePath,
 }
 
 impl From<rusqlite::Error> for Error {
