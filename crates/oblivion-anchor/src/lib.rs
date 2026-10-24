@@ -21,6 +21,7 @@ use zeroize::Zeroizing;
 const NONCE_BYTES: usize = 12;
 const HANDLE_BYTES: usize = 88;
 const MAX_SLOT_BYTES: usize = 128;
+const SCHEMA_VERSION: u32 = 1;
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
@@ -40,6 +41,8 @@ pub enum Error {
     Randomness,
     #[error("stored checkpoint handle is malformed")]
     InvalidHandle,
+    #[error("anchor database schema version {0} is unsupported")]
+    UnsupportedSchema(u32),
 }
 
 impl From<rusqlite::Error> for Error {
@@ -57,11 +60,16 @@ pub struct AnchorDatabase {
 
 impl AnchorDatabase {
     pub fn open(path: impl AsRef<Path>, master_key: Zeroizing<[u8; 32]>) -> Result<Self, Error> {
-        let connection = Connection::open(path)?;
+        let mut connection = Connection::open(path)?;
         connection.busy_timeout(Duration::from_secs(5))?;
         connection.pragma_update(None, "synchronous", "FULL")?;
-        connection.execute_batch(
-            "CREATE TABLE IF NOT EXISTS checkpoint_anchor (
+        let schema_version: u32 =
+            connection.pragma_query_value(None, "user_version", |row| row.get(0))?;
+        match schema_version {
+            0 => {
+                let tx = connection.transaction_with_behavior(TransactionBehavior::Exclusive)?;
+                tx.execute_batch(
+                    "CREATE TABLE IF NOT EXISTS checkpoint_anchor (
                 slot TEXT PRIMARY KEY NOT NULL,
                 snapshot_id TEXT NOT NULL,
                 generation INTEGER NOT NULL CHECK (generation > 0),
@@ -74,8 +82,14 @@ impl AnchorDatabase {
             );
             CREATE TABLE IF NOT EXISTS used_nonce (
                 nonce BLOB PRIMARY KEY NOT NULL CHECK (length(nonce) = 12)
-            );",
-        )?;
+            );
+            PRAGMA user_version = 1;",
+                )?;
+                tx.commit()?;
+            }
+            SCHEMA_VERSION => {}
+            other => return Err(Error::UnsupportedSchema(other)),
+        }
         Ok(Self {
             connection,
             master_key,
@@ -571,6 +585,26 @@ mod tests {
             map_registry_error(Error::CommitIndeterminate),
             registry::Error::AnchorCommitUnknown
         ));
+    }
+
+    #[test]
+    fn unknown_database_schema_is_rejected_without_mutation() {
+        let path = path("schema-version");
+        {
+            let connection = Connection::open(&path).unwrap();
+            connection.pragma_update(None, "user_version", 99).unwrap();
+        }
+        assert!(matches!(
+            AnchorDatabase::open(&path, Zeroizing::new([0x5a; 32])),
+            Err(Error::UnsupportedSchema(99))
+        ));
+        let connection = Connection::open(&path).unwrap();
+        let version: u32 = connection
+            .pragma_query_value(None, "user_version", |row| row.get(0))
+            .unwrap();
+        assert_eq!(version, 99);
+        drop(connection);
+        let _ = std::fs::remove_file(path);
     }
 
     #[test]

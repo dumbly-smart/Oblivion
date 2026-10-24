@@ -7,6 +7,11 @@ transactions, compare the caller's expected generation/version, and commit
 with `synchronous=FULL`. Concurrent compare-and-swap callers cannot both
 publish the same generation.
 
+The database schema is versioned with SQLite `user_version`. A new database
+is initialized transactionally as schema 1; unknown versions are rejected
+without changing the database. Future schema changes need an explicit
+migration.
+
 If SQLite reports an error while committing an anchor update, the adapter
 returns an explicit indeterminate-commit error because it cannot safely infer
 whether the transaction became durable. Path ORAM poisons that controller and

@@ -365,7 +365,7 @@ ChaCha20-Poly1305 keys, bound associated data, OS-random nonces reserved
 uniquely in the database, and encrypted persistence. Tests cover reopen,
 stale and concurrent CAS, wrong keys, ciphertext tampering, and registry
 namespace isolation, plus a deliberate database-copy rollback control
-(8 passed), including real Path ORAM recovery and signed registry activation
+(9 passed), including schema-version rejection, real Path ORAM recovery and signed registry activation
 through the persistent adapters. This adapter is not wired into the demo and
 is not a remote anchor service; the database operator and separately supplied
 master key are trusted, and restoring a previous database copy defeats
@@ -395,3 +395,10 @@ returns a typed unknown-commit result so callers reload the anchored version.
 Tests verify both fail-closed caller paths. The full workspace suite passed
 after this change; the checkpoint recovery integration target now has 9 tests,
 and the registry integration target has 5.
+
+## 2026-10-25: anchor schema versioning
+
+Anchor databases now initialize schema version 1 transactionally and reject
+unknown SQLite schema versions without changing them. The anchor package has
+9 tests. The full workspace suite passed after this change, with the
+million-operation ORAM test intentionally ignored.
