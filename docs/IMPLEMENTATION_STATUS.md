@@ -65,7 +65,7 @@ The built-in demo's real/dummy/function schedule is public given its code, real 
 | [Integrated epochs](EPOCH_SYSTEM_EVALUATION.md) | Final reader-thread pipe campaign: 360 process trees / 2,160 verified calls | 12 cells × 30; strict public/private separation, 1,080 real/1,080 dummy successes, 2,955 artifact hashes; scoped provenance differences below |
 | [Joint batching load](BATCH_LOAD_EVALUATION.md) | 720 independent processes; 30 fitted models/mode, 180 held-out targets/mode | Actual plaintext control 100%; AEAD protected 28.33% [22.78,33.89] against 33.33%. Same 22 public features/metric; two failed forest controls retained |
 | [Repeated faults](FAULT_CAMPAIGN.md) | Seven assertion-bearing fixtures × 30, 210 launches | All assertions pass for stated scenarios. Original ENOSPC/truncated-publication attempt remains excluded/incomplete, not silently overwritten |
-| [Autoscaler](AUTOSCALER.md), [event-level Laplace and seed-replay study](AUTOSCALER_DP.md) | Five-policy baseline campaigns, a six-policy 30-trial study, and a post-hoc known-seed attack with positive controls | Conditional mechanism-design calculation only; deterministic public seed means no DP guarantee for the saved experiment. Hypothetical prices and no real provisioning |
+| [Autoscaler](AUTOSCALER.md), [event-level Laplace and seed-replay study](AUTOSCALER_DP.md) | Five-policy baseline campaigns, a six-policy 30-trial study, and post-hoc centroid/forest known-seed attacks with positive controls | Conditional mechanism-design calculation only; deterministic public seed means no DP guarantee for the saved experiment. Hypothetical prices and no real provisioning |
 | [Attack API](ATTACK_INTERFACE.md) | 13 registered adapters with common PredictionResult and strict schemas | Uncalibrated confidence remains absent. Adapter availability is not extra experimental evidence |
 | [Actual demo](DEMO.md) | Three-client mixed SSE/PIR/WASM/ORAM run | 24 calls, 12 real, all five functions, 24 metadata queries and 3,072 storage events; MP4/terminalcast/raw records. Public deterministic schedule, not privacy evidence |
 
@@ -156,14 +156,17 @@ burst workloads. These measurements describe one classifier and this model.
 The design argument assumes ideal independent hidden Laplace samples, but the
 reproducible experiment publishes its deterministic seed. It therefore has no
 formal DP guarantee. The post-hoc seed-replay classifier uses public capacity
-changes to estimate the de-noised EWMA; all seven naive positive controls pass.
-Every seed-replay DP-arm interval includes chance. In the original DP-arm
-profiler, the Zipf-intensity interval began at 0.501, an unadjusted marginal
-result. A simple adjacent-input test also observes distinct transcripts under
-one public seed. This remains a bounded classifier evaluation, not a universal
+changes to estimate the de-noised EWMA; all fourteen naive positive controls
+pass across centroid and forest variants. Every centroid seed-replay interval
+includes chance. In the forest seed-replay arm, burst intensity reached
+56.3% [50.6%, 61.9%], an unadjusted result among multiple attacks. In the
+original centroid DP-arm profiler, the Zipf-intensity interval began at
+0.501, another marginal unadjusted result. A simple adjacent-input test also
+observes distinct transcripts under one public seed. This remains a bounded
+classifier evaluation, not a universal
 attack result. The mechanism is not connected to the Rust request path,
 scheduler, or a full runtime observer. See [`AUTOSCALER_DP.md`](AUTOSCALER_DP.md)
 for the derivation, raw hashes, attack protocol, and remaining CSPRNG,
 user-level, stronger-inversion, and full-runtime work. The full Python
-research suite passed 151 tests with four existing fixture skips after the
-adjacent-input seed-replay regression was added.
+research suite passed 153 tests with four existing fixture skips after the
+bounded-forest-seed and adjacent-input seed-replay regressions were added.
