@@ -88,6 +88,9 @@ class ScalerLikelihoodAnalysisTests(unittest.TestCase):
             self.assertTrue(all(row["passed"] for row in report["positive_controls"]))
             predictions = json.loads((root / "analysis/predictions.json").read_text())
             self.assertTrue(all("prediction" in row for row in predictions))
+            self.assertGreater((root / "analysis/balanced-accuracy.png").stat().st_size,
+                               1000)
+            self.assertEqual(report["particle_filter_health"]["nonfinite_class_scores"], 0)
 
     def test_failed_positive_control_prevents_dp_scoring(self):
         with tempfile.TemporaryDirectory() as directory:

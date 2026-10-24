@@ -166,7 +166,12 @@ def _score_mode(profile, target, task, mode, cfg, pmf, study, seed):
             "trial": target_record["trial"], "session": target_record["session"],
             "workload": target_record["workload"], "policy": mode,
             "prediction": prediction,
-            "class_log_likelihoods": {str(key): value for key, value in log_scores.items()},
+            "class_log_likelihoods": {
+                str(key): value if math.isfinite(value) else None
+                for key, value in log_scores.items()
+            },
+            "nonfinite_classes": [key for key, value in log_scores.items()
+                                  if not math.isfinite(value)],
             "likelihood_method": "exact Poisson count likelihood" if mode == "plaintext_counts"
                 else "bootstrap particle filter; Monte Carlo likelihood estimate",
         }
@@ -195,6 +200,40 @@ def _summarize(rows):
             "chance_balanced_accuracy": 0.5,
         })
     return result
+
+
+def _plot_summary(output, summary):
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    panels = sorted({(row["workload"], row["task"]) for row in summary})
+    fig, axes = plt.subplots(1, len(panels), figsize=(max(6, 2.5 * len(panels)), 4),
+                             squeeze=False)
+    colors = {"plaintext_counts": "#4477aa", "noiseless_scaler": "#228833",
+              "dp_laplace": "#cc6677"}
+    for axis, (workload, task) in zip(axes[0], panels):
+        rows = [row for row in summary
+                if row["workload"] == workload and row["task"] == task]
+        means = [row["balanced_accuracy"] for row in rows]
+        lower = [max(0, mean - row["balanced_accuracy_ci95"][0])
+                 for mean, row in zip(means, rows)]
+        upper = [max(0, row["balanced_accuracy_ci95"][1] - mean)
+                 for mean, row in zip(means, rows)]
+        axis.bar(range(len(rows)), means,
+                 color=[colors.get(row["policy"], "#999999") for row in rows],
+                 yerr=[lower, upper], capsize=2)
+        axis.axhline(0.5, color="black", linestyle="--", linewidth=0.8)
+        axis.set_xticks(range(len(rows)),
+                        [row["policy"].replace("_", "\n") for row in rows],
+                        rotation=35, ha="right", fontsize=7)
+        axis.set_ylim(0, 1)
+        axis.set_title(f"{workload}: {task}")
+        axis.set_ylabel("Balanced accuracy")
+    fig.suptitle("CSPRNG autoscaler likelihood attack")
+    fig.tight_layout()
+    fig.savefig(output / "balanced-accuracy.png", dpi=160)
+    plt.close(fig)
 
 
 def evaluate(source, output, study_config):
@@ -334,6 +373,20 @@ def evaluate(source, output, study_config):
         "dp_policy_evaluated": positive_controls_passed,
         "summary": _summarize(trial_rows),
         "trial_metrics": trial_rows,
+        "particle_filter_health": {
+            "target_sessions_scored": sum(
+                row["policy"] == "dp_laplace" for row in prediction_records),
+            "class_scores": sum(
+                len(row["class_log_likelihoods"])
+                for row in prediction_records if row["policy"] == "dp_laplace"),
+            "nonfinite_class_scores": sum(
+                len(row["nonfinite_classes"])
+                for row in prediction_records if row["policy"] == "dp_laplace"),
+            "sessions_with_all_class_scores_nonfinite": sum(
+                len(row["nonfinite_classes"]) == 2
+                for row in prediction_records if row["policy"] == "dp_laplace"),
+            "particle_count": study["particles"],
+        },
         "attacker_model": "class-conditional independent Poisson arrivals with Gamma(0.5, 0.5) smoothed rates; DP mode uses a bootstrap particle filter over exact finite capped-noise PMF",
         "attacker_knowledge": "Public scaler configuration and policy; four labeled whole profiling sessions per trial; target uses only public instance-count rows for DP and clear per-pool counts for the plaintext positive control. Target labels are used only after predictions are fixed.",
         "uncertainty": "95% percentile bootstrap intervals over independent trial-level balanced-accuracy scores; particle-filter Monte Carlo likelihood estimates are conditioned on the recorded particle count and sampler seed.",
@@ -343,6 +396,7 @@ def evaluate(source, output, study_config):
     (output / "study-config.json").write_text(json.dumps(study, indent=2) + "\n")
     (output / "report.json").write_text(json.dumps(report, indent=2) + "\n")
     (output / "predictions.json").write_text(json.dumps(prediction_records, indent=2) + "\n")
+    _plot_summary(output, report["summary"])
     manifest = {path.name: _sha(path) for path in output.iterdir() if path.is_file()}
     (output / "artifact-sha256.json").write_text(json.dumps(manifest, indent=2) + "\n")
     return report
