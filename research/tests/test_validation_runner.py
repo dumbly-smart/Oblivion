@@ -30,6 +30,10 @@ class ValidationRunnerTests(unittest.TestCase):
         self.assertLess(build, python)
         self.assertIn('--examples', commands[build])
         self.assertIn('--bins', commands[build])
+        self.assertEqual(validation.FIXTURES['ORAM_MEASURE_BINARY'],
+                         'target/release/examples/oram-measure')
+        self.assertEqual(validation.FIXTURES['ORAM_CONTROL_BINARY'],
+                         'target/release/examples/oram-control')
         self.assertTrue(any('--manifest-path' in c and 'research/oram_reference/Cargo.toml' in c for c in commands[:python]))
 
     def test_default_validation_includes_required_reference_fixture(self):

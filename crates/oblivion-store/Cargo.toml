@@ -24,3 +24,7 @@ workspace = true
 [[example]]
 name = "oram-measure"
 path = "examples/measure.rs"
+
+[[example]]
+name = "oram-control"
+path = "examples/control_measure.rs"

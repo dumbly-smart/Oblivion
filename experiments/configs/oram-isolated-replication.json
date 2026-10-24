@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "blocks": 32,
+  "bucket_capacity": 4,
+  "block_bytes": 64,
+  "operations": 128,
+  "warmup": 8,
+  "sessions_per_trial": 8,
+  "trials": 30,
+  "seed": 20261025,
+  "address_distribution": {
+    "0": 0.75,
+    "1": 0.25
+  },
+  "read_probability": 0.5,
+  "primary_metric": "roc_auc",
+  "positive_control_min_mean_auc": 0.8,
+  "positive_control_ci_lower_must_exceed": 0.5,
+  "ci_method": "bootstrap 5000 resamples of 30 fitted-trial scores"
+}

@@ -1,5 +1,5 @@
 //! Reproducible workload generator; cryptographic randomness remains OS sourced.
-#[path = "isolated.rs"]
+#[path = "support/isolated.rs"]
 mod isolated;
 
 use isolated::{IsolatedBackend, ServiceEvent};
@@ -163,7 +163,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         || config.warmup > 100_000
         || config.trials == 0
         || config.trials > 1000
-        || !["same", "uniform"].contains(&config.workload.as_str())
+        || !["same", "uniform", "two_record_skewed"].contains(&config.workload.as_str())
         || !["memory", "isolated_process"].contains(&config.backend.as_str())
     {
         return Err("invalid experiment configuration".into());
@@ -209,8 +209,14 @@ fn main() -> Result<(), Box<dyn Error>> {
         for id in 0..config.blocks {
             store.write(id, &vec![0; config.block_bytes])?;
         }
+        let mut warmup_rng = ChaCha20Rng::seed_from_u64(seed ^ 0x4f52_414d_5741_524d);
         for _ in 0..config.warmup {
-            store.read(rng.gen_range(0..config.blocks))?;
+            let address = if config.workload == "two_record_skewed" {
+                if warmup_rng.gen_bool(0.75) { 0 } else { 1 }
+            } else {
+                warmup_rng.gen_range(0..config.blocks)
+            };
+            store.read(address)?;
         }
         store.set_tracing(true);
         if let Some((worker_pid, request_bytes, response_bytes)) = store.isolated_metadata() {
@@ -237,10 +243,17 @@ fn main() -> Result<(), Box<dyn Error>> {
         let mut stash_histogram = std::collections::BTreeMap::<usize, usize>::new();
         let mut oracle = vec![vec![0; config.block_bytes]; config.blocks];
         for step in 0..config.operations {
-            let address = if config.workload == "same" {
-                0
-            } else {
-                rng.gen_range(0..config.blocks)
+            let address = match config.workload.as_str() {
+                "same" => 0,
+                "uniform" => rng.gen_range(0..config.blocks),
+                "two_record_skewed" => {
+                    if rng.gen_bool(0.75) {
+                        0
+                    } else {
+                        1
+                    }
+                }
+                _ => unreachable!("validated workload"),
             };
             let is_write = rng.gen_bool(0.5);
             let mut value = vec![0; config.block_bytes];

@@ -13,6 +13,8 @@ import time
 ROOT = Path(__file__).resolve().parents[1]
 REFERENCE = 'research/oram_reference/Cargo.toml'
 FIXTURES = {
+    'ORAM_MEASURE_BINARY': 'target/release/examples/oram-measure',
+    'ORAM_CONTROL_BINARY': 'target/release/examples/oram-control',
     'PRESENCE_BINARY': 'target/release/examples/presence',
     'EXECUTOR_RESOURCES_BINARY': 'target/release/examples/resource_measure',
     'EXEC_TIMING_BINARY': 'target/release/examples/timing_measure',
