@@ -89,3 +89,20 @@ cargo build --locked --release -p oblivion-store \
 For another independent run, select a new output directory and a new seed
 before collection. Keep the private driver files separate from attacker-visible
 observer traces.
+
+## Post-hoc frequency-only secondary attacker
+
+After completing the preregistered temporal attack, the retained traces were
+also analyzed with the existing smoothed tag-frequency-only scorer. This
+exploratory analysis uses the same 30 trials and same target sessions; it is
+not a second independent replication and does not change the preregistered
+primary result. It sees only labeled profile-session tag counts and unlabeled
+target tags, with no timing, byte sizes, operation labels, or target labels.
+
+Both positive controls again scored AUC 1.000. Path ORAM scored AUC `0.5017`
+([0.4931, 0.5101]), balanced accuracy `0.5002`, and raw accuracy `0.6031`;
+the profile-majority raw accuracy was `0.6424`. The AUC interval contains
+chance, and raw accuracy is below the majority predictor. This is evidence
+about this frequency-only scorer on the same workload, not a bound on other
+attackers. The derived [report and predictions](../experiments/results/oram-frequency-only-20261025-v3/)
+hash all 1,440 input trace files and the analysis/config sources.

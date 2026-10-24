@@ -468,3 +468,10 @@ harness tests passed before collection. The separate service process measured
 bucket-handler time, but host load was present and affinity was not pinned;
 the study is limited to this workload and classifier, with no security or
 quiet-host claim. See the preregistration, result report and retained raw data.
+
+The same retained workload was then analyzed with the existing frequency-only
+tag scorer as a post-hoc secondary attack. Plaintext/encrypt-only controls
+scored AUC 1.000; ORAM scored 0.5017 ([0.4931, 0.5101]), balanced accuracy
+0.5002 and raw accuracy 0.6031 versus the 0.6424 majority baseline. It reuses
+the primary study's 30 trials and is not an additional independent repetition.
+All 1,440 input hashes in the derived report were independently rechecked.
