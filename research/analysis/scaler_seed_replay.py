@@ -23,6 +23,38 @@ def read_jsonl(path):
         return [json.loads(line) for line in source]
 
 
+def plot_summary(output, summary):
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+
+    panels = sorted({(row['workload'], row['task']) for row in summary})
+    fig, axes = plt.subplots(1, len(panels), figsize=(max(6, 3.2 * len(panels)), 4),
+                             squeeze=False)
+    for axis, (workload, task) in zip(axes[0], panels):
+        rows = [row for row in summary
+                if row['workload'] == workload and row['task'] == task]
+        labels = [f"{row['policy']}\n{row['attacker']}" for row in rows]
+        means = [row['balanced_accuracy'] for row in rows]
+        lower = [max(0., mean - row['balanced_accuracy_ci95'][0])
+                 for mean, row in zip(means, rows)]
+        upper = [max(0., row['balanced_accuracy_ci95'][1] - mean)
+                 for mean, row in zip(means, rows)]
+        colors = ['#4477aa' if row['policy'] == 'naive' else '#cc6677'
+                  for row in rows]
+        axis.bar(range(len(rows)), means, color=colors,
+                 yerr=[lower, upper], capsize=2)
+        axis.axhline(.5, color='black', linestyle='--', linewidth=.8)
+        axis.set_xticks(range(len(rows)), labels, rotation=60, ha='right', fontsize=7)
+        axis.set_ylim(0, 1)
+        axis.set_title(f'{workload}: {task}')
+        axis.set_ylabel('Balanced accuracy')
+    fig.suptitle('Autoscaler workload inference: leaky control vs defense')
+    fig.tight_layout()
+    fig.savefig(output / 'attack-accuracy.png', dpi=160)
+    plt.close(fig)
+
+
 def classifier_score(profile, target, task, cfg, replay_seed, model='centroid', random_state=1907):
     if replay_seed:
         feature = lambda session: seed_replay_features(
@@ -191,6 +223,7 @@ def evaluate(source, output, models=('centroid', 'forest')):
         methodology=methodology, limitations=limitations)
     output.mkdir(parents=True)
     (output / 'report.json').write_text(json.dumps(report, indent=2) + '\n')
+    plot_summary(output, summary)
     manifest = {path.name: hashlib.sha256(path.read_bytes()).hexdigest()
                 for path in output.iterdir() if path.is_file()}
     (output / 'artifact-sha256.json').write_text(json.dumps(manifest, indent=2) + '\n')

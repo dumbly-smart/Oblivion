@@ -138,6 +138,7 @@ class SeedReplayTests(unittest.TestCase):
                 ('naive', 'forest_public'), ('dp_laplace', 'forest_public')})
             self.assertTrue(all(row['passed'] for row in report['positive_controls']))
             self.assertIn('known-seed replay was skipped', report['methodology'])
+            self.assertTrue((root / 'analysis' / 'attack-accuracy.png').is_file())
 
 
 if __name__ == '__main__':
