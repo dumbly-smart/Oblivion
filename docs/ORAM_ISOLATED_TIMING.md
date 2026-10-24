@@ -45,7 +45,9 @@ ORAM_MEASURE_BINARY=$PWD/target/release/examples/oram-measure \
   .venv/bin/python -m unittest research.tests.test_oram_isolated_timing
 ```
 
-This does not replicate the earlier possible weak ORAM timing AUC. The
-replication still requires new independent workloads, plaintext and
-encrypt-only positive controls, a predeclared primary metric, whole-session
-splits, repeated trials, and an attack using only observer-visible features.
+The full fresh-workload study now has plaintext and encrypt-only positive
+controls, a predeclared AUC primary metric, whole-session splits, 30 trials,
+and a nonlinear temporal attacker. See the
+[replication report](ORAM_TIMING_REPLICATION.md). It currently covers two
+addresses and a local process boundary; broader address/operation universes
+and real network timing remain open.

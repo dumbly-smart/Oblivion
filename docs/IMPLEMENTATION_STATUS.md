@@ -68,12 +68,12 @@ Selected implementation/evaluation and the serial local/hosted source gates are 
 ## Optional follow-up: isolated ORAM timing
 
 The ORAM measurement example now has an opt-in child-process bucket service.
-The process boundary and fixed-size pipe protocol are exercised by focused
-tests; the service timer measures only its in-memory bucket handler. This
-supports new isolated-service observations but does not reproduce the earlier
-weak timing AUC. The independent attack, positive controls, declared primary
-metric, broader workloads and repeated evaluation remain open. See
-[ORAM isolated timing](ORAM_ISOLATED_TIMING.md).
+A fresh 30-trial study passed plaintext and encrypt-only positive controls and
+measured ORAM AUC 0.502 [0.491, 0.513] with a declared primary metric and
+whole-session split. Raw event and private label hashes were independently
+verified; the initial unpaired run is marked superseded. See the
+[replication report](ORAM_TIMING_REPLICATION.md). Larger address/operation
+universes and network timing remain open.
 
 ## Optional follow-up: real query content
 
