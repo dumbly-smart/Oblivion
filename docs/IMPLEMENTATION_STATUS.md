@@ -14,10 +14,15 @@ also supplied freshly built ORAM binaries to the isolated-process integration
 tests.
 
 After adding the population-sweep analysis and tests, a fresh
-`.venv/bin/python -m unittest discover -s research/tests` run passed all 137
+`.venv/bin/python -m unittest discover -s research/tests` run passed all 139
 tests with four existing runtime-fixture skips. The population runner's
 configured 120-trial execution and raw-hash verification also completed; see
-[`POPULATION_SWEEP.md`](POPULATION_SWEEP.md).
+[`POPULATION_SWEEP.md`](POPULATION_SWEEP.md). After extending the ORAM timing
+runner to configured address domains and hot/cold labels, the same 139-test
+suite passed again. The new eight-address experiment passed both positive
+controls and post-run verification of all 1,440 hashes and paired schedules;
+its ORAM hot/cold AUC was 0.507 [0.496, 0.517]. See
+[`ORAM_EIGHT_ADDRESS.md`](ORAM_EIGHT_ADDRESS.md).
 
 Updated 2026-10-23. The selected pipeline and later bounded research artifacts now have evidence in [the requirements matrix](REQUIREMENTS_MATRIX.md) and [completion audit](COMPLETION_AUDIT.md). The selected artifacts and earlier passing gates are recorded. PR #1 is the review artifact while latest validation closure is held; no production-security or merge claim follows. TrustedExecutor is simulated by ordinary processes, without a hardware TEE or attestation.
 
@@ -87,8 +92,11 @@ A fresh 30-trial study passed plaintext and encrypt-only positive controls and
 measured ORAM AUC 0.502 [0.491, 0.513] with a declared primary metric and
 whole-session split. Raw event and private label hashes were independently
 verified; the initial unpaired run is marked superseded. See the
-[replication report](ORAM_TIMING_REPLICATION.md). Larger address/operation
-universes and network timing remain open.
+[two-address replication report](ORAM_TIMING_REPLICATION.md). The configurable
+runner now also supports an eight-address hot/cold workload; its controls
+passed and ORAM AUC was 0.507 [0.496, 0.517]. See the
+[eight-address follow-up](ORAM_EIGHT_ADDRESS.md). Additional operation mixes,
+attacker families, and network timing remain open.
 
 ## Optional follow-up: real query content
 
