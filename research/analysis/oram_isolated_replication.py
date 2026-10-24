@@ -225,7 +225,9 @@ def capture_mode(mode, config, binaries, output, temporary):
             "operations": config["operations"], "warmup": config["warmup"],
             "trials": config["sessions_per_trial"],
             "seed": config["seed"] + trial * config["sessions_per_trial"],
-            "workload": "configured_distribution",
+            "workload": "markov_distribution" if config.get("address_persistence", 0.0) > 0.0
+            else "configured_distribution",
+            "address_persistence": config.get("address_persistence", 0.0),
             "address_distribution": config["address_distribution"],
             "hot_addresses": config["hot_addresses"],
             "read_probability": config["read_probability"],
@@ -311,6 +313,7 @@ def run(config_path, output, oram_binary, control_binary):
     distribution = config.get("address_distribution", {"0": 0.75, "1": 0.25})
     hot_addresses = config.get("hot_addresses", [0])
     read_probability = config.get("read_probability", 0.5)
+    address_persistence = config.get("address_persistence", 0.0)
     try:
         numeric_distribution = {int(address): weight for address, weight in distribution.items()}
     except (AttributeError, TypeError, ValueError) as error:
@@ -323,6 +326,10 @@ def run(config_path, output, oram_binary, control_binary):
             or isinstance(read_probability, bool)
             or not math.isfinite(read_probability)
             or not 0.0 <= read_probability <= 1.0
+            or not isinstance(address_persistence, (int, float))
+            or isinstance(address_persistence, bool)
+            or not math.isfinite(address_persistence)
+            or not 0.0 <= address_persistence <= 1.0
             or not isinstance(hot_addresses, list) or not hot_addresses
             or any(type(address) is not int for address in hot_addresses)
             or sorted(numeric_distribution) != list(range(len(numeric_distribution)))
@@ -339,6 +346,7 @@ def run(config_path, output, oram_binary, control_binary):
                                       for address in sorted(numeric_distribution)}
     config["hot_addresses"] = sorted(hot_addresses)
     config["read_probability"] = read_probability
+    config["address_persistence"] = address_persistence
     output = Path(output)
     if output.exists():
         raise ValueError("output directory must be new to preserve raw data")

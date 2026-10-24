@@ -35,6 +35,8 @@ struct Experiment {
     address_distribution: BTreeMap<usize, f64>,
     #[serde(default)]
     hot_addresses: Vec<usize>,
+    #[serde(default)]
+    address_persistence: f64,
     #[serde(default = "isolated::default_read_probability")]
     read_probability: f64,
     #[serde(default = "default_backend")]
@@ -175,13 +177,17 @@ fn main() -> Result<(), Box<dyn Error>> {
             "uniform",
             "two_record_skewed",
             "configured_distribution",
+            "markov_distribution",
         ]
         .contains(&config.workload.as_str())
         || !["memory", "isolated_process"].contains(&config.backend.as_str())
     {
         return Err("invalid experiment configuration".into());
     }
-    if config.workload == "configured_distribution" {
+    if matches!(
+        config.workload.as_str(),
+        "configured_distribution" | "markov_distribution"
+    ) {
         isolated::validate_distribution(
             &config.address_distribution,
             config.blocks,
@@ -233,9 +239,19 @@ fn main() -> Result<(), Box<dyn Error>> {
             store.write(id, &vec![0; config.block_bytes])?;
         }
         let mut warmup_rng = ChaCha20Rng::seed_from_u64(seed ^ 0x4f52_414d_5741_524d);
+        let mut warmup_previous = None;
         for _ in 0..config.warmup {
             let address = if config.workload == "configured_distribution" {
                 isolated::sample_address(&mut warmup_rng, &config.address_distribution)
+            } else if config.workload == "markov_distribution" {
+                let address = isolated::sample_markov_address(
+                    &mut warmup_rng,
+                    &config.address_distribution,
+                    warmup_previous,
+                    config.address_persistence,
+                )?;
+                warmup_previous = Some(address);
+                address
             } else if config.workload == "two_record_skewed" {
                 if warmup_rng.gen_bool(0.75) { 0 } else { 1 }
             } else {
@@ -267,6 +283,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         let mut max_stash = 0;
         let mut stash_histogram = std::collections::BTreeMap::<usize, usize>::new();
         let mut oracle = vec![vec![0; config.block_bytes]; config.blocks];
+        let mut previous_address = None;
         for step in 0..config.operations {
             let address = match config.workload.as_str() {
                 "same" => 0,
@@ -280,6 +297,16 @@ fn main() -> Result<(), Box<dyn Error>> {
                 }
                 "configured_distribution" => {
                     isolated::sample_address(&mut rng, &config.address_distribution)
+                }
+                "markov_distribution" => {
+                    let address = isolated::sample_markov_address(
+                        &mut rng,
+                        &config.address_distribution,
+                        previous_address,
+                        config.address_persistence,
+                    )?;
+                    previous_address = Some(address);
+                    address
                 }
                 _ => unreachable!("validated workload"),
             };

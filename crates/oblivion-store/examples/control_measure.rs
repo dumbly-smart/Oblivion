@@ -36,6 +36,8 @@ struct Experiment {
     address_distribution: BTreeMap<usize, f64>,
     #[serde(default)]
     hot_addresses: Vec<usize>,
+    #[serde(default)]
+    address_persistence: f64,
     #[serde(default = "isolated::default_read_probability")]
     read_probability: f64,
 }
@@ -221,11 +223,19 @@ fn main() -> Result<(), Box<dyn Error>> {
         || config.warmup > 100_000
         || config.trials == 0
         || config.trials > 1000
-        || !["two_record_skewed", "configured_distribution"].contains(&config.workload.as_str())
+        || ![
+            "two_record_skewed",
+            "configured_distribution",
+            "markov_distribution",
+        ]
+        .contains(&config.workload.as_str())
     {
         return Err("invalid direct-control configuration".into());
     }
-    if config.workload == "configured_distribution" {
+    if matches!(
+        config.workload.as_str(),
+        "configured_distribution" | "markov_distribution"
+    ) {
         isolated::validate_distribution(
             &config.address_distribution,
             config.blocks,
@@ -272,9 +282,19 @@ fn main() -> Result<(), Box<dyn Error>> {
             .checked_add(trial as u64)
             .ok_or("seed overflow")?;
         let mut warmup_rng = ChaCha20Rng::seed_from_u64(seed ^ 0x4f52_414d_5741_524d);
+        let mut warmup_previous = None;
         for _ in 0..config.warmup {
             let address = if config.workload == "configured_distribution" {
                 isolated::sample_address(&mut warmup_rng, &config.address_distribution)
+            } else if config.workload == "markov_distribution" {
+                let address = isolated::sample_markov_address(
+                    &mut warmup_rng,
+                    &config.address_distribution,
+                    warmup_previous,
+                    config.address_persistence,
+                )?;
+                warmup_previous = Some(address);
+                address
             } else if warmup_rng.gen_bool(0.75) {
                 0
             } else {
@@ -303,13 +323,24 @@ fn main() -> Result<(), Box<dyn Error>> {
         let mut private =
             BufWriter::new(File::create(output.join(format!("private-{trial}.jsonl")))?);
         let mut latencies = Vec::new();
+        let mut previous_address = None;
         for step in 0..config.operations {
-            let address = if config.workload == "configured_distribution" {
-                isolated::sample_address(&mut rng, &config.address_distribution)
-            } else if rng.gen_bool(0.75) {
-                0
-            } else {
-                1
+            let address = match config.workload.as_str() {
+                "configured_distribution" => {
+                    isolated::sample_address(&mut rng, &config.address_distribution)
+                }
+                "markov_distribution" => {
+                    let address = isolated::sample_markov_address(
+                        &mut rng,
+                        &config.address_distribution,
+                        previous_address,
+                        config.address_persistence,
+                    )?;
+                    previous_address = Some(address);
+                    address
+                }
+                _ if rng.gen_bool(0.75) => 0,
+                _ => 1,
             };
             let is_write = isolated::sample_is_write(&mut rng, config.read_probability);
             let mut value = vec![0; config.block_bytes];

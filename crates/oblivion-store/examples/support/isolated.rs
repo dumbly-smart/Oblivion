@@ -71,6 +71,29 @@ pub fn sample_address<R: Rng + ?Sized>(rng: &mut R, distribution: &BTreeMap<usiz
     last
 }
 
+/// Sample a first-order Markov address process whose stationary distribution
+/// is `distribution`: retain the previous address with probability
+/// `persistence`, otherwise draw a fresh address from that distribution.
+pub fn sample_markov_address<R: Rng + ?Sized>(
+    rng: &mut R,
+    distribution: &BTreeMap<usize, f64>,
+    previous: Option<usize>,
+    persistence: f64,
+) -> Result<usize, &'static str> {
+    if !persistence.is_finite() || !(0.0..=1.0).contains(&persistence) {
+        return Err("address persistence must be finite and in [0, 1]");
+    }
+    if previous.is_some_and(|address| !distribution.contains_key(&address)) {
+        return Err("previous address is outside the distribution");
+    }
+    if let Some(address) = previous
+        && rng.gen_bool(persistence)
+    {
+        return Ok(address);
+    }
+    Ok(sample_address(rng, distribution))
+}
+
 #[derive(Clone, Debug)]
 pub struct ServiceEvent {
     pub direction: StorageDirection,
@@ -355,6 +378,31 @@ mod tests {
         assert!(validate_distribution(&distribution, 8, &[0, 0]).is_err());
         assert!(validate_distribution(&distribution, 8, &[3]).is_err());
         assert!(validate_distribution(&BTreeMap::from([(0, 0.5)]), 8, &[0]).is_err());
+    }
+
+    #[test]
+    fn markov_address_sampler_preserves_or_resamples_the_previous_address() {
+        let distribution = BTreeMap::from([(0, 0.7), (1, 0.2), (2, 0.1)]);
+        let mut rng = ChaCha20Rng::seed_from_u64(91);
+
+        let initial = sample_markov_address(&mut rng, &distribution, None, 1.0).unwrap();
+        assert!(distribution.contains_key(&initial));
+        assert_eq!(
+            sample_markov_address(&mut rng, &distribution, Some(2), 1.0),
+            Ok(2)
+        );
+
+        let mut counts = [0usize; 3];
+        for _ in 0..10_000 {
+            let address = sample_markov_address(&mut rng, &distribution, Some(0), 0.0).unwrap();
+            counts[address] += 1;
+        }
+        assert!((counts[0] as f64 / 10_000.0 - 0.7).abs() < 0.02);
+        assert!((counts[1] as f64 / 10_000.0 - 0.2).abs() < 0.02);
+        assert!((counts[2] as f64 / 10_000.0 - 0.1).abs() < 0.02);
+
+        assert!(sample_markov_address(&mut rng, &distribution, Some(3), 0.5).is_err());
+        assert!(sample_markov_address(&mut rng, &distribution, Some(0), 1.1).is_err());
     }
 
     #[test]
