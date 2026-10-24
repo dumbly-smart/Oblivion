@@ -54,14 +54,13 @@ hashes and the analysis source/config hashes were rechecked independently.
 | 50/50 reads, uniform addresses | 1.000 | 1.000 | 0.50462 [0.49350, 0.51545] | 0.49907 | 0.73138 / 0.74681 |
 
 The write-heavy result is below chance for this fixed score direction, with an
-unadjusted interval whose upper endpoint is just below 0.5. This does not show
-that an attacker can use an inverse score: target labels were not available to
-choose a direction, and no held-out orientation-selection step was run. It is
-also not evidence that the workload is private. A future attack should
-predeclare any orientation-selection rule using profile-only validation.
-Across these finite workloads, the observed controls show the scorer works on
-the leaky systems while ORAM scores stay near chance and raw accuracy stays
-below the profile-majority baseline.
+unadjusted interval whose upper endpoint is just below 0.5. A separate
+profile-only cross-validation follow-up now selects the direction without
+target labels. Its write-heavy AUC is 0.507 [0.497, 0.517]; all three ORAM
+workload intervals include 0.5 and oriented raw accuracy remains below the
+profile-majority baseline. See the [orientation-selection report](ORAM_FREQUENCY_ORIENTATION.md)
+for full metrics and limits. These results show the effect of one validation
+rule on this scorer, not optimal attacker ability or privacy.
 
 ## Reproduction
 
@@ -80,3 +79,8 @@ uniform-address config and raw directory. The retained reports are under
 The evaluator requires a new derived-output directory. It reads observer
 features and private evaluation labels from separate raw files; only labeled
 profile rows enter model fitting.
+
+Profile-only orientation selection can be reproduced with
+`research.analysis.oram_frequency_selected` and the matching config/raw tree;
+the full three-workload comparison and retained outputs are described in
+[`ORAM_FREQUENCY_ORIENTATION.md`](ORAM_FREQUENCY_ORIENTATION.md).

@@ -48,8 +48,14 @@ datasets. All six leaky control conditions passed, all 4,320 referenced raw
 hashes and nine source/config inputs were independently verified, and the ORAM
 scores were 0.49871 (read-heavy), 0.48877 (write-heavy), and 0.50462 (uniform
 addresses). The write-heavy fixed score direction is slightly below chance;
-no target-label-based inversion is reported. See
-[`ORAM_ATTACK_FAMILIES.md`](ORAM_ATTACK_FAMILIES.md).
+no target-label-based inversion was used. A profile-only cross-validation
+orientation follow-up passed all six controls and retained its three reports,
+predictions and plots. ORAM AUC became 0.49909 [0.49106, 0.50726], 0.50653
+[0.49657, 0.51666], and 0.49374 [0.48298, 0.50437], respectively; all
+intervals include chance and oriented raw accuracy remains below the
+profile-majority baseline. The full research suite passed (169 tests, four
+skipped). See [`ORAM_FREQUENCY_ORIENTATION.md`](ORAM_FREQUENCY_ORIENTATION.md)
+and [`ORAM_ATTACK_FAMILIES.md`](ORAM_ATTACK_FAMILIES.md).
 
 The checkpoint recovery API now includes a caller-supplied `CheckpointAnchor`
 CAS path that atomically stores an opaque snapshot ID with the secret handle.
