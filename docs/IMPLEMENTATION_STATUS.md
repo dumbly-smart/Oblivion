@@ -67,14 +67,16 @@ stress test intentionally ignored), and warning-free Clippy. The anchor service,
 snapshot catalog, durable invocation acknowledgment/side-effect transaction,
 and ambiguous remote-CAS recovery remain unimplemented.
 
-The new `oblivion-registry` crate implements fixed-size Ed25519-signed records,
-a signed catalog digest, bounded exact parsing, per-record strict verification,
+The `oblivion-registry` crate implements fixed-size Ed25519-signed records, a
+signed catalog digest, bounded exact parsing, per-record strict verification,
 and monotonic activation through a caller-provided version-anchor CAS. Its
 tampering, omission, reorder, duplicate, key, version, rollback and CAS-conflict
-tests pass. The full workspace run passed 96 tests with one million-operation
-stress test intentionally ignored; workspace formatting and warning-denied
-Clippy passed. Runtime PIR integration, signing-key custody, an actual durable
-version anchor and partial-catalog inclusion proofs remain open.
+tests pass. The runtime now builds and verifies a signed catalog in the trusted
+executor and supplies its 160-byte rows to both secure-PIR workers over bounded
+inherited-pipe framing. Recovered rows must match the verified local pin. This
+demo signer is ephemeral and establishes no external publisher identity. A
+durable version anchor, signer custody, remote publication and partial-catalog
+inclusion proofs remain open.
 
 Updated 2026-10-24. The selected pipeline and later bounded research artifacts now have evidence in [the requirements matrix](REQUIREMENTS_MATRIX.md) and [completion audit](COMPLETION_AUDIT.md). The selected artifacts and earlier passing gates are recorded. PR #1 is the review artifact while latest validation closure is held; no production-security or merge claim follows. TrustedExecutor is simulated by ordinary processes, without a hardware TEE or attestation.
 
@@ -336,3 +338,21 @@ analysis byte for byte. See
 [`RUNTIME_POPULATION_EXTENDED.md`](RUNTIME_POPULATION_EXTENDED.md). The full
 86 MB local result is retained as a 5.8 MB raw-trial archive plus summaries
 and a hash manifest; multi-host capacity and provider cost remain unmeasured.
+
+## 2026-10-25: runtime signed registry over PIR
+
+The live executor now creates and verifies a signed registry catalog at
+startup, sends its bounded 160-byte records to both secure-PIR worker
+processes, and checks each recovered row against the verified local pin before
+module dispatch. Focused unit checks passed (8 tests), and the full server
+pipeline integration suite passed (15 tests). An initial per-invocation
+Ed25519 verification exceeded the 100 ms class deadline in this debug build;
+private phase timings showed 11–38 ms in repeated signature checks while PIR
+itself took 3–5 ms. Signature validation now occurs once at startup, followed
+by the exact pinned-row comparison per invocation. The production deadline
+was unchanged. The ephemeral signer, same-host PIR workers, synthetic module
+location digests, and absent durable version anchor remain explicit limits;
+see [REGISTRY_RUNTIME.md](REGISTRY_RUNTIME.md). The full workspace test suite
+also passed (`cargo test --workspace -- --test-threads=1`, exit 0; the million-
+operation ORAM stress test remains intentionally ignored), as did workspace
+formatting, warning-denied Clippy, and `git diff --check`.

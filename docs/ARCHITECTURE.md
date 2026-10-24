@@ -21,7 +21,7 @@ Client and queue APIs share a parent process. The executor is a child process, w
 
 The demo enrolls one to four clients, runs eight epochs and optionally mixes all five modules. Modules are loaded and validated before readiness. Slots execute sequentially. The epoch period is 150 ms times participant count; the small class deadline is 100 ms per invocation. Public slot order and class are visible.
 
-PIR occurs after epoch release on behalf of the trusted client. Each worker sees one decrypted random query vector, and TCP frames are authenticated/encrypted. Full recovered records are checked against trusted deployment pins before selecting preloaded modules. Current registry deployment is fixed; independent signing, arbitrary online publication and rollback-resistant registry updates require separate policy. Process separation does not enforce operator non-collusion.
+PIR occurs after epoch release on behalf of the trusted client. Each worker sees one decrypted random query vector, and TCP frames are authenticated/encrypted. At startup the trusted executor creates an ephemeral Ed25519 signer, builds and verifies a signed fixed-size catalog, then provisions its 160-byte records to both workers. Each recovered row must match the corresponding verified local pin before dispatch. The ephemeral key does not establish an external publisher identity; the demo has no durable monotonic version anchor or online catalog publication. Process separation does not enforce operator non-collusion, and both workers share one host.
 
 ## Components
 
@@ -31,11 +31,15 @@ PIR occurs after epoch release on behalf of the trusted client. Each worker sees
 | `oblivion-pir` | Fixed-record XOR query generation/full scans/recovery; plaintext experimental wire and bounded generic `secure` sessions |
 | `oblivion-exec` | Wasmtime classes, module validation, fixed I/O, staged scheduled execution, namespaces and unpadded baseline |
 | `oblivion-batcher` | Directional authenticated endpoints and bounded fixed epoch queues |
-| `oblivion-server` | Process orchestration, immutable runtime registry pins, encrypted PIR, enrolled slot validation and client oracle |
-| `oblivion-registry` | Fixed-size signed registry records and rollback-aware version-activation adapter; not yet wired into the demo PIR path |
+| `oblivion-server` | Process orchestration, verified signed registry rows over encrypted PIR, enrolled slot validation and client oracle |
+| `oblivion-registry` | Fixed-size signed registry catalogs/records and rollback-aware version-activation adapter |
 | `oblivion-harness` | Actual component workloads with separate public observations and truth |
 | `oblivion-sse` | Ephemeral append-only encrypted posting index with constrained GGM prefix capabilities |
 | Python research tools | Attack analysis, trial-cluster confidence intervals, autoscaler event simulation and reference comparisons |
+
+The demo's signed-registry/PIR composition and its key-management limits are
+specified in [REGISTRY_RUNTIME.md](REGISTRY_RUNTIME.md); wire bootstrap framing
+is in [PROTOCOL.md](PROTOCOL.md).
 
 ## Protected execution schedule
 

@@ -3,10 +3,13 @@ use crate::{
     discovery::{Discovery, NAMES},
     secure_pir,
 };
+use ed25519_dalek::SigningKey;
 use oblivion_batcher::{ENVELOPE_BYTES, Endpoint, Envelope, EpochBatcher, PAYLOAD_BYTES};
 use oblivion_exec::{Class, Executor, Namespace, Status};
 use oblivion_pir::{QueryPair, recover};
+use oblivion_registry::{Record, SignedRegistry, VerifiedRegistry};
 use oblivion_store::{Config, MemoryBackend, PathOram};
+use rand::{RngCore, rngs::OsRng};
 use sha2::{Digest, Sha256};
 use std::{
     fs::{self, File},
@@ -16,6 +19,7 @@ use std::{
     sync::{Arc, Mutex},
     time::{Duration, Instant},
 };
+use zeroize::Zeroizing;
 
 const SOURCES: [&[u8]; 5] = [
     include_bytes!("../../../examples/wasm-functions/echo.wat"),
@@ -39,38 +43,75 @@ pub fn registry() -> Vec<Vec<u8>> {
         .collect()
 }
 
-/// A deployment is immutable for the session. The trusted binary pins every
-/// record byte, including function identity, module digest, version and padding.
-/// This is a local trust anchor, not a remotely signed registry.
+/// Per-session verified catalog. The executor creates a local demo signer,
+/// verifies the signed manifest and rows once, then pins exact row bytes for
+/// the PIR responses. This does not establish an external publisher identity.
 struct Deployment {
     records: Vec<Vec<u8>>,
-    digest: [u8; 32],
 }
 impl Deployment {
-    fn pinned() -> Self {
-        let records = registry();
-        let mut hash = Sha256::new();
-        hash.update(b"oblivion/registry/deployment/v1");
-        hash.update(REGISTRY_VERSION.to_be_bytes());
-        for record in &records {
-            hash.update(record);
+    fn create() -> Result<Self> {
+        let mut seed = Zeroizing::new([0; 32]);
+        OsRng.try_fill_bytes(&mut *seed)?;
+        let signing_key = SigningKey::from_bytes(&seed);
+        let mut records = Vec::with_capacity(SOURCES.len());
+        for (id, source) in SOURCES.iter().enumerate() {
+            let module_digest = Sha256::digest(source).into();
+            let location_digest = embedded_location_digest(id as u32, &module_digest);
+            records.push(Record::sign(
+                id as u32,
+                REGISTRY_VERSION,
+                module_digest,
+                location_digest,
+                0,
+                &signing_key,
+            )?);
         }
-        Self {
-            records,
-            digest: hash.finalize().into(),
+        let catalog = SignedRegistry::sign(REGISTRY_VERSION, records, &signing_key)?;
+        let verified = VerifiedRegistry::verify(&catalog, &signing_key.verifying_key())?;
+        let mut encoded_records = Vec::with_capacity(verified.len());
+        for id in 0..verified.len() {
+            let record = verified
+                .get(u32::try_from(id)?)
+                .ok_or("verified catalog is missing a deployment record")?;
+            encoded_records.push(record.to_bytes().to_vec());
         }
+        let records = encoded_records;
+        Ok(Self { records })
     }
     fn accepts(&self, selected: usize, record: &[u8]) -> bool {
+        // Catalog verification already authenticated these exact bytes. A
+        // selected PIR result must match its pinned row before module dispatch.
         self.records
             .get(selected)
             .is_some_and(|expected| expected == record)
     }
-    fn digest_hex(&self) -> String {
-        self.digest
-            .iter()
-            .map(|byte| format!("{byte:02x}"))
-            .collect()
+    fn contents_digest_hex() -> String {
+        let mut hash = Sha256::new();
+        hash.update(b"oblivion/registry/deployment/v2");
+        for (id, source) in SOURCES.iter().enumerate() {
+            let module_digest: [u8; 32] = Sha256::digest(source).into();
+            hash.update((id as u32).to_be_bytes());
+            hash.update(REGISTRY_VERSION.to_be_bytes());
+            hash.update(module_digest);
+            hash.update(embedded_location_digest(id as u32, &module_digest));
+            hash.update([0; 20]); // Resource class plus canonical reserved bytes.
+        }
+        let digest: [u8; 32] = hash.finalize().into();
+        hex_digest(&digest)
     }
+}
+
+fn embedded_location_digest(id: u32, module_digest: &[u8; 32]) -> [u8; 32] {
+    let mut location = Sha256::new();
+    location.update(b"oblivion/demo/embedded-location/v1");
+    location.update(id.to_be_bytes());
+    location.update(module_digest);
+    location.finalize().into()
+}
+
+fn hex_digest(digest: &[u8; 32]) -> String {
+    digest.iter().map(|byte| format!("{byte:02x}")).collect()
 }
 
 const PIPE_TIMEOUT: Duration = Duration::from_secs(2);
@@ -396,7 +437,7 @@ fn demo_schedule(
         }
         trace.flush()?;
     }
-    let summary = serde_json::json!({"sse_metadata_discovery":discovery,"sse_searches_verified":discoveries.iter().flatten().map(|index|index.verified).sum::<u64>(),"registry_version":REGISTRY_VERSION,"registry_deployment_sha256":Deployment::pinned().digest_hex(),"real_invocations":real,"dummy_invocations":dummy,"offered_invocations":epochs*participants as u64,"completed_invocations":real+dummy,"successful_real_invocations":real_successes,"failed_real_invocations":real_failures,"successful_dummy_invocations":dummy_successes,"failed_dummy_invocations":dummy_failures,"retains_runtime_errors":matches!(mode,RunMode::Sweep),"last_real_counter":counters[0],"client_state_counters":counters,"participants":participants,"functions_verified":functions.len(),"request_bytes":ENVELOPE_BYTES,"response_bytes":ENVELOPE_BYTES,"processes":4,"encrypted_pir_links":true,"real_percent":real_percent,"epoch_ms":period.as_millis(),"epochs":epochs,"measurement_wall_ns":start.elapsed().as_nanos() as u64,"execution_class_ms":Class::small().deadline_ms,"state_working_set_blocks":8,"logical_oram_operations_per_invocation":16,"limitations":["PIR servers must not collude","inherited pipes simulate trusted provisioning; no hardware TEE","demo state is ephemeral, durable store API tested separately","public sequential slots and bounded eight-block working set; deadline misses and resource leakage remain"]});
+    let summary = serde_json::json!({"sse_metadata_discovery":discovery,"sse_searches_verified":discoveries.iter().flatten().map(|index|index.verified).sum::<u64>(),"registry_version":REGISTRY_VERSION,"registry_deployment_sha256":Deployment::contents_digest_hex(),"registry_record_bytes":oblivion_registry::RECORD_BYTES,"real_invocations":real,"dummy_invocations":dummy,"offered_invocations":epochs*participants as u64,"completed_invocations":real+dummy,"successful_real_invocations":real_successes,"failed_real_invocations":real_failures,"successful_dummy_invocations":dummy_successes,"failed_dummy_invocations":dummy_failures,"retains_runtime_errors":matches!(mode,RunMode::Sweep),"last_real_counter":counters[0],"client_state_counters":counters,"participants":participants,"functions_verified":functions.len(),"request_bytes":ENVELOPE_BYTES,"response_bytes":ENVELOPE_BYTES,"processes":4,"encrypted_pir_links":true,"real_percent":real_percent,"epoch_ms":period.as_millis(),"epochs":epochs,"measurement_wall_ns":start.elapsed().as_nanos() as u64,"execution_class_ms":Class::small().deadline_ms,"state_working_set_blocks":8,"logical_oram_operations_per_invocation":16,"limitations":["PIR servers must not collude","PIR workers share a host in this local demo","registry signing key is ephemeral and generated inside the trusted executor process; it does not establish an external publisher identity","embedded module-location digests are synthetic; encrypted module-location retrieval is not implemented","registry version has no persistent monotonic anchor in this demo","inherited pipes simulate trusted provisioning; no hardware TEE","demo state is ephemeral, durable store API tested separately","public sequential slots and bounded eight-block working set; deadline misses and resource leakage remain"]});
     fs::write(
         output.join("client-summary.json"),
         serde_json::to_vec_pretty(&summary)?,
@@ -499,9 +540,15 @@ pub fn worker(output: &Path, participants: usize) -> Result<()> {
         .map_err(|_| "storage lock")?
         .backend_mut()
         .take_trace();
-    let pinned = Deployment::pinned();
-    let mut first = secure_pir::Session::spawn(0)?;
-    let mut second = secure_pir::Session::spawn(1)?;
+    let pinned = Deployment::create()?;
+    let mut first = secure_pir::Session::spawn(0, &pinned.records)?;
+    let mut second = secure_pir::Session::spawn(1, &pinned.records)?;
+    let pir_geometry = oblivion_pir::secure::Geometry::new(
+        pinned.records.len(),
+        pinned.records.first().map_or(0, Vec::len),
+    )?;
+    let pir_application_frame_bytes =
+        2 * (pir_geometry.query_frame_bytes() + pir_geometry.answer_frame_bytes());
     let mut observer = BufWriter::new(File::create(output.join("storage-observer.jsonl"))?);
     let mut private = BufWriter::new(File::create(output.join("executor-private.jsonl"))?);
     responses.write_all(&[1])?;
@@ -544,6 +591,7 @@ pub fn worker(output: &Path, participants: usize) -> Result<()> {
         // Every real, valid dummy, or authentication-failed cover frame uses PIR.
         let shares = QueryPair::generate(5, selected as usize)?;
         let mut completed_pir_queries = 0usize;
+        let pir_started = Instant::now();
         let answer = first.request(epoch, &shares.first).and_then(|a| {
             completed_pir_queries += 1;
             second.request(epoch, &shares.second).and_then(|b| {
@@ -551,9 +599,12 @@ pub fn worker(output: &Path, participants: usize) -> Result<()> {
                 recover(&a, &b).map_err(Into::into)
             })
         });
+        let pir_ns = pir_started.elapsed().as_nanos() as u64;
+        let registry_pin_started = Instant::now();
         let authenticated = answer
             .as_ref()
             .is_ok_and(|r| pinned.accepts(selected as usize, r));
+        let registry_pin_check_ns = registry_pin_started.elapsed().as_nanos() as u64;
         let mut argument = [0; 64];
         argument.copy_from_slice(&payload[5..69]);
         // Dummies execute the real stateful WASM code against a reserved block.
@@ -596,7 +647,7 @@ pub fn worker(output: &Path, participants: usize) -> Result<()> {
         }
         serde_json::to_writer(
             &mut private,
-            &serde_json::json!({"epoch":epoch,"slot":slot,"real":real,"function":selected,"status":format!("{:?}",result.status),"registry_authenticated":authenticated,"request_authenticated":authenticated_frame,"request_valid":valid,"storage_events":storage_events.len(),"storage_bytes":storage_bytes,"work_ns":result.work_ns,"prepare_ns":result.total_ns,"deadline_missed":result.deadline_missed,"pir_queries_completed":completed_pir_queries,"pir_application_frame_bytes":if completed_pir_queries==2{Some(2*(oblivion_pir::secure::Geometry::new(5,128)?.query_frame_bytes()+oblivion_pir::secure::Geometry::new(5,128)?.answer_frame_bytes()))}else{None}}),
+            &serde_json::json!({"epoch":epoch,"slot":slot,"real":real,"function":selected,"status":format!("{:?}",result.status),"registry_authenticated":authenticated,"registry_record_bytes":answer.as_ref().ok().map(Vec::len),"pir_ns":pir_ns,"registry_pin_check_ns":registry_pin_check_ns,"request_authenticated":authenticated_frame,"request_valid":valid,"storage_events":storage_events.len(),"storage_bytes":storage_bytes,"work_ns":result.work_ns,"prepare_ns":result.total_ns,"deadline_missed":result.deadline_missed,"pir_queries_completed":completed_pir_queries,"pir_application_frame_bytes":if completed_pir_queries==2{Some(pir_application_frame_bytes)}else{None}}),
         )?;
         writeln!(private)?;
         observer.flush()?;
@@ -829,22 +880,26 @@ mod tests {
     }
 
     #[test]
-    fn deployment_pin_rejects_version_rollback_tamper_and_wrong_identity() {
-        let deployment = Deployment::pinned();
-        let records = registry();
-        for (id, record) in records.iter().enumerate() {
-            assert!(deployment.accepts(id, record));
-            assert!(!deployment.accepts((id + 1) % 5, record));
-            let mut stale = record.clone();
-            stale[36..44].copy_from_slice(&0u64.to_be_bytes());
-            assert!(!deployment.accepts(id, &stale));
-            for offset in [0, 32, 36, 44, 127] {
-                let mut tampered = record.clone();
+    fn signed_deployment_records_are_verified_and_bind_module_content() {
+        let deployment = Deployment::create().unwrap();
+        assert_eq!(deployment.records.len(), SOURCES.len());
+        for (id, bytes) in deployment.records.iter().enumerate() {
+            assert_eq!(bytes.len(), oblivion_registry::RECORD_BYTES);
+            assert!(deployment.accepts(id, bytes));
+            let record = oblivion_registry::Record::from_bytes(bytes).unwrap();
+            assert_eq!(record.id(), id as u32);
+            assert_eq!(record.version(), REGISTRY_VERSION);
+            assert_eq!(
+                record.module_digest().as_slice(),
+                Sha256::digest(SOURCES[id]).as_slice()
+            );
+            assert!(!deployment.accepts((id + 1) % SOURCES.len(), bytes));
+            for offset in [0, 4, 12, 44, 96, 159] {
+                let mut tampered = bytes.clone();
                 tampered[offset] ^= 1;
                 assert!(!deployment.accepts(id, &tampered));
             }
         }
-        assert!(!deployment.accepts(5, &records[0]));
-        assert_eq!(deployment.digest_hex(), Deployment::pinned().digest_hex());
+        assert_eq!(Deployment::contents_digest_hex().len(), 64);
     }
 }

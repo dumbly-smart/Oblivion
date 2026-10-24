@@ -200,6 +200,7 @@ fn sse_metadata_discovery_precedes_real_mixed_invocation() {
     );
     assert_eq!(summary["functions_verified"], 5);
     assert_eq!(summary["registry_version"], 1);
+    assert_eq!(summary["registry_record_bytes"], 160);
     assert_eq!(
         summary["registry_deployment_sha256"]
             .as_str()
@@ -207,6 +208,19 @@ fn sse_metadata_discovery_precedes_real_mixed_invocation() {
             .len(),
         64
     );
+    let private_rows: Vec<serde_json::Value> =
+        fs::read_to_string(path.join("executor-private.jsonl"))
+            .unwrap()
+            .lines()
+            .map(|line| serde_json::from_str(line).unwrap())
+            .collect();
+    assert_eq!(private_rows.len(), 16);
+    assert!(private_rows.iter().all(|row| {
+        row["registry_authenticated"] == true
+            && row["registry_record_bytes"] == 160
+            && row["pir_ns"].as_u64().is_some()
+            && row["registry_pin_check_ns"].as_u64().is_some()
+    }));
     assert_eq!(
         fs::read_to_string(path.join("storage-observer.jsonl"))
             .unwrap()
@@ -430,7 +444,7 @@ fn abandoned_response_pipe_cannot_hold_executor_forever() {
 fn orphaned_pir_worker_exits_after_idle_bound() {
     use oblivion_pir::secure::{Endpoint, Geometry};
     use std::{
-        io::{BufRead, BufReader},
+        io::{BufRead, BufReader, Write},
         process::Stdio,
         time::Duration,
     };
@@ -441,12 +455,16 @@ fn orphaned_pir_worker_exits_after_idle_bound() {
         .stderr(Stdio::null())
         .spawn()
         .unwrap();
-    let _endpoint = Endpoint::provision_over_pipe(
-        0,
-        Geometry::new(5, 128).unwrap(),
-        &mut child.stdin.take().unwrap(),
-    )
-    .unwrap();
+    let mut input = child.stdin.take().unwrap();
+    input.write_all(b"OBLPIR01").unwrap();
+    input.write_all(&5u32.to_be_bytes()).unwrap();
+    input.write_all(&128u32.to_be_bytes()).unwrap();
+    for id in 0..5u8 {
+        input.write_all(&[id; 128]).unwrap();
+    }
+    let _endpoint =
+        Endpoint::provision_over_pipe(0, Geometry::new(5, 128).unwrap(), &mut input).unwrap();
+    drop(input);
     let mut address = String::new();
     BufReader::new(child.stdout.take().unwrap())
         .read_line(&mut address)
