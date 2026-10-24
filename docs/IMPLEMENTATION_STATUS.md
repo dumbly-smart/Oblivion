@@ -446,3 +446,12 @@ Ran the ignored ORAM oracle in release mode after the anchor follow-ups:
 -- --ignored --exact --test-threads=1`. The one-million-operation HashMap
 oracle test passed in 41.87 seconds; it remains excluded from the fast default
 suite and is independently runnable with that command.
+
+## 2026-10-25: anchor master-key file opening
+
+The CLI now opens the key path with `O_NOFOLLOW | O_NONBLOCK`, validates
+permissions and regular-file type on the opened descriptor, and reads at most
+33 bytes to enforce the exact 32-byte key size. This closes the metadata/read
+symlink-swap window and avoids blocking on a FIFO. Process tests cover symlink,
+permission and 0/31/33-byte files. Anchor package tests, formatting, whitespace
+checks, and warning-denied workspace Clippy pass; CI is pending after push.

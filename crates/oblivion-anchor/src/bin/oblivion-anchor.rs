@@ -14,7 +14,12 @@ fn main() {
 
 #[cfg(unix)]
 fn run() -> Result<(), String> {
-    use std::{fs, os::unix::fs::PermissionsExt, path::PathBuf};
+    use std::{
+        fs::OpenOptions,
+        io::Read,
+        os::unix::fs::{OpenOptionsExt, PermissionsExt},
+        path::PathBuf,
+    };
     use zeroize::Zeroizing;
 
     let args: Vec<_> = std::env::args_os().skip(1).collect();
@@ -38,19 +43,33 @@ fn run() -> Result<(), String> {
         Some("0660") => 0o660,
         Some(_) => return Err("socket mode must be 0600 or 0660".into()),
     };
-    let metadata = fs::symlink_metadata(&key_path)
-        .map_err(|error| format!("cannot inspect master key file: {error}"))?;
+    // Open without following a symlink, and use nonblocking mode so a FIFO or
+    // device path cannot hang startup before descriptor validation.
+    let mut key_file = OpenOptions::new()
+        .read(true)
+        .custom_flags(libc::O_NOFOLLOW | libc::O_NONBLOCK)
+        .open(&key_path)
+        .map_err(|error| format!("cannot open master key file: {error}"))?;
+    let metadata = key_file
+        .metadata()
+        .map_err(|error| format!("cannot inspect opened master key file: {error}"))?;
     if !metadata.file_type().is_file() || metadata.permissions().mode() & 0o077 != 0 {
         return Err("master key must be a regular file with no group/world permissions".into());
     }
-    let key_bytes = Zeroizing::new(
-        fs::read(&key_path).map_err(|error| format!("cannot read master key file: {error}"))?,
-    );
-    if key_bytes.len() != 32 {
+    let mut key_bytes = Zeroizing::new([0; 32]);
+    key_file
+        .read_exact(&mut *key_bytes)
+        .map_err(|error| format!("master key file must contain exactly 32 raw bytes: {error}"))?;
+    let mut trailing = [0];
+    if key_file
+        .read(&mut trailing)
+        .map_err(|error| format!("cannot finish reading master key file: {error}"))?
+        != 0
+    {
         return Err("master key file must contain exactly 32 raw bytes".into());
     }
     let mut master_key = Zeroizing::new([0; 32]);
-    master_key.copy_from_slice(&key_bytes);
+    master_key.copy_from_slice(&*key_bytes);
     oblivion_anchor::serve_unix(socket, database, master_key, socket_mode)
         .map_err(|error| error.to_string())
 }

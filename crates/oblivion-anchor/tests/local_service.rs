@@ -104,6 +104,76 @@ fn cli_rejects_group_readable_master_key_before_binding_socket() {
 }
 
 #[test]
+fn cli_opens_master_key_without_following_symlinks() {
+    use std::os::unix::fs::symlink;
+
+    let nonce = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_nanos();
+    let root = std::env::temp_dir().join(format!(
+        "oblivion-anchor-key-link-{}-{nonce}",
+        std::process::id()
+    ));
+    std::fs::create_dir(&root).unwrap();
+    let socket = root.join("anchor.sock");
+    let target = root.join("target.key");
+    let key_file = root.join("master.key");
+    std::fs::write(&target, [0x38; 32]).unwrap();
+    std::fs::set_permissions(&target, std::fs::Permissions::from_mode(0o600)).unwrap();
+    symlink(&target, &key_file).unwrap();
+
+    let output = Command::new(env!("CARGO_BIN_EXE_oblivion-anchor"))
+        .args([
+            "serve",
+            socket.to_str().unwrap(),
+            root.join("anchor.sqlite").to_str().unwrap(),
+            key_file.to_str().unwrap(),
+        ])
+        .output()
+        .unwrap();
+    assert_eq!(output.status.code(), Some(2));
+    assert!(String::from_utf8_lossy(&output.stderr).contains("cannot open master key file"));
+    assert!(!socket.exists());
+    std::fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn cli_rejects_master_key_files_with_non_32_byte_lengths() {
+    let nonce = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_nanos();
+    let root = std::env::temp_dir().join(format!(
+        "oblivion-anchor-key-length-{}-{nonce}",
+        std::process::id()
+    ));
+    std::fs::create_dir(&root).unwrap();
+
+    for length in [0, 31, 33] {
+        let socket = root.join(format!("anchor-{length}.sock"));
+        let database = root.join(format!("anchor-{length}.sqlite"));
+        let key_file = root.join(format!("master-{length}.key"));
+        std::fs::write(&key_file, vec![0x38; length]).unwrap();
+        std::fs::set_permissions(&key_file, std::fs::Permissions::from_mode(0o600)).unwrap();
+        let output = Command::new(env!("CARGO_BIN_EXE_oblivion-anchor"))
+            .args([
+                "serve",
+                socket.to_str().unwrap(),
+                database.to_str().unwrap(),
+                key_file.to_str().unwrap(),
+            ])
+            .output()
+            .unwrap();
+        assert_eq!(output.status.code(), Some(2), "length {length}");
+        assert!(String::from_utf8_lossy(&output.stderr).contains("exactly 32 raw bytes"));
+        assert!(!socket.exists());
+    }
+
+    std::fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
 fn cli_rejects_symlink_database_path_before_binding_socket() {
     use std::os::unix::fs::symlink;
 

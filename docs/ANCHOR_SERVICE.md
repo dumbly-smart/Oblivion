@@ -30,13 +30,14 @@ no secret payload.
 
 The caller supplies a zeroizing 32-byte master key when opening the database.
 It must come from a separate trusted secret source, such as a service secret
-manager, and must not be stored with the database. The CLI accepts a raw
-32-byte key file only when it is a regular file with no group/world
-permissions; the service zeroizes its in-memory key. The local service rejects
-database symlinks and special files, then restricts the SQLite database file
-to mode `0600` before binding its socket. The database parent directory must
-be trusted to prevent path replacement during startup. Deployments must also
-restrict database backup access.
+manager, and must not be stored with the database. The CLI opens the raw key
+file without following symlinks or blocking on special files, validates the
+opened descriptor is a regular file with no group/world permissions, and
+accepts exactly 32 bytes; the service zeroizes its in-memory key. The local
+service rejects database symlinks and special files, then restricts the SQLite
+database file to mode `0600` before binding its socket. The database parent
+directory must be trusted to prevent path replacement during startup.
+Deployments must also restrict database backup access.
 
 ## Local service protocol
 
@@ -92,7 +93,8 @@ version adapter. A database-copy rollback control demonstrates the residual
 rollback. The local RPC tests exercise registry and checkpoint requests and
 fail-closed transport errors. CLI integration tests run the service as a
 separate process, check socket and database permissions, exercise persistent
-registry CAS, and reject a group-readable master key and symlink database path.
+registry CAS, and reject invalid key-file permissions/lengths, symlink key and
+database paths.
 Another process-level test checkpoints real Path ORAM state through the service,
 restarts the service, and restores the snapshot through the durable checkpoint
 adapter. The tests do not test power-loss
