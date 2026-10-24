@@ -27,9 +27,12 @@ its ORAM hot/cold AUC was 0.507 [0.496, 0.517]. See
 The frequency-only tag attack passed its plaintext/encrypt-only positive
 controls and measured ORAM AUC 0.498 [0.488, 0.508] on the same held-out
 sessions. The full 143-test research suite passed with four existing skips;
-see [`ORAM_ATTACK_FAMILIES.md`](ORAM_ATTACK_FAMILIES.md).
+see [`ORAM_ATTACK_FAMILIES.md`](ORAM_ATTACK_FAMILIES.md). A separate 90%-read
+study retained the same address schedules, passed both controls, and measured
+ORAM AUC 0.497 [0.490, 0.505]. All 1,440 trace hashes were verified; see
+[`ORAM_READ_HEAVY.md`](ORAM_READ_HEAVY.md).
 
-Updated 2026-10-23. The selected pipeline and later bounded research artifacts now have evidence in [the requirements matrix](REQUIREMENTS_MATRIX.md) and [completion audit](COMPLETION_AUDIT.md). The selected artifacts and earlier passing gates are recorded. PR #1 is the review artifact while latest validation closure is held; no production-security or merge claim follows. TrustedExecutor is simulated by ordinary processes, without a hardware TEE or attestation.
+Updated 2026-10-24. The selected pipeline and later bounded research artifacts now have evidence in [the requirements matrix](REQUIREMENTS_MATRIX.md) and [completion audit](COMPLETION_AUDIT.md). The selected artifacts and earlier passing gates are recorded. PR #1 is the review artifact while latest validation closure is held; no production-security or merge claim follows. TrustedExecutor is simulated by ordinary processes, without a hardware TEE or attestation.
 
 ## Implemented system
 
@@ -101,7 +104,11 @@ verified; the initial unpaired run is marked superseded. See the
 runner now also supports an eight-address hot/cold workload; its controls
 passed and ORAM AUC was 0.507 [0.496, 0.517]. See the
 [eight-address follow-up](ORAM_EIGHT_ADDRESS.md). Additional operation mixes,
-attacker families, and network timing remain open.
+attacker families, and network timing remain open. The same runner now accepts
+a configured read probability; the 90%-read follow-up retained paired address
+schedules and measured AUC 0.497 [0.490, 0.505] after passing both controls.
+See [operation-mix results](ORAM_READ_HEAVY.md) and the
+[frequency-only attacker](ORAM_ATTACK_FAMILIES.md).
 
 ## Optional follow-up: real query content
 
