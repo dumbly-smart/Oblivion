@@ -50,7 +50,7 @@ def classifier_score(profile, target, task, cfg, replay_seed, model='centroid', 
     return score(np.concatenate(predictions), np.concatenate(truths), majority)
 
 
-def evaluate(source, output):
+def evaluate(source, output, models=('centroid', 'forest')):
     source = Path(source).resolve()
     output = Path(output).resolve()
     if output.exists():
@@ -66,6 +66,9 @@ def evaluate(source, output):
         raise ValueError('seed-replay analysis requires dp_laplace and naive positive control')
     if set(policies) - set(POLICIES) or len(set(policies)) != len(policies):
         raise ValueError('input configuration contains invalid policies')
+    if (not models or len(set(models)) != len(models)
+            or set(models) - {'centroid', 'forest'}):
+        raise ValueError('models must select centroid and/or forest classifiers')
     expected_observers = {(trial, session, workload, policy)
         for trial in range(raw['trials']) for session in range(raw['sessions'])
         for workload in raw['workloads'] for policy in policies}
@@ -121,28 +124,27 @@ def evaluate(source, output):
             split = raw['sessions'] // 2
             for task in task_names(workload):
                 profile, target = session_sets['naive'][:split], session_sets['naive'][split:]
-                for model in ('centroid', 'forest'):
+                for model in models:
                     result = classifier_score(profile, target, task, cfg,
                         replay_seed=False, model=model, random_state=raw['seed'] + trial)
                     trial_metrics.append(dict(trial=trial, workload=workload, task=task,
                         policy='naive', attacker=f'{model}_public', **result))
                 profile, target = session_sets['dp_laplace'][:split], session_sets['dp_laplace'][split:]
-                for model, replay in [('centroid', False), ('centroid', True),
-                                      ('forest', False), ('forest', True)]:
-                    suffix = '_seed_replay' if replay else '_public'
-                    attacker_name = f'{model}{suffix}'
-                    result = classifier_score(profile, target, task, cfg,
-                        replay_seed=replay, model=model, random_state=raw['seed'] + trial)
-                    trial_metrics.append(dict(trial=trial, workload=workload, task=task,
-                        policy='dp_laplace', attacker=attacker_name, **result))
+                for model in models:
+                    for replay in (False, True):
+                        suffix = '_seed_replay' if replay else '_public'
+                        attacker_name = f'{model}{suffix}'
+                        result = classifier_score(profile, target, task, cfg,
+                            replay_seed=replay, model=model, random_state=raw['seed'] + trial)
+                        trial_metrics.append(dict(trial=trial, workload=workload, task=task,
+                            policy='dp_laplace', attacker=attacker_name, **result))
 
     summary = []
     for workload in raw['workloads']:
         for task in task_names(workload):
             for policy in ('naive', 'dp_laplace'):
-                attackers = ['centroid_public', 'forest_public'] if policy == 'naive' else [
-                    'centroid_public', 'centroid_seed_replay',
-                    'forest_public', 'forest_seed_replay']
+                attackers = [f'{model}_public' for model in models] if policy == 'naive' else [
+                    f'{model}_{mode}' for model in models for mode in ('public', 'seed_replay')]
                 for attacker in attackers:
                     group = [row for row in trial_metrics if
                         (row['workload'], row['task'], row['policy'], row['attacker']) ==
@@ -172,7 +174,8 @@ def evaluate(source, output):
         git_dirty=bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT, text=True)),
         python=platform.python_version(), platform=platform.platform(), summary=summary,
         trial_metrics=trial_metrics, positive_controls=positive_controls,
-        methodology='Whole-session known-policy attacks. First half sessions profile; second half are held out. Diagonal nearest-centroid and fixed 64-tree random-forest classifiers use per-epoch public features. The seed-replay variants additionally regenerate each public deterministic Laplace stream and invert public scale-up transitions; capacity quantization and maximum clipping produce censored estimates. The target seed is computed only from public config, public session identifiers, and public seed derivation. Labels are used for profile training and target scoring only.',
+        attack_models=list(models),
+        methodology='Whole-session known-policy attacks. First half sessions profile; second half are held out. Selected models use per-epoch public features. The seed-replay variants additionally regenerate each public deterministic Laplace stream and invert public scale-up transitions; capacity quantization and maximum clipping produce censored estimates. The target seed is computed only from public config, public session identifiers, and public seed derivation. Labels are used for profile training and target scoring only.',
         limitations='The retained DP-labeled transcript is deterministic because the seed is public, so its randomized-mechanism DP claim does not apply. This attack estimates EWMA signals from quantized capacity transitions and may lose information to clipping; failure to classify does not establish privacy. The naive arm is the leaky positive control. The experiment excludes latency, errors, billing, network and runtime observations.')
     output.mkdir(parents=True)
     (output / 'report.json').write_text(json.dumps(report, indent=2) + '\n')
