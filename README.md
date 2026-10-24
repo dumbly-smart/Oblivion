@@ -12,7 +12,7 @@ An experimental privacy-preserving serverless research prototype in Rust. Oblivi
 - Five real Wasmtime functions, guest fuel/memory/host-call limits, fixed class I/O and deadlines. Protected execution stages an eight-block working set, makes eight actual ORAM reads and eight writes, and discards guest mutations on failure before physical commit.
 - Fixed epochs, bounded queues, real dummy execution, 164-byte authenticated invocation envelopes and enrolled namespaces for one to four clients. The mixed demo exercises all five functions.
 - A bounded, ephemeral Diana-inspired GGM SSE component with a 100,000-operation oracle and retained-capability adversary controls.
-- A genuine pinned SimplePIR reference comparison with 100,020 full-record checks across 30 fresh setups, a measured square-root XOR variant, and a five-policy autoscaler simulation.
+- A genuine pinned SimplePIR reference comparison with 100,020 full-record checks across 30 fresh setups, a measured square-root XOR variant, and autoscaler simulations including a scoped event-level Laplace mechanism study.
 - Frequency/traffic and six bounded SSE-facing methods with leaky controls, a common attack API, separate observer/label data and whole-trial uncertainty.
 - Licensed real-text SSE/auxiliary-drift evaluation, measured presence/intersection leakage, ORAM/PIR geometry sweeps and per-invocation CPU/resource measurements.
 - Genuine separately licensed matched Path/Circuit reference, individual-server PIR timing, joint batch-load inference and integrated reader-thread pipe-timestamp epoch sweeps, with controls and earlier failed evidence preserved.
@@ -29,7 +29,7 @@ The client and executor are trusted. An administrator of this machine can inspec
 
 The protected storage schedule costs **O(M log N)** bandwidth for public working-set size M. It hides guest-dependent storage counts in successful backend operation, while scheduling jitter, deadline misses, resources, cold starts, participation and active failures remain visible. Fixed shapes do not establish full-transcript indistinguishability.
 
-The process demo uses ephemeral memory state. The separate checkpoint API does not provide durable invocation acknowledgments, exactly-once execution or protection when both snapshot and trusted anchor are rolled back. SSE exposes search equality, result volume and timing and has no persistent recovery or backward privacy. Autoscaling is a simulation, with hypothetical prices and no DP claim. Read the [threat model](docs/THREAT_MODEL.md) and [security assumptions](docs/SECURITY_ASSUMPTIONS.md).
+The process demo uses ephemeral memory state. The separate checkpoint API does not provide durable invocation acknowledgments, exactly-once execution or protection when both snapshot and trusted anchor are rolled back. SSE exposes search equality, result volume and timing and has no persistent recovery or backward privacy. Autoscaling remains a simulation with hypothetical prices. Its optional Laplace study has only a conditional mechanism-design argument; the saved deterministic-public-seed experiment has no formal DP guarantee. Read the [autoscaler DP study](docs/AUTOSCALER_DP.md), [threat model](docs/THREAT_MODEL.md) and [security assumptions](docs/SECURITY_ASSUMPTIONS.md).
 
 ## Build and run
 

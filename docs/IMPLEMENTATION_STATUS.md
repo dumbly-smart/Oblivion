@@ -65,7 +65,7 @@ The built-in demo's real/dummy/function schedule is public given its code, real 
 | [Integrated epochs](EPOCH_SYSTEM_EVALUATION.md) | Final reader-thread pipe campaign: 360 process trees / 2,160 verified calls | 12 cells × 30; strict public/private separation, 1,080 real/1,080 dummy successes, 2,955 artifact hashes; scoped provenance differences below |
 | [Joint batching load](BATCH_LOAD_EVALUATION.md) | 720 independent processes; 30 fitted models/mode, 180 held-out targets/mode | Actual plaintext control 100%; AEAD protected 28.33% [22.78,33.89] against 33.33%. Same 22 public features/metric; two failed forest controls retained |
 | [Repeated faults](FAULT_CAMPAIGN.md) | Seven assertion-bearing fixtures × 30, 210 launches | All assertions pass for stated scenarios. Original ENOSPC/truncated-publication attempt remains excluded/incomplete, not silently overwritten |
-| [Autoscaler](AUTOSCALER.md) | Five policies, four synthetic workloads, two 30-trial simulator campaigns | Nominal cost/privacy/SLO panels and failed burst objectives retained; hypothetical prices, no real provisioning or DP |
+| [Autoscaler](AUTOSCALER.md), [event-level Laplace follow-up](AUTOSCALER_DP.md) | Five-policy baseline campaigns plus a six-policy 30-trial study; raw-only analysis regeneration tested | Conditional mechanism-design calculation only; deterministic public seed means no DP guarantee for the saved experiment. Hypothetical prices and no real provisioning |
 | [Attack API](ATTACK_INTERFACE.md) | 13 registered adapters with common PredictionResult and strict schemas | Uncalibrated confidence remains absent. Adapter availability is not extra experimental evidence |
 | [Actual demo](DEMO.md) | Three-client mixed SSE/PIR/WASM/ORAM run | 24 calls, 12 real, all five functions, 24 metadata queries and 3,072 storage events; MP4/terminalcast/raw records. Public deterministic schedule, not privacy evidence |
 
@@ -134,3 +134,28 @@ per process, while overload dropped 71.88% and had a 96.88% offered SLO-failure
 fraction. These are local single-host results; broader steady-state capacity,
 remote clients and provider costs remain unmeasured. See the [batcher
 population sweep](POPULATION_SWEEP.md) and [full-path load study](RUNTIME_POPULATION.md).
+
+## Optional follow-up: event-level autoscaler Laplace mechanism
+
+Commit `8dc591f3` adds the optional `dp_laplace` simulator policy, explicit
+fixed-horizon add/remove-one-request sensitivity and basic-composition fields,
+and configuration-selected policy lists. Commit `30f35815` makes seeded gzip
+traces byte-reproducible. The raw-session reanalysis now preserves both the
+legacy five-policy defaults and the configured optional policy set, and emits
+artifact hash manifests.
+
+The fresh study at
+[`scaler-dp-event-20261024`](../experiments/results/scaler-dp-event-20261024/)
+uses 30 trials, eight whole sessions, four synthetic workloads, and six
+policies. All seven naive positive controls passed. The declared centroid
+attack's `dp_laplace` balanced accuracy ranges from 0.489 to 0.562 across
+tasks; six of seven unadjusted intervals include 0.5 and Zipf intensity is
+56.2% [50.1%, 62.5%]. The policy met the simulator's 1% SLO filter only for
+burst workloads. These measurements describe one classifier and this model.
+
+The design argument assumes ideal independent hidden Laplace samples, but the
+reproducible experiment publishes its deterministic seed. It therefore has no
+formal DP guarantee; a seed-aware attacker was not evaluated. The study is
+not connected to the Rust request path, scheduler, or a full runtime observer.
+See [`AUTOSCALER_DP.md`](AUTOSCALER_DP.md) for the adjacency, derivation,
+artifact hashes, results, and remaining CSPRNG/user-level/seed-aware work.

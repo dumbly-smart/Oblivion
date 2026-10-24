@@ -1,6 +1,6 @@
 # Autoscaling research simulation
 
-This independent post-MVP experiment implements the roadmap's simulator for privacy, cold starts, cost, and queueing. It does not change the Rust execution pipeline, provision cloud resources, or establish a differential privacy guarantee. The trusted executor assumption remains the runtime threat model; this simulation examines the scheduler's public capacity transcript separately.
+This independent post-MVP experiment implements the roadmap's simulator for privacy, cold starts, cost, and queueing. It does not change the Rust execution pipeline or provision cloud resources. The optional `dp_laplace` policy has a narrowly scoped mechanism-design analysis, but the published seeded experiment itself has **no differential privacy guarantee**. The trusted executor assumption remains the runtime threat model; this simulation examines the scheduler's public capacity transcript separately.
 
 ## Reproduce
 
@@ -17,7 +17,7 @@ Output directories must be new. The two configurations each specify **30 indepen
 
 ## Model and implementation plan
 
-The experiment consists of three independently inspectable parts: `research/simulation/scaler.py` implements workloads, event queues, policies, and the attack; `research/simulation/run.py` runs balanced independent sessions, separates public/private records, evaluates inference, records provenance, and regenerates plots; `research/tests/test_scaler.py` exercises timing, admission, billing, policies, boundaries, and an end-to-end experiment.
+The experiment consists of independently inspectable parts: `research/simulation/scaler.py` implements workloads, event queues, policies, and the attack; `research/simulation/run.py` runs balanced independent sessions, separates public/private records, evaluates inference, records provenance, and regenerates plots; `scripts/regenerate_scaler.py` validates retained raw lifecycles and refits the attack from the public/private split; `research/tests/test_scaler.py` exercises timing, admission, billing, policies, boundaries, and end-to-end reproduction. Gzip metadata is fixed for raw output files, so identical seeded runs produce byte-identical raw files.
 
 The development sequence was queue mechanics and failure tests, policy and workload implementation, observer-only profiling, trial-level evaluation, then the two reproducible experiments. Tests initially failed because the simulator module was missing. A later end-to-end test exposed plotting a nonexistent hot-function task for a uniform-only experiment; plotting now skips absent tasks.
 
@@ -38,8 +38,11 @@ All policies receive the same generated arrivals, initial capacity, maximum capa
 | `quantized` | EWMA plus waiting queue, rounded up to capacity quanta; scale-down waits for consecutive low-target ticks. |
 | `fixed` | Retains the configured prewarmed pool throughout the horizon, independent of arrivals. This is a constant fixed schedule, the simplest schedule variant. |
 | `noisy` | EWMA arrival signal plus independent Laplace noise clipped at zero, then adds the true waiting queue and converts to capacity. |
+| `dp_laplace` | Adds calibrated Laplace noise to the per-pool EWMA vector, clips at zero, and scales from that signal alone. It never downsizes, so queue/busy-state-dependent retirement cannot change the declared public count/launch transcript. |
 
-For reactive policies, desired capacity is `ceil((arrival_signal + waiting_requests) * service / (epoch * target_utilization))`, capped at maximum capacity. This is a stated engineering heuristic. It deliberately exposes residual leakage through queue feedback. Noise scale is a tunable engineering input: queue feedback, clipping, repeated releases, pool-specific observations, and unbounded request adjacency have no privacy analysis here. **No epsilon/delta is asserted.** Fixed capacity can still miss the latency SLO; its identical capacity transcript is not a statement about response traffic, queues, billing to external users, or the complete runtime transcript.
+For the legacy reactive policies, desired capacity is `ceil((arrival_signal + waiting_requests) * service / (epoch * target_utilization))`, capped at maximum capacity. This is a stated engineering heuristic. It deliberately exposes residual leakage through queue feedback. The legacy `noisy` scale is a tunable engineering input and has no adjacency/sensitivity/composition analysis. Fixed capacity can still miss the latency SLO; its identical capacity transcript is not a statement about response traffic, queues, billing to external users, or the complete runtime transcript.
+
+The separate [`event-level Laplace study`](AUTOSCALER_DP.md) fixes the horizon and uses `H = ceil(duration / epoch)` releases. For add/remove-one-request adjacency, one request changes one pool's EWMA by at most one at any release; independent Laplace noise with scale `H / epsilon` therefore gives epsilon pure-DP by basic composition for the declared count/event transcript **under ideal independent hidden randomness**. Queue feedback and downscaling are excluded from this policy's observation boundary. This is a mechanism-design argument, not a guarantee for the saved experiment: the simulator records a public deterministic seed, so an attacker who follows the public seed derivation can reproduce its noise. The saved artifact has no formal DP guarantee. The claim is event-level, not user-level, and excludes latency, errors, billing, and the rest of the runtime transcript.
 
 ## Workloads and import
 
@@ -81,7 +84,7 @@ Three-axis Pareto membership minimizes mean session p99 latency, instance-second
 
 ## Verification and measured results
 
-The current Python research suite passed **17 tests**, including **13 autoscaler tests**. The tests cover FIFO/cold-start completion times, exact integrated billing, retirement preserving in-flight requests, conservation of completed/dropped/unfinished arrivals, capacity bounds across all five policies, demand-independent fixed transcripts, seeded workloads, valid and invalid imported traces, parameter validation, strict public feature schemas, a profiler control, trial-cluster uncertainty, and full artifact generation. The parent agent owns Rust integration verification; this independent simulator does not modify Rust sources.
+The Python research suite passed **147 tests with four existing fixture skips**, including the autoscaler mechanisms, selected-policy raw regeneration, positive controls, and byte-for-byte reproducibility of seeded gzip traces. The prior five-policy campaigns remain the default when `policies` is omitted; optional policy lists are carried through the runner and raw-data reanalysis.
 
 Recorded artifacts are `experiments/results/scaler-paper-30-final/` (one prewarmed instance per pool) and `experiments/results/scaler-prewarm2-30-final/` (two). Each contains 35 policy/task/workload summaries and all raw runs. The final experiments took approximately 17.2 and 17.1 wall seconds on the recorded Intel Core i7-14650HX host. Simulation time remains independent of that execution speed.
 
@@ -106,3 +109,5 @@ Only uniform/quantized in the first configuration and uniform/fixed in the secon
 This is a model with seeded arrivals, two known function pools, constant service times, simple cold starts, fixed control epochs, bounded queues, and no real resource contention. It does not model compilation, module caching, host memory, ORAM cost distributions, network congestion, autoscaler API failures, malicious scheduling, user presence, billing granularity, tenancy, or hardware side channels. Direct scheduler queue visibility would reveal more than the chosen observer; it is explicitly excluded from this attack experiment. The runtime does not gain a privacy-aware autoscaler by running this simulation.
 
 Useful subsequent experiments would calibrate service/cold-start distributions from separately measured runtime samples, obtain licensed real traces with documented provenance, test stronger policy-aware classifiers, vary noise/quantum/hysteresis/utilization and horizon, and compare additional prewarming schedules. Those extensions require fresh independent trials and updated observation contracts. Noise without an adjacency definition, sensitivity bound, and composition accounting must continue to be described as engineering noise.
+
+The optional DP policy and its retained raw results are documented separately in [`AUTOSCALER_DP.md`](AUTOSCALER_DP.md); do not read its ideal-randomness theorem as a guarantee for this seeded simulation.
