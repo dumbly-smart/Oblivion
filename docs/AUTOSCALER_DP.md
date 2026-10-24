@@ -21,24 +21,28 @@ classifier results do not establish differential privacy.
 
 Let `H = ceil(duration / epoch)` be a public, fixed number of releases, and
 let each epoch produce an integer arrival-count vector across the public
-function pools. The adjacency relation adds or removes exactly one `Request`
-record from the whole fixed-horizon workload, so one per-epoch vector changes
-by one in one coordinate and has L1 sensitivity at most one. The current
-sampler uses the two-sided geometric distribution
+function pools. At default `dp_user_contribution_cap=0`, adjacency adds or
+removes one `Request`, so a per-epoch vector has L1 sensitivity one. With a
+positive cap `B`, each request needs a stable principal ID and the sampler
+counts at most the first `B` requests for each principal over the whole
+horizon; then a principal's count-vector L1 sensitivity is at most `S=B`.
+The current sampler uses the two-sided geometric distribution
 `P[Z=z]=(1-q)/(1+q) * q^|z|`, the discrete analogue of Laplace noise described
 by Ghosh, Roughgarden, and Sundararajan. The probability parameter is a
-64-bit rational rounded conservatively so `q >= exp(-epsilon/H)`; therefore
-`-ln(q) <= epsilon/H` for each ideal unbounded release.
+64-bit rational rounded conservatively so `q >= exp(-epsilon/(H*S))`;
+therefore the vector's per-release pure-DP bound `S * -ln(q)` is at most
+`epsilon/H` for the ideal unbounded sampler.
 
 To keep execution bounded, each geometric variate is capped at the public
-integer `K`. Coupling a capped geometric sample to the unbounded one fails
-with probability at most `q^(K+1)` per variate. The implementation reports a
-per-release approximate-DP bound
-`delta_i = 2 * (1 + exp(epsilon_i)) * q^(K+1)` and composes these bounds over
-the fixed public release count `H`, while basic sequential composition sums
-the per-release epsilons. The cap is selected so the reported composed delta
-does not exceed configured `dp_delta`. Tests check the calibration and
-sampler marginals; they do not constitute a formal verification of the code.
+integer `T`. Coupling a capped geometric sample to the unbounded one fails
+with probability at most `q^(T+1)` per variate. If at most
+`d=min(function_pools,S)` coordinates may differ, the implementation reports
+the per-release approximate-DP bound
+`delta_i = 2 * d * (1 + exp(epsilon_i)) * q^(T+1)` and composes these bounds
+over the fixed public release count `H`. `T` is selected so the reported
+composed delta does not exceed configured `dp_delta`. Tests check the
+calibration, contribution sensitivity and sampler marginals; they do not
+constitute a formal verification of the code.
 See [the discrete Laplace reference](https://timroughgarden.org/papers/priv.pdf).
 
 Capacity selection is deterministic post-processing: clip the noisy value at
@@ -58,14 +62,18 @@ deterministic PRNG; its transcript is reproducible from public configuration
 and workload identifiers and has no DP guarantee. The result covers only the
 fixed-horizon count/event observer, not the full runtime transcript.
 
-The adjacency is request-level, not user-level. A user issuing `m` requests
-can incur up to the corresponding group-privacy composition; no per-user
-contribution bound is enforced. Repeated sessions or deployments over shared
-person-level data also require additional composition. Replacement/move
-adjacency is not claimed. Variable horizons, externally visible queue state,
-latency, errors, sampler execution timing/CPU, billing, and the full runtime
-transcript are outside the argument. The legacy `noisy` policy remains
-engineering noise without a formal privacy analysis.
+For bounded-user mode, identities are assumed stable and non-spoofable; the
+simulator does not provide authentication. Its synthetic generator assigns
+requests round-robin across 64 identities, a reproducible convention rather
+than a realistic user model. Imported traces in that mode must provide a
+`user_id` CSV column. Only the private scaling count is capped; all requests
+still affect simulated queue/service metrics, which are excluded from the
+claim. Repeated sessions or deployments over shared person-level data require
+additional composition. Replacement/move adjacency is not claimed. Variable
+horizons, externally visible queue state, latency, errors, sampler execution
+timing/CPU, billing, and the full runtime transcript are outside the argument.
+The legacy `noisy` policy remains engineering noise without a formal privacy
+analysis.
 
 ## Reproduction
 
@@ -334,6 +342,61 @@ Reproduce with fresh output directories:
 .venv/bin/python -m research.analysis.scaler_seed_replay \
   experiments/results/scaler-dp-discrete-csprng-reproduction \
   experiments/results/scaler-dp-discrete-csprng-analysis-reproduction
+```
+
+### Bounded-user adjacency experiment
+
+The separate
+[`user-level configuration`](../experiments/configs/scaler-dp-user-csprng-20261024.json)
+sets `dp_user_contribution_cap=2`, `epsilon=1`, `delta=10^-6`, and a 20-epoch
+horizon. It assigns deterministic synthetic principal IDs round-robin across
+64 IDs. Only the scaling count is clipped to the first two chronological
+requests per ID over the whole horizon; all requests still enter the queue
+simulation. Its declared sensitivity is 2 and the composed report gives
+`delta=9.9104e-7`. This is a bounded-user simulator experiment, not identity
+authentication or a real user-behavior model.
+
+The 30-trial whole-session forest attack passed every naive positive control.
+All seven protected forest intervals include balanced chance (0.5):
+
+| Workload | Task | Naive forest [95% CI] | Bounded-user CSPRNG forest [95% CI] |
+| --- | --- | ---: | ---: |
+| Uniform | Intensity | 0.979 [0.965, 0.990] | 0.458 [0.390, 0.527] |
+| Zipf | Intensity | 0.937 [0.903, 0.966] | 0.477 [0.415, 0.539] |
+| Zipf | Hot pool | 0.827 [0.783, 0.869] | 0.519 [0.459, 0.580] |
+| Diurnal | Intensity | 0.930 [0.904, 0.953] | 0.507 [0.448, 0.569] |
+| Diurnal | Hot pool | 0.799 [0.754, 0.842] | 0.523 [0.467, 0.582] |
+| Burst | Intensity | 0.893 [0.863, 0.918] | 0.468 [0.397, 0.545] |
+| Burst | Hot pool | 0.840 [0.805, 0.874] | 0.518 [0.440, 0.590] |
+
+The attack used only public count/event features and whole-session held-out
+trials. These results are empirical and do not strengthen the conditional DP
+statement. Relative to the request-level run with the same workload seeds,
+mean simulated instance-seconds were higher for every workload; SLO violation
+rates improved for uniform and burst, and worsened for Zipf and diurnal. The
+OS-CSPRNG noise is independently drawn; user IDs in cap-2 mode are assigned
+deterministically from sorted request order. These means are a descriptive
+tradeoff, not a paired causal estimate.
+
+| Workload | Request-level instance-seconds / SLO violation | Cap-2 instance-seconds / SLO violation | p99 request-level → cap-2 (simulated seconds) |
+| --- | ---: | ---: | ---: |
+| Uniform | 209.82 / 1.77% | 259.49 / 1.17% | 0.742 → 0.666 |
+| Zipf | 217.55 / 2.44% | 255.88 / 2.78% | 0.876 → 0.885 |
+| Diurnal | 212.90 / 2.98% | 258.27 / 3.03% | 0.878 → 0.839 |
+| Burst | 204.28 / 1.36% | 258.48 / 1.23% | 0.593 → 0.503 |
+
+Raw records and the independent attack report are retained in
+[`scaler-dp-user-csprng-20261024`](../experiments/results/scaler-dp-user-csprng-20261024/)
+and [`scaler-dp-user-csprng-attack-20261024`](../experiments/results/scaler-dp-user-csprng-attack-20261024/).
+Reproduce using new output directories:
+
+```sh
+.venv/bin/python -m research.simulation.run \
+  experiments/configs/scaler-dp-user-csprng-20261024.json \
+  experiments/results/scaler-dp-user-csprng-reproduction
+.venv/bin/python -m research.analysis.scaler_seed_replay \
+  experiments/results/scaler-dp-user-csprng-reproduction \
+  experiments/results/scaler-dp-user-csprng-analysis-reproduction
 ```
 
 ### CSPRNG attack campaign

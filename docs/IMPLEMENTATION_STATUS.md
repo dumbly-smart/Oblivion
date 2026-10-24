@@ -65,7 +65,7 @@ The built-in demo's real/dummy/function schedule is public given its code, real 
 | [Integrated epochs](EPOCH_SYSTEM_EVALUATION.md) | Final reader-thread pipe campaign: 360 process trees / 2,160 verified calls | 12 cells × 30; strict public/private separation, 1,080 real/1,080 dummy successes, 2,955 artifact hashes; scoped provenance differences below |
 | [Joint batching load](BATCH_LOAD_EVALUATION.md) | 720 independent processes; 30 fitted models/mode, 180 held-out targets/mode | Actual plaintext control 100%; AEAD protected 28.33% [22.78,33.89] against 33.33%. Same 22 public features/metric; two failed forest controls retained |
 | [Repeated faults](FAULT_CAMPAIGN.md) | Seven assertion-bearing fixtures × 30, 210 launches | All assertions pass for stated scenarios. Original ENOSPC/truncated-publication attempt remains excluded/incomplete, not silently overwritten |
-| [Autoscaler](AUTOSCALER.md), [event-level discrete-geometric mechanism and attack studies](AUTOSCALER_DP.md) | Five-policy baseline campaigns, a six-policy 30-trial study, centroid/forest known-seed attacks, a paired 4-budget/30-trial sweep, and a fresh 30-trial bounded-geometric CSPRNG evaluation; all declared naive controls pass | Conditional event-level `(epsilon, delta)` claim for integer count releases under independent hidden bits; one protected burst hot-pool attack interval is marginally above chance before multiplicity correction. Public-seed artifacts have no DP guarantee. No user-level bound, full-runtime transcript or real provisioning; hypothetical prices |
+| [Autoscaler](AUTOSCALER.md), [bounded discrete-geometric mechanism and attack studies](AUTOSCALER_DP.md) | Five-policy baseline campaigns, event-level 30-trial CSPRNG runs, and a 30-trial bounded-user cap-2 run with separate whole-session attack evaluation; all naive controls pass | Conditional `(epsilon, delta)` claims for fixed-horizon count/event observers under independent hidden bits. Synthetic IDs are not authenticated; sampler timing, repeated sessions and full runtime are excluded. One event-level burst-hot interval is marginally above chance; all cap-2 protected intervals include chance. Cost is simulator-only |
 | [Attack API](ATTACK_INTERFACE.md) | 13 registered adapters with common PredictionResult and strict schemas | Uncalibrated confidence remains absent. Adapter availability is not extra experimental evidence |
 | [Actual demo](DEMO.md) | Three-client mixed SSE/PIR/WASM/ORAM run | 24 calls, 12 real, all five functions, 24 metadata queries and 3,072 storage events; MP4/terminalcast/raw records. Public deterministic schedule, not privacy evidence |
 
@@ -91,7 +91,7 @@ The research-only `demo-sweep` now retains authenticated masked runtime failures
 
 [The figure reproduction audit](FIGURE_REPRODUCTION.md) now records raw-derived regeneration of all eight required main figures and the supplemental three-axis/SLO plot without ignored measurement executables. Both autoscaler campaigns rebuild from four raw/config files rather than cached reports; audited numerical reports and PNG bytes matched, and accepted inputs stayed unchanged. The serial local and hosted source gates are accepted; subsequent closing Markdown-only checks are accessible on PR #1.
 
-Selected implementation/evaluation and the serial local/hosted source gates are accepted within their bounded scope. [PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is ready for delivery on `codex/oblivion-research-platform`; no main merge is claimed. Hardware isolation, production DP randomness and user-level accounting, recursive/native Circuit storage, DPF/native single-server runtime selection, persistent/backward-private SSE and durable application acknowledgments remain explicitly unimplemented extensions/deployment obligations. Human P1–P12 study and mutable bibliography/course listings are context, not machine-proof software gates.
+Selected implementation/evaluation and the serial local/hosted source gates are accepted within their bounded scope. [PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is ready for delivery on `codex/oblivion-research-platform`; no main merge is claimed. A bounded-user autoscaler simulator mode now exists, but authenticated identity binding, cross-session composition, production DP integration, and an independent sampler audit remain open. Hardware isolation, recursive/native Circuit storage, DPF/native single-server runtime selection, persistent/backward-private SSE and durable application acknowledgments remain deployment/research extensions. Human P1–P12 study and mutable bibliography/course listings are context, not machine-proof software gates.
 
 ## Optional follow-up: isolated ORAM timing
 
@@ -205,3 +205,23 @@ correction. The other six protected forest intervals include chance. This is
 a residual inference result, not a contradiction of request-level DP and not
 a security proof. `.venv/bin/python -m unittest discover -s research/tests`
 passed 161 tests with four existing fixture skips after this change.
+
+## Optional follow-up: bounded-user autoscaler adjacency
+
+The simulator now supports `dp_user_contribution_cap`. With cap 2, each
+per-tick count vector has L1 sensitivity at most 2; calibration uses
+`epsilon_unit=0.025`, 20 releases and a sampler cap of 756, yielding reported
+composed `epsilon=1`, `delta=9.9104e-7`. Synthetic principals are round-robin
+IDs, not authenticated users. Imported CSVs must add a `user_id` column in
+this mode. The claim applies to the private count/event observer, not queue,
+response or sampler processing signals.
+
+The 30-trial cap-2 run and attack report are retained at
+[`scaler-dp-user-csprng-20261024`](../experiments/results/scaler-dp-user-csprng-20261024/)
+and [`scaler-dp-user-csprng-attack-20261024`](../experiments/results/scaler-dp-user-csprng-attack-20261024/).
+All 14 naive centroid/forest controls passed; all seven protected forest
+intervals include chance. Mean simulated instance-seconds were higher than
+the request-level CSPRNG run on all four workloads. The raw trial intervals,
+performance comparisons and limitations are in [AUTOSCALER_DP.md](AUTOSCALER_DP.md).
+The full `.venv/bin/python -m unittest discover -s research/tests` suite passed
+166 tests with four existing fixture skips after this addition.
