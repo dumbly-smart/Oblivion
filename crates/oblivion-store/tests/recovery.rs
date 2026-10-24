@@ -165,31 +165,29 @@ fn trusted_handle_is_redacted_and_oversized_inputs_are_rejected() {
 
 #[test]
 fn checkpoint_anchor_rejects_a_stale_writer_and_advances_atomically() {
-    use oblivion_store::{CheckpointAnchor, Error};
-    use zeroize::Zeroizing;
+    use oblivion_store::{CheckpointAnchor, CheckpointAnchorRecord, Error};
 
     #[derive(Default)]
     struct MemoryAnchor {
-        handle: Option<Zeroizing<Vec<u8>>>,
+        record: Option<CheckpointAnchorRecord>,
         fail_next: bool,
     }
     impl CheckpointAnchor for MemoryAnchor {
-        fn load(&mut self) -> Result<Option<Zeroizing<Vec<u8>>>, Error> {
-            Ok(self
-                .handle
+        fn load(&mut self) -> Result<Option<CheckpointAnchorRecord>, Error> {
+            self.record
                 .as_ref()
-                .map(|bytes| Zeroizing::new(bytes.to_vec())))
+                .map(|record| {
+                    CheckpointAnchorRecord::new(record.snapshot_id(), record.secret_handle())
+                })
+                .transpose()
         }
 
         fn compare_and_swap(
             &mut self,
             expected_generation: Option<u64>,
-            next_handle: &[u8],
+            next_record: CheckpointAnchorRecord,
         ) -> Result<(), Error> {
-            let current_generation = self
-                .handle
-                .as_ref()
-                .map(|bytes| u64::from_le_bytes(bytes[8..16].try_into().unwrap()));
+            let current_generation = self.record.as_ref().map(CheckpointAnchorRecord::generation);
             if current_generation != expected_generation {
                 return Err(Error::AnchorConflict);
             }
@@ -197,7 +195,7 @@ fn checkpoint_anchor_rejects_a_stale_writer_and_advances_atomically() {
                 self.fail_next = false;
                 return Err(Error::AnchorConflict);
             }
-            self.handle = Some(Zeroizing::new(next_handle.to_vec()));
+            self.record = Some(next_record);
             Ok(())
         }
     }
@@ -208,23 +206,36 @@ fn checkpoint_anchor_rejects_a_stale_writer_and_advances_atomically() {
     let mut stale = PathOram::new(config, MemoryBackend::default()).unwrap();
     let mut anchor = MemoryAnchor::default();
 
+    assert!(
+        current
+            .checkpoint_anchored(directory.path("invalid"), "../snapshot", &mut anchor)
+            .is_err()
+    );
+    assert!(!directory.path("invalid").exists());
+
     let first = current
-        .checkpoint_anchored(directory.path("snapshot-1"), &mut anchor)
+        .checkpoint_anchored(directory.path("snapshot-1"), "snapshot-1", &mut anchor)
         .unwrap();
     assert_eq!(first.generation(), 1);
 
     assert!(matches!(
-        stale.checkpoint_anchored(directory.path("stale-snapshot"), &mut anchor),
+        stale.checkpoint_anchored(
+            directory.path("stale-snapshot"),
+            "stale-snapshot",
+            &mut anchor
+        ),
         Err(Error::AnchorConflict)
     ));
     assert!(!directory.path("stale-snapshot").exists());
 
     let second = current
-        .checkpoint_anchored(directory.path("snapshot-2"), &mut anchor)
+        .checkpoint_anchored(directory.path("snapshot-2"), "snapshot-2", &mut anchor)
         .unwrap();
     assert_eq!(second.generation(), 2);
     let anchored = anchor.load().unwrap().unwrap();
-    let trusted = oblivion_store::TrustedCheckpoint::from_secret_bytes(&anchored).unwrap();
+    assert_eq!(anchored.snapshot_id(), "snapshot-2");
+    let trusted =
+        oblivion_store::TrustedCheckpoint::from_secret_bytes(anchored.secret_handle()).unwrap();
     assert_eq!(trusted.generation(), 2);
     assert!(
         PathOram::restore(
@@ -238,16 +249,24 @@ fn checkpoint_anchor_rejects_a_stale_writer_and_advances_atomically() {
     let mut retryable =
         PathOram::new(Config::new(8, 16).unwrap(), MemoryBackend::default()).unwrap();
     let mut transient_anchor = MemoryAnchor {
-        handle: None,
+        record: None,
         fail_next: true,
     };
     assert!(
         retryable
-            .checkpoint_anchored(directory.path("orphan-snapshot"), &mut transient_anchor)
+            .checkpoint_anchored(
+                directory.path("orphan-snapshot"),
+                "orphan-snapshot",
+                &mut transient_anchor
+            )
             .is_err()
     );
     let retried = retryable
-        .checkpoint_anchored(directory.path("retry-snapshot"), &mut transient_anchor)
+        .checkpoint_anchored(
+            directory.path("retry-snapshot"),
+            "retry-snapshot",
+            &mut transient_anchor,
+        )
         .unwrap();
     assert_eq!(retried.generation(), 1);
 }

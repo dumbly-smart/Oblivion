@@ -33,8 +33,9 @@ ORAM AUC 0.497 [0.490, 0.505]. All 1,440 trace hashes were verified; see
 [`ORAM_READ_HEAVY.md`](ORAM_READ_HEAVY.md).
 
 The checkpoint recovery API now includes a caller-supplied `CheckpointAnchor`
-CAS path. It rejects a controller whose generation is stale before publishing,
-and its recovery tests cover successful advancement, stale writers, and a
+CAS path that atomically stores an opaque snapshot ID with the secret handle.
+It rejects a controller whose generation is stale before publishing, and its
+recovery tests cover successful advancement, stale writers, invalid IDs and a
 definite non-commit retry. Fresh package verification passed formatting,
 `cargo test -p oblivion-store -- --test-threads=1` (20 passed, one million-op
 stress test intentionally ignored), and warning-free Clippy. The anchor service,

@@ -13,6 +13,7 @@ use std::{
 pub const MAX_SNAPSHOT_BYTES: usize = 256 * 1024 * 1024;
 const HEADER: usize = 32;
 const HANDLE: usize = 88;
+const SNAPSHOT_ID_MAX_BYTES: usize = 128;
 
 /// External trusted freshness anchor AND decryption secret. Store this only in
 /// trusted storage, independently of the snapshot. Its Debug output is redacted.
@@ -72,18 +73,69 @@ impl TrustedCheckpoint {
 /// anchor and reconcile before continuing. A local file beside the snapshot is
 /// not a trusted anchor.
 pub trait CheckpointAnchor {
-    /// Return the current secret handle, if initialized. The returned bytes
-    /// contain the checkpoint decryption key and must be zeroized on drop.
-    fn load(&mut self) -> Result<Option<Zeroizing<Vec<u8>>>, Error>;
+    /// Return the current snapshot identifier and secret handle, if initialized.
+    fn load(&mut self) -> Result<Option<CheckpointAnchorRecord>, Error>;
 
-    /// Atomically replace the handle only when its current generation equals
-    /// `expected_generation`. Implementations should reject nonconsecutive new
-    /// generations and bind this slot to one store identity.
+    /// Atomically replace the snapshot identifier and secret handle only when
+    /// its current generation equals `expected_generation`. Implementations
+    /// should reject nonconsecutive generations and bind the slot to one store.
     fn compare_and_swap(
         &mut self,
         expected_generation: Option<u64>,
-        next_handle: &[u8],
+        next_record: CheckpointAnchorRecord,
     ) -> Result<(), Error>;
+}
+
+/// Atomically stored snapshot reference and key-bearing trusted handle.
+/// Identifiers are opaque stable tokens, restricted to ASCII letters, digits,
+/// dot, underscore and hyphen; they are never interpreted as filesystem paths.
+pub struct CheckpointAnchorRecord {
+    snapshot_id: Box<str>,
+    generation: u64,
+    handle: Zeroizing<[u8; HANDLE]>,
+}
+impl CheckpointAnchorRecord {
+    pub fn new(snapshot_id: &str, secret_handle: &[u8]) -> Result<Self, Error> {
+        if !Self::valid_snapshot_id(snapshot_id) {
+            return Err(Error::Configuration);
+        }
+        let trusted = TrustedCheckpoint::from_secret_bytes(secret_handle)?;
+        let generation = trusted.generation();
+        let mut handle = Zeroizing::new([0; HANDLE]);
+        handle.copy_from_slice(secret_handle);
+        Ok(Self {
+            snapshot_id: snapshot_id.into(),
+            generation,
+            handle,
+        })
+    }
+
+    fn valid_snapshot_id(snapshot_id: &str) -> bool {
+        !snapshot_id.is_empty()
+            && snapshot_id.len() <= SNAPSHOT_ID_MAX_BYTES
+            && snapshot_id
+                .bytes()
+                .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b'_' | b'-'))
+    }
+
+    pub fn snapshot_id(&self) -> &str {
+        &self.snapshot_id
+    }
+    pub fn generation(&self) -> u64 {
+        self.generation
+    }
+    pub fn secret_handle(&self) -> &[u8] {
+        self.handle.as_ref()
+    }
+}
+impl fmt::Debug for CheckpointAnchorRecord {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("CheckpointAnchorRecord")
+            .field("snapshot_id", &self.snapshot_id)
+            .field("generation", &self.generation)
+            .field("secret_handle", &"[REDACTED]")
+            .finish()
+    }
 }
 
 impl<B: Backend> PathOram<B> {
@@ -141,11 +193,15 @@ impl<B: Backend> PathOram<B> {
     pub fn checkpoint_anchored<A: CheckpointAnchor>(
         &mut self,
         path: impl AsRef<Path>,
+        snapshot_id: &str,
         anchor: &mut A,
     ) -> Result<TrustedCheckpoint, Error> {
+        if !CheckpointAnchorRecord::valid_snapshot_id(snapshot_id) {
+            return Err(Error::Configuration);
+        }
         let current = anchor
             .load()?
-            .map(|bytes| TrustedCheckpoint::from_secret_bytes(&bytes))
+            .map(|record| TrustedCheckpoint::from_secret_bytes(record.secret_handle()))
             .transpose()?;
         let expected = current.as_ref().map(TrustedCheckpoint::generation);
         let local_generation =
@@ -156,7 +212,8 @@ impl<B: Backend> PathOram<B> {
 
         let checkpoint = self.checkpoint(path)?;
         let handle = checkpoint.to_secret_bytes();
-        if let Err(error) = anchor.compare_and_swap(expected, handle.as_ref()) {
+        let next_record = CheckpointAnchorRecord::new(snapshot_id, handle.as_ref())?;
+        if let Err(error) = anchor.compare_and_swap(expected, next_record) {
             // The anchor contract guarantees a definite non-commit on Err, so
             // retain the previous local generation and permit a safe retry.
             self.checkpoint_generation = expected.unwrap_or(0);

@@ -12,7 +12,10 @@ mod oram;
 pub use backend::{Backend, MemoryBackend, StorageDirection, StorageEvent};
 pub use config::Config;
 pub use file_backend::FileBackend;
-pub use oram::{CheckpointAnchor, MAX_SNAPSHOT_BYTES, PathOram, PrivateStats, TrustedCheckpoint};
+pub use oram::{
+    CheckpointAnchor, CheckpointAnchorRecord, MAX_SNAPSHOT_BYTES, PathOram, PrivateStats,
+    TrustedCheckpoint,
+};
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {

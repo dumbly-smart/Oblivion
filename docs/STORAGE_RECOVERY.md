@@ -16,15 +16,18 @@ handle from independently protected trusted storage.
   placement/uniqueness and controller bounds, encrypts the complete image, and
   atomically publishes it. It returns `TrustedCheckpoint` after the snapshot
   file and its containing directory have both been synchronized.
-- `PathOram::checkpoint_anchored(path, anchor)` reads the current secret anchor,
-  rejects a handle whose generation differs from this controller, publishes a
-  checkpoint, then asks the adapter to atomically compare-and-swap to the new
-  handle. Use a new immutable snapshot path for each generation. A failed
+- `PathOram::checkpoint_anchored(path, snapshot_id, anchor)` reads the current
+  anchor record, rejects a handle whose generation differs from this
+  controller, publishes a checkpoint, then asks the adapter to atomically
+  compare-and-swap the opaque snapshot identifier and new secret handle. IDs
+  use only ASCII letters, digits, `.`, `_` and `-`. Use a new immutable snapshot
+  path and matching ID for each generation. A failed
   definite CAS leaves an unanchored snapshot that can be discarded; the live
   controller generation remains retryable. The `CheckpointAnchor` trait is an
   integration contract, not an anchor implementation. Its backend must provide
   durable rollback-resistant secret storage, per-store identity binding, and
-  unambiguous atomic CAS results. If a remote operation has an ambiguous result,
+  unambiguous atomic CAS results. It must persist the snapshot ID and key-bearing
+  handle as one record. If a remote operation has an ambiguous result,
   reload and reconcile the anchor before any retry or acknowledgment.
 - `PathOram::restore(path, &trusted_checkpoint, backend)` requires an external
   trusted handle, checks exact length/digest/version/generation, authenticates
