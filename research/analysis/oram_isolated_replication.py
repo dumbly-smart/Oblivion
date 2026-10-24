@@ -228,6 +228,7 @@ def capture_mode(mode, config, binaries, output, temporary):
             "workload": "configured_distribution",
             "address_distribution": config["address_distribution"],
             "hot_addresses": config["hot_addresses"],
+            "read_probability": config["read_probability"],
         }
         if mode == "oram":
             run_config["backend"] = "isolated_process"
@@ -309,6 +310,7 @@ def run(config_path, output, oram_binary, control_binary):
     config = json.loads(Path(config_path).read_text())
     distribution = config.get("address_distribution", {"0": 0.75, "1": 0.25})
     hot_addresses = config.get("hot_addresses", [0])
+    read_probability = config.get("read_probability", 0.5)
     try:
         numeric_distribution = {int(address): weight for address, weight in distribution.items()}
     except (AttributeError, TypeError, ValueError) as error:
@@ -317,7 +319,10 @@ def run(config_path, output, oram_binary, control_binary):
             or config.get("primary_metric") != "roc_auc"
             or config.get("positive_control_ci_lower_must_exceed") != 0.5
             or config.get("positive_control_min_mean_auc", 0) <= 0.5
-            or config.get("read_probability") != 0.5
+            or not isinstance(read_probability, (int, float))
+            or isinstance(read_probability, bool)
+            or not math.isfinite(read_probability)
+            or not 0.0 <= read_probability <= 1.0
             or not isinstance(hot_addresses, list) or not hot_addresses
             or any(type(address) is not int for address in hot_addresses)
             or sorted(numeric_distribution) != list(range(len(numeric_distribution)))
@@ -333,6 +338,7 @@ def run(config_path, output, oram_binary, control_binary):
     config["address_distribution"] = {str(address): numeric_distribution[address]
                                       for address in sorted(numeric_distribution)}
     config["hot_addresses"] = sorted(hot_addresses)
+    config["read_probability"] = read_probability
     output = Path(output)
     if output.exists():
         raise ValueError("output directory must be new to preserve raw data")
@@ -403,7 +409,7 @@ def run(config_path, output, oram_binary, control_binary):
         "attacker_knowledge": "Labeled complete plaintext/encrypt-only profiling sessions; unlabeled whole target sessions; no private operation labels during fit/prediction.",
         "target_labels": f"logical address in configured hot set {config['hot_addresses']} versus remaining logical addresses",
         "attacker_model": "RandomForestClassifier(n_estimators=128, max_depth=8, min_samples_leaf=5, class_weight=balanced, random_state=1907, n_jobs=1)",
-        "methodology": "30 seeded attack trials per mode; each trial uses four complete profile sessions and four disjoint target sessions, eight sessions total. Same seeded hot/cold and read/write workload is run in every mode; each session has fresh process state and fresh ORAM state or AEAD key. Primary metric is AUC; intervals bootstrap the 30 fitted-trial means. All baseline controls are run and scored before ORAM.",
+        "methodology": f"30 seeded attack trials per mode; each trial uses four complete profile sessions and four disjoint target sessions, eight sessions total. The same seeded hot/cold and read/write workload (read probability {read_probability}) is run in every mode; each session has fresh process state and fresh ORAM state or AEAD key. Primary metric is AUC; intervals bootstrap the 30 fitted-trial means. All baseline controls are run and scored before ORAM.",
         "timing_scope": "Local separate bucket-service process; handler-only time excludes pipe waiting, Path ORAM controller work, request parsing and response encoding. Not remote timing.",
         "limitations": "Synthetic configured address distribution; local process IPC and in-memory bucket service; only short-window temporal features; one binary classifier family. Each reported result applies only to its configured address universe and hot/cold partition. This is not a cryptographic security proof, remote-network experiment, or general workload result.",
         "process_metadata": process_metadata,

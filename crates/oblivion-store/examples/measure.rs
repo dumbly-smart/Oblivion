@@ -35,6 +35,8 @@ struct Experiment {
     address_distribution: BTreeMap<usize, f64>,
     #[serde(default)]
     hot_addresses: Vec<usize>,
+    #[serde(default = "isolated::default_read_probability")]
+    read_probability: f64,
     #[serde(default = "default_backend")]
     backend: String,
 }
@@ -186,6 +188,9 @@ fn main() -> Result<(), Box<dyn Error>> {
             &config.hot_addresses,
         )?;
     }
+    if !isolated::valid_read_probability(config.read_probability) {
+        return Err("invalid read probability".into());
+    }
     let geometry = Config::with_parameters(
         config.blocks,
         config.block_bytes,
@@ -278,7 +283,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                 }
                 _ => unreachable!("validated workload"),
             };
-            let is_write = rng.gen_bool(0.5);
+            let is_write = isolated::sample_is_write(&mut rng, config.read_probability);
             let mut value = vec![0; config.block_bytes];
             rng.fill(value.as_mut_slice());
             let mut recovered = None;

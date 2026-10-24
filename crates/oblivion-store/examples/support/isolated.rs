@@ -8,6 +8,18 @@ use std::time::Instant;
 
 const HEADER_BYTES: usize = 9;
 
+pub fn default_read_probability() -> f64 {
+    0.5
+}
+
+pub fn valid_read_probability(probability: f64) -> bool {
+    probability.is_finite() && (0.0..=1.0).contains(&probability)
+}
+
+pub fn sample_is_write<R: Rng + ?Sized>(rng: &mut R, read_probability: f64) -> bool {
+    rng.gen_bool(1.0 - read_probability)
+}
+
 pub fn validate_distribution(
     distribution: &BTreeMap<usize, f64>,
     blocks: usize,
@@ -343,6 +355,18 @@ mod tests {
         assert!(validate_distribution(&distribution, 8, &[0, 0]).is_err());
         assert!(validate_distribution(&distribution, 8, &[3]).is_err());
         assert!(validate_distribution(&BTreeMap::from([(0, 0.5)]), 8, &[0]).is_err());
+    }
+
+    #[test]
+    fn configured_read_probability_samples_operation_mix() {
+        assert!(valid_read_probability(0.9));
+        assert!(!valid_read_probability(f64::NAN));
+        assert!(!valid_read_probability(1.01));
+        let mut rng = ChaCha20Rng::seed_from_u64(91);
+        let writes = (0..10_000)
+            .filter(|_| sample_is_write(&mut rng, 0.9))
+            .count();
+        assert!((writes as f64 / 10_000.0 - 0.1).abs() < 0.02);
     }
 
     #[test]
