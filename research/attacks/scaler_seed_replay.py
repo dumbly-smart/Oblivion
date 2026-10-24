@@ -57,17 +57,17 @@ def recover_noisy_signal(rows, cfg, policy_seed):
             after = row['instances'][pool]
             if after > before:
                 if after < cfg.maximum:
-                    low = max(0.0, (after - 1) / factor)
-                    high = after / factor
-                    noisy_estimate = (low + high) / 2
+                    low_signal = max(0.0, (after - 1) / factor - noise)
+                    high_signal = max(0.0, after / factor - noise)
+                    recovered[epoch, pool] = (low_signal + high_signal) / 2
                 else:
                     # The capacity cap exposes only the lower threshold.
-                    noisy_estimate = max(0.0, (after - 1) / factor)
+                    recovered[epoch, pool] = max(
+                        0.0, (after - 1) / factor - noise)
             else:
                 # No new worker means the target did not exceed current count.
-                upper = before / factor
-                noisy_estimate = upper / 2
-            recovered[epoch, pool] = max(0.0, noisy_estimate - noise)
+                upper_signal = max(0.0, before / factor - noise)
+                recovered[epoch, pool] = upper_signal / 2
         previous = np.asarray(row['instances'], dtype=int)
     return recovered
 

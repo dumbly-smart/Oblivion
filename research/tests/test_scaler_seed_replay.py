@@ -4,6 +4,8 @@ import copy
 import tempfile
 from pathlib import Path
 
+import numpy as np
+
 from research.analysis.scaler_seed_replay import evaluate
 from research.attacks.scaler_seed_replay import recover_noisy_signal
 from research.simulation.run import run
@@ -32,6 +34,24 @@ class SeedReplayTests(unittest.TestCase):
         malformed[1]['instances'][0] -= 1
         with self.assertRaises(ValueError):
             recover_noisy_signal(malformed, cfg, policy_seed)
+
+    def test_no_scale_up_is_inverted_as_a_censored_upper_bound(self):
+        cfg = Config(duration=4, epoch=1, service=1, initial=0, maximum=100,
+                     functions=1, alpha=1, utilization=1, dp_epsilon=1)
+        requests = [Request(epoch + 0.01 + i / 1000, 0)
+                    for epoch, count in enumerate([10, 15, 0, 0])
+                    for i in range(count)]
+        policy_seed = 123
+        rows = simulate(cfg, requests, 'dp_laplace', policy_seed)['observer']
+        noise_rng = np.random.default_rng(policy_seed)
+        noise = [float(noise_rng.laplace(0, 4)) for _ in range(4)]
+        self.assertEqual(rows[2]['scale_up'], [0])
+
+        recovered = recover_noisy_signal(rows, cfg, policy_seed)
+
+        active = rows[1]['instances'][0]
+        expected_upper = max(0.0, active - noise[2])
+        self.assertAlmostEqual(recovered[2, 0], expected_upper / 2)
 
     def test_analysis_uses_public_seed_and_keeps_labels_in_evaluation_layer(self):
         with tempfile.TemporaryDirectory() as directory:
