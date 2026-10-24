@@ -562,6 +562,18 @@ mod tests {
     }
 
     #[test]
+    fn commit_indeterminacy_maps_to_typed_errors_for_both_anchor_contracts() {
+        assert!(matches!(
+            map_store_error(Error::CommitIndeterminate),
+            store::Error::AnchorCommitUnknown
+        ));
+        assert!(matches!(
+            map_registry_error(Error::CommitIndeterminate),
+            registry::Error::AnchorCommitUnknown
+        ));
+    }
+
+    #[test]
     fn sqlite_checkpoint_anchor_drives_real_oram_recovery_and_stale_writer_rejection() {
         let root = path("oram-recovery");
         std::fs::create_dir(&root).unwrap();

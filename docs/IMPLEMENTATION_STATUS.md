@@ -365,7 +365,7 @@ ChaCha20-Poly1305 keys, bound associated data, OS-random nonces reserved
 uniquely in the database, and encrypted persistence. Tests cover reopen,
 stale and concurrent CAS, wrong keys, ciphertext tampering, and registry
 namespace isolation, plus a deliberate database-copy rollback control
-(7 passed), including real Path ORAM recovery and signed registry activation
+(8 passed), including real Path ORAM recovery and signed registry activation
 through the persistent adapters. This adapter is not wired into the demo and
 is not a remote anchor service; the database operator and separately supplied
 master key are trusted, and restoring a previous database copy defeats
