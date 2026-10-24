@@ -272,6 +272,36 @@ fn checkpoint_anchor_rejects_a_stale_writer_and_advances_atomically() {
 }
 
 #[test]
+fn indeterminate_anchor_commit_poisons_controller_until_restore() {
+    use oblivion_store::{CheckpointAnchor, CheckpointAnchorRecord, Error};
+
+    struct IndeterminateAnchor;
+    impl CheckpointAnchor for IndeterminateAnchor {
+        fn load(&mut self) -> Result<Option<CheckpointAnchorRecord>, Error> {
+            Ok(None)
+        }
+
+        fn compare_and_swap(
+            &mut self,
+            _expected_generation: Option<u64>,
+            _next_record: CheckpointAnchorRecord,
+        ) -> Result<(), Error> {
+            Err(Error::AnchorCommitUnknown)
+        }
+    }
+
+    let directory = Directory::new();
+    let config = Config::new(8, 16).unwrap();
+    let mut store = PathOram::new(config, MemoryBackend::default()).unwrap();
+    let mut anchor = IndeterminateAnchor;
+    assert!(matches!(
+        store.checkpoint_anchored(directory.path("snapshot"), "snapshot", &mut anchor),
+        Err(Error::AnchorCommitUnknown)
+    ));
+    assert!(matches!(store.write(0, &[1; 16]), Err(Error::Poisoned)));
+}
+
+#[test]
 fn partial_restore_failure_returns_no_controller_and_allows_fresh_retry() {
     use oblivion_store::{Backend, Error};
     struct FailAfterFirst {

@@ -39,6 +39,8 @@ pub enum Error {
     Exhausted,
     #[error("trusted checkpoint anchor changed or does not match this controller")]
     AnchorConflict,
+    #[error("checkpoint anchor commit result is indeterminate; restore from the latest anchor")]
+    AnchorCommitUnknown,
     #[error("backend failure: {0}")]
     Backend(String),
 }

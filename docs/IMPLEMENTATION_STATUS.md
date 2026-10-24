@@ -385,3 +385,13 @@ the documented Monte Carlo model deliberately reports zero-particle events as
 `-inf`, the test now checks that every such score is represented as `null` and
 included in the health counter. The full research test suite passed after both
 changes (188 tests, 4 documented skips).
+
+## 2026-10-25: indeterminate anchor commits
+
+SQLite transaction commit errors now surface as explicit unknown outcomes,
+because an I/O error does not prove whether state became durable. ORAM marks
+the controller poisoned and requires restore before reuse; registry activation
+returns a typed unknown-commit result so callers reload the anchored version.
+Tests verify both fail-closed caller paths. The full workspace suite passed
+after this change; the checkpoint recovery integration target now has 9 tests,
+and the registry integration target has 5.

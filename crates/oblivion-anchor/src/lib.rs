@@ -34,6 +34,8 @@ pub enum Error {
     Cryptography,
     #[error("anchor state changed or the requested value is not the next generation")]
     Conflict,
+    #[error("anchor transaction commit result is indeterminate")]
+    CommitIndeterminate,
     #[error("operating-system randomness unavailable")]
     Randomness,
     #[error("stored checkpoint handle is malformed")]
@@ -298,7 +300,9 @@ fn compare_and_swap_checkpoint(
             )?;
         }
     }
-    tx.commit()?;
+    // The transaction outcome can be ambiguous after an I/O error. Callers
+    // must reload the anchor instead of assuming either outcome.
+    tx.commit().map_err(|_| Error::CommitIndeterminate)?;
     Ok(())
 }
 
@@ -353,13 +357,15 @@ fn compare_and_swap_registry(
             )?;
         }
     }
-    tx.commit()?;
+    // Preserve the same explicit uncertainty semantics for version callers.
+    tx.commit().map_err(|_| Error::CommitIndeterminate)?;
     Ok(())
 }
 
 fn map_store_error(error: Error) -> store::Error {
     match error {
         Error::Conflict => store::Error::AnchorConflict,
+        Error::CommitIndeterminate => store::Error::AnchorCommitUnknown,
         other => store::Error::Backend(other.to_string()),
     }
 }
@@ -367,6 +373,7 @@ fn map_store_error(error: Error) -> store::Error {
 fn map_registry_error(error: Error) -> registry::Error {
     match error {
         Error::Conflict => registry::Error::AnchorConflict,
+        Error::CommitIndeterminate => registry::Error::AnchorCommitUnknown,
         other => registry::Error::Anchor(other.to_string()),
     }
 }

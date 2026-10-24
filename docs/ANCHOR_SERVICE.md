@@ -7,6 +7,13 @@ transactions, compare the caller's expected generation/version, and commit
 with `synchronous=FULL`. Concurrent compare-and-swap callers cannot both
 publish the same generation.
 
+If SQLite reports an error while committing an anchor update, the adapter
+returns an explicit indeterminate-commit error because it cannot safely infer
+whether the transaction became durable. Path ORAM poisons that controller and
+requires restore from the latest anchor; registry callers must reload the
+current version before another activation attempt. Pre-commit validation and
+conflict errors remain definite non-commits.
+
 Checkpoint secret handles are encrypted with ChaCha20-Poly1305. HKDF-SHA-256
 derives separate keys for checkpoint slots; associated data binds each handle
 to its slot, snapshot identifier, and generation. Fresh nonces come from the

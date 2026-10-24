@@ -68,10 +68,10 @@ impl TrustedCheckpoint {
 
 /// Adapter for independently protected, durable, rollback-resistant storage.
 /// Implementations must keep returned and published handle bytes secret and
-/// make `compare_and_swap` atomic and durable. `Err` must mean the replacement
-/// definitely did not commit; after an ambiguous remote failure, reload the
-/// anchor and reconcile before continuing. A local file beside the snapshot is
-/// not a trusted anchor.
+/// make `compare_and_swap` atomic and durable. Errors other than
+/// `AnchorCommitUnknown` mean the replacement definitely did not commit. An
+/// indeterminate result requires reloading the anchor and reconciling before
+/// continuing. A local file beside the snapshot is not a trusted anchor.
 pub trait CheckpointAnchor {
     /// Return the current snapshot identifier and secret handle, if initialized.
     fn load(&mut self) -> Result<Option<CheckpointAnchorRecord>, Error>;
@@ -79,6 +79,8 @@ pub trait CheckpointAnchor {
     /// Atomically replace the snapshot identifier and secret handle only when
     /// its current generation equals `expected_generation`. Implementations
     /// should reject nonconsecutive generations and bind the slot to one store.
+    /// `Err(AnchorCommitUnknown)` means the caller must reload and reconcile the
+    /// anchor before continuing; the controller is poisoned by this outcome.
     fn compare_and_swap(
         &mut self,
         expected_generation: Option<u64>,
@@ -214,8 +216,12 @@ impl<B: Backend> PathOram<B> {
         let handle = checkpoint.to_secret_bytes();
         let next_record = CheckpointAnchorRecord::new(snapshot_id, handle.as_ref())?;
         if let Err(error) = anchor.compare_and_swap(expected, next_record) {
-            // The anchor contract guarantees a definite non-commit on Err, so
-            // retain the previous local generation and permit a safe retry.
+            if matches!(error, Error::AnchorCommitUnknown) {
+                self.poisoned = true;
+                return Err(error);
+            }
+            // Definite non-commit: retain the previous generation and allow a
+            // safe retry. Indeterminate outcomes above require restore.
             self.checkpoint_generation = expected.unwrap_or(0);
             return Err(error);
         }

@@ -160,3 +160,25 @@ fn version_anchor_conflict_fails_closed() {
         Err(Error::AnchorConflict)
     ));
 }
+
+#[test]
+fn indeterminate_anchor_commit_is_reported_for_caller_reconciliation() {
+    struct IndeterminateAnchor;
+    impl RegistryVersionAnchor for IndeterminateAnchor {
+        fn current_version(&mut self) -> Result<Option<u64>, Error> {
+            Ok(None)
+        }
+
+        fn compare_and_swap(&mut self, _expected: Option<u64>, _next: u64) -> Result<(), Error> {
+            Err(Error::AnchorCommitUnknown)
+        }
+    }
+
+    let signing = keys(11);
+    let verified =
+        VerifiedRegistry::verify(&catalog(&signing, 1), &signing.verifying_key()).unwrap();
+    assert!(matches!(
+        verified.activate(&mut IndeterminateAnchor),
+        Err(Error::AnchorCommitUnknown)
+    ));
+}

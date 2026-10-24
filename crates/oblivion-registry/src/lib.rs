@@ -31,6 +31,8 @@ pub enum Error {
     Rollback,
     #[error("trusted registry version changed during activation")]
     AnchorConflict,
+    #[error("registry anchor commit result is indeterminate; reload its current version")]
+    AnchorCommitUnknown,
     #[error("trusted registry version anchor failure: {0}")]
     Anchor(String),
 }
@@ -265,7 +267,9 @@ impl VerifiedRegistry {
     }
 }
 
-/// Adapter for trusted, durable, rollback-resistant version storage.
+/// Adapter for trusted, durable, rollback-resistant version storage. An
+/// `AnchorCommitUnknown` error requires the caller to reload and reconcile the
+/// current version before another activation attempt.
 pub trait RegistryVersionAnchor {
     fn current_version(&mut self) -> Result<Option<u64>, Error>;
     fn compare_and_swap(&mut self, expected: Option<u64>, next: u64) -> Result<(), Error>;
