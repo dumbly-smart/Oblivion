@@ -38,7 +38,7 @@ def classifier_score(profile, target, task, cfg, replay_seed, model='centroid', 
         from sklearn.ensemble import RandomForestClassifier
         attack = RandomForestClassifier(n_estimators=64, max_depth=6,
             min_samples_leaf=4, class_weight='balanced',
-            random_state=random_state, n_jobs=1).fit(x, y)
+            random_state=int(random_state) % 2**32, n_jobs=1).fit(x, y)
     else:
         raise ValueError('unknown seed-replay attack model')
     majority = int(np.bincount(y).argmax())

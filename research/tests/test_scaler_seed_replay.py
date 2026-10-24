@@ -32,6 +32,23 @@ class SeedReplayTests(unittest.TestCase):
 
         self.assertEqual(result['balanced_accuracy'], 1.0)
 
+    def test_random_forest_seed_is_bounded_for_large_public_config_seeds(self):
+        cfg = Config(duration=10, epoch=1, functions=2)
+
+        def session(label):
+            count = 1 if label == 0 else 12
+            rows = [dict(epoch=epoch, instances=[count, count],
+                scale_up=[count - 1, count - 1], scale_down=[0, 0],
+                cold_starts=[count - 1, count - 1]) for epoch in range(10)]
+            return dict(observer=rows, labels=[{'intensity': label}] * 10)
+
+        profile = [session(i // 2) for i in range(4)]
+        target = [session(0 if i < 2 else 1) for i in range(4)]
+        result = classifier_score(profile, target, 'intensity', cfg,
+            replay_seed=False, model='forest', random_state=2**40)
+
+        self.assertEqual(result['balanced_accuracy'], 1.0)
+
     def test_public_capacity_changes_reveal_seed_debiased_ewma(self):
         cfg = Config(duration=4, epoch=1, service=1, initial=0, maximum=100,
                      functions=1, alpha=1, utilization=1, dp_epsilon=1000)
