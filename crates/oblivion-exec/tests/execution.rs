@@ -13,7 +13,11 @@ fn storage() -> Arc<Mutex<PathOram<MemoryBackend>>> {
 
 #[test]
 fn executes_five_real_modules_with_fixed_responses_and_padding() {
-    let mut engine = Executor::new(Class::small()).unwrap();
+    // Give the stateful module a test budget that tolerates host scheduling
+    // stalls; deadline behavior is covered separately below.
+    let mut class = Class::small();
+    class.deadline_ms = 500;
+    let mut engine = Executor::new(class).unwrap();
     let state = storage();
     for (id, bytes) in [
         include_bytes!("../../../examples/wasm-functions/echo.wat").as_slice(),

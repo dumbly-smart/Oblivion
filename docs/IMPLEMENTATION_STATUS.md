@@ -402,3 +402,11 @@ Anchor databases now initialize schema version 1 transactionally and reject
 unknown SQLite schema versions without changing them. The anchor package has
 9 tests. The full workspace suite passed after this change, with the
 million-operation ORAM test intentionally ignored.
+
+## 2026-10-25: WASM correctness-test budget
+
+A full-suite run once hit the production 100 ms deadline in the five-module
+WASM correctness test under host load; two isolated reruns passed. The test
+now uses a 500 ms test-only budget to exercise module behavior, while the
+dedicated deadline-interruption test continues to check enforcement. The full
+workspace suite passed after this adjustment.
