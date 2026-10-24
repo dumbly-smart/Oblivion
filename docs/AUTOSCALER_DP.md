@@ -209,6 +209,48 @@ summarized by independent trial; no target labels enter features or model
 fitting. The report SHA-256 is
 `8828a3a8ae2607c13a2be63782f5a6e0bbd79d17e8d2ec060686cd9af4d1ddae`.
 
+## Epsilon and cost sweep
+
+Rebuild the paired budget sweep from its configuration with:
+
+```sh
+.venv/bin/python -m research.analysis.scaler_epsilon_sweep \
+  experiments/configs/scaler-dp-epsilon-sweep-20261024.json \
+  experiments/results/scaler-dp-epsilon-sweep-reproduction
+```
+
+The retained run uses 30 trials, eight whole sessions, and four synthetic
+workload families at each of ε ∈ {0.5, 1, 2, 4}. It reuses identical private
+workload/session streams across budgets. The public-feature forest and the
+known-seed replay forest were evaluated separately; all 28 naive positive
+controls exceeded the predeclared 0.60 threshold. Each confidence interval
+below is a percentile bootstrap over 30 independent trial clusters, without
+correction for the many workload/task comparisons.
+
+| ε | Laplace scale | Uniform intensity | Zipf intensity | Diurnal intensity | Burst intensity | Mean simulated instance-seconds | Mean SLO violation |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 0.5 | 40 | 0.506 [0.428, 0.578] | 0.520 [0.451, 0.589] | 0.490 [0.438, 0.541] | 0.573 [0.508, 0.640] | 281.22 | 0.0152 |
+| 1 | 20 | 0.553 [0.484, 0.618] | 0.531 [0.472, 0.595] | 0.518 [0.454, 0.580] | 0.563 [0.506, 0.619] | 266.39 | 0.0154 |
+| 2 | 10 | 0.556 [0.495, 0.619] | 0.573 [0.510, 0.640] | 0.576 [0.509, 0.639] | 0.532 [0.480, 0.584] | 226.69 | 0.0174 |
+| 4 | 5 | 0.625 [0.552, 0.697] | 0.643 [0.583, 0.704] | 0.660 [0.593, 0.724] | 0.606 [0.558, 0.655] | 163.54 | 0.0224 |
+
+The accuracy entries are balanced accuracy for the forest seed-replay
+intensity task; intervals are unadjusted 95% trial-cluster bootstrap
+intervals. Mean simulated instance-seconds and SLO rate are unweighted
+averages across the four synthetic families. They are simulator outputs,
+not provider cost or live-service performance. Higher ε generally made
+intensity easier to infer while lowering simulated instance-seconds and
+raising SLO violations, but the classifier results are not monotone at every
+step and do not establish a universal privacy/cost law. At ε=4 all four
+unadjusted intervals exclude 0.5. Public deterministic randomness invalidates
+any formal DP guarantee for these artifacts, regardless of classifier score.
+
+Raw traces, per-run reports, plots, source/config hashes, and the root
+manifest are retained in
+[`scaler-dp-epsilon-sweep-20261024`](../experiments/results/scaler-dp-epsilon-sweep-20261024/).
+The report SHA-256 is
+`dcaa4818ef0e0859f2812ea6051ba9b99c277eeddc3c515e9f6504cf0a823260`.
+
 ## Next work
 
 1. Implement a production-like sampler backed by cryptographically secure,

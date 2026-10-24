@@ -65,7 +65,7 @@ The built-in demo's real/dummy/function schedule is public given its code, real 
 | [Integrated epochs](EPOCH_SYSTEM_EVALUATION.md) | Final reader-thread pipe campaign: 360 process trees / 2,160 verified calls | 12 cells × 30; strict public/private separation, 1,080 real/1,080 dummy successes, 2,955 artifact hashes; scoped provenance differences below |
 | [Joint batching load](BATCH_LOAD_EVALUATION.md) | 720 independent processes; 30 fitted models/mode, 180 held-out targets/mode | Actual plaintext control 100%; AEAD protected 28.33% [22.78,33.89] against 33.33%. Same 22 public features/metric; two failed forest controls retained |
 | [Repeated faults](FAULT_CAMPAIGN.md) | Seven assertion-bearing fixtures × 30, 210 launches | All assertions pass for stated scenarios. Original ENOSPC/truncated-publication attempt remains excluded/incomplete, not silently overwritten |
-| [Autoscaler](AUTOSCALER.md), [event-level Laplace and seed-replay study](AUTOSCALER_DP.md) | Five-policy baseline campaigns, a six-policy 30-trial study, and post-hoc centroid/forest known-seed attacks with positive controls | Conditional mechanism-design calculation only; deterministic public seed means no DP guarantee for the saved experiment. Hypothetical prices and no real provisioning |
+| [Autoscaler](AUTOSCALER.md), [event-level Laplace, seed-replay and epsilon sweep](AUTOSCALER_DP.md) | Five-policy baseline campaigns, a six-policy 30-trial study, centroid/forest known-seed attacks with positive controls, and a paired 4-budget/30-trial sweep | Conditional mechanism-design calculation only; deterministic public seed means no DP guarantee for the saved experiment. Hypothetical prices and no real provisioning |
 | [Attack API](ATTACK_INTERFACE.md) | 13 registered adapters with common PredictionResult and strict schemas | Uncalibrated confidence remains absent. Adapter availability is not extra experimental evidence |
 | [Actual demo](DEMO.md) | Three-client mixed SSE/PIR/WASM/ORAM run | 24 calls, 12 real, all five functions, 24 metadata queries and 3,072 storage events; MP4/terminalcast/raw records. Public deterministic schedule, not privacy evidence |
 
@@ -168,5 +168,8 @@ attack result. The mechanism is not connected to the Rust request path,
 scheduler, or a full runtime observer. See [`AUTOSCALER_DP.md`](AUTOSCALER_DP.md)
 for the derivation, raw hashes, attack protocol, and remaining CSPRNG,
 user-level, stronger-inversion, and full-runtime work. The full Python
-research suite passed 153 tests with four existing fixture skips after the
-bounded-forest-seed and adjacent-input seed-replay regressions were added.
+research suite passed 154 tests with four existing fixture skips after the
+epsilon-sweep driver and seed-replay regressions were added. The four-budget
+study passed all 28 naive positive controls; results and its root hash
+manifest are retained at
+[`scaler-dp-epsilon-sweep-20261024`](../experiments/results/scaler-dp-epsilon-sweep-20261024/).
