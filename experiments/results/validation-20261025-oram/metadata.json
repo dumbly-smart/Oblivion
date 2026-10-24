@@ -1,0 +1,19 @@
+{
+  "schema_version": 2,
+  "source_sha256_before": "77d39bdbad4a71a124c92e6de423779162db5d07731715ae9338db58b90d7f2c",
+  "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+  "python": "3.14.8 (main, Oct  2 2026, 10:23:31) [GCC 16.2.1 20260810]",
+  "configuration": "locked workspace + serial Rust correctness fixtures + real release fixtures + explicit million-operation stress",
+  "include_reference": true,
+  "fixture_environment": {
+    "ORAM_MEASURE_BINARY": "/home/xtrmn8/oblivion/target/release/examples/oram-measure",
+    "ORAM_CONTROL_BINARY": "/home/xtrmn8/oblivion/target/release/examples/oram-control",
+    "PRESENCE_BINARY": "/home/xtrmn8/oblivion/target/release/examples/presence",
+    "EXECUTOR_RESOURCES_BINARY": "/home/xtrmn8/oblivion/target/release/examples/resource_measure",
+    "EXEC_TIMING_BINARY": "/home/xtrmn8/oblivion/target/release/examples/timing_measure",
+    "EPOCH_SYSTEM_BINARY": "/home/xtrmn8/oblivion/target/release/oblivion-server"
+  },
+  "digest_scope": "source, guest WAT, manifests/locks, CI and experiment configs; caches/upstream/result snapshots excluded",
+  "output": "/home/xtrmn8/oblivion/experiments/results/validation-20261025-oram",
+  "source_sha256_after": "77d39bdbad4a71a124c92e6de423779162db5d07731715ae9338db58b90d7f2c"
+}
