@@ -293,14 +293,20 @@ verification after the final implementation refinement passed: 176 tests,
 with four existing fixture skips. After adding the finite PMF helper, the
 full research suite passed 180 tests with four existing fixture skips.
 
-The autoscaler likelihood attack now fits class-conditional per-epoch,
-per-pool Poisson rates from labeled whole profile sessions. It scores a clear
-count positive control with exact Poisson likelihood and scores DP instance
-transcripts using a bootstrap particle filter over the exact finite capped
-noise PMF. The analyzer enforces disjoint profile/target sessions and stops
-before DP scoring if any positive control fails. Eight likelihood/PMF unit
-tests and two end-to-end fixture tests pass. Fresh 30-trial OS-CSPRNG run and
-attack configs are committed; the full dataset evaluation has not yet run.
+The autoscaler likelihood attack fits class-conditional per-epoch, per-pool
+Poisson rates from labeled whole profile sessions. It scores a clear-count
+positive control with exact Poisson likelihood and DP instance transcripts
+with a bootstrap particle filter over the exact finite capped-noise PMF. It
+enforces disjoint profile/target sessions and gates DP scoring on positive
+controls. A fresh 30-trial OS-CSPRNG run passed all seven plaintext controls;
+the protected model scored between 0.525 and 0.717 balanced accuracy across
+seven workload/task cells. Four unadjusted intervals exclude chance. All
+1,680 particle likelihood scores were finite. See
+[`AUTOSCALER_LIKELIHOOD.md`](AUTOSCALER_LIKELIHOOD.md); these synthetic
+workload results are not a DP audit or privacy proof. The full research suite
+passed 187 tests with four existing fixture skips.
+Reanalysis from the retained CSPRNG observer and profile/target labels
+reproduced the final attack report and prediction file byte for byte.
 
 The isolated ORAM timing replication was independently rechecked: all 1,440
 retained observer/driver files match their hashes, schedules are paired across

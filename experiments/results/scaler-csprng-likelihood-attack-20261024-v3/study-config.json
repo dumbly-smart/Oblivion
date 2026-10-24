@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "study_id": "scaler-csprng-known-policy-likelihood-20261024",
+  "dp_noise_source": "os_csprng",
+  "trials": 30,
+  "sessions": 8,
+  "profile_sessions": 4,
+  "target_sessions": 4,
+  "tasks": [
+    "intensity",
+    "hot"
+  ],
+  "particles": 512,
+  "sampler_seed": 42024,
+  "primary_metric": "balanced_accuracy",
+  "positive_control_min": 0.6
+}
