@@ -4,6 +4,15 @@
 
 The later failed [historical run 39969711451](https://github.com/dumbly-smart/Oblivion/actions/runs/39969711451) remains preserved: Rust failed while analysis/stress passed, and its specific cause remains unproved. [Three-arm scheduling diagnostics](PIPELINE_TEST_SCHEDULING.md) reproduced authenticated timeouts under CPU contention: pinned two-CPU parallel tests had two timeouts, the same serial suite passed, and one CPU with 16 competitors produced an actual 218 ms Timeout with both PIR operations and 128 storage events. Correctness suites explicitly use `--test-threads=1`; production budgets, benchmark concurrency and retry behavior are unchanged.
 
+After adding the isolated ORAM service and fresh timing study, the current
+source passed all ten commands in
+[`validation-20261025-oram`](../experiments/results/validation-20261025-oram/commands.json).
+The before/after source fingerprints match. The gate covered workspace and
+reference formatting, clippy, tests and builds; 133 Python tests with four
+existing skips; and the million-operation ORAM oracle. The Python validator
+also supplied freshly built ORAM binaries to the isolated-process integration
+tests.
+
 Updated 2026-10-23. The selected pipeline and later bounded research artifacts now have evidence in [the requirements matrix](REQUIREMENTS_MATRIX.md) and [completion audit](COMPLETION_AUDIT.md). The selected artifacts and earlier passing gates are recorded. PR #1 is the review artifact while latest validation closure is held; no production-security or merge claim follows. TrustedExecutor is simulated by ordinary processes, without a hardware TEE or attestation.
 
 ## Implemented system
