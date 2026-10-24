@@ -18,6 +18,49 @@ class ScalerTests(unittest.TestCase):
         self.assertLessEqual(parameters['composed_delta_bound'], cfg.dp_delta)
         self.assertGreater(parameters['geometric_cap'], 0)
 
+    def test_exact_capped_noise_hockey_stick_is_below_declared_delta(self):
+        from fractions import Fraction
+
+        cases = (
+            Config(duration=1, epoch=1, functions=1,
+                   dp_epsilon=2.0, dp_delta=1e-3),
+            Config(duration=2, epoch=1, functions=1,
+                   dp_epsilon=2.0, dp_delta=1e-6),
+            Config(duration=3, epoch=1, functions=1,
+                   dp_epsilon=0.5, dp_delta=1e-4),
+        )
+        for cfg in cases:
+            with self.subTest(epsilon=cfg.dp_epsilon, delta=cfg.dp_delta):
+                cfg.validate()
+                parameters = dp_laplace_parameters(cfg)
+                q = Fraction(parameters['geometric_numerator'],
+                             parameters['geometric_denominator'])
+                cap = parameters['geometric_cap']
+                geometric = [(1 - q) * q ** count for count in range(cap)]
+                geometric.append(q ** cap)
+                noise = {}
+                for left, p_left in enumerate(geometric):
+                    for right, p_right in enumerate(geometric):
+                        value = left - right
+                        noise[value] = noise.get(value, Fraction(0)) + p_left * p_right
+
+                self.assertEqual(sum(noise.values()), Fraction(1))
+                # e^epsilon_effective is exactly 1/q for the one-count add/remove pair.
+                multiplier = 1 / q
+                forward = sum(
+                    max(noise.get(output, Fraction(0))
+                        - multiplier * noise.get(output - 1, Fraction(0)), Fraction(0))
+                    for output in range(-cap, cap + 2)
+                )
+                reverse = sum(
+                    max(noise.get(output - 1, Fraction(0))
+                        - multiplier * noise.get(output, Fraction(0)), Fraction(0))
+                    for output in range(-cap, cap + 2)
+                )
+                self.assertLessEqual(
+                    float(max(forward, reverse)), parameters['per_release_delta_bound']
+                )
+
     def test_user_level_cap_limits_whole_horizon_count_sensitivity(self):
         cfg = Config(duration=4, epoch=1, functions=1,
                      dp_user_contribution_cap=3)

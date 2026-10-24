@@ -135,7 +135,7 @@ The research-only `demo-sweep` now retains authenticated masked runtime failures
 
 [The figure reproduction audit](FIGURE_REPRODUCTION.md) now records raw-derived regeneration of all eight required main figures and the supplemental three-axis/SLO plot without ignored measurement executables. Both autoscaler campaigns rebuild from four raw/config files rather than cached reports; audited numerical reports and PNG bytes matched, and accepted inputs stayed unchanged. The serial local and hosted source gates are accepted; subsequent closing Markdown-only checks are accessible on PR #1.
 
-Selected implementation/evaluation and the serial local/hosted source gates are accepted within their bounded scope. [PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is ready for delivery on `codex/oblivion-research-platform`; no main merge is claimed. A bounded-user autoscaler simulator mode now exists, but authenticated identity binding, cross-session composition, production DP integration, and an independent sampler audit remain open. Hardware isolation, recursive/native Circuit storage, DPF/native single-server runtime selection, persistent/backward-private SSE and durable application acknowledgments remain deployment/research extensions. Human P1–P12 study and mutable bibliography/course listings are context, not machine-proof software gates.
+Selected implementation/evaluation and the serial local/hosted source gates are accepted within their bounded scope. [PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is ready for delivery on `codex/oblivion-research-platform`; no main merge is claimed. A bounded-user autoscaler simulator mode now exists, but authenticated identity binding, cross-session composition, production DP integration, and a full independent sampler/code audit remain open. A narrow exact-rational one-coordinate check is now retained; see [SAMPLER_AUDIT.md](SAMPLER_AUDIT.md). Hardware isolation, recursive/native Circuit storage, DPF/native single-server runtime selection, persistent/backward-private SSE and durable application acknowledgments remain deployment/research extensions. Human P1–P12 study and mutable bibliography/course listings are context, not machine-proof software gates.
 
 ## Optional follow-up: isolated ORAM timing
 
@@ -269,3 +269,12 @@ the request-level CSPRNG run on all four workloads. The raw trial intervals,
 performance comparisons and limitations are in [AUTOSCALER_DP.md](AUTOSCALER_DP.md).
 The full `.venv/bin/python -m unittest discover -s research/tests` suite passed
 166 tests with four existing fixture skips after this addition.
+
+A separate exact-rational test enumerates the capped one-function noise PMF
+and both one-count hockey-stick directions for three parameter sets. The
+actual single-release divergences were below their configured conservative
+bounds; all three composed bounds remained within the requested total delta.
+This verifies the finite law for those test cases, not the full
+multi-function bounded-user or end-to-end mechanism. See
+[`SAMPLER_AUDIT.md`](SAMPLER_AUDIT.md). The focused check passed; the full
+research suite then passed 171 tests with four existing fixture skips.
