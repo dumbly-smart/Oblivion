@@ -7,7 +7,8 @@ import math
 from pathlib import Path
 import numpy as np
 
-POLICIES = ('naive', 'ewma', 'quantized', 'fixed', 'noisy')
+DEFAULT_POLICIES = ('naive', 'ewma', 'quantized', 'fixed', 'noisy')
+POLICIES = DEFAULT_POLICIES + ('dp_laplace',)
 OBSERVABLE = {'epoch', 'instances', 'scale_up', 'scale_down', 'cold_starts'}
 
 
@@ -27,6 +28,7 @@ class Config:
     quantum: int = 2
     hysteresis: int = 3
     noise_scale: float = 2
+    dp_epsilon: float = 1.0
     low_rate: float = 2
     high_rate: float = 12
     price_per_instance_second: float = .00001  # explicit hypothetical input
@@ -46,6 +48,8 @@ class Config:
             raise ValueError('invalid time/control parameters')
         if min(self.quantum, self.hysteresis) < 1 or min(self.noise_scale, self.low_rate, self.high_rate, self.price_per_instance_second) < 0:
             raise ValueError('invalid signal/cost parameters')
+        if self.dp_epsilon <= 0:
+            raise ValueError('dp_epsilon must be positive')
         if self.high_rate * self.duration > 1e6:
             raise ValueError('workload exceeds prototype allocation cap')
 
@@ -196,8 +200,11 @@ def simulate(cfg, requests, policy, seed):
                 measured = raw if policy == 'naive' else signal[pool]
                 if policy == 'noisy':
                     measured = max(0., measured + rng.laplace(0, cfg.noise_scale))
+                elif policy == 'dp_laplace':
+                    measured = max(0., measured + rng.laplace(0, dp_laplace_scale(cfg)))
                 backlog = len(queues[pool])
-                target = math.ceil((measured + backlog) * cfg.service / (cfg.epoch * cfg.utilization))
+                scaler_load = measured if policy == 'dp_laplace' else measured + backlog
+                target = math.ceil(scaler_load * cfg.service / (cfg.epoch * cfg.utilization))
                 if policy == 'fixed':
                     target = cfg.initial
                 if policy == 'quantized':
@@ -206,6 +213,10 @@ def simulate(cfg, requests, policy, seed):
                     if target < active and lower[pool] < cfg.hysteresis:
                         target = active
                 target = min(cfg.maximum, max(0, target))
+                if policy == 'dp_laplace':
+                    # No busy/queue-dependent retirement: observable pool counts
+                    # remain post-processing of the noisy signal transcript.
+                    target = max(active, target)
                 for _ in range(min(max(0, target - active), cfg.maximum - len(group))):
                     launch(pool, t)
                 retire = max(0, active - target)
@@ -234,6 +245,19 @@ def simulate(cfg, requests, policy, seed):
                    slo_violation_rate=violations / len(records) if records else 0.,
                    cold_starts=sum(sum(o['cold_starts']) for o in observer))
     return dict(observer=observer, requests=records, metrics=metrics)
+
+
+def dp_laplace_parameters(cfg):
+    """Conservative per-tick composition parameters for the finite-horizon policy."""
+    releases = math.ceil(cfg.duration / cfg.epoch)
+    epsilon_per_release = cfg.dp_epsilon / releases
+    return dict(releases=releases, epsilon_per_release=epsilon_per_release,
+                l1_sensitivity_bound=1.0,
+                laplace_scale=1.0 / epsilon_per_release)
+
+
+def dp_laplace_scale(cfg):
+    return dp_laplace_parameters(cfg)['laplace_scale']
 
 
 def features(row):

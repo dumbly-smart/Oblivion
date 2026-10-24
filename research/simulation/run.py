@@ -13,8 +13,8 @@ import subprocess
 import sys
 import time
 import numpy as np
-from research.simulation.scaler import (Config, POLICIES, ProfileAttack, load_imported,
-    session_features, simulate, trial_interval, workload)
+from research.simulation.scaler import (Config, DEFAULT_POLICIES, POLICIES, ProfileAttack,
+    dp_laplace_parameters, load_imported, session_features, simulate, trial_interval, workload)
 
 
 def write_row(handle, row):
@@ -46,6 +46,24 @@ def evaluate(profile, target, task):
 def nondominated(points, fields):
     return [not any(all(other[f] <= point[f] for f in fields) and any(other[f] < point[f] for f in fields)
                     for j, other in enumerate(points) if i != j) for i, point in enumerate(points)]
+
+
+def privacy_claims(cfg, policies):
+    if 'dp_laplace' not in policies:
+        return {}
+    parameters = dp_laplace_parameters(cfg)
+    return {'dp_laplace': dict(
+        mechanism_design_claim='Under ideal independent Laplace draws hidden from the observer, the declared scaler observer is pure epsilon-DP under add/remove-one-request adjacency.',
+        artifact_guarantee='none: the reproducible experiment uses a deterministic seed that is recorded in public configuration',
+        epsilon=cfg.dp_epsilon, delta=0.0, adjacency='workload request lists differ by exactly one added or removed Request record over the whole fixed horizon; not user-level adjacency',
+        release_count=parameters['releases'],
+        per_release_epsilon=parameters['epsilon_per_release'],
+        per_release_l1_sensitivity_bound=parameters['l1_sensitivity_bound'],
+        independent_laplace_scale_per_pool_per_tick=parameters['laplace_scale'],
+        composition='basic pure-DP sequential composition over the fixed public release count; one request changes one pool EWMA by at most 1 at any tick',
+        postprocessing_boundary='only epoch, instance counts, scale events and cold-start counts; no true queue term in the scaling target and no downscale/retirement, so worker busy state cannot alter observed pool counts or launches',
+        exclusions=['one user contributing multiple requests', 'replace/move adjacency', 'response latency/errors and workload-private performance outputs', 'external billing or other runtime transcript'],
+        randomness='the theorem is conditional on ideal independent hidden draws; this simulator uses deterministic NumPy PRNG output and publishes the experiment seed, so the saved transcript has no formal DP guarantee; this is not a production randomness implementation')}
 
 
 def plot(output):
@@ -85,12 +103,18 @@ def plot(output):
 
 def run(config_path, output):
     raw = json.loads(config_path.read_text())
-    if set(raw) - {'version', 'seed', 'trials', 'sessions', 'workloads', 'simulation', 'imports'}:
+    if set(raw) - {'version', 'seed', 'trials', 'sessions', 'workloads', 'simulation', 'imports', 'policies'}:
         raise ValueError('unknown experiment parameter')
     if raw['version'] != 1 or not 2 <= raw['trials'] <= 100 or raw['sessions'] < 8 or raw['sessions'] > 64 or raw['sessions'] % 8:
         raise ValueError('version1; 2..100 trials; sessions multiple of8 in8..64')
     if type(raw['seed']) is not int or raw['seed'] < 0:
         raise ValueError('seed must be a nonnegative integer')
+    policies = raw.get('policies', list(DEFAULT_POLICIES))
+    if (not isinstance(policies, list) or not policies
+            or any(not isinstance(policy, str) for policy in policies)
+            or len(set(policies)) != len(policies)
+            or set(policies) - set(POLICIES) or 'naive' not in policies):
+        raise ValueError('policies must be unique known names and include the naive positive control')
     cfg = Config(**raw['simulation']); cfg.validate()
     if cfg.functions != 2:
         raise ValueError('binary hot-class experiment requires two function pools')
@@ -109,7 +133,7 @@ def run(config_path, output):
     with gzip.open(output / 'observer.jsonl.gz', 'wt') as obs, gzip.open(output / 'private.jsonl.gz', 'wt') as private, gzip.open(output / 'workloads-private.jsonl.gz', 'wt') as truth:
         for trial in range(raw['trials']):
             for kind in raw['workloads']:
-                sessions = {policy: [] for policy in POLICIES}
+                sessions = {policy: [] for policy in policies}
                 for session in range(raw['sessions']):
                     intensity, hot = (session % 4) // 2, session % 2
                     # SeedSequence separates policy randomness from arrivals, and
@@ -118,7 +142,7 @@ def run(config_path, output):
                     requests, labels = workload(cfg, kind, int(seed), intensity, hot)
                     context = dict(trial=trial, session=session, workload=kind)
                     write_row(truth, dict(**context, seed=int(seed), labels=labels, requests=[asdict(r) for r in requests]))
-                    for policy in POLICIES:
+                    for policy in policies:
                         result = simulate(cfg, requests, policy, int(seed) + 991)
                         write_row(obs, dict(**context, policy=policy, rows=result['observer']))
                         write_row(private, dict(**context, policy=policy, metrics=result['metrics'], requests=result['requests']))
@@ -134,7 +158,7 @@ def run(config_path, output):
                             metrics[key] = float(np.mean(values)) if values else None
                         trial_results.append(dict(trial=trial, workload=kind, policy=policy, task=task, **metrics))
             for spec, requests, digest in imported:
-                for policy in POLICIES:
+                for policy in policies:
                     result = simulate(cfg, requests, policy, raw['seed'] + trial)
                     context = dict(trial=trial, workload=spec['path'], policy=policy)
                     write_row(obs, dict(**context, rows=result['observer']))
@@ -144,7 +168,7 @@ def run(config_path, output):
     for kind in raw['workloads']:
         for task in ['intensity'] + ([] if kind == 'uniform' else ['hot']):
             points = []
-            for policy in POLICIES:
+            for policy in policies:
                 group = [r for r in trial_results if (r['workload'], r['task'], r['policy']) == (kind, task, policy)]
                 result = dict(workload=kind, task=task, policy=policy, independent_trials=len(group))
                 for key in group[0]:
@@ -176,12 +200,16 @@ def run(config_path, output):
         git_head=subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
         git_dirty=bool(subprocess.check_output(['git', 'status', '--porcelain'], text=True)),
         workload_source='seeded synthetic Poisson arrivals; not calibrated to production traces')
+    claims = privacy_claims(cfg, policies)
     report = dict(config=raw, provenance=provenance, summary=summary, trial_metrics=trial_results,
-        imported_runs=imports, positive_controls=positive,
+        imported_runs=imports, positive_controls=positive, privacy_claims=claims,
         methodology='Known-policy diagonal nearest-centroid profiler on current, previous and cumulative observer counts/events only. First half independent sessions profile; second half test. Session classes balanced across each half; trial-pooled balanced recall. Equal-weight independent trial bootstrap with5000 resamples. Public function pool identities are visible. Demand task is binary latent session demand regime, not exact arrival recovery. Uniform workload has no hot-function task.',
-        limitations='Function-affine fixed-service single-request workers; no runtime/ORAM/network integration. Simulated seconds, not measured service latency. Horizon-censored requests count as SLO violations; p95/p99 concern completed requests only. Price is a hypothetical configurable input. No DP guarantee for noisy signal; no security proof or universal attack bound. Public count/event observer excludes queue, true arrivals, response latency, billing, active scheduling and joint transcripts. Imported repeated traces support performance only. Pareto membership uses point estimates, not significance tests. No policy dominance required or forced.')
+        limitations='Function-affine fixed-service single-request workers; no runtime/ORAM/network integration. Simulated seconds, not measured service latency. Horizon-censored requests count as SLO violations; p95/p99 concern completed requests only. Price is a hypothetical configurable input. The legacy noisy policy has no adjacency/sensitivity/composition guarantee. The optional dp_laplace policy has only a conditional mechanism-design claim for an event-level fixed-horizon observer under ideal independent hidden randomness; the recorded deterministic-seed experiment itself has no formal DP guarantee. No user-level or full-runtime guarantee, security proof, or universal attack bound. Public count/event observer excludes queue, true arrivals, response latency, billing, active scheduling and joint transcripts. Imported repeated traces support performance only. Pareto membership uses point estimates, not significance tests. No policy dominance required or forced.')
     (output / 'report.json').write_text(json.dumps(report, indent=2) + '\n')
     plot(output)
+    manifest = {path.name: hashlib.sha256(path.read_bytes()).hexdigest()
+                for path in output.iterdir() if path.is_file()}
+    (output / 'artifact-sha256.json').write_text(json.dumps(manifest, indent=2) + '\n')
     return report
 
 

@@ -11,8 +11,8 @@ import sys
 import numpy as np
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
-from research.simulation.run import evaluate, nondominated, plot
-from research.simulation.scaler import Config, POLICIES, features, trial_interval
+from research.simulation.run import evaluate, nondominated, plot, privacy_claims
+from research.simulation.scaler import Config, DEFAULT_POLICIES, POLICIES, features, trial_interval
 
 RAW_FILES=('config.json','observer.jsonl.gz','private.jsonl.gz','workloads-private.jsonl.gz')
 METRICS={'arrivals','completed','dropped','unfinished','instance_seconds','cost','p95','p99','queue_max','queue_mean','slo_violation_rate','cold_starts'}
@@ -26,14 +26,16 @@ def number(value,minimum=0,maximum=1e15):return type(value) in (int,float) and m
 
 def load_inputs(source):
     raw=json.loads((source/'config.json').read_text())
-    fail(isinstance(raw,dict) and set(raw)<={'version','seed','trials','sessions','workloads','simulation','imports'},'unsupported config schema')
+    fail(isinstance(raw,dict) and set(raw)<={'version','seed','trials','sessions','workloads','simulation','imports','policies'},'unsupported config schema')
     fail(raw.get('version')==1 and type(raw.get('trials')) is int and 2<=raw['trials']<=100,'invalid trials/version')
     fail(type(raw.get('sessions')) is int and 8<=raw['sessions']<=64 and raw['sessions']%8==0,'invalid whole-session split')
     fail(type(raw.get('seed')) is int and raw['seed']>=0,'invalid experiment seed')
     fail(isinstance(raw.get('workloads'),list) and raw['workloads'] and all(type(k) is str for k in raw['workloads']) and len(set(raw['workloads']))==len(raw['workloads']) and set(raw['workloads'])<={'uniform','zipf','diurnal','burst'},'invalid workloads')
     fail(not raw.get('imports',[]),'this retained-raw route supports synthetic sessions without imports')
+    policies=raw.get('policies',list(DEFAULT_POLICIES))
+    fail(isinstance(policies,list) and policies and all(type(p) is str for p in policies) and len(set(policies))==len(policies) and not set(policies)-set(POLICIES) and 'naive' in policies,'invalid policy selection or missing naive positive control')
     cfg=Config(**raw['simulation']);cfg.validate();fail(cfg.functions==2,'binary function-pool experiment required')
-    expected={(t,s,w,p) for t in range(raw['trials']) for s in range(raw['sessions']) for w in raw['workloads'] for p in POLICIES}
+    expected={(t,s,w,p) for t in range(raw['trials']) for s in range(raw['sessions']) for w in raw['workloads'] for p in policies}
     expected_truth={key[:3] for key in expected};epochs=math.ceil(cfg.duration/cfg.epoch)
     public={};private={};truth={}
     for row in rows(source/'observer.jsonl.gz'):
@@ -108,7 +110,7 @@ def rebuild(raw,public,private,truth):
     trial_results=[]
     for trial in range(raw['trials']):
         for workload in raw['workloads']:
-            for policy in POLICIES:
+            for policy in raw.get('policies',DEFAULT_POLICIES):
                 samples=[dict(observer=public[trial,session,workload,policy],labels=truth[trial,session,workload]['labels'],metrics=private[trial,session,workload,policy]) for session in range(raw['sessions'])]
                 split=raw['sessions']//2
                 for task in ['intensity']+([] if workload=='uniform' else ['hot']):
@@ -121,7 +123,7 @@ def rebuild(raw,public,private,truth):
     for workload in raw['workloads']:
         for task in ['intensity']+([] if workload=='uniform' else ['hot']):
             points=[]
-            for policy in POLICIES:
+            for policy in raw.get('policies',DEFAULT_POLICIES):
                 group=[r for r in trial_results if (r['workload'],r['task'],r['policy'])==(workload,task,policy)]
                 point=dict(workload=workload,task=task,policy=policy,independent_trials=len(group))
                 for key in group[0]:
@@ -136,7 +138,12 @@ def rebuild(raw,public,private,truth):
             for point in points:point['pareto_cost_leakage_slo']=next((member for p,member in zip(eligible,front) if p is point),False)
             summary.extend(points)
     positive=[dict(workload=p['workload'],task=p['task'],balanced_accuracy=p['balanced_accuracy'],passed=p['balanced_accuracy']>.6) for p in summary if p['policy']=='naive']
-    return dict(config=raw,summary=summary,trial_metrics=trial_results,positive_controls=positive,imported_runs=[])
+    cfg=Config(**raw['simulation'])
+    policies=raw.get('policies',DEFAULT_POLICIES)
+    return dict(config=raw,summary=summary,trial_metrics=trial_results,positive_controls=positive,
+        imported_runs=[],privacy_claims=privacy_claims(cfg,policies),
+        methodology='Known-policy diagonal nearest-centroid profiler fitted on first-half whole sessions and tested on disjoint second-half sessions. Equal-weight independent-trial bootstrap with 5,000 resamples. Public function-pool identities are visible; target labels are used only for scoring.',
+        limitations='Synthetic function-affine simulator, not a deployed scheduler. The optional dp_laplace mechanism-design claim is conditional on ideal independent hidden Laplace draws; the recorded deterministic-seed experiment itself has no formal DP guarantee. No user-level or complete-runtime privacy guarantee. Exact cost/queue counters use retained private session metrics; public observer excludes those fields.')
 
 def regenerate(source,output):
     source=Path(source).resolve();output=Path(output).resolve()
@@ -149,7 +156,7 @@ def regenerate(source,output):
         analysis_source_sha256={name:sha(ROOT/name) for name in ['scripts/regenerate_scaler.py','research/simulation/run.py','research/simulation/scaler.py']},
         public_sessions=len(public),private_sessions=len(private),workload_sessions=len(truth),read_cached_report=False,ran_simulator=False)
     report['methodology']='Existing known-policy diagonal nearest-centroid fit on first-half whole profiling sessions; second-half target predictions scored afterward. Refit every independent trial from retained public rows/private labels. Equal-weight trial bootstrap,5000resamples. Per-session raw performance counters aggregate only held-out sessions, with lifecycle/price consistency checks; no new workload generation or simulation.'
-    report['limitations']='Synthetic function-affine model; no deployment,DP or security guarantee. Exact instance-seconds and queue maximum use recorded private session counters; incomplete worker identities prevent reconstructing those counters from public snapshots alone. Horizon-censored/dropped requests count as SLO failures. Point-estimate Pareto/SLO flags; hypothetical configured instance-second price. Supports recorded synthetic-session campaigns without imported traces.'
+    report['limitations']='Synthetic function-affine model, not a deployment. Exact instance-seconds and queue maximum use recorded private session counters; incomplete worker identities prevent reconstructing those counters from public snapshots alone. Horizon-censored/dropped requests count as SLO failures. Point-estimate Pareto/SLO flags; hypothetical configured instance-second price. The deterministic seeded artifact has no formal DP guarantee; the optional dp_laplace mechanism-design claim is conditional on ideal independent hidden draws. No user-level or full-runtime guarantee. Supports recorded synthetic-session campaigns without imported traces.'
     output.mkdir(parents=True)
     (output/'config.json').write_text(json.dumps(raw,indent=2)+'\n');(output/'report.json').write_text(json.dumps(report,indent=2)+'\n');plot(output)
     manifest={p.name:sha(p) for p in output.iterdir() if p.is_file()};(output/'artifact-sha256.json').write_text(json.dumps(manifest,indent=2)+'\n')
