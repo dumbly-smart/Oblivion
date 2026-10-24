@@ -1,0 +1,30 @@
+{
+  "trials": 30,
+  "seed": 20261024,
+  "open_loop": [
+    {
+      "name": "underload-64-i150-q2",
+      "interval_ms": 150,
+      "count": 64,
+      "queue_capacity": 2
+    },
+    {
+      "name": "overload-64-i25-q2",
+      "interval_ms": 25,
+      "count": 64,
+      "queue_capacity": 2
+    }
+  ],
+  "batch_period_ms": [
+    2,
+    10,
+    25
+  ],
+  "batch_real_percent": [
+    0,
+    50,
+    100
+  ],
+  "batch_epochs": 32,
+  "batch_participants": 8
+}

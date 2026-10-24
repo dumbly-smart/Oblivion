@@ -114,3 +114,16 @@ Larger queues reduce drops while increasing admitted latency under overload; thi
 ```
 
 The immutable executable copy is hashed before and after the campaign. Whole-tree source fingerprints can change because other independent development proceeds; that fact remains in metadata. CPU/RSS here retain the coarse procfs scope described above. Separate [executor resource measurements](EXECUTOR_RESOURCES.md) provide CPU-clock measurements around individual invocations. This offered-load campaign does not itself vary integrated epoch periods or dummy ratios; those require a separate system sweep.
+
+## 64-offer full-path population load
+
+The later [64-offer study](RUNTIME_POPULATION.md) runs 30 fresh processes at
+each of two schedules, for 3,840 offers total. Unlike the batcher component
+test above, each admitted request traverses authenticated invocation, both
+PIR endpoints, stateful Wasmtime and 16 actual ORAM accesses. It retains the
+same per-process admission, latency, storage-event and independent output/state
+oracle accounting. Underload at 150 ms pacing admits all 64 requests; the
+25 ms overload profile with queue capacity two drops 71.88% of offers and
+fails the 250 ms offered-load SLO for 96.88% of offers. This adds a longer
+actual invocation sequence, but remains a single-host two-profile experiment,
+not remote capacity, a production tail estimate or a billing measurement.

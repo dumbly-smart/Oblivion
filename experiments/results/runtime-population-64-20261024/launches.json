@@ -1,0 +1,1022 @@
+[
+  {
+    "order": 0,
+    "profile": "underload-64-i150-q2",
+    "trial": 20,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-020",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9656558020,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-020\n",
+    "stderr": ""
+  },
+  {
+    "order": 1,
+    "profile": "overload-64-i25-q2",
+    "trial": 22,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-022",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1907347726,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-022\n",
+    "stderr": ""
+  },
+  {
+    "order": 2,
+    "profile": "underload-64-i150-q2",
+    "trial": 24,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-024",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9645255849,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-024\n",
+    "stderr": ""
+  },
+  {
+    "order": 3,
+    "profile": "underload-64-i150-q2",
+    "trial": 23,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-023",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9649255489,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-023\n",
+    "stderr": ""
+  },
+  {
+    "order": 4,
+    "profile": "underload-64-i150-q2",
+    "trial": 14,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-014",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9652320143,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-014\n",
+    "stderr": ""
+  },
+  {
+    "order": 5,
+    "profile": "underload-64-i150-q2",
+    "trial": 6,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-006",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9652850206,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-006\n",
+    "stderr": ""
+  },
+  {
+    "order": 6,
+    "profile": "underload-64-i150-q2",
+    "trial": 15,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-015",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9667282011,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-015\n",
+    "stderr": ""
+  },
+  {
+    "order": 7,
+    "profile": "underload-64-i150-q2",
+    "trial": 7,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-007",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9667836343,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-007\n",
+    "stderr": ""
+  },
+  {
+    "order": 8,
+    "profile": "overload-64-i25-q2",
+    "trial": 25,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-025",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1915980720,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-025\n",
+    "stderr": ""
+  },
+  {
+    "order": 9,
+    "profile": "underload-64-i150-q2",
+    "trial": 18,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-018",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9633914146,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-018\n",
+    "stderr": ""
+  },
+  {
+    "order": 10,
+    "profile": "overload-64-i25-q2",
+    "trial": 29,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-029",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1909062967,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-029\n",
+    "stderr": ""
+  },
+  {
+    "order": 11,
+    "profile": "underload-64-i150-q2",
+    "trial": 0,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-000",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9637381563,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-000\n",
+    "stderr": ""
+  },
+  {
+    "order": 12,
+    "profile": "overload-64-i25-q2",
+    "trial": 14,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-014",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1911220119,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-014\n",
+    "stderr": ""
+  },
+  {
+    "order": 13,
+    "profile": "underload-64-i150-q2",
+    "trial": 28,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-028",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9650743353,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-028\n",
+    "stderr": ""
+  },
+  {
+    "order": 14,
+    "profile": "overload-64-i25-q2",
+    "trial": 20,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-020",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1921834707,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-020\n",
+    "stderr": ""
+  },
+  {
+    "order": 15,
+    "profile": "underload-64-i150-q2",
+    "trial": 29,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-029",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9644056605,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-029\n",
+    "stderr": ""
+  },
+  {
+    "order": 16,
+    "profile": "underload-64-i150-q2",
+    "trial": 26,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-026",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9652363007,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-026\n",
+    "stderr": ""
+  },
+  {
+    "order": 17,
+    "profile": "overload-64-i25-q2",
+    "trial": 4,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-004",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1909734691,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-004\n",
+    "stderr": ""
+  },
+  {
+    "order": 18,
+    "profile": "overload-64-i25-q2",
+    "trial": 10,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-010",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1912901651,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-010\n",
+    "stderr": ""
+  },
+  {
+    "order": 19,
+    "profile": "overload-64-i25-q2",
+    "trial": 15,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-015",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1925135797,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-015\n",
+    "stderr": ""
+  },
+  {
+    "order": 20,
+    "profile": "underload-64-i150-q2",
+    "trial": 16,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-016",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9638758315,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-016\n",
+    "stderr": ""
+  },
+  {
+    "order": 21,
+    "profile": "overload-64-i25-q2",
+    "trial": 21,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-021",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1922727330,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-021\n",
+    "stderr": ""
+  },
+  {
+    "order": 22,
+    "profile": "overload-64-i25-q2",
+    "trial": 26,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-026",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1926354090,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-026\n",
+    "stderr": ""
+  },
+  {
+    "order": 23,
+    "profile": "overload-64-i25-q2",
+    "trial": 8,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-008",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1918109210,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-008\n",
+    "stderr": ""
+  },
+  {
+    "order": 24,
+    "profile": "underload-64-i150-q2",
+    "trial": 13,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-013",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9641178005,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-013\n",
+    "stderr": ""
+  },
+  {
+    "order": 25,
+    "profile": "overload-64-i25-q2",
+    "trial": 23,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-023",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1915304348,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-023\n",
+    "stderr": ""
+  },
+  {
+    "order": 26,
+    "profile": "underload-64-i150-q2",
+    "trial": 2,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-002",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9652561148,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-002\n",
+    "stderr": ""
+  },
+  {
+    "order": 27,
+    "profile": "underload-64-i150-q2",
+    "trial": 9,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-009",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9653200580,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-009\n",
+    "stderr": ""
+  },
+  {
+    "order": 28,
+    "profile": "overload-64-i25-q2",
+    "trial": 6,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-006",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1922207798,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-006\n",
+    "stderr": ""
+  },
+  {
+    "order": 29,
+    "profile": "overload-64-i25-q2",
+    "trial": 27,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-027",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1920738552,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-027\n",
+    "stderr": ""
+  },
+  {
+    "order": 30,
+    "profile": "underload-64-i150-q2",
+    "trial": 8,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-008",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9657892806,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-008\n",
+    "stderr": ""
+  },
+  {
+    "order": 31,
+    "profile": "underload-64-i150-q2",
+    "trial": 17,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-017",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9655976284,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-017\n",
+    "stderr": ""
+  },
+  {
+    "order": 32,
+    "profile": "overload-64-i25-q2",
+    "trial": 1,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-001",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1897412750,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-001\n",
+    "stderr": ""
+  },
+  {
+    "order": 33,
+    "profile": "underload-64-i150-q2",
+    "trial": 27,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-027",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9647809963,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-027\n",
+    "stderr": ""
+  },
+  {
+    "order": 34,
+    "profile": "overload-64-i25-q2",
+    "trial": 0,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-000",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1901250867,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-000\n",
+    "stderr": ""
+  },
+  {
+    "order": 35,
+    "profile": "overload-64-i25-q2",
+    "trial": 28,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-028",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1919627229,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-028\n",
+    "stderr": ""
+  },
+  {
+    "order": 36,
+    "profile": "underload-64-i150-q2",
+    "trial": 10,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-010",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9660218018,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-010\n",
+    "stderr": ""
+  },
+  {
+    "order": 37,
+    "profile": "overload-64-i25-q2",
+    "trial": 12,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-012",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 2021491857,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-012\n",
+    "stderr": ""
+  },
+  {
+    "order": 38,
+    "profile": "underload-64-i150-q2",
+    "trial": 25,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-025",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9801756731,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-025\n",
+    "stderr": ""
+  },
+  {
+    "order": 39,
+    "profile": "underload-64-i150-q2",
+    "trial": 22,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-022",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9834029628,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-022\n",
+    "stderr": ""
+  },
+  {
+    "order": 40,
+    "profile": "overload-64-i25-q2",
+    "trial": 9,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-009",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1916232199,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-009\n",
+    "stderr": ""
+  },
+  {
+    "order": 41,
+    "profile": "overload-64-i25-q2",
+    "trial": 13,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-013",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1916865908,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-013\n",
+    "stderr": ""
+  },
+  {
+    "order": 42,
+    "profile": "overload-64-i25-q2",
+    "trial": 18,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-018",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1913203603,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-018\n",
+    "stderr": ""
+  },
+  {
+    "order": 43,
+    "profile": "overload-64-i25-q2",
+    "trial": 2,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-002",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1912174076,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-002\n",
+    "stderr": ""
+  },
+  {
+    "order": 44,
+    "profile": "underload-64-i150-q2",
+    "trial": 21,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-021",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9646864041,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-021\n",
+    "stderr": ""
+  },
+  {
+    "order": 45,
+    "profile": "underload-64-i150-q2",
+    "trial": 5,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-005",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9643510361,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-005\n",
+    "stderr": ""
+  },
+  {
+    "order": 46,
+    "profile": "overload-64-i25-q2",
+    "trial": 5,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-005",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1902239066,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-005\n",
+    "stderr": ""
+  },
+  {
+    "order": 47,
+    "profile": "overload-64-i25-q2",
+    "trial": 24,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-024",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1912477654,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-024\n",
+    "stderr": ""
+  },
+  {
+    "order": 48,
+    "profile": "overload-64-i25-q2",
+    "trial": 17,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-017",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1916863910,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-017\n",
+    "stderr": ""
+  },
+  {
+    "order": 49,
+    "profile": "underload-64-i150-q2",
+    "trial": 3,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-003",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9650107187,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-003\n",
+    "stderr": ""
+  },
+  {
+    "order": 50,
+    "profile": "overload-64-i25-q2",
+    "trial": 19,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-019",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1899280811,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-019\n",
+    "stderr": ""
+  },
+  {
+    "order": 51,
+    "profile": "overload-64-i25-q2",
+    "trial": 3,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-003",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1915837833,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-003\n",
+    "stderr": ""
+  },
+  {
+    "order": 52,
+    "profile": "underload-64-i150-q2",
+    "trial": 12,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-012",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9641766515,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-012\n",
+    "stderr": ""
+  },
+  {
+    "order": 53,
+    "profile": "underload-64-i150-q2",
+    "trial": 1,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-001",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9651464068,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-001\n",
+    "stderr": ""
+  },
+  {
+    "order": 54,
+    "profile": "overload-64-i25-q2",
+    "trial": 11,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-011",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1914381439,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-011\n",
+    "stderr": ""
+  },
+  {
+    "order": 55,
+    "profile": "underload-64-i150-q2",
+    "trial": 19,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-019",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9649898695,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-019\n",
+    "stderr": ""
+  },
+  {
+    "order": 56,
+    "profile": "underload-64-i150-q2",
+    "trial": 4,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-004",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9650907592,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-004\n",
+    "stderr": ""
+  },
+  {
+    "order": 57,
+    "profile": "overload-64-i25-q2",
+    "trial": 16,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-016",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1904481684,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-016\n",
+    "stderr": ""
+  },
+  {
+    "order": 58,
+    "profile": "underload-64-i150-q2",
+    "trial": 11,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-011",
+      "150",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 9632039415,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 64 admitted, 0 dropped, 64 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/underload-64-i150-q2/trial-011\n",
+    "stderr": ""
+  },
+  {
+    "order": 59,
+    "profile": "overload-64-i25-q2",
+    "trial": 7,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/bin/oblivion-server",
+      "open-loop",
+      "/home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-007",
+      "25",
+      "64",
+      "2"
+    ],
+    "process_wall_ns_including_startup_teardown": 1903861603,
+    "returncode": 0,
+    "stdout": "Open-loop: 64 offered, 18 admitted, 46 dropped, 18 success, 0 errors: /home/xtrmn8/oblivion/experiments/results/runtime-population-64-20261024/overload-64-i25-q2/trial-007\n",
+    "stderr": ""
+  }
+]

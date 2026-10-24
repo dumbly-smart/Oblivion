@@ -115,6 +115,10 @@ The authenticated epoch batcher ran 30 process trials each at 1, 8, 32 and 64
 configured client slots, for 100 epochs at 25 ms. The aggregate report retains
 240 separately hashed observer/private files and shows emitted frame rates
 from 40 to 2,560 per second; p95 scheduled queue wait is about 23.6–23.7 ms.
-All simulated endpoints share the local host. Full server execution, remote
-clients, production steady-state and provider costs remain unmeasured. See
-[the population sweep](POPULATION_SWEEP.md).
+The actual server path also completed 30 fresh processes at each of two
+64-offer schedules with authenticated exchange, two PIR servers, Wasmtime and
+ORAM. All 60 runs and 3,840 offers were accounted; underload admitted all 64
+per process, while overload dropped 71.88% and had a 96.88% offered SLO-failure
+fraction. These are local single-host results; broader steady-state capacity,
+remote clients and provider costs remain unmeasured. See the [batcher
+population sweep](POPULATION_SWEEP.md) and [full-path load study](RUNTIME_POPULATION.md).
