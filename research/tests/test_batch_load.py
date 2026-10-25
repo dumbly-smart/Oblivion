@@ -7,7 +7,7 @@ import subprocess
 import tempfile
 import unittest
 
-from research.attacks.batch_load import BatchLoadAttack, features
+from research.attacks.batch_load import BatchLoadAttack, FEATURE_NAMES, features
 from research.attacks.registry import PredictionResult
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -32,6 +32,15 @@ class BatchLoadTests(unittest.TestCase):
     def profiles(self):
         return [dict(process_id=f'profile-{label}-{sample}',label=label,observations=trace(label))
                 for label in range(3) for sample in range(2)]
+
+    def test_fixed_v2_envelope_is_parsed_with_its_declared_header_version(self):
+        observations = trace(1)
+        for row in observations:
+            if row['type'] == 'arrival':
+                row['frame'][4:6] = [0, 2]
+                row['frame'].extend([0] * 64)
+        values = features(observations)
+        self.assertEqual(len(values), len(FEATURE_NAMES))
 
     def test_profile_fitted_joint_classifier_has_standard_result_and_no_confidence(self):
         model = BatchLoadAttack().fit(self.profiles(),seed=123)

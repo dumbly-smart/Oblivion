@@ -17,10 +17,11 @@ def number(value, upper=10**15):
 
 
 def frame(value, epoch, slot):
-    if not isinstance(value,list) or len(value)!=164:
-        raise ValueError('164-byte frame required')
+    if not isinstance(value,list) or len(value) not in (164,228):
+        raise ValueError('supported 164- or 228-byte frame required')
     for byte in value: number(byte,255)
-    header=list(b'OBLV'+bytes([0,1,1,0])+epoch.to_bytes(8,'big')+slot.to_bytes(4,'big'))
+    version = 1 if len(value)==164 else 2
+    header=list(b'OBLV'+bytes([0,version,1,0])+epoch.to_bytes(8,'big')+slot.to_bytes(4,'big'))
     if value[:20]!=header: raise ValueError('public frame header mismatch')
 
 
@@ -59,6 +60,7 @@ def features(trace):
     ag=np.diff(arrival_times);eg=np.diff(emission_times)
     if not len(eg):raise ValueError('at least two epochs required')
     lengths=[len(a['frame']) for a in arrivals.values()]
+    if len(set(lengths)) != 1: raise ValueError('mixed frame versions in one process trace')
     counts=[len(e['frames']) for e in emissions.values()]
     # All values derive from observer rows; no target label or private timing plan.
     return np.asarray([len(arrivals),len(emissions),np.mean(lengths),np.std(lengths),slots,2,np.log2(slots),
@@ -71,7 +73,8 @@ def features(trace):
 def model_features(trace):
     """Fixed public units, not variance fitted on six noisy profile samples."""
     values=features(trace)
-    values[:7]/=np.asarray([4096,64,164,164,64,2,6])
+    frame_unit = max(164., float(values[2]))
+    values[:7]/=np.asarray([4096,64,frame_unit,frame_unit,64,2,6])
     values[7:19]/=10_000_000  # the declared public 10 ms cadence
     values[19:21]/=64
     return values

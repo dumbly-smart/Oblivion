@@ -1,3 +1,4 @@
+use oblivion_batcher::ENVELOPE_BYTES;
 use rand::RngCore;
 use std::{fs, process::Command};
 fn output_path() -> std::path::PathBuf {
@@ -83,8 +84,8 @@ fn actual_sweep_uses_exact_metadata_oracles_and_arrival_latency() {
             private["arrival_to_response_ns"].as_u64().unwrap(),
             private["queue_wait_ns"].as_u64().unwrap() + row["latency_ns"].as_u64().unwrap()
         );
-        assert_eq!(row["request_bytes"], 164);
-        assert_eq!(row["response_bytes"], 164);
+        assert_eq!(row["request_bytes"], ENVELOPE_BYTES);
+        assert_eq!(row["response_bytes"], ENVELOPE_BYTES);
     }
     assert_eq!(
         summary["successful_real_invocations"].as_u64().unwrap()

@@ -145,8 +145,12 @@ def summarize(out, config, raw_out=None):
                 costs = {'mode': mode, 'online_percent': percent, 'seed': seed,
                          'incoming_bytes': sum(r['incoming_bytes'] for r in rows),
                          'downstream_bytes': sum(r['outgoing_bytes'] for r in rows),
-                         'batcher_cover_bytes': sum(r['cover_rejected']*164 for r in private),
-                         'authenticated_dummy_bytes': sum(r['authenticated_dummy_frames']*164 for r in private),
+                         'batcher_cover_bytes': sum(
+                             latent['cover_rejected'] * (row['outgoing_bytes'] // len(row['outgoing']))
+                             for latent, row in zip(private, rows)),
+                         'authenticated_dummy_bytes': sum(
+                             latent['authenticated_dummy_frames'] * (row['outgoing_bytes'] // len(row['outgoing']))
+                             for latent, row in zip(private, rows)),
                          'real_frames': sum(len(r['real']) for r in private)}
                 trial_costs.append(costs)
         for (mode, knowledge, observer), values in cells.items():

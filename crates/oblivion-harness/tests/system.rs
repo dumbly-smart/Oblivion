@@ -1,3 +1,4 @@
+use oblivion_batcher::ENVELOPE_BYTES;
 use rand::RngCore;
 use std::{fs, process::Command};
 fn rows(path: &std::path::Path) -> Vec<serde_json::Value> {
@@ -39,8 +40,8 @@ fn actual_ablation_paths_emit_joint_observers_and_separate_truth() {
             && r.get("status").is_none()));
         if mode == "G" {
             assert!(obs.iter().all(|r| r["storage_events"] == 128
-                && r["request_bytes"] == 164
-                && r["response_bytes"] == 164
+                && r["request_bytes"] == ENVELOPE_BYTES
+                && r["response_bytes"] == ENVELOPE_BYTES
                 && r["registry_index"] == -1));
         }
         if mode == "A" {

@@ -524,3 +524,29 @@ request and perform lookup before execution and commit after checkpoint
 creation. Concurrent duplicate execution remains unfenced; arbitrary external
 side effects, host-root inspection, and SQLite backup rollback remain
 unprotected. See [the contract](INVOCATION_DURABILITY.md).
+
+## 2026-10-26: fixed invocation envelope v2 foundation
+
+The authenticated client/executor envelope now uses wire version 2 with a
+fixed 192-byte encrypted payload (228 bytes total). Existing invocation fields
+retain their offsets; 123 trailing payload bytes are currently opaque padding,
+reserved for the signed idempotency identity. The worker does not yet validate
+or use those bytes, so this change alone does not provide durable invocation
+semantics. The protocol document says this explicitly.
+
+Rust batcher tests verify v2 framing and replay behavior, and server/harness
+size assertions now use the exported envelope size. Research validators accept
+the retained v1 164-byte traces as well as v2 228-byte traces; attack feature
+normalization and presence byte accounting use the observed public frame size.
+Tests cover generated v2 batch-load and presence traces. The affected batcher,
+analysis, presence, and execution-timing tests pass. A serialized full-workspace
+run and repeated server-suite runs encountered deadline-sensitive invocation
+timeouts on a host with load averages above 12. The individual SSE discovery
+and harness ablation tests and a manual default demo passed on separate runs,
+but the default-demo integration test also timed out on an isolated rerun.
+Retained private rows show `Status::Timeout` before the 100 ms outer deadline,
+consistent with the executor's earlier staging/commit cutoff; no protocol
+parse/authentication failure was recorded. These are runtime scheduling
+outcomes, not evidence of a wire-format failure, and no timeout threshold was
+changed. Signed payload verification, persistent identity, checkpoint
+restoration, and receipt lookup/commit in the worker remain open.

@@ -76,7 +76,8 @@ def analyze_trial(path,cell,wall_seconds):
         require(type(count) is int and 0<=count<=128 and type(byte_count) is int and byte_count==count*316,'per-invocation storage accounting')
         if succeeded:require(count==128,'successful invocation has incomplete ORAM shape')
         recorded_storage_events+=count;recorded_storage_bytes+=byte_count;pir_bytes.append(framed)
-        require(o['request_bytes']==o['response_bytes']==164 and o['batch_count']==p,'envelope shape')
+        request_bytes=o['request_bytes']
+        require(type(request_bytes) is int and request_bytes in (164,228) and o['response_bytes']==request_bytes and o['batch_count']==p,'envelope shape')
         call_bytes=None if framed is None else 328+framed+byte_count;per_call_bytes.append(call_bytes)
         if not is_real:dummy_bytes.append(call_bytes)
         for field in ('latency_ns','epoch_due_ns','batch_sent_ns','late_by_ns'):

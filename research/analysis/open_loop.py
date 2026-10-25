@@ -97,7 +97,7 @@ def batch(directory):
         emissions = [row for row in raw if row["type"] == "emission"]
         assert len(arrivals) == config["batch_epochs"] * config["batch_participants"]
         assert len(emissions) == config["batch_epochs"]
-        assert all(row["frames"] == config["batch_participants"] and row["frame_bytes"] == 164 and row["batch_bytes"] == config["batch_participants"] * 164 for row in emissions)
+        assert all(row["frames"] == config["batch_participants"] and row["frame_bytes"] in (164, 228) and row["batch_bytes"] == config["batch_participants"] * row["frame_bytes"] for row in emissions)
         dummy = sum(row["dummy_frames"] for row in emissions)
         assert dummy == len(arrivals) * (100-launch["real_percent"]) // 100
         waits = [row["queue_wait_ns"] / 1e6 for row in arrivals]

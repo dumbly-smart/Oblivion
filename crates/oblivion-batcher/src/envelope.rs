@@ -8,12 +8,12 @@ use rand::{RngCore, rngs::OsRng};
 use sha2::Sha256;
 use zeroize::Zeroizing;
 
-pub const PAYLOAD_BYTES: usize = 128;
+pub const PAYLOAD_BYTES: usize = 192;
 const HEADER: usize = 20;
 pub const ENVELOPE_BYTES: usize = HEADER + PAYLOAD_BYTES + 16;
 
-/// Wire v1: OBLV[4], version u16 BE, direction u8, reserved zero u8,
-/// epoch u64 BE, slot u32 BE, ciphertext[128], tag[16]. The nonce is
+/// Wire v2: OBLV[4], version u16 BE, direction u8, reserved zero u8,
+/// epoch u64 BE, slot u32 BE, ciphertext[192], tag[16]. The nonce is
 /// derived from slot || epoch. Request and response use independent keys.
 #[derive(Clone)]
 pub struct Envelope {
@@ -23,7 +23,7 @@ impl Envelope {
     pub fn from_bytes(bytes: &[u8]) -> Result<Self, Error> {
         if bytes.len() != ENVELOPE_BYTES
             || &bytes[..4] != b"OBLV"
-            || bytes[4..6] != 1u16.to_be_bytes()
+            || bytes[4..6] != 2u16.to_be_bytes()
             || ![1, 2].contains(&bytes[6])
             || bytes[7] != 0
         {
@@ -48,7 +48,7 @@ impl Envelope {
     fn header(epoch: u64, slot: u32, kind: u8) -> [u8; HEADER] {
         let mut h = [0; HEADER];
         h[..4].copy_from_slice(b"OBLV");
-        h[4..6].copy_from_slice(&1u16.to_be_bytes());
+        h[4..6].copy_from_slice(&2u16.to_be_bytes());
         h[6] = kind;
         h[8..16].copy_from_slice(&epoch.to_be_bytes());
         h[16..20].copy_from_slice(&slot.to_be_bytes());

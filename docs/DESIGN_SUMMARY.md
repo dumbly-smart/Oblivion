@@ -32,7 +32,7 @@ After batch release, the trusted executor privately retrieves the selected fixed
 
 ## Hiding shape with explicit budgets
 
-Invocation envelopes have a public authenticated header and encrypted fixed payload, totaling 164 bytes. Independent directional keys and monotonic epochs prevent tested replay; replies bind to the current request. Fresh session bootstrap uses inherited private pipes. Epoch queues accept one bounded request per enrolled slot and emit fixed capacity. Missing slots become cover and undergo actual dummy work.
+Invocation envelopes use wire v2 with a public authenticated header and encrypted fixed payload, totaling 228 bytes. Independent directional keys and monotonic epochs prevent tested replay; replies bind to the current request. Fresh session bootstrap uses inherited private pipes. Epoch queues accept one bounded request per enrolled slot and emit fixed capacity. Missing slots become cover and undergo actual dummy work. The expanded payload reserves space for signed idempotency metadata, which is not yet wired into the runtime.
 
 Ordinary guest storage calls can reveal a function through count and timing even when addresses are ORAM-protected. Protected execution therefore reads a public working set through actual ORAM, runs guest host calls against trusted staging and commits the whole set at a public phase. The eight-block small class performs eight reads and eight writes for non-stateful functions, stateful functions and sanitized guest failures. Read/commit boundaries are one quarter/one half of the deadline; PIR precedes the read phase within the same start-to-deadline budget.
 

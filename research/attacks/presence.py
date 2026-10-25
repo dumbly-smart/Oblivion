@@ -52,7 +52,8 @@ def intersect(trace, beacon, *, knowledge_events=None, observer='incoming', seed
             raise ValueError('participation partition')
         for field in ('incoming_bytes', 'outgoing_bytes', 'emit_ns', 'late_by_ns'):
             _integer(row[field], 0, 10**15)
-        if row['incoming_bytes'] != len(incoming)*164 or row['outgoing_bytes'] != 8*164:
+        frame_bytes, remainder = divmod(row['outgoing_bytes'], len(outgoing))
+        if remainder or frame_bytes not in (164, 228) or row['incoming_bytes'] != len(incoming)*frame_bytes:
             raise ValueError('byte accounting')
         if row['emit_ns'] != (epoch+1)*10_000_000 or row['late_by_ns'] != 0:
             raise ValueError('virtual schedule')

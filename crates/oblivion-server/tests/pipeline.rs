@@ -1,3 +1,4 @@
+use oblivion_batcher::ENVELOPE_BYTES;
 use rand::RngCore;
 use std::{fs, process::Command};
 
@@ -69,7 +70,7 @@ fn actual_process_pipeline_real_dummy_and_oram_state() {
     assert_eq!(summary["real_invocations"], 4);
     assert_eq!(summary["dummy_invocations"], 4);
     assert_eq!(summary["last_real_counter"], 4);
-    assert_eq!(summary["request_bytes"], 164);
+    assert_eq!(summary["request_bytes"], ENVELOPE_BYTES);
     assert_eq!(summary["encrypted_pir_links"], true);
     let rows = fs::read_to_string(path.join("storage-observer.jsonl")).unwrap();
     assert_eq!(rows.lines().count(), 8 * 16 * 8); // 8 invocations, 16 ORAM accesses, 8 bucket events
@@ -165,8 +166,8 @@ fn multiple_clients_execute_mixed_functions_with_isolated_state_and_fixed_traces
     for row in rows.lines() {
         let row: serde_json::Value = serde_json::from_str(row).unwrap();
         assert_eq!(row["batch_count"], 3);
-        assert_eq!(row["request_bytes"], 164);
-        assert_eq!(row["response_bytes"], 164);
+        assert_eq!(row["request_bytes"], ENVELOPE_BYTES);
+        assert_eq!(row["response_bytes"], ENVELOPE_BYTES);
     }
     fs::remove_dir_all(path).unwrap();
 }

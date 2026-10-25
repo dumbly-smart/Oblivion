@@ -2,6 +2,20 @@ use oblivion_batcher::{ENVELOPE_BYTES, Endpoint, Envelope, EpochBatcher, Error, 
 use std::time::{Duration, Instant};
 
 #[test]
+fn v2_frame_reserves_fixed_space_for_signed_invocation_identity() {
+    assert_eq!(PAYLOAD_BYTES, 192);
+    let (mut client, mut server) = Endpoint::provision(0).unwrap();
+    let frame = client.send(0, &[0x5a; PAYLOAD_BYTES]).unwrap();
+    assert_eq!(&frame.as_bytes()[4..6], &2u16.to_be_bytes());
+    assert_eq!(frame.as_bytes().len(), ENVELOPE_BYTES);
+    let recovered = server.receive(&frame).unwrap();
+    assert_eq!(recovered, [0x5a; PAYLOAD_BYTES]);
+    let mut legacy = frame.as_bytes().to_vec();
+    legacy[5] = 1;
+    assert!(Envelope::from_bytes(&legacy).is_err());
+}
+
+#[test]
 fn real_and_dummy_envelopes_have_same_shape_and_replay_is_rejected() {
     let (mut client, mut executor) = Endpoint::provision(0).unwrap();
     for epoch in 0..10 {

@@ -26,8 +26,10 @@ class Centroid:
     def fit(self, x, y):
         x, y = np.asarray(x, dtype=float), np.asarray(y)
         self.centers = np.asarray([x[y == k].mean(axis=0) for k in range(8)])
-        # Sizes/counts are scaled by public class geometry; latency in seconds.
-        self.scale = np.array([1., 164., 164., 128., 128. * 316., 1.])
+        # Frame-size units come from public observed protocol shape; other
+        # sizes/counts use the declared class geometry and latency is seconds.
+        frame_bytes = max(1.0, float(np.median(x[:, 1])))
+        self.scale = np.array([1., frame_bytes, frame_bytes, 128., 128. * 316., 1.])
         return self
 
     def rank(self, x):

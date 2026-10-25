@@ -93,7 +93,7 @@ fn measure(
                     // Deliberately unauthenticated public control, not valid AEAD.
                     let mut bytes = [0u8; ENVELOPE_BYTES];
                     bytes[..4].copy_from_slice(b"OBLV");
-                    bytes[4..6].copy_from_slice(&1u16.to_be_bytes());
+                    bytes[4..6].copy_from_slice(&2u16.to_be_bytes());
                     bytes[6] = 1;
                     bytes[8..16].copy_from_slice(&epoch.to_be_bytes());
                     bytes[16..20].copy_from_slice(&(slot as u32).to_be_bytes());

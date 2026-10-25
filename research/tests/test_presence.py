@@ -140,7 +140,9 @@ class PresenceTests(unittest.TestCase):
                 self.assertIn(owner, candidates)
                 for public, secret, event in zip(rows, oracle, beacon):
                     self.assertEqual(secret['verified']+secret['cover_rejected'], 8)
-                    self.assertEqual(public['incoming_bytes'], secret['verified']*164)
+                    frame_bytes = public['outgoing_bytes'] // len(public['outgoing'])
+                    self.assertIn(frame_bytes, (164, 228))
+                    self.assertEqual(public['incoming_bytes'], secret['verified']*frame_bytes)
                     self.assertEqual(event['event'], owner in secret['real'])
                 if mode == 'always_participating':
                     self.assertEqual(candidates, list(range(8)))

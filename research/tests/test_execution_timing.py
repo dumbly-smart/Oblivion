@@ -33,8 +33,8 @@ class TimingTests(unittest.TestCase):
             truth = [json.loads(x) for x in (path / "ground-truth.jsonl").read_text().splitlines()]
             self.assertEqual(sorted(x["class"] for x in truth), list(range(8)))
             for row in observer:
-                self.assertEqual(row["request_bytes"], 164)
-                self.assertEqual(row["response_bytes"], 164)
+                self.assertEqual(row["request_bytes"], 228)
+                self.assertEqual(row["response_bytes"], 228)
                 self.assertEqual(len(row["storage"]), 128)
                 self.assertIsNone(row["visible_selector"])
                 self.assertGreaterEqual(row["response_ns"], 100_000_000)

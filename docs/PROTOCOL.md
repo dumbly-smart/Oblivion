@@ -1,25 +1,25 @@
 # Protocols and trace schemas
 
-## Authenticated envelope v1
+## Authenticated envelope v2
 
-All integers are big endian. Exactly 164 bytes:
+All integers are big endian. Exactly 228 bytes:
 
 | Offset | Bytes | Meaning |
 | --- | --- | --- |
 | 0 | 4 | ASCII OBLV |
-| 4 | 2 | Version 1 |
+| 4 | 2 | Version 2 |
 | 6 | 1 | Direction 1 request / 2 response |
 | 7 | 1 | Reserved zero |
 | 8 | 8 | Epoch |
 | 16 | 4 | Participant/channel slot |
-| 20 | 128 | AEAD ciphertext |
-| 148 | 16 | Authentication tag |
+| 20 | 192 | AEAD ciphertext |
+| 212 | 16 | Authentication tag |
 
 The header is AEAD associated data. Nonce = slot u32 || epoch u64, derived rather than transmitted. HKDF-SHA256 separates request/response keys from a fresh OS-random 32-byte session root. Sending epochs increase strictly; receiving authenticated epochs increase strictly. Failed authentication does not advance receive state. No endpoint cloning or persisted restore is provided. Bootstrap APIs assume a fresh trusted inherited pipe; recording/replaying bootstrap secrets is unsupported.
 
 The demo uses distinct fresh roots for the client/executor channel and each PIR link. Its protected PIR query payload pads the one-byte vector for five records to 128 bytes; its answer is one 160-byte signed registry record. This transport is deliberately limited to the demo registry. Generic large-database PIR remains a separate interface.
 
-Invocation payload: real flag at 0, registry index u32 at 1..5, input[64] at 5..69, remaining bytes reserved. The worker discovers that index through PIR after epoch release and compares the full recovered record with its locally pinned, startup-verified catalog. A registry record is 160 bytes: id u32, version u64, module digest[32], location digest[32], resource class u8, 19 reserved zero bytes, and an Ed25519 signature[64]. The demo's module-location digest is a synthetic embedded-module descriptor. All five modules are preloaded from trusted bundled sources; external publication and signer identity are not implemented.
+Invocation payload v2: real flag at 0, registry index u32 at 1..5, input[64] at 5..69, and 123 trailing bytes reserved. The fixed size reserves capacity for a signed idempotency identity. The current built-in client emits zeroes in that suffix; the worker treats it as opaque padding and does not yet validate or use it for durable receipt lookup. The worker discovers the registry index through PIR after epoch release and compares the full recovered record with its locally pinned, startup-verified catalog. A registry record is 160 bytes: id u32, version u64, module digest[32], location digest[32], resource class u8, 19 reserved zero bytes, and an Ed25519 signature[64]. The demo's module-location digest is a synthetic embedded-module descriptor. All five modules are preloaded from trusted bundled sources; external publication and signer identity are not implemented.
 
 ## Secure PIR worker database bootstrap v1
 
