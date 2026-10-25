@@ -29,6 +29,14 @@ checkpoint generation and the exact fixed-shape response bytes.
   anchor verifies signatures, but does not enforce a function-level
   authorization policy.
 
+The current implementation provides this contract in `oblivion-anchor` as
+`SignedInvocationId`, `AnchorDatabase::{load_invocation_receipt,
+commit_invocation}`, and the local `UnixInvocationAnchor` adapter. Its SQLite
+schema migrates from version 1 to version 2, and response bytes are bounded to
+64 KiB. The invocation pipeline does not yet call this API. Before committing,
+the trusted executor must recompute the signed request digest from its
+canonical authenticated request and serialize the associated state slot.
+
 ## Scope limits
 
 This makes checkpointed ORAM state and the receipt atomic at the SQLite anchor;
@@ -42,13 +50,17 @@ The SQLite database can still be rolled back from an old backup, and host root
 can inspect or replace it. The local service is not a TEE and does not protect
 against host-root compromise. Request signatures authenticate stable
 idempotency identity, not function input confidentiality or runtime
-attestation. Receipt responses are bounded to a documented maximum.
+attestation. The signer identity is not authorized by an application policy.
+Receipt responses are bounded to 64 KiB; callers must supply the already
+fixed-shape executor response.
 
 ## Acceptance
 
 Tests must show signature rejection, correct first commit, exact response
 recovery after reopening the database, idempotent replay, request-digest
-conflict, checkpoint-generation conflict, and atomicity when either write
-fails. The Unix service tests must exercise the same behavior across the
-versioned local protocol. Documentation must retain the single-writer,
-rollback, host-root, and external-side-effect limitations.
+conflict, checkpoint-generation conflict, atomic rollback when either SQL
+insert fails, response confidentiality at rest, and the version-1 to version-2
+schema migration. The Unix service tests must exercise signed lookup, commit,
+and invalid signature behavior across the versioned local protocol.
+Documentation must retain the single-writer, rollback, host-root, unverified
+request-digest, and external-side-effect limitations.

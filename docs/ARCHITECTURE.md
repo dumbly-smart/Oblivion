@@ -33,7 +33,7 @@ PIR occurs after epoch release on behalf of the trusted client. Each worker sees
 | `oblivion-batcher` | Directional authenticated endpoints and bounded fixed epoch queues |
 | `oblivion-server` | Process orchestration, verified signed registry rows over encrypted PIR, enrolled slot validation and client oracle |
 | `oblivion-registry` | Fixed-size signed registry catalogs/records and rollback-aware version-activation adapter |
-| `oblivion-anchor` | SQLite-backed atomic checkpoint/version CAS and a local Unix-socket service; trusted database/key operator required |
+| `oblivion-anchor` | SQLite-backed atomic checkpoint/version CAS, signed invocation receipts, and a local Unix-socket service; trusted database/key operator required |
 | `oblivion-harness` | Actual component workloads with separate public observations and truth |
 | `oblivion-sse` | Ephemeral append-only encrypted posting index with constrained GGM prefix capabilities |
 | Python research tools | Attack analysis, trial-cluster confidence intervals, autoscaler event simulation and reference comparisons |
@@ -60,7 +60,7 @@ Path ORAM uses next-power-of-two leaves, Z=4 by default, a trusted position map/
 
 A bounded file backend and full-image checkpoint/restore API exist separately from the memory-backed process demo. Checkpoints authenticate controller keys/maps/stash/versions/counters and all encrypted buckets, publish with file/directory synchronization and return a secret `TrustedCheckpoint` handle. Restore requires the independently protected latest handle, validates the entire image and rekeys/re-encrypts every bucket before returning a controller, preventing reuse of pre-crash bucket nonce domains.
 
-The caller must publish a new handle to a trusted durable anchor before acknowledging durability, retaining the preceding snapshot until that publication commits. `oblivion-anchor` supplies a local SQLite CAS service over a permission-controlled Unix socket, but it does not provide remote authentication or anti-rollback protection against database restoration. Durable invocation acknowledgments remain unimplemented. Checkpoint/recovery are observable full-tree maintenance phases. See [STORAGE_RECOVERY.md](STORAGE_RECOVERY.md) and [ANCHOR_SERVICE.md](ANCHOR_SERVICE.md).
+The caller must publish a new handle to a trusted durable anchor before acknowledging durability, retaining the preceding snapshot until that publication commits. `oblivion-anchor` supplies a local SQLite CAS service over a permission-controlled Unix socket and an atomic checkpoint-plus-invocation-receipt API. The invocation API is not wired into the runtime pipeline; there is no end-to-end durable acknowledgment claim. It does not provide remote authentication or anti-rollback protection against database restoration. Checkpoint/recovery are observable full-tree maintenance phases. See [STORAGE_RECOVERY.md](STORAGE_RECOVERY.md), [ANCHOR_SERVICE.md](ANCHOR_SERVICE.md), and [INVOCATION_DURABILITY.md](INVOCATION_DURABILITY.md).
 
 ## SSE and later experiments
 

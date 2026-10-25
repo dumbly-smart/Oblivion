@@ -500,3 +500,27 @@ passed before ORAM was scored. All 1,440 raw input hashes and four source/config
 hashes were rechecked. Since this attack was selected after the primary result
 and reuses those sessions, it is exploratory rather than an independent
 replication. See the transition-attack report and retained predictions.
+
+## 2026-10-25: signed durable invocation receipts
+
+`oblivion-anchor` now verifies a client Ed25519 signature over a
+domain-separated 16-byte invocation ID and 32-byte request digest. It derives
+an HMAC lookup token and stores the request digest, snapshot/generation, and
+response bytes in an AEAD-protected receipt. SQLite schema v1 migrates to v2.
+`commit_invocation` atomically compare-and-swaps the checkpoint and inserts the
+receipt; repeated same-ID/same-digest commits return the original receipt, and
+same-ID/different-digest requests conflict. The local Unix protocol and client
+adapter expose receipt lookup and commit; ambiguous transport outcomes map to
+`CommitIndeterminate` so callers can look up the receipt.
+
+Tests cover invalid signatures, independent client namespaces, replay after
+database reopen, response confidentiality at rest, stale checkpoint and
+request-digest conflicts, response size bounds, migration, and injected SQL
+failures on each insert to prove transaction rollback. The anchor package has
+15 library tests and 6 process-level service tests; formatting, warning-denied
+Clippy, and package tests pass. Runtime pipeline integration is not complete:
+the executor must recompute the digest against its canonical authenticated
+request and perform lookup before execution and commit after checkpoint
+creation. Concurrent duplicate execution remains unfenced; arbitrary external
+side effects, host-root inspection, and SQLite backup rollback remain
+unprotected. See [the contract](INVOCATION_DURABILITY.md).

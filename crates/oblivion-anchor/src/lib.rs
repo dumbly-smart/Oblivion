@@ -940,6 +940,78 @@ mod tests {
     }
 
     #[test]
+    fn invocation_transaction_rolls_back_checkpoint_if_either_insert_fails() {
+        let path = path("invocation-atomicity");
+        let master_key = [0xB1; 32];
+        let first = invocation(21, [0x61; 16], [0x71; 32]);
+        let second = invocation(21, [0x62; 16], [0x72; 32]);
+        let mut db = AnchorDatabase::open(&path, Zeroizing::new(master_key)).unwrap();
+
+        db.connection
+            .execute_batch(
+                "CREATE TRIGGER fail_checkpoint_insert BEFORE INSERT ON checkpoint_anchor
+                 BEGIN SELECT RAISE(ABORT, 'injected checkpoint failure'); END;",
+            )
+            .unwrap();
+        assert!(matches!(
+            db.commit_invocation(
+                "store-a",
+                &first,
+                None,
+                CheckpointAnchorRecord::new("snapshot-1", &handle(1)).unwrap(),
+                b"response-1",
+            ),
+            Err(Error::Database(_))
+        ));
+        assert!(
+            db.checkpoint_anchor("store-a")
+                .unwrap()
+                .load()
+                .unwrap()
+                .is_none()
+        );
+        assert!(
+            db.load_invocation_receipt("store-a", &first)
+                .unwrap()
+                .is_none()
+        );
+        db.connection
+            .execute_batch("DROP TRIGGER fail_checkpoint_insert;")
+            .unwrap();
+
+        db.connection
+            .execute_batch(
+                "CREATE TRIGGER fail_receipt_insert BEFORE INSERT ON invocation_receipt
+                 BEGIN SELECT RAISE(ABORT, 'injected receipt failure'); END;",
+            )
+            .unwrap();
+        assert!(matches!(
+            db.commit_invocation(
+                "store-a",
+                &second,
+                None,
+                CheckpointAnchorRecord::new("snapshot-2", &handle(1)).unwrap(),
+                b"response-2",
+            ),
+            Err(Error::Database(_))
+        ));
+        assert!(
+            db.checkpoint_anchor("store-a")
+                .unwrap()
+                .load()
+                .unwrap()
+                .is_none()
+        );
+        assert!(
+            db.load_invocation_receipt("store-a", &second)
+                .unwrap()
+                .is_none()
+        );
+        drop(db);
+        let _ = std::fs::remove_file(path);
+    }
+
+    #[test]
     fn checkpoint_cas_persists_encrypted_secret_and_rejects_stale_writers() {
         let path = path("checkpoint");
         let master_key = [0x31; 32];
