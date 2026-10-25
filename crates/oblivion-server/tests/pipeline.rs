@@ -1,4 +1,6 @@
+use ed25519_dalek::SigningKey;
 use oblivion_batcher::ENVELOPE_BYTES;
+use oblivion_server::invocation::sign_request;
 use rand::RngCore;
 use std::{fs, process::Command};
 
@@ -25,6 +27,13 @@ fn fixture_diagnostics(path: &std::path::Path) -> String {
         }
     }
     message
+}
+
+fn sign_fixture(payload: &mut [u8; oblivion_batcher::PAYLOAD_BYTES], epoch: u64) {
+    let key = SigningKey::from_bytes(&[0x63; 32]);
+    let mut invocation_id = [0; 16];
+    invocation_id[..8].copy_from_slice(&epoch.to_be_bytes());
+    sign_request(payload, 0, invocation_id, &key);
 }
 
 #[test]
@@ -109,6 +118,7 @@ fn invalid_selection_and_reserved_dummy_address_do_not_mutate_user_state() {
         payload[0] = 1;
         payload[1..5].copy_from_slice(&id.to_be_bytes());
         payload[9..13].copy_from_slice(&address.to_le_bytes());
+        sign_fixture(&mut payload, epoch);
         input
             .write_all(client.send(epoch, &payload).unwrap().as_bytes())
             .unwrap();
@@ -133,6 +143,59 @@ fn invalid_selection_and_reserved_dummy_address_do_not_mutate_user_state() {
     }
     drop(input);
     assert!(child.wait().unwrap().success());
+    let _ = fs::remove_dir_all(path);
+}
+
+#[test]
+fn invocation_without_a_valid_signed_identity_is_rejected() {
+    use oblivion_batcher::{ENVELOPE_BYTES, Endpoint, Envelope, PAYLOAD_BYTES};
+    use std::{
+        io::{Read, Write},
+        process::Stdio,
+    };
+    let path = std::env::temp_dir().join(format!(
+        "oblivion-unsigned-invocation-{}",
+        rand::rngs::OsRng.next_u64()
+    ));
+    fs::create_dir(&path).unwrap();
+    let mut child = Command::new(env!("CARGO_BIN_EXE_oblivion-server"))
+        .args(["executor-worker", path.to_str().unwrap()])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .spawn()
+        .unwrap();
+    let mut input = child.stdin.take().unwrap();
+    let mut output = child.stdout.take().unwrap();
+    let mut client = Endpoint::provision_over_pipe(0, &mut input).unwrap();
+    let mut ready = [0; 1];
+    output.read_exact(&mut ready).unwrap();
+    assert_eq!(ready, [1]);
+
+    let mut payload = [0; PAYLOAD_BYTES];
+    payload[0] = 1;
+    payload[1..5].copy_from_slice(&4u32.to_be_bytes());
+    let frame = client.send(0, &payload).unwrap();
+    input.write_all(frame.as_bytes()).unwrap();
+    input.flush().unwrap();
+    let mut bytes = [0; ENVELOPE_BYTES];
+    output.read_exact(&mut bytes).unwrap();
+    let response = client
+        .receive(&Envelope::from_bytes(&bytes).unwrap())
+        .unwrap();
+    assert_eq!(response[0], 1, "{}", fixture_diagnostics(&path));
+
+    drop(input);
+    assert!(child.wait().unwrap().success());
+    let private: serde_json::Value = serde_json::from_str(
+        fs::read_to_string(path.join("executor-private.jsonl"))
+            .unwrap()
+            .lines()
+            .next()
+            .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(private["request_authenticated"], true);
+    assert_eq!(private["request_valid"], false);
     let _ = fs::remove_dir_all(path);
 }
 
@@ -315,6 +378,7 @@ fn duplicate_and_skipped_epochs_fail_closed_without_second_execution() {
         let mut payload = [0; PAYLOAD_BYTES];
         payload[0] = 1;
         payload[1..5].copy_from_slice(&4u32.to_be_bytes());
+        sign_fixture(&mut payload, 0);
         let initial = client.send(0, &payload).unwrap();
         input.write_all(initial.as_bytes()).unwrap();
         input.flush().unwrap();
@@ -322,6 +386,7 @@ fn duplicate_and_skipped_epochs_fail_closed_without_second_execution() {
         let next = if duplicate {
             initial
         } else {
+            sign_fixture(&mut payload, 2);
             client.send(2, &payload).unwrap()
         };
         input.write_all(next.as_bytes()).unwrap();
@@ -374,6 +439,7 @@ fn lost_pir_server_returns_authenticated_zero_error_without_user_state() {
     let mut payload = [0; PAYLOAD_BYTES];
     payload[0] = 1;
     payload[1..5].copy_from_slice(&4u32.to_be_bytes());
+    sign_fixture(&mut payload, 0);
     input
         .write_all(client.send(0, &payload).unwrap().as_bytes())
         .unwrap();
@@ -535,6 +601,7 @@ fn tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched() {
         let mut payload = [0; PAYLOAD_BYTES];
         payload[0] = 1;
         payload[1..5].copy_from_slice(&4u32.to_be_bytes());
+        sign_fixture(&mut payload, epoch);
         let mut bytes = client.send(epoch, &payload).unwrap().as_bytes().to_vec();
         if epoch == 0 {
             bytes[ENVELOPE_BYTES - 1] ^= 1;

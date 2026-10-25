@@ -13,6 +13,7 @@ oblivion-pir = { path = "../oblivion-pir" }
 oblivion-exec = { path = "../oblivion-exec" }
 oblivion-batcher = { path = "../oblivion-batcher" }
 oblivion-registry = { path = "../oblivion-registry" }
+oblivion-anchor = { path = "../oblivion-anchor" }
 serde_json.workspace = true
 sha2.workspace = true
 rand.workspace = true

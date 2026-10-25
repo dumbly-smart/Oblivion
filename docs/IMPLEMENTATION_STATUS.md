@@ -548,5 +548,26 @@ Retained private rows show `Status::Timeout` before the 100 ms outer deadline,
 consistent with the executor's earlier staging/commit cutoff; no protocol
 parse/authentication failure was recorded. These are runtime scheduling
 outcomes, not evidence of a wire-format failure, and no timeout threshold was
-changed. Signed payload verification, persistent identity, checkpoint
-restoration, and receipt lookup/commit in the worker remain open.
+changed. Signed payload verification is now implemented; persistent identity,
+checkpoint restoration, and receipt lookup/commit in the worker remain open.
+
+## 2026-10-26: signed invocation request binding
+
+The v2 payload suffix now carries a 16-byte invocation ID, client Ed25519
+public key and signature, followed by 11 canonical zero bytes. The signature
+binds the domain-separated digest of the real/dummy flag, registry index,
+fixed-size input and authenticated endpoint slot. The executor validates this
+after channel AEAD authentication; absent, forged, wrong-slot or noncanonical
+identities take the existing fixed-shape cover path. Demo and open-loop clients
+use OS-random ephemeral signing keys and IDs. This is identity proof for one
+request, not authorization, stable identity, cross-session replay protection,
+or durable idempotency: receipt lookup/commit and checkpoint restoration have
+not yet been wired into the worker.
+
+The two codec tests and the unsigned-request integration test pass. The full
+server pipeline suite ran 16 tests: 15 passed; its real/dummy demo hit the
+existing 100 ms execution cutoff (`work_ns` 104.36 ms) under host load. An
+isolated rerun completed epoch 0 but timed out a later dummy at 81 ms of
+reported work during the earlier staging cutoff. No deadline was changed.
+Formatting and warning-denied package Clippy pass. Timing-sensitive demo
+reliability remains open and is not attributed to identity verification alone.

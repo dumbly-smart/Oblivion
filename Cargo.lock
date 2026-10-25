@@ -870,6 +870,7 @@ version = "0.1.0"
 dependencies = [
  "cpu-time",
  "ed25519-dalek",
+ "oblivion-anchor",
  "oblivion-batcher",
  "oblivion-exec",
  "oblivion-pir",

@@ -8,6 +8,7 @@ use oblivion_batcher::{ENVELOPE_BYTES, Endpoint, Envelope, EpochBatcher, PAYLOAD
 use oblivion_exec::{Class, Executor, Namespace, Status};
 use oblivion_pir::{QueryPair, recover};
 use oblivion_registry::{Record, SignedRegistry, VerifiedRegistry};
+use oblivion_server::invocation::{sign_request, verify_request};
 use oblivion_store::{Config, MemoryBackend, PathOram};
 use rand::{RngCore, rngs::OsRng};
 use sha2::{Digest, Sha256};
@@ -320,8 +321,12 @@ fn demo_schedule(
         })
         .collect::<Result<Vec<_>>>()?;
     let mut clients = Vec::new();
+    let mut invocation_keys = Vec::with_capacity(participants);
     for slot in 0..participants {
         clients.push(Endpoint::provision_over_pipe(slot as u32, &mut input)?);
+        let mut seed = Zeroizing::new([0; 32]);
+        OsRng.try_fill_bytes(&mut *seed)?;
+        invocation_keys.push(SigningKey::from_bytes(&seed));
     }
     if rx.recv_timeout(Duration::from_secs(10))?.0 != [1] {
         return Err("executor startup failed".into());
@@ -361,6 +366,14 @@ fn demo_schedule(
             payload[0] = u8::from(is_real);
             payload[1..5].copy_from_slice(&id.to_be_bytes());
             payload[5..69].copy_from_slice(&argument);
+            let mut invocation_id = [0; 16];
+            OsRng.try_fill_bytes(&mut invocation_id)?;
+            sign_request(
+                &mut payload,
+                slot as u32,
+                invocation_id,
+                &invocation_keys[slot],
+            );
             let ready_at = Instant::now();
             ready_frames.push(client.send(epoch, &payload)?);
             requests.push((is_real, id, argument, ready_at));
@@ -581,6 +594,7 @@ pub fn worker(output: &Path, participants: usize) -> Result<()> {
         let requested = u32::from_be_bytes(payload[1..5].try_into()?);
         let state_address = u32::from_le_bytes(payload[9..13].try_into()?);
         let valid = authenticated_frame
+            && verify_request(&payload, frame.slot()).is_some()
             && payload[0] <= 1
             && requested < 5
             && !(payload[0] == 1

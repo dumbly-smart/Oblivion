@@ -1,7 +1,10 @@
 //! Offered-load experiment with an independent producer and explicit admission
 //! leakage. This command does not provide constant-rate cover on overload.
 use crate::{Result, pipeline};
+use ed25519_dalek::SigningKey;
 use oblivion_batcher::{ENVELOPE_BYTES, Endpoint, Envelope, PAYLOAD_BYTES};
+use oblivion_server::invocation::sign_request;
+use rand::{RngCore, rngs::OsRng};
 use std::{
     fs::{self, File},
     io::{BufWriter, Read, Write},
@@ -82,6 +85,9 @@ pub fn run(output: &Path, interval_ms: u64, count: usize, capacity: usize) -> Re
     )?;
     let mut input = executor.0.stdin.take().ok_or("missing stdin")?;
     let mut endpoint = Endpoint::provision_over_pipe(0, &mut input)?;
+    let mut seed = zeroize::Zeroizing::new([0; 32]);
+    OsRng.try_fill_bytes(&mut *seed)?;
+    let invocation_key = SigningKey::from_bytes(&seed);
     let mut responses = executor.0.stdout.take().ok_or("missing stdout")?;
     let (response_tx, response_rx) = mpsc::sync_channel(1);
     std::thread::spawn(move || {
@@ -162,6 +168,9 @@ pub fn run(output: &Path, interval_ms: u64, count: usize, capacity: usize) -> Re
         let mut payload = [0; PAYLOAD_BYTES];
         payload[0] = 1;
         payload[1..5].copy_from_slice(&4u32.to_be_bytes());
+        let mut invocation_id = [0; 16];
+        OsRng.try_fill_bytes(&mut invocation_id)?;
+        sign_request(&mut payload, 0, invocation_id, &invocation_key);
         let sent = Instant::now();
         input.write_all(endpoint.send(completed, &payload)?.as_bytes())?;
         input.flush()?;
