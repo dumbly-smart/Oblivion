@@ -893,3 +893,16 @@ fingerprints. Classifier fitting was not independently reimplemented. The
 [preregistration](ORAM_UNIFORM32_REPLICATION_PREREG_20261026.md) and
 [result record](ORAM_UNIFORM32_REPLICATION_20261026.md). Other workload and
 attack families, quiet-host replication, and remote timing remain open.
+
+## 2026-10-26: preregistered higher-skew Zipf-32 ORAM timing replication
+
+A fresh 32-address Zipf workload with exponent 1.5 and top-four probability
+mass 0.7389 passed both positive controls (AUC approximately 1.000). Path
+ORAM scored 0.4997 [0.4913, 0.5073] over 30 whole-session trials; the interval
+includes chance, and raw accuracy is below the 0.7380 profile-majority
+baseline. All 1,440 raw hashes, 240 paired schedules, 90 prediction files and
+their saved metrics were independently verified. This is a bounded local
+synthetic result, not a security proof. See the
+[preregistration](ORAM_ZIPF32_ALPHA15_REPLICATION_PREREG_20261026.md) and
+[result](ORAM_ZIPF32_ALPHA15_REPLICATION_20261026.md). Focused ORAM harness
+tests passed (12 tests).

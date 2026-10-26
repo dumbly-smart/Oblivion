@@ -83,3 +83,12 @@ were checked. See the [preregistration](ORAM_UNIFORM32_REPLICATION_PREREG_202610
 and [result](ORAM_UNIFORM32_REPLICATION_20261026.md). This remains a bounded
 local synthetic experiment. Other workload and attack families, quieter-host
 replication, and real remote timing remain open.
+
+A fresh higher-skew 32-address Zipf replication (exponent 1.5; top-four mass
+0.7389) also completed with the frozen classifier. Both controls scored
+approximately AUC 1.000; Path ORAM scored 0.4997 [0.4913, 0.5073], with raw
+accuracy below the profile-majority baseline. All raw hashes, paired schedules,
+and prediction metrics were checked. See the
+[protocol](ORAM_ZIPF32_ALPHA15_REPLICATION_PREREG_20261026.md) and
+[result](ORAM_ZIPF32_ALPHA15_REPLICATION_20261026.md). This does not resolve
+other distributions, attacks, quiet-host effects, or remote timing.
