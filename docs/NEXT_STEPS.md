@@ -69,3 +69,9 @@ data; the original report and complete hash manifest are retained. See the
 [preregistration](ORAM_ZIPF32_MONITORED_PREREG_20261026.md) and
 [independent result](ORAM_ZIPF32_MONITORED_REPLICATION_20261026.md). The two
 runs are separate estimates, not a pooled analysis.
+
+A uniform-32 comparison is preregistered in
+[`ORAM_UNIFORM32_REPLICATION_PREREG_20261026.md`](ORAM_UNIFORM32_REPLICATION_PREREG_20261026.md).
+It uses a balanced public hot/cold partition and preserves the same operation
+mix, classifier, positive controls, and primary metric; collection remains
+outstanding.
