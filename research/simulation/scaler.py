@@ -1,9 +1,10 @@
 """Seeded discrete-event function-affine autoscaling research model, not a deployment."""
 from collections import deque
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 import csv
 from decimal import Decimal, ROUND_CEILING, localcontext
 import heapq
+import hmac
 import math
 from pathlib import Path
 import random
@@ -35,14 +36,19 @@ class Config:
     dp_epsilon: float = 1.0
     dp_delta: float = 1e-6
     dp_user_contribution_cap: int = 0
+    require_authenticated_user_ids: bool = False
     low_rate: float = 2
     high_rate: float = 12
     price_per_instance_second: float = .00001  # explicit hypothetical input
 
     def validate(self):
         values = asdict(self)
+        if type(self.require_authenticated_user_ids) is not bool:
+            raise ValueError('require_authenticated_user_ids must be a boolean')
+        numeric_values = {key: value for key, value in values.items()
+                          if key != 'require_authenticated_user_ids'}
         if not all(isinstance(v, (int, float)) and not isinstance(v, bool)
-                   and math.isfinite(v) for v in values.values()):
+                   and math.isfinite(v) for v in numeric_values.values()):
             raise ValueError('finite numeric parameters required')
         for key in ('initial', 'maximum', 'functions', 'queue_limit', 'quantum',
                     'hysteresis', 'dp_user_contribution_cap'):
@@ -60,6 +66,8 @@ class Config:
             raise ValueError('dp_epsilon must be positive')
         if not 0 <= self.dp_user_contribution_cap <= 1000000:
             raise ValueError('dp_user_contribution_cap must be in 0..1,000,000')
+        if self.require_authenticated_user_ids and not self.dp_user_contribution_cap:
+            raise ValueError('authenticated user IDs require a positive per-user contribution cap')
         if not 0 < self.dp_delta < 1:
             raise ValueError('dp_delta must be strictly between zero and one')
         if self.high_rate * self.duration > 1e6:
@@ -71,24 +79,81 @@ class Request:
     time: float
     function: int
     user_id: str | None = None
+    auth_tag: str | None = None
 
 
-def load_imported(path, cfg):
+class RequestAuthenticator:
+    """In-memory per-principal HMAC verifier for simulator request inputs.
+
+    Each client and verifier share a distinct 256-bit key. This can prevent
+    one registered client from claiming another client's ID when the key
+    registry stays secret. It is not an identity provider and does not protect
+    against compromise of the verifier or its key registry.
+    """
+
+    def __init__(self, keys):
+        if not isinstance(keys, dict) or not keys:
+            raise ValueError('a nonempty per-principal key registry is required')
+        if any(not isinstance(user_id, str) or not user_id
+               or not isinstance(key, bytes) or len(key) < 32
+               for user_id, key in keys.items()):
+            raise ValueError('principal IDs and keys must be nonempty and keys at least 32 bytes')
+        self._keys = dict(keys)
+
+    @staticmethod
+    def _message(request):
+        if (not isinstance(request, Request) or not isinstance(request.user_id, str)
+                or not request.user_id or type(request.function) is not int
+                or request.function < 0 or not isinstance(request.time, (int, float))
+                or isinstance(request.time, bool) or not math.isfinite(request.time)):
+            raise ValueError('valid request fields are required for authentication')
+        user_id = request.user_id.encode('utf-8')
+        return (b'oblivion-autoscaler-request-v1\0'
+                + len(user_id).to_bytes(4, 'big') + user_id
+                + float(request.time).hex().encode('ascii') + b'\0'
+                + request.function.to_bytes(8, 'big'))
+
+    def sign(self, request):
+        message = self._message(request)
+        key = self._keys.get(request.user_id)
+        if key is None:
+            raise ValueError('principal is not registered')
+        tag = hmac.new(key, message, 'sha256').hexdigest()
+        return replace(request, auth_tag=tag)
+
+    def verify(self, request):
+        if (not isinstance(request, Request) or not isinstance(request.user_id, str)
+                or not isinstance(request.auth_tag, str) or len(request.auth_tag) != 64
+                or any(char not in '0123456789abcdef' for char in request.auth_tag)):
+            return False
+        key = self._keys.get(request.user_id)
+        if key is None:
+            return False
+        try:
+            expected = hmac.new(key, self._message(request), 'sha256').hexdigest()
+        except (OverflowError, UnicodeError, ValueError):
+            return False
+        return hmac.compare_digest(expected, request.auth_tag)
+
+
+def load_imported(path, cfg, identity_authenticator=None):
     """User-supplied CSV time,function in simulation seconds; never fetches traces."""
     cfg.validate()
     with Path(path).open() as source:
         reader = csv.DictReader(source)
-        expected = (['time', 'function', 'user_id']
+        expected = (['time', 'function', 'user_id', 'auth_tag']
+                    if cfg.require_authenticated_user_ids else
+                    ['time', 'function', 'user_id']
                     if cfg.dp_user_contribution_cap else ['time', 'function'])
         if reader.fieldnames != expected:
             raise ValueError(f'expected CSV header {",".join(expected)}')
         requests = [Request(float(r['time']), int(r['function']),
-                            r.get('user_id')) for r in reader]
-    validate_requests(requests, cfg)
+                            r.get('user_id'), r.get('auth_tag')) for r in reader]
+    validate_requests(requests, cfg, identity_authenticator)
     return requests
 
 
-def validate_requests(requests, cfg):
+def validate_requests(requests, cfg, identity_authenticator=None):
     last = -1.
     if len(requests) > 1000000:
         raise ValueError('too many requests')
@@ -100,12 +165,17 @@ def validate_requests(requests, cfg):
             raise ValueError('user_id must be a nonempty string when provided')
         if cfg.dp_user_contribution_cap and not r.user_id:
             raise ValueError('user-level DP requires a stable user_id on every request')
+        if cfg.require_authenticated_user_ids:
+            if not isinstance(identity_authenticator, RequestAuthenticator):
+                raise ValueError('authenticated user IDs require an identity authenticator')
+            if not identity_authenticator.verify(r):
+                raise ValueError('request identity authentication failed')
 
 
-def bounded_arrival_counts(requests, cfg):
+def bounded_arrival_counts(requests, cfg, identity_authenticator=None):
     """Return per-epoch integer counts after the public per-user contribution cap."""
     cfg.validate()
-    validate_requests(requests, cfg)
+    validate_requests(requests, cfg, identity_authenticator)
     horizon = math.ceil(cfg.duration / cfg.epoch)
     counts = np.zeros((horizon, cfg.functions), dtype=np.int64)
     contributions = {}
@@ -121,7 +191,7 @@ def bounded_arrival_counts(requests, cfg):
     return counts
 
 
-def workload(cfg, kind, seed, intensity=0, hot=0):
+def workload(cfg, kind, seed, intensity=0, hot=0, identity_authenticator=None):
     cfg.validate()
     if kind not in ('uniform', 'zipf', 'diurnal', 'burst') or intensity not in (0, 1) or not 0 <= hot < cfg.functions:
         raise ValueError('invalid workload')
@@ -152,20 +222,25 @@ def workload(cfg, kind, seed, intensity=0, hot=0):
         requests = [Request(request.time, request.function,
                             f'synthetic-user-{index % 64}')
                     for index, request in enumerate(requests)]
+    if cfg.require_authenticated_user_ids:
+        if not isinstance(identity_authenticator, RequestAuthenticator):
+            raise ValueError('authenticated synthetic workload requires an identity authenticator')
+        requests = [identity_authenticator.sign(request) for request in requests]
     return requests, labels
 
 
-def simulate(cfg, requests, policy, seed, dp_noise_source='seeded_experiment'):
+def simulate(cfg, requests, policy, seed, dp_noise_source='seeded_experiment',
+             identity_authenticator=None):
     cfg.validate()
     if policy not in POLICIES:
         raise ValueError('unknown scaling policy')
     if dp_noise_source not in DP_NOISE_SOURCES:
         raise ValueError('unknown DP noise source')
-    validate_requests(requests, cfg)
+    validate_requests(requests, cfg, identity_authenticator)
     rng = np.random.default_rng(seed)
     replayable_noise_rng = random.Random(seed)
     dp_noise_parameters = dp_laplace_parameters(cfg) if policy == 'dp_laplace' else None
-    dp_arrival_counts = (bounded_arrival_counts(requests, cfg)
+    dp_arrival_counts = (bounded_arrival_counts(requests, cfg, identity_authenticator)
                          if policy == 'dp_laplace' else None)
     queues = [deque() for _ in range(cfg.functions)]
     workers, events, records, observer = {}, [], [], []

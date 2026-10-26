@@ -2,6 +2,7 @@
 import tempfile
 import unittest
 from pathlib import Path
+import research.simulation.scaler as scaler
 from research.simulation.scaler import (Config, Request, simulate, workload, load_imported,
     features, trial_interval, dp_laplace_parameters, discrete_laplace_from_bits,
     bounded_arrival_counts)
@@ -120,6 +121,75 @@ class ScalerTests(unittest.TestCase):
                         msg=f'bounded-user shift {shift}',
                     )
 
+    def test_authenticated_user_identity_rejects_forgery_before_clipping(self):
+        cfg = Config(duration=2, epoch=1, dp_user_contribution_cap=2,
+                     require_authenticated_user_ids=True)
+        verifier = scaler.RequestAuthenticator({"alice": b"a" * 32, "bob": b"b" * 32})
+        signed = [verifier.sign(Request(t, 0, "alice")) for t in (.1, .2, .3)]
+
+        counts = bounded_arrival_counts(signed, cfg, identity_authenticator=verifier)
+        self.assertEqual(counts[:, 0].tolist(), [2, 0])
+        simulate(cfg, signed, "fixed", 3, identity_authenticator=verifier)
+
+        forged = Request(signed[0].time, signed[0].function, "bob", signed[0].auth_tag)
+        with self.assertRaisesRegex(ValueError, "authentication"):
+            bounded_arrival_counts([forged], cfg, identity_authenticator=verifier)
+        with self.assertRaisesRegex(ValueError, "authentication"):
+            simulate(cfg, [forged], "fixed", 3, identity_authenticator=verifier)
+
+    def test_authenticated_request_rejects_malformed_mac(self):
+        verifier = scaler.RequestAuthenticator({"alice": b"a" * 32})
+        signed = verifier.sign(Request(.1, 0, "alice"))
+
+        self.assertFalse(verifier.verify(Request(.1, 0, "alice", "é" * 64)))
+        self.assertFalse(verifier.verify(Request(.1, 0, "alice", signed.auth_tag[:-1])))
+
+    def test_authenticated_user_flag_requires_boolean_and_positive_cap(self):
+        with self.assertRaisesRegex(ValueError, "must be a boolean"):
+            Config(require_authenticated_user_ids=1).validate()
+        with self.assertRaisesRegex(ValueError, "positive per-user contribution cap"):
+            Config(require_authenticated_user_ids=True).validate()
+
+    def test_authenticated_identity_mode_requires_verifier(self):
+        cfg = Config(duration=2, epoch=1, dp_user_contribution_cap=2,
+                     require_authenticated_user_ids=True)
+        verifier = scaler.RequestAuthenticator({"alice": b"a" * 32})
+        signed = verifier.sign(Request(.1, 0, "alice"))
+
+        with self.assertRaisesRegex(ValueError, "authenticator"):
+            bounded_arrival_counts([signed], cfg)
+
+    def test_authenticated_synthetic_workload_signs_every_request(self):
+        cfg = Config(duration=4, dp_user_contribution_cap=1,
+                     require_authenticated_user_ids=True)
+        verifier = scaler.RequestAuthenticator({
+            f"synthetic-user-{index}": bytes([index + 1]) * 32
+            for index in range(64)
+        })
+
+        with self.assertRaisesRegex(ValueError, "requires an identity authenticator"):
+            workload(cfg, "uniform", 101)
+        requests, _labels = workload(cfg, "uniform", 101,
+                                     identity_authenticator=verifier)
+
+        self.assertTrue(requests)
+        self.assertTrue(all(verifier.verify(request) for request in requests))
+        self.assertTrue(all(request.auth_tag for request in requests))
+
+    def test_authenticated_imports_verify_the_signed_request_fields(self):
+        cfg = Config(duration=2, epoch=1, dp_user_contribution_cap=2,
+                     require_authenticated_user_ids=True)
+        verifier = scaler.RequestAuthenticator({"alice": b"a" * 32})
+        signed = verifier.sign(Request(.1, 0, "alice"))
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "signed.csv"
+            path.write_text(f"time,function,user_id,auth_tag\n{signed.time},{signed.function},{signed.user_id},{signed.auth_tag}\n")
+
+            self.assertEqual(load_imported(path, cfg, verifier), [signed])
+            path.write_text(f"time,function,user_id,auth_tag\n1.1,{signed.function},{signed.user_id},{signed.auth_tag}\n")
+            with self.assertRaisesRegex(ValueError, "authentication failed"):
+                load_imported(path, cfg, verifier)
+
     def test_user_level_cap_limits_whole_horizon_count_sensitivity(self):
         cfg = Config(duration=4, epoch=1, functions=1,
                      dp_user_contribution_cap=3)
@@ -136,10 +206,37 @@ class ScalerTests(unittest.TestCase):
                              for left, right in zip(a.flat, without_a.flat)), 3)
         self.assertEqual(dp_laplace_parameters(cfg)['l1_sensitivity_bound'], 3)
 
+    def test_user_level_cap_can_be_evaded_with_caller_chosen_ids(self):
+        cfg = Config(duration=2, epoch=1, dp_user_contribution_cap=2)
+        one_claimed_user = [Request(.1, 0, "caller-controlled") for _ in range(8)]
+        forged_principals = [Request(.1, 0, f"forged-{i}") for i in range(8)]
+
+        claimed_counts = bounded_arrival_counts(one_claimed_user, cfg)
+        forged_counts = bounded_arrival_counts(forged_principals, cfg)
+
+        self.assertEqual(claimed_counts[:, 0].tolist(), [2, 0])
+        self.assertEqual(forged_counts[:, 0].tolist(), [8, 0])
+
     def test_user_level_mode_requires_stable_user_identity(self):
         cfg = Config(duration=2, epoch=1, dp_user_contribution_cap=2)
         with self.assertRaises(ValueError):
             simulate(cfg, [Request(.1, 0)], 'dp_laplace', 4)
+
+    def test_batch_runner_rejects_authenticated_mode_without_key_provisioning(self):
+        import json
+        from research.simulation.run import run
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            config = root / "config.json"
+            config.write_text(json.dumps(dict(version=1, seed=1, trials=2,
+                sessions=8, workloads=["uniform"], policies=["naive"],
+                simulation=dict(duration=4, dp_user_contribution_cap=2,
+                                require_authenticated_user_ids=True))))
+            output = root / "run"
+
+            with self.assertRaisesRegex(ValueError, "does not provision identity keys"):
+                run(config, output)
+            self.assertFalse(output.exists())
 
     def test_user_level_runner_emits_and_rebuilds_declared_adjacency(self):
         import json

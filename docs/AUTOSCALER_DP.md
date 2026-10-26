@@ -62,16 +62,29 @@ deterministic PRNG; its transcript is reproducible from public configuration
 and workload identifiers and has no DP guarantee. The result covers only the
 fixed-horizon count/event observer, not the full runtime transcript.
 
-For bounded-user mode, identities are assumed stable and non-spoofable; the
-simulator does not provide authentication. Its synthetic generator assigns
-requests round-robin across 64 identities, a reproducible convention rather
-than a realistic user model. Imported traces in that mode must provide a
-`user_id` CSV column. Only the private scaling count is capped; all requests
-still affect simulated queue/service metrics, which are excluded from the
-claim. Repeated sessions or deployments over shared person-level data require
-additional composition. Replacement/move adjacency is not claimed. Variable
-horizons, externally visible queue state, latency, errors, sampler execution
-timing/CPU, billing, and the full runtime transcript are outside the argument.
+Existing bounded-user experiments assume stable, non-spoofable identities;
+their synthetic generator assigns requests round-robin across 64 IDs, and
+those experiment outputs do not authenticate them. A new opt-in low-level
+simulation API can verify per-principal HMAC-SHA256 request tags before
+clipping: set `require_authenticated_user_ids=True` with a positive user cap,
+then pass a `RequestAuthenticator` to `workload`, `load_imported`,
+`bounded_arrival_counts`, or `simulate`. The MAC binds the principal ID,
+request time, and function. The verifier needs a per-principal key registry
+with at least 32-byte keys. This API prevents one registered client from
+claiming another ID only while the verifier registry stays secret; it does not
+protect against verifier compromise or an operator who can read its keys.
+There is no nonce or replay cache; replayed requests are charged to the same
+principal and remain subject to the cap. The batch experiment runner refuses
+authenticated mode until external key provisioning is integrated. This is not
+a production identity system or an authentication result for the retained
+bounded-user studies.
+
+Only the private scaling count is capped; all requests still affect simulated
+queue/service metrics, which are excluded from the claim. Repeated sessions or
+deployments over shared person-level data require additional composition.
+Replacement/move adjacency is not claimed. Variable horizons, externally
+visible queue state, latency, errors, sampler execution timing/CPU, billing,
+and the full runtime transcript are outside the argument.
 The legacy `noisy` policy remains engineering noise without a formal privacy
 analysis.
 

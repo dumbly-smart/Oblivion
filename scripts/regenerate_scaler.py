@@ -65,12 +65,16 @@ def load_inputs(source):
             fail(type(label['arrivals']) is int and label['arrivals']>=0 and number(label['rate']),'invalid label diagnostics')
         fail(isinstance(row['requests'],list) and len(row['requests'])==sum(x['arrivals'] for x in row['labels']),'workload arrival totals differ')
         for request in row['requests']:
-            valid_keys=isinstance(request,dict) and set(request) in ({'time','function'},{'time','function','user_id'})
+            valid_keys=isinstance(request,dict) and set(request) in (
+                {'time','function'}, {'time','function','user_id'},
+                {'time','function','user_id','auth_tag'})
             user_id=request.get('user_id') if isinstance(request,dict) else None
             valid_user=(user_id is None or isinstance(user_id,str) and bool(user_id))
             if cfg.dp_user_contribution_cap:
                 valid_user=isinstance(user_id,str) and bool(user_id)
-            fail(valid_keys and valid_user and number(request['time'],0,cfg.duration) and request['time']<cfg.duration and type(request['function']) is int and 0<=request['function']<cfg.functions,'invalid retained workload request')
+            valid_auth=(('auth_tag' not in request or request['auth_tag'] is None)
+                        if isinstance(request,dict) else False)
+            fail(valid_keys and valid_user and valid_auth and number(request['time'],0,cfg.duration) and request['time']<cfg.duration and type(request['function']) is int and 0<=request['function']<cfg.functions,'invalid retained workload request')
         fail([r['time'] for r in row['requests']]==sorted(r['time'] for r in row['requests']),'unsorted workload requests')
         truth[key]=row
     fail(set(truth)==expected_truth,'missing workload truth trial/session')

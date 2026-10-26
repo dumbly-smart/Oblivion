@@ -148,6 +148,11 @@ def run(config_path, output):
     if dp_noise_source not in ('seeded_experiment', 'os_csprng'):
         raise ValueError('dp_noise_source must be seeded_experiment or os_csprng')
     cfg = Config(**raw['simulation']); cfg.validate()
+    if cfg.require_authenticated_user_ids:
+        raise ValueError(
+            'the batch experiment runner does not provision identity keys; '
+            'use the simulation API with an externally provisioned RequestAuthenticator'
+        )
     if cfg.functions != 2:
         raise ValueError('binary hot-class experiment requires two function pools')
     if not raw['workloads'] or set(raw['workloads']) - {'uniform', 'zipf', 'diurnal', 'burst'}:
