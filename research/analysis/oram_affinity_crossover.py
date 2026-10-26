@@ -13,6 +13,7 @@ import subprocess
 import tarfile
 import tempfile
 import time
+from pathlib import Path
 
 import numpy as np
 
@@ -21,6 +22,7 @@ from research.analysis import oram_isolated_replication as replication
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 MODES = ("plaintext", "encrypt_only", "oram")
 CONDITIONS = ("pinned", "unpinned")
+COLLECTION_HEAD = "26460042"
 
 
 def counterbalanced_condition_orders(trials, seed):
@@ -83,6 +85,110 @@ def cpu_ids(mask):
     return result
 
 
+def save_plot(output, summaries):
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    fig, ax = plt.subplots(figsize=(7, 4))
+    labels, means, intervals = [], [], []
+    for condition in CONDITIONS:
+        summary = summaries[condition]["oram"]
+        labels.append(condition)
+        means.append(summary["auc_mean"])
+        intervals.append(summary["auc_ci95_trials"])
+    ax.bar(labels, means, yerr=[[m - i[0] for m, i in zip(means, intervals)],
+                                [i[1] - m for m, i in zip(means, intervals)]], capsize=4)
+    ax.axhline(0.5, color="gray", linestyle="--")
+    ax.set(ylabel="ORAM attack AUC", ylim=(0, 1.05), title="Counterbalanced service-affinity crossover")
+    fig.tight_layout()
+    fig.savefig(output / "auc.png", dpi=160)
+    plt.close(fig)
+
+
+def analyze_existing(config_path, output, collection_head=COLLECTION_HEAD):
+    config_path = pathlib.Path(config_path)
+    output = pathlib.Path(output)
+    config = json.loads(config_path.read_text())
+    trials, sessions = config["trials"], config["sessions_per_trial"]
+    orders = counterbalanced_condition_orders(trials, config["order_seed"])
+    address_count = len(config["address_distribution"])
+    verify_crossover_schedules(output / "raw", trials, sessions, address_count, True)
+    summaries, all_trials = {}, {}
+    for condition in CONDITIONS:
+        condition_root = output / "raw" / condition
+        summaries[condition], all_trials[condition] = {}, {}
+        for mode in MODES:
+            summary, rows = replication.evaluate_mode(
+                mode, condition_root,
+                {**config, "service_cpu_affinity": config["service_cpu_affinity"] if condition == "pinned" else None},
+                output / "predictions" / condition / mode,
+            )
+            summaries[condition][mode] = summary
+            all_trials[condition][mode] = rows
+    controls_passed = all(
+        summaries[condition][mode]["auc_mean"] >= config["positive_control_min_mean_auc"]
+        and summaries[condition][mode]["auc_ci95_trials"][0] > config["positive_control_ci_lower_must_exceed"]
+        for condition in CONDITIONS for mode in MODES[:2]
+    )
+    if not controls_passed:
+        raise RuntimeError("retained crossover data fail a preregistered positive control")
+    paired = paired_auc_summary(
+        [row["auc"] for row in all_trials["pinned"]["oram"]],
+        [row["auc"] for row in all_trials["unpinned"]["oram"]],
+        config["seed"] + 901,
+    )
+    source_files = [
+        "research/analysis/oram_affinity_crossover.py",
+        "research/analysis/oram_isolated_replication.py",
+        "research/attacks/leaf_timing.py",
+        "experiments/configs/oram-affinity-crossover-20261026.json",
+    ]
+    source_hashes = {}
+    for name in source_files:
+        contents = subprocess.check_output(["git", "show", f"{collection_head}:{name}"], cwd=ROOT)
+        source_hashes[name] = hashlib.sha256(contents).hexdigest()
+    source_hashes["target/release/examples/oram-measure"] = replication.digest(ROOT / "target/release/examples/oram-measure")
+    source_hashes["target/release/examples/oram-control"] = replication.digest(ROOT / "target/release/examples/oram-control")
+    raw_hashes = {
+        str(path.relative_to(output)): replication.digest(path)
+        for path in sorted((output / "raw").rglob("*.jsonl.gz"))
+    }
+    expected_raw = trials * sessions * len(MODES) * len(CONDITIONS) * 2
+    if len(raw_hashes) != expected_raw:
+        raise RuntimeError(f"expected {expected_raw} raw traces, found {len(raw_hashes)}")
+    order_rows = [{"trial": i, "first_condition": order[0], "second_condition": order[1]}
+                  for i, order in enumerate(orders)]
+    metadata_summary = {
+        "collector_invocations": trials * len(MODES) * len(CONDITIONS),
+        "service_child_sessions": expected_raw // 2,
+        "pinned_invocations_with_effective_affinity_record_checked": trials * len(MODES),
+        "pinned_cpu": config["service_cpu_affinity"],
+        "unpinned_condition": "no taskset wrapper requested",
+        "limitation": "Each Rust collector invocation emitted one isolated-service.json overwritten per session; its final session affinity was checked by the Python collector. Individual child PIDs/effective masks were not retained. taskset was configured identically for each pinned session.",
+    }
+    (output / "process-metadata.json").write_text(json.dumps(metadata_summary, indent=2) + "\n")
+    report = {
+        "configuration": config, "summaries": summaries, "paired_auc_difference": paired,
+        "primary_metric": "paired_auc_delta", "positive_controls_passed": True,
+        "defense_evaluated": True, "condition_order": order_rows,
+        "condition_order_counts": {condition: sum(row["first_condition"] == condition for row in order_rows)
+                                    for condition in CONDITIONS},
+        "attacker_knowledge": "Labeled complete plaintext/encrypt-only profiling sessions within each affinity condition; unlabeled target sessions; no private operation labels during prediction.",
+        "timing_scope": "Local isolated bucket service; handler-only timer; not network timing. Only service-process affinity differs.",
+        "limitations": "Single shared Linux host; pinned core is not reserved; host scheduling/frequency/thermal/SMT activity remains uncontrolled. Paired schedules do not pair OS-random ORAM state. This is not a security proof.",
+        "collection_report_recovery": "All data capture completed; initial report assembly raised NameError for Path after collection. This report was regenerated from the preserved traces without rerunning measurement sessions.",
+        "process_metadata_summary": metadata_summary,
+        "source_sha256_at_collection": source_hashes, "raw_session_sha256": raw_hashes,
+        "collection_git_head": collection_head,
+        "analysis_git_head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
+        "platform": platform.platform(), "python": __import__("sys").version,
+        "numpy": np.__version__,
+    }
+    (output / "report.json").write_text(json.dumps(report, indent=2) + "\n")
+    save_plot(output, summaries)
+    return report
+
+
 def run(config_path, output, oram_binary, control_binary):
     started = time.time()
     config_path = pathlib.Path(config_path)
@@ -129,6 +235,9 @@ def run(config_path, output, oram_binary, control_binary):
                             trial_indices=selected_trial_indices(trials, [trial]), condition=condition,
                         )
                     )
+                    (output / "process-metadata.json").write_text(
+                        json.dumps(process_metadata, indent=2) + "\n"
+                    )
         address_count = len(config["address_distribution"])
         verify_crossover_schedules(output / "raw", trials, sessions, address_count, False)
 
@@ -164,6 +273,9 @@ def run(config_path, output, oram_binary, control_binary):
                         "oram", condition_configs[condition], binaries, output, temporary,
                         trial_indices=selected_trial_indices(trials, [trial]), condition=condition,
                     )
+                )
+                (output / "process-metadata.json").write_text(
+                    json.dumps(process_metadata, indent=2) + "\n"
                 )
         verify_crossover_schedules(output / "raw", trials, sessions, address_count, True)
         for condition in CONDITIONS:
@@ -220,23 +332,7 @@ def run(config_path, output, oram_binary, control_binary):
         "numpy": np.__version__, "elapsed_seconds": time.time() - started,
     }
     (output / "report.json").write_text(json.dumps(report, indent=2) + "\n")
-    import matplotlib
-    matplotlib.use("Agg")
-    import matplotlib.pyplot as plt
-    fig, ax = plt.subplots(figsize=(7, 4))
-    labels, means, intervals = [], [], []
-    for condition in CONDITIONS:
-        summary = summaries[condition]["oram"]
-        labels.append(condition)
-        means.append(summary["auc_mean"])
-        intervals.append(summary["auc_ci95_trials"])
-    ax.bar(labels, means, yerr=[[m - i[0] for m, i in zip(means, intervals)],
-                                [i[1] - m for m, i in zip(means, intervals)]], capsize=4)
-    ax.axhline(0.5, color="gray", linestyle="--")
-    ax.set(ylabel="ORAM attack AUC", ylim=(0, 1.05), title="Counterbalanced service-affinity crossover")
-    fig.tight_layout()
-    fig.savefig(output / "auc.png", dpi=160)
-    plt.close(fig)
+    save_plot(output, summaries)
     return report
 
 
@@ -246,8 +342,15 @@ def main():
     parser.add_argument("--output", type=pathlib.Path, required=True)
     parser.add_argument("--oram-binary", type=pathlib.Path, default=ROOT / "target/release/examples/oram-measure")
     parser.add_argument("--control-binary", type=pathlib.Path, default=ROOT / "target/release/examples/oram-control")
+    parser.add_argument("--analyze-existing", action="store_true",
+                        help="verify and analyze retained raw traces without collecting new sessions")
+    parser.add_argument("--collection-head", default=COLLECTION_HEAD,
+                        help="git commit containing source used to collect an existing trace set")
     args = parser.parse_args()
-    result = run(args.config, args.output, args.oram_binary, args.control_binary)
+    if args.analyze_existing:
+        result = analyze_existing(args.config, args.output, args.collection_head)
+    else:
+        result = run(args.config, args.output, args.oram_binary, args.control_binary)
     print(json.dumps({
         "output": str(args.output), "positive_controls_passed": result["positive_controls_passed"],
         "defense_evaluated": result["defense_evaluated"],
