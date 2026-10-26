@@ -732,4 +732,20 @@ symlink-rejection checks. The worker readiness regression and durable restart,
 receipt replay and state recovery tests passed. Anchor tests passed (19 unit,
 9 process); warning-denied workspace Clippy, formatting and whitespace checks
 passed. This does not make arbitrary external side effects transactional or
-remove unbounded snapshot retention.
+provide remote or cross-host writer fencing.
+
+## 2026-10-26: bounded durable snapshot retention
+
+Durable startup now prunes obsolete `*.snapshot` files after restoring the
+anchor-current snapshot and before readiness. After each successful atomic
+checkpoint/receipt commit, the worker retains only the snapshot referenced by
+the anchor and syncs the snapshot directory after deletion. A crash between
+anchor commit and cleanup can leave extra encrypted snapshots until the next
+restart. Cleanup failures fail startup or suppress response publication after
+commit, allowing the client to recover the committed response by retrying.
+
+The durable worker restart test injects an orphan snapshot, then verifies
+startup cleanup and one retained anchored snapshot after a later commit. The
+test passed along with anchor lock tests, warning-denied workspace Clippy,
+formatting and whitespace checks. Snapshot pruning does not reduce the
+visible full-tree checkpoint I/O or make external side effects transactional.

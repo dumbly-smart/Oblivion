@@ -53,7 +53,16 @@ full-tree recovery are visible in size and timing. In durable mode, new
 invocations add a full-tree snapshot read to the ORAM trace; receipt hits run
 the cover path without another checkpoint. The anchor operator can distinguish
 receipt lookup from receipt commit, and the protocol does not claim to hide
-retry status from that operator. Snapshot retention is currently unbounded.
+retry status from that operator. After publishing a checkpoint/receipt, the
+worker keeps only the snapshot named by the current checkpoint anchor and
+fsyncs the snapshot directory after deleting obsolete `*.snapshot` files.
+Startup recovery also prunes old snapshots before readiness, which cleans up
+files left by a crash after anchor commit. Older receipt rows retain their
+response bytes and do not require their historical snapshots. A cleanup error
+after commit prevents response publication; the client can retry from the
+durable receipt after storage is repaired. There is a crash window between
+anchor commit and cleanup in which stale encrypted snapshots can remain until
+the next startup.
 
 The worker obtains the cooperative `UnixAnchorClient::invocation` lock for
 `server-state-v1` before loading the current checkpoint or announcing
