@@ -1,0 +1,100 @@
+{
+  "raw_sha256_entries_verified": 1440,
+  "paired_trial_session_schedules_verified": 240,
+  "source_and_binary_hashes_verified": {
+    "research/analysis/oram_isolated_replication.py": true,
+    "research/attacks/leaf_timing.py": true,
+    "target/release/examples/oram-measure": true,
+    "target/release/examples/oram-control": true,
+    "experiments/configs/oram-isolated-zipf32-monitored-replication-20261026.json": true
+  },
+  "prediction_metrics_recomputed": {
+    "plaintext": {
+      "trials": 30,
+      "mean_auc": 1.0
+    },
+    "encrypt_only": {
+      "trials": 30,
+      "mean_auc": 1.0
+    },
+    "oram": {
+      "trials": 30,
+      "mean_auc": 0.5051686080638874
+    }
+  },
+  "class_prevalence": {
+    "plaintext": {
+      "hot": 36097,
+      "total": 61440,
+      "fraction": 0.5875162760416667
+    },
+    "encrypt_only": {
+      "hot": 36097,
+      "total": 61440,
+      "fraction": 0.5875162760416667
+    },
+    "oram": {
+      "hot": 36097,
+      "total": 61440,
+      "fraction": 0.5875162760416667
+    }
+  },
+  "process_metadata": {
+    "plaintext": {
+      "session_children": 240,
+      "distinct_pids": 240,
+      "effective_cpu_masks": [
+        "0-23"
+      ]
+    },
+    "encrypt_only": {
+      "session_children": 240,
+      "distinct_pids": 240,
+      "effective_cpu_masks": [
+        "0-23"
+      ]
+    },
+    "oram": {
+      "session_children": 240,
+      "distinct_pids": 240,
+      "effective_cpu_masks": [
+        "0-23"
+      ]
+    }
+  },
+  "host_snapshots": {
+    "run_start": "2026-10-26T11:13:28.946+00:00",
+    "run_end": "2026-10-26T11:14:10.874+00:00",
+    "per_mode_boundaries": {
+      "plaintext": {
+        "before": "2026-10-26T11:13:28.947+00:00",
+        "after": "2026-10-26T11:13:30.967+00:00"
+      },
+      "encrypt_only": {
+        "before": "2026-10-26T11:13:30.967+00:00",
+        "after": "2026-10-26T11:13:33.029+00:00"
+      },
+      "oram": {
+        "before": "2026-10-26T11:13:48.257+00:00",
+        "after": "2026-10-26T11:13:59.538+00:00"
+      }
+    },
+    "limitation": "mode-boundary samples, not continuous per-operation load observations"
+  },
+  "report_correction": {
+    "corrected_at_utc": "2026-10-26T11:17:06+00:00",
+    "reason": "The original success-path collector hashed controls before ORAM capture; its raw-session map had 960 rather than 1440 entries.",
+    "correction": "Enumerated and SHA-256 hashed every retained raw observer/private file after collection. No raw trace, prediction, or model result was changed.",
+    "original_report_file": "report-initial-collector.json",
+    "original_report_sha256": "42ccf02ec8342d8b3de9865706e420af87d3a9e1ff531a63b11d80bedba47dd5",
+    "corrected_by_commit": "935767da",
+    "raw_file_count": 1440
+  },
+  "review_scope": "Checked complete raw hashes, paired schedules, session splits, process/host metadata, and recomputed stored prediction metrics. Classifier fitting was not independently reimplemented.",
+  "archive": {
+    "path": "trace-data.tar.gz",
+    "sha256": "0192c071339874a7c2126cf3ec8d29843e96a3f6d7cdad46c7277fb105a46bcd",
+    "raw_trace_files_extracted_and_verified": 1440,
+    "prediction_files": 90
+  }
+}

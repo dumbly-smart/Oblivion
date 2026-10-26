@@ -108,6 +108,7 @@ The built-in demo's real/dummy/function schedule is public given its code, real 
 | [Actual trace validation](TRACE_VALIDATION.md) | 100k ORAM accesses/workload and 30 scoped encrypted PIR captures | 1.4M bucket events/workload; 3,000 verified PIR retrievals, 6,000 streams, 61,363 packets and zero reported drops. Unvalidated packet classifier excluded |
 | [ORAM leaf+timing](ORAM_LEAF_TIMING.md) | Independent profile/target sessions and 30 fitted trials | Balanced accuracy 50.70% [49.80,51.62]; AUC 0.511 [0.501,0.521] is a possible weak signal, retained with unadjusted/multiple-metric caveats |
 | [32-address Zipf ORAM timing](ORAM_ZIPF32_REPLICATION_20261026.md) | 30 trials × eight sessions × 256 operations; fixed temporal classifier | Controls AUC 1.000; ORAM 0.5003 [0.4929, 0.5073]. 1,440 raw hashes and 240 paired schedules checked; collection-time host load missing |
+| [Monitored Zipf-32 repeat](ORAM_ZIPF32_MONITORED_REPLICATION_20261026.md) | Fresh seed, same frozen workload/attack; mode-boundary host snapshots | Controls AUC 1.000; ORAM 0.5052 [0.4995, 0.5109]. Collector hash-map omission corrected and original report retained |
 | [Individual-server PIR timing](PIR_TARGET_TIMING.md) | 46,080 oracle-checked requests at two geometries; real visible-index control first | Protected joint/timing/share intervals include three-class chance; only own share/local answer time, not collusion or network timing |
 | [SSE methods](SSE_ATTACKS.md), [inference](ADVANCED_ATTACKS.md), [chosen updates](UPDATE_LINKABILITY.md) | Actual encrypted postings/capabilities and 30 trial clusters | Six bounded SSE-facing methods and successful controls; equality/volume/later authorization still leak; not faithful published attack reproductions |
 | [Real corpus/drift](CORPUS_EVALUATION.md) | Licensed UCI text associations, genuine SSE/dummy padding, 30 conditional resamples | Likelihood 64.35% matched auxiliary → 36.35% strongest document drift; padded 38.88%. Synthetic queries; shared corpus across resamples |
@@ -827,7 +828,7 @@ allowed CPU set, and 1/5/15-minute load averages where available. The snapshot
 file is flushed around mode capture, including capture failures. Positive-
 control failure reports now also retain source/raw hashes and process context
 instead of returning an unhashed partial report. The focused replication
-suite passes, the complete Python research suite passed 202 tests with four
+suite passes, the complete Python research suite passed 203 tests with four
 existing fixture skips, and a real one-session ORAM child-process smoke
 produced before/after snapshots and compressed traces. The already-published
 Zipf result predates this fix and retains its documented collection-time host
@@ -853,3 +854,23 @@ Zero-success bootstrap draws are counted explicitly; the corrected report had
 5,000 defined draws and zero undefined draws for both profiles. Reproduction,
 result hashes and limits are recorded in [`COST_SENSITIVITY.md`](COST_SENSITIVITY.md).
 Remote/multi-host capacity and provider-calibrated costs remain unmeasured.
+
+## 2026-10-26: monitored Zipf-32 timing replication
+
+A preregistered fresh-seed repeat of the 32-address Zipf workload retained
+mode-boundary host snapshots. Both leaky controls scored AUC 1.000; Path ORAM
+scored 0.5052 [0.4995, 0.5109]. This separate interval includes chance and is
+not pooled with the first Zipf run. The machine had 24 allowed logical CPUs
+for the process and reported an Intel Core i7-14650HX model. Load averages
+were sampled around each mode but not continuously.
+
+The initial report omitted ORAM from its raw-hash map because the collector
+hashed after controls but before ORAM capture. The initial report is preserved;
+the corrected report and separate 1,440-entry raw SHA-256 manifest were
+created after collection without changing raw traces or predictions. An
+independent check confirmed all hashes, paired schedules, source/binary
+hashes, session splits, process metadata, and saved prediction metrics. The
+focused replication suite passes and the full research suite passed 203 tests
+with four existing skips. See the
+[preregistration](ORAM_ZIPF32_MONITORED_PREREG_20261026.md) and
+[result](ORAM_ZIPF32_MONITORED_REPLICATION_20261026.md).

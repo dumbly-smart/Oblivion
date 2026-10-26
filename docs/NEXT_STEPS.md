@@ -62,8 +62,10 @@ records platform, CPU model/count, allowed CPU set, and load average before and
 after each mode; this instrumentation does not retroactively repair the
 completed study.
 
-A second Zipf-32 run with a fresh seed and those host snapshots is now
-preregistered in
-[`ORAM_ZIPF32_MONITORED_PREREG_20261026.md`](ORAM_ZIPF32_MONITORED_PREREG_20261026.md).
-It preserves the prior workload, primary AUC, and positive-control thresholds
-and will be reported independently.
+A second Zipf-32 run with a fresh seed and those host snapshots is complete.
+Both controls scored AUC 1.000; ORAM scored 0.5052 [0.4995, 0.5109]. The
+collector's incomplete raw-hash map was corrected without modifying captured
+data; the original report and complete hash manifest are retained. See the
+[preregistration](ORAM_ZIPF32_MONITORED_PREREG_20261026.md) and
+[independent result](ORAM_ZIPF32_MONITORED_REPLICATION_20261026.md). The two
+runs are separate estimates, not a pooled analysis.
