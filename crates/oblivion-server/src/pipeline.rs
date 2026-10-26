@@ -101,6 +101,9 @@ impl WorkerState {
         let mut checkpoint_anchor = UnixAnchorClient::checkpoint(&socket, "server-state-v1")?;
         let current = checkpoint_anchor.load()?;
         let generation = current.as_ref().map(|record| record.generation());
+        let current_snapshot_id = current
+            .as_ref()
+            .map(|record| record.snapshot_id().to_owned());
         if current.is_none() && fs::read_dir(&snapshot_dir)?.next().transpose()?.is_some() {
             return Err("unanchored snapshots exist but no checkpoint is present".into());
         }
@@ -121,6 +124,7 @@ impl WorkerState {
         } else {
             PathOram::new(config, MemoryBackend::default())?
         };
+        prune_snapshots(&snapshot_dir, current_snapshot_id.as_deref())?;
         Ok(Self {
             store: Arc::new(Mutex::new(store)),
             durable: Some(DurableState {
@@ -139,6 +143,49 @@ fn safe_snapshot_id(value: &str) -> bool {
         && value
             .bytes()
             .all(|byte| byte.is_ascii_alphanumeric() || byte == b'-' || byte == b'_')
+}
+
+#[cfg(unix)]
+fn prune_snapshots(snapshot_dir: &Path, keep_snapshot_id: Option<&str>) -> Result<()> {
+    let keep_name = if let Some(snapshot_id) = keep_snapshot_id {
+        if !safe_snapshot_id(snapshot_id) {
+            return Err("anchor returned an invalid snapshot identifier".into());
+        }
+        Some(format!("{snapshot_id}.snapshot"))
+    } else {
+        None
+    };
+    if let Some(name) = &keep_name {
+        let current = snapshot_dir.join(name);
+        let metadata = fs::symlink_metadata(&current)?;
+        if !metadata.is_file() || metadata.file_type().is_symlink() {
+            return Err("anchored snapshot must be a regular file".into());
+        }
+    }
+    let mut removed = false;
+    for entry in fs::read_dir(snapshot_dir)? {
+        let entry = entry?;
+        let name = entry.file_name();
+        if keep_name
+            .as_ref()
+            .is_some_and(|keep| name == std::ffi::OsStr::new(keep))
+            || !Path::new(&name)
+                .extension()
+                .is_some_and(|extension| extension == "snapshot")
+        {
+            continue;
+        }
+        let file_type = entry.file_type()?;
+        if !file_type.is_file() && !file_type.is_symlink() {
+            return Err("unexpected non-file entry in anchor snapshot directory".into());
+        }
+        fs::remove_file(entry.path())?;
+        removed = true;
+    }
+    if removed {
+        File::open(snapshot_dir)?.sync_all()?;
+    }
+    Ok(())
 }
 
 #[cfg(unix)]
@@ -181,27 +228,27 @@ impl DurableState {
         }
         let handle = checkpoint.to_secret_bytes();
         let record = CheckpointAnchorRecord::new(&snapshot_id, handle.as_ref())?;
-        match self
-            .invocation_anchor
-            .commit(invocation, expected_generation, record, response)
-        {
-            Ok(receipt) => {
-                self.generation = Some(receipt.generation());
-                Ok(receipt.response().to_vec())
-            }
-            Err(AnchorError::CommitIndeterminate) => {
-                let receipt = self
-                    .invocation_anchor
-                    .load(invocation)?
-                    .ok_or("anchor commit is indeterminate and no receipt can be recovered")?;
-                if receipt.response() != response {
-                    return Err("recovered invocation receipt response mismatch".into());
+        let receipt =
+            match self
+                .invocation_anchor
+                .commit(invocation, expected_generation, record, response)
+            {
+                Ok(receipt) => receipt,
+                Err(AnchorError::CommitIndeterminate) => {
+                    let receipt = self
+                        .invocation_anchor
+                        .load(invocation)?
+                        .ok_or("anchor commit is indeterminate and no receipt can be recovered")?;
+                    if receipt.response() != response {
+                        return Err("recovered invocation receipt response mismatch".into());
+                    }
+                    receipt
                 }
-                self.generation = Some(receipt.generation());
-                Ok(receipt.response().to_vec())
-            }
-            Err(error) => Err(error.into()),
-        }
+                Err(error) => return Err(error.into()),
+            };
+        self.generation = Some(receipt.generation());
+        prune_snapshots(&self.snapshot_dir, Some(receipt.snapshot_id()))?;
+        Ok(receipt.response().to_vec())
     }
 }
 pub const REGISTRY_VERSION: u64 = 1;

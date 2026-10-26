@@ -636,6 +636,9 @@ fn durable_worker_commits_and_replays_signed_invocations_after_restart() {
         u32::from_le_bytes(first_response[1..5].try_into().unwrap()),
         1
     );
+    let snapshot_dir = state_dir.join("snapshots");
+    let orphan = snapshot_dir.join("snap-orphaned-test.snapshot");
+    fs::write(&orphan, b"unanchored stale snapshot").unwrap();
 
     let anchor = UnixAnchorClient::invocation(&socket, "server-state-v1").unwrap();
     let receipt = anchor
@@ -671,6 +674,20 @@ fn durable_worker_commits_and_replays_signed_invocations_after_restart() {
     );
     assert_eq!(replay_and_new[2][0], 1);
     assert!(replay_and_new[2][1..].iter().all(|&byte| byte == 0));
+    assert!(!orphan.exists(), "startup must remove stale snapshots");
+    let retained_snapshots: Vec<_> = fs::read_dir(&snapshot_dir)
+        .unwrap()
+        .map(|entry| entry.unwrap().path())
+        .filter(|path| {
+            path.extension()
+                .is_some_and(|extension| extension == "snapshot")
+        })
+        .collect();
+    assert_eq!(
+        retained_snapshots.len(),
+        1,
+        "only the anchored snapshot remains"
+    );
     let private_rows: Vec<serde_json::Value> =
         fs::read_to_string(root.join("second-run").join("executor-private.jsonl"))
             .unwrap()
