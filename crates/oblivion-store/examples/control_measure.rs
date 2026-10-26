@@ -262,6 +262,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         serde_json::to_vec_pretty(&config)?,
     )?;
     let mut summary = BufWriter::new(File::create(output.join("summary.jsonl"))?);
+    let mut service_metadata = Vec::new();
     for trial in 0..config.trials {
         let mut rng = ChaCha20Rng::seed_from_u64(
             config
@@ -308,11 +309,14 @@ fn main() -> Result<(), Box<dyn Error>> {
             store.read(address)?;
         }
         store.backend.set_recording(true);
-        let service_allowed_cpus = config
-            .service_cpu_affinity
-            .map(|_| isolated::process_allowed_cpus(store.backend.worker_pid()))
-            .transpose()?;
-        let metadata = serde_json::json!({
+        let service_allowed_cpus = isolated::process_allowed_cpus(store.backend.worker_pid())?;
+        if let Some(cpu) = config.service_cpu_affinity
+            && service_allowed_cpus.as_deref() != Some(cpu.to_string().as_str())
+        {
+            return Err("isolated control service CPU affinity mismatch".into());
+        }
+        service_metadata.push(serde_json::json!({
+            "trial": trial,
             "backend": mode,
             "worker_pid": store.backend.worker_pid(),
             "controller_pid": std::process::id(),
@@ -323,11 +327,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             "service_allowed_cpus": service_allowed_cpus,
             "events_per_access": 2,
             "timing_scope": "bucket-handler-only; excludes pipe wait, client crypto, request decoding, response encoding, and file output"
-        });
-        fs::write(
-            output.join("isolated-service.json"),
-            serde_json::to_vec_pretty(&metadata)?,
-        )?;
+        }));
         let mut observer = BufWriter::new(File::create(
             output.join(format!("isolated-observer-{trial}.jsonl")),
         )?);
@@ -398,5 +398,9 @@ fn main() -> Result<(), Box<dyn Error>> {
         )?;
         writeln!(summary)?;
     }
+    fs::write(
+        output.join("isolated-service.json"),
+        serde_json::to_vec_pretty(&service_metadata)?,
+    )?;
     Ok(())
 }

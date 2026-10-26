@@ -41,9 +41,13 @@ cargo run --locked --release -p oblivion-store --example oram-measure -- \
 
 The runner refuses to overwrite an existing output directory. The output
 contains per-trial observer and private traces, the configuration, a summary,
-and isolated-service.json with process IDs, fixed message sizes, and the
-declared timing scope. This small configuration checks integration only; its
-timings are not a benchmark result.
+and `isolated-service.json` with process IDs, fixed message sizes, and the
+declared timing scope. This file is an array with one record for every
+isolated bucket-service child, including its PID and, on Linux, the effective
+`Cpus_allowed_list`. When CPU affinity is requested, the Rust measurement
+process checks each child against the requested CPU and fails before
+publishing a result if a mask differs. This small configuration checks
+integration only; its timings are not a benchmark result.
 
 Focused checks:
 

@@ -17,21 +17,18 @@ pub fn valid_read_probability(probability: f64) -> bool {
 }
 
 #[cfg(target_os = "linux")]
-pub fn process_allowed_cpus(pid: u32) -> io::Result<String> {
+pub fn process_allowed_cpus(pid: u32) -> io::Result<Option<String>> {
     let status = std::fs::read_to_string(format!("/proc/{pid}/status"))?;
     status
         .lines()
         .find_map(|line| line.strip_prefix("Cpus_allowed_list:\t"))
-        .map(str::to_owned)
+        .map(|value| Some(value.to_owned()))
         .ok_or_else(|| io::Error::other("process CPU affinity missing from proc status"))
 }
 
 #[cfg(not(target_os = "linux"))]
-pub fn process_allowed_cpus(_pid: u32) -> io::Result<String> {
-    Err(io::Error::new(
-        io::ErrorKind::Unsupported,
-        "process CPU affinity inspection is supported only on Linux",
-    ))
+pub fn process_allowed_cpus(_pid: u32) -> io::Result<Option<String>> {
+    Ok(None)
 }
 
 pub fn sample_is_write<R: Rng + ?Sized>(rng: &mut R, read_probability: f64) -> bool {
@@ -434,14 +431,17 @@ mod tests {
         let mut child = command.spawn().unwrap();
         let mut actual = String::new();
         for _ in 0..100 {
-            actual = process_allowed_cpus(child.id()).unwrap();
+            actual = process_allowed_cpus(child.id()).unwrap().unwrap();
             if actual == cpu {
                 break;
             }
             std::thread::sleep(std::time::Duration::from_millis(1));
         }
         assert_eq!(actual, cpu);
-        assert_eq!(process_allowed_cpus(std::process::id()).unwrap(), allowed);
+        assert_eq!(
+            process_allowed_cpus(std::process::id()).unwrap().as_deref(),
+            Some(allowed)
+        );
         assert!(child.wait().unwrap().success());
 
         let mut invalid =

@@ -771,6 +771,14 @@ The focused 10 Python harness tests passed; both ORAM example suites passed
 CPU-affinity smoke invocation passed. The experiment remains empirical and
 workload-specific; it establishes no general ORAM timing guarantee.
 
+The latest benchmark-instrumentation change stores one `isolated-service.json`
+record per service-child session instead of overwriting metadata after each
+session. Linux allowed-CPU masks are read for every child, and a requested CPU
+affinity mismatch fails that run. Focused ORAM timing tests, both example test
+suites, warning-denied package Clippy, and a two-session pinned smoke check
+passed. Older raw campaigns retain only their previously recorded final-
+session metadata; their archived limitations are not retroactively removed.
+
 ## 2026-10-26: paired ORAM service-affinity crossover
 
 A new preregistered 30-trial crossover paired identical per-session workloads

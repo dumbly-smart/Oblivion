@@ -160,11 +160,11 @@ def analyze_existing(config_path, output, collection_head=COLLECTION_HEAD):
                   for i, order in enumerate(orders)]
     metadata_summary = {
         "collector_invocations": trials * len(MODES) * len(CONDITIONS),
-        "service_child_sessions": expected_raw // 2,
-        "pinned_invocations_with_effective_affinity_record_checked": trials * len(MODES),
+        "service_child_sessions": trials * sessions * len(MODES) * len(CONDITIONS),
+        "pinned_child_affinity_records_checked": trials * sessions * len(MODES),
         "pinned_cpu": config["service_cpu_affinity"],
         "unpinned_condition": "no taskset wrapper requested",
-        "limitation": "Each Rust collector invocation emitted one isolated-service.json overwritten per session; its final session affinity was checked by the Python collector. Individual child PIDs/effective masks were not retained. taskset was configured identically for each pinned session.",
+        "retention": "Every service child PID and effective CPU mask is recorded in its per-session metadata row.",
     }
     (output / "process-metadata.json").write_text(json.dumps(metadata_summary, indent=2) + "\n")
     report = {
@@ -296,7 +296,7 @@ def run(config_path, output, oram_binary, control_binary):
         for mode in MODES:
             records = process_metadata[f"{condition}:{mode}"]
             expected = cpu if condition == "pinned" else None
-            if len(records) != trials or any(row["service_cpu_affinity"] != expected for row in records):
+            if len(records) != trials * sessions or any(row["service_cpu_affinity"] != expected for row in records):
                 raise RuntimeError(f"incorrect service affinity metadata for {condition}/{mode}")
             if expected is not None and any(row["service_allowed_cpus"] != str(expected) for row in records):
                 raise RuntimeError(f"effective service affinity mismatch for {condition}/{mode}")

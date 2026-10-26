@@ -253,13 +253,16 @@ def capture_mode(mode, config, binaries, output, temporary, trial_indices=None, 
         else:
             command = [str(executable), mode, str(config_path), str(run_output)]
         subprocess.run(command, cwd=ROOT, check=True, capture_output=True, text=True)
-        metadata = json.loads((run_output / "isolated-service.json").read_text())
-        if metadata.get("service_cpu_affinity") != config.get("service_cpu_affinity"):
-            raise ValueError("isolated service did not report the preregistered CPU affinity")
+        metadata_rows = json.loads((run_output / "isolated-service.json").read_text())
+        if not isinstance(metadata_rows, list) or len(metadata_rows) != config["sessions_per_trial"]:
+            raise ValueError("isolated service metadata must record each session child")
         requested_cpu = config.get("service_cpu_affinity")
-        if requested_cpu is not None and metadata.get("service_allowed_cpus") != str(requested_cpu):
-            raise ValueError("isolated service process affinity differs from the requested CPU")
-        manifest.append(metadata)
+        for metadata in metadata_rows:
+            if metadata.get("service_cpu_affinity") != requested_cpu:
+                raise ValueError("isolated service did not report the preregistered CPU affinity")
+            if requested_cpu is not None and metadata.get("service_allowed_cpus") != str(requested_cpu):
+                raise ValueError("isolated service process affinity differs from the requested CPU")
+        manifest.extend(metadata_rows)
         trial_dir = result_root / f"trial-{trial:02}"
         trial_dir.mkdir(exist_ok=True)
         for session in range(config["sessions_per_trial"]):

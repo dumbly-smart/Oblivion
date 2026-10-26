@@ -43,3 +43,8 @@ See the [preregistration](ORAM_AFFINITY_CROSSOVER_PREREG_20261026.md) and
 [result record](ORAM_AFFINITY_CROSSOVER_20261026.md). A follow-up on a
 dedicated host with per-child PID/affinity logging would improve execution
 provenance; broader classifiers/workloads and real remote timing remain open.
+
+The measurement output now records every service-child PID and effective CPU
+mask for new runs, with an in-process check for requested affinity. This
+improves future per-child provenance; historical raw campaigns remain limited
+to their retained metadata.

@@ -31,7 +31,10 @@ class IsolatedOramTimingTests(unittest.TestCase):
             output = base / "trial"
             result = subprocess.run([str(binary), str(cfg), str(output)], capture_output=True, text=True)
             self.assertEqual(result.returncode, 0, result.stderr)
-            meta = json.loads((output / "isolated-service.json").read_text())
+            metadatas = json.loads((output / "isolated-service.json").read_text())
+            self.assertEqual(len(metadatas), config["trials"])
+            meta = metadatas[0]
+            self.assertTrue(meta["service_allowed_cpus"])
             rows = [json.loads(line) for line in (output / "isolated-observer-0.jsonl").read_text().splitlines()]
             private = [json.loads(line) for line in (output / "private-0.jsonl").read_text().splitlines()]
             per_access = 2 * meta["path_buckets"]
@@ -108,6 +111,8 @@ class IsolatedOramTimingTests(unittest.TestCase):
                                         capture_output=True, text=True)
                 self.assertEqual(result.returncode, 0, result.stderr)
                 metadata = json.loads((output / "isolated-service.json").read_text())
+                self.assertEqual(len(metadata), config["trials"])
+                self.assertTrue(all(row["service_allowed_cpus"] for row in metadata))
                 metadatas.append(metadata)
                 rows = [json.loads(line) for line in
                         (output / "isolated-observer-0.jsonl").read_text().splitlines()]
@@ -123,8 +128,8 @@ class IsolatedOramTimingTests(unittest.TestCase):
                     self.assertEqual(access[0]["bucket"], access[1]["bucket"])
                     self.assertTrue(all(row["service_ns"] > 0 for row in access))
                 self.assertTrue(all(row["oracle_verified"] for row in private if not row["write"]))
-            self.assertEqual(metadatas[0]["request_bytes"], metadatas[1]["request_bytes"])
-            self.assertEqual(metadatas[0]["response_bytes"], metadatas[1]["response_bytes"])
+            self.assertEqual(metadatas[0][0]["request_bytes"], metadatas[1][0]["request_bytes"])
+            self.assertEqual(metadatas[0][0]["response_bytes"], metadatas[1][0]["response_bytes"])
 
 
 if __name__ == "__main__":
