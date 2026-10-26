@@ -95,7 +95,7 @@ Seven Rust crates implement encrypted Path ORAM, two-server XOR PIR, Wasmtime ex
 
 Protected execution reads eight blocks at the public 25 ms phase and commits eight at 50 ms. Guest failures discard staged mutations; uncertain backend failure can poison partially written state. At eight logical blocks an invocation emits 128 actual bucket events of 316 bytes, with O(M log N) bandwidth for public working-set M. Trusted drivers prepare encrypted responses/private instrumentation before the 100 ms publication wait. Clients prepare requests before their public epoch. Slot starts are epoch arrival plus slot × 100 ms. OS scheduling and work overruns remain visible.
 
-The current response reader timestamps completion immediately after `read_exact`, before channel handoff and later client decryption/oracle/logging. Public pipe timing and separate private client latency are not interchangeable. The process demo remains ephemeral. Separate bounded file/checkpoint recovery authenticates full snapshots and rekeys against a trusted latest handle; it does not implement durable invocation acknowledgments, whole-anchor replay protection or persistent SSE.
+The current response reader timestamps completion immediately after `read_exact`, before channel handoff and later client decryption/oracle/logging. Public pipe timing and separate private client latency are not interchangeable. The default process demo remains ephemeral. Opt-in durable invocation receipts/checkpoints and persistent SSE journal recovery use the local anchor service and survive ordinary service-process restart; neither resists rollback of the anchor SQLite database by a privileged host operator.
 
 The built-in demo's real/dummy/function schedule is public given its code, real percentage and epoch. It validates correctness/topology, not anonymity against an adversary who knows that schedule. Research datasets keep workload labels/seeds outside each declared attack input; public cadence, classes, batch size and geometry remain known. Encryption cannot hide an identity already determined by auxiliary knowledge.
 
@@ -167,7 +167,7 @@ The research-only `demo-sweep` now retains authenticated masked runtime failures
 
 [The figure reproduction audit](FIGURE_REPRODUCTION.md) now records raw-derived regeneration of all eight required main figures and the supplemental three-axis/SLO plot without ignored measurement executables. Both autoscaler campaigns rebuild from four raw/config files rather than cached reports; audited numerical reports and PNG bytes matched, and accepted inputs stayed unchanged. The serial local and hosted source gates are accepted; subsequent closing Markdown-only checks are accessible on PR #1.
 
-Selected implementation/evaluation and the serial local/hosted source gates are accepted within their bounded scope. [PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is ready for delivery on `codex/oblivion-research-platform`; no main merge is claimed. A bounded-user autoscaler simulator now supports optional HMAC-authenticated request identities from an external local key registry; this does not add production identity binding, cross-session composition, production DP integration, or an external sampler/code audit. Expanded finite exact-rational checks and the source-review findings are recorded in [SAMPLER_AUDIT.md](SAMPLER_AUDIT.md). Hardware isolation, recursive/native Circuit storage, DPF/native single-server runtime selection, persistent/backward-private SSE and durable application acknowledgments remain deployment/research extensions. Human P1–P12 study and mutable bibliography/course listings are context, not machine-proof software gates.
+Selected implementation/evaluation and the serial local/hosted source gates are accepted within their bounded scope. [PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is ready for delivery on `codex/oblivion-research-platform`; no main merge is claimed. A bounded-user autoscaler simulator now supports optional HMAC-authenticated request identities from an external local key registry; this does not add production identity binding, cross-session composition, production DP integration, or an external sampler/code audit. Expanded finite exact-rational checks and the source-review findings are recorded in [SAMPLER_AUDIT.md](SAMPLER_AUDIT.md). Hardware isolation, rollback-resistant/backward-private SSE, recursive/native Circuit storage, DPF/native single-server runtime selection and durable application side effects remain deployment/research extensions. Human P1–P12 study and mutable bibliography/course listings are context, not machine-proof software gates.
 
 ## Optional follow-up: isolated ORAM timing
 
@@ -1111,3 +1111,25 @@ remain visible limitations to investigate.
 successfully after reclaiming space from the rebuildable development cache.
 This verifies optimized compilation for the workspace binaries and examples;
 it does not replace the pending clean full-workspace test run.
+
+## 2026-10-27: persistent SSE Unix anchor integration
+
+`PersistentClient` now implements its anchor contract through
+`UnixSseJournalAnchor`. A child-process integration test creates a pending SSE
+add, stops and restarts the local anchor service, reopens the client, verifies
+the retry bytes are unchanged, completes the real server update, confirms a
+stale client's compare-and-swap is rejected, then restarts the service again
+and searches the recovered state. The caller must reuse a stable opaque slot
+and the same anchor service master key. This covers process restart only: a
+privileged host operator can restore an older SQLite database, and there is no
+distributed transaction with the SSE server or backward privacy.
+
+Fresh verification for this increment: `cargo test --locked -p oblivion-sse
+-- --test-threads=1` passed 20 tests across its unit and integration targets,
+including the 100,000-operation oracle; `cargo test --locked -p oblivion-anchor
+-- --test-threads=1` passed 34 tests. The service integration target was rerun
+after the final test cleanup (2 passed). Warning-denied Clippy for both crates,
+workspace formatting, and `git diff --check` passed. A clean full-workspace test
+run has not been established on this host; prior serial attempts hit different
+100 ms runtime deadline failures, so these package results do not replace that
+gate. Journal write amplification and recovery cost remain unmeasured.

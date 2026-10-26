@@ -83,9 +83,9 @@
 - Map anchor conflict to `SseJournalAnchorError::Conflict`, indeterminate commit to `CommitUnknown`, and other service failures to `Unavailable`.
 - Convert between `SseJournalAnchorRecord` and `oblivion_anchor::SseJournalState` without changing the SSE wire/request API.
 
-- [ ] **Step 1: Write a failing integration test** that starts the anchor service as a child test process, creates an SSE index, persists a pending request, stops and restarts the service, reopens the SSE client, verifies byte-identical retry, finishes the actual server update, and searches the recovered state.
-- [ ] **Step 2: Run the test** and confirm the missing adapter/type failure.
-- [ ] **Step 3: Implement the trait adapter** and add the anchor crate dependency.
-- [ ] **Step 4: Run the focused integration test, full SSE and anchor tests, formatting, and warning-denied Clippy.**
-- [ ] **Step 5: Document service visibility and rollback limits**; update S11 status only to the bounded level demonstrated by the tests.
-- [ ] **Step 6: Commit and push the integrated adapter.**
+- [x] **Step 1: Write a failing integration test** that starts the anchor service as a child test process, creates an SSE index, persists a pending request, stops and restarts the service, reopens the SSE client, verifies byte-identical retry, finishes the actual server update, and searches the recovered state.
+- [x] **Step 2: Run the test** and confirm the missing adapter/type failure.
+- [x] **Step 3: Implement the trait adapter** and add the anchor crate dependency.
+- [x] **Step 4: Run the focused integration test, full SSE and anchor tests, formatting, and warning-denied Clippy.**
+- [x] **Step 5: Document service visibility and rollback limits**; update S11 status only to the bounded level demonstrated by the tests.
+- [x] **Step 6: Commit and push the integrated adapter.**

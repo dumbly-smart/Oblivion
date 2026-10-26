@@ -620,3 +620,8 @@ mod journal;
 pub use journal::{
     JournalError, PersistentClient, SseJournalAnchor, SseJournalAnchorError, SseJournalAnchorRecord,
 };
+
+#[cfg(unix)]
+mod anchor;
+#[cfg(unix)]
+pub use oblivion_anchor::{UnixAnchorClient, UnixSseJournalAnchor};

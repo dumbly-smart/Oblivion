@@ -1,6 +1,6 @@
 # Research notes and decisions
 
-Updated 2026-10-24. Current status and acceptance evidence are maintained in [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) and [REQUIREMENTS_MATRIX.md](REQUIREMENTS_MATRIX.md). Historical results retain their launch-time source hashes.
+Updated 2026-10-27. Current status and acceptance evidence are maintained in [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) and [REQUIREMENTS_MATRIX.md](REQUIREMENTS_MATRIX.md). Historical results retain their launch-time source hashes.
 
 ## Specification reconciliation
 
@@ -13,10 +13,10 @@ The supplied roadmap was initially missing, then supplied during this session an
 | L3 PIR | Actual XOR and generic authenticated geometry-bound transport; large TCP/process tests. Genuine pinned SimplePIR reference comparison exists separately from runtime |
 | L4 execution | Five real WASM functions, resource classes, public staged storage schedule and namespaces; no TEE/constant-time claim |
 | L5 epochs | Fixed rate/shape queues and cover/dummy processing; DP variant deferred as specified |
-| Week 8 integration/L7 | Actual local path; component attacks with positive controls; full-transcript and larger integration evaluation pending |
-| L1 SSE | Actual bounded ephemeral constrained-GGM component and 100,000-operation oracle; Diana-inspired label, no exact theorem-port or backward-privacy claim |
+| Week 8 integration/L7 | Actual local process path and positive-control component attacks; bounded joint-interface and fault/load experiments are recorded, while full host/cache/billing observation and broader remote attacker coverage remain outside measured scope |
+| L1 SSE | Actual constrained-GGM component and 100,000-operation oracle; opt-in encrypted client journal with local Unix anchor adapter; Diana-inspired label, no exact theorem-port, rollback-resistant freshness or backward-privacy claim |
 | L6 scaling | Five-policy default plus optional event-level Laplace analysis, known-seed attacks, four-budget sweep and a separate OS-CSPRNG public-feature study; no runtime scaling or formal DP claim for either implemented sampler |
-| Weeks 10–14 research | Genuine reference PIR and scaling simulations recorded; metadata integration, full attack suite, system sweeps/ablations and final writeup still require acceptance evidence |
+| Weeks 10–14 research | Actual SSE attack families, genuine reference PIR, scaling simulations, system sweeps/ablations and bounded final writeup are recorded; rollback-resistant SSE, hardware isolation and real cloud provisioning remain extensions |
 
 The roadmap's autoscaler acceptance asks for a policy that dominates naive scaling. Whether such a policy exists depends on workload, attacker and cost model. A future implementation must report negative results rather than force that outcome. Likewise, statistical non-rejection in the ORAM/execution acceptance criteria is interpreted as finite empirical evidence, never a proof.
 

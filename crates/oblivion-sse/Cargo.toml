@@ -16,6 +16,7 @@ thiserror.workspace = true
 hmac = "0.12.1"
 libc.workspace = true
 serde_json.workspace = true
+oblivion-anchor = { path = "../oblivion-anchor" }
 
 [dev-dependencies]
 rand_chacha.workspace = true

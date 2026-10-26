@@ -892,6 +892,7 @@ dependencies = [
  "hkdf",
  "hmac",
  "libc",
+ "oblivion-anchor",
  "rand",
  "rand_chacha",
  "serde",

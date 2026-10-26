@@ -35,7 +35,7 @@ PIR occurs after epoch release on behalf of the trusted client. Each worker sees
 | `oblivion-registry` | Fixed-size signed registry catalogs/records and rollback-aware version-activation adapter |
 | `oblivion-anchor` | SQLite-backed atomic checkpoint/version CAS, signed invocation receipts, and a local Unix-socket service; trusted database/key operator required |
 | `oblivion-harness` | Actual component workloads with separate public observations and truth |
-| `oblivion-sse` | Ephemeral append-only encrypted posting index with constrained GGM prefix capabilities |
+| `oblivion-sse` | Append-only encrypted posting index with constrained GGM capabilities; legacy client is ephemeral, optional persistent journal uses local anchor service |
 | Python research tools | Attack analysis, trial-cluster confidence intervals, autoscaler event simulation and reference comparisons |
 
 The demo's signed-registry/PIR composition and its key-management limits are
@@ -64,7 +64,7 @@ The caller must publish a new handle to a trusted durable anchor before acknowle
 
 ## SSE and later experiments
 
-SSE is a separate bounded, ephemeral client/server component. It retains counters on the client, releases exact constrained GGM prefix covers, encrypts immutable document IDs under independently derived keys and retries pending adds byte-for-byte. Search equality, volume, timing and historical posting linkage remain visible. It has no persistent recovery or backwards privacy. [SSE_DESIGN.md](SSE_DESIGN.md) gives the exact construction and limits.
+SSE is a separate bounded client/server component. The legacy client remains ephemeral; opt-in `PersistentClient` stores its state in an encrypted journal and can anchor journal generations through the local Unix `oblivion-anchor` service. A caller must preserve the same opaque slot and service master key across restarts. This supports journal recovery after service-process restart, but restoring an older anchor database defeats freshness. Search equality, volume, timing and historical posting linkage remain visible, and no backward privacy is provided. [SSE_DESIGN.md](SSE_DESIGN.md) gives the exact construction and limits.
 
 The SimplePIR experiment executes the genuine pinned reference with real preprocessing on 10,000 eight-byte records and compares it with actual XOR PIR. It is not the runtime PIR backend. Autoscaling is an independent event simulation with five policies, synthetic workloads, declared observer features and hypothetical prices; it does not provision runtime workers or establish DP.
 
