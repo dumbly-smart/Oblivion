@@ -1133,3 +1133,8 @@ workspace formatting, and `git diff --check` passed. A clean full-workspace test
 run has not been established on this host; prior serial attempts hit different
 100 ms runtime deadline failures, so these package results do not replace that
 gate. Journal write amplification and recovery cost remain unmeasured.
+
+Review of `844b2047` found no Critical or Important issues. One Minor test-harness
+cleanup issue is deferred: if anchor startup times out before the RAII process
+guard is constructed, the child can remain orphaned. This affects the failing
+startup path, not the exercised restart path.
