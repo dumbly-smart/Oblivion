@@ -217,12 +217,15 @@ def validate_service_cpu_affinity(cpu):
         raise ValueError("service_cpu_affinity must be a nonnegative CPU id or null")
 
 
-def capture_mode(mode, config, binaries, output, temporary):
+def capture_mode(mode, config, binaries, output, temporary, trial_indices=None, condition=None):
     executable = binaries["oram"] if mode == "oram" else binaries["control"]
-    result_root = output / "raw" / mode
-    result_root.mkdir(parents=True)
+    result_root = output / "raw"
+    if condition is not None:
+        result_root /= condition
+    result_root /= mode
+    result_root.mkdir(parents=True, exist_ok=True)
     manifest = []
-    for trial in range(config["trials"]):
+    for trial in range(config["trials"] if trial_indices is None else trial_indices):
         run_config = {
             "version": 1, "blocks": config["blocks"],
             "bucket_capacity": config["bucket_capacity"],
@@ -240,9 +243,10 @@ def capture_mode(mode, config, binaries, output, temporary):
         }
         if mode == "oram":
             run_config["backend"] = "isolated_process"
-        config_path = temporary / f"{mode}-{trial:02}.json"
+        prefix = f"{condition}-" if condition is not None else ""
+        config_path = temporary / f"{prefix}{mode}-{trial:02}.json"
         config_path.write_text(json.dumps(run_config, sort_keys=True))
-        run_output = temporary / f"{mode}-output-{trial:02}"
+        run_output = temporary / f"{prefix}{mode}-output-{trial:02}"
         if mode == "oram":
             command = [str(executable), str(config_path), str(run_output)]
         else:
@@ -256,7 +260,7 @@ def capture_mode(mode, config, binaries, output, temporary):
             raise ValueError("isolated service process affinity differs from the requested CPU")
         manifest.append(metadata)
         trial_dir = result_root / f"trial-{trial:02}"
-        trial_dir.mkdir()
+        trial_dir.mkdir(exist_ok=True)
         for session in range(config["sessions_per_trial"]):
             event_source = run_output / f"isolated-observer-{session}.jsonl"
             driver_source = run_output / f"private-{session}.jsonl"
@@ -273,9 +277,10 @@ def capture_mode(mode, config, binaries, output, temporary):
     return manifest
 
 
-def evaluate_mode(mode, raw_root, config):
+def evaluate_mode(mode, raw_root, config, predictions_dir=None):
     trials = []
-    predictions_dir = raw_root.parent / "predictions" / mode
+    if predictions_dir is None:
+        predictions_dir = raw_root.parent / "predictions" / mode
     predictions_dir.mkdir(parents=True, exist_ok=True)
     for trial in range(config["trials"]):
         rows, labels, session_ids = load_trial(
