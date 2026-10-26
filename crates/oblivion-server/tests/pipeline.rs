@@ -152,6 +152,134 @@ fn worker_uses_external_catalog_and_fails_before_ready_for_wrong_key() {
 }
 
 #[test]
+fn worker_anchors_catalog_before_ready_and_rejects_a_rollback() {
+    use ed25519_dalek::SigningKey;
+    use oblivion_anchor::{UnixAnchorClient, serve_unix};
+    use oblivion_batcher::Endpoint;
+    use oblivion_registry::{
+        Record, RegistryCatalogAnchor, RegistryCatalogState, SignedRegistry, VerifiedRegistry,
+    };
+    use sha2::{Digest, Sha256};
+    use std::{io::Read, process::Stdio, time::Duration};
+    use zeroize::Zeroizing;
+
+    fn signed_catalog(key: &SigningKey, version: u64, sources: &[&[u8]; 5]) -> Vec<u8> {
+        let records = sources
+            .iter()
+            .enumerate()
+            .map(|(id, source)| {
+                let module_digest: [u8; 32] = Sha256::digest(source).into();
+                let mut location = Sha256::new();
+                location.update(b"oblivion/demo/embedded-location/v1");
+                location.update((id as u32).to_be_bytes());
+                location.update(module_digest);
+                Record::sign(
+                    id as u32,
+                    version,
+                    module_digest,
+                    location.finalize().into(),
+                    0,
+                    key,
+                )
+                .unwrap()
+            })
+            .collect();
+        SignedRegistry::sign(version, records, key).unwrap()
+    }
+
+    let root = std::env::temp_dir().join(format!(
+        "oblivion-registry-activation-{}",
+        rand::rngs::OsRng.next_u64()
+    ));
+    fs::create_dir(&root).unwrap();
+    let socket = root.join("anchor.sock");
+    let database = root.join("anchor.sqlite");
+    let server_socket = socket.clone();
+    let server_database = database.clone();
+    let _anchor = std::thread::spawn(move || {
+        serve_unix(
+            server_socket,
+            server_database,
+            Zeroizing::new([0x93; 32]),
+            0o600,
+        )
+        .unwrap();
+    });
+    for _ in 0..100 {
+        if socket.exists() {
+            break;
+        }
+        std::thread::sleep(Duration::from_millis(10));
+    }
+    assert!(socket.exists(), "registry anchor did not bind its socket");
+
+    let sources: [&[u8]; 5] = [
+        include_bytes!("../../../examples/wasm-functions/echo.wat"),
+        include_bytes!("../../../examples/wasm-functions/sum.wat"),
+        include_bytes!("../../../examples/wasm-functions/fibonacci.wat"),
+        include_bytes!("../../../examples/wasm-functions/hash.wat"),
+        include_bytes!("../../../examples/wasm-functions/stateful.wat"),
+    ];
+    let publisher = SigningKey::from_bytes(&[0x94; 32]);
+    let public_key_path = root.join("publisher.pub");
+    fs::write(&public_key_path, publisher.verifying_key().to_bytes()).unwrap();
+    let mut anchor = UnixAnchorClient::catalog(&socket, "runtime-functions").unwrap();
+
+    let run_worker = |name: &str, catalog: &[u8]| {
+        let manifest_path = root.join(format!("{name}.bin"));
+        fs::write(&manifest_path, catalog).unwrap();
+        let output_dir = root.join(name);
+        fs::create_dir(&output_dir).unwrap();
+        let mut child = Command::new(env!("CARGO_BIN_EXE_oblivion-server"))
+            .args(["executor-worker", output_dir.to_str().unwrap()])
+            .env_remove("OBLIVION_ANCHOR_SOCKET")
+            .env_remove("OBLIVION_ANCHOR_STATE_DIR")
+            .env("OBLIVION_REGISTRY_MANIFEST", &manifest_path)
+            .env("OBLIVION_REGISTRY_PUBLIC_KEY", &public_key_path)
+            .env("OBLIVION_REGISTRY_ANCHOR_SOCKET", &socket)
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::null())
+            .spawn()
+            .unwrap();
+        let mut input = child.stdin.take().unwrap();
+        let mut output = child.stdout.take().unwrap();
+        let _client = Endpoint::provision_over_pipe(0, &mut input).unwrap();
+        let mut ready = [0; 1];
+        let announced = output.read_exact(&mut ready).is_ok() && ready == [1];
+        drop(input);
+        (announced, child.wait().unwrap().success())
+    };
+
+    let version_seven = signed_catalog(&publisher, 7, &sources);
+    let verified_seven =
+        VerifiedRegistry::verify(&version_seven, &publisher.verifying_key()).unwrap();
+    assert_eq!(
+        run_worker("version-seven-first", &version_seven),
+        (true, true)
+    );
+    let anchored_seven =
+        RegistryCatalogState::new(7, Some(*verified_seven.catalog_digest())).unwrap();
+    assert_eq!(anchor.current_catalog().unwrap(), Some(anchored_seven));
+    assert_eq!(
+        run_worker("version-seven-restart", &version_seven),
+        (true, true)
+    );
+
+    let version_six = signed_catalog(&publisher, 6, &sources);
+    assert_eq!(
+        run_worker("version-six-rollback", &version_six),
+        (false, false)
+    );
+    assert_eq!(anchor.current_catalog().unwrap(), Some(anchored_seven));
+
+    let version_eight = signed_catalog(&publisher, 8, &sources);
+    assert_eq!(run_worker("version-eight", &version_eight), (true, true));
+    assert_eq!(anchor.current_catalog().unwrap().unwrap().version(), 8);
+    let _ = fs::remove_dir_all(root);
+}
+
+#[test]
 fn failure_diagnostics_are_bounded_and_keep_private_tail_or_missing_reason() {
     let path = std::env::temp_dir().join(format!(
         "oblivion-diagnostic-{}",

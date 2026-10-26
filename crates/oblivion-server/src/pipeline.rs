@@ -210,6 +210,7 @@ const MAX_REGISTRY_MANIFEST_BYTES: usize = REGISTRY_MANIFEST_HEADER_BYTES
     + oblivion_registry::MAX_RECORDS * oblivion_registry::RECORD_BYTES;
 const REGISTRY_MANIFEST_ENV: &str = "OBLIVION_REGISTRY_MANIFEST";
 const REGISTRY_PUBLIC_KEY_ENV: &str = "OBLIVION_REGISTRY_PUBLIC_KEY";
+const REGISTRY_ANCHOR_SOCKET_ENV: &str = "OBLIVION_REGISTRY_ANCHOR_SOCKET";
 pub fn registry() -> Vec<Vec<u8>> {
     SOURCES
         .iter()
@@ -234,11 +235,16 @@ impl Deployment {
     /// Load an external publisher-signed catalog, or retain the local demo
     /// signer only when neither external trust input is configured.
     fn from_environment() -> Result<Self> {
+        let anchor_socket = std::env::var_os(REGISTRY_ANCHOR_SOCKET_ENV);
         match (
             std::env::var_os(REGISTRY_MANIFEST_ENV),
             std::env::var_os(REGISTRY_PUBLIC_KEY_ENV),
         ) {
-            (None, None) => Self::create(),
+            (None, None) if anchor_socket.is_none() => Self::create(),
+            (None, None) => Err(format!(
+                "{REGISTRY_ANCHOR_SOCKET_ENV} requires {REGISTRY_MANIFEST_ENV} and {REGISTRY_PUBLIC_KEY_ENV}"
+            )
+            .into()),
             (Some(manifest_path), Some(public_key_path)) => {
                 let manifest =
                     read_bounded_regular(Path::new(&manifest_path), MAX_REGISTRY_MANIFEST_BYTES)?;
@@ -247,7 +253,11 @@ impl Deployment {
                     .try_into()
                     .map_err(|_| "registry public key must contain exactly 32 bytes")?;
                 let publisher = VerifyingKey::from_bytes(&key_bytes)?;
-                Self::from_catalog(&manifest, &publisher)
+                Self::from_catalog(
+                    &manifest,
+                    &publisher,
+                    anchor_socket.as_deref().map(Path::new),
+                )
             }
             _ => Err(format!(
                 "{REGISTRY_MANIFEST_ENV} and {REGISTRY_PUBLIC_KEY_ENV} must be configured together"
@@ -256,7 +266,11 @@ impl Deployment {
         }
     }
 
-    fn from_catalog(encoded: &[u8], publisher: &VerifyingKey) -> Result<Self> {
+    fn from_catalog(
+        encoded: &[u8],
+        publisher: &VerifyingKey,
+        anchor_socket: Option<&Path>,
+    ) -> Result<Self> {
         let verified = VerifiedRegistry::verify(encoded, publisher)?;
         if verified.len() != SOURCES.len() {
             return Err("signed registry record count does not match dispatch table".into());
@@ -275,6 +289,18 @@ impl Deployment {
                 return Err("signed registry record does not match embedded deployment".into());
             }
             records.push(record.to_bytes().to_vec());
+        }
+        if let Some(socket) = anchor_socket {
+            #[cfg(unix)]
+            {
+                let mut anchor = UnixAnchorClient::catalog(socket, "runtime-functions")?;
+                verified.activate_catalog(&mut anchor)?;
+            }
+            #[cfg(not(unix))]
+            {
+                let _ = socket;
+                return Err("registry catalog anchor requires Unix domain sockets".into());
+            }
         }
         Ok(Self { records })
     }
@@ -1223,14 +1249,15 @@ mod tests {
         let publisher = SigningKey::from_bytes(&[0x71; 32]);
         let wrong_publisher = SigningKey::from_bytes(&[0x72; 32]).verifying_key();
         let catalog = external_catalog(&publisher, None);
-        let deployment = Deployment::from_catalog(&catalog, &publisher.verifying_key()).unwrap();
+        let deployment =
+            Deployment::from_catalog(&catalog, &publisher.verifying_key(), None).unwrap();
         assert_eq!(deployment.records.len(), SOURCES.len());
         for (id, record) in deployment.records.iter().enumerate() {
             assert!(deployment.accepts(id, record));
         }
-        assert!(Deployment::from_catalog(&catalog, &wrong_publisher).is_err());
+        assert!(Deployment::from_catalog(&catalog, &wrong_publisher, None).is_err());
 
         let mismatched = external_catalog(&publisher, Some(2));
-        assert!(Deployment::from_catalog(&mismatched, &publisher.verifying_key()).is_err());
+        assert!(Deployment::from_catalog(&mismatched, &publisher.verifying_key(), None).is_err());
     }
 }
