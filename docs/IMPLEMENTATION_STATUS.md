@@ -1058,9 +1058,12 @@ keys, record tampering, stale-file replay, one-winner stale-writer CAS,
 checkpoint compaction/recovery, file-size bounds, plaintext absence, and
 serialized-state validation.
 
-The full `oblivion-sse` suite passed 17 tests (11 unit and 6 integration; the
-100,000-operation plaintext-oracle test included). `cargo clippy --locked -p
-oblivion-sse --all-targets -- -D warnings` and `cargo fmt --all --check` passed.
+The full `oblivion-sse` suite passed 18 tests (12 unit and 6 integration; the
+100,000-operation plaintext-oracle test included). Review follow-up tests now
+extend the sparse oversized-record fixture beyond 64 MiB and verify that a
+valid authenticated chain longer than the replay cap returns `JournalError::Limit`.
+`cargo clippy --locked -p oblivion-sse --all-targets -- -D warnings` and
+`cargo fmt --all --check` passed.
 Hosted CI for this code has not run yet. S11 remains partial: only an in-memory
 test anchor exists; the client API is not connected to the separate
 `oblivion-anchor` process. Rollback protection requires an independent durable

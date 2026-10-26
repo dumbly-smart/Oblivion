@@ -199,9 +199,12 @@ fn oversized_latest_record_is_rejected_before_reading_it() {
         .write(true)
         .open(latest)
         .unwrap()
-        .set_len(40 * 1024 * 1024)
+        .set_len(64 * 1024 * 1024 + 1)
         .unwrap();
-    assert!(PersistentClient::open(directory.path(), &KEY, anchor).is_err());
+    assert!(matches!(
+        PersistentClient::open(directory.path(), &KEY, anchor),
+        Err(JournalError::Limit)
+    ));
 }
 
 #[test]

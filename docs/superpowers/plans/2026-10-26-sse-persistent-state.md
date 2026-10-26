@@ -43,9 +43,9 @@
 - `PersistentClient::create(directory, key, limits, anchor)` and `PersistentClient::open(directory, key, anchor)`
 - Durable wrappers for `prepare_add`, `retry_pending`, `finish_add`, `rotate_keyword`, `prepare_search`, and `finish_search`.
 
-- [ ] **Step 1: Write failing tests** for initial persistence, exact pending retry after reopen, post-ack search after reopen, wrong-key/corruption/rollback rejection, and one-winner concurrent compare-and-swap.
-- [ ] **Step 2: Run the focused tests** and confirm the expected missing-type or missing-behavior failures.
-- [ ] **Step 3: Implement the journal format and persistence wrapper** with bounded encrypted records, periodic encrypted checkpoints, fsync-before-CAS ordering, and fail-closed poisoned state after uncertain commits.
-- [ ] **Step 4: Run the focused SSE tests, crate tests, formatter, and clippy**; fix actual failures before proceeding.
-- [ ] **Step 5: Update security/status documentation** to mark the interface as partial until a concrete independent anchor-service adapter exists.
-- [ ] **Step 6: Commit and push** the verified increment.
+- [x] **Step 1: Write failing tests** for initial persistence, exact pending retry after reopen, post-ack search after reopen, wrong-key/corruption/rollback rejection, and one-winner concurrent compare-and-swap.
+- [x] **Step 2: Run the focused tests** and confirm the expected missing-type or missing-behavior failures.
+- [x] **Step 3: Implement the journal format and persistence wrapper** with bounded encrypted records, periodic encrypted checkpoints, fsync-before-CAS ordering, and fail-closed poisoned state after uncertain commits.
+- [x] **Step 4: Run the focused SSE tests, crate tests, formatter, and clippy**; fix actual failures before proceeding.
+- [x] **Step 5: Update security/status documentation** to mark the interface as partial until a concrete independent anchor-service adapter exists.
+- [x] **Step 6: Commit and push** the verified increment (`7a31efa2`).

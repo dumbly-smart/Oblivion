@@ -842,6 +842,7 @@ fn prune_before_checkpoint(directory: &Path, index_id: IndexId, generation: u64)
 #[cfg(test)]
 mod state_tests {
     use super::*;
+    use std::sync::{Arc, Mutex};
 
     #[test]
     fn deserialized_state_rejects_counter_sum_mismatch() {
@@ -872,5 +873,69 @@ mod state_tests {
         assert!(serde_json::to_writer(&mut writer, &payload).is_err());
         assert!(writer.overflowed);
         assert!(writer.bytes.len() <= 32);
+    }
+
+    #[derive(Clone, Default)]
+    struct TestAnchor(Arc<Mutex<Option<SseJournalAnchorRecord>>>);
+
+    impl SseJournalAnchor for TestAnchor {
+        fn load(&mut self) -> Result<Option<SseJournalAnchorRecord>, SseJournalAnchorError> {
+            self.0
+                .lock()
+                .map(|record| *record)
+                .map_err(|_| SseJournalAnchorError::Unavailable)
+        }
+
+        fn compare_and_swap(
+            &mut self,
+            expected_generation: Option<u64>,
+            next_record: SseJournalAnchorRecord,
+        ) -> Result<(), SseJournalAnchorError> {
+            let mut current = self
+                .0
+                .lock()
+                .map_err(|_| SseJournalAnchorError::Unavailable)?;
+            if (*current).map(|record| record.generation()) != expected_generation {
+                return Err(SseJournalAnchorError::Conflict);
+            }
+            *current = Some(next_record);
+            Ok(())
+        }
+    }
+
+    #[test]
+    fn authenticated_chain_over_replay_limit_is_rejected() {
+        use std::time::{SystemTime, UNIX_EPOCH};
+
+        let nonce = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_nanos();
+        let directory = std::env::temp_dir().join(format!(
+            "oblivion-sse-replay-limit-{}-{nonce}",
+            std::process::id()
+        ));
+        fs::create_dir(&directory).unwrap();
+
+        let anchor = TestAnchor::default();
+        let mut client =
+            PersistentClient::create(&directory, &[0x42; 32], Limits::default(), anchor.clone())
+                .unwrap();
+
+        // Build valid encrypted links without publishing checkpoints. This
+        // simulates an authenticated but maliciously long persisted history.
+        for index in 0..=MAX_REPLAY_RECORDS {
+            let keyword = format!("replay-limit-{index}").into_bytes();
+            client
+                .commit_mutation(JournalEntry::RotateKeyword { keyword })
+                .unwrap();
+            client.events_since_checkpoint = 0;
+        }
+
+        assert!(matches!(
+            PersistentClient::open(&directory, &[0x42; 32], anchor),
+            Err(JournalError::Limit)
+        ));
+        fs::remove_dir_all(directory).unwrap();
     }
 }
