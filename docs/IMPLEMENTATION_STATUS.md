@@ -1011,3 +1011,28 @@ summary are in
 see the [experiment report](ORAM_TWO_ADDRESS_REPLICATION_20261026.md) and
 [pre-registration](ORAM_TWO_ADDRESS_REPLICATION_PREREG_20261026.md). These
 measurements are not a remote timing study or an ORAM security proof.
+
+## 2026-10-26: persistent autoscaler privacy accountant
+
+Added an opt-in SQLite ledger for basic per-principal composition across
+separate autoscaler runs. It stores exact decimal totals under
+domain-separated HMAC-SHA256 pseudonyms, serializes budget checks and updates
+in one transaction, rejects duplicate release IDs, and pins the ledger to its
+HMAC key fingerprint, identity-registry fingerprint, and configured lifetime
+limits. The batch runner requires authenticated user IDs, a nonzero user cap,
+and the bounded-user `dp_laplace` policy; its artifact separates the current
+run's reproducible composition from a cumulative external-ledger snapshot.
+Offline reanalysis checks snapshot consistency against the source artifact's
+local manifest and labels it as copied, not recomputed.
+
+Twelve focused ledger tests cover reopen composition, duplicate and atomic
+budget rejection, concurrent writers, key/identity/configuration mismatch,
+filesystem permissions, path redaction, and two actual runner invocations.
+The full research Python suite passed (232 tests, 4 skips; 2026-10-26), and
+the four changed Python modules passed `py_compile`. No new empirical run or
+performance benchmark was collected. This local mechanism does not protect
+against a privileged operator, active database tampering or backup rollback;
+stable real-world identity and key/registry migration remain assumptions.
+The ledger does not upgrade seeded artifacts to a DP guarantee. See
+[`PRIVACY_LEDGER.md`](PRIVACY_LEDGER.md). Hosted CI for this increment has not
+yet run.

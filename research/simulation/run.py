@@ -10,6 +10,7 @@ import json
 from pathlib import Path
 import platform
 import os
+import secrets
 import importlib.metadata
 import subprocess
 import sys
@@ -20,6 +21,7 @@ from research.simulation.scaler import (Config, DEFAULT_POLICIES, POLICIES, Prof
     SequentialUserPrivacyAccountant, dp_laplace_parameters, load_imported,
     session_features,
     simulate, trial_interval, workload)
+from research.simulation.privacy_ledger import PersistentUserPrivacyLedger
 
 
 def write_row(handle, row):
@@ -141,20 +143,27 @@ def recorded_command(argv):
         if redact_next:
             result.append('[REDACTED]')
             redact_next = False
-        elif argument in ('--identity-registry', '--identity-signing-keys'):
+        elif argument in ('--identity-registry', '--identity-signing-keys',
+                          '--privacy-ledger', '--privacy-ledger-key'):
             result.append(argument)
             redact_next = True
         elif argument.startswith('--identity-registry='):
             result.append('--identity-registry=[REDACTED]')
         elif argument.startswith('--identity-signing-keys='):
             result.append('--identity-signing-keys=[REDACTED]')
+        elif argument.startswith('--privacy-ledger='):
+            result.append('--privacy-ledger=[REDACTED]')
+        elif argument.startswith('--privacy-ledger-key='):
+            result.append('--privacy-ledger-key=[REDACTED]')
         else:
             result.append(argument)
     return result
 
 
 def run(config_path, output, identity_registry_path=None,
-        identity_signing_keys_path=None):
+        identity_signing_keys_path=None, privacy_ledger_path=None,
+        privacy_ledger_key_path=None, privacy_ledger_max_epsilon=None,
+        privacy_ledger_max_delta=None):
     raw = json.loads(config_path.read_text())
     if set(raw) - {'version', 'seed', 'trials', 'sessions', 'workloads', 'simulation', 'imports', 'policies', 'dp_noise_source'}:
         raise ValueError('unknown experiment parameter')
@@ -218,10 +227,52 @@ def run(config_path, output, identity_registry_path=None,
         SequentialUserPrivacyAccountant()
         if cfg.dp_user_contribution_cap and 'dp_laplace' in policies else None
     )
+    privacy_ledger = None
+    privacy_ledger_run_id = None
+    privacy_ledger_key_fingerprint = None
+    has_ledger_path = privacy_ledger_path is not None
+    has_ledger_key = privacy_ledger_key_path is not None
+    if has_ledger_path != has_ledger_key:
+        raise ValueError('persistent privacy ledger requires both database and key paths')
+    if not has_ledger_path and (privacy_ledger_max_epsilon is not None
+                                or privacy_ledger_max_delta is not None):
+        raise ValueError('privacy ledger budgets require a persistent ledger')
+    if has_ledger_path:
+        if not cfg.require_authenticated_user_ids:
+            raise ValueError('persistent privacy ledger requires authenticated user IDs')
+        if privacy_accountant is None:
+            raise ValueError('persistent privacy ledger requires bounded-user dp_laplace releases')
+        privacy_ledger = PersistentUserPrivacyLedger(
+            privacy_ledger_path, privacy_ledger_key_path,
+            max_epsilon=privacy_ledger_max_epsilon,
+            max_delta=privacy_ledger_max_delta,
+            identity_registry_sha256=identity_registry_sha256)
+        privacy_ledger_run_id = secrets.token_hex(16)
+        privacy_ledger_key_fingerprint = privacy_ledger.summary()['ledger_key_fingerprint']
+
+    def record_privacy_release(release_id, user_ids):
+        if privacy_accountant is None:
+            return
+        principals = tuple(user_ids)
+        epsilon = cfg.dp_epsilon
+        delta = claims['dp_laplace']['delta']
+        if privacy_ledger is not None:
+            privacy_ledger.record(
+                f'{privacy_ledger_run_id}:{release_id}', principals, epsilon, delta)
+        privacy_accountant.record(release_id, principals, epsilon, delta)
+
     output.mkdir(exist_ok=False)
     recorded_config = dict(raw)
     if identity_registry_sha256:
         recorded_config['identity_registry_sha256'] = identity_registry_sha256
+    if privacy_ledger is not None:
+        recorded_config['persistent_privacy_ledger'] = dict(
+            run_id=privacy_ledger_run_id,
+            key_sha256=privacy_ledger_key_fingerprint,
+            max_epsilon=privacy_ledger_max_epsilon,
+            max_delta=privacy_ledger_max_delta,
+            identity_registry_sha256=identity_registry_sha256,
+        )
     (output / 'config.json').write_text(json.dumps(recorded_config, indent=2) + '\n')
     start = time.perf_counter()
     trial_results, imports = [], []
@@ -249,10 +300,9 @@ def run(config_path, output, identity_registry_path=None,
                         identity_signer=identity_signer,
                     )
                     if privacy_accountant is not None:
-                        privacy_accountant.record(
+                        record_privacy_release(
                             f'synthetic:{trial}:{kind}:{session}',
-                            {request.user_id for request in requests},
-                            cfg.dp_epsilon, claims['dp_laplace']['delta'])
+                            {request.user_id for request in requests})
                     context = dict(trial=trial, session=session, workload=kind)
                     write_row(truth, dict(**context, seed=int(seed), labels=labels, requests=[asdict(r) for r in requests]))
                     for policy in policies:
@@ -274,10 +324,9 @@ def run(config_path, output, identity_registry_path=None,
                         trial_results.append(dict(trial=trial, workload=kind, policy=policy, task=task, **metrics))
             for import_index, (spec, requests, digest) in enumerate(imported):
                 if privacy_accountant is not None:
-                    privacy_accountant.record(
+                    record_privacy_release(
                         f'import:{trial}:{import_index}',
-                        {request.user_id for request in requests},
-                        cfg.dp_epsilon, claims['dp_laplace']['delta'])
+                        {request.user_id for request in requests})
                 for policy in policies:
                     result = simulate(cfg, requests, policy, raw['seed'] + trial,
                                       dp_noise_source=dp_noise_source,
@@ -342,6 +391,20 @@ def run(config_path, output, identity_registry_path=None,
             composition_limit='count/event transcript only; private workload labels, queue/performance outputs and the complete runtime transcript are excluded')
     else:
         privacy_composition = None
+    persistent_privacy_ledger = None
+    if privacy_ledger is not None:
+        persistent_privacy_ledger = dict(
+            **privacy_ledger.summary(),
+            run_id=privacy_ledger_run_id,
+            run_release_count=privacy_accountant.summary()['release_count'],
+            composition_method='basic sequential composition',
+            cross_run_composition=True,
+            runtime_dp_noise_source=dp_noise_source,
+            mechanism_artifact_guarantee=claims['dp_laplace']['artifact_guarantee'],
+            budget_enforcement='atomic per release; limits are fixed when ledger is created',
+            rollback_protection=False,
+            cumulative_scope='all releases committed in this local SQLite ledger',
+        )
     privacy_limit = (
         (('User IDs are verified with Ed25519 signatures against a public registry; '
           'client signing seeds are loaded separately and are not copied to output. '
@@ -360,6 +423,7 @@ def run(config_path, output, identity_registry_path=None,
     report = dict(config=recorded_config, provenance=provenance, summary=summary, trial_metrics=trial_results,
         imported_runs=imports, positive_controls=positive, privacy_claims=claims,
         privacy_composition=privacy_composition,
+        persistent_privacy_ledger=persistent_privacy_ledger,
         methodology='Known-policy diagonal nearest-centroid profiler on current, previous and cumulative observer counts/events only. First half independent sessions profile; second half test. Session classes balanced across each half; trial-pooled balanced recall. Equal-weight independent trial bootstrap with5000 resamples. Public function pool identities are visible. Demand task is binary latent session demand regime, not exact arrival recovery. Uniform workload has no hot-function task.',
         limitations='Function-affine fixed-service single-request workers; no runtime/ORAM/network integration. Simulated seconds, not measured service latency. Horizon-censored requests count as SLO violations; p95/p99 concern completed requests only. Price is a hypothetical configurable input. The legacy noisy policy has no adjacency/sensitivity/composition guarantee. The optional dp_laplace sampler has a conditional approximate-DP bound only for its declared fixed-horizon count/event observer with independent hidden uniform random bits; the recorded deterministic-seed experiment itself has no DP guarantee. This is not a formal code audit. ' + privacy_limit + 'No full-runtime guarantee or universal attack bound. Public count/event observer excludes queue, true arrivals, response latency, sampler execution timing/CPU, billing, active scheduling and joint transcripts. Imported repeated traces support performance only. Pareto membership uses point estimates, not significance tests. No policy dominance required or forced.')
     (output / 'report.json').write_text(json.dumps(report, indent=2) + '\n')
@@ -379,12 +443,20 @@ if __name__ == '__main__':
                         help='JSON mapping principal IDs to HMAC keys or Ed25519 public keys')
     parser.add_argument('--identity-signing-keys', type=Path,
                         help='private JSON mapping principal IDs to raw Ed25519 signing seeds')
+    parser.add_argument('--privacy-ledger', type=Path,
+                        help='owner-private SQLite database for cross-run user-DP composition')
+    parser.add_argument('--privacy-ledger-key', type=Path,
+                        help='owner-private 32-byte HMAC key for ledger pseudonyms')
+    parser.add_argument('--privacy-ledger-max-epsilon', type=float)
+    parser.add_argument('--privacy-ledger-max-delta', type=float)
     args = parser.parse_args()
     if args.plot_only:
         plot(args.plot_only)
     elif args.config and args.output:
         report = run(args.config, args.output, args.identity_registry,
-                     args.identity_signing_keys)
+                     args.identity_signing_keys, args.privacy_ledger,
+                     args.privacy_ledger_key, args.privacy_ledger_max_epsilon,
+                     args.privacy_ledger_max_delta)
         print(json.dumps({'summaries': len(report['summary']), 'positive_controls': report['positive_controls'], 'wall_seconds': report['provenance']['elapsed_wall_seconds']}, indent=2))
     else:
         parser.error('CONFIG NEW_OUTPUT or --plot-only OUTPUT required')

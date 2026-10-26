@@ -24,11 +24,15 @@ def fail(condition,message):
     if not condition:raise ValueError(message)
 def rows(path):
     with gzip.open(path,'rt') as source:return [json.loads(line) for line in source]
-def number(value,minimum=0,maximum=1e15):return type(value) in (int,float) and math.isfinite(value) and minimum<=value<=maximum
+def number(value,minimum=0,maximum=1e15):
+    if type(value) not in (int,float):return False
+    try:finite=math.isfinite(value)
+    except OverflowError:return False
+    return finite and minimum<=value<=maximum
 
 def load_inputs(source, identity_registry_path=None):
     raw=json.loads((source/'config.json').read_text())
-    fail(isinstance(raw,dict) and set(raw)<={'version','seed','trials','sessions','workloads','simulation','imports','policies','dp_noise_source','identity_registry_sha256'},'unsupported config schema')
+    fail(isinstance(raw,dict) and set(raw)<={'version','seed','trials','sessions','workloads','simulation','imports','policies','dp_noise_source','identity_registry_sha256','persistent_privacy_ledger'},'unsupported config schema')
     fail(raw.get('version')==1 and type(raw.get('trials')) is int and 2<=raw['trials']<=100,'invalid trials/version')
     fail(type(raw.get('sessions')) is int and 8<=raw['sessions']<=64 and raw['sessions']%8==0,'invalid whole-session split')
     fail(type(raw.get('seed')) is int and raw['seed']>=0,'invalid experiment seed')
@@ -38,6 +42,16 @@ def load_inputs(source, identity_registry_path=None):
     fail(isinstance(policies,list) and policies and all(type(p) is str for p in policies) and len(set(policies))==len(policies) and not set(policies)-set(POLICIES) and 'naive' in policies,'invalid policy selection or missing naive positive control')
     fail(raw.get('dp_noise_source','seeded_experiment') in ('seeded_experiment','os_csprng'),'invalid DP noise source')
     cfg=Config(**raw['simulation']);cfg.validate();fail(cfg.functions==2,'binary function-pool experiment required')
+    ledger=raw.get('persistent_privacy_ledger')
+    if ledger is not None:
+        fail(isinstance(ledger,dict) and set(ledger)=={'run_id','key_sha256','max_epsilon','max_delta','identity_registry_sha256'},'invalid persistent privacy ledger metadata')
+        fail(isinstance(ledger['run_id'],str) and len(ledger['run_id'])==32 and all(c in '0123456789abcdef' for c in ledger['run_id']),'invalid persistent ledger run ID')
+        fail(isinstance(ledger['key_sha256'],str) and len(ledger['key_sha256'])==64 and all(c in '0123456789abcdef' for c in ledger['key_sha256']),'invalid persistent ledger key fingerprint')
+        fail(ledger['identity_registry_sha256']==raw.get('identity_registry_sha256'),'persistent ledger identity registry differs')
+        fail(cfg.require_authenticated_user_ids and cfg.dp_user_contribution_cap and 'dp_laplace' in policies,'persistent ledger requires authenticated bounded-user dp_laplace')
+        for name in ('max_epsilon','max_delta'):
+            value=ledger[name]
+            fail(value is None or type(value) in (int,float) and math.isfinite(value) and value>=0 and (name!='max_delta' or value<1),f'invalid persistent ledger {name}')
     identity_authenticator=None
     if cfg.require_authenticated_user_ids:
         fail(identity_registry_path is not None,'authenticated rebuild requires an external identity registry')
@@ -218,18 +232,44 @@ def regenerate(source,output,identity_registry_path=None):
                 f' Synthetic IDs are treated as stable, non-spoofable principals with a cap of {cfg.dp_user_contribution_cap} included requests per horizon.'
                 if cfg.dp_user_contribution_cap else ' No user-level contribution bound is enforced.')
     report=rebuild(raw,public,private,truth)
+    source_report_sha256=None
+    if raw.get('persistent_privacy_ledger') is not None:
+        manifest_path=source/'artifact-sha256.json'
+        if not manifest_path.is_file():
+            raise ValueError('persistent ledger snapshot requires an artifact manifest')
+        manifest=json.loads(manifest_path.read_text())
+        source_report_path=source/'report.json'
+        source_report_bytes=source_report_path.read_bytes()
+        source_report_sha256=hashlib.sha256(source_report_bytes).hexdigest()
+        if manifest.get('report.json')!=source_report_sha256:
+            raise ValueError('persistent ledger source report failed artifact hash check')
+        source_report=json.loads(source_report_bytes)
+        snapshot=source_report.get('persistent_privacy_ledger')
+        metadata=raw['persistent_privacy_ledger']
+        if (not isinstance(snapshot,dict)
+                or snapshot.get('run_id')!=metadata['run_id']
+                or snapshot.get('ledger_key_fingerprint')!=metadata['key_sha256']
+                or snapshot.get('identity_registry_sha256')!=metadata['identity_registry_sha256']
+                or snapshot.get('run_release_count')!=report.get('privacy_composition',{}).get('release_count')):
+            raise ValueError('persistent ledger report snapshot disagrees with retained artifact')
+        report['persistent_privacy_ledger']=dict(
+            snapshot, snapshot_status='copied_from_source_report_not_recomputed')
     if inputs!={name:sha(source/name) for name in RAW_FILES}:raise ValueError('retained raw inputs changed during analysis')
     report['provenance']=dict(created_before_output_utc=datetime.now(timezone.utc).isoformat(),raw_source=str(source),raw_sha256=inputs,
         analysis_source_sha256={name:sha(ROOT/name) for name in ['scripts/regenerate_scaler.py','research/simulation/run.py','research/simulation/scaler.py']},
         identity_authentication=(cfg.user_identity_scheme or 'hmac-sha256')
             if cfg.require_authenticated_user_ids else None,
         identity_registry_sha256=raw.get('identity_registry_sha256'),
-        public_sessions=len(public),private_sessions=len(private),workload_sessions=len(truth),read_cached_report=False,ran_simulator=False)
+        public_sessions=len(public),private_sessions=len(private),workload_sessions=len(truth),read_cached_report=False,ran_simulator=False,
+        persistent_ledger_snapshot_sha256=source_report_sha256,
+        persistent_ledger_reconstructed=False)
     report['methodology']='Existing known-policy diagonal nearest-centroid fit on first-half whole profiling sessions; second-half target predictions scored afterward. Refit every independent trial from retained public rows/private labels. Equal-weight trial bootstrap,5000resamples. Per-session raw performance counters aggregate only held-out sessions, with lifecycle/price consistency checks; no new workload generation or simulation.'
     report['limitations']=(
         'Synthetic function-affine model, not a deployment. Exact instance-seconds and queue maximum use recorded private session counters; incomplete worker identities prevent reconstructing those counters from public snapshots alone. Horizon-censored/dropped requests count as SLO failures. Point-estimate Pareto/SLO flags; hypothetical configured instance-second price. The deterministic seeded artifact has no DP guarantee; the optional dp_laplace sampler has a conditional approximate-DP bound for its fixed-horizon observer under independent hidden uniform bits.'+user_scope+' No full-runtime guarantee. Supports recorded synthetic-session campaigns without imported traces.'
         if raw.get('dp_noise_source','seeded_experiment') == 'seeded_experiment' else
         'Synthetic function-affine model, not a deployment. Exact instance-seconds and queue maximum use recorded private session counters; incomplete worker identities prevent reconstructing those counters from public snapshots alone. Horizon-censored/dropped requests count as SLO failures. Point-estimate Pareto/SLO flags; hypothetical configured instance-second price. The optional dp_laplace sampler has a conditional approximate-DP bound under independent OS-CSPRNG bits for its fixed-horizon observer; it has no independent code audit.'+user_scope+' No full-runtime guarantee. Supports recorded synthetic-session campaigns without imported traces; CSPRNG outputs are not reproducible from the public experiment seed.')
+    if raw.get('persistent_privacy_ledger') is not None:
+        report['limitations'] += (' The cumulative SQLite ledger summary is copied from the source report after artifact-hash validation; it is not rebuilt from the artifact and the live database is not consulted.')
     output.mkdir(parents=True)
     (output/'config.json').write_text(json.dumps(raw,indent=2)+'\n');(output/'report.json').write_text(json.dumps(report,indent=2)+'\n');plot(output)
     manifest={p.name:sha(p) for p in output.iterdir() if p.is_file()};(output/'artifact-sha256.json').write_text(json.dumps(manifest,indent=2)+'\n')
