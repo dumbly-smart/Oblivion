@@ -61,3 +61,9 @@ collection-time host monitoring remain open. The replication collector now
 records platform, CPU model/count, allowed CPU set, and load average before and
 after each mode; this instrumentation does not retroactively repair the
 completed study.
+
+A second Zipf-32 run with a fresh seed and those host snapshots is now
+preregistered in
+[`ORAM_ZIPF32_MONITORED_PREREG_20261026.md`](ORAM_ZIPF32_MONITORED_PREREG_20261026.md).
+It preserves the prior workload, primary AUC, and positive-control thresholds
+and will be reported independently.
