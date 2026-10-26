@@ -88,7 +88,7 @@ def run(config_path, output, oram_binary, control_binary):
     cpu = config.get("service_cpu_affinity")
     order_seed = config.get("order_seed")
     if (type(trials) is not int or trials != 30 or sessions != 8 or type(sessions) is not int
-            or type(order_seed) is not int or config.get("primary_metric") != "roc_auc"
+            or type(order_seed) is not int or config.get("primary_metric") != "paired_auc_delta"
             or type(cpu) is not int or cpu < 0):
         raise ValueError("crossover config requires 30 trials, 8 sessions, an order seed, and a CPU id")
     replication.validate_service_cpu_affinity(cpu)
@@ -200,6 +200,7 @@ def run(config_path, output, oram_binary, control_binary):
                   for i, order in enumerate(orders)]
     report = {
         "configuration": config, "summaries": summaries, "paired_auc_difference": paired,
+        "primary_metric": "paired_auc_delta",
         "positive_controls_passed": True, "defense_evaluated": True,
         "condition_order": order_rows,
         "condition_order_counts": {condition: sum(row["first_condition"] == condition for row in order_rows)
