@@ -874,3 +874,22 @@ focused replication suite passes and the full research suite passed 203 tests
 with four existing skips. See the
 [preregistration](ORAM_ZIPF32_MONITORED_PREREG_20261026.md) and
 [result](ORAM_ZIPF32_MONITORED_REPLICATION_20261026.md).
+
+## 2026-10-26: preregistered uniform-32 ORAM timing replication
+
+A fresh-seed uniform workload used 32 logical addresses with a balanced
+public hot/cold partition, 35% reads, and 30 whole-session trials. Both
+plaintext and encrypt-only controls scored AUC 1.000. The frozen temporal
+classifier scored Path ORAM AUC 0.5018 [0.4965, 0.5078], with balanced
+accuracy 0.5010 and profile-majority accuracy 0.5007. The interval includes
+chance; this is a bounded non-detection result, not an indistinguishability or
+security proof.
+
+The collection captured coarse host snapshots around each mode. Independent
+post-collection checks verified all 1,440 raw hashes, 240 paired schedules,
+90 saved predictions and their recomputed metrics, plus source/config/binary
+fingerprints. Classifier fitting was not independently reimplemented. The
+12 focused ORAM replication/timing tests passed before collection. See the
+[preregistration](ORAM_UNIFORM32_REPLICATION_PREREG_20261026.md) and
+[result record](ORAM_UNIFORM32_REPLICATION_20261026.md). Other workload and
+attack families, quiet-host replication, and remote timing remain open.

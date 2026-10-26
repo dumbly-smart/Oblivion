@@ -75,3 +75,11 @@ A uniform-32 comparison is preregistered in
 It uses a balanced public hot/cold partition and preserves the same operation
 mix, classifier, positive controls, and primary metric; collection remains
 outstanding.
+
+The uniform-32 replication is now complete. Both positive controls passed and
+Path ORAM scored AUC 0.5018 [0.4965, 0.5078]; the interval includes chance.
+All 1,440 raw hashes, 240 paired schedules, and 90 saved prediction metrics
+were checked. See the [preregistration](ORAM_UNIFORM32_REPLICATION_PREREG_20261026.md)
+and [result](ORAM_UNIFORM32_REPLICATION_20261026.md). This remains a bounded
+local synthetic experiment. Other workload and attack families, quieter-host
+replication, and real remote timing remain open.

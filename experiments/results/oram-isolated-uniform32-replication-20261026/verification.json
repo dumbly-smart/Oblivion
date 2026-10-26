@@ -1,0 +1,20 @@
+{
+  "checks": {
+    "archive_contents_rechecked_against_raw_hashes": true,
+    "host_snapshots_present_for_each_mode": true,
+    "paired_trial_session_schedules_verified": 240,
+    "positive_controls_passed": true,
+    "prediction_files_verified": 90,
+    "raw_sha256_entries_verified": 1440,
+    "saved_prediction_metrics_recomputed_from_target_labels": 90,
+    "source_and_binary_fingerprints_match": true
+  },
+  "collection_git_head": "e98d6bc75d305ee8ef032e3d3761b5943518da92",
+  "limitations": [
+    "Classifier fitting was not independently reimplemented; prediction metrics were recomputed from saved predictions and retained private target traces.",
+    "Host load observations are coarse mode-boundary snapshots, not continuous measurements.",
+    "Local handler timing excludes pipe wait, Path ORAM controller work, parsing and response encoding."
+  ],
+  "scope": "Independent post-collection audit of uniform-32 ORAM timing replication",
+  "trace_archive_sha256": "10a81958c524cf8c1f7f7ce5c8945fdf59d76dbc31b67fd758529601e5dccadd"
+}
