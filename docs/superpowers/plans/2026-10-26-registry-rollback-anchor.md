@@ -49,10 +49,10 @@
 - Test: anchor unit, migration, socket, and process tests
 
 - [ ] Write tests for digest CAS, restart, old-schema migration, conflicts, and malformed protocol requests.
-- [ ] Run tests and confirm the catalog-anchor operations are missing.
-- [ ] Add schema-v3 migration and transactional catalog state CAS.
+- [x] Run tests and confirm the catalog-anchor operations are missing.
+- [x] Add schema-v3 migration and transactional catalog state CAS.
 - [ ] Add protocol load/CAS requests and the client adapter.
-- [ ] Run anchor tests and warning-denied Clippy, then commit.
+- [x] Run all 17 anchor library tests and warning-denied anchor Clippy for the database slice; commit it before protocol work.
 
 ### Task 3: Activate catalogs before worker readiness
 

@@ -11,7 +11,9 @@ use chacha20poly1305::{
 use ed25519_dalek::{Signature, VerifyingKey};
 use hkdf::Hkdf;
 use hmac::{Hmac, Mac};
-use oblivion_registry::{self as registry, RegistryVersionAnchor};
+use oblivion_registry::{
+    self as registry, RegistryCatalogAnchor, RegistryCatalogState, RegistryVersionAnchor,
+};
 use oblivion_store::{self as store, CheckpointAnchor, CheckpointAnchorRecord};
 use rand::{RngCore, rngs::OsRng};
 use rusqlite::{Connection, OptionalExtension, TransactionBehavior, params};
@@ -34,7 +36,7 @@ const MAX_SLOT_BYTES: usize = 128;
 pub const INVOCATION_ID_BYTES: usize = 16;
 pub const INVOCATION_DIGEST_BYTES: usize = 32;
 pub const MAX_INVOCATION_RESPONSE_BYTES: usize = 64 * 1024;
-const SCHEMA_VERSION: u32 = 2;
+const SCHEMA_VERSION: u32 = 3;
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
@@ -58,6 +60,8 @@ pub enum Error {
     InvalidInvocationSignature,
     #[error("stored invocation receipt is malformed or unauthentic")]
     InvalidInvocationReceipt,
+    #[error("anchored registry catalog digest must contain exactly 32 bytes")]
+    InvalidCatalogDigest,
     #[error("invocation response exceeds the configured receipt bound")]
     InvocationResponseTooLarge,
     #[error("anchor database schema version {0} is unsupported")]
@@ -220,6 +224,11 @@ impl AnchorDatabase {
                 slot TEXT PRIMARY KEY NOT NULL,
                 version INTEGER NOT NULL CHECK (version > 0)
             );
+            CREATE TABLE IF NOT EXISTS registry_catalog_anchor (
+                slot TEXT PRIMARY KEY NOT NULL,
+                version INTEGER NOT NULL CHECK (version > 0),
+                digest BLOB CHECK (digest IS NULL OR length(digest) = 32)
+            );
             CREATE TABLE IF NOT EXISTS used_nonce (
                 nonce BLOB PRIMARY KEY NOT NULL CHECK (length(nonce) = 12)
             );
@@ -230,7 +239,7 @@ impl AnchorDatabase {
                 ciphertext BLOB NOT NULL,
                 PRIMARY KEY (slot, lookup_token)
             );
-            PRAGMA user_version = 2;",
+            PRAGMA user_version = 3;",
                 )?;
                 tx.commit()?;
             }
@@ -244,7 +253,28 @@ impl AnchorDatabase {
                 ciphertext BLOB NOT NULL,
                 PRIMARY KEY (slot, lookup_token)
             );
-            PRAGMA user_version = 2;",
+            CREATE TABLE registry_catalog_anchor (
+                slot TEXT PRIMARY KEY NOT NULL,
+                version INTEGER NOT NULL CHECK (version > 0),
+                digest BLOB CHECK (digest IS NULL OR length(digest) = 32)
+            );
+            INSERT INTO registry_catalog_anchor(slot, version, digest)
+                SELECT slot, version, NULL FROM registry_anchor;
+            PRAGMA user_version = 3;",
+                )?;
+                tx.commit()?;
+            }
+            2 => {
+                let tx = connection.transaction_with_behavior(TransactionBehavior::Exclusive)?;
+                tx.execute_batch(
+                    "CREATE TABLE registry_catalog_anchor (
+                slot TEXT PRIMARY KEY NOT NULL,
+                version INTEGER NOT NULL CHECK (version > 0),
+                digest BLOB CHECK (digest IS NULL OR length(digest) = 32)
+            );
+            INSERT INTO registry_catalog_anchor(slot, version, digest)
+                SELECT slot, version, NULL FROM registry_anchor;
+            PRAGMA user_version = 3;",
                 )?;
                 tx.commit()?;
             }
@@ -269,6 +299,17 @@ impl AnchorDatabase {
     pub fn registry_anchor(&mut self, slot: &str) -> Result<RegistrySlot<'_>, Error> {
         validate_slot(slot)?;
         Ok(RegistrySlot {
+            connection: &mut self.connection,
+            slot: slot.to_owned(),
+        })
+    }
+
+    pub fn registry_catalog_anchor(
+        &mut self,
+        slot: &str,
+    ) -> Result<RegistryCatalogSlot<'_>, Error> {
+        validate_slot(slot)?;
+        Ok(RegistryCatalogSlot {
             connection: &mut self.connection,
             slot: slot.to_owned(),
         })
@@ -461,6 +502,33 @@ impl RegistryVersionAnchor for RegistrySlot<'_> {
     ) -> Result<(), registry::Error> {
         compare_and_swap_registry(self.connection, &self.slot, expected, next)
             .map_err(map_registry_error)
+    }
+}
+
+pub struct RegistryCatalogSlot<'a> {
+    connection: &'a mut Connection,
+    slot: String,
+}
+
+impl RegistryCatalogAnchor for RegistryCatalogSlot<'_> {
+    fn current_catalog(&mut self) -> Result<Option<RegistryCatalogState>, registry::Error> {
+        current_registry_catalog(self.connection, &self.slot).map_err(map_registry_error)
+    }
+
+    fn compare_and_swap_catalog(
+        &mut self,
+        expected: Option<RegistryCatalogState>,
+        next_version: u64,
+        next_digest: [u8; 32],
+    ) -> Result<(), registry::Error> {
+        compare_and_swap_registry_catalog(
+            self.connection,
+            &self.slot,
+            expected,
+            next_version,
+            next_digest,
+        )
+        .map_err(map_registry_error)
     }
 }
 
@@ -762,6 +830,63 @@ fn compare_and_swap_registry(
         }
     }
     // Preserve the same explicit uncertainty semantics for version callers.
+    tx.commit().map_err(|_| Error::CommitIndeterminate)?;
+    Ok(())
+}
+
+fn current_registry_catalog(
+    connection: &Connection,
+    slot: &str,
+) -> Result<Option<RegistryCatalogState>, Error> {
+    let stored: Option<(i64, Option<Vec<u8>>)> = connection
+        .query_row(
+            "SELECT version, digest FROM registry_catalog_anchor WHERE slot = ?1",
+            [slot],
+            |row| Ok((row.get(0)?, row.get(1)?)),
+        )
+        .optional()?;
+    stored
+        .map(|(version, digest)| {
+            let version = u64::try_from(version).map_err(|_| Error::IntegerRange)?;
+            let digest = digest
+                .map(|bytes| bytes.try_into().map_err(|_| Error::InvalidCatalogDigest))
+                .transpose()?;
+            RegistryCatalogState::new(version, digest)
+                .map_err(|error| Error::Database(error.to_string()))
+        })
+        .transpose()
+}
+
+fn compare_and_swap_registry_catalog(
+    connection: &mut Connection,
+    slot: &str,
+    expected: Option<RegistryCatalogState>,
+    next_version: u64,
+    next_digest: [u8; 32],
+) -> Result<(), Error> {
+    if next_version == 0 || expected.is_some_and(|state| next_version <= state.version()) {
+        return Err(Error::Conflict);
+    }
+    let next_i64 = i64::try_from(next_version).map_err(|_| Error::IntegerRange)?;
+    let tx = connection.transaction_with_behavior(TransactionBehavior::Immediate)?;
+    let current = current_registry_catalog(&tx, slot)?;
+    if current != expected {
+        return Err(Error::Conflict);
+    }
+    match current {
+        None => {
+            tx.execute(
+                "INSERT INTO registry_catalog_anchor(slot, version, digest) VALUES (?1, ?2, ?3)",
+                params![slot, next_i64, next_digest.as_slice()],
+            )?;
+        }
+        Some(_) => {
+            tx.execute(
+                "UPDATE registry_catalog_anchor SET version = ?2, digest = ?3 WHERE slot = ?1",
+                params![slot, next_i64, next_digest.as_slice()],
+            )?;
+        }
+    }
     tx.commit().map_err(|_| Error::CommitIndeterminate)?;
     Ok(())
 }
@@ -1205,7 +1330,9 @@ mod tests {
         }
         let connection = Connection::open(&path).unwrap();
         connection
-            .execute_batch("DROP TABLE invocation_receipt; PRAGMA user_version = 1;")
+            .execute_batch(
+                "DROP TABLE invocation_receipt; DROP TABLE registry_catalog_anchor; PRAGMA user_version = 1;",
+            )
             .unwrap();
         drop(connection);
 
@@ -1220,7 +1347,7 @@ mod tests {
             .connection
             .pragma_query_value(None, "user_version", |row| row.get(0))
             .unwrap();
-        assert_eq!(schema_version, 2);
+        assert_eq!(schema_version, 3);
         drop(db);
         let _ = std::fs::remove_file(path);
     }
@@ -1316,6 +1443,77 @@ mod tests {
                 .unwrap(),
             Some(2)
         );
+        drop(db);
+        let _ = std::fs::remove_file(path);
+    }
+
+    #[test]
+    fn sqlite_registry_catalog_anchor_persists_digest_cas() {
+        let path = path("registry-catalog-anchor");
+        let digest_one = [0x31; 32];
+        let digest_two = [0x32; 32];
+        {
+            let mut db = AnchorDatabase::open(&path, Zeroizing::new([0x75; 32])).unwrap();
+            let mut anchor = db.registry_catalog_anchor("functions").unwrap();
+            assert_eq!(anchor.current_catalog().unwrap(), None);
+            anchor
+                .compare_and_swap_catalog(None, 4, digest_one)
+                .unwrap();
+            let expected = RegistryCatalogState::new(4, Some(digest_one)).unwrap();
+            assert_eq!(anchor.current_catalog().unwrap(), Some(expected));
+            assert!(matches!(
+                anchor.compare_and_swap_catalog(Some(expected), 4, digest_two),
+                Err(registry::Error::AnchorConflict)
+            ));
+            anchor
+                .compare_and_swap_catalog(Some(expected), 5, digest_two)
+                .unwrap();
+            assert_eq!(
+                anchor.current_catalog().unwrap(),
+                Some(RegistryCatalogState::new(5, Some(digest_two)).unwrap())
+            );
+        }
+        let mut db = AnchorDatabase::open(&path, Zeroizing::new([0x75; 32])).unwrap();
+        assert_eq!(
+            db.registry_catalog_anchor("functions")
+                .unwrap()
+                .current_catalog()
+                .unwrap(),
+            Some(RegistryCatalogState::new(5, Some(digest_two)).unwrap())
+        );
+        drop(db);
+        let _ = std::fs::remove_file(path);
+    }
+
+    #[test]
+    fn schema_two_migration_preserves_version_as_legacy_catalog_floor() {
+        let path = path("schema-two-catalog-migration");
+        {
+            let db = AnchorDatabase::open(&path, Zeroizing::new([0x76; 32])).unwrap();
+            db.connection
+                .execute(
+                    "INSERT INTO registry_anchor(slot, version) VALUES ('functions', 7)",
+                    [],
+                )
+                .unwrap();
+            db.connection
+                .execute_batch("DROP TABLE registry_catalog_anchor; PRAGMA user_version = 2;")
+                .unwrap();
+        }
+        let mut db = AnchorDatabase::open(&path, Zeroizing::new([0x76; 32])).unwrap();
+        let legacy = RegistryCatalogState::new(7, None).unwrap();
+        assert_eq!(
+            db.registry_catalog_anchor("functions")
+                .unwrap()
+                .current_catalog()
+                .unwrap(),
+            Some(legacy)
+        );
+        let schema_version: u32 = db
+            .connection
+            .pragma_query_value(None, "user_version", |row| row.get(0))
+            .unwrap();
+        assert_eq!(schema_version, 3);
         drop(db);
         let _ = std::fs::remove_file(path);
     }
