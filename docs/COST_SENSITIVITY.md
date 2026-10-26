@@ -12,9 +12,11 @@ executor, and two PIR children. Startup and teardown CPU are excluded. The
 primary measure is the ratio of total observed CPU seconds to total successful
 outputs, scaled to 1,000 outputs. Confidence intervals use 5,000 deterministic
 bootstrap resamples of whole trial processes, preserving each process as the
-unit of resampling. The secondary normalization uses total offered requests.
-SLO failure is weighted by offered requests. RSS is sampled aggregate process
-tree RSS, not peak or billable memory.
+unit of resampling. A resample with zero successful outputs has an undefined
+success-normalized ratio; the report counts these draws explicitly and forms
+the interval only from defined draws. The secondary normalization uses total
+offered requests. SLO failure is weighted by offered requests. RSS is sampled
+aggregate process tree RSS, not peak or billable memory.
 
 The report validates the source experiment's hash manifest before analyzing
 its 60 rows. It records the three input artifact hashes, analysis-script hash,
@@ -56,10 +58,12 @@ the supplied USD per vCPU-hour rate and divided by 3,600. Such a value is only
 the named analyst scenario; it is not a provider recommendation or a measured
 price.
 
-The checked-in result is in
-[`experiments/results/runtime-cost-sensitivity-20261026/`](../experiments/results/runtime-cost-sensitivity-20261026/).
+The checked-in corrected result is in
+[`experiments/results/runtime-cost-sensitivity-20261026-v2/`](../experiments/results/runtime-cost-sensitivity-20261026-v2/).
 It was generated without `--rates` from the source artifact manifest whose
-hash is retained in `analysis-provenance.json`.
+hash is retained in `analysis-provenance.json`. Both profiles had all 5,000
+success-normalized bootstrap draws defined; the report still records those
+counts explicitly.
 
 ## Limits
 

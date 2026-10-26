@@ -814,6 +814,7 @@ it is neither peak nor billable memory.
 No price scenario was supplied, and the report contains no dollar estimate.
 The calculation excludes network, storage, idle capacity, autoscaler
 instance-seconds, startup/teardown CPU, and provider-specific accounting.
-Reproduction, result hashes and limits are recorded in
-[`COST_SENSITIVITY.md`](COST_SENSITIVITY.md). Remote/multi-host capacity and
-provider-calibrated costs remain unmeasured.
+Zero-success bootstrap draws are counted explicitly; the corrected report had
+5,000 defined draws and zero undefined draws for both profiles. Reproduction,
+result hashes and limits are recorded in [`COST_SENSITIVITY.md`](COST_SENSITIVITY.md).
+Remote/multi-host capacity and provider-calibrated costs remain unmeasured.
