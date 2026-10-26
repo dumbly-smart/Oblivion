@@ -48,3 +48,10 @@ The measurement output now records every service-child PID and effective CPU
 mask for new runs, with an in-process check for requested affinity. This
 improves future per-child provenance; historical raw campaigns remain limited
 to their retained metadata.
+
+A new 32-address Zipf workload replication is preregistered in
+[`ORAM_ZIPF32_REPLICATION_PREREG_20261026.md`](ORAM_ZIPF32_REPLICATION_PREREG_20261026.md).
+It uses 256 operations/session, a 35% read mix, and the same frozen classifier
+and control gate with isolated bucket-handler timing. Collection and
+independent integrity review remain outstanding; its results must be reported
+even if controls fail or the classifier shows no signal.
