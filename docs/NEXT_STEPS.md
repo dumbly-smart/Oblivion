@@ -22,3 +22,13 @@ The deterministic built-in demo remains a correctness/topology exercise. Its cod
 An additional preregistered independent ORAM leaf/timing run used a fresh eight-address skew, address 0 as the hot class, and 70% reads. Plaintext and encrypt-only controls both scored AUC 1.000; ORAM scored 0.5015 [0.4935, 0.5095] over 30 whole-session trials. A post-hoc frequency-only attacker on the same sessions scored ORAM AUC 0.5017 [0.4931, 0.5101], with both controls at 1.000. The [protocol](ORAM_SIGNAL_REPLICATION_20261025_PREREG.md), [results](ORAM_SIGNAL_REPLICATION_20261025.md), raw sessions, predictions, figure, and host observation are retained. All raw hashes and paired session schedules were rechecked. Host load was present during collection, so this is process-isolated service timing with host scheduling noise, not a quiet-host replication or a security proof.
 
 A separate 2026-10-26 preregistered Markov-locality workload B changed the seed, hot set, refresh distribution, retention probability and read/write mix. Both controls scored AUC 1.000; Path ORAM scored 0.5021 [0.4803, 0.5242] over 30 trials. All 1,440 raw trace hashes and 240 paired schedules were independently rechecked. The [preregistration](ORAM_SIGNAL_REPLICATION_20261026_B_PREREG.md), [results](ORAM_SIGNAL_REPLICATION_20261026_B.md), [raw session and prediction archive](../experiments/results/oram-isolated-replication-20261026-b/trace-data.tar.gz), figure, verification and host observation are retained. Load averages reached 7.71 on this 24-logical-CPU host; this run also cannot rule out smaller effects. Other workload families, attack families and quieter-host replications remain open.
+
+The service-pinned 2026-10-26 replication has now completed with both
+positive controls successful and ORAM AUC 0.4937 [0.4756, 0.5130]. All 90
+service processes were restricted to CPU 0 and verified from `/proc`; the
+driver remained unpinned. This is an independent run, not a paired test of
+pinning versus no pinning, and the host remains shared. See the
+[preregistration](ORAM_PINNED_REPLICATION_20261026_PREREG.md) and
+[results](ORAM_PINNED_REPLICATION_20261026.md). A useful follow-up is a
+preregistered within-host crossover with paired seeds and randomized
+pinned/unpinned collection order, if a suitable controlled host is available.

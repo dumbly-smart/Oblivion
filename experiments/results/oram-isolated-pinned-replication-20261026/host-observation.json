@@ -1,0 +1,20 @@
+{
+  "collection_date_utc": "2026-10-26",
+  "collection_completed_unix": 1793005171.6164978,
+  "hardware": "Intel(R) Core(TM) i7-14650HX",
+  "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+  "allowed_cpus_after_collection": "0-23",
+  "service_cpu_affinity": 0,
+  "driver_cpu_affinity": "0-23",
+  "load_average_after_collection": [
+    2.1044921875,
+    2.40380859375,
+    2.99853515625
+  ],
+  "pre_collection_load_average": [
+    4.15,
+    3.3,
+    3.51
+  ],
+  "notes": "Service subprocesses were verified with /proc/<pid>/status as CPU 0. The driver and host were not isolated from other work; load/frequency/SMT and OS activity remain uncontrolled."
+}

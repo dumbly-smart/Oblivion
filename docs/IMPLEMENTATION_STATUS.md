@@ -749,3 +749,22 @@ startup cleanup and one retained anchored snapshot after a later commit. The
 test passed along with anchor lock tests, warning-denied workspace Clippy,
 formatting and whitespace checks. Snapshot pruning does not reduce the
 visible full-tree checkpoint I/O or make external side effects transactional.
+
+## 2026-10-26: pinned-service ORAM timing replication
+
+The isolated ORAM measurement harness now optionally pins only its service
+child on Linux via `taskset`, records the child's effective CPU set from
+`/proc`, and leaves the workload driver's affinity unchanged. Both positive
+controls passed in the frozen fresh-seed study. Across 30 trials, plaintext
+and encrypt-only controls scored AUC 1.000; Path ORAM scored 0.4937
+[0.4756, 0.5130], an interval containing chance. All 90 service processes
+reported CPU 0. The study is not paired against earlier unpinned collections
+and does not isolate CPU 0 from host activity.
+
+The 1,440 raw trace hashes, 90 predictions, 240 paired schedules, five
+source/binary hashes and all effective affinities were independently
+rechecked. The archive, plot, verification and host observation are retained.
+The focused 10 Python harness tests passed; both ORAM example suites passed
+(7 tests each), warning-denied package Clippy, formatting, diff checks and a
+CPU-affinity smoke invocation passed. The experiment remains empirical and
+workload-specific; it establishes no general ORAM timing guarantee.
