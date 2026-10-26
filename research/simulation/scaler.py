@@ -13,6 +13,11 @@ from pathlib import Path
 import random
 import secrets
 import stat
+
+from cryptography.exceptions import InvalidSignature
+from cryptography.hazmat.primitives.asymmetric.ed25519 import (
+    Ed25519PrivateKey, Ed25519PublicKey,
+)
 import numpy as np
 
 DEFAULT_POLICIES = ('naive', 'ewma', 'quantized', 'fixed', 'noisy')
@@ -41,6 +46,7 @@ class Config:
     dp_delta: float = 1e-6
     dp_user_contribution_cap: int = 0
     require_authenticated_user_ids: bool = False
+    user_identity_scheme: str | None = None
     low_rate: float = 2
     high_rate: float = 12
     price_per_instance_second: float = .00001  # explicit hypothetical input
@@ -50,7 +56,8 @@ class Config:
         if type(self.require_authenticated_user_ids) is not bool:
             raise ValueError('require_authenticated_user_ids must be a boolean')
         numeric_values = {key: value for key, value in values.items()
-                          if key != 'require_authenticated_user_ids'}
+                          if key not in ('require_authenticated_user_ids',
+                                         'user_identity_scheme')}
         if not all(isinstance(v, (int, float)) and not isinstance(v, bool)
                    and math.isfinite(v) for v in numeric_values.values()):
             raise ValueError('finite numeric parameters required')
@@ -72,6 +79,10 @@ class Config:
             raise ValueError('dp_user_contribution_cap must be in 0..1,000,000')
         if self.require_authenticated_user_ids and not self.dp_user_contribution_cap:
             raise ValueError('authenticated user IDs require a positive per-user contribution cap')
+        if self.user_identity_scheme not in (None, 'hmac-sha256', 'ed25519'):
+            raise ValueError('user_identity_scheme must be hmac-sha256 or ed25519')
+        if self.user_identity_scheme is not None and not self.require_authenticated_user_ids:
+            raise ValueError('identity scheme requires authenticated user IDs')
         if not 0 < self.dp_delta < 1:
             raise ValueError('dp_delta must be strictly between zero and one')
         if self.high_rate * self.duration > 1e6:
@@ -87,7 +98,7 @@ class Request:
 
 
 class RequestAuthenticator:
-    """In-memory per-principal HMAC verifier for simulator request inputs.
+    """In-memory per-principal HMAC signer/verifier for simulation inputs.
 
     Each client and verifier share a distinct 256-bit key. This can prevent
     one registered client from claiming another client's ID when the key
@@ -165,6 +176,106 @@ class RequestAuthenticator:
         return hmac.compare_digest(expected, request.auth_tag)
 
 
+class Ed25519RequestVerifier:
+    """Verifier-only registry; it contains no client signing private keys."""
+
+    def __init__(self, keys):
+        if not isinstance(keys, dict) or not keys or any(
+                not isinstance(user_id, str) or not user_id
+                or not isinstance(key, bytes) or len(key) != 32
+                for user_id, key in keys.items()):
+            raise ValueError('principal IDs and Ed25519 public keys must be valid 32-byte values')
+        self._keys = {user_id: Ed25519PublicKey.from_public_bytes(key)
+                      for user_id, key in keys.items()}
+        self.registry_sha256 = None
+
+    @classmethod
+    def from_file(cls, path):
+        """Load a bounded JSON map of principal IDs to raw public-key hex."""
+        with Path(path).open('rb') as stream:
+            data = stream.read(16 * 1024 * 1024 + 1)
+        if len(data) > 16 * 1024 * 1024:
+            raise ValueError('identity registry exceeds 16 MiB')
+        try:
+            encoded = json.loads(data.decode('utf-8'))
+            if not isinstance(encoded, dict):
+                raise ValueError('identity registry must be a JSON object')
+            keys = {user_id: bytes.fromhex(key)
+                    for user_id, key in encoded.items()}
+        except (AttributeError, TypeError, ValueError, UnicodeError) as error:
+            raise ValueError('invalid Ed25519 public-key registry') from error
+        verifier = cls(keys)
+        verifier.registry_sha256 = hashlib.sha256(data).hexdigest()
+        return verifier
+
+    def verify(self, request):
+        if (not isinstance(request, Request) or not isinstance(request.user_id, str)
+                or not isinstance(request.auth_tag, str) or len(request.auth_tag) != 128
+                or any(char not in '0123456789abcdef' for char in request.auth_tag)):
+            return False
+        key = self._keys.get(request.user_id)
+        if key is None:
+            return False
+        try:
+            key.verify(bytes.fromhex(request.auth_tag), RequestAuthenticator._message(request))
+        except (InvalidSignature, OverflowError, UnicodeError, ValueError):
+            return False
+        return True
+
+
+class Ed25519RequestSigner:
+    """Client-side signing keys, loaded separately from the public verifier."""
+
+    def __init__(self, keys):
+        if not isinstance(keys, dict) or not keys or any(
+                not isinstance(user_id, str) or not user_id
+                or not isinstance(key, bytes) or len(key) != 32
+                for user_id, key in keys.items()):
+            raise ValueError('principal IDs and Ed25519 private seeds must be valid 32-byte values')
+        self._keys = {user_id: Ed25519PrivateKey.from_private_bytes(key)
+                      for user_id, key in keys.items()}
+
+    @classmethod
+    def from_file(cls, path):
+        """Load private signing seeds from a permission-restricted JSON file."""
+        with Path(path).open('rb') as stream:
+            if stat.S_IMODE(os.fstat(stream.fileno()).st_mode) & 0o077:
+                raise ValueError(
+                    'identity signing keys must not be accessible by group or other users'
+                )
+            data = stream.read(16 * 1024 * 1024 + 1)
+        if len(data) > 16 * 1024 * 1024:
+            raise ValueError('identity signing-key file exceeds 16 MiB')
+        try:
+            encoded = json.loads(data.decode('utf-8'))
+            if not isinstance(encoded, dict):
+                raise ValueError('identity signing keys must be a JSON object')
+            keys = {user_id: bytes.fromhex(key)
+                    for user_id, key in encoded.items()}
+        except (AttributeError, TypeError, ValueError, UnicodeError) as error:
+            raise ValueError('invalid Ed25519 signing-key file') from error
+        return cls(keys)
+
+    def sign(self, request):
+        message = RequestAuthenticator._message(request)
+        key = self._keys.get(request.user_id)
+        if key is None:
+            raise ValueError('principal is not registered for signing')
+        return replace(request, auth_tag=key.sign(message).hex())
+
+    def matches_verifier(self, verifier, principal_ids):
+        """Fail early unless each synthetic client's key matches its verifier entry."""
+        for user_id in principal_ids:
+            key = self._keys.get(user_id)
+            if key is None:
+                return False
+            probe = Request(0.0, 0, user_id)
+            signed = replace(probe, auth_tag=key.sign(RequestAuthenticator._message(probe)).hex())
+            if not verifier.verify(signed):
+                return False
+        return True
+
+
 def load_imported(path, cfg, identity_authenticator=None):
     """User-supplied CSV time,function in simulation seconds; never fetches traces."""
     cfg.validate()
@@ -195,7 +306,12 @@ def validate_requests(requests, cfg, identity_authenticator=None):
         if cfg.dp_user_contribution_cap and not r.user_id:
             raise ValueError('user-level DP requires a stable user_id on every request')
         if cfg.require_authenticated_user_ids:
-            if not isinstance(identity_authenticator, RequestAuthenticator):
+            scheme = cfg.user_identity_scheme or 'hmac-sha256'
+            verifier_type = (Ed25519RequestVerifier if scheme == 'ed25519'
+                             else RequestAuthenticator)
+            if not isinstance(identity_authenticator, verifier_type):
+                if scheme == 'ed25519':
+                    raise ValueError('ed25519 user IDs require a matching identity verifier')
                 raise ValueError('authenticated user IDs require an identity authenticator')
             if not identity_authenticator.verify(r):
                 raise ValueError('request identity authentication failed')
@@ -220,7 +336,8 @@ def bounded_arrival_counts(requests, cfg, identity_authenticator=None):
     return counts
 
 
-def workload(cfg, kind, seed, intensity=0, hot=0, identity_authenticator=None):
+def workload(cfg, kind, seed, intensity=0, hot=0, identity_authenticator=None,
+             identity_signer=None):
     cfg.validate()
     if kind not in ('uniform', 'zipf', 'diurnal', 'burst') or intensity not in (0, 1) or not 0 <= hot < cfg.functions:
         raise ValueError('invalid workload')
@@ -252,9 +369,12 @@ def workload(cfg, kind, seed, intensity=0, hot=0, identity_authenticator=None):
                             f'synthetic-user-{index % 64}')
                     for index, request in enumerate(requests)]
     if cfg.require_authenticated_user_ids:
-        if not isinstance(identity_authenticator, RequestAuthenticator):
-            raise ValueError('authenticated synthetic workload requires an identity authenticator')
-        requests = [identity_authenticator.sign(request) for request in requests]
+        signer = identity_signer or identity_authenticator
+        if not callable(getattr(signer, 'sign', None)):
+            raise ValueError(
+                'authenticated synthetic workload requires an identity authenticator (signer)'
+            )
+        requests = [signer.sign(request) for request in requests]
     return requests, labels
 
 

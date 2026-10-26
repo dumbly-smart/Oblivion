@@ -16,7 +16,8 @@ import sys
 import time
 import numpy as np
 from research.simulation.scaler import (Config, DEFAULT_POLICIES, POLICIES, ProfileAttack,
-    RequestAuthenticator, dp_laplace_parameters, load_imported, session_features,
+    Ed25519RequestSigner, Ed25519RequestVerifier, RequestAuthenticator,
+    dp_laplace_parameters, load_imported, session_features,
     simulate, trial_interval, workload)
 
 
@@ -139,17 +140,20 @@ def recorded_command(argv):
         if redact_next:
             result.append('[REDACTED]')
             redact_next = False
-        elif argument == '--identity-registry':
+        elif argument in ('--identity-registry', '--identity-signing-keys'):
             result.append(argument)
             redact_next = True
         elif argument.startswith('--identity-registry='):
             result.append('--identity-registry=[REDACTED]')
+        elif argument.startswith('--identity-signing-keys='):
+            result.append('--identity-signing-keys=[REDACTED]')
         else:
             result.append(argument)
     return result
 
 
-def run(config_path, output, identity_registry_path=None):
+def run(config_path, output, identity_registry_path=None,
+        identity_signing_keys_path=None):
     raw = json.loads(config_path.read_text())
     if set(raw) - {'version', 'seed', 'trials', 'sessions', 'workloads', 'simulation', 'imports', 'policies', 'dp_noise_source'}:
         raise ValueError('unknown experiment parameter')
@@ -168,6 +172,7 @@ def run(config_path, output, identity_registry_path=None):
         raise ValueError('dp_noise_source must be seeded_experiment or os_csprng')
     cfg = Config(**raw['simulation']); cfg.validate()
     identity_authenticator = None
+    identity_signer = None
     identity_registry_sha256 = None
     if cfg.require_authenticated_user_ids:
         if identity_registry_path is None:
@@ -175,10 +180,28 @@ def run(config_path, output, identity_registry_path=None):
         identity_registry_path = Path(identity_registry_path)
         if not identity_registry_path.is_absolute():
             identity_registry_path = Path(config_path).resolve().parent / identity_registry_path
-        identity_authenticator = RequestAuthenticator.from_file(identity_registry_path)
+        scheme = cfg.user_identity_scheme or 'hmac-sha256'
+        if scheme == 'hmac-sha256':
+            if identity_signing_keys_path is not None:
+                raise ValueError('separate signing keys are only used with Ed25519')
+            identity_authenticator = RequestAuthenticator.from_file(identity_registry_path)
+            identity_signer = identity_authenticator
+        elif scheme == 'ed25519':
+            identity_authenticator = Ed25519RequestVerifier.from_file(identity_registry_path)
+            if identity_signing_keys_path is None:
+                raise ValueError('Ed25519 synthetic runs require separate client signing keys')
+            identity_signing_keys_path = Path(identity_signing_keys_path)
+            if not identity_signing_keys_path.is_absolute():
+                identity_signing_keys_path = Path(config_path).resolve().parent / identity_signing_keys_path
+            identity_signer = Ed25519RequestSigner.from_file(identity_signing_keys_path)
+            synthetic_principals = [f'synthetic-user-{index}' for index in range(64)]
+            if not identity_signer.matches_verifier(identity_authenticator, synthetic_principals):
+                raise ValueError('client signing keys do not match the public registry')
+        else:
+            raise ValueError('unsupported authenticated identity scheme')
         identity_registry_sha256 = identity_authenticator.registry_sha256
-    elif identity_registry_path is not None:
-        raise ValueError('identity registry is only accepted when authenticated IDs are required')
+    elif identity_registry_path is not None or identity_signing_keys_path is not None:
+        raise ValueError('identity key files are only accepted when authenticated IDs are required')
     if cfg.functions != 2:
         raise ValueError('binary hot-class experiment requires two function pools')
     if not raw['workloads'] or set(raw['workloads']) - {'uniform', 'zipf', 'diurnal', 'burst'}:
@@ -217,6 +240,7 @@ def run(config_path, output, identity_registry_path=None):
                     requests, labels = workload(
                         cfg, kind, int(seed), intensity, hot,
                         identity_authenticator=identity_authenticator,
+                        identity_signer=identity_signer,
                     )
                     context = dict(trial=trial, session=session, workload=kind)
                     write_row(truth, dict(**context, seed=int(seed), labels=labels, requests=[asdict(r) for r in requests]))
@@ -279,7 +303,8 @@ def run(config_path, output, identity_registry_path=None):
         elapsed_wall_seconds=time.perf_counter() - start,
         source_sha256={str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in source_paths},
         config_sha256=hashlib.sha256(config_path.read_bytes()).hexdigest(),
-        identity_authentication='hmac-sha256' if identity_authenticator else None,
+        identity_authentication=(cfg.user_identity_scheme or 'hmac-sha256')
+            if identity_authenticator else None,
         identity_registry_sha256=identity_registry_sha256,
         git_head=subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
         git_dirty=bool(subprocess.check_output(['git', 'status', '--porcelain'], text=True)),
@@ -288,9 +313,14 @@ def run(config_path, output, identity_registry_path=None):
             'seeded synthetic Poisson arrivals; not calibrated to production traces'))
     claims = privacy_claims(cfg, policies, dp_noise_source)
     privacy_limit = (
-        ('User IDs are verified with per-principal HMAC-SHA256 keys from an external registry; '
-         'the registry is secret input and is not copied to the output. Exact replay is not '
-         'deduplicated, but replayed requests remain subject to the same per-user cap. '
+        (('User IDs are verified with Ed25519 signatures against a public registry; '
+          'client signing seeds are loaded separately and are not copied to output. '
+          'This research runner generates clients and runs the verifier in one process, '
+          'so it does not demonstrate process separation or scheduler confidentiality. '
+          if cfg.user_identity_scheme == 'ed25519' else
+          'User IDs are verified with per-principal HMAC-SHA256 keys from an external shared-secret registry; '
+          'the registry is secret input and is not copied to the output. ')
+         + 'Exact replay is not deduplicated, but replayed requests remain subject to the same per-user cap. '
          'Each user contributes at most the configured request cap to the private scaling count. '
          if identity_authenticator else
          'User IDs are synthetic/account metadata assumed stable and non-spoofable; '
@@ -315,12 +345,15 @@ if __name__ == '__main__':
     parser.add_argument('output', type=Path, nargs='?')
     parser.add_argument('--plot-only', type=Path)
     parser.add_argument('--identity-registry', type=Path,
-                        help='private JSON mapping principal IDs to hex HMAC keys')
+                        help='JSON mapping principal IDs to HMAC keys or Ed25519 public keys')
+    parser.add_argument('--identity-signing-keys', type=Path,
+                        help='private JSON mapping principal IDs to raw Ed25519 signing seeds')
     args = parser.parse_args()
     if args.plot_only:
         plot(args.plot_only)
     elif args.config and args.output:
-        report = run(args.config, args.output, args.identity_registry)
+        report = run(args.config, args.output, args.identity_registry,
+                     args.identity_signing_keys)
         print(json.dumps({'summaries': len(report['summary']), 'positive_controls': report['positive_controls'], 'wall_seconds': report['provenance']['elapsed_wall_seconds']}, indent=2))
     else:
         parser.error('CONFIG NEW_OUTPUT or --plot-only OUTPUT required')

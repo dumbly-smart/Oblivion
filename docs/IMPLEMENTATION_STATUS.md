@@ -123,7 +123,7 @@ The built-in demo's real/dummy/function schedule is public given its code, real 
 | [Integrated epochs](EPOCH_SYSTEM_EVALUATION.md) | Final reader-thread pipe campaign: 360 process trees / 2,160 verified calls | 12 cells × 30; strict public/private separation, 1,080 real/1,080 dummy successes, 2,955 artifact hashes; scoped provenance differences below |
 | [Joint batching load](BATCH_LOAD_EVALUATION.md) | 720 independent processes; 30 fitted models/mode, 180 held-out targets/mode | Actual plaintext control 100%; AEAD protected 28.33% [22.78,33.89] against 33.33%. Same 22 public features/metric; two failed forest controls retained |
 | [Repeated faults](FAULT_CAMPAIGN.md) | Seven assertion-bearing fixtures × 30, 210 launches | All assertions pass for stated scenarios. Original ENOSPC/truncated-publication attempt remains excluded/incomplete, not silently overwritten |
-| [Autoscaler](AUTOSCALER.md), [bounded discrete-geometric mechanism and attack studies](AUTOSCALER_DP.md) | Five-policy baseline campaigns, event-level 30-trial CSPRNG runs, and a 30-trial bounded-user cap-2 run with separate whole-session attack evaluation; all naive controls pass | Conditional `(epsilon, delta)` claims for fixed-horizon count/event observers under independent hidden bits. Existing synthetic IDs are unauthenticated; the low-level API now offers optional per-principal HMAC verification, while the batch runner lacks key provisioning. Sampler timing, repeated sessions and full runtime are excluded. One event-level burst-hot interval is marginally above chance; all cap-2 protected intervals include chance. Cost is simulator-only |
+| [Autoscaler](AUTOSCALER.md), [bounded discrete-geometric mechanism and attack studies](AUTOSCALER_DP.md) | Five-policy baseline campaigns, event-level 30-trial CSPRNG runs, and a 30-trial bounded-user cap-2 run with separate whole-session attack evaluation; all naive controls pass | Conditional `(epsilon, delta)` claims for fixed-horizon count/event observers under independent hidden bits. Existing campaigns remain unauthenticated. The low-level API and runner now support optional HMAC or Ed25519 request verification; the synthetic Ed25519 runner still holds client signer and verifier in one process. Sampler timing, repeated sessions and full runtime are excluded. One event-level burst-hot interval is marginally above chance; all cap-2 protected intervals include chance. Cost is simulator-only |
 
 | [Attack API](ATTACK_INTERFACE.md) | 13 registered adapters with common PredictionResult and strict schemas | Uncalibrated confidence remains absent. Adapter availability is not extra experimental evidence |
 | [Actual demo](DEMO.md) | Three-client mixed SSE/PIR/WASM/ORAM run | 24 calls, 12 real, all five functions, 24 metadata queries and 3,072 storage events; MP4/terminalcast/raw records. Public deterministic schedule, not privacy evidence |
@@ -137,11 +137,13 @@ same requests under eight caller-chosen IDs count as eight. Added an opt-in
 mode binds user ID, function, and timestamp and rejects tampering before
 clipping. Tests cover valid synthetic/imported requests, identity/time tampering,
 malformed MACs, missing verifier, cap application, and the batch runner's
-explicit refusal when key provisioning is absent. Existing empirical runs and
-the normal batch runner remain unauthenticated. This API does not provide a
+initial explicit refusal when key provisioning was absent. Existing empirical
+runs remain unauthenticated. This API does not provide a
 production identity service or protect against compromise of the verifier/key
 registry. Replay requests are not deduplicated; they remain charged to the same
-capped identity. See [the autoscaler DP notes](AUTOSCALER_DP.md).
+capped identity. A subsequent HMAC runner integration and Ed25519 verifier
+option are recorded in the 2026-10-26 entries below. See
+[the autoscaler DP notes](AUTOSCALER_DP.md).
 
 The final A–G report's per-real API p95/p99 are 100.159/100.200 ms; opportunity wall time 116.268 ms and goodput 4.3004/s include the stated initial wait/oracle/logging scope. Accounted payload is 82,484 bytes/real at 50% dummy load. A/E/G nominal three-axis membership uses explicitly hypothetical executor-wall/egress prices. Neither provider calibration nor universal statistical dominance is claimed or required to possess the stated plots.
 
@@ -951,4 +953,23 @@ person-level binding, or protection against an operator/verifier that can
 read the keys. It does not change the interpretation of earlier unauthenticated
 bounded-user studies. Four focused autoscaler tests and the full research
 Python suite passed (216 tests, 4 skipped; 2026-10-26). Rust and hosted CI were
-not rerun for this Python-only increment.
+not rerun for that Python-only increment.
+
+## 2026-10-26: Ed25519 autoscaler identity verification
+
+Added an Ed25519 option for authenticated bounded-user inputs using the
+maintained `cryptography` package (pinned to 50.0.2 in the research lockfile).
+The verifier loads only raw public keys; the synthetic client generator loads
+matching private seeds from a separate permission-restricted file. Key mismatch
+fails before run output is created. Signed synthetic requests are verified
+during simulation and again during offline regeneration using only the public
+registry. Paths for both key files are redacted and only the public registry
+fingerprint is written to the artifact. Tests cover changed fields, unknown and
+malformed signatures, imported requests, file permissions, key mismatch,
+provenance redaction, and raw-data rebuilding. The full Python suite passed
+(218 tests, 4 skipped; 2026-10-26). The experiment runner still holds client
+signer and verifier in the same process; this does not establish scheduler
+confidentiality or real user identity. Key binding/lifecycle, replay handling,
+and cross-horizon composition remain open. Prior unauthenticated campaigns are
+unchanged. Hosted workflows for the preceding commit passed; this increment's
+hosted workflow will be checked after push.

@@ -1,5 +1,7 @@
 cloudpickle==3.1.2
+cffi==2.1.1
 contourpy==1.4.0
+cryptography==50.0.2
 cycler==0.12.1
 fonttools==4.67.0
 joblib==1.6.0
@@ -9,6 +11,7 @@ narwhals==2.27.1
 numpy==2.5.4
 packaging==26.3
 pillow==13.0.0
+pycparser==3.12
 pyparsing==3.3.3
 python-dateutil==2.9.0.post0
 scikit-learn==1.9.1

@@ -65,26 +65,33 @@ fixed-horizon count/event observer, not the full runtime transcript.
 Existing bounded-user experiments assume stable, non-spoofable identities;
 their synthetic generator assigns requests round-robin across 64 IDs, and
 those experiment outputs do not authenticate them. A new opt-in low-level
-simulation API can verify per-principal HMAC-SHA256 request tags before
-clipping: set `require_authenticated_user_ids=True` with a positive user cap,
-then pass a `RequestAuthenticator` to `workload`, `load_imported`,
-`bounded_arrival_counts`, or `simulate`. The batch experiment runner also
-accepts `--identity-registry PATH`; the JSON key file must be private to its
-owner (no group/other permission bits) and is limited to 16 MiB. The runner
-records the registry's SHA-256 fingerprint, but not its path or key material.
-The offline regeneration tool requires the same registry and verifies that
-fingerprint before trusting retained request tags. The MAC binds the principal ID,
-request time, and function. The verifier needs a per-principal key registry
-with at least 32-byte keys. This API prevents one registered client from
-claiming another ID only while the verifier registry stays secret; it does not
-protect against verifier compromise or an operator who can read its keys.
-There is no nonce or replay cache; replayed requests are charged to the same
-principal and remain subject to the cap. The registry is a shared-secret
-simulation input, not a production identity provider or a safe arrangement
-when the scheduler adversary can inspect verifier memory. Key issuance,
-rotation, revocation, account binding, and cross-session identity composition
-remain unimplemented. Existing bounded-user studies remain unauthenticated;
-the new runner option does not retroactively change their evidence.
+simulation API can verify per-principal signed request tags before clipping.
+Set `require_authenticated_user_ids=True` with a positive user cap and pass a
+matching verifier to `load_imported`, `bounded_arrival_counts`, or `simulate`.
+The default `user_identity_scheme` is `hmac-sha256`: its 32-byte per-principal
+key file must have no group/other permission bits. This shared-secret mode
+cannot protect IDs from an adversary that can inspect verifier memory.
+
+For the public-key option, set `user_identity_scheme="ed25519"`. The runner's
+`--identity-registry PATH` is a JSON map from principal IDs to raw 32-byte
+Ed25519 public keys encoded as hex. `--identity-signing-keys PATH` supplies
+the matching private seeds in a separate JSON file; that file must have no
+group/other permission bits. Both loaders cap their input at 16 MiB. Offline
+regeneration needs only the public registry. The Ed25519 tag binds principal
+ID, request time, and function using the maintained `cryptography` library.
+The registry proves possession of a corresponding signing key, not a real
+person's identity; provisioning and binding that key to a person remain
+external assumptions.
+
+The current experiment runner generates synthetic clients and verifies their
+requests in the same process. It therefore does not show that signing seeds
+are isolated from a real scheduler. A real deployment must keep client seeds
+outside the verifier, and separately protect the public registry's authenticity.
+Neither mode has a nonce/replay cache; exact replays remain subject to the
+same cap. Key issuance, rotation, revocation, account binding, and
+cross-session identity composition are unimplemented. Existing bounded-user
+studies remain unauthenticated; these new runner options do not retroactively
+change their evidence.
 
 Only the private scaling count is capped; all requests still affect simulated
 queue/service metrics, which are excluded from the claim. Repeated sessions or

@@ -105,14 +105,12 @@ other attacks, workloads, or remote timing.
 
 ## Next software action
 
-Add a public-key request-authentication path for bounded-user autoscaler
-experiments. The current HMAC verifier holds signing secrets, so it cannot
-authenticate users against an adversary that can inspect verifier memory.
-Use a maintained Ed25519 library with separately provisioned client signing
-keys and a verifier-only public-key registry; keep the existing HMAC path
-explicitly labeled as a shared-secret simulation mode. Test forged identities,
-tampered request fields, unknown principals, malformed signatures, key-file
-permission/size handling, authenticated imports, and raw-data regeneration.
-Do not claim identity protection against a scheduler that also controls the
-client signing keys. This extension should not rewrite prior experiment
-artifacts or upgrade their unauthenticated evidence.
+The HMAC and Ed25519 request-authentication paths now cover low-level
+validation, synthetic experiment generation, imported-request verification,
+and raw-data regeneration. Next, add a bounded cross-session privacy accountant
+that composes per-horizon user-level guarantees for stable principals, rejects
+unsupported identity changes, and records per-user release counts without
+including them in attacker-visible output. Keep the current reports scoped to
+one horizon and do not retroactively promote old unauthenticated runs. Any
+accountant must be checked against exact small-instance neighboring-dataset
+enumeration and clearly state whether identity binding remains an assumption.

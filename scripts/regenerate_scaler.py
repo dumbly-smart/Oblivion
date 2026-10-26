@@ -13,7 +13,8 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from research.simulation.run import evaluate, nondominated, plot, privacy_claims
 from research.simulation.scaler import (Config, DEFAULT_POLICIES, POLICIES, Request,
-    RequestAuthenticator, features, trial_interval, validate_requests)
+    Ed25519RequestVerifier, RequestAuthenticator, features, trial_interval,
+    validate_requests)
 
 RAW_FILES=('config.json','observer.jsonl.gz','private.jsonl.gz','workloads-private.jsonl.gz')
 METRICS={'arrivals','completed','dropped','unfinished','instance_seconds','cost','p95','p99','queue_max','queue_mean','slo_violation_rate','cold_starts'}
@@ -40,7 +41,13 @@ def load_inputs(source, identity_registry_path=None):
     identity_authenticator=None
     if cfg.require_authenticated_user_ids:
         fail(identity_registry_path is not None,'authenticated rebuild requires an external identity registry')
-        identity_authenticator=RequestAuthenticator.from_file(identity_registry_path)
+        scheme=cfg.user_identity_scheme or 'hmac-sha256'
+        if scheme=='hmac-sha256':
+            identity_authenticator=RequestAuthenticator.from_file(identity_registry_path)
+        elif scheme=='ed25519':
+            identity_authenticator=Ed25519RequestVerifier.from_file(identity_registry_path)
+        else:
+            raise ValueError('unsupported authenticated identity scheme')
         fail(raw.get('identity_registry_sha256')==identity_authenticator.registry_sha256,'identity registry fingerprint mismatch')
     else:
         fail(identity_registry_path is None and 'identity_registry_sha256' not in raw,'unexpected identity registry for unauthenticated run')
@@ -183,7 +190,10 @@ def regenerate(source,output,identity_registry_path=None):
     inputs={name:sha(source/name) for name in RAW_FILES}
     raw,cfg,public,private,truth=load_inputs(source,identity_registry_path)
     cfg=Config(**raw['simulation'])
-    user_scope=(f' HMAC-authenticated identities were reverified from retained signed requests; the external registry fingerprint is {raw["identity_registry_sha256"]}. Each user contributes at most {cfg.dp_user_contribution_cap} included requests per horizon.'
+    user_scope=(
+                f' Ed25519 identities were reverified against public registry fingerprint {raw["identity_registry_sha256"]}; the retained synthetic client signatures were generated in the same process as the simulator and do not demonstrate scheduler isolation. Each user contributes at most {cfg.dp_user_contribution_cap} included requests per horizon.'
+                if cfg.require_authenticated_user_ids and cfg.user_identity_scheme == 'ed25519' else
+                f' HMAC-authenticated identities were reverified from retained signed requests; the external shared-secret registry fingerprint is {raw["identity_registry_sha256"]}. Each user contributes at most {cfg.dp_user_contribution_cap} included requests per horizon.'
                 if cfg.require_authenticated_user_ids else
                 f' Synthetic IDs are treated as stable, non-spoofable principals with a cap of {cfg.dp_user_contribution_cap} included requests per horizon.'
                 if cfg.dp_user_contribution_cap else ' No user-level contribution bound is enforced.')
@@ -191,7 +201,8 @@ def regenerate(source,output,identity_registry_path=None):
     if inputs!={name:sha(source/name) for name in RAW_FILES}:raise ValueError('retained raw inputs changed during analysis')
     report['provenance']=dict(created_before_output_utc=datetime.now(timezone.utc).isoformat(),raw_source=str(source),raw_sha256=inputs,
         analysis_source_sha256={name:sha(ROOT/name) for name in ['scripts/regenerate_scaler.py','research/simulation/run.py','research/simulation/scaler.py']},
-        identity_authentication='hmac-sha256' if cfg.require_authenticated_user_ids else None,
+        identity_authentication=(cfg.user_identity_scheme or 'hmac-sha256')
+            if cfg.require_authenticated_user_ids else None,
         identity_registry_sha256=raw.get('identity_registry_sha256'),
         public_sessions=len(public),private_sessions=len(private),workload_sessions=len(truth),read_cached_report=False,ran_simulator=False)
     report['methodology']='Existing known-policy diagonal nearest-centroid fit on first-half whole profiling sessions; second-half target predictions scored afterward. Refit every independent trial from retained public rows/private labels. Equal-weight trial bootstrap,5000resamples. Per-session raw performance counters aggregate only held-out sessions, with lifecycle/price consistency checks; no new workload generation or simulation.'

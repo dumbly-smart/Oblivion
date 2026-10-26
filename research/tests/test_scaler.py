@@ -284,6 +284,105 @@ class ScalerTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "must not be accessible"):
                 RequestAuthenticator.from_file(registry)
 
+    def test_ed25519_identity_verifies_with_public_registry_only(self):
+        import json
+        from cryptography.hazmat.primitives import serialization
+        from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+        from research.simulation.scaler import (
+            Config, Ed25519RequestSigner, Ed25519RequestVerifier,
+            Request, load_imported,
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            private = Ed25519PrivateKey.generate()
+            private_raw = private.private_bytes(
+                serialization.Encoding.Raw, serialization.PrivateFormat.Raw,
+                serialization.NoEncryption())
+            public_raw = private.public_key().public_bytes(
+                serialization.Encoding.Raw, serialization.PublicFormat.Raw)
+            signing = root / "signing-keys.json"
+            registry = root / "public-keys.json"
+            signing.write_text(json.dumps({"alice": private_raw.hex()}))
+            registry.write_text(json.dumps({"alice": public_raw.hex()}))
+            with self.assertRaisesRegex(ValueError, "must not be accessible"):
+                Ed25519RequestSigner.from_file(signing)
+            signing.chmod(0o600)
+            signer = Ed25519RequestSigner.from_file(signing)
+            verifier = Ed25519RequestVerifier.from_file(registry)
+            request = signer.sign(Request(1.25, 1, "alice"))
+            self.assertTrue(verifier.verify(request))
+            self.assertFalse(verifier.verify(Request(1.25, 0, "alice", request.auth_tag)))
+            self.assertFalse(verifier.verify(Request(1.25, 1, "mallory", request.auth_tag)))
+            self.assertFalse(verifier.verify(Request(1.25, 1, "alice", "malformed")))
+            self.assertNotIn("_private", vars(verifier))
+            imported = root / "requests.csv"
+            imported.write_text(
+                "time,function,user_id,auth_tag\n"
+                f"1.25,1,alice,{request.auth_tag}\n")
+            cfg = Config(duration=4, dp_user_contribution_cap=2,
+                         require_authenticated_user_ids=True,
+                         user_identity_scheme="ed25519")
+            self.assertEqual(load_imported(imported, cfg, verifier), [request])
+            imported.write_text(
+                "time,function,user_id,auth_tag\n"
+                f"1.25,0,alice,{request.auth_tag}\n")
+            with self.assertRaisesRegex(ValueError, "authentication failed"):
+                load_imported(imported, cfg, verifier)
+
+    def test_ed25519_batch_run_keeps_signing_keys_separate_and_rebuilds(self):
+        import gzip
+        import json
+        from unittest.mock import patch
+        from cryptography.hazmat.primitives import serialization
+        from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+        from research.simulation.run import run
+        from scripts.regenerate_scaler import regenerate
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            private_keys, public_keys = {}, {}
+            for index in range(64):
+                private = Ed25519PrivateKey.generate()
+                user_id = f"synthetic-user-{index}"
+                private_keys[user_id] = private.private_bytes(
+                    serialization.Encoding.Raw, serialization.PrivateFormat.Raw,
+                    serialization.NoEncryption()).hex()
+                public_keys[user_id] = private.public_key().public_bytes(
+                    serialization.Encoding.Raw, serialization.PublicFormat.Raw).hex()
+            signing = root / "client-signing-keys.json"
+            registry = root / "public-keys.json"
+            signing.write_text(json.dumps(private_keys))
+            registry.write_text(json.dumps(public_keys))
+            signing.chmod(0o600)
+            config = root / "config.json"
+            config.write_text(json.dumps(dict(version=1, seed=18, trials=2,
+                sessions=8, workloads=["uniform"], policies=["naive"],
+                simulation=dict(duration=4, dp_user_contribution_cap=2,
+                    require_authenticated_user_ids=True,
+                    user_identity_scheme="ed25519"))))
+            output = root / "run"
+            with patch("research.simulation.run.sys.argv", ["oblivion-scaler",
+                    str(config), str(output), "--identity-registry", str(registry),
+                    "--identity-signing-keys", str(signing)]):
+                report = run(config, output, registry, signing)
+            command = json.dumps(report["provenance"]["command"])
+            self.assertNotIn(str(registry), command)
+            self.assertNotIn(str(signing), command)
+            self.assertEqual(report["provenance"]["identity_authentication"], "ed25519")
+            with gzip.open(output / "workloads-private.jsonl.gz", "rt") as source:
+                record = json.loads(next(source))
+            self.assertTrue(all(len(request["auth_tag"]) == 128
+                                 for request in record["requests"]))
+            rebuilt = regenerate(output, root / "rebuilt", registry)
+            self.assertEqual(rebuilt["privacy_claims"], report["privacy_claims"])
+            wrong_registry = root / "wrong-public-keys.json"
+            wrong_public_keys = dict(public_keys)
+            wrong_public_keys["synthetic-user-0"] = wrong_public_keys["synthetic-user-1"]
+            wrong_registry.write_text(json.dumps(wrong_public_keys))
+            rejected_output = root / "rejected-run"
+            with self.assertRaisesRegex(ValueError, "do not match"):
+                run(config, rejected_output, wrong_registry, signing)
+            self.assertFalse(rejected_output.exists())
+
     def test_batch_runner_rejects_authenticated_mode_without_key_provisioning(self):
         import json
         from research.simulation.run import run
