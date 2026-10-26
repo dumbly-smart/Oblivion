@@ -263,6 +263,14 @@ class ScalerTests(unittest.TestCase):
             rebuilt = regenerate(output, root / "rebuilt",
                                  identity_registry_path=registry)
             self.assertEqual(rebuilt["privacy_claims"], report["privacy_claims"])
+            composition = report["privacy_composition"]
+            self.assertEqual(composition["release_count"], 16)
+            self.assertGreaterEqual(composition["max_user_release_count"], 1)
+            self.assertLessEqual(composition["max_user_release_count"], 16)
+            self.assertAlmostEqual(composition["max_user_epsilon"],
+                2 * composition["max_user_release_count"])
+            self.assertEqual(rebuilt["privacy_composition"], composition)
+            self.assertNotIn("synthetic-user-", json.dumps(composition))
 
             wrong_registry = root / "wrong-identity-keys.json"
             wrong_registry.write_text(json.dumps({
@@ -382,6 +390,36 @@ class ScalerTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "do not match"):
                 run(config, rejected_output, wrong_registry, signing)
             self.assertFalse(rejected_output.exists())
+
+    def test_sequential_user_accountant_composes_by_principal_without_exporting_ids(self):
+        import json
+        from research.simulation.scaler import SequentialUserPrivacyAccountant
+        accountant = SequentialUserPrivacyAccountant()
+        accountant.record("horizon-1", ["alice", "bob"], .5, .01)
+        accountant.record("horizon-2", ["alice"], .5, .02)
+        report = accountant.summary()
+        self.assertEqual(report["release_count"], 2)
+        self.assertEqual(report["max_user_release_count"], 2)
+        self.assertAlmostEqual(report["max_user_epsilon"], 1.0)
+        self.assertAlmostEqual(report["max_user_delta"], .03)
+        self.assertNotIn("alice", json.dumps(report))
+        self.assertNotIn("bob", json.dumps(report))
+
+    def test_sequential_user_accountant_rejects_budget_overrun_atomically(self):
+        from research.simulation.scaler import SequentialUserPrivacyAccountant
+        accountant = SequentialUserPrivacyAccountant(max_epsilon=.75, max_delta=.05)
+        accountant.record("horizon-1", ["alice"], .5, .01)
+        with self.assertRaisesRegex(ValueError, "budget exceeded"):
+            accountant.record("horizon-2", ["alice", "bob"], .5, .01)
+        report = accountant.summary()
+        self.assertEqual(report["release_count"], 1)
+        self.assertAlmostEqual(report["max_user_epsilon"], .5)
+        with self.assertRaisesRegex(ValueError, "duplicate"):
+            accountant.record("horizon-1", ["alice"], .1, .001)
+        self.assertEqual(accountant.summary()["release_count"], 1)
+        with self.assertRaisesRegex(ValueError, "collection"):
+            accountant.record("horizon-2", "alice", .1, .001)
+        self.assertEqual(accountant.summary()["release_count"], 1)
 
     def test_batch_runner_rejects_authenticated_mode_without_key_provisioning(self):
         import json

@@ -973,3 +973,19 @@ confidentiality or real user identity. Key binding/lifecycle, replay handling,
 and cross-horizon composition remain open. Prior unauthenticated campaigns are
 unchanged. Hosted workflows for the preceding commit passed; this increment's
 hosted workflow will be checked after push.
+
+## 2026-10-26: per-principal composition across retained horizons
+
+Added `SequentialUserPrivacyAccountant` with basic sequential composition,
+optional epsilon/delta budget enforcement, duplicate-release rejection, and
+aggregate summaries that never emit principal IDs. The autoscaler batch runner
+records each `dp_laplace` fixed horizon in the generated and imported workload
+sessions, using request identities held only in memory. The offline
+regenerator derives the same per-artifact summary from retained private
+requests. Reports scope the result to the count/event transcript and state the
+stable-ID assumption plus the seeded/CSPRNG artifact guarantee. This is not a
+persistent cross-run ledger; deterministic public-seed artifacts still have no
+DP guarantee, and historical campaigns are unchanged. Focused composition,
+rebuild, identity, and selected-policy tests passed; the full Python suite
+passed (220 tests, 4 skipped; 2026-10-26). Hosted CI has not yet run for this
+increment.

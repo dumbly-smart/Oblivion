@@ -276,6 +276,72 @@ class Ed25519RequestSigner:
         return True
 
 
+class SequentialUserPrivacyAccountant:
+    """Basic sequential composition for repeated fixed-horizon user-DP releases.
+
+    Principal IDs stay in private in-memory bookkeeping and are never included
+    in ``summary``. This is accounting only; it does not authenticate identities
+    or prove that a caller's releases satisfy the supplied bounds.
+    """
+
+    def __init__(self, max_epsilon=None, max_delta=None):
+        for name, value in (('max_epsilon', max_epsilon), ('max_delta', max_delta)):
+            if value is not None and (
+                    isinstance(value, bool) or not isinstance(value, (int, float))
+                    or not math.isfinite(value) or value < 0
+                    or name == 'max_delta' and value >= 1):
+                raise ValueError(f'{name} must be finite and nonnegative'
+                                 + (' and less than one' if name == 'max_delta' else ''))
+        self._max_epsilon = Decimal(str(max_epsilon)) if max_epsilon is not None else None
+        self._max_delta = Decimal(str(max_delta)) if max_delta is not None else None
+        self._releases = set()
+        self._per_user = {}
+
+    def record(self, release_id, user_ids, epsilon, delta):
+        if not isinstance(release_id, str) or not release_id or len(release_id) > 256:
+            raise ValueError('release_id must be a nonempty string of at most 256 characters')
+        if release_id in self._releases:
+            raise ValueError('duplicate privacy release ID')
+        if (isinstance(epsilon, bool) or not isinstance(epsilon, (int, float))
+                or not math.isfinite(epsilon) or epsilon < 0
+                or isinstance(delta, bool) or not isinstance(delta, (int, float))
+                or not math.isfinite(delta) or not 0 <= delta < 1):
+            raise ValueError('release epsilon/delta are invalid')
+        if isinstance(user_ids, (str, bytes)):
+            raise ValueError('release principal IDs must be a collection, not a string')
+        try:
+            principals = tuple(user_ids)
+        except TypeError as error:
+            raise ValueError('release principal IDs must be iterable') from error
+        if (len(principals) > 1000000
+                or any(not isinstance(user_id, str) or not user_id for user_id in principals)
+                or len(set(principals)) != len(principals)):
+            raise ValueError('release principal IDs must be unique nonempty strings')
+        eps, dlt = Decimal(str(epsilon)), Decimal(str(delta))
+        prospective = {}
+        for user_id in principals:
+            old_eps, old_delta, old_count = self._per_user.get(
+                user_id, (Decimal(0), Decimal(0), 0))
+            new_eps, new_delta = old_eps + eps, old_delta + dlt
+            if (self._max_epsilon is not None and new_eps > self._max_epsilon
+                    or self._max_delta is not None and new_delta > self._max_delta):
+                raise ValueError('privacy budget exceeded')
+            prospective[user_id] = (new_eps, new_delta, old_count + 1)
+        self._releases.add(release_id)
+        self._per_user.update(prospective)
+
+    def summary(self):
+        budgets = tuple(self._per_user.values())
+        return dict(
+            composition='basic sequential composition',
+            release_count=len(self._releases),
+            max_user_release_count=max((count for _, _, count in budgets), default=0),
+            max_user_epsilon=float(max((eps for eps, _, _ in budgets), default=Decimal(0))),
+            max_user_delta=float(max((delta for _, delta, _ in budgets), default=Decimal(0))),
+            principal_identifiers_emitted=False,
+        )
+
+
 def load_imported(path, cfg, identity_authenticator=None):
     """User-supplied CSV time,function in simulation seconds; never fetches traces."""
     cfg.validate()

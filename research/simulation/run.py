@@ -17,7 +17,8 @@ import time
 import numpy as np
 from research.simulation.scaler import (Config, DEFAULT_POLICIES, POLICIES, ProfileAttack,
     Ed25519RequestSigner, Ed25519RequestVerifier, RequestAuthenticator,
-    dp_laplace_parameters, load_imported, session_features,
+    SequentialUserPrivacyAccountant, dp_laplace_parameters, load_imported,
+    session_features,
     simulate, trial_interval, workload)
 
 
@@ -212,6 +213,11 @@ def run(config_path, output, identity_registry_path=None,
             raise ValueError('imports require path and provenance')
         path = Path(spec['path'])
         imported.append((spec, load_imported(path, cfg, identity_authenticator), hashlib.sha256(path.read_bytes()).hexdigest()))
+    claims = privacy_claims(cfg, policies, dp_noise_source)
+    privacy_accountant = (
+        SequentialUserPrivacyAccountant()
+        if cfg.dp_user_contribution_cap and 'dp_laplace' in policies else None
+    )
     output.mkdir(exist_ok=False)
     recorded_config = dict(raw)
     if identity_registry_sha256:
@@ -242,6 +248,11 @@ def run(config_path, output, identity_registry_path=None,
                         identity_authenticator=identity_authenticator,
                         identity_signer=identity_signer,
                     )
+                    if privacy_accountant is not None:
+                        privacy_accountant.record(
+                            f'synthetic:{trial}:{kind}:{session}',
+                            {request.user_id for request in requests},
+                            cfg.dp_epsilon, claims['dp_laplace']['delta'])
                     context = dict(trial=trial, session=session, workload=kind)
                     write_row(truth, dict(**context, seed=int(seed), labels=labels, requests=[asdict(r) for r in requests]))
                     for policy in policies:
@@ -261,7 +272,12 @@ def run(config_path, output, identity_registry_path=None,
                             values = [m[key] for m in targets if m[key] is not None]
                             metrics[key] = float(np.mean(values)) if values else None
                         trial_results.append(dict(trial=trial, workload=kind, policy=policy, task=task, **metrics))
-            for spec, requests, digest in imported:
+            for import_index, (spec, requests, digest) in enumerate(imported):
+                if privacy_accountant is not None:
+                    privacy_accountant.record(
+                        f'import:{trial}:{import_index}',
+                        {request.user_id for request in requests},
+                        cfg.dp_epsilon, claims['dp_laplace']['delta'])
                 for policy in policies:
                     result = simulate(cfg, requests, policy, raw['seed'] + trial,
                                       dp_noise_source=dp_noise_source,
@@ -311,7 +327,21 @@ def run(config_path, output, identity_registry_path=None,
         workload_source=('seeded synthetic Poisson arrivals with deterministic round-robin synthetic principals for bounded-user experiments; not calibrated to production traces'
             if cfg.dp_user_contribution_cap else
             'seeded synthetic Poisson arrivals; not calibrated to production traces'))
-    claims = privacy_claims(cfg, policies, dp_noise_source)
+    if privacy_accountant is not None:
+        accountant_summary = privacy_accountant.summary()
+        privacy_composition = dict(
+            **accountant_summary,
+            scope='all retained dp_laplace outputs in this experiment artifact; basic sequential composition across repeated fixed-horizon releases',
+            single_horizon_epsilon=cfg.dp_epsilon,
+            single_horizon_delta=claims['dp_laplace']['delta'],
+            artifact_guarantee=claims['dp_laplace']['artifact_guarantee'],
+            identity_assumption=(
+                'authenticated synthetic principals under the configured verifier; signing and verification still share this research process'
+                if identity_authenticator else
+                'synthetic round-robin principal IDs assumed stable and non-spoofable'),
+            composition_limit='count/event transcript only; private workload labels, queue/performance outputs and the complete runtime transcript are excluded')
+    else:
+        privacy_composition = None
     privacy_limit = (
         (('User IDs are verified with Ed25519 signatures against a public registry; '
           'client signing seeds are loaded separately and are not copied to output. '
@@ -329,6 +359,7 @@ def run(config_path, output, identity_registry_path=None,
         'No user-level contribution bound is enforced. ')
     report = dict(config=recorded_config, provenance=provenance, summary=summary, trial_metrics=trial_results,
         imported_runs=imports, positive_controls=positive, privacy_claims=claims,
+        privacy_composition=privacy_composition,
         methodology='Known-policy diagonal nearest-centroid profiler on current, previous and cumulative observer counts/events only. First half independent sessions profile; second half test. Session classes balanced across each half; trial-pooled balanced recall. Equal-weight independent trial bootstrap with5000 resamples. Public function pool identities are visible. Demand task is binary latent session demand regime, not exact arrival recovery. Uniform workload has no hot-function task.',
         limitations='Function-affine fixed-service single-request workers; no runtime/ORAM/network integration. Simulated seconds, not measured service latency. Horizon-censored requests count as SLO violations; p95/p99 concern completed requests only. Price is a hypothetical configurable input. The legacy noisy policy has no adjacency/sensitivity/composition guarantee. The optional dp_laplace sampler has a conditional approximate-DP bound only for its declared fixed-horizon count/event observer with independent hidden uniform random bits; the recorded deterministic-seed experiment itself has no DP guarantee. This is not a formal code audit. ' + privacy_limit + 'No full-runtime guarantee or universal attack bound. Public count/event observer excludes queue, true arrivals, response latency, sampler execution timing/CPU, billing, active scheduling and joint transcripts. Imported repeated traces support performance only. Pareto membership uses point estimates, not significance tests. No policy dominance required or forced.')
     (output / 'report.json').write_text(json.dumps(report, indent=2) + '\n')

@@ -105,12 +105,14 @@ other attacks, workloads, or remote timing.
 
 ## Next software action
 
-The HMAC and Ed25519 request-authentication paths now cover low-level
-validation, synthetic experiment generation, imported-request verification,
-and raw-data regeneration. Next, add a bounded cross-session privacy accountant
-that composes per-horizon user-level guarantees for stable principals, rejects
-unsupported identity changes, and records per-user release counts without
-including them in attacker-visible output. Keep the current reports scoped to
-one horizon and do not retroactively promote old unauthenticated runs. Any
-accountant must be checked against exact small-instance neighboring-dataset
-enumeration and clearly state whether identity binding remains an assumption.
+The HMAC and Ed25519 request-authentication paths cover low-level validation,
+synthetic experiment generation, imported-request verification, and raw-data
+regeneration. A per-principal accountant now composes all `dp_laplace`
+horizons retained in one experiment artifact and emits only aggregate maxima.
+Next, add an opt-in persistent ledger across separate experiment invocations.
+Bind ledger entries to a versioned public-key registry fingerprint and unique
+release IDs; reject duplicate or identity-incompatible entries, keep principal
+IDs out of public outputs, and preserve the explicit caveat that the current
+runner creates clients and verifies signatures in one process. Test exact
+small-instance composition and ledger rollback/corruption behavior. Do not
+retroactively promote old unauthenticated runs.

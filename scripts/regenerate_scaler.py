@@ -13,8 +13,8 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from research.simulation.run import evaluate, nondominated, plot, privacy_claims
 from research.simulation.scaler import (Config, DEFAULT_POLICIES, POLICIES, Request,
-    Ed25519RequestVerifier, RequestAuthenticator, features, trial_interval,
-    validate_requests)
+    Ed25519RequestVerifier, RequestAuthenticator,
+    SequentialUserPrivacyAccountant, features, trial_interval, validate_requests)
 
 RAW_FILES=('config.json','observer.jsonl.gz','private.jsonl.gz','workloads-private.jsonl.gz')
 METRICS={'arrivals','completed','dropped','unfinished','instance_seconds','cost','p95','p99','queue_max','queue_mean','slo_violation_rate','cold_starts'}
@@ -174,10 +174,30 @@ def rebuild(raw,public,private,truth):
     positive=[dict(workload=p['workload'],task=p['task'],balanced_accuracy=p['balanced_accuracy'],passed=p['balanced_accuracy']>.6) for p in summary if p['policy']=='naive']
     cfg=Config(**raw['simulation'])
     policies=raw.get('policies',DEFAULT_POLICIES)
+    claims=privacy_claims(cfg,policies,raw.get('dp_noise_source','seeded_experiment'))
+    accountant=(SequentialUserPrivacyAccountant()
+                if cfg.dp_user_contribution_cap and 'dp_laplace' in policies else None)
+    privacy_composition=None
+    if accountant is not None:
+        for (trial,session,workload),row in truth.items():
+            accountant.record(f'synthetic:{trial}:{workload}:{session}',
+                {request['user_id'] for request in row['requests']},
+                cfg.dp_epsilon,claims['dp_laplace']['delta'])
+        privacy_composition=dict(
+            **accountant.summary(),
+            scope='all retained dp_laplace outputs in this experiment artifact; basic sequential composition across repeated fixed-horizon releases',
+            single_horizon_epsilon=cfg.dp_epsilon,
+            single_horizon_delta=claims['dp_laplace']['delta'],
+            artifact_guarantee=claims['dp_laplace']['artifact_guarantee'],
+            identity_assumption=(
+                'authenticated synthetic principals under the configured verifier; signing and verification still share this research process'
+                if cfg.require_authenticated_user_ids else
+                'synthetic round-robin principal IDs assumed stable and non-spoofable'),
+            composition_limit='count/event transcript only; private workload labels, queue/performance outputs and the complete runtime transcript are excluded')
     user_scope=(f' Synthetic IDs are treated as stable, non-spoofable principals with a cap of {cfg.dp_user_contribution_cap} included requests per horizon.'
                 if cfg.dp_user_contribution_cap else ' No user-level contribution bound is enforced.')
     return dict(config=raw,summary=summary,trial_metrics=trial_results,positive_controls=positive,
-        imported_runs=[],privacy_claims=privacy_claims(cfg,policies,raw.get('dp_noise_source','seeded_experiment')),
+        imported_runs=[],privacy_claims=claims,privacy_composition=privacy_composition,
         methodology='Known-policy diagonal nearest-centroid profiler fitted on first-half whole sessions and tested on disjoint second-half sessions. Equal-weight independent-trial bootstrap with 5,000 resamples. Public function-pool identities are visible; target labels are used only for scoring.',
         limitations=(
             'Synthetic function-affine simulator, not a deployed scheduler. The optional dp_laplace sampler has a conditional approximate-DP bound only under independent hidden uniform bits for its fixed-horizon observer; the recorded deterministic-seed experiment itself has no DP guarantee.'+user_scope+' No complete-runtime privacy guarantee. Exact cost/queue counters use retained private session metrics; public observer excludes those fields.'

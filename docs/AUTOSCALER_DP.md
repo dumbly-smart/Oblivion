@@ -88,14 +88,21 @@ requests in the same process. It therefore does not show that signing seeds
 are isolated from a real scheduler. A real deployment must keep client seeds
 outside the verifier, and separately protect the public registry's authenticity.
 Neither mode has a nonce/replay cache; exact replays remain subject to the
-same cap. Key issuance, rotation, revocation, account binding, and
-cross-session identity composition are unimplemented. Existing bounded-user
-studies remain unauthenticated; these new runner options do not retroactively
-change their evidence.
+same cap. Key issuance, rotation, revocation, and account binding remain
+unimplemented. The runner now reports per-principal maxima under basic
+sequential composition across the `dp_laplace` releases retained in one
+experiment artifact. Its simulation trials reuse synthetic principal IDs by
+round-robin request order; this is an accounting check against that stated
+synthetic identity model, not a real user model. There is no persistent ledger
+across separate runner invocations, so deployments must account separately.
+Existing bounded-user studies remain unauthenticated; these new runner options
+do not retroactively change their evidence.
 
 Only the private scaling count is capped; all requests still affect simulated
-queue/service metrics, which are excluded from the claim. Repeated sessions or
-deployments over shared person-level data require additional composition.
+queue/service metrics, which are excluded from the claim. The per-artifact
+accountant composes each configured `dp_laplace` horizon for each observed
+principal; repeated deployments or separate artifacts over shared
+person-level data require additional composition.
 Replacement/move adjacency is not claimed. Variable horizons, externally
 visible queue state, latency, errors, sampler execution timing/CPU, billing,
 and the full runtime transcript are outside the argument.
