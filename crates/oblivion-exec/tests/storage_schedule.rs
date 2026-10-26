@@ -7,10 +7,20 @@ fn state() -> Arc<Mutex<PathOram<MemoryBackend>>> {
     oram.backend_mut().take_trace();
     Arc::new(Mutex::new(oram))
 }
+
+fn storage_test_class() -> Class {
+    let mut class = Class::small();
+    // These tests verify storage structure and namespaces, not deadline
+    // conformance. Keep scheduler contention from turning them into timeout
+    // tests; deadline behavior is covered separately in execution.rs.
+    class.deadline_ms = 1000;
+    class
+}
+
 #[test]
 fn protected_functions_and_failures_have_identical_storage_structure() {
     let storage = state();
-    let mut executor = Executor::new(Class::small()).unwrap();
+    let mut executor = Executor::new(storage_test_class()).unwrap();
     executor
         .register(
             0,
@@ -71,7 +81,7 @@ fn namespaces_prevent_guest_cross_client_and_dummy_accesses() {
     use oblivion_exec::Namespace;
     use std::time::Instant;
     let storage = state();
-    let mut executor = Executor::new(Class::small()).unwrap();
+    let mut executor = Executor::new(storage_test_class()).unwrap();
     executor
         .register(
             4,
