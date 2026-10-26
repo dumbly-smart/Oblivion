@@ -106,14 +106,13 @@ other attacks, workloads, or remote timing.
 ## Next software action
 
 The opt-in persistent autoscaler privacy ledger is implemented and measured;
-its separate OS rollback/key-custody limitations remain documented. The next
-its separate OS rollback/key-custody limitations remain documented. The
-SSE anchor's schema-v4 encrypted SQLite slot is implemented and tested for
-migration, restart, corruption, and concurrent stale-writer CAS. Next add the
-versioned Unix-socket operations and adapt `SseJournalAnchor` to that service,
-then test a full journal-backed SSE request across service process restart.
-The local service still relies on the host OS and an independently provisioned
-master key; an old SQLite database backup defeats freshness. Measure journal
-write and recovery overhead on larger indexes before making throughput claims.
-Keep S11 partial until the concrete adapter and its deployment assumptions are
-covered; do not claim hardware anti-rollback or backward privacy.
+its separate OS rollback/key-custody limitations remain documented. The SSE
+anchor's schema-v4 encrypted SQLite slot and additive protocol-v3 Unix
+operations are implemented and tested; existing protocol-v2 operations remain
+intact. Next implement the `SseJournalAnchor` adapter and test a full
+journal-backed SSE request across service process restart. The local service
+still relies on the host OS and an independently provisioned master key; an
+old SQLite database backup defeats freshness. Measure journal write and
+recovery overhead on larger indexes before making throughput claims. Keep S11
+partial until the concrete adapter and its deployment assumptions are covered;
+do not claim hardware anti-rollback or backward privacy.

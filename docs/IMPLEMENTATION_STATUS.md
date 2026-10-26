@@ -1085,11 +1085,15 @@ bypassed. Indeterminate transaction commit errors are preserved distinctly.
 The schema-v3 migration/reopen test preserves a registry catalog row. Wrong-key,
 same-size and oversized ciphertext corruption, plaintext absence, independent
 slots, invalid generation transitions, index substitution, and a concurrent
-two-writer single-winner CAS are covered. The full anchor crate suite passed
-23 unit tests and 9 local-service integration tests; warning-denied package
-Clippy and workspace formatting passed. The table is not yet reachable through
-the Unix socket, so no `PersistentClient` adapter or process-restart test exists
-yet. The service master key must remain stable; privileged rollback of its
+two-writer single-winner CAS are covered. Protocol-v3 Unix `SseJournalLoad` and
+`SseJournalCas` requests expose the slot through
+`UnixAnchorClient::sse_journal`; existing protocol-v2 operations remain at v2.
+The socket test covers load/CAS, stale conflict, invalid version, and slot
+validation; a missing-service test confirms CAS transport failure is
+indeterminate. The full anchor suite passed 25 unit tests and 9 local-service
+integration tests; warning-denied package Clippy and formatting passed. The SSE
+trait adapter and actual `PersistentClient` process-restart test remain
+pending. The service master key must remain stable; privileged rollback of its
 SQLite database still defeats freshness.
 
 Workspace formatting and `cargo clippy --locked --workspace --all-targets -- -D

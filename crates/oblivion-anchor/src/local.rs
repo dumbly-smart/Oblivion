@@ -6,7 +6,7 @@
 
 use crate::{
     AnchorDatabase, Error, InvocationReceipt, MAX_INVOCATION_RESPONSE_BYTES, SignedInvocationId,
-    validate_slot,
+    SseJournalState, validate_slot,
 };
 use oblivion_registry::{
     self as registry, RegistryCatalogAnchor, RegistryCatalogState, RegistryVersionAnchor,
@@ -25,6 +25,7 @@ use std::{
 };
 
 const PROTOCOL_VERSION: u8 = 2;
+const SSE_JOURNAL_PROTOCOL_VERSION: u8 = 3;
 const MAX_FRAME_BYTES: usize = 512 * 1024;
 const IO_TIMEOUT: Duration = Duration::from_secs(5);
 
@@ -63,6 +64,16 @@ enum Request {
         snapshot_id: String,
         secret_handle: Vec<u8>,
     },
+    SseJournalLoad {
+        version: u8,
+        slot: String,
+    },
+    SseJournalCas {
+        version: u8,
+        slot: String,
+        expected_generation: Option<u64>,
+        next: WireSseJournalState,
+    },
     InvocationLoad {
         version: u8,
         slot: String,
@@ -100,6 +111,10 @@ enum Response {
         version: u8,
         record: Option<WireCheckpoint>,
     },
+    SseJournal {
+        version: u8,
+        record: Option<WireSseJournalState>,
+    },
     Invocation {
         version: u8,
         receipt: Option<WireInvocationReceipt>,
@@ -127,6 +142,30 @@ struct WireCheckpoint {
     snapshot_id: String,
     generation: u64,
     secret_handle: Vec<u8>,
+}
+
+#[derive(Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct WireSseJournalState {
+    index_id: [u8; 16],
+    generation: u64,
+    digest: [u8; 32],
+}
+
+impl From<SseJournalState> for WireSseJournalState {
+    fn from(state: SseJournalState) -> Self {
+        Self {
+            index_id: *state.index_id(),
+            generation: state.generation(),
+            digest: *state.digest(),
+        }
+    }
+}
+
+impl WireSseJournalState {
+    fn into_state(self) -> Result<SseJournalState, Error> {
+        SseJournalState::new(self.index_id, self.generation, self.digest)
+    }
 }
 
 #[derive(Serialize, Deserialize)]
@@ -363,6 +402,67 @@ fn serve_request(database: &mut AnchorDatabase, request: Request) -> Response {
                 },
                 Err(_) => Response::Invalid {
                     version: PROTOCOL_VERSION,
+                },
+            }
+        }
+        Request::SseJournalLoad { version, slot } => {
+            if version != SSE_JOURNAL_PROTOCOL_VERSION || validate_slot(&slot).is_err() {
+                return Response::Invalid {
+                    version: SSE_JOURNAL_PROTOCOL_VERSION,
+                };
+            }
+            match database
+                .sse_journal_anchor(&slot)
+                .and_then(|mut anchor| anchor.load())
+            {
+                Ok(record) => Response::SseJournal {
+                    version: SSE_JOURNAL_PROTOCOL_VERSION,
+                    record: record.map(Into::into),
+                },
+                Err(_) => Response::Internal {
+                    version: SSE_JOURNAL_PROTOCOL_VERSION,
+                },
+            }
+        }
+        Request::SseJournalCas {
+            version,
+            slot,
+            expected_generation,
+            next,
+        } => {
+            if version != SSE_JOURNAL_PROTOCOL_VERSION || validate_slot(&slot).is_err() {
+                return Response::Invalid {
+                    version: SSE_JOURNAL_PROTOCOL_VERSION,
+                };
+            }
+            let next = match next.into_state() {
+                Ok(next) => next,
+                Err(_) => {
+                    return Response::Invalid {
+                        version: SSE_JOURNAL_PROTOCOL_VERSION,
+                    };
+                }
+            };
+            match database.sse_journal_anchor(&slot) {
+                Ok(mut anchor) => match anchor.compare_and_swap(expected_generation, next) {
+                    Ok(()) => Response::Ack {
+                        version: SSE_JOURNAL_PROTOCOL_VERSION,
+                    },
+                    Err(Error::Conflict) => Response::Conflict {
+                        version: SSE_JOURNAL_PROTOCOL_VERSION,
+                    },
+                    Err(Error::CommitIndeterminate) => Response::CommitUnknown {
+                        version: SSE_JOURNAL_PROTOCOL_VERSION,
+                    },
+                    Err(Error::IntegerRange) => Response::Invalid {
+                        version: SSE_JOURNAL_PROTOCOL_VERSION,
+                    },
+                    Err(_) => Response::Internal {
+                        version: SSE_JOURNAL_PROTOCOL_VERSION,
+                    },
+                },
+                Err(_) => Response::Invalid {
+                    version: SSE_JOURNAL_PROTOCOL_VERSION,
                 },
             }
         }
@@ -607,6 +707,15 @@ impl UnixAnchorClient {
         Ok(UnixCheckpointAnchor(Self::new(socket_path, slot)?))
     }
 
+    /// Opens one stable journal slot. The application must reuse this opaque
+    /// slot for the same SSE index after restart.
+    pub fn sse_journal(
+        socket_path: impl Into<PathBuf>,
+        slot: &str,
+    ) -> Result<UnixSseJournalAnchor, Error> {
+        Ok(UnixSseJournalAnchor(Self::new(socket_path, slot)?))
+    }
+
     /// Opens exclusive invocation-anchor access for this local slot. The lock
     /// is held until the returned adapter is dropped or its process exits.
     pub fn invocation(
@@ -645,6 +754,53 @@ pub struct UnixRegistryAnchor(UnixAnchorClient);
 pub struct UnixRegistryCatalogAnchor(UnixAnchorClient);
 
 pub struct UnixCheckpointAnchor(UnixAnchorClient);
+
+pub struct UnixSseJournalAnchor(UnixAnchorClient);
+
+impl UnixSseJournalAnchor {
+    pub fn load(&mut self) -> Result<Option<SseJournalState>, Error> {
+        let response = self.0.exchange(Request::SseJournalLoad {
+            version: SSE_JOURNAL_PROTOCOL_VERSION,
+            slot: self.0.slot.clone(),
+        })?;
+        match response {
+            Response::SseJournal { version, record } if version == SSE_JOURNAL_PROTOCOL_VERSION => {
+                record
+                    .map(WireSseJournalState::into_state)
+                    .transpose()
+                    .map_err(|_| Error::Protocol)
+            }
+            Response::Invalid { .. } => Err(Error::Protocol),
+            Response::Internal { .. } => Err(Error::Database(
+                "anchor service failed to load SSE journal state".into(),
+            )),
+            _ => Err(Error::Protocol),
+        }
+    }
+
+    pub fn compare_and_swap(
+        &mut self,
+        expected_generation: Option<u64>,
+        next: SseJournalState,
+    ) -> Result<(), Error> {
+        let response = self.0.exchange(Request::SseJournalCas {
+            version: SSE_JOURNAL_PROTOCOL_VERSION,
+            slot: self.0.slot.clone(),
+            expected_generation,
+            next: next.into(),
+        });
+        match response {
+            Ok(Response::Ack { version }) if version == SSE_JOURNAL_PROTOCOL_VERSION => Ok(()),
+            Ok(Response::Conflict { .. }) => Err(Error::Conflict),
+            Ok(Response::CommitUnknown { .. }) | Err(_) => Err(Error::CommitIndeterminate),
+            Ok(Response::Invalid { .. }) => Err(Error::Protocol),
+            Ok(Response::Internal { .. }) => Err(Error::Database(
+                "anchor service failed to update SSE journal state".into(),
+            )),
+            Ok(_) => Err(Error::CommitIndeterminate),
+        }
+    }
+}
 
 pub struct UnixInvocationAnchor {
     client: UnixAnchorClient,
@@ -956,6 +1112,57 @@ mod tests {
     }
 
     #[test]
+    fn local_service_round_trips_sse_journal_state() {
+        let root = root("sse-journal-roundtrip");
+        let socket_path = root.join("anchor.sock");
+        let database_path = root.join("anchor.sqlite");
+        let listener = UnixListener::bind(&socket_path).unwrap();
+        let mut database =
+            AnchorDatabase::open(&database_path, Zeroizing::new([0x67; 32])).unwrap();
+        let server = std::thread::spawn(move || {
+            for _ in 0..7 {
+                let (stream, _) = listener.accept().unwrap();
+                serve_connection(stream, &mut database).unwrap();
+            }
+        });
+
+        let mut anchor = UnixAnchorClient::sse_journal(&socket_path, "sse-index-a").unwrap();
+        assert_eq!(anchor.load().unwrap(), None);
+        let initial = crate::SseJournalState::new([0x11; 16], 0, [0x21; 32]).unwrap();
+        anchor.compare_and_swap(None, initial).unwrap();
+        assert_eq!(anchor.load().unwrap(), Some(initial));
+
+        let next = crate::SseJournalState::new([0x11; 16], 1, [0x22; 32]).unwrap();
+        anchor.compare_and_swap(Some(0), next).unwrap();
+        assert_eq!(anchor.load().unwrap(), Some(next));
+        assert!(matches!(
+            anchor.compare_and_swap(
+                Some(0),
+                crate::SseJournalState::new([0x11; 16], 1, [0x23; 32]).unwrap()
+            ),
+            Err(Error::Conflict)
+        ));
+
+        let raw_client = UnixAnchorClient::new(&socket_path, "sse-index-a").unwrap();
+        assert!(matches!(
+            raw_client
+                .exchange(Request::SseJournalLoad {
+                    version: 2,
+                    slot: "sse-index-a".into(),
+                })
+                .unwrap(),
+            Response::Invalid { version: 3 }
+        ));
+        assert!(matches!(
+            UnixAnchorClient::sse_journal(&socket_path, "../invalid"),
+            Err(Error::InvalidSlot)
+        ));
+
+        server.join().unwrap();
+        std::fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
     fn local_service_round_trips_digest_bound_catalog_anchor() {
         let root = root("catalog-anchor");
         let socket_path = root.join("anchor.sock");
@@ -1075,6 +1282,19 @@ mod tests {
             result,
             Err(oblivion_store::Error::AnchorCommitUnknown)
         ));
+        std::fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn transport_failure_during_sse_journal_cas_is_indeterminate() {
+        let root = root("missing-sse-journal");
+        let mut anchor =
+            UnixAnchorClient::sse_journal(root.join("absent.sock"), "state-a").unwrap();
+        let result = anchor.compare_and_swap(
+            None,
+            crate::SseJournalState::new([0x11; 16], 0, [0x22; 32]).unwrap(),
+        );
+        assert!(matches!(result, Err(Error::CommitIndeterminate)));
         std::fs::remove_dir_all(root).unwrap();
     }
 }

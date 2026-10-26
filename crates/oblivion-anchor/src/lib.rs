@@ -28,7 +28,7 @@ mod local;
 #[cfg(unix)]
 pub use local::{
     UnixAnchorClient, UnixCheckpointAnchor, UnixInvocationAnchor, UnixRegistryAnchor,
-    UnixRegistryCatalogAnchor, serve_unix,
+    UnixRegistryCatalogAnchor, UnixSseJournalAnchor, serve_unix,
 };
 
 const NONCE_BYTES: usize = 12;

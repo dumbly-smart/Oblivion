@@ -49,7 +49,7 @@
 - [x] **Step 2: Run the focused tests** and confirm missing slot/API behavior.
 - [x] **Step 3: Implement schema-v4 migration and encrypted slot persistence** with transactionally enforced generation/index invariants, domain-separated key/AAD, and unique random nonces.
 - [x] **Step 4: Run `cargo test --locked -p oblivion-anchor` and fix failures.**
-- [ ] **Step 5: Commit and push the database increment.**
+- [x] **Step 5: Commit and push the database increment** (`f2936e38`).
 
 ### Task 2: Versioned Unix Service Operations
 
@@ -63,11 +63,11 @@
 - `UnixSseJournalAnchor::load() -> Result<Option<SseJournalState>, Error>`
 - `UnixSseJournalAnchor::compare_and_swap(expected_generation, next) -> Result<(), Error>`
 
-- [ ] **Step 1: Write failing service tests** for protocol-v3 load/CAS round-trip, generation conflict, invalid slot/version, and v2 operation compatibility.
-- [ ] **Step 2: Run the focused service tests** and confirm the expected unsupported-operation failures.
-- [ ] **Step 3: Add typed protocol-v3 journal load/CAS messages** while leaving all existing operations at protocol v2; map conflict and indeterminate commit responses distinctly.
-- [ ] **Step 4: Run `cargo test --locked -p oblivion-anchor` and verify v2 plus v3 clients.**
-- [ ] **Step 5: Commit and push the Unix protocol increment.**
+- [x] **Step 1: Write failing service tests** for protocol-v3 load/CAS round-trip, generation conflict, invalid slot/version, and v2 operation compatibility.
+- [x] **Step 2: Run the focused service tests** and confirm the expected unsupported-operation failures.
+- [x] **Step 3: Add typed protocol-v3 journal load/CAS messages** while leaving all existing operations at protocol v2; map conflict and indeterminate commit responses distinctly.
+- [x] **Step 4: Run `cargo test --locked -p oblivion-anchor` and verify v2 plus v3 clients.**
+- [x] **Step 5: Commit and push the Unix protocol increment.**
 
 ### Task 3: SSE Trait Adapter and Process-Restart Integration
 
