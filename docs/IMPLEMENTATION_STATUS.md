@@ -548,8 +548,9 @@ Retained private rows show `Status::Timeout` before the 100 ms outer deadline,
 consistent with the executor's earlier staging/commit cutoff; no protocol
 parse/authentication failure was recorded. These are runtime scheduling
 outcomes, not evidence of a wire-format failure, and no timeout threshold was
-changed. Signed payload verification is now implemented; persistent identity,
-checkpoint restoration, and receipt lookup/commit in the worker remain open.
+changed. Signed payload verification and opt-in checkpoint/receipt handling
+were integrated in follow-on changes below; that earlier validation attempt
+did not cover these later changes.
 
 ## 2026-10-26: signed invocation request binding
 
@@ -560,9 +561,9 @@ fixed-size input and authenticated endpoint slot. The executor validates this
 after channel AEAD authentication; absent, forged, wrong-slot or noncanonical
 identities take the existing fixed-shape cover path. Demo and open-loop clients
 use OS-random ephemeral signing keys and IDs. This is identity proof for one
-request, not authorization, stable identity, cross-session replay protection,
-or durable idempotency: receipt lookup/commit and checkpoint restoration have
-not yet been wired into the worker.
+request, not authorization or a built-in stable client identity. The later
+durable worker integration below provides signed receipt replay when an
+application retains its client key and invocation ID across sessions.
 
 The two codec tests and the unsigned-request integration test pass. The full
 server pipeline suite ran 16 tests: 15 passed; its real/dummy demo hit the
@@ -571,6 +572,39 @@ isolated rerun completed epoch 0 but timed out a later dummy at 81 ms of
 reported work during the earlier staging cutoff. No deadline was changed.
 Formatting and warning-denied package Clippy pass. Timing-sensitive demo
 reliability remains open and is not attributed to identity verification alone.
+
+## 2026-10-26: durable worker receipts and restart recovery
+
+When both `OBLIVION_ANCHOR_SOCKET` and `OBLIVION_ANCHOR_STATE_DIR` are set,
+the worker loads the latest anchor record, validates its snapshot identifier,
+generation and regular-file status, and restores the encrypted full-store
+checkpoint. New authenticated signed requests are executed, then their exact
+192-byte response and a fresh encrypted snapshot handle are committed in one
+anchor transaction before response publication. An indeterminate commit is
+resolved by looking up the signed receipt; unresolved results fail closed. A
+same-ID/different-digest request is rejected before real execution. A matching
+receipt runs the reserved dummy function and returns the prior response.
+
+The runtime integration test starts the real Unix anchor service, commits a
+stateful invocation, restarts the executor with a fresh in-memory bucket
+backend, verifies byte-identical receipt replay, rejects an ID/digest conflict,
+and confirms the next invocation sees the recovered application state. The
+focused test passes. In the full 18-test server pipeline run, 16 passed and
+two pre-existing 100 ms deadline-sensitive demos timed out under host load;
+the durable integration test itself passed in that run. Deadlines were not
+changed. The separately run anchor and ORAM recovery packages passed 15 and 9
+tests, respectively, before this runtime integration; rerun the full relevant
+quality gates after final documentation changes.
+
+The implementation is opt-in and retains the simulator's instrumented
+in-memory bucket backend, reconstructing it from an encrypted full-tree
+snapshot. New requests visibly add full-tree snapshot reads/writes; receipt
+hits skip that checkpoint work, and the anchor operator sees lookup/commit
+traffic. Snapshots currently accumulate without bound. Built-in clients still
+generate ephemeral signing keys and IDs, so cross-process retry requires an
+application to persist these values. Same-ID concurrency is not fenced,
+external effects are not transactional, SQLite rollback remains possible,
+and host root can inspect state.
 
 ## 2026-10-26: anchored checkpoint restore bootstrap
 

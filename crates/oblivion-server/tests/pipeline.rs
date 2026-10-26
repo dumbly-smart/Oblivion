@@ -229,6 +229,151 @@ fn partial_anchor_configuration_fails_before_worker_readiness() {
     let _ = fs::remove_dir_all(path);
 }
 
+#[cfg(unix)]
+#[test]
+fn durable_worker_commits_and_replays_signed_invocations_after_restart() {
+    use ed25519_dalek::SigningKey;
+    use oblivion_anchor::{UnixAnchorClient, serve_unix};
+    use oblivion_batcher::{ENVELOPE_BYTES, Endpoint, Envelope, PAYLOAD_BYTES};
+    use oblivion_server::invocation::sign_request;
+    use std::{
+        io::{Read, Write},
+        os::unix::fs::PermissionsExt,
+        process::Stdio,
+        time::Duration,
+    };
+    use zeroize::Zeroizing;
+
+    fn run_worker(
+        output_dir: &std::path::Path,
+        state_dir: &std::path::Path,
+        socket: &std::path::Path,
+        requests: &[(u64, [u8; PAYLOAD_BYTES])],
+    ) -> Vec<[u8; PAYLOAD_BYTES]> {
+        fs::create_dir(output_dir).unwrap();
+        let mut child = Command::new(env!("CARGO_BIN_EXE_oblivion-server"))
+            .args(["executor-worker", output_dir.to_str().unwrap()])
+            .env("OBLIVION_ANCHOR_SOCKET", socket)
+            .env("OBLIVION_ANCHOR_STATE_DIR", state_dir)
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::null())
+            .spawn()
+            .unwrap();
+        let mut input = child.stdin.take().unwrap();
+        let mut output = child.stdout.take().unwrap();
+        let mut client = Endpoint::provision_over_pipe(0, &mut input).unwrap();
+        let mut ready = [0; 1];
+        output.read_exact(&mut ready).unwrap();
+        assert_eq!(ready, [1]);
+        let mut results = Vec::new();
+        for (epoch, payload) in requests {
+            input
+                .write_all(client.send(*epoch, payload).unwrap().as_bytes())
+                .unwrap();
+            input.flush().unwrap();
+            let mut response = [0; ENVELOPE_BYTES];
+            output.read_exact(&mut response).unwrap();
+            results.push(
+                client
+                    .receive(&Envelope::from_bytes(&response).unwrap())
+                    .unwrap(),
+            );
+        }
+        drop(input);
+        assert!(child.wait().unwrap().success());
+        results
+    }
+
+    let root = std::env::temp_dir().join(format!(
+        "oblivion-durable-worker-{}",
+        rand::rngs::OsRng.next_u64()
+    ));
+    fs::create_dir(&root).unwrap();
+    fs::set_permissions(&root, fs::Permissions::from_mode(0o700)).unwrap();
+    let socket = root.join("anchor.sock");
+    let database = root.join("anchor.sqlite");
+    let server_socket = socket.clone();
+    let server_database = database.clone();
+    let _anchor = std::thread::spawn(move || {
+        serve_unix(
+            server_socket,
+            server_database,
+            Zeroizing::new([0x87; 32]),
+            0o600,
+        )
+        .unwrap();
+    });
+    for _ in 0..100 {
+        if socket.exists() {
+            break;
+        }
+        std::thread::sleep(Duration::from_millis(10));
+    }
+    assert!(socket.exists(), "anchor service did not bind its socket");
+
+    let state_dir = root.join("state");
+    let key = SigningKey::from_bytes(&[0x75; 32]);
+    let mut first_payload = [0; PAYLOAD_BYTES];
+    first_payload[0] = 1;
+    first_payload[1..5].copy_from_slice(&4u32.to_be_bytes());
+    first_payload[5] = 10;
+    let token = sign_request(&mut first_payload, 0, [0x31; 16], &key);
+    let first_response = run_worker(
+        &root.join("first-run"),
+        &state_dir,
+        &socket,
+        &[(0, first_payload)],
+    )[0];
+    assert_eq!(first_response[0], 0);
+    assert_eq!(
+        u32::from_le_bytes(first_response[1..5].try_into().unwrap()),
+        1
+    );
+
+    let anchor = UnixAnchorClient::invocation(&socket, "server-state-v1").unwrap();
+    let receipt = anchor
+        .load(&token)
+        .unwrap()
+        .expect("worker committed response receipt");
+    assert_eq!(receipt.response(), first_response);
+
+    let mut new_payload = [0; PAYLOAD_BYTES];
+    new_payload[0] = 1;
+    new_payload[1..5].copy_from_slice(&4u32.to_be_bytes());
+    new_payload[5] = 10;
+    sign_request(&mut new_payload, 0, [0x32; 16], &key);
+    let mut conflicting_payload = first_payload;
+    conflicting_payload[5] ^= 1;
+    sign_request(&mut conflicting_payload, 0, [0x31; 16], &key);
+    let replay_and_new = run_worker(
+        &root.join("second-run"),
+        &state_dir,
+        &socket,
+        &[
+            (0, first_payload),
+            (1, new_payload),
+            (2, conflicting_payload),
+        ],
+    );
+    assert_eq!(replay_and_new[0], first_response);
+    assert_eq!(replay_and_new[1][0], 0);
+    assert_eq!(
+        u32::from_le_bytes(replay_and_new[1][1..5].try_into().unwrap()),
+        2
+    );
+    assert_eq!(replay_and_new[2][0], 1);
+    assert!(replay_and_new[2][1..].iter().all(|&byte| byte == 0));
+    let private_rows: Vec<serde_json::Value> =
+        fs::read_to_string(root.join("second-run").join("executor-private.jsonl"))
+            .unwrap()
+            .lines()
+            .map(|line| serde_json::from_str(line).unwrap())
+            .collect();
+    assert_eq!(private_rows[2]["request_valid"], false);
+    let _ = fs::remove_dir_all(root);
+}
+
 #[test]
 fn multiple_clients_execute_mixed_functions_with_isolated_state_and_fixed_traces() {
     let path =

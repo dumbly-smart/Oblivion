@@ -35,16 +35,55 @@ The anchor API provides this contract as `SignedInvocationId`,
 version 2, and response bytes are bounded to 64 KiB. The worker now supports
 opt-in startup restore when both `OBLIVION_ANCHOR_SOCKET` and
 `OBLIVION_ANCHOR_STATE_DIR` are set; it validates the anchored snapshot ID,
-handle generation, and snapshot file before restoring. Request receipt lookup
-and commit after invocation remain to be integrated. Before committing, the
-trusted executor must recompute the signed request digest from its canonical
-authenticated request and serialize the associated state slot.
+handle generation, and snapshot file before restoring. After authenticating a
+request, the worker looks up its receipt before running the selected function.
+A hit runs the reserved dummy function and returns the exact stored fixed-size
+response. A miss runs the request, writes a fresh encrypted whole-store
+checkpoint, and atomically commits its secret handle and response at the
+anchor before publishing the response. An indeterminate commit is resolved by
+looking up the receipt; if that fails, the worker exits without publishing an
+uncommitted success. A same-ID/different-digest conflict is rejected through
+the cover path.
 
 The worker reconstructs Path ORAM into its instrumented in-memory bucket
 backend from the encrypted whole-store snapshot. This retains the existing
 storage trace instrumentation and gives process-restart recovery, but does not
 provide a continuously persistent bucket-file service. Snapshot writes and
-full-tree recovery are visible in size and timing.
+full-tree recovery are visible in size and timing. In durable mode, new
+invocations add a full-tree snapshot read to the ORAM trace; receipt hits run
+the cover path without another checkpoint. The anchor operator can distinguish
+receipt lookup from receipt commit, and the protocol does not claim to hide
+retry status from that operator. Snapshot retention is currently unbounded.
+
+The built-in demo generates ephemeral signing keys and random IDs per run.
+Applications that need retries across process/session restarts must retain the
+same client signing key and invocation ID and resubmit the same canonical
+request. The Unix anchor socket must be readable only by the trusted executor
+account, while the anchor master key stays in a separate 32-byte file with
+mode 0600. Environment variables select the socket and state directory; they
+do not provision or authenticate the anchor master key.
+
+## Local operation
+
+Create a separate executor snapshot directory and anchor database/key paths.
+Keep the master-key file outside the database directory and restrict it to the
+anchor service account:
+
+```sh
+oblivion-anchor serve /run/oblivion/anchor.sock /var/lib/oblivion-anchor/state.sqlite /etc/oblivion-anchor/master.key 0600
+OBLIVION_ANCHOR_SOCKET=/run/oblivion/anchor.sock \
+OBLIVION_ANCHOR_STATE_DIR=/var/lib/oblivion/executor-state \
+oblivion-server demo /var/lib/oblivion/runs/run-001 100 1
+```
+
+The socket parent must exist before the anchor starts. The executor creates
+and restricts its state directory to mode 0700. The example uses one local OS
+account; a split-account deployment needs an explicitly group-readable socket
+and compatible directory ownership. The current demo creates a new signing
+key and invocation IDs per run, so rerunning that exact command demonstrates
+checkpoint recovery but does not retry an earlier ID. A retry-capable client
+must persist its Ed25519 key and invocation ID and recreate the same canonical
+request bytes.
 
 ## Scope limits
 

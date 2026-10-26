@@ -23,9 +23,9 @@ use std::{
 use zeroize::Zeroizing;
 
 #[cfg(unix)]
-use oblivion_anchor::UnixAnchorClient;
+use oblivion_anchor::{Error as AnchorError, UnixAnchorClient, UnixInvocationAnchor};
 #[cfg(unix)]
-use oblivion_store::CheckpointAnchor;
+use oblivion_store::{CheckpointAnchor, CheckpointAnchorRecord};
 
 const SOURCES: [&[u8]; 5] = [
     include_bytes!("../../../examples/wasm-functions/echo.wat"),
@@ -37,6 +37,15 @@ const SOURCES: [&[u8]; 5] = [
 
 struct WorkerState {
     store: Arc<Mutex<PathOram<MemoryBackend>>>,
+    #[cfg(unix)]
+    durable: Option<DurableState>,
+}
+
+#[cfg(unix)]
+struct DurableState {
+    snapshot_dir: std::path::PathBuf,
+    generation: Option<u64>,
+    invocation_anchor: UnixInvocationAnchor,
 }
 
 impl WorkerState {
@@ -60,6 +69,8 @@ impl WorkerState {
         let store = PathOram::new(config, MemoryBackend::default())?;
         Ok(Self {
             store: Arc::new(Mutex::new(store)),
+            #[cfg(unix)]
+            durable: None,
         })
     }
 
@@ -88,6 +99,10 @@ impl WorkerState {
 
         let mut checkpoint_anchor = UnixAnchorClient::checkpoint(&socket, "server-state-v1")?;
         let current = checkpoint_anchor.load()?;
+        let generation = current.as_ref().map(|record| record.generation());
+        if current.is_none() && fs::read_dir(&snapshot_dir)?.next().transpose()?.is_some() {
+            return Err("unanchored snapshots exist but no checkpoint is present".into());
+        }
         let store = if let Some(record) = current {
             if !safe_snapshot_id(record.snapshot_id()) {
                 return Err("anchor returned an invalid snapshot identifier".into());
@@ -105,8 +120,14 @@ impl WorkerState {
         } else {
             PathOram::new(config, MemoryBackend::default())?
         };
+        let invocation_anchor = UnixAnchorClient::invocation(socket, "server-state-v1")?;
         Ok(Self {
             store: Arc::new(Mutex::new(store)),
+            durable: Some(DurableState {
+                snapshot_dir,
+                generation,
+                invocation_anchor,
+            }),
         })
     }
 }
@@ -118,6 +139,70 @@ fn safe_snapshot_id(value: &str) -> bool {
         && value
             .bytes()
             .all(|byte| byte.is_ascii_alphanumeric() || byte == b'-' || byte == b'_')
+}
+
+#[cfg(unix)]
+impl DurableState {
+    fn load_receipt(
+        &self,
+        invocation: &oblivion_anchor::SignedInvocationId,
+    ) -> std::result::Result<Option<Vec<u8>>, AnchorError> {
+        match self.invocation_anchor.load(invocation) {
+            Ok(Some(receipt)) => {
+                if receipt.response().len() != PAYLOAD_BYTES {
+                    return Err(AnchorError::Protocol);
+                }
+                Ok(Some(receipt.response().to_vec()))
+            }
+            Ok(None) => Ok(None),
+            Err(error) => Err(error),
+        }
+    }
+
+    fn commit(
+        &mut self,
+        store: &mut PathOram<MemoryBackend>,
+        invocation: &oblivion_anchor::SignedInvocationId,
+        response: &[u8; PAYLOAD_BYTES],
+    ) -> Result<Vec<u8>> {
+        let mut random_id = [0; 16];
+        OsRng.try_fill_bytes(&mut random_id)?;
+        let suffix: String = random_id.iter().map(|byte| format!("{byte:02x}")).collect();
+        let snapshot_id = format!("snap-{suffix}");
+        let snapshot_path = self.snapshot_dir.join(format!("{snapshot_id}.snapshot"));
+        let checkpoint = store.checkpoint(&snapshot_path)?;
+        let expected_generation = self.generation;
+        let next_generation = expected_generation
+            .unwrap_or(0)
+            .checked_add(1)
+            .ok_or("ORAM checkpoint generation exhausted")?;
+        if checkpoint.generation() != next_generation {
+            return Err("ORAM checkpoint generation does not follow anchor generation".into());
+        }
+        let handle = checkpoint.to_secret_bytes();
+        let record = CheckpointAnchorRecord::new(&snapshot_id, handle.as_ref())?;
+        match self
+            .invocation_anchor
+            .commit(invocation, expected_generation, record, response)
+        {
+            Ok(receipt) => {
+                self.generation = Some(receipt.generation());
+                Ok(receipt.response().to_vec())
+            }
+            Err(AnchorError::CommitIndeterminate) => {
+                let receipt = self
+                    .invocation_anchor
+                    .load(invocation)?
+                    .ok_or("anchor commit is indeterminate and no receipt can be recovered")?;
+                if receipt.response() != response {
+                    return Err("recovered invocation receipt response mismatch".into());
+                }
+                self.generation = Some(receipt.generation());
+                Ok(receipt.response().to_vec())
+            }
+            Err(error) => Err(error.into()),
+        }
+    }
 }
 pub const REGISTRY_VERSION: u64 = 1;
 pub fn registry() -> Vec<Vec<u8>> {
@@ -628,7 +713,7 @@ pub fn worker(output: &Path, participants: usize) -> Result<()> {
     let mut endpoints = bootstrap_rx
         .recv_timeout(PIPE_TIMEOUT)
         .map_err(|_| "executor bootstrap timed out")??;
-    let worker_state = WorkerState::new(output)?;
+    let mut worker_state = WorkerState::new(output)?;
     let state = worker_state.store.clone();
     let mut executor = Executor::new(Class::small()).map_err(|e| e.to_string())?;
     for (id, source) in SOURCES.iter().enumerate() {
@@ -681,15 +766,35 @@ pub fn worker(output: &Path, participants: usize) -> Result<()> {
         let payload = decoded.unwrap_or([0; PAYLOAD_BYTES]);
         let requested = u32::from_be_bytes(payload[1..5].try_into()?);
         let state_address = u32::from_le_bytes(payload[9..13].try_into()?);
-        let valid = authenticated_frame
-            && verify_request(&payload, frame.slot()).is_some()
+        let invocation = authenticated_frame
+            .then(|| verify_request(&payload, frame.slot()))
+            .flatten();
+        let mut valid = authenticated_frame
+            && invocation.is_some()
             && payload[0] <= 1
             && requested < 5
             && !(payload[0] == 1
                 && requested == 4
                 && state_address >= if participants == 1 { 7 } else { 1 });
-        let real = valid && payload[0] == 1;
-        let selected = if valid { requested } else { 4 };
+        let mut receipt_response = None;
+        #[cfg(unix)]
+        if valid
+            && let (Some(durable), Some(invocation)) =
+                (worker_state.durable.as_ref(), invocation.as_ref())
+        {
+            match durable.load_receipt(invocation) {
+                Ok(receipt) => receipt_response = receipt,
+                Err(AnchorError::Conflict) => valid = false,
+                Err(error) => return Err(error.into()),
+            }
+        }
+        let receipt_replay = receipt_response.is_some();
+        let real = valid && payload[0] == 1 && !receipt_replay;
+        let selected = if valid && !receipt_replay {
+            requested
+        } else {
+            4
+        };
         // Every real, valid dummy, or authentication-failed cover frame uses PIR.
         let shares = QueryPair::generate(5, selected as usize)?;
         let mut completed_pir_queries = 0usize;
@@ -734,6 +839,19 @@ pub fn worker(output: &Path, participants: usize) -> Result<()> {
         ));
         for (out, byte) in body[1..65].iter_mut().zip(&result.body) {
             *out = *byte & mask;
+        }
+        if let Some(saved) = &receipt_response {
+            body.copy_from_slice(saved);
+        }
+        #[cfg(unix)]
+        if valid
+            && !receipt_replay
+            && let (Some(durable), Some(invocation)) =
+                (worker_state.durable.as_mut(), invocation.as_ref())
+        {
+            let mut store = state.lock().map_err(|_| "storage lock")?;
+            let committed = durable.commit(&mut store, invocation, &body)?;
+            body.copy_from_slice(&committed);
         }
         let response = endpoint.send(epoch, &body)?;
 

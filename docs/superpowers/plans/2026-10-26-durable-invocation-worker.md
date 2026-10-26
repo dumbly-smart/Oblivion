@@ -45,26 +45,25 @@
 - [x] Implement paired environment-variable validation and fail-before-ready behavior.
 - [x] Restore only from the anchored snapshot ID after validating the ID as a bounded safe filename component; otherwise initialize only when no previous backend session exists.
 - [x] Run the test and relevant store/anchor tests.
-- [ ] Commit the independently working bootstrap slice.
+- [x] Commit the independently working bootstrap slice (`1061df0a`).
 
 ### Task 2: Receipt lookup and atomic response commit
 
 **Files:**
 - Modify: `crates/oblivion-server/src/pipeline.rs`
-- Modify: `crates/oblivion-server/src/invocation.rs`
 - Test: `crates/oblivion-server/tests/pipeline.rs`
 
 **Interfaces:**
 - Use the already verified `SignedInvocationId` from `verify_request`.
 - Store exactly `PAYLOAD_BYTES` response bytes in the receipt.
 - Before execution, load the receipt; on a hit use the reserved cover function and return the saved body.
-- After a cache miss, sync file-backed ORAM state, write a uniquely named encrypted checkpoint, and call `UnixInvocationAnchor::commit` with the expected generation.
+- After a cache miss, write the instrumented in-memory ORAM state to a uniquely named encrypted full-store checkpoint, and call `UnixInvocationAnchor::commit` with the expected generation.
 
-- [ ] Add an end-to-end test that commits an invocation, restarts with the same anchor and state directory, retries the same signed request and then makes a new request; assert the retry response is byte-identical and the new request advances state only once. Add a same-ID/different-digest conflict assertion.
-- [ ] Implement lookup, cover replay, checkpoint publication, and atomic anchor commit before response publication.
-- [ ] Treat `CommitIndeterminate` by looking up the same signed receipt; fail closed if no exact receipt is available.
-- [ ] Run signed identity, replay, conflict, and storage-recovery tests.
-- [ ] Commit the receipt-integrated worker slice.
+- [x] Add an end-to-end test that commits an invocation, restarts with the same anchor and state directory, retries the same signed request and then makes a new request; assert the retry response is byte-identical and the new request advances state only once. Add a same-ID/different-digest conflict assertion.
+- [x] Implement lookup, cover replay, checkpoint publication, and atomic anchor commit before response publication.
+- [x] Treat `CommitIndeterminate` by looking up the same signed receipt; fail closed if no exact receipt is available.
+- [x] Run signed identity, replay, conflict, and storage-recovery tests.
+- [x] Commit the receipt-integrated worker slice.
 
 ### Task 3: Operator documentation and complete local verification
 
@@ -75,7 +74,7 @@
 - Modify: `docs/IMPLEMENTATION_STATUS.md`
 - Modify: `docs/NEXT_STEPS.md`
 
-- [ ] Document exact environment variables, restart/replay procedure, and anchor master-key handling.
-- [ ] State duplicate timing/storage leakage, single-writer assumptions, rollback limits, and external-side-effect limits.
+- [x] Document exact environment variables, restart/replay procedure, and anchor master-key handling.
+- [x] State duplicate timing/storage leakage, single-writer assumptions, rollback limits, and external-side-effect limits.
 - [ ] Run format, warning-denied Clippy, relevant Rust tests, and the full local gate where host timing permits.
 - [ ] Commit the documentation/verification record and push all small commits.
