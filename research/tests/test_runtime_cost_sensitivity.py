@@ -42,6 +42,22 @@ class RuntimeCostSensitivityTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             cpu_cost_usd_per_1000_successes(10, True)
 
+    def test_mixed_zero_success_bootstrap_draws_are_reported(self):
+        rows = [
+            {"cpu_seconds_observed": 1.0, "offered": 2, "admitted": 0, "dropped": 2,
+             "slo_failure_fraction": 1.0, "sampled_rss_mib": 20.0,
+             "private_status_counts": {}},
+            {"cpu_seconds_observed": 2.0, "offered": 2, "admitted": 1, "dropped": 1,
+             "slo_failure_fraction": 0.5, "sampled_rss_mib": 21.0,
+             "private_status_counts": {"Success": 1}},
+        ]
+        result = summarize_profile(rows, resamples=100, seed=1)
+        self.assertGreater(result["cpu_seconds_per_1000_successes_bootstrap_undefined_draws"], 0)
+        self.assertEqual(
+            result["cpu_seconds_per_1000_successes_bootstrap_defined_draws"]
+            + result["cpu_seconds_per_1000_successes_bootstrap_undefined_draws"], 100,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

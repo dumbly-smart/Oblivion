@@ -64,6 +64,7 @@ def summarize_profile(rows, resamples=5000, seed=20261026, rates=()):
 
     point_success_cpu = cpu_per_1000_successes(np.arange(n))
     success_boot = [cpu_per_1000_successes(indices) for indices in samples]
+    undefined_success_bootstrap_draws = sum(value is None for value in success_boot)
     success_boot = np.array([value for value in success_boot if value is not None])
     cpu_per_1000_offers = float(cpu.sum() * 1000 / offers.sum())
     offer_boot = cpu[samples].sum(axis=1) * 1000 / offers[samples].sum(axis=1)
@@ -86,6 +87,8 @@ def summarize_profile(rows, resamples=5000, seed=20261026, rates=()):
         "cpu_seconds_per_1000_successes": point_success_cpu,
         "cpu_seconds_per_1000_successes_ci95": None if len(success_boot) == 0 else
             np.quantile(success_boot, [.025, .975]).tolist(),
+        "cpu_seconds_per_1000_successes_bootstrap_defined_draws": int(len(success_boot)),
+        "cpu_seconds_per_1000_successes_bootstrap_undefined_draws": int(undefined_success_bootstrap_draws),
         "cpu_seconds_per_1000_offers": cpu_per_1000_offers,
         "cpu_seconds_per_1000_offers_ci95": np.quantile(offer_boot, [.025, .975]).tolist(),
         "offered_slo_failure_fraction": slo_fraction,
@@ -158,6 +161,7 @@ def run(input_dir, output, rates_path=None):
         "resource_scope": "Linux procfs CPU ticks for driver+executor+two PIR children; excludes startup/teardown CPU; sampled aggregate RSS",
         "normalization": "observed process-tree CPU seconds divided by successful outputs and scaled to 1,000 successes; ratio of sums",
         "statistical_method": "5,000 bootstrap resamples of whole trial processes, seed derived from the source experiment seed",
+        "success_normalization_bootstrap_policy": "draws with zero successful outputs are undefined; confidence intervals use defined draws only and report defined/undefined counts",
         "rate_scenarios": rates,
         "profiles": result,
         "limitations": [
