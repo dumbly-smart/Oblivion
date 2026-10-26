@@ -107,12 +107,13 @@ other attacks, workloads, or remote timing.
 
 The opt-in persistent autoscaler privacy ledger is implemented and measured;
 its separate OS rollback/key-custody limitations remain documented. The next
-SSE task is to implement a concrete adapter from `SseJournalAnchor` to the
-separate `oblivion-anchor` service: add a namespaced SQLite CAS record and
-versioned Unix-socket requests, then test independent processes, restart,
-concurrent stale writers, and restore of an old journal file. That local
-service still relies on the host OS and an independently provisioned master
-key; an old SQLite database backup defeats freshness. Measure journal write
-and recovery overhead on larger indexes before making throughput claims. Keep
-S11 partial until the concrete adapter and its deployment assumptions are
+its separate OS rollback/key-custody limitations remain documented. The
+SSE anchor's schema-v4 encrypted SQLite slot is implemented and tested for
+migration, restart, corruption, and concurrent stale-writer CAS. Next add the
+versioned Unix-socket operations and adapt `SseJournalAnchor` to that service,
+then test a full journal-backed SSE request across service process restart.
+The local service still relies on the host OS and an independently provisioned
+master key; an old SQLite database backup defeats freshness. Measure journal
+write and recovery overhead on larger indexes before making throughput claims.
+Keep S11 partial until the concrete adapter and its deployment assumptions are
 covered; do not claim hardware anti-rollback or backward privacy.

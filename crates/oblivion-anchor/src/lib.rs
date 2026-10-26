@@ -33,11 +33,15 @@ pub use local::{
 
 const NONCE_BYTES: usize = 12;
 const HANDLE_BYTES: usize = 88;
+const SSE_JOURNAL_INDEX_ID_BYTES: usize = 16;
+const SSE_JOURNAL_DIGEST_BYTES: usize = 32;
+const SSE_JOURNAL_PLAINTEXT_BYTES: usize = SSE_JOURNAL_INDEX_ID_BYTES + SSE_JOURNAL_DIGEST_BYTES;
+const SSE_JOURNAL_CIPHERTEXT_BYTES: usize = SSE_JOURNAL_PLAINTEXT_BYTES + 16;
 const MAX_SLOT_BYTES: usize = 128;
 pub const INVOCATION_ID_BYTES: usize = 16;
 pub const INVOCATION_DIGEST_BYTES: usize = 32;
 pub const MAX_INVOCATION_RESPONSE_BYTES: usize = 64 * 1024;
-const SCHEMA_VERSION: u32 = 3;
+const SCHEMA_VERSION: u32 = 4;
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
@@ -92,6 +96,43 @@ impl From<rusqlite::Error> for Error {
 pub struct AnchorDatabase {
     connection: Connection,
     master_key: Zeroizing<[u8; 32]>,
+}
+
+/// The current SSE journal head stored by the independent anchor service.
+/// The index identifier and digest are encrypted in SQLite; generation is
+/// retained in clear text so the service can perform an atomic SQL CAS.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct SseJournalState {
+    index_id: [u8; SSE_JOURNAL_INDEX_ID_BYTES],
+    generation: u64,
+    digest: [u8; SSE_JOURNAL_DIGEST_BYTES],
+}
+
+impl SseJournalState {
+    pub fn new(
+        index_id: [u8; SSE_JOURNAL_INDEX_ID_BYTES],
+        generation: u64,
+        digest: [u8; SSE_JOURNAL_DIGEST_BYTES],
+    ) -> Result<Self, Error> {
+        i64::try_from(generation).map_err(|_| Error::IntegerRange)?;
+        Ok(Self {
+            index_id,
+            generation,
+            digest,
+        })
+    }
+
+    pub fn index_id(&self) -> &[u8; SSE_JOURNAL_INDEX_ID_BYTES] {
+        &self.index_id
+    }
+
+    pub fn generation(&self) -> u64 {
+        self.generation
+    }
+
+    pub fn digest(&self) -> &[u8; SSE_JOURNAL_DIGEST_BYTES] {
+        &self.digest
+    }
 }
 
 /// Stable client-signed invocation identity. The signature authenticates
@@ -207,6 +248,8 @@ struct StoredInvocationReceipt {
     response: Vec<u8>,
 }
 
+type StoredSseJournalRow = (i64, i64, Vec<u8>, i64, Vec<u8>);
+
 impl AnchorDatabase {
     pub fn open(path: impl AsRef<Path>, master_key: Zeroizing<[u8; 32]>) -> Result<Self, Error> {
         let mut connection = Connection::open(path)?;
@@ -283,8 +326,22 @@ impl AnchorDatabase {
                 )?;
                 tx.commit()?;
             }
+            3 => {}
             SCHEMA_VERSION => {}
             other => return Err(Error::UnsupportedSchema(other)),
+        }
+        if schema_version < SCHEMA_VERSION {
+            let tx = connection.transaction_with_behavior(TransactionBehavior::Exclusive)?;
+            tx.execute_batch(
+                "CREATE TABLE sse_journal_anchor (
+                    slot TEXT PRIMARY KEY NOT NULL,
+                    generation INTEGER NOT NULL CHECK (generation >= 0),
+                    nonce BLOB NOT NULL CHECK (length(nonce) = 12),
+                    ciphertext BLOB NOT NULL CHECK (length(ciphertext) = 64)
+                );
+                PRAGMA user_version = 4;",
+            )?;
+            tx.commit()?;
         }
         Ok(Self {
             connection,
@@ -316,6 +373,15 @@ impl AnchorDatabase {
         validate_slot(slot)?;
         Ok(RegistryCatalogSlot {
             connection: &mut self.connection,
+            slot: slot.to_owned(),
+        })
+    }
+
+    pub fn sse_journal_anchor(&mut self, slot: &str) -> Result<SseJournalSlot<'_>, Error> {
+        validate_slot(slot)?;
+        Ok(SseJournalSlot {
+            connection: &mut self.connection,
+            master_key: &self.master_key,
             slot: slot.to_owned(),
         })
     }
@@ -490,6 +556,32 @@ impl CheckpointAnchor for CheckpointSlot<'_> {
     }
 }
 
+pub struct SseJournalSlot<'a> {
+    connection: &'a mut Connection,
+    master_key: &'a [u8; 32],
+    slot: String,
+}
+
+impl SseJournalSlot<'_> {
+    pub fn load(&mut self) -> Result<Option<SseJournalState>, Error> {
+        load_sse_journal(self.connection, self.master_key, &self.slot)
+    }
+
+    pub fn compare_and_swap(
+        &mut self,
+        expected_generation: Option<u64>,
+        next: SseJournalState,
+    ) -> Result<(), Error> {
+        compare_and_swap_sse_journal(
+            self.connection,
+            self.master_key,
+            &self.slot,
+            expected_generation,
+            next,
+        )
+    }
+}
+
 pub struct RegistrySlot<'a> {
     connection: &'a mut Connection,
     slot: String,
@@ -563,6 +655,130 @@ fn derive_key(
     hkdf.expand(&info, key.as_mut())
         .map_err(|_| Error::Cryptography)?;
     Ok(key)
+}
+
+fn sse_journal_aad(slot: &str, generation: u64) -> Vec<u8> {
+    let mut aad = b"oblivion-anchor-sse-journal-v1\0".to_vec();
+    aad.extend_from_slice(&(slot.len() as u32).to_be_bytes());
+    aad.extend_from_slice(slot.as_bytes());
+    aad.extend_from_slice(&generation.to_be_bytes());
+    aad
+}
+
+fn load_sse_journal(
+    connection: &Connection,
+    master_key: &[u8; 32],
+    slot: &str,
+) -> Result<Option<SseJournalState>, Error> {
+    let row: Option<StoredSseJournalRow> = connection
+        .query_row(
+            "SELECT generation, length(nonce), substr(nonce, 1, 13),
+                    length(ciphertext), substr(ciphertext, 1, 65)
+             FROM sse_journal_anchor WHERE slot = ?1",
+            [slot],
+            |row| {
+                Ok((
+                    row.get(0)?,
+                    row.get(1)?,
+                    row.get(2)?,
+                    row.get(3)?,
+                    row.get(4)?,
+                ))
+            },
+        )
+        .optional()?;
+    let Some((generation, nonce_len, nonce, ciphertext_len, ciphertext)) = row else {
+        return Ok(None);
+    };
+    let generation = u64::try_from(generation).map_err(|_| Error::Cryptography)?;
+    if nonce_len != NONCE_BYTES as i64 || ciphertext_len != SSE_JOURNAL_CIPHERTEXT_BYTES as i64 {
+        return Err(Error::Cryptography);
+    }
+    let nonce: [u8; NONCE_BYTES] = nonce.try_into().map_err(|_| Error::Cryptography)?;
+    if ciphertext.len() != SSE_JOURNAL_CIPHERTEXT_BYTES {
+        return Err(Error::Cryptography);
+    }
+    let key = derive_key(master_key, b"sse-journal", slot)?;
+    let plaintext = Zeroizing::new(
+        ChaCha20Poly1305::new(key.as_ref().into())
+            .decrypt(
+                Nonce::from_slice(&nonce),
+                Payload {
+                    msg: &ciphertext,
+                    aad: &sse_journal_aad(slot, generation),
+                },
+            )
+            .map_err(|_| Error::Cryptography)?,
+    );
+    if plaintext.len() != SSE_JOURNAL_PLAINTEXT_BYTES {
+        return Err(Error::Cryptography);
+    }
+    let index_id = plaintext[..SSE_JOURNAL_INDEX_ID_BYTES]
+        .try_into()
+        .map_err(|_| Error::Cryptography)?;
+    let digest = plaintext[SSE_JOURNAL_INDEX_ID_BYTES..]
+        .try_into()
+        .map_err(|_| Error::Cryptography)?;
+    SseJournalState::new(index_id, generation, digest).map(Some)
+}
+
+fn compare_and_swap_sse_journal(
+    connection: &mut Connection,
+    master_key: &[u8; 32],
+    slot: &str,
+    expected_generation: Option<u64>,
+    next: SseJournalState,
+) -> Result<(), Error> {
+    let expected_next = match expected_generation {
+        None => 0,
+        Some(generation) => generation.checked_add(1).ok_or(Error::IntegerRange)?,
+    };
+    if next.generation != expected_next {
+        return Err(Error::Conflict);
+    }
+    let next_i64 = i64::try_from(next.generation).map_err(|_| Error::IntegerRange)?;
+    let expected_i64 = expected_generation
+        .map(i64::try_from)
+        .transpose()
+        .map_err(|_| Error::IntegerRange)?;
+
+    let nonce = reserve_nonce(connection)?;
+    let key = derive_key(master_key, b"sse-journal", slot)?;
+    let mut plaintext = Zeroizing::new([0u8; SSE_JOURNAL_PLAINTEXT_BYTES]);
+    plaintext[..SSE_JOURNAL_INDEX_ID_BYTES].copy_from_slice(&next.index_id);
+    plaintext[SSE_JOURNAL_INDEX_ID_BYTES..].copy_from_slice(&next.digest);
+    let ciphertext = ChaCha20Poly1305::new(key.as_ref().into())
+        .encrypt(
+            Nonce::from_slice(&nonce),
+            Payload {
+                msg: plaintext.as_ref(),
+                aad: &sse_journal_aad(slot, next.generation),
+            },
+        )
+        .map_err(|_| Error::Cryptography)?;
+
+    let tx = connection.transaction_with_behavior(TransactionBehavior::Immediate)?;
+    let current = load_sse_journal(&tx, master_key, slot)?;
+    if current.map(|state| state.generation) != expected_generation
+        || current.is_some_and(|state| state.index_id != next.index_id)
+    {
+        return Err(Error::Conflict);
+    }
+    let changed = match expected_i64 {
+        None => tx.execute(
+            "INSERT INTO sse_journal_anchor(slot, generation, nonce, ciphertext) VALUES (?1, ?2, ?3, ?4)",
+            params![slot, next_i64, nonce.as_slice(), ciphertext],
+        )?,
+        Some(expected) => tx.execute(
+            "UPDATE sse_journal_anchor SET generation = ?2, nonce = ?3, ciphertext = ?4 WHERE slot = ?1 AND generation = ?5",
+            params![slot, next_i64, nonce.as_slice(), ciphertext, expected],
+        )?,
+    };
+    if changed != 1 {
+        return Err(Error::Conflict);
+    }
+    tx.commit().map_err(|_| Error::CommitIndeterminate)?;
+    Ok(())
 }
 
 fn invocation_lookup_token(
@@ -939,6 +1155,209 @@ mod tests {
         bytes[24..56].fill(generation as u8);
         bytes[56..].fill(0xA5);
         bytes
+    }
+
+    fn journal_state(index_id: u8, generation: u64, digest: u8) -> SseJournalState {
+        SseJournalState::new([index_id; 16], generation, [digest; 32]).unwrap()
+    }
+
+    #[test]
+    fn schema_v3_migrates_and_journal_anchor_survives_reopen() {
+        let path = path("sse-journal-migration");
+        let catalog_digest = [0x31; 32];
+        {
+            let connection = Connection::open(&path).unwrap();
+            connection
+                .execute_batch(
+                    "CREATE TABLE registry_catalog_anchor (
+                         slot TEXT PRIMARY KEY NOT NULL,
+                         version INTEGER NOT NULL CHECK (version > 0),
+                         digest BLOB CHECK (digest IS NULL OR length(digest) = 32)
+                     );
+                     CREATE TABLE used_nonce (
+                         nonce BLOB PRIMARY KEY NOT NULL CHECK (length(nonce) = 12)
+                     );
+                     INSERT INTO registry_catalog_anchor(slot, version, digest)
+                         VALUES ('catalog-a', 4, X'3131313131313131313131313131313131313131313131313131313131313131');
+                     PRAGMA user_version = 3;",
+                )
+                .unwrap();
+        }
+
+        let initial = journal_state(0x11, 0, 0x21);
+        {
+            let mut database = AnchorDatabase::open(&path, Zeroizing::new([0x41; 32])).unwrap();
+            let mut catalog = database.registry_catalog_anchor("catalog-a").unwrap();
+            assert_eq!(
+                catalog.current_catalog().unwrap(),
+                Some(RegistryCatalogState::new(4, Some(catalog_digest)).unwrap())
+            );
+
+            let mut anchor = database.sse_journal_anchor("app-index-a").unwrap();
+            assert_eq!(anchor.load().unwrap(), None);
+            anchor.compare_and_swap(None, initial).unwrap();
+            assert_eq!(anchor.load().unwrap(), Some(initial));
+        }
+
+        let mut database = AnchorDatabase::open(&path, Zeroizing::new([0x41; 32])).unwrap();
+        assert_eq!(
+            database
+                .sse_journal_anchor("app-index-a")
+                .unwrap()
+                .load()
+                .unwrap(),
+            Some(initial)
+        );
+        drop(database);
+        let _ = std::fs::remove_file(path);
+    }
+
+    #[test]
+    fn sse_journal_slot_enforces_consecutive_generation_and_index_binding() {
+        let path = path("sse-journal-cas");
+        let mut database = AnchorDatabase::open(&path, Zeroizing::new([0x42; 32])).unwrap();
+        let mut anchor = database.sse_journal_anchor("app-index-b").unwrap();
+        let initial = journal_state(0x12, 0, 0x22);
+        assert!(matches!(
+            anchor.compare_and_swap(None, journal_state(0x12, 1, 0x23)),
+            Err(Error::Conflict)
+        ));
+        anchor.compare_and_swap(None, initial).unwrap();
+
+        let next = journal_state(0x12, 1, 0x23);
+        anchor.compare_and_swap(Some(0), next).unwrap();
+        assert!(matches!(
+            anchor.compare_and_swap(Some(0), journal_state(0x12, 1, 0x24)),
+            Err(Error::Conflict)
+        ));
+        assert!(matches!(
+            anchor.compare_and_swap(Some(1), journal_state(0x99, 2, 0x25)),
+            Err(Error::Conflict)
+        ));
+        assert_eq!(anchor.load().unwrap(), Some(next));
+        drop(anchor);
+        assert_eq!(
+            database
+                .sse_journal_anchor("independent-slot")
+                .unwrap()
+                .load()
+                .unwrap(),
+            None
+        );
+        drop(database);
+        let _ = std::fs::remove_file(path);
+    }
+
+    #[test]
+    fn sse_journal_anchor_concurrent_cas_has_one_winner() {
+        use std::sync::{Arc, Barrier};
+
+        let path = path("sse-journal-concurrent-cas");
+        {
+            let mut database = AnchorDatabase::open(&path, Zeroizing::new([0x45; 32])).unwrap();
+            database
+                .sse_journal_anchor("shared-index")
+                .unwrap()
+                .compare_and_swap(None, journal_state(0x15, 0, 0x35))
+                .unwrap();
+        }
+        let barrier = Arc::new(Barrier::new(2));
+        let writers = [0x36, 0x37].map(|digest| {
+            let path = path.clone();
+            let barrier = barrier.clone();
+            std::thread::spawn(move || {
+                let mut database = AnchorDatabase::open(&path, Zeroizing::new([0x45; 32])).unwrap();
+                let mut anchor = database.sse_journal_anchor("shared-index").unwrap();
+                barrier.wait();
+                anchor
+                    .compare_and_swap(Some(0), journal_state(0x15, 1, digest))
+                    .is_ok()
+            })
+        });
+        let successes = writers
+            .into_iter()
+            .map(|writer| writer.join().unwrap())
+            .filter(|success| *success)
+            .count();
+        assert_eq!(successes, 1);
+
+        let mut database = AnchorDatabase::open(&path, Zeroizing::new([0x45; 32])).unwrap();
+        let state = database
+            .sse_journal_anchor("shared-index")
+            .unwrap()
+            .load()
+            .unwrap()
+            .unwrap();
+        assert_eq!(state.generation(), 1);
+        assert!([0x36; 32] == *state.digest() || [0x37; 32] == *state.digest());
+        drop(database);
+        let _ = std::fs::remove_file(path);
+    }
+
+    #[test]
+    fn sse_journal_anchor_rejects_wrong_key_and_ciphertext_tampering() {
+        let path = path("sse-journal-corruption");
+        let state = journal_state(0x13, 0, 0x33);
+        {
+            let mut database = AnchorDatabase::open(&path, Zeroizing::new([0x43; 32])).unwrap();
+            database
+                .sse_journal_anchor("app-index-c")
+                .unwrap()
+                .compare_and_swap(None, state)
+                .unwrap();
+        }
+        let database_bytes = std::fs::read(&path).unwrap();
+        assert!(
+            !database_bytes
+                .windows(16)
+                .any(|window| window == [0x13; 16])
+        );
+        assert!(
+            !database_bytes
+                .windows(32)
+                .any(|window| window == [0x33; 32])
+        );
+        {
+            let mut wrong_key = AnchorDatabase::open(&path, Zeroizing::new([0x44; 32])).unwrap();
+            assert!(matches!(
+                wrong_key.sse_journal_anchor("app-index-c").unwrap().load(),
+                Err(Error::Cryptography)
+            ));
+        }
+        {
+            let connection = Connection::open(&path).unwrap();
+            connection
+                .execute(
+                    "UPDATE sse_journal_anchor SET ciphertext = zeroblob(64) WHERE slot = 'app-index-c'",
+                    [],
+                )
+                .unwrap();
+        }
+        let mut database = AnchorDatabase::open(&path, Zeroizing::new([0x43; 32])).unwrap();
+        assert!(matches!(
+            database.sse_journal_anchor("app-index-c").unwrap().load(),
+            Err(Error::Cryptography)
+        ));
+        drop(database);
+        {
+            let connection = Connection::open(&path).unwrap();
+            connection
+                .pragma_update(None, "ignore_check_constraints", true)
+                .unwrap();
+            connection
+                .execute(
+                    "UPDATE sse_journal_anchor SET ciphertext = zeroblob(1048576) WHERE slot = 'app-index-c'",
+                    [],
+                )
+                .unwrap();
+        }
+        let mut database = AnchorDatabase::open(&path, Zeroizing::new([0x43; 32])).unwrap();
+        assert!(matches!(
+            database.sse_journal_anchor("app-index-c").unwrap().load(),
+            Err(Error::Cryptography)
+        ));
+        drop(database);
+        let _ = std::fs::remove_file(path);
     }
 
     fn invocation(seed: u8, id: [u8; 16], request_digest: [u8; 32]) -> SignedInvocationId {
@@ -1336,7 +1755,8 @@ mod tests {
         let connection = Connection::open(&path).unwrap();
         connection
             .execute_batch(
-                "DROP TABLE invocation_receipt; DROP TABLE registry_catalog_anchor; PRAGMA user_version = 1;",
+                "DROP TABLE invocation_receipt; DROP TABLE registry_catalog_anchor;
+                 DROP TABLE sse_journal_anchor; PRAGMA user_version = 1;",
             )
             .unwrap();
         drop(connection);
@@ -1352,7 +1772,7 @@ mod tests {
             .connection
             .pragma_query_value(None, "user_version", |row| row.get(0))
             .unwrap();
-        assert_eq!(schema_version, 3);
+        assert_eq!(schema_version, 4);
         drop(db);
         let _ = std::fs::remove_file(path);
     }
@@ -1502,7 +1922,10 @@ mod tests {
                 )
                 .unwrap();
             db.connection
-                .execute_batch("DROP TABLE registry_catalog_anchor; PRAGMA user_version = 2;")
+                .execute_batch(
+                    "DROP TABLE registry_catalog_anchor; DROP TABLE sse_journal_anchor;
+                     PRAGMA user_version = 2;",
+                )
                 .unwrap();
         }
         let mut db = AnchorDatabase::open(&path, Zeroizing::new([0x76; 32])).unwrap();
@@ -1518,7 +1941,7 @@ mod tests {
             .connection
             .pragma_query_value(None, "user_version", |row| row.get(0))
             .unwrap();
-        assert_eq!(schema_version, 3);
+        assert_eq!(schema_version, 4);
         drop(db);
         let _ = std::fs::remove_file(path);
     }

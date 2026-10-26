@@ -45,10 +45,10 @@
 - `SseJournalSlot::load() -> Result<Option<SseJournalState>, Error>`
 - `SseJournalSlot::compare_and_swap(expected_generation: Option<u64>, next: SseJournalState) -> Result<(), Error>`
 
-- [ ] **Step 1: Write failing SQLite tests** for generation-0 initialization, consecutive updates, stale-writer conflict, index binding, schema-v3 migration/reopen, slot isolation, wrong-key rejection, and ciphertext tampering.
-- [ ] **Step 2: Run the focused tests** and confirm missing slot/API behavior.
-- [ ] **Step 3: Implement schema-v4 migration and encrypted slot persistence** with transactionally enforced generation/index invariants, domain-separated key/AAD, and unique random nonces.
-- [ ] **Step 4: Run `cargo test --locked -p oblivion-anchor` and fix failures.**
+- [x] **Step 1: Write failing SQLite tests** for generation-0 initialization, consecutive updates, stale-writer conflict, index binding, schema-v3 migration/reopen, slot isolation, wrong-key rejection, and ciphertext tampering.
+- [x] **Step 2: Run the focused tests** and confirm missing slot/API behavior.
+- [x] **Step 3: Implement schema-v4 migration and encrypted slot persistence** with transactionally enforced generation/index invariants, domain-separated key/AAD, and unique random nonces.
+- [x] **Step 4: Run `cargo test --locked -p oblivion-anchor` and fix failures.**
 - [ ] **Step 5: Commit and push the database increment.**
 
 ### Task 2: Versioned Unix Service Operations

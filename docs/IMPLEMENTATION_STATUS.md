@@ -1065,11 +1065,32 @@ valid authenticated chain longer than the replay cap returns `JournalError::Limi
 `cargo clippy --locked -p oblivion-sse --all-targets -- -D warnings` and
 `cargo fmt --all --check` passed.
 Hosted CI for this code has not run yet. S11 remains partial: only an in-memory
-test anchor exists; the client API is not connected to the separate
-`oblivion-anchor` process. Rollback protection requires an independent durable
-anchor and caller-managed key custody. The local file journal itself is not a
-TEE, and the 8 MiB plaintext cap is a current capacity limit. Journal write
-amplification and restart cost have not been benchmarked.
+test anchor is connected to `PersistentClient`; the SQLite anchor service's
+new journal slot is not yet exposed over its Unix protocol. Rollback protection
+requires an independent durable anchor and caller-managed key custody. The
+local file journal itself is not a TEE, and the 8 MiB plaintext cap is a current
+capacity limit. Journal write amplification and restart cost have not been
+benchmarked.
+
+## SSE anchor SQLite slot increment (2026-10-26)
+
+Added schema-v4 `sse_journal_anchor` storage to `oblivion-anchor`. Each caller-
+supplied validated slot stores a clear generation for CAS and an encrypted
+index ID/digest under a slot- and purpose-separated key derived from the
+service master key. Generation 0 is the initial SSE checkpoint; later changes
+must advance exactly one generation and keep the original index ID. Ciphertext
+and nonce reads are length-bounded even if SQLite check constraints are
+bypassed. Indeterminate transaction commit errors are preserved distinctly.
+
+The schema-v3 migration/reopen test preserves a registry catalog row. Wrong-key,
+same-size and oversized ciphertext corruption, plaintext absence, independent
+slots, invalid generation transitions, index substitution, and a concurrent
+two-writer single-winner CAS are covered. The full anchor crate suite passed
+23 unit tests and 9 local-service integration tests; warning-denied package
+Clippy and workspace formatting passed. The table is not yet reachable through
+the Unix socket, so no `PersistentClient` adapter or process-restart test exists
+yet. The service master key must remain stable; privileged rollback of its
+SQLite database still defeats freshness.
 
 Workspace formatting and `cargo clippy --locked --workspace --all-targets -- -D
 warnings` passed. The first serial workspace test attempt hit two executor
