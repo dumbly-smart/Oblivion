@@ -82,7 +82,7 @@ Updated 2026-10-24. The selected pipeline and later bounded research artifacts n
 
 ## Implemented system
 
-Seven Rust crates implement encrypted Path ORAM, two-server XOR PIR, Wasmtime execution, authenticated epoch batching, process orchestration, trace generation and constrained GGM SSE. The current process path supports one to four clients, all five actual functions, disjoint user/dummy state, SSE metadata discovery, encrypted PIR, independent output/counter oracles and fixed 164-byte invocation/response envelopes.
+Seven Rust crates implement encrypted Path ORAM, two-server XOR PIR, Wasmtime execution, authenticated epoch batching, process orchestration, trace generation and constrained GGM SSE. The current process path supports one to four clients, all five actual functions, disjoint user/dummy state, SSE metadata discovery, encrypted PIR, independent output/counter oracles and fixed 228-byte v2 invocation/response envelopes with signed request identities.
 
 Protected execution reads eight blocks at the public 25 ms phase and commits eight at 50 ms. Guest failures discard staged mutations; uncertain backend failure can poison partially written state. At eight logical blocks an invocation emits 128 actual bucket events of 316 bytes, with O(M log N) bandwidth for public working-set M. Trusted drivers prepare encrypted responses/private instrumentation before the 100 ms publication wait. Clients prepare requests before their public epoch. Slot starts are epoch arrival plus slot × 100 ms. OS scheduling and work overruns remain visible.
 
@@ -606,6 +606,15 @@ application to persist these values. Same-ID concurrency is not fenced,
 external effects are not transactional, SQLite rollback remains possible,
 and host root can inspect state.
 
+The current-source serialized workspace run completed successfully with
+`cargo test --locked --workspace -- --test-threads=1`. All test binaries
+passed, including all 18 server pipeline tests and the 100,000-operation SSE
+oracle test (160.70 seconds). The million-operation ORAM oracle remains
+intentionally ignored in the default suite and is independently runnable in
+release mode as recorded above. Earlier parallel/host-loaded runs did hit
+deadline-sensitive demos; this successful serial run changes no production or
+test deadlines and does not erase those historical failures.
+
 ## 2026-10-26: anchored checkpoint restore bootstrap
 
 The executor now rejects partial `OBLIVION_ANCHOR_SOCKET` /
@@ -616,9 +625,11 @@ restores the authenticated whole-store checkpoint. Without anchor settings it
 retains the ephemeral-memory path. Restore uses `MemoryBackend` to preserve the
 existing per-bucket trace instrumentation; the checkpoint itself is the
 durable encrypted snapshot, not a live bucket-file service. Receipt lookup,
-per-invocation checkpoint commit, and a real restart/replay integration test
-remain unfinished.
+per-invocation checkpoint commit, and restart/replay are integrated and covered
+by the server pipeline test.
 
-The partial-configuration regression test passes. Package Clippy with warnings
-denied passes. Snapshot ID validation and recovery still need end-to-end tests
-against the local anchor service before this bootstrap is considered complete.
+The partial-configuration regression test, full serialized workspace suite,
+formatting, warning-denied workspace Clippy, and whitespace checks pass.
+Snapshot retention, same-ID concurrency fencing, external-side-effect
+transactions, and rollback resistance against an anchor database backup remain
+open limitations.

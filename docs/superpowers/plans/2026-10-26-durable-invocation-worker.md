@@ -76,5 +76,5 @@
 
 - [x] Document exact environment variables, restart/replay procedure, and anchor master-key handling.
 - [x] State duplicate timing/storage leakage, single-writer assumptions, rollback limits, and external-side-effect limits.
-- [ ] Run format, warning-denied Clippy, relevant Rust tests, and the full local gate where host timing permits.
-- [ ] Commit the documentation/verification record and push all small commits.
+- [x] Run format, warning-denied Clippy, relevant Rust tests, and the full serialized workspace gate; record earlier host-load failures without relaxing deadlines.
+- [x] Commit the documentation/verification record and push all small commits.

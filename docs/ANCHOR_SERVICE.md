@@ -74,10 +74,10 @@ handles. A remote authenticated protocol, production key provisioning,
 backup/restore policy, and an anti-rollback source remain open under the
 project's untrusted-storage threat model.
 
-The service does not prove the identity of a registry publisher. Registry
-signature verification and publisher-key custody remain separate concerns.
-The demo does not yet use this service: its runtime registry signer is
-ephemeral, and its ORAM is not restored from persistent checkpoints.
+The optional durable worker mode uses this service for anchored checkpoint
+recovery and signed invocation receipts. This does not prove the identity of a
+registry publisher: the runtime registry signer is ephemeral, and publisher
+key custody remains a separate concern.
 
 Run its adapter tests with:
 

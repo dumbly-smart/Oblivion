@@ -15,12 +15,12 @@ flowchart LR
   E --> W[Wasmtime and trusted staged namespace]
   W --> O[Trusted ORAM controller]
   O --> S[Untrusted ciphertext buckets]
-  E -. optional recovery API, not demo path .-> A[Local anchor service]
+  E -. optional durable invocation API .-> A[Local anchor service]
 ```
 
 The queue and client share a parent process; separate APIs are not separate OS security principals. Each PIR worker owns a separate database/session but shares the same host. Inherited setup pipes assume a trusted kernel. A host administrator can inspect every process, keys and pipe: protecting against it requires hardware/system work outside the implementation. A malicious backend implementation executing arbitrary Rust inside the executor also violates the modeled boundary.
 
-The demo enrolls one to four clients, executes all five functions in mixed mode, uses distinct real/dummy namespaces and keeps state in encrypted memory buckets. A separate bounded file/checkpoint API supports explicitly anchored recovery. `oblivion-anchor serve` provides a local Unix-socket service under a separate OS account when configured; the demo does not use it, and it does not provide durable invocation service state. The service remains on the same host, and root can inspect its process, key and socket data. SSE is an ephemeral append-only component; the reference PIR comparison and autoscaler simulator are independent experiments.
+The demo enrolls one to four clients, executes all five functions in mixed mode, uses distinct real/dummy namespaces and keeps live state in encrypted memory buckets. When both anchor environment variables are configured, the executor can restore its ORAM state from an encrypted full-store checkpoint and atomically commit each signed invocation response with the next checkpoint. `oblivion-anchor serve` provides a local Unix-socket service; it should run under a separate OS account with separately provisioned master-key custody. The service remains on the same host, and root can inspect its process, key and socket data. SSE is an ephemeral append-only component; the reference PIR comparison and autoscaler simulator are independent experiments.
 
 ## Assets and adversary
 
@@ -30,7 +30,7 @@ The demo enrolls one to four clients, executes all five functions in mixed mode,
 | Inputs, outputs, modules and state | Confidentiality at encrypted interfaces; integrity of accepted pinned registry records and buckets |
 | Client/executor keys, maps, stash, versions and staging | Remain inside trusted boundary; private instrumentation cannot be released to the observer |
 | Keyword/document metadata | SSE encrypts immutable IDs and prevents old capabilities from deriving future posting leaves under stated assumptions; equality/volume/timing remain visible |
-| Persistent state | Recover against the latest checkpoint handle in the trusted anchor service; rolling back the entire SQLite database remains possible, and there is no exactly-once invocation claim |
+| Persistent state | Recover against the latest checkpoint handle and replay the exact response for a signed invocation ID; rolling back the entire SQLite database remains possible, and there is no exactly-once claim for external side effects |
 
 The adversary knows source, algorithms, public dimensions, classes, schedules and defenses. It may persistently observe network endpoints, frame sizes/times, storage paths/times, public slots/epochs, startup, scaling events and available resource/billing signals. It may modify, replay, reorder, duplicate, delay or drop messages and storage ciphertext. Availability is a non-goal.
 
@@ -45,7 +45,7 @@ For public configuration C and workload W, the modeled joint leakage includes:
 | Phase | Mechanism | Residual leakage |
 | --- | --- | --- |
 | Setup | Fresh OS keys, directional HKDF, private provisioning pipes, bounded trusted module loading | Tree/registry dimensions, deployment, code within trusted executor, participants and public class |
-| Invocation | Fixed 164-byte directional AEAD, epoch/slot binding, current-request reply binding | Endpoints, version/direction/epoch/slot, timing, connection/participation, active failures |
+| Invocation | Fixed 228-byte v2 directional AEAD, epoch/slot binding, signed canonical request identity, optional atomic response/checkpoint receipts | Endpoints, version/direction/epoch/slot, timing, connection/participation, receipt hit/miss at the anchor, active failures |
 | PIR | Encrypted random shares, geometry-bound frames and full scans; pinned record checking in pipeline | Dimensions, activity and timing; target under collusion; generic API needs application authenticity |
 | Storage | AEAD fixed buckets, location/version binding, full path remap/read/write | Paths, counts, phase timing, failures and maintenance; controller is not constant-time |
 | Execution | Fuel/memory/call limits, no WASI, fixed I/O/deadline, trusted staged working set and namespaces | Public resource class, scheduler/cache/resource behavior, overruns and failures |
@@ -62,7 +62,7 @@ The trusted driver's publication boundary includes response AEAD and instrumenta
 
 Live bucket versions, nonce counters and protocol epochs reject tested replay/substitution. File buckets alone do not encode a trusted controller. Full checkpoints include keys, position map, stash, versions/counters and buckets; restore authenticates against a secret trusted handle and always rotates bucket keys before encryption.
 
-`PathOram::checkpoint_anchored` enforces the snapshot-then-anchor-CAS ordering for a snapshot ID and secret handle through a caller-provided `CheckpointAnchor` adapter. The SQLite-backed local service provides durable CAS and encrypted handles under a trusted database operator and separately provisioned key; it is not rollback-resistant. Applications still must acknowledge durable operations only after anchor publication. The API rejects a stale controller before snapshot publication and requires unique immutable snapshot paths and IDs. Supplying the latest handle rejects old/mixed/corrupt images; replaying both the old handle and old image is not prevented if the anchor database is rolled back. Fresh keys after restore avoid restoring an old nonce domain. Invocation session roots/epochs and ephemeral SSE counters have no supported restore API. See [STORAGE_RECOVERY.md](STORAGE_RECOVERY.md) and [ANCHOR_SERVICE.md](ANCHOR_SERVICE.md).
+`PathOram::checkpoint_anchored` enforces the snapshot-then-anchor-CAS ordering for a snapshot ID and secret handle through a caller-provided `CheckpointAnchor` adapter. The durable worker mode commits each signed request's checkpoint handle and fixed-size response atomically through the SQLite-backed local service. It restores the latest snapshot after process restart, but the database operator and separately provisioned key must remain trusted; restoring an old database backup can roll back both receipts and state. Durable misses perform visible full-tree snapshot reads/writes; receipt hits run the dummy cover function but skip checkpoint creation, so the trusted anchor operator can distinguish them. The worker acknowledges successful durable operations only after anchor publication. Unique immutable snapshot IDs prevent accidental overwrite; stale/mixed/corrupt images fail authentication. Fresh keys after restore avoid restoring an old nonce domain. Invocation session roots/epochs and ephemeral SSE counters have no supported restore API. Same-ID concurrency and arbitrary side effects remain outside the transaction. See [STORAGE_RECOVERY.md](STORAGE_RECOVERY.md), [ANCHOR_SERVICE.md](ANCHOR_SERVICE.md), and [INVOCATION_DURABILITY.md](INVOCATION_DURABILITY.md).
 
 ## Evidence and abuse paths
 
