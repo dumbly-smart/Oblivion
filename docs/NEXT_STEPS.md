@@ -92,3 +92,13 @@ and prediction metrics were checked. See the
 [protocol](ORAM_ZIPF32_ALPHA15_REPLICATION_PREREG_20261026.md) and
 [result](ORAM_ZIPF32_ALPHA15_REPLICATION_20261026.md). This does not resolve
 other distributions, attacks, quiet-host effects, or remote timing.
+
+A fresh Markov-locality collection also tested the preregistered one-step
+previous-visible-tag attack. Both controls passed at AUC 0.9198; ORAM scored
+0.5013 [0.4916, 0.5106], with raw accuracy below the profile-majority
+baseline. All raw hashes, paired schedules, and prediction metrics were
+checked. The transition analysis shares the new collection with its temporal
+classifier and is not an independent collection from that primary analysis.
+See the [protocol](ORAM_MARKOV_TRANSITION_REPLICATION_PREREG_20261026.md) and
+[result](ORAM_MARKOV_TRANSITION_REPLICATION_20261026.md). This does not settle
+other attacks, workloads, or remote timing.

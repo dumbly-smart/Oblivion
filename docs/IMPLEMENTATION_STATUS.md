@@ -906,3 +906,17 @@ synthetic result, not a security proof. See the
 [preregistration](ORAM_ZIPF32_ALPHA15_REPLICATION_PREREG_20261026.md) and
 [result](ORAM_ZIPF32_ALPHA15_REPLICATION_20261026.md). Focused ORAM harness
 tests passed (12 tests).
+
+## 2026-10-26: preregistered independent ORAM transition-attack replication
+
+A fresh-seed Markov-locality collection (address-retention probability 0.85)
+was evaluated with the predeclared one-step previous-visible-tag attack.
+Plaintext and encrypt-only controls passed at AUC 0.9198 [0.9144, 0.9253];
+Path ORAM scored 0.5013 [0.4916, 0.5106]. Raw accuracy was below the
+profile-majority baseline. All 1,440 raw hashes, 240 paired schedules, source
+fingerprints, and 90 transition prediction metrics were checked. The attack
+is a simple profile lookup, and the transition analysis shares collection
+sessions with the separate temporal classifier. It is not a security proof.
+See the [preregistration](ORAM_MARKOV_TRANSITION_REPLICATION_PREREG_20261026.md)
+and [result](ORAM_MARKOV_TRANSITION_REPLICATION_20261026.md). The report
+writer now distinguishes post-hoc from preregistered secondary analyses.

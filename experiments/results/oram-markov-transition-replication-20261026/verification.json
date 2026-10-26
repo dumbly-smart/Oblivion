@@ -1,0 +1,22 @@
+{
+  "checks": {
+    "archive_raw_hashes_rechecked": true,
+    "paired_trial_session_schedules_verified": 240,
+    "primary_positive_controls_passed": true,
+    "primary_prediction_files_archived": 90,
+    "primary_raw_sha256_entries_verified": 1440,
+    "source_and_binary_fingerprints_match": true,
+    "transition_input_raw_sha256_entries_verified": 1440,
+    "transition_positive_controls_passed": true,
+    "transition_prediction_files_archived": 90,
+    "transition_prediction_metrics_recomputed_from_target_labels": 90
+  },
+  "collection_git_head": "2f375ed763cf1a861a78fc8ed64e5bd3fb51d158",
+  "limitations": [
+    "The transition attack is a preregistered secondary analysis sharing the primary study collection.",
+    "Classifier fitting for the primary temporal attack was not independently reimplemented.",
+    "Host load observations are coarse mode-boundary samples, not per-operation measurements."
+  ],
+  "scope": "Independent audit of preregistered transition attack replication and primary collection",
+  "trace_archive_sha256": "6a76326985e85ef6ec6fe6de5770849d03d578bba0ab74ff8fa7079595c3a202"
+}
