@@ -51,8 +51,9 @@
 - [ ] Write tests for digest CAS, restart, old-schema migration, conflicts, and malformed protocol requests.
 - [x] Run tests and confirm the catalog-anchor operations are missing.
 - [x] Add schema-v3 migration and transactional catalog state CAS.
-- [ ] Add protocol load/CAS requests and the client adapter.
-- [x] Run all 17 anchor library tests and warning-denied anchor Clippy for the database slice; commit it before protocol work.
+- [x] Add protocol-v2 load/CAS requests, the Unix client adapter, and malformed-digest validation.
+- [x] Run all 19 anchor library tests, 6 process tests, and warning-denied anchor Clippy.
+- [x] Commit and push the complete persistent anchor slice after tests.
 
 ### Task 3: Activate catalogs before worker readiness
 

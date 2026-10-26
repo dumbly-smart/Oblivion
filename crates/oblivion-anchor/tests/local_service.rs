@@ -1,7 +1,7 @@
 #![cfg(unix)]
 
 use oblivion_anchor::UnixAnchorClient;
-use oblivion_registry::RegistryVersionAnchor;
+use oblivion_registry::{RegistryCatalogAnchor, RegistryCatalogState, RegistryVersionAnchor};
 use oblivion_store::{CheckpointAnchor, Config, FileBackend, PathOram, TrustedCheckpoint};
 use std::{
     os::unix::fs::PermissionsExt,
@@ -65,6 +65,15 @@ fn cli_service_runs_as_process_with_restricted_socket_and_persistent_registry_ca
     assert_eq!(registry.current_version().unwrap(), None);
     registry.compare_and_swap(None, 4).unwrap();
     assert_eq!(registry.current_version().unwrap(), Some(4));
+
+    let mut catalog = UnixAnchorClient::catalog(&socket, "functions").unwrap();
+    assert_eq!(catalog.current_catalog().unwrap(), None);
+    let digest = [0x52; 32];
+    catalog.compare_and_swap_catalog(None, 8, digest).unwrap();
+    assert_eq!(
+        catalog.current_catalog().unwrap(),
+        Some(RegistryCatalogState::new(8, Some(digest)).unwrap())
+    );
 
     service.kill().unwrap();
     service.wait().unwrap();

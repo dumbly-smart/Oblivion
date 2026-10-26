@@ -8,7 +8,9 @@ use crate::{
     AnchorDatabase, Error, InvocationReceipt, MAX_INVOCATION_RESPONSE_BYTES, SignedInvocationId,
     validate_slot,
 };
-use oblivion_registry::{self as registry, RegistryVersionAnchor};
+use oblivion_registry::{
+    self as registry, RegistryCatalogAnchor, RegistryCatalogState, RegistryVersionAnchor,
+};
 use oblivion_store::{self as store, CheckpointAnchor, CheckpointAnchorRecord};
 use serde::{Deserialize, Serialize};
 use std::{
@@ -22,7 +24,7 @@ use std::{
     time::Duration,
 };
 
-const PROTOCOL_VERSION: u8 = 1;
+const PROTOCOL_VERSION: u8 = 2;
 const MAX_FRAME_BYTES: usize = 512 * 1024;
 const IO_TIMEOUT: Duration = Duration::from_secs(5);
 
@@ -38,6 +40,17 @@ enum Request {
         slot: String,
         expected: Option<u64>,
         next: u64,
+    },
+    CatalogLoad {
+        version: u8,
+        slot: String,
+    },
+    CatalogCas {
+        version: u8,
+        slot: String,
+        expected: Option<WireCatalogState>,
+        next_version: u64,
+        next_digest: [u8; 32],
     },
     CheckpointLoad {
         version: u8,
@@ -79,6 +92,10 @@ enum Response {
         version: u8,
         current: Option<u64>,
     },
+    RegistryCatalog {
+        version: u8,
+        current: Option<WireCatalogState>,
+    },
     Checkpoint {
         version: u8,
         record: Option<WireCheckpoint>,
@@ -118,6 +135,28 @@ struct WireInvocationReceipt {
     snapshot_id: String,
     generation: u64,
     response: Vec<u8>,
+}
+
+#[derive(Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct WireCatalogState {
+    version: u64,
+    digest: Option<[u8; 32]>,
+}
+
+impl From<RegistryCatalogState> for WireCatalogState {
+    fn from(state: RegistryCatalogState) -> Self {
+        Self {
+            version: state.version(),
+            digest: state.digest().copied(),
+        }
+    }
+}
+
+impl WireCatalogState {
+    fn into_state(self) -> Result<RegistryCatalogState, registry::Error> {
+        RegistryCatalogState::new(self.version, self.digest)
+    }
 }
 
 impl From<InvocationReceipt> for WireInvocationReceipt {
@@ -186,6 +225,75 @@ fn serve_request(database: &mut AnchorDatabase, request: Request) -> Response {
                         version: PROTOCOL_VERSION,
                     },
                 },
+                Err(_) => Response::Invalid {
+                    version: PROTOCOL_VERSION,
+                },
+            }
+        }
+        Request::CatalogLoad { version, slot } => {
+            if version != PROTOCOL_VERSION || validate_slot(&slot).is_err() {
+                return Response::Invalid {
+                    version: PROTOCOL_VERSION,
+                };
+            }
+            match database
+                .registry_catalog_anchor(&slot)
+                .and_then(|mut anchor| {
+                    anchor
+                        .current_catalog()
+                        .map_err(|error| Error::Database(error.to_string()))
+                }) {
+                Ok(current) => Response::RegistryCatalog {
+                    version: PROTOCOL_VERSION,
+                    current: current.map(Into::into),
+                },
+                Err(_) => Response::Internal {
+                    version: PROTOCOL_VERSION,
+                },
+            }
+        }
+        Request::CatalogCas {
+            version,
+            slot,
+            expected,
+            next_version,
+            next_digest,
+        } => {
+            if version != PROTOCOL_VERSION || validate_slot(&slot).is_err() {
+                return Response::Invalid {
+                    version: PROTOCOL_VERSION,
+                };
+            }
+            let expected = match expected.map(WireCatalogState::into_state).transpose() {
+                Ok(expected) => expected,
+                Err(_) => {
+                    return Response::Invalid {
+                        version: PROTOCOL_VERSION,
+                    };
+                }
+            };
+            match database.registry_catalog_anchor(&slot) {
+                Ok(mut anchor) => {
+                    match anchor.compare_and_swap_catalog(expected, next_version, next_digest) {
+                        Ok(()) => Response::Ack {
+                            version: PROTOCOL_VERSION,
+                        },
+                        Err(
+                            registry::Error::AnchorConflict
+                            | registry::Error::Rollback
+                            | registry::Error::CatalogEquivocation
+                            | registry::Error::CatalogDigestUninitialized,
+                        ) => Response::Conflict {
+                            version: PROTOCOL_VERSION,
+                        },
+                        Err(registry::Error::AnchorCommitUnknown) => Response::CommitUnknown {
+                            version: PROTOCOL_VERSION,
+                        },
+                        Err(_) => Response::Internal {
+                            version: PROTOCOL_VERSION,
+                        },
+                    }
+                }
                 Err(_) => Response::Invalid {
                     version: PROTOCOL_VERSION,
                 },
@@ -485,6 +593,13 @@ impl UnixAnchorClient {
         Ok(UnixRegistryAnchor(Self::new(socket_path, slot)?))
     }
 
+    pub fn catalog(
+        socket_path: impl Into<PathBuf>,
+        slot: &str,
+    ) -> Result<UnixRegistryCatalogAnchor, Error> {
+        Ok(UnixRegistryCatalogAnchor(Self::new(socket_path, slot)?))
+    }
+
     pub fn checkpoint(
         socket_path: impl Into<PathBuf>,
         slot: &str,
@@ -519,6 +634,8 @@ impl UnixAnchorClient {
 }
 
 pub struct UnixRegistryAnchor(UnixAnchorClient);
+
+pub struct UnixRegistryCatalogAnchor(UnixAnchorClient);
 
 pub struct UnixCheckpointAnchor(UnixAnchorClient);
 
@@ -616,6 +733,58 @@ impl RegistryVersionAnchor for UnixRegistryAnchor {
             slot: self.0.slot.clone(),
             expected,
             next,
+        });
+        match response {
+            Ok(Response::Ack { version }) if version == PROTOCOL_VERSION => Ok(()),
+            Ok(Response::Conflict { .. }) => Err(registry::Error::AnchorConflict),
+            Ok(Response::CommitUnknown { .. }) | Err(_) => {
+                Err(registry::Error::AnchorCommitUnknown)
+            }
+            Ok(Response::Invalid { .. } | Response::Internal { .. }) => Err(
+                registry::Error::Anchor("anchor service rejected request".into()),
+            ),
+            Ok(_) => Err(registry::Error::AnchorCommitUnknown),
+        }
+    }
+}
+
+impl RegistryCatalogAnchor for UnixRegistryCatalogAnchor {
+    fn current_catalog(&mut self) -> Result<Option<RegistryCatalogState>, registry::Error> {
+        let response = self
+            .0
+            .exchange(Request::CatalogLoad {
+                version: PROTOCOL_VERSION,
+                slot: self.0.slot.clone(),
+            })
+            .map_err(|error| registry::Error::Anchor(error.to_string()))?;
+        match response {
+            Response::RegistryCatalog { version, current } if version == PROTOCOL_VERSION => {
+                current
+                    .map(WireCatalogState::into_state)
+                    .transpose()
+                    .map_err(|error| registry::Error::Anchor(error.to_string()))
+            }
+            Response::Invalid { .. } => {
+                Err(registry::Error::Anchor("invalid anchor request".into()))
+            }
+            _ => Err(registry::Error::Anchor(
+                "invalid anchor service response".into(),
+            )),
+        }
+    }
+
+    fn compare_and_swap_catalog(
+        &mut self,
+        expected: Option<RegistryCatalogState>,
+        next_version: u64,
+        next_digest: [u8; 32],
+    ) -> Result<(), registry::Error> {
+        let response = self.0.exchange(Request::CatalogCas {
+            version: PROTOCOL_VERSION,
+            slot: self.0.slot.clone(),
+            expected: expected.map(Into::into),
+            next_version,
+            next_digest,
         });
         match response {
             Ok(Response::Ack { version }) if version == PROTOCOL_VERSION => Ok(()),
@@ -742,6 +911,49 @@ mod tests {
 
         server.join().unwrap();
         std::fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn local_service_round_trips_digest_bound_catalog_anchor() {
+        let root = root("catalog-anchor");
+        let socket_path = root.join("anchor.sock");
+        let database_path = root.join("anchor.sqlite");
+        let listener = UnixListener::bind(&socket_path).unwrap();
+        let mut database =
+            AnchorDatabase::open(&database_path, Zeroizing::new([0x78; 32])).unwrap();
+        let server = std::thread::spawn(move || {
+            for _ in 0..4 {
+                let (stream, _) = listener.accept().unwrap();
+                serve_connection(stream, &mut database).unwrap();
+            }
+        });
+
+        let mut anchor = UnixAnchorClient::catalog(&socket_path, "functions").unwrap();
+        assert_eq!(anchor.current_catalog().unwrap(), None);
+        let digest = [0x41; 32];
+        anchor.compare_and_swap_catalog(None, 5, digest).unwrap();
+        let expected = RegistryCatalogState::new(5, Some(digest)).unwrap();
+        assert_eq!(anchor.current_catalog().unwrap(), Some(expected));
+        assert!(matches!(
+            anchor.compare_and_swap_catalog(None, 6, [0x42; 32]),
+            Err(oblivion_registry::Error::AnchorConflict)
+        ));
+
+        server.join().unwrap();
+        std::fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn catalog_cas_protocol_rejects_non_32_byte_digests() {
+        let request = serde_json::json!({
+            "op": "catalog_cas",
+            "version": 2,
+            "slot": "functions",
+            "expected": null,
+            "next_version": 6,
+            "next_digest": vec![0_u8; 31]
+        });
+        assert!(serde_json::from_value::<Request>(request).is_err());
     }
 
     #[test]

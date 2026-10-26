@@ -27,7 +27,8 @@ use zeroize::{Zeroize, Zeroizing};
 mod local;
 #[cfg(unix)]
 pub use local::{
-    UnixAnchorClient, UnixCheckpointAnchor, UnixInvocationAnchor, UnixRegistryAnchor, serve_unix,
+    UnixAnchorClient, UnixCheckpointAnchor, UnixInvocationAnchor, UnixRegistryAnchor,
+    UnixRegistryCatalogAnchor, serve_unix,
 };
 
 const NONCE_BYTES: usize = 12;
