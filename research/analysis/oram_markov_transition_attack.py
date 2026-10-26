@@ -1,4 +1,4 @@
-"""Post-hoc profile-based one-step transition attack for ORAM traces."""
+"""Profile-based one-step transition attack for ORAM traces."""
 
 from __future__ import annotations
 
@@ -84,8 +84,36 @@ def _digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def run_study(raw_root, config_path, output):
+def analysis_provenance(protocol_status):
+    if protocol_status == "post-hoc":
+        return {
+            "protocol_status": protocol_status,
+            "analysis": "post-hoc exploratory one-step profile transition lookup",
+            "limitations": (
+                "This analysis was selected after seeing the primary result and reuses the same "
+                "experimental collection; it is post-hoc, not an independent data collection. "
+                "The attack is a simple profile-based lookup, not a reproduction of a published "
+                "attack. Near-chance scores do not prove cryptographic security or exclude other attacks."
+            ),
+        }
+    if protocol_status == "preregistered-secondary":
+        return {
+            "protocol_status": protocol_status,
+            "analysis": "preregistered secondary one-step profile transition lookup",
+            "limitations": (
+                "The transition attack and metric were specified before collection. This secondary "
+                "analysis uses the same experimental collection as the primary temporal study and "
+                "is not an independent collection from that primary analysis. The attack is a simple "
+                "profile-based lookup, not a reproduction of a published attack. Near-chance scores "
+                "do not prove cryptographic security or exclude other attacks."
+            ),
+        }
+    raise ValueError("unsupported protocol status")
+
+
+def run_study(raw_root, config_path, output, protocol_status="post-hoc"):
     raw_root, config_path, output = Path(raw_root), Path(config_path), Path(output)
+    provenance = analysis_provenance(protocol_status)
     config = json.loads(config_path.read_text())
     if output.exists():
         raise ValueError("output directory must be new")
@@ -114,7 +142,7 @@ def run_study(raw_root, config_path, output):
     if not raw_hashes:
         raise ValueError("no compressed input traces found")
     report = {
-        "analysis": "post-hoc exploratory one-step profile transition lookup",
+        **provenance,
         "sessions_reused_from_primary_study": True,
         "positive_controls_passed": controls_passed,
         "defense_evaluated": controls_passed,
@@ -137,7 +165,6 @@ def run_study(raw_root, config_path, output):
             ),
             str(config_path): _digest(config_path),
         },
-        "limitations": "This analysis was selected after seeing the primary result and reuses the same synthetic Markov sessions; it is post-hoc, not an independent replication. The attack is a simple profile-based lookup, not a reproduction of a published attack. Near-chance scores do not prove cryptographic security or exclude other attacks.",
     }
     (output / "report.json").write_text(json.dumps(report, indent=2) + "\n")
     import matplotlib
@@ -206,8 +233,14 @@ def main():
     parser.add_argument("--raw", required=True, help="raw/ directory from the Markov replication")
     parser.add_argument("--config", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
+    parser.add_argument(
+        "--protocol-status",
+        choices=("post-hoc", "preregistered-secondary"),
+        default="post-hoc",
+        help="how the attack and metric were selected relative to data collection",
+    )
     args = parser.parse_args()
-    report = run_study(args.raw, args.config, args.output)
+    report = run_study(args.raw, args.config, args.output, args.protocol_status)
     print(json.dumps({"output": str(args.output), "positive_controls_passed": report["positive_controls_passed"], "summary": report["summary"]}))
 
 

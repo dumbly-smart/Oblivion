@@ -1,6 +1,7 @@
 import unittest
 
 from research.analysis.oram_markov_transition_attack import MarkovTransitionAttack
+import research.analysis.oram_markov_transition_attack as transition_analysis
 
 
 def rows_for(session, tags):
@@ -11,6 +12,24 @@ def rows_for(session, tags):
 
 
 class MarkovTransitionAttackTests(unittest.TestCase):
+    def test_preregistered_secondary_provenance_is_not_labeled_post_hoc(self):
+        provenance = transition_analysis.analysis_provenance("preregistered-secondary")
+
+        self.assertEqual(provenance["protocol_status"], "preregistered-secondary")
+        self.assertIn("preregistered secondary", provenance["analysis"])
+        self.assertNotIn("post-hoc", provenance["analysis"])
+        self.assertIn("same experimental collection", provenance["limitations"])
+
+    def test_post_hoc_provenance_remains_explicit(self):
+        provenance = transition_analysis.analysis_provenance("post-hoc")
+
+        self.assertEqual(provenance["protocol_status"], "post-hoc")
+        self.assertIn("post-hoc", provenance["analysis"])
+
+    def test_unknown_protocol_status_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, "protocol status"):
+            transition_analysis.analysis_provenance("preregistered")
+
     def test_previous_visible_tag_predicts_correlated_next_label(self):
         profile_rows = []
         profile_labels = []
