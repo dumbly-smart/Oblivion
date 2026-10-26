@@ -57,4 +57,7 @@ load was not captured, a preregistration deviation that limits timing-noise
 interpretation. See the
 [preregistration](ORAM_ZIPF32_REPLICATION_PREREG_20261026.md) and
 [result](ORAM_ZIPF32_REPLICATION_20261026.md). More workloads and a run with
-collection-time host monitoring remain open.
+collection-time host monitoring remain open. The replication collector now
+records platform, CPU model/count, allowed CPU set, and load average before and
+after each mode; this instrumentation does not retroactively repair the
+completed study.

@@ -818,6 +818,21 @@ must therefore not be described as a quiet-host replication. See the
 [preregistration](ORAM_ZIPF32_REPLICATION_PREREG_20261026.md) and
 [result record](ORAM_ZIPF32_REPLICATION_20261026.md).
 
+## 2026-10-26: future ORAM collection host context
+
+The isolated replication collector now writes UTC-timestamped host snapshots
+at run start and before/after each mode. Snapshots include platform, CPU model
+(with a Linux `/proc/cpuinfo` fallback), logical CPU count, the runner's
+allowed CPU set, and 1/5/15-minute load averages where available. The snapshot
+file is flushed around mode capture, including capture failures. Positive-
+control failure reports now also retain source/raw hashes and process context
+instead of returning an unhashed partial report. The focused replication
+suite passes, the complete Python research suite passed 202 tests with four
+existing fixture skips, and a real one-session ORAM child-process smoke
+produced before/after snapshots and compressed traces. The already-published
+Zipf result predates this fix and retains its documented collection-time host
+observation gap.
+
 ## 2026-10-26: full-path CPU cost sensitivity
 
 Added a reproducible analysis over the retained 30-trial steady and overloaded
