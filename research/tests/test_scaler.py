@@ -222,6 +222,68 @@ class ScalerTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             simulate(cfg, [Request(.1, 0)], 'dp_laplace', 4)
 
+    def test_batch_runner_authenticates_and_rebuilds_with_external_key_registry(self):
+        import gzip
+        import json
+        from unittest.mock import patch
+        from research.simulation.run import run
+        from scripts.regenerate_scaler import regenerate
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            registry = root / "identity-keys.json"
+            registry.write_text(json.dumps({
+                f"synthetic-user-{index}": (bytes([index + 1]) * 32).hex()
+                for index in range(64)
+            }))
+            registry.chmod(0o600)
+            config = root / "config.json"
+            config.write_text(json.dumps(dict(version=1, seed=18, trials=2,
+                sessions=8, workloads=["uniform"], policies=["naive", "dp_laplace"],
+                simulation=dict(duration=4, dp_epsilon=2,
+                    dp_user_contribution_cap=2,
+                    require_authenticated_user_ids=True))))
+            output = root / "run"
+
+            with patch("research.simulation.run.sys.argv", [
+                    "oblivion-scaler", str(config), str(output),
+                    "--identity-registry", str(registry)]):
+                report = run(config, output, identity_registry_path=registry)
+            recorded = json.loads((output / "config.json").read_text())
+            self.assertNotIn("identity_registry_path", recorded)
+            self.assertEqual(report["provenance"]["identity_authentication"], "hmac-sha256")
+            self.assertTrue(recorded["identity_registry_sha256"])
+            self.assertNotIn(str(registry), json.dumps(report["provenance"]["command"]))
+            self.assertEqual(report["provenance"]["command"][-1], "[REDACTED]")
+            truth_path = output / "workloads-private.jsonl.gz"
+            with gzip.open(truth_path, "rt") as stream:
+                record = json.loads(next(stream))
+            self.assertTrue(record["requests"])
+            self.assertTrue(all(request["auth_tag"] for request in record["requests"]))
+
+            rebuilt = regenerate(output, root / "rebuilt",
+                                 identity_registry_path=registry)
+            self.assertEqual(rebuilt["privacy_claims"], report["privacy_claims"])
+
+            wrong_registry = root / "wrong-identity-keys.json"
+            wrong_registry.write_text(json.dumps({
+                f"synthetic-user-{index}": (bytes([index + 2]) * 32).hex()
+                for index in range(64)
+            }))
+            wrong_registry.chmod(0o600)
+            with self.assertRaisesRegex(ValueError, "fingerprint mismatch"):
+                regenerate(output, root / "wrong-rebuild",
+                           identity_registry_path=wrong_registry)
+
+    def test_identity_registry_requires_private_file_permissions(self):
+        import json
+        from research.simulation.scaler import RequestAuthenticator
+        with tempfile.TemporaryDirectory() as directory:
+            registry = Path(directory) / "identity-keys.json"
+            registry.write_text(json.dumps({"alice": (b"x" * 32).hex()}))
+            registry.chmod(0o640)
+            with self.assertRaisesRegex(ValueError, "must not be accessible"):
+                RequestAuthenticator.from_file(registry)
+
     def test_batch_runner_rejects_authenticated_mode_without_key_provisioning(self):
         import json
         from research.simulation.run import run
@@ -234,7 +296,7 @@ class ScalerTests(unittest.TestCase):
                                 require_authenticated_user_ids=True))))
             output = root / "run"
 
-            with self.assertRaisesRegex(ValueError, "does not provision identity keys"):
+            with self.assertRaisesRegex(ValueError, "external identity registry path"):
                 run(config, output)
             self.assertFalse(output.exists())
 

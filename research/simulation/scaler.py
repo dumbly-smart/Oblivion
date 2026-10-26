@@ -3,12 +3,16 @@ from collections import deque
 from dataclasses import asdict, dataclass, replace
 import csv
 from decimal import Decimal, ROUND_CEILING, localcontext
+import hashlib
 import heapq
 import hmac
+import json
 import math
+import os
 from pathlib import Path
 import random
 import secrets
+import stat
 import numpy as np
 
 DEFAULT_POLICIES = ('naive', 'ewma', 'quantized', 'fixed', 'noisy')
@@ -99,6 +103,31 @@ class RequestAuthenticator:
                for user_id, key in keys.items()):
             raise ValueError('principal IDs and keys must be nonempty and keys at least 32 bytes')
         self._keys = dict(keys)
+        self.registry_sha256 = None
+
+    @classmethod
+    def from_file(cls, path):
+        """Load an out-of-band JSON map of principal IDs to hex HMAC keys."""
+        source = Path(path)
+        with source.open('rb') as stream:
+            if stat.S_IMODE(os.fstat(stream.fileno()).st_mode) & 0o077:
+                raise ValueError(
+                    'identity registry must not be accessible by group or other users'
+                )
+            data = stream.read(16 * 1024 * 1024 + 1)
+        if len(data) > 16 * 1024 * 1024:
+            raise ValueError('identity registry exceeds 16 MiB')
+        try:
+            encoded = json.loads(data.decode('utf-8'))
+            if not isinstance(encoded, dict):
+                raise ValueError('identity registry must be a JSON object')
+            keys = {user_id: bytes.fromhex(key)
+                    for user_id, key in encoded.items()}
+        except (AttributeError, TypeError, ValueError, UnicodeError) as error:
+            raise ValueError('invalid identity registry file') from error
+        authenticator = cls(keys)
+        authenticator.registry_sha256 = hashlib.sha256(data).hexdigest()
+        return authenticator
 
     @staticmethod
     def _message(request):

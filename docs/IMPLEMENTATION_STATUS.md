@@ -165,7 +165,7 @@ The research-only `demo-sweep` now retains authenticated masked runtime failures
 
 [The figure reproduction audit](FIGURE_REPRODUCTION.md) now records raw-derived regeneration of all eight required main figures and the supplemental three-axis/SLO plot without ignored measurement executables. Both autoscaler campaigns rebuild from four raw/config files rather than cached reports; audited numerical reports and PNG bytes matched, and accepted inputs stayed unchanged. The serial local and hosted source gates are accepted; subsequent closing Markdown-only checks are accessible on PR #1.
 
-Selected implementation/evaluation and the serial local/hosted source gates are accepted within their bounded scope. [PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is ready for delivery on `codex/oblivion-research-platform`; no main merge is claimed. A bounded-user autoscaler simulator mode now exists, but authenticated identity binding, cross-session composition, production DP integration, and an external sampler/code audit remain open. Expanded finite exact-rational checks and the source-review findings are recorded in [SAMPLER_AUDIT.md](SAMPLER_AUDIT.md). Hardware isolation, recursive/native Circuit storage, DPF/native single-server runtime selection, persistent/backward-private SSE and durable application acknowledgments remain deployment/research extensions. Human P1–P12 study and mutable bibliography/course listings are context, not machine-proof software gates.
+Selected implementation/evaluation and the serial local/hosted source gates are accepted within their bounded scope. [PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is ready for delivery on `codex/oblivion-research-platform`; no main merge is claimed. A bounded-user autoscaler simulator now supports optional HMAC-authenticated request identities from an external local key registry; this does not add production identity binding, cross-session composition, production DP integration, or an external sampler/code audit. Expanded finite exact-rational checks and the source-review findings are recorded in [SAMPLER_AUDIT.md](SAMPLER_AUDIT.md). Hardware isolation, recursive/native Circuit storage, DPF/native single-server runtime selection, persistent/backward-private SSE and durable application acknowledgments remain deployment/research extensions. Human P1–P12 study and mutable bibliography/course listings are context, not machine-proof software gates.
 
 ## Optional follow-up: isolated ORAM timing
 
@@ -936,3 +936,19 @@ sessions with the separate temporal classifier. It is not a security proof.
 See the [preregistration](ORAM_MARKOV_TRANSITION_REPLICATION_PREREG_20261026.md)
 and [result](ORAM_MARKOV_TRANSITION_REPLICATION_20261026.md). The report
 writer now distinguishes post-hoc from preregistered secondary analyses.
+
+## 2026-10-26: authenticated autoscaler experiment input
+
+The batch autoscaler runner now accepts an external JSON registry of
+per-principal HMAC keys for authenticated bounded-user simulations. It rejects
+registry files with group/other permission bits, caps the file at 16 MiB,
+authenticates retained imported requests before simulation, and records only
+the registry content hash. The offline regeneration tool requires the same
+registry fingerprint and revalidates retained request MACs. Registry paths
+are redacted from recorded CLI provenance. This is a shared-secret simulator
+feature: it has no issuer/rotation/revocation service, replay cache, durable
+person-level binding, or protection against an operator/verifier that can
+read the keys. It does not change the interpretation of earlier unauthenticated
+bounded-user studies. Four focused autoscaler tests and the full research
+Python suite passed (216 tests, 4 skipped; 2026-10-26). Rust and hosted CI were
+not rerun for this Python-only increment.

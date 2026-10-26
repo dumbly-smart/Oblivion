@@ -16,7 +16,8 @@ import sys
 import time
 import numpy as np
 from research.simulation.scaler import (Config, DEFAULT_POLICIES, POLICIES, ProfileAttack,
-    dp_laplace_parameters, load_imported, session_features, simulate, trial_interval, workload)
+    RequestAuthenticator, dp_laplace_parameters, load_imported, session_features,
+    simulate, trial_interval, workload)
 
 
 def write_row(handle, row):
@@ -130,7 +131,25 @@ def plot(output):
         plt.close(fig)
 
 
-def run(config_path, output):
+def recorded_command(argv):
+    """Keep local secret-file paths out of archived experiment metadata."""
+    result = []
+    redact_next = False
+    for argument in argv:
+        if redact_next:
+            result.append('[REDACTED]')
+            redact_next = False
+        elif argument == '--identity-registry':
+            result.append(argument)
+            redact_next = True
+        elif argument.startswith('--identity-registry='):
+            result.append('--identity-registry=[REDACTED]')
+        else:
+            result.append(argument)
+    return result
+
+
+def run(config_path, output, identity_registry_path=None):
     raw = json.loads(config_path.read_text())
     if set(raw) - {'version', 'seed', 'trials', 'sessions', 'workloads', 'simulation', 'imports', 'policies', 'dp_noise_source'}:
         raise ValueError('unknown experiment parameter')
@@ -148,11 +167,18 @@ def run(config_path, output):
     if dp_noise_source not in ('seeded_experiment', 'os_csprng'):
         raise ValueError('dp_noise_source must be seeded_experiment or os_csprng')
     cfg = Config(**raw['simulation']); cfg.validate()
+    identity_authenticator = None
+    identity_registry_sha256 = None
     if cfg.require_authenticated_user_ids:
-        raise ValueError(
-            'the batch experiment runner does not provision identity keys; '
-            'use the simulation API with an externally provisioned RequestAuthenticator'
-        )
+        if identity_registry_path is None:
+            raise ValueError('authenticated run requires an external identity registry path')
+        identity_registry_path = Path(identity_registry_path)
+        if not identity_registry_path.is_absolute():
+            identity_registry_path = Path(config_path).resolve().parent / identity_registry_path
+        identity_authenticator = RequestAuthenticator.from_file(identity_registry_path)
+        identity_registry_sha256 = identity_authenticator.registry_sha256
+    elif identity_registry_path is not None:
+        raise ValueError('identity registry is only accepted when authenticated IDs are required')
     if cfg.functions != 2:
         raise ValueError('binary hot-class experiment requires two function pools')
     if not raw['workloads'] or set(raw['workloads']) - {'uniform', 'zipf', 'diurnal', 'burst'}:
@@ -162,9 +188,12 @@ def run(config_path, output):
         if set(spec) != {'path', 'provenance'} or not spec['provenance']:
             raise ValueError('imports require path and provenance')
         path = Path(spec['path'])
-        imported.append((spec, load_imported(path, cfg), hashlib.sha256(path.read_bytes()).hexdigest()))
+        imported.append((spec, load_imported(path, cfg, identity_authenticator), hashlib.sha256(path.read_bytes()).hexdigest()))
     output.mkdir(exist_ok=False)
-    (output / 'config.json').write_text(json.dumps(raw, indent=2) + '\n')
+    recorded_config = dict(raw)
+    if identity_registry_sha256:
+        recorded_config['identity_registry_sha256'] = identity_registry_sha256
+    (output / 'config.json').write_text(json.dumps(recorded_config, indent=2) + '\n')
     start = time.perf_counter()
     trial_results, imports = [], []
     with ExitStack() as stack:
@@ -185,12 +214,16 @@ def run(config_path, output):
                     # SeedSequence separates policy randomness from arrivals, and
                     # repeats classes but never repeats a profiling/target stream.
                     seed = np.random.SeedSequence([raw['seed'], trial, session, raw['workloads'].index(kind)]).generate_state(1)[0]
-                    requests, labels = workload(cfg, kind, int(seed), intensity, hot)
+                    requests, labels = workload(
+                        cfg, kind, int(seed), intensity, hot,
+                        identity_authenticator=identity_authenticator,
+                    )
                     context = dict(trial=trial, session=session, workload=kind)
                     write_row(truth, dict(**context, seed=int(seed), labels=labels, requests=[asdict(r) for r in requests]))
                     for policy in policies:
                         result = simulate(cfg, requests, policy, int(seed) + 991,
-                                          dp_noise_source=dp_noise_source)
+                                          dp_noise_source=dp_noise_source,
+                                          identity_authenticator=identity_authenticator)
                         write_row(obs, dict(**context, policy=policy, rows=result['observer']))
                         write_row(private, dict(**context, policy=policy, metrics=result['metrics'], requests=result['requests']))
                         sessions[policy].append(dict(observer=result['observer'], labels=labels, metrics=result['metrics']))
@@ -207,7 +240,8 @@ def run(config_path, output):
             for spec, requests, digest in imported:
                 for policy in policies:
                     result = simulate(cfg, requests, policy, raw['seed'] + trial,
-                                      dp_noise_source=dp_noise_source)
+                                      dp_noise_source=dp_noise_source,
+                                      identity_authenticator=identity_authenticator)
                     context = dict(trial=trial, workload=spec['path'], policy=policy)
                     write_row(obs, dict(**context, rows=result['observer']))
                     write_row(private, dict(**context, metrics=result['metrics'], requests=result['requests']))
@@ -238,13 +272,15 @@ def run(config_path, output):
     positive = [dict(workload=p['workload'], task=p['task'], balanced_accuracy=p['balanced_accuracy'], passed=p['balanced_accuracy'] > .6) for p in summary if p['policy'] == 'naive']
     # Keep all measured failures and do not reinterpret them as defense success.
     source_paths = list(Path('research/simulation').glob('*.py'))
-    provenance = dict(created_utc=datetime.now(timezone.utc).isoformat(), command=sys.argv,
+    provenance = dict(created_utc=datetime.now(timezone.utc).isoformat(), command=recorded_command(sys.argv),
         python=sys.version, platform=platform.platform(), machine=platform.machine(), processor=platform.processor(),
         numpy=np.__version__, matplotlib=importlib.metadata.version('matplotlib'), scipy=importlib.metadata.version('scipy'),
         logical_cpus=os.cpu_count(), cpu_model=next((line.split(':', 1)[1].strip() for line in Path('/proc/cpuinfo').read_text().splitlines() if line.startswith('model name')), 'unknown') if Path('/proc/cpuinfo').exists() else platform.processor(),
         elapsed_wall_seconds=time.perf_counter() - start,
         source_sha256={str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in source_paths},
         config_sha256=hashlib.sha256(config_path.read_bytes()).hexdigest(),
+        identity_authentication='hmac-sha256' if identity_authenticator else None,
+        identity_registry_sha256=identity_registry_sha256,
         git_head=subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
         git_dirty=bool(subprocess.check_output(['git', 'status', '--porcelain'], text=True)),
         workload_source=('seeded synthetic Poisson arrivals with deterministic round-robin synthetic principals for bounded-user experiments; not calibrated to production traces'
@@ -252,10 +288,16 @@ def run(config_path, output):
             'seeded synthetic Poisson arrivals; not calibrated to production traces'))
     claims = privacy_claims(cfg, policies, dp_noise_source)
     privacy_limit = (
-        'User IDs are synthetic/account metadata assumed stable and non-spoofable; each user contributes at most the configured request cap to the private scaling count. '
+        ('User IDs are verified with per-principal HMAC-SHA256 keys from an external registry; '
+         'the registry is secret input and is not copied to the output. Exact replay is not '
+         'deduplicated, but replayed requests remain subject to the same per-user cap. '
+         'Each user contributes at most the configured request cap to the private scaling count. '
+         if identity_authenticator else
+         'User IDs are synthetic/account metadata assumed stable and non-spoofable; '
+         'each user contributes at most the configured request cap to the private scaling count. ')
         if cfg.dp_user_contribution_cap else
         'No user-level contribution bound is enforced. ')
-    report = dict(config=raw, provenance=provenance, summary=summary, trial_metrics=trial_results,
+    report = dict(config=recorded_config, provenance=provenance, summary=summary, trial_metrics=trial_results,
         imported_runs=imports, positive_controls=positive, privacy_claims=claims,
         methodology='Known-policy diagonal nearest-centroid profiler on current, previous and cumulative observer counts/events only. First half independent sessions profile; second half test. Session classes balanced across each half; trial-pooled balanced recall. Equal-weight independent trial bootstrap with5000 resamples. Public function pool identities are visible. Demand task is binary latent session demand regime, not exact arrival recovery. Uniform workload has no hot-function task.',
         limitations='Function-affine fixed-service single-request workers; no runtime/ORAM/network integration. Simulated seconds, not measured service latency. Horizon-censored requests count as SLO violations; p95/p99 concern completed requests only. Price is a hypothetical configurable input. The legacy noisy policy has no adjacency/sensitivity/composition guarantee. The optional dp_laplace sampler has a conditional approximate-DP bound only for its declared fixed-horizon count/event observer with independent hidden uniform random bits; the recorded deterministic-seed experiment itself has no DP guarantee. This is not a formal code audit. ' + privacy_limit + 'No full-runtime guarantee or universal attack bound. Public count/event observer excludes queue, true arrivals, response latency, sampler execution timing/CPU, billing, active scheduling and joint transcripts. Imported repeated traces support performance only. Pareto membership uses point estimates, not significance tests. No policy dominance required or forced.')
@@ -272,11 +314,13 @@ if __name__ == '__main__':
     parser.add_argument('config', type=Path, nargs='?')
     parser.add_argument('output', type=Path, nargs='?')
     parser.add_argument('--plot-only', type=Path)
+    parser.add_argument('--identity-registry', type=Path,
+                        help='private JSON mapping principal IDs to hex HMAC keys')
     args = parser.parse_args()
     if args.plot_only:
         plot(args.plot_only)
     elif args.config and args.output:
-        report = run(args.config, args.output)
+        report = run(args.config, args.output, args.identity_registry)
         print(json.dumps({'summaries': len(report['summary']), 'positive_controls': report['positive_controls'], 'wall_seconds': report['provenance']['elapsed_wall_seconds']}, indent=2))
     else:
         parser.error('CONFIG NEW_OUTPUT or --plot-only OUTPUT required')

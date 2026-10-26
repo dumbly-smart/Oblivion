@@ -12,7 +12,8 @@ import numpy as np
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from research.simulation.run import evaluate, nondominated, plot, privacy_claims
-from research.simulation.scaler import Config, DEFAULT_POLICIES, POLICIES, features, trial_interval
+from research.simulation.scaler import (Config, DEFAULT_POLICIES, POLICIES, Request,
+    RequestAuthenticator, features, trial_interval, validate_requests)
 
 RAW_FILES=('config.json','observer.jsonl.gz','private.jsonl.gz','workloads-private.jsonl.gz')
 METRICS={'arrivals','completed','dropped','unfinished','instance_seconds','cost','p95','p99','queue_max','queue_mean','slo_violation_rate','cold_starts'}
@@ -24,9 +25,9 @@ def rows(path):
     with gzip.open(path,'rt') as source:return [json.loads(line) for line in source]
 def number(value,minimum=0,maximum=1e15):return type(value) in (int,float) and math.isfinite(value) and minimum<=value<=maximum
 
-def load_inputs(source):
+def load_inputs(source, identity_registry_path=None):
     raw=json.loads((source/'config.json').read_text())
-    fail(isinstance(raw,dict) and set(raw)<={'version','seed','trials','sessions','workloads','simulation','imports','policies','dp_noise_source'},'unsupported config schema')
+    fail(isinstance(raw,dict) and set(raw)<={'version','seed','trials','sessions','workloads','simulation','imports','policies','dp_noise_source','identity_registry_sha256'},'unsupported config schema')
     fail(raw.get('version')==1 and type(raw.get('trials')) is int and 2<=raw['trials']<=100,'invalid trials/version')
     fail(type(raw.get('sessions')) is int and 8<=raw['sessions']<=64 and raw['sessions']%8==0,'invalid whole-session split')
     fail(type(raw.get('seed')) is int and raw['seed']>=0,'invalid experiment seed')
@@ -36,6 +37,13 @@ def load_inputs(source):
     fail(isinstance(policies,list) and policies and all(type(p) is str for p in policies) and len(set(policies))==len(policies) and not set(policies)-set(POLICIES) and 'naive' in policies,'invalid policy selection or missing naive positive control')
     fail(raw.get('dp_noise_source','seeded_experiment') in ('seeded_experiment','os_csprng'),'invalid DP noise source')
     cfg=Config(**raw['simulation']);cfg.validate();fail(cfg.functions==2,'binary function-pool experiment required')
+    identity_authenticator=None
+    if cfg.require_authenticated_user_ids:
+        fail(identity_registry_path is not None,'authenticated rebuild requires an external identity registry')
+        identity_authenticator=RequestAuthenticator.from_file(identity_registry_path)
+        fail(raw.get('identity_registry_sha256')==identity_authenticator.registry_sha256,'identity registry fingerprint mismatch')
+    else:
+        fail(identity_registry_path is None and 'identity_registry_sha256' not in raw,'unexpected identity registry for unauthenticated run')
     expected={(t,s,w,p) for t in range(raw['trials']) for s in range(raw['sessions']) for w in raw['workloads'] for p in policies}
     expected_truth={key[:3] for key in expected};epochs=math.ceil(cfg.duration/cfg.epoch)
     public={};private={};truth={}
@@ -64,6 +72,7 @@ def load_inputs(source):
             fail(label['intensity']==(row['session']%4)//2 and label['hot']==row['session']%2,'session class protocol differs')
             fail(type(label['arrivals']) is int and label['arrivals']>=0 and number(label['rate']),'invalid label diagnostics')
         fail(isinstance(row['requests'],list) and len(row['requests'])==sum(x['arrivals'] for x in row['labels']),'workload arrival totals differ')
+        typed_requests=[]
         for request in row['requests']:
             valid_keys=isinstance(request,dict) and set(request) in (
                 {'time','function'}, {'time','function','user_id'},
@@ -72,9 +81,17 @@ def load_inputs(source):
             valid_user=(user_id is None or isinstance(user_id,str) and bool(user_id))
             if cfg.dp_user_contribution_cap:
                 valid_user=isinstance(user_id,str) and bool(user_id)
-            valid_auth=(('auth_tag' not in request or request['auth_tag'] is None)
+            valid_auth=(isinstance(request.get('auth_tag'),str)
+                        if cfg.require_authenticated_user_ids and isinstance(request,dict) else
+                        ('auth_tag' not in request or request['auth_tag'] is None)
                         if isinstance(request,dict) else False)
             fail(valid_keys and valid_user and valid_auth and number(request['time'],0,cfg.duration) and request['time']<cfg.duration and type(request['function']) is int and 0<=request['function']<cfg.functions,'invalid retained workload request')
+            typed_requests.append(Request(request['time'],request['function'],user_id,request.get('auth_tag')))
+        if cfg.require_authenticated_user_ids:
+            try:
+                validate_requests(typed_requests,cfg,identity_authenticator)
+            except ValueError as error:
+                raise ValueError('invalid authenticated retained workload request') from error
         fail([r['time'] for r in row['requests']]==sorted(r['time'] for r in row['requests']),'unsorted workload requests')
         truth[key]=row
     fail(set(truth)==expected_truth,'missing workload truth trial/session')
@@ -160,18 +177,22 @@ def rebuild(raw,public,private,truth):
             if raw.get('dp_noise_source','seeded_experiment') == 'seeded_experiment' else
             'Synthetic function-affine simulator, not a deployed scheduler. The optional dp_laplace sampler has a conditional approximate-DP bound under independent OS-CSPRNG bits for its fixed-horizon observer; the mechanism has not received an independent code audit.'+user_scope+' No complete-runtime privacy guarantee. Exact cost/queue counters use retained private session metrics; public observer excludes those fields. CSPRNG outputs are not reproducible from the public experiment seed.'))
 
-def regenerate(source,output):
+def regenerate(source,output,identity_registry_path=None):
     source=Path(source).resolve();output=Path(output).resolve()
     if output.exists():raise FileExistsError('choose a fresh analysis output directory')
     inputs={name:sha(source/name) for name in RAW_FILES}
-    raw,cfg,public,private,truth=load_inputs(source)
+    raw,cfg,public,private,truth=load_inputs(source,identity_registry_path)
     cfg=Config(**raw['simulation'])
-    user_scope=(f' Synthetic IDs are treated as stable, non-spoofable principals with a cap of {cfg.dp_user_contribution_cap} included requests per horizon.'
+    user_scope=(f' HMAC-authenticated identities were reverified from retained signed requests; the external registry fingerprint is {raw["identity_registry_sha256"]}. Each user contributes at most {cfg.dp_user_contribution_cap} included requests per horizon.'
+                if cfg.require_authenticated_user_ids else
+                f' Synthetic IDs are treated as stable, non-spoofable principals with a cap of {cfg.dp_user_contribution_cap} included requests per horizon.'
                 if cfg.dp_user_contribution_cap else ' No user-level contribution bound is enforced.')
     report=rebuild(raw,public,private,truth)
     if inputs!={name:sha(source/name) for name in RAW_FILES}:raise ValueError('retained raw inputs changed during analysis')
     report['provenance']=dict(created_before_output_utc=datetime.now(timezone.utc).isoformat(),raw_source=str(source),raw_sha256=inputs,
         analysis_source_sha256={name:sha(ROOT/name) for name in ['scripts/regenerate_scaler.py','research/simulation/run.py','research/simulation/scaler.py']},
+        identity_authentication='hmac-sha256' if cfg.require_authenticated_user_ids else None,
+        identity_registry_sha256=raw.get('identity_registry_sha256'),
         public_sessions=len(public),private_sessions=len(private),workload_sessions=len(truth),read_cached_report=False,ran_simulator=False)
     report['methodology']='Existing known-policy diagonal nearest-centroid fit on first-half whole profiling sessions; second-half target predictions scored afterward. Refit every independent trial from retained public rows/private labels. Equal-weight trial bootstrap,5000resamples. Per-session raw performance counters aggregate only held-out sessions, with lifecycle/price consistency checks; no new workload generation or simulation.'
     report['limitations']=(
@@ -184,4 +205,4 @@ def regenerate(source,output):
     return report
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('raw_source',type=Path);parser.add_argument('new_output',type=Path);args=parser.parse_args();report=regenerate(args.raw_source,args.new_output);print(f'Rebuilt {len(report["trial_metrics"])} trial/task/policy results and {len(report["summary"])} summaries from raw sessions')
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('raw_source',type=Path);parser.add_argument('new_output',type=Path);parser.add_argument('--identity-registry',type=Path);args=parser.parse_args();report=regenerate(args.raw_source,args.new_output,args.identity_registry);print(f'Rebuilt {len(report["trial_metrics"])} trial/task/policy results and {len(report["summary"])} summaries from raw sessions')

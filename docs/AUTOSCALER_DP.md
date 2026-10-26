@@ -68,16 +68,23 @@ those experiment outputs do not authenticate them. A new opt-in low-level
 simulation API can verify per-principal HMAC-SHA256 request tags before
 clipping: set `require_authenticated_user_ids=True` with a positive user cap,
 then pass a `RequestAuthenticator` to `workload`, `load_imported`,
-`bounded_arrival_counts`, or `simulate`. The MAC binds the principal ID,
+`bounded_arrival_counts`, or `simulate`. The batch experiment runner also
+accepts `--identity-registry PATH`; the JSON key file must be private to its
+owner (no group/other permission bits) and is limited to 16 MiB. The runner
+records the registry's SHA-256 fingerprint, but not its path or key material.
+The offline regeneration tool requires the same registry and verifies that
+fingerprint before trusting retained request tags. The MAC binds the principal ID,
 request time, and function. The verifier needs a per-principal key registry
 with at least 32-byte keys. This API prevents one registered client from
 claiming another ID only while the verifier registry stays secret; it does not
 protect against verifier compromise or an operator who can read its keys.
 There is no nonce or replay cache; replayed requests are charged to the same
-principal and remain subject to the cap. The batch experiment runner refuses
-authenticated mode until external key provisioning is integrated. This is not
-a production identity system or an authentication result for the retained
-bounded-user studies.
+principal and remain subject to the cap. The registry is a shared-secret
+simulation input, not a production identity provider or a safe arrangement
+when the scheduler adversary can inspect verifier memory. Key issuance,
+rotation, revocation, account binding, and cross-session identity composition
+remain unimplemented. Existing bounded-user studies remain unauthenticated;
+the new runner option does not retroactively change their evidence.
 
 Only the private scaling count is capped; all requests still affect simulated
 queue/service metrics, which are excluded from the claim. Repeated sessions or
