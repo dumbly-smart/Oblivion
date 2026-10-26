@@ -33,6 +33,16 @@ oversized/non-regular inputs, malformed manifests, invalid signatures, and
 catalogs that do not exactly match the five dispatchable embedded WASM modules
 fail startup before the worker announces readiness.
 
+For local catalog-version rollback protection, also configure
+`OBLIVION_REGISTRY_ANCHOR_SOCKET` with the path to an `oblivion-anchor serve`
+Unix socket. The worker verifies the signature and embedded modules, then
+performs a digest-bound monotonic activation in the `runtime-functions`
+namespace before starting PIR workers or announcing readiness. Exact
+version-and-digest restarts are accepted; lower versions and same-version
+content changes are rejected. An anchor socket without both external registry
+files is rejected. Without this setting, signature and module checks still
+apply, but a previously signed older catalog can be installed.
+
 Create a private seed outside the runtime, restrict it to its owner, and use
 the offline example to create a new output directory containing both files:
 
@@ -48,6 +58,7 @@ For a local demo, point the worker's inherited environment at those files:
 ```sh
 OBLIVION_REGISTRY_MANIFEST=./published-catalog-v1/registry.bin \
 OBLIVION_REGISTRY_PUBLIC_KEY=./published-catalog-v1/publisher.pub \
+OBLIVION_REGISTRY_ANCHOR_SOCKET=./anchor/anchor.sock \
 cargo run -p oblivion-server -- demo ./demo-output 50 1 mixed
 ```
 
@@ -71,8 +82,12 @@ external publisher and is not equivalent to external-catalog mode.
 
 The worker pins records for its process lifetime and verifies each selected
 PIR record against those exact bytes. Catalog versions are signed, but this
-change does not add an independently durable monotonic catalog-version anchor,
-remote publication, partial-catalog inclusion proofs, or live catalog
-rotation. The record location digest remains synthetic for the embedded-module
-demo. An executor that is trusted can inspect the catalog, selected function,
-and module bytes.
+change does not add remote publication, partial-catalog inclusion proofs, or
+live catalog rotation. The local SQLite anchor rejects stale versions and
+same-version equivocation while its database remains current and trusted; an
+operator who restores an older database backup can roll the catalog floor
+back. The socket and database are on the executor host, so host root can inspect
+or replace them. The anchor is not hardware-backed freshness. The public-key
+to-publisher binding must still be authenticated independently. The record
+location digest remains synthetic for the embedded-module demo. A trusted
+executor can inspect the catalog, selected function, and module bytes.

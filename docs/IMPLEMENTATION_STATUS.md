@@ -78,9 +78,14 @@ inherited-pipe framing. Recovered rows must match the verified local pin.
 Workers can now load a publisher-signed catalog and pinned public key from
 bounded files before readiness; the offline publisher example creates the
 embedded-module catalog. The built-in fallback signer remains ephemeral and
-does not establish external publisher identity. Durable catalog-version
-anti-rollback, remote publication and partial-catalog inclusion proofs remain
-open.
+does not establish external publisher identity. When
+`OBLIVION_REGISTRY_ANCHOR_SOCKET` is configured alongside those files, the
+worker activates the verified version and catalog digest in the local SQLite
+anchor before readiness. This rejects lower versions and same-version content
+changes, while exact restarts remain valid. Restoring an older anchor database
+or allowing host root to replace it defeats freshness; there is no hardware
+anti-rollback source. Remote publication and partial-catalog inclusion proofs
+remain open.
 
 Updated 2026-10-26. The selected pipeline and later bounded research artifacts have evidence in [the requirements matrix](REQUIREMENTS_MATRIX.md) and [completion audit](COMPLETION_AUDIT.md). The selected artifacts and earlier passing gates are recorded. PR #1 is the review artifact; no production-security or merge claim follows. TrustedExecutor is simulated by ordinary processes, without a hardware TEE or attestation.
 
@@ -665,3 +670,21 @@ workspace successfully, including all 19 server pipeline tests and the
 100,000-operation SSE oracle (145.92 seconds). The million-operation ORAM
 oracle remains intentionally ignored in this default run. No timing budget was
 changed.
+
+## 2026-10-26: worker catalog rollback anchor
+
+The worker accepts `OBLIVION_REGISTRY_ANCHOR_SOCKET` only alongside an
+external signed catalog and pinned key. It verifies the manifest and exact
+embedded-module records, then activates the catalog version and digest in the
+`runtime-functions` SQLite anchor before starting PIR workers or announcing
+readiness. Process coverage verifies initial activation, exact-version restart,
+rollback rejection without readiness or anchor mutation, and a subsequent
+higher-version activation. Freshness is conditional on the anchor database
+remaining current and trusted; an old database backup or host-root replacement
+can roll back the floor.
+
+The new process test passed. The serialized server pipeline run passed 19 of
+20 tests, with the existing multi-client 100 ms deadline test timing out under
+host load; that test passed on immediate isolated rerun. The two server unit
+tests passed, warning-denied server Clippy passed, and formatting/whitespace
+checks passed. The full workspace suite was not rerun for this focused change.
