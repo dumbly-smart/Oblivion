@@ -3,7 +3,7 @@ use crate::{
     discovery::{Discovery, NAMES},
     secure_pir,
 };
-use ed25519_dalek::SigningKey;
+use ed25519_dalek::{SigningKey, VerifyingKey};
 use oblivion_batcher::{ENVELOPE_BYTES, Endpoint, Envelope, EpochBatcher, PAYLOAD_BYTES};
 use oblivion_exec::{Class, Executor, Namespace, Status};
 use oblivion_pir::{QueryPair, recover};
@@ -205,6 +205,11 @@ impl DurableState {
     }
 }
 pub const REGISTRY_VERSION: u64 = 1;
+const REGISTRY_MANIFEST_HEADER_BYTES: usize = 124;
+const MAX_REGISTRY_MANIFEST_BYTES: usize = REGISTRY_MANIFEST_HEADER_BYTES
+    + oblivion_registry::MAX_RECORDS * oblivion_registry::RECORD_BYTES;
+const REGISTRY_MANIFEST_ENV: &str = "OBLIVION_REGISTRY_MANIFEST";
+const REGISTRY_PUBLIC_KEY_ENV: &str = "OBLIVION_REGISTRY_PUBLIC_KEY";
 pub fn registry() -> Vec<Vec<u8>> {
     SOURCES
         .iter()
@@ -226,6 +231,56 @@ struct Deployment {
     records: Vec<Vec<u8>>,
 }
 impl Deployment {
+    /// Load an external publisher-signed catalog, or retain the local demo
+    /// signer only when neither external trust input is configured.
+    fn from_environment() -> Result<Self> {
+        match (
+            std::env::var_os(REGISTRY_MANIFEST_ENV),
+            std::env::var_os(REGISTRY_PUBLIC_KEY_ENV),
+        ) {
+            (None, None) => Self::create(),
+            (Some(manifest_path), Some(public_key_path)) => {
+                let manifest =
+                    read_bounded_regular(Path::new(&manifest_path), MAX_REGISTRY_MANIFEST_BYTES)?;
+                let key_bytes = read_bounded_regular(Path::new(&public_key_path), 32)?;
+                let key_bytes: [u8; 32] = key_bytes
+                    .try_into()
+                    .map_err(|_| "registry public key must contain exactly 32 bytes")?;
+                let publisher = VerifyingKey::from_bytes(&key_bytes)?;
+                Self::from_catalog(&manifest, &publisher)
+            }
+            _ => Err(format!(
+                "{REGISTRY_MANIFEST_ENV} and {REGISTRY_PUBLIC_KEY_ENV} must be configured together"
+            )
+            .into()),
+        }
+    }
+
+    fn from_catalog(encoded: &[u8], publisher: &VerifyingKey) -> Result<Self> {
+        let verified = VerifiedRegistry::verify(encoded, publisher)?;
+        if verified.len() != SOURCES.len() {
+            return Err("signed registry record count does not match dispatch table".into());
+        }
+        let mut records = Vec::with_capacity(verified.len());
+        for (id, source) in SOURCES.iter().enumerate() {
+            let record = verified
+                .get(u32::try_from(id)?)
+                .ok_or("verified catalog is missing a deployment record")?;
+            let module_digest: [u8; 32] = Sha256::digest(source).into();
+            if record.id() != u32::try_from(id)?
+                || record.module_digest() != &module_digest
+                || record.location_digest() != &embedded_location_digest(id as u32, &module_digest)
+                || record.resource_class() != 0
+            {
+                return Err("signed registry record does not match embedded deployment".into());
+            }
+            records.push(record.to_bytes().to_vec());
+        }
+        Ok(Self { records })
+    }
+
+    /// Development-only compatibility path. This key is generated in the
+    /// executor and cannot authenticate an external publisher.
     fn create() -> Result<Self> {
         let mut seed = Zeroizing::new([0; 32]);
         OsRng.try_fill_bytes(&mut *seed)?;
@@ -276,6 +331,23 @@ impl Deployment {
         let digest: [u8; 32] = hash.finalize().into();
         hex_digest(&digest)
     }
+}
+
+fn read_bounded_regular(path: &Path, maximum_bytes: usize) -> Result<Vec<u8>> {
+    let file = File::open(path)?;
+    let metadata = file.metadata()?;
+    if !metadata.is_file() || metadata.len() > u64::try_from(maximum_bytes)? || metadata.len() == 0
+    {
+        return Err("registry input must be a non-empty regular file within its size limit".into());
+    }
+    let capacity = usize::try_from(metadata.len())?;
+    let mut bytes = Vec::with_capacity(capacity);
+    file.take(u64::try_from(maximum_bytes)?.saturating_add(1))
+        .read_to_end(&mut bytes)?;
+    if bytes.is_empty() || bytes.len() > maximum_bytes {
+        return Err("registry input changed size or exceeds its size limit".into());
+    }
+    Ok(bytes)
 }
 
 fn embedded_location_digest(id: u32, module_digest: &[u8; 32]) -> [u8; 32] {
@@ -726,7 +798,7 @@ pub fn worker(output: &Path, participants: usize) -> Result<()> {
         .map_err(|_| "storage lock")?
         .backend_mut()
         .take_trace();
-    let pinned = Deployment::create()?;
+    let pinned = Deployment::from_environment()?;
     let mut first = secure_pir::Session::spawn(0, &pinned.records)?;
     let mut second = secure_pir::Session::spawn(1, &pinned.records)?;
     let pir_geometry = oblivion_pir::secure::Geometry::new(
@@ -1121,5 +1193,44 @@ mod tests {
             }
         }
         assert_eq!(Deployment::contents_digest_hex().len(), 64);
+    }
+
+    fn external_catalog(signing_key: &SigningKey, mismatched_module: Option<usize>) -> Vec<u8> {
+        let records = SOURCES
+            .iter()
+            .enumerate()
+            .map(|(id, source)| {
+                let mut module_digest: [u8; 32] = Sha256::digest(source).into();
+                if mismatched_module == Some(id) {
+                    module_digest[0] ^= 1;
+                }
+                Record::sign(
+                    id as u32,
+                    7,
+                    module_digest,
+                    embedded_location_digest(id as u32, &module_digest),
+                    0,
+                    signing_key,
+                )
+                .unwrap()
+            })
+            .collect();
+        SignedRegistry::sign(7, records, signing_key).unwrap()
+    }
+
+    #[test]
+    fn external_catalog_is_pinned_to_publisher_and_embedded_modules() {
+        let publisher = SigningKey::from_bytes(&[0x71; 32]);
+        let wrong_publisher = SigningKey::from_bytes(&[0x72; 32]).verifying_key();
+        let catalog = external_catalog(&publisher, None);
+        let deployment = Deployment::from_catalog(&catalog, &publisher.verifying_key()).unwrap();
+        assert_eq!(deployment.records.len(), SOURCES.len());
+        for (id, record) in deployment.records.iter().enumerate() {
+            assert!(deployment.accepts(id, record));
+        }
+        assert!(Deployment::from_catalog(&catalog, &wrong_publisher).is_err());
+
+        let mismatched = external_catalog(&publisher, Some(2));
+        assert!(Deployment::from_catalog(&mismatched, &publisher.verifying_key()).is_err());
     }
 }

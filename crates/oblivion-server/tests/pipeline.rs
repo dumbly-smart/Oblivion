@@ -37,6 +37,121 @@ fn sign_fixture(payload: &mut [u8; oblivion_batcher::PAYLOAD_BYTES], epoch: u64)
 }
 
 #[test]
+fn worker_uses_external_catalog_and_fails_before_ready_for_wrong_key() {
+    use ed25519_dalek::SigningKey;
+    use oblivion_batcher::Endpoint;
+    use oblivion_registry::{Record, SignedRegistry};
+    use sha2::{Digest, Sha256};
+    use std::io::Read;
+    use std::process::Stdio;
+
+    let root = std::env::temp_dir().join(format!(
+        "oblivion-external-registry-{}",
+        rand::rngs::OsRng.next_u64()
+    ));
+    fs::create_dir(&root).unwrap();
+    let sources: [&[u8]; 5] = [
+        include_bytes!("../../../examples/wasm-functions/echo.wat"),
+        include_bytes!("../../../examples/wasm-functions/sum.wat"),
+        include_bytes!("../../../examples/wasm-functions/fibonacci.wat"),
+        include_bytes!("../../../examples/wasm-functions/hash.wat"),
+        include_bytes!("../../../examples/wasm-functions/stateful.wat"),
+    ];
+    let publisher = SigningKey::from_bytes(&[0x81; 32]);
+    let records = sources
+        .iter()
+        .enumerate()
+        .map(|(id, source)| {
+            let module_digest: [u8; 32] = Sha256::digest(source).into();
+            let mut location = Sha256::new();
+            location.update(b"oblivion/demo/embedded-location/v1");
+            location.update((id as u32).to_be_bytes());
+            location.update(module_digest);
+            let location_digest = location.finalize().into();
+            Record::sign(id as u32, 9, module_digest, location_digest, 0, &publisher).unwrap()
+        })
+        .collect();
+    let manifest = SignedRegistry::sign(9, records, &publisher).unwrap();
+    let manifest_path = root.join("catalog.bin");
+    let public_key_path = root.join("publisher.pub");
+    fs::write(&manifest_path, manifest).unwrap();
+    fs::write(&public_key_path, publisher.verifying_key().to_bytes()).unwrap();
+
+    let run_worker =
+        |name: &str, manifest: &std::path::Path, public_key: Option<&std::path::Path>| {
+            let output_dir = root.join(name);
+            fs::create_dir(&output_dir).unwrap();
+            let mut command = Command::new(env!("CARGO_BIN_EXE_oblivion-server"));
+            command
+                .args(["executor-worker", output_dir.to_str().unwrap()])
+                .env_remove("OBLIVION_ANCHOR_SOCKET")
+                .env_remove("OBLIVION_ANCHOR_STATE_DIR")
+                .env("OBLIVION_REGISTRY_MANIFEST", manifest)
+                .env_remove("OBLIVION_REGISTRY_PUBLIC_KEY");
+            if let Some(public_key) = public_key {
+                command.env("OBLIVION_REGISTRY_PUBLIC_KEY", public_key);
+            }
+            let mut child = command
+                .stdin(Stdio::piped())
+                .stdout(Stdio::piped())
+                .stderr(Stdio::null())
+                .spawn()
+                .unwrap();
+            let mut input = child.stdin.take().unwrap();
+            let mut output = child.stdout.take().unwrap();
+            let _client = Endpoint::provision_over_pipe(0, &mut input).unwrap();
+            let mut readiness = [0; 1];
+            let result = output.read_exact(&mut readiness);
+            drop(input);
+            (result, readiness, child.wait().unwrap())
+        };
+
+    let (ready_result, readiness, success) =
+        run_worker("valid", &manifest_path, Some(&public_key_path));
+    assert!(ready_result.is_ok());
+    assert_eq!(readiness, [1]);
+    assert!(success.success());
+
+    let wrong_signer = SigningKey::from_bytes(&[0x82; 32]);
+    let wrong_key_path = root.join("wrong-publisher.pub");
+    fs::write(&wrong_key_path, wrong_signer.verifying_key().to_bytes()).unwrap();
+    let (ready_result, _, failure) = run_worker("wrong-key", &manifest_path, Some(&wrong_key_path));
+    assert!(ready_result.is_err(), "worker must not announce readiness");
+    assert!(!failure.success());
+
+    let (ready_result, _, failure) = run_worker("partial-config", &manifest_path, None);
+    assert!(
+        ready_result.is_err(),
+        "partial config must fail before readiness"
+    );
+    assert!(!failure.success());
+
+    let oversized_key_path = root.join("oversized.pub");
+    fs::write(&oversized_key_path, [0; 33]).unwrap();
+    let (ready_result, _, failure) =
+        run_worker("oversized-key", &manifest_path, Some(&oversized_key_path));
+    assert!(
+        ready_result.is_err(),
+        "oversized key must fail before readiness"
+    );
+    assert!(!failure.success());
+
+    let oversized_manifest_path = root.join("oversized-catalog.bin");
+    fs::write(&oversized_manifest_path, vec![0; 124 + 65_536 * 160 + 1]).unwrap();
+    let (ready_result, _, failure) = run_worker(
+        "oversized-manifest",
+        &oversized_manifest_path,
+        Some(&public_key_path),
+    );
+    assert!(
+        ready_result.is_err(),
+        "oversized manifest must fail before readiness"
+    );
+    assert!(!failure.success());
+    let _ = fs::remove_dir_all(root);
+}
+
+#[test]
 fn failure_diagnostics_are_bounded_and_keep_private_tail_or_missing_reason() {
     let path = std::env::temp_dir().join(format!(
         "oblivion-diagnostic-{}",
