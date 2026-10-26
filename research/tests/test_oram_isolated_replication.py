@@ -1,5 +1,10 @@
 """Schema, observer boundary and session-split tests for ORAM timing replication."""
+import json
+from datetime import datetime
+from pathlib import Path
+import tempfile
 import unittest
+from unittest.mock import patch
 
 from research.analysis import oram_isolated_replication as study
 
@@ -85,6 +90,25 @@ class IsolatedTraceTests(unittest.TestCase):
         self.assertEqual(study.workload_signature(schedule, address_count=8), ((0, 7, False),))
         with self.assertRaises(ValueError):
             study.workload_signature(schedule, address_count=4)
+
+    def test_host_context_is_saved_before_and_after_a_failed_mode_capture(self):
+        with tempfile.TemporaryDirectory() as directory:
+            base = Path(directory)
+            observation = {"run_start": study.host_snapshot(), "modes": {}}
+            observation_path = base / "host-observation.json"
+            with patch.object(study, "capture_mode", side_effect=RuntimeError("capture failed")):
+                with self.assertRaisesRegex(RuntimeError, "capture failed"):
+                    study.capture_mode_with_host_observation(
+                        "oram", {}, {}, base, base, observation, observation_path,
+                    )
+            saved = json.loads(observation_path.read_text())
+            mode = saved["modes"]["oram"]
+            self.assertIsNotNone(datetime.fromisoformat(mode["before"]["observed_at_utc"]))
+            self.assertIsNotNone(datetime.fromisoformat(mode["after"]["observed_at_utc"]))
+            self.assertIn("cpu_model", mode["before"])
+            self.assertIn("logical_cpu_count", mode["before"])
+            self.assertIn("process_allowed_cpus", mode["before"])
+            self.assertIn("load_average_1_5_15", mode["before"])
 
 
 if __name__ == "__main__":

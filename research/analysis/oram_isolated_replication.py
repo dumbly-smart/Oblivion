@@ -1,9 +1,11 @@
 """Independent Path ORAM timing study with fresh workloads and positive controls."""
 import argparse
 from collections import Counter, defaultdict
+from datetime import datetime, timezone
 import gzip
 import hashlib
 import json
+import os
 from pathlib import Path
 import platform
 import math
@@ -217,6 +219,69 @@ def validate_service_cpu_affinity(cpu):
         raise ValueError("service_cpu_affinity must be a nonnegative CPU id or null")
 
 
+def host_snapshot():
+    cpu_model = platform.processor().strip()
+    cpuinfo = Path("/proc/cpuinfo")
+    if not cpu_model and cpuinfo.is_file():
+        for line in cpuinfo.read_text(errors="replace").splitlines():
+            key, separator, value = line.partition(":")
+            if separator and key.strip() in ("model name", "Hardware"):
+                cpu_model = value.strip()
+                break
+    try:
+        allowed_cpus = sorted(os.sched_getaffinity(0))
+    except (AttributeError, OSError):
+        allowed_cpus = None
+    try:
+        load_average = list(os.getloadavg())
+    except (AttributeError, OSError):
+        load_average = None
+    return {
+        "observed_at_utc": datetime.now(timezone.utc).isoformat(timespec="milliseconds"),
+        "platform": platform.platform(),
+        "cpu_model": cpu_model or None,
+        "logical_cpu_count": os.cpu_count(),
+        "process_allowed_cpus": allowed_cpus,
+        "load_average_1_5_15": load_average,
+    }
+
+
+def capture_mode_with_host_observation(
+    mode, config, binaries, output, temporary, observation, observation_path,
+    trial_indices=None, condition=None,
+):
+    entry = {"before": host_snapshot()}
+    observation.setdefault("modes", {})[mode] = entry
+    observation_path = Path(observation_path)
+    observation_path.write_text(json.dumps(observation, indent=2) + "\n")
+    try:
+        return capture_mode(
+            mode, config, binaries, output, temporary,
+            trial_indices=trial_indices, condition=condition,
+        )
+    finally:
+        entry["after"] = host_snapshot()
+        observation_path.write_text(json.dumps(observation, indent=2) + "\n")
+
+
+def experiment_hashes(config_path, oram_binary, control_binary, output):
+    inputs = [
+        Path(__file__), ROOT / "research/attacks/leaf_timing.py",
+        Path(oram_binary), Path(control_binary), Path(config_path),
+    ]
+    source_hashes = {
+        str(path.resolve().relative_to(ROOT)) if path.resolve().is_relative_to(ROOT) else path.name: digest(path)
+        for path in inputs
+    }
+    raw_hashes = {
+        str(path.relative_to(output)): digest(path)
+        for path in sorted((Path(output) / "raw").rglob("*.jsonl.gz"))
+    }
+    if not raw_hashes:
+        raise RuntimeError("experiment completed without retained raw sessions")
+    return source_hashes, raw_hashes
+
+
 def capture_mode(mode, config, binaries, output, temporary, trial_indices=None, condition=None):
     executable = binaries["oram"] if mode == "oram" else binaries["control"]
     result_root = output / "raw"
@@ -375,12 +440,18 @@ def run(config_path, output, oram_binary, control_binary):
     output.mkdir(parents=True)
     (output / "config.json").write_text(json.dumps(config, indent=2) + "\n")
     (output / "predictions").mkdir()
+    host_observation = {"run_start": host_snapshot(), "modes": {}}
+    host_observation_path = output / "host-observation.json"
+    host_observation_path.write_text(json.dumps(host_observation, indent=2) + "\n")
     all_trials, summaries, process_metadata = [], [], {}
     with tempfile.TemporaryDirectory(prefix="oblivion-oram-replication-") as temporary_name:
         temporary = Path(temporary_name)
         binaries = {"oram": Path(oram_binary).resolve(), "control": Path(control_binary).resolve()}
         for mode in ("plaintext", "encrypt_only"):
-            process_metadata[mode] = capture_mode(mode, config, binaries, output, temporary)
+            process_metadata[mode] = capture_mode_with_host_observation(
+                mode, config, binaries, output, temporary,
+                host_observation, host_observation_path,
+            )
         verify_paired_schedules(
             output / "raw", ("plaintext", "encrypt_only"),
             config["trials"], config["sessions_per_trial"], len(numeric_distribution),
@@ -394,16 +465,35 @@ def run(config_path, output, oram_binary, control_binary):
             and summary["auc_ci95_trials"][0] > 0.5
             for summary in summaries
         )
+        source_hashes, raw_hashes = experiment_hashes(
+            config_path, oram_binary, control_binary, output,
+        )
         if not control_passed:
+            host_observation["run_end"] = host_snapshot()
+            host_observation_path.write_text(json.dumps(host_observation, indent=2) + "\n")
             report = {
                 "configuration": config, "summary": summaries, "trials": all_trials,
                 "positive_controls_passed": False,
                 "defense_evaluated": False,
+                "primary_metric": config["primary_metric"],
+                "timing_scope": "Local separate bucket-service process; handler-only time excludes pipe waiting, Path ORAM controller work, request parsing and response encoding. Not remote timing.",
+                "host_observation": host_observation,
+                "process_metadata": process_metadata,
+                "source_sha256": source_hashes,
+                "raw_session_sha256": raw_hashes,
+                "platform": platform.platform(),
+                "cpu": host_observation["run_start"]["cpu_model"],
+                "rustc": subprocess.check_output(["rustc", "--version"], text=True).strip(),
+                "git_head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
+                "git_status": subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT, text=True),
                 "interpretation": "Positive controls did not clear the preregistered criterion; no ORAM defense result was evaluated.",
             }
             (output / "report.json").write_text(json.dumps(report, indent=2) + "\n")
             return report
-        process_metadata["oram"] = capture_mode("oram", config, binaries, output, temporary)
+        process_metadata["oram"] = capture_mode_with_host_observation(
+            "oram", config, binaries, output, temporary,
+            host_observation, host_observation_path,
+        )
         verify_paired_schedules(
             output / "raw", MODES, config["trials"], config["sessions_per_trial"],
             len(numeric_distribution),
@@ -411,18 +501,8 @@ def run(config_path, output, oram_binary, control_binary):
         summary, trials = evaluate_mode("oram", output / "raw", config)
         summaries.append(summary)
         all_trials.extend(trials)
-    inputs = [
-        Path(__file__), ROOT / "research/attacks/leaf_timing.py",
-        Path(oram_binary), Path(control_binary), Path(config_path),
-    ]
-    source_hashes = {str(path.resolve().relative_to(ROOT)) if path.resolve().is_relative_to(ROOT) else path.name: digest(path)
-                     for path in inputs}
-    raw_hashes = {
-        str(path.relative_to(output)): digest(path)
-        for path in sorted((output / "raw").rglob("*.jsonl.gz"))
-    }
-    if not raw_hashes:
-        raise RuntimeError("experiment completed without retained raw sessions")
+    host_observation["run_end"] = host_snapshot()
+    host_observation_path.write_text(json.dumps(host_observation, indent=2) + "\n")
     report = {
         "configuration": config, "summary": summaries, "trials": all_trials,
         "positive_controls_passed": True,
@@ -442,6 +522,7 @@ def run(config_path, output, oram_binary, control_binary):
         "methodology": f"30 seeded attack trials per mode; each trial uses four complete profile sessions and four disjoint target sessions, eight sessions total. The same seeded hot/cold and read/write workload (read probability {read_probability}) is run in every mode; each session has fresh process state and fresh ORAM state or AEAD key. Primary metric is AUC; intervals bootstrap the 30 fitted-trial means. All baseline controls are run and scored before ORAM.",
         "timing_scope": "Local separate bucket-service process; handler-only time excludes pipe waiting, Path ORAM controller work, request parsing and response encoding. Not remote timing.",
         "service_cpu_affinity": service_cpu_affinity,
+        "host_observation": host_observation,
         "limitations": "Synthetic configured address distribution; local process IPC and in-memory bucket service; only short-window temporal features; one binary classifier family. Each reported result applies only to its configured address universe and hot/cold partition. This is not a cryptographic security proof, remote-network experiment, or general workload result.",
         "process_metadata": process_metadata,
         "source_sha256": source_hashes,
@@ -450,7 +531,7 @@ def run(config_path, output, oram_binary, control_binary):
         "git_status": subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT, text=True),
         "python": __import__("sys").version, "platform": platform.platform(),
         "numpy": np.__version__, "scikit_learn": __import__("sklearn").__version__,
-        "cpu": platform.processor(), "rustc": subprocess.check_output(["rustc", "--version"], text=True).strip(),
+        "cpu": host_observation["run_start"]["cpu_model"], "rustc": subprocess.check_output(["rustc", "--version"], text=True).strip(),
         "elapsed_seconds": time.time() - started,
     }
     (output / "report.json").write_text(json.dumps(report, indent=2) + "\n")
