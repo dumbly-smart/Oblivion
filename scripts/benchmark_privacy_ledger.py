@@ -77,6 +77,10 @@ def create_benchmark_key(path):
 
 def run(output, seed, trials, user_counts):
     output = Path(output)
+    git_status = subprocess.check_output(
+        ['git', 'status', '--porcelain'], cwd=ROOT, text=True).splitlines()
+    git_head = subprocess.check_output(
+        ['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     output.mkdir(parents=True, exist_ok=False)
     source_paths = [Path(__file__).resolve(),
                     ROOT / 'research/simulation/privacy_ledger.py']
@@ -139,8 +143,6 @@ def run(output, seed, trials, user_counts):
         str(path.relative_to(ROOT)): sha256(path) for path in source_paths}
     if source_hashes_before != source_hashes_after:
         raise RuntimeError('benchmark source changed during collection')
-    git_status = subprocess.check_output(
-        ['git', 'status', '--porcelain'], cwd=ROOT, text=True).splitlines()
     git_status_paths = [line[3:].split(' -> ')[-1] for line in git_status]
     report = dict(
         configuration=config,
@@ -159,8 +161,7 @@ def run(output, seed, trials, user_counts):
         provenance=dict(
             source_sha256=source_hashes_after,
             source_unchanged_during_collection=True,
-            git_head=subprocess.check_output(
-                ['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
+            git_head=git_head,
             git_dirty=bool(git_status),
             git_dirty_paths=git_status_paths,
             output_location=str(output.resolve()),
