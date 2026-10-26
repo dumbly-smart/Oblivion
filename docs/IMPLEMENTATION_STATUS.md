@@ -683,8 +683,15 @@ higher-version activation. Freshness is conditional on the anchor database
 remaining current and trusted; an old database backup or host-root replacement
 can roll back the floor.
 
-The new process test passed. The serialized server pipeline run passed 19 of
-20 tests, with the existing multi-client 100 ms deadline test timing out under
-host load; that test passed on immediate isolated rerun. The two server unit
-tests passed, warning-denied server Clippy passed, and formatting/whitespace
-checks passed. The full workspace suite was not rerun for this focused change.
+The new process test passed. Two serialized full-workspace attempts stopped in
+server timing tests: one harness mode-G timeout, then four pipeline invocations
+that exceeded their fixed execution classes under this host. All five affected
+tests passed on isolated reruns. The server pipeline group had 16/20 pass in
+the second run; its four failures were the fixed-budget invocations. The
+remaining workspace suite passed with the 100,000-operation SSE oracle
+(176.14 seconds); the million-operation ORAM oracle remains intentionally
+ignored. Server unit tests and publisher example passed, warning-denied
+workspace Clippy passed, and formatting/whitespace checks passed. The full
+workspace command is not green on this host because repeated grouped server
+runs encounter the existing fixed-deadline sensitivity; no timing budget was
+changed.
