@@ -107,6 +107,7 @@ The built-in demo's real/dummy/function schedule is public given its code, real 
 | [Execution/errors](EXECUTION_EVALUATION.md) | Five functions plus three failures, 30 trials, visible-selector control first | Protected eight-class accuracy 11.67% [9.38,13.75], chance 12.5%; 960 protected output/status checks, fixed frames/storage shapes; saved earlier binary |
 | [Actual trace validation](TRACE_VALIDATION.md) | 100k ORAM accesses/workload and 30 scoped encrypted PIR captures | 1.4M bucket events/workload; 3,000 verified PIR retrievals, 6,000 streams, 61,363 packets and zero reported drops. Unvalidated packet classifier excluded |
 | [ORAM leaf+timing](ORAM_LEAF_TIMING.md) | Independent profile/target sessions and 30 fitted trials | Balanced accuracy 50.70% [49.80,51.62]; AUC 0.511 [0.501,0.521] is a possible weak signal, retained with unadjusted/multiple-metric caveats |
+| [32-address Zipf ORAM timing](ORAM_ZIPF32_REPLICATION_20261026.md) | 30 trials × eight sessions × 256 operations; fixed temporal classifier | Controls AUC 1.000; ORAM 0.5003 [0.4929, 0.5073]. 1,440 raw hashes and 240 paired schedules checked; collection-time host load missing |
 | [Individual-server PIR timing](PIR_TARGET_TIMING.md) | 46,080 oracle-checked requests at two geometries; real visible-index control first | Protected joint/timing/share intervals include three-class chance; only own share/local answer time, not collusion or network timing |
 | [SSE methods](SSE_ATTACKS.md), [inference](ADVANCED_ATTACKS.md), [chosen updates](UPDATE_LINKABILITY.md) | Actual encrypted postings/capabilities and 30 trial clusters | Six bounded SSE-facing methods and successful controls; equality/volume/later authorization still leak; not faithful published attack reproductions |
 | [Real corpus/drift](CORPUS_EVALUATION.md) | Licensed UCI text associations, genuine SSE/dummy padding, 30 conditional resamples | Likelihood 64.35% matched auxiliary → 36.35% strongest document drift; padded 38.88%. Synthetic queries; shared corpus across resamples |
@@ -797,6 +798,25 @@ archive, paired predictions, condition order, hashes and result figure are
 retained. Individual service PIDs/affinity masks were not retained; the final
 session mask was checked per pinned collector invocation. Host isolation,
 other classifiers, and other workloads remain open.
+
+## 2026-10-26: preregistered 32-address Zipf ORAM timing replication
+
+After the configuration and protocol were committed, the fresh 32-address
+Zipf run used 30 trials, eight sessions/trial, 256 measured operations/session,
+and a 35% read mix. Plaintext and encrypt-only controls both scored AUC 1.000;
+Path ORAM's primary mean per-trial AUC was 0.5003 [0.4929, 0.5073]. Its
+balanced accuracy was 0.5028 [0.4972, 0.5085], below the profile-majority raw
+accuracy of 0.5880. These data do not resolve the declared hot/cold signal for
+this classifier and workload and do not establish indistinguishability.
+
+The 1,440 raw session hashes, all 240 paired schedules, source/config/binary
+hashes, 720 child process records, and all saved prediction metrics were
+verified. Ten focused harness tests passed. The report's host CPU description
+was empty and collection-time instantaneous load was not captured; the
+post-run host snapshot cannot repair this preregistration deviation. The result
+must therefore not be described as a quiet-host replication. See the
+[preregistration](ORAM_ZIPF32_REPLICATION_PREREG_20261026.md) and
+[result record](ORAM_ZIPF32_REPLICATION_20261026.md).
 
 ## 2026-10-26: full-path CPU cost sensitivity
 
