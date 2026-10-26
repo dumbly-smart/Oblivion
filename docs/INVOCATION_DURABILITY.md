@@ -55,6 +55,17 @@ the cover path without another checkpoint. The anchor operator can distinguish
 receipt lookup from receipt commit, and the protocol does not claim to hide
 retry status from that operator. Snapshot retention is currently unbounded.
 
+The worker obtains the cooperative `UnixAnchorClient::invocation` lock for
+`server-state-v1` before loading the current checkpoint or announcing
+readiness. Only one cooperating worker process can own this local slot at a
+time; another fails startup before readiness. The kernel releases the lock on
+process exit, so crash recovery can start a new worker without stale-lock
+cleanup. The persistent mode-0600 lock file is adjacent to the anchor socket;
+its parent directory must be writable by the executor account and protected
+from untrusted replacement. This is a same-host advisory lock, not a service
+protocol fence: direct protocol or `AnchorDatabase` callers and separate hosts
+can bypass it. It does not make arbitrary side effects transactional.
+
 The built-in demo generates ephemeral signing keys and random IDs per run.
 Applications that need retries across process/session restarts must retain the
 same client signing key and invocation ID and resubmit the same canonical
@@ -90,9 +101,11 @@ request bytes.
 This makes checkpointed ORAM state and the receipt atomic at the SQLite anchor;
 it does not provide exactly-once behavior for arbitrary external side effects.
 The runtime must persist/fsync a snapshot before asking the anchor to commit
-its pointer and receipt. A loser in a concurrent execution can receive a CAS
-conflict, but the design does not prevent both executions from running before
-that conflict; callers must serialize a given invocation and state slot.
+its pointer and receipt. The local worker API serializes cooperating worker
+processes for a state slot before execution. Raw protocol clients, direct
+database users, or separate hosts are outside this lock's scope and must
+serialize writers themselves; checkpoint CAS remains the final stale-writer
+check.
 
 The SQLite database can still be rolled back from an old backup, and host root
 can inspect or replace it. The local service is not a TEE and does not protect

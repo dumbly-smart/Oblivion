@@ -713,3 +713,23 @@ had load averages 3.78/4.68/6.00 before and 7.71/6.30/6.46 after collection;
 no repository job ran concurrently, but host scheduling noise limits the
 result. See [the preregistration](ORAM_SIGNAL_REPLICATION_20261026_B_PREREG.md)
 and [the results](ORAM_SIGNAL_REPLICATION_20261026_B.md).
+
+## 2026-10-26: durable worker single-writer lock
+
+The local `UnixAnchorClient::invocation` adapter now holds a per-slot
+nonblocking OS file lock for its lifetime. Durable worker startup acquires it
+before reading the checkpoint or announcing readiness, so a second
+cooperating worker for the same local slot fails closed. The kernel releases
+the lock at process exit. The persistent 0600 lock file is adjacent to the
+anchor socket and opened with no-follow/close-on-exec flags. Its parent
+directory must be writable by the executor account and trusted against
+replacement. This is a cooperative same-host client-API guarantee; raw
+protocol/database callers, separate hosts and host root can bypass it.
+
+Test-driven verification first reproduced the missing exclusion, then passed
+cross-process contention, independent-slot, release, 0600 permission and
+symlink-rejection checks. The worker readiness regression and durable restart,
+receipt replay and state recovery tests passed. Anchor tests passed (19 unit,
+9 process); warning-denied workspace Clippy, formatting and whitespace checks
+passed. This does not make arbitrary external side effects transactional or
+remove unbounded snapshot retention.

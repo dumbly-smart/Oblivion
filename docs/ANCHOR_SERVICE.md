@@ -63,6 +63,17 @@ checkpoint, version-only registry, digest-backed catalog, and invocation
 adapters. CAS methods classify a lost or malformed response after sending as
 an indeterminate commit and require caller reconciliation.
 
+The cooperating `UnixAnchorClient::invocation` adapter takes a nonblocking OS
+file lock for its slot and holds it until the adapter is dropped or its process
+exits. The persistent empty lock file is named by appending
+`.<slot>.writer-lock` to the socket path, uses mode `0600`, and is opened with
+no-follow and close-on-exec flags. This allows one durable worker per slot
+through the local client API. The socket parent directory must be writable by
+the executor account and controlled by trusted operators; do not remove or
+replace a live lock file. Raw protocol clients and direct `AnchorDatabase`
+callers can bypass this cooperative lock, so they remain trusted components.
+The lock does not coordinate separate hosts or remote anchor services.
+
 ## Trust limits
 
 This is a trusted local service, not a remotely authenticated network anchor.
