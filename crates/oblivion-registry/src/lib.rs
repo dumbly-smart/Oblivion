@@ -29,6 +29,10 @@ pub enum Error {
     RecordCount,
     #[error("registry version is not newer than the trusted version")]
     Rollback,
+    #[error("registry catalog equivocated at an already anchored version")]
+    CatalogEquivocation,
+    #[error("legacy version anchor has no content digest; publish a higher catalog version")]
+    CatalogDigestUninitialized,
     #[error("trusted registry version changed during activation")]
     AnchorConflict,
     #[error("registry anchor commit result is indeterminate; reload its current version")]
@@ -186,6 +190,7 @@ impl SignedRegistry {
 /// A registry whose manifest and every record have been verified.
 pub struct VerifiedRegistry {
     version: u64,
+    digest: [u8; 32],
     records: Vec<Record>,
 }
 
@@ -236,11 +241,18 @@ impl VerifiedRegistry {
             records.push(Record::from_bytes(bytes)?);
         }
         validate_records(version, &records, key)?;
-        Ok(Self { version, records })
+        Ok(Self {
+            version,
+            digest,
+            records,
+        })
     }
 
     pub fn version(&self) -> u64 {
         self.version
+    }
+    pub fn catalog_digest(&self) -> &[u8; 32] {
+        &self.digest
     }
     pub fn len(&self) -> usize {
         self.records.len()
@@ -265,6 +277,63 @@ impl VerifiedRegistry {
         }
         anchor.compare_and_swap(current, self.version)
     }
+
+    /// Activate against an anchor that stores both the version and manifest
+    /// digest. Exact restarts are idempotent; rollback and same-version
+    /// equivocation are rejected.
+    pub fn activate_catalog<A: RegistryCatalogAnchor>(&self, anchor: &mut A) -> Result<(), Error> {
+        let current = anchor.current_catalog()?;
+        if let Some(current) = current {
+            if current.version() > self.version {
+                return Err(Error::Rollback);
+            }
+            if current.version() == self.version {
+                return match current.digest() {
+                    Some(digest) if digest == &self.digest => Ok(()),
+                    Some(_) => Err(Error::CatalogEquivocation),
+                    None => Err(Error::CatalogDigestUninitialized),
+                };
+            }
+        }
+        anchor.compare_and_swap_catalog(current, self.version, self.digest)
+    }
+}
+
+/// Persisted catalog activation state. `None` digest represents a migrated
+/// legacy version-only row and cannot authorize same-version startup.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct RegistryCatalogState {
+    version: u64,
+    digest: Option<[u8; 32]>,
+}
+
+impl RegistryCatalogState {
+    pub fn new(version: u64, digest: Option<[u8; 32]>) -> Result<Self, Error> {
+        if version == 0 {
+            return Err(Error::RecordCount);
+        }
+        Ok(Self { version, digest })
+    }
+
+    pub fn version(&self) -> u64 {
+        self.version
+    }
+
+    pub fn digest(&self) -> Option<&[u8; 32]> {
+        self.digest.as_ref()
+    }
+}
+
+/// Adapter for trusted storage that binds a catalog version to its signed
+/// content digest using compare-and-swap.
+pub trait RegistryCatalogAnchor {
+    fn current_catalog(&mut self) -> Result<Option<RegistryCatalogState>, Error>;
+    fn compare_and_swap_catalog(
+        &mut self,
+        expected: Option<RegistryCatalogState>,
+        next_version: u64,
+        next_digest: [u8; 32],
+    ) -> Result<(), Error>;
 }
 
 /// Adapter for trusted, durable, rollback-resistant version storage. An

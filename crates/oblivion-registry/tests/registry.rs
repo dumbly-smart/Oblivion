@@ -1,6 +1,7 @@
 use ed25519_dalek::{Signer, SigningKey};
 use oblivion_registry::{
-    Error, RECORD_BYTES, Record, RegistryVersionAnchor, SignedRegistry, VerifiedRegistry,
+    Error, RECORD_BYTES, Record, RegistryCatalogAnchor, RegistryCatalogState,
+    RegistryVersionAnchor, SignedRegistry, VerifiedRegistry,
 };
 use sha2::{Digest, Sha256};
 
@@ -15,6 +16,89 @@ fn catalog(key: &SigningKey, version: u64) -> Vec<u8> {
         })
         .collect();
     SignedRegistry::sign(version, records, key).unwrap()
+}
+
+fn catalog_with_offset(key: &SigningKey, version: u64, offset: u8) -> Vec<u8> {
+    let records = (0..3)
+        .map(|id| {
+            Record::sign(
+                id,
+                version,
+                [id as u8 + offset; 32],
+                [id as u8 + offset + 3; 32],
+                1,
+                key,
+            )
+            .unwrap()
+        })
+        .collect();
+    SignedRegistry::sign(version, records, key).unwrap()
+}
+
+#[derive(Default)]
+struct MemoryCatalogAnchor(Option<RegistryCatalogState>);
+
+impl RegistryCatalogAnchor for MemoryCatalogAnchor {
+    fn current_catalog(&mut self) -> Result<Option<RegistryCatalogState>, Error> {
+        Ok(self.0)
+    }
+
+    fn compare_and_swap_catalog(
+        &mut self,
+        expected: Option<RegistryCatalogState>,
+        next_version: u64,
+        next_digest: [u8; 32],
+    ) -> Result<(), Error> {
+        if self.0 != expected {
+            return Err(Error::AnchorConflict);
+        }
+        self.0 = Some(RegistryCatalogState::new(next_version, Some(next_digest))?);
+        Ok(())
+    }
+}
+
+#[test]
+fn digest_anchor_allows_exact_restart_and_rejects_rollback_or_equivocation() {
+    let signing = keys(73);
+    let verifying = signing.verifying_key();
+    let first = VerifiedRegistry::verify(&catalog(&signing, 4), &verifying).unwrap();
+    let mut anchor = MemoryCatalogAnchor::default();
+    first.activate_catalog(&mut anchor).unwrap();
+    first.activate_catalog(&mut anchor).unwrap();
+
+    let same_version_different_content =
+        VerifiedRegistry::verify(&catalog_with_offset(&signing, 4, 9), &verifying).unwrap();
+    assert!(matches!(
+        same_version_different_content.activate_catalog(&mut anchor),
+        Err(Error::CatalogEquivocation)
+    ));
+
+    let old = VerifiedRegistry::verify(&catalog(&signing, 3), &verifying).unwrap();
+    assert!(matches!(
+        old.activate_catalog(&mut anchor),
+        Err(Error::Rollback)
+    ));
+
+    let next = VerifiedRegistry::verify(&catalog(&signing, 5), &verifying).unwrap();
+    next.activate_catalog(&mut anchor).unwrap();
+    assert_eq!(anchor.0.unwrap().version(), 5);
+}
+
+#[test]
+fn legacy_version_anchor_requires_a_bump_to_initialize_catalog_digest() {
+    let signing = keys(74);
+    let verifying = signing.verifying_key();
+    let version_four = VerifiedRegistry::verify(&catalog(&signing, 4), &verifying).unwrap();
+    let legacy = RegistryCatalogState::new(4, None).unwrap();
+    let mut anchor = MemoryCatalogAnchor(Some(legacy));
+    assert!(matches!(
+        version_four.activate_catalog(&mut anchor),
+        Err(Error::CatalogDigestUninitialized)
+    ));
+
+    let version_five = VerifiedRegistry::verify(&catalog(&signing, 5), &verifying).unwrap();
+    version_five.activate_catalog(&mut anchor).unwrap();
+    assert_eq!(anchor.0.unwrap().version(), 5);
 }
 
 fn resign_manifest(encoded: &mut [u8], key: &SigningKey) {
