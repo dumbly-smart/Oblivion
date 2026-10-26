@@ -51,6 +51,8 @@ existing ephemeral `Client` API.
   checkpoint instead of an event.
 - Use ChaCha20-Poly1305 with an OS-random 96-bit nonce, HKDF domain separation
   by index ID, and a versioned associated-data prefix.
+- Bound serialized plaintext records to 8 MiB and complete encrypted journal
+  files to 64 MiB; reject larger client state before writing it.
 - Fsync each new record and its containing directory before asking the anchor
   to advance. The anchor record binds the index ID, generation, and SHA-256
   digest of the selected record.

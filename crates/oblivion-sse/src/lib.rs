@@ -51,7 +51,7 @@ pub enum Error {
     Authentication,
 }
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, Serialize, Deserialize)]
 pub struct Limits {
     pub postings: usize,
     pub keywords: usize,
@@ -615,3 +615,8 @@ impl Server {
 
 #[cfg(test)]
 mod tests;
+
+mod journal;
+pub use journal::{
+    JournalError, PersistentClient, SseJournalAnchor, SseJournalAnchorError, SseJournalAnchorRecord,
+};

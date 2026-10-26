@@ -105,14 +105,14 @@ other attacks, workloads, or remote timing.
 
 ## Next software action
 
-The HMAC and Ed25519 request-authentication paths cover low-level validation,
-synthetic experiment generation, imported-request verification, and raw-data
-regeneration. A per-principal accountant now composes all `dp_laplace`
-horizons retained in one experiment artifact and emits only aggregate maxima.
-Next, add an opt-in persistent ledger across separate experiment invocations.
-Bind ledger entries to a versioned public-key registry fingerprint and unique
-release IDs; reject duplicate or identity-incompatible entries, keep principal
-IDs out of public outputs, and preserve the explicit caveat that the current
-runner creates clients and verifies signatures in one process. Test exact
-small-instance composition and ledger rollback/corruption behavior. Do not
-retroactively promote old unauthenticated runs.
+The opt-in persistent autoscaler privacy ledger is implemented and measured;
+its separate OS rollback/key-custody limitations remain documented. The next
+SSE task is to implement a concrete adapter from `SseJournalAnchor` to the
+separate `oblivion-anchor` service: add a namespaced SQLite CAS record and
+versioned Unix-socket requests, then test independent processes, restart,
+concurrent stale writers, and restore of an old journal file. That local
+service still relies on the host OS and an independently provisioned master
+key; an old SQLite database backup defeats freshness. Measure journal write
+and recovery overhead on larger indexes before making throughput claims. Keep
+S11 partial until the concrete adapter and its deployment assumptions are
+covered; do not claim hardware anti-rollback or backward privacy.

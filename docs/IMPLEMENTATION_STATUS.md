@@ -1040,4 +1040,46 @@ This local mechanism does not protect against a privileged operator, active
 database tampering or backup rollback; stable real-world identity and
 key/registry migration remain assumptions. The ledger does not upgrade seeded
 artifacts to a DP guarantee. See [`PRIVACY_LEDGER.md`](PRIVACY_LEDGER.md).
-Hosted CI for the ledger increment has not yet run.
+Hosted CI passed for the persistent-ledger source and benchmark/report commits
+(`40367691708`, `40367666514`, `40368680632`, `40368659343` as of 2026-10-26).
+
+## Persistent SSE journal increment (2026-10-26)
+
+Added opt-in `PersistentClient<A: SseJournalAnchor>` while preserving the
+existing ephemeral `Client`. Client keys, counters, and pending requests are
+stored in ChaCha20-Poly1305 protected journal records with HKDF domain
+separation, OS-random nonces, an 8 MiB serialized plaintext bound, and a 64 MiB
+record bound. Mutations are append-only, full checkpoints are written every
+256 state changes, and the previous record digest is authenticated. Files and
+their directory are synced before the external anchor CAS; failed or
+indeterminate updates poison the live client. Tests cover byte-identical
+pending retries after restart, actual server retry/search behavior, wrong
+keys, record tampering, stale-file replay, one-winner stale-writer CAS,
+checkpoint compaction/recovery, file-size bounds, plaintext absence, and
+serialized-state validation.
+
+The full `oblivion-sse` suite passed 17 tests (11 unit and 6 integration; the
+100,000-operation plaintext-oracle test included). `cargo clippy --locked -p
+oblivion-sse --all-targets -- -D warnings` and `cargo fmt --all --check` passed.
+Hosted CI for this code has not run yet. S11 remains partial: only an in-memory
+test anchor exists; the client API is not connected to the separate
+`oblivion-anchor` process. Rollback protection requires an independent durable
+anchor and caller-managed key custody. The local file journal itself is not a
+TEE, and the 8 MiB plaintext cap is a current capacity limit. Journal write
+amplification and restart cost have not been benchmarked.
+
+Workspace formatting and `cargo clippy --locked --workspace --all-targets -- -D
+warnings` passed. The first serial workspace test attempt hit two executor
+storage tests' 100 ms deadlines; their storage-only tests now use a 1 s test
+deadline, and that target passed 5/5 without changing production classes. The
+next two serial workspace attempts each hit a different invocation timeout in
+the end-to-end server pipeline at its public 100 ms schedule. The entire
+server-pipeline test target passed 21/21 on a separate run. This host therefore
+has not produced a clean full-workspace test run yet; do not treat the
+standalone pass as a substitute. Deadline behavior and shared-host sensitivity
+remain visible limitations to investigate.
+
+`cargo build --locked --release --workspace --bins --examples` completed
+successfully after reclaiming space from the rebuildable development cache.
+This verifies optimized compilation for the workspace binaries and examples;
+it does not replace the pending clean full-workspace test run.
