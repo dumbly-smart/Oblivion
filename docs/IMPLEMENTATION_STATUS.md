@@ -695,3 +695,21 @@ workspace Clippy passed, and formatting/whitespace checks passed. The full
 workspace command is not green on this host because repeated grouped server
 runs encounter the existing fixed-deadline sensitivity; no timing budget was
 changed.
+
+## 2026-10-26: independent ORAM Markov workload replication
+
+Added and pushed the preregistered workload/configuration before collection.
+The new eight-address Markov workload used two hot addresses, 80% address
+retention, 60% reads and seed `20261027`, with the fixed temporal random-forest
+attacker and isolated bucket-handler timer. Both leaky positive controls scored
+AUC 1.000. Path ORAM scored AUC 0.5021 [0.4803, 0.5242] across 30 trials; the
+interval includes chance and does not establish privacy. Observed address
+retention was 82.39% over 30,720 accesses.
+
+The run retained raw traces, predictions, report and figure. Independent
+post-run checks verified five source/binary hashes, 1,440 raw-trace hashes and
+240 paired schedules. Harness tests passed before collection. The shared host
+had load averages 3.78/4.68/6.00 before and 7.71/6.30/6.46 after collection;
+no repository job ran concurrently, but host scheduling noise limits the
+result. See [the preregistration](ORAM_SIGNAL_REPLICATION_20261026_B_PREREG.md)
+and [the results](ORAM_SIGNAL_REPLICATION_20261026_B.md).

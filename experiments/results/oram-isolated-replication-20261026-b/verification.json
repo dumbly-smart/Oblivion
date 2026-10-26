@@ -14,5 +14,7 @@
     "observed_address_retention_fraction": 0.8238874963377714,
     "observed_hot_address_fraction": 0.43359375,
     "observed_read_fraction": 0.6004231770833334
-  }
+  },
+  "archived_trace_and_prediction_files_verified": 1530,
+  "archive_sha256": "d5307d2dd5781214b4c2ec9bb4b8aa6dba675dd05f8e5fa5d0933c6da1988319"
 }
