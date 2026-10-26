@@ -1,0 +1,84 @@
+{
+  "input_directory": "experiments/results/runtime-population-extended-20261024",
+  "input_sha256": {
+    "analysis.json": "481d418654aa10879d38f63915d168583891ebe0f493a6f8763e865a2742b575",
+    "config.json": "d5068b55c46d9f49f770d061b07950fa9c43c582f22d072491a1d36cf599467f",
+    "raw-trials.tar.gz": "dad8409d7903c62209dcb25532eb8c33840c67a9cc01a0e083673e31abf23afc"
+  },
+  "rate_input_sha256": null,
+  "trial_unit": "fresh full-path executor process; whole-process bootstrap",
+  "resource_scope": "Linux procfs CPU ticks for driver+executor+two PIR children; excludes startup/teardown CPU; sampled aggregate RSS",
+  "normalization": "observed process-tree CPU seconds divided by successful outputs and scaled to 1,000 successes; ratio of sums",
+  "statistical_method": "5,000 bootstrap resamples of whole trial processes, seed derived from the source experiment seed",
+  "rate_scenarios": [],
+  "profiles": {
+    "overload-256-i25-q2": {
+      "trials": 30,
+      "offers": 7680,
+      "successes": 1980,
+      "dropped": 5700,
+      "observed_cpu_seconds": 14.329999999999998,
+      "cpu_seconds_per_1000_successes": 7.237373737373736,
+      "cpu_seconds_per_1000_successes_ci95": [
+        6.964646464646465,
+        7.5
+      ],
+      "cpu_seconds_per_1000_offers": 1.8658854166666665,
+      "cpu_seconds_per_1000_offers_ci95": [
+        1.795572916666667,
+        1.93359375
+      ],
+      "offered_slo_failure_fraction": 0.9921875,
+      "offered_slo_failure_fraction_ci95": [
+        0.9921875,
+        0.9921875
+      ],
+      "sampled_rss": {
+        "mean_sampled_rss_mib": 25.63828125,
+        "trial_bootstrap_95": [
+          25.56328125,
+          25.715234375
+        ],
+        "interpretation": "sampled process-tree RSS; not cloud-billable memory or a peak guarantee"
+      },
+      "price_scenarios": []
+    },
+    "steady-128-i150-q2": {
+      "trials": 30,
+      "offers": 3840,
+      "successes": 3840,
+      "dropped": 0,
+      "observed_cpu_seconds": 37.47,
+      "cpu_seconds_per_1000_successes": 9.7578125,
+      "cpu_seconds_per_1000_successes_ci95": [
+        9.458333333333336,
+        10.0859375
+      ],
+      "cpu_seconds_per_1000_offers": 9.7578125,
+      "cpu_seconds_per_1000_offers_ci95": [
+        9.458333333333336,
+        10.0859375
+      ],
+      "offered_slo_failure_fraction": 0.0,
+      "offered_slo_failure_fraction_ci95": [
+        0.0,
+        0.0
+      ],
+      "sampled_rss": {
+        "mean_sampled_rss_mib": 25.641796875,
+        "trial_bootstrap_95": [
+          25.570182291666665,
+          25.709124348958333
+        ],
+        "interpretation": "sampled process-tree RSS; not cloud-billable memory or a peak guarantee"
+      },
+      "price_scenarios": []
+    }
+  },
+  "limitations": [
+    "Resource observations come from a single shared-host local experiment and are not provider billing measurements.",
+    "RSS is sampled process-tree memory, not billed memory or a peak guarantee.",
+    "No network egress, storage rent, idle capacity, autoscaler instance-seconds, startup/teardown CPU, or provider price is included.",
+    "Dollar values are emitted only when explicit analyst-supplied USD per vCPU-hour scenarios are provided."
+  ]
+}

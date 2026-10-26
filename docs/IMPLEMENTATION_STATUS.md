@@ -117,6 +117,7 @@ The built-in demo's real/dummy/function schedule is public given its code, real 
 | [SimplePIR reference](SIMPLEPIR_REFERENCE.md) and [100k summary](../experiments/results/simplepir-100k-20261023/summary.json) | Genuine pinned Go/C SimplePIR and matched XOR, 30 setups each; 100,020 queries/scheme | Every full eight-byte output matches. Real hint/setup/online accounting; within-setup outcomes dependent, no worst-case LWE failure theorem |
 | [Executor resources/CPU](EXECUTOR_RESOURCES.md) | Separate original resource and direct-CPU campaigns, each 180 processes / 2,160 calls | Setup/compile, first/warm, public classes, process/thread invocation CPU and success/failure denominators. Wall padding is not CPU waste |
 | [Extended open loop](RUNTIME_BENCHMARKS.md) | 180 fresh processes / 5,760 offers, six load/queue cells | Queue/drop/admitted latency/SLO tradeoffs retained; 32 offers/trial do not establish population tails or production capacity |
+| [Full-path CPU sensitivity](COST_SENSITIVITY.md) | 60 retained process trials; ratio-of-sums CPU normalization and whole-trial bootstrap | 9.758 CPU seconds/1,000 successes at steady load, 7.237 under overload; overload drops 74.22% and has 99.22% SLO failure. No provider rates supplied |
 | [Integrated epochs](EPOCH_SYSTEM_EVALUATION.md) | Final reader-thread pipe campaign: 360 process trees / 2,160 verified calls | 12 cells × 30; strict public/private separation, 1,080 real/1,080 dummy successes, 2,955 artifact hashes; scoped provenance differences below |
 | [Joint batching load](BATCH_LOAD_EVALUATION.md) | 720 independent processes; 30 fitted models/mode, 180 held-out targets/mode | Actual plaintext control 100%; AEAD protected 28.33% [22.78,33.89] against 33.33%. Same 22 public features/metric; two failed forest controls retained |
 | [Repeated faults](FAULT_CAMPAIGN.md) | Seven assertion-bearing fixtures × 30, 210 launches | All assertions pass for stated scenarios. Original ENOSPC/truncated-publication attempt remains excluded/incomplete, not silently overwritten |
@@ -796,3 +797,23 @@ archive, paired predictions, condition order, hashes and result figure are
 retained. Individual service PIDs/affinity masks were not retained; the final
 session mask was checked per pinned collector invocation. Host isolation,
 other classifiers, and other workloads remain open.
+
+## 2026-10-26: full-path CPU cost sensitivity
+
+Added a reproducible analysis over the retained 30-trial steady and overloaded
+full-path profiles. It validates the source artifact manifest, normalizes CPU
+by both successful outputs and offered requests as ratios of sums, and uses
+5,000 whole-process bootstrap resamples. Steady load measured 9.758 CPU seconds
+per 1,000 successes [9.458, 10.086], with no offered-load SLO failures. The
+overload profile measured 7.237 CPU seconds per 1,000 successes [6.965, 7.500]
+after dropping 74.22% of offers, while its offered-load SLO failure fraction
+was 99.22%. The lower success-normalized CPU under overload therefore reflects
+drops, not better useful capacity. Sampled aggregate RSS was about 25.64 MiB;
+it is neither peak nor billable memory.
+
+No price scenario was supplied, and the report contains no dollar estimate.
+The calculation excludes network, storage, idle capacity, autoscaler
+instance-seconds, startup/teardown CPU, and provider-specific accounting.
+Reproduction, result hashes and limits are recorded in
+[`COST_SENSITIVITY.md`](COST_SENSITIVITY.md). Remote/multi-host capacity and
+provider-calibrated costs remain unmeasured.
