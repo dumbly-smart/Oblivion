@@ -199,6 +199,36 @@ fn invocation_without_a_valid_signed_identity_is_rejected() {
     let _ = fs::remove_dir_all(path);
 }
 
+#[cfg(unix)]
+#[test]
+fn partial_anchor_configuration_fails_before_worker_readiness() {
+    use oblivion_batcher::Endpoint;
+    use std::{io::Read, process::Stdio};
+    let path = std::env::temp_dir().join(format!(
+        "oblivion-partial-anchor-{}",
+        rand::rngs::OsRng.next_u64()
+    ));
+    fs::create_dir(&path).unwrap();
+    let mut child = Command::new(env!("CARGO_BIN_EXE_oblivion-server"))
+        .args(["executor-worker", path.to_str().unwrap()])
+        .env("OBLIVION_ANCHOR_SOCKET", path.join("anchor.sock"))
+        .env_remove("OBLIVION_ANCHOR_STATE_DIR")
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::null())
+        .spawn()
+        .unwrap();
+    let mut input = child.stdin.take().unwrap();
+    let mut output = child.stdout.take().unwrap();
+    let _client = Endpoint::provision_over_pipe(0, &mut input).unwrap();
+    let mut ready = [0; 1];
+    let ready_bytes = output.read(&mut ready).unwrap();
+    drop(input);
+    assert!(!child.wait().unwrap().success());
+    assert_eq!(ready_bytes, 0, "partial anchor configuration was accepted");
+    let _ = fs::remove_dir_all(path);
+}
+
 #[test]
 fn multiple_clients_execute_mixed_functions_with_isolated_state_and_fixed_traces() {
     let path =

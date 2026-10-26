@@ -29,13 +29,22 @@ checkpoint generation and the exact fixed-shape response bytes.
   anchor verifies signatures, but does not enforce a function-level
   authorization policy.
 
-The current implementation provides this contract in `oblivion-anchor` as
-`SignedInvocationId`, `AnchorDatabase::{load_invocation_receipt,
-commit_invocation}`, and the local `UnixInvocationAnchor` adapter. Its SQLite
-schema migrates from version 1 to version 2, and response bytes are bounded to
-64 KiB. The invocation pipeline does not yet call this API. Before committing,
-the trusted executor must recompute the signed request digest from its
-canonical authenticated request and serialize the associated state slot.
+The anchor API provides this contract as `SignedInvocationId`,
+`AnchorDatabase::{load_invocation_receipt, commit_invocation}`, and the local
+`UnixInvocationAnchor` adapter. Its SQLite schema migrates from version 1 to
+version 2, and response bytes are bounded to 64 KiB. The worker now supports
+opt-in startup restore when both `OBLIVION_ANCHOR_SOCKET` and
+`OBLIVION_ANCHOR_STATE_DIR` are set; it validates the anchored snapshot ID,
+handle generation, and snapshot file before restoring. Request receipt lookup
+and commit after invocation remain to be integrated. Before committing, the
+trusted executor must recompute the signed request digest from its canonical
+authenticated request and serialize the associated state slot.
+
+The worker reconstructs Path ORAM into its instrumented in-memory bucket
+backend from the encrypted whole-store snapshot. This retains the existing
+storage trace instrumentation and gives process-restart recovery, but does not
+provide a continuously persistent bucket-file service. Snapshot writes and
+full-tree recovery are visible in size and timing.
 
 ## Scope limits
 

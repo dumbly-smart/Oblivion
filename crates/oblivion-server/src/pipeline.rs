@@ -9,7 +9,7 @@ use oblivion_exec::{Class, Executor, Namespace, Status};
 use oblivion_pir::{QueryPair, recover};
 use oblivion_registry::{Record, SignedRegistry, VerifiedRegistry};
 use oblivion_server::invocation::{sign_request, verify_request};
-use oblivion_store::{Config, MemoryBackend, PathOram};
+use oblivion_store::{Config, MemoryBackend, PathOram, TrustedCheckpoint};
 use rand::{RngCore, rngs::OsRng};
 use sha2::{Digest, Sha256};
 use std::{
@@ -22,6 +22,11 @@ use std::{
 };
 use zeroize::Zeroizing;
 
+#[cfg(unix)]
+use oblivion_anchor::UnixAnchorClient;
+#[cfg(unix)]
+use oblivion_store::CheckpointAnchor;
+
 const SOURCES: [&[u8]; 5] = [
     include_bytes!("../../../examples/wasm-functions/echo.wat"),
     include_bytes!("../../../examples/wasm-functions/sum.wat"),
@@ -29,6 +34,91 @@ const SOURCES: [&[u8]; 5] = [
     include_bytes!("../../../examples/wasm-functions/hash.wat"),
     include_bytes!("../../../examples/wasm-functions/stateful.wat"),
 ];
+
+struct WorkerState {
+    store: Arc<Mutex<PathOram<MemoryBackend>>>,
+}
+
+impl WorkerState {
+    fn new(output: &Path) -> Result<Self> {
+        let socket = std::env::var_os("OBLIVION_ANCHOR_SOCKET");
+        let state_dir = std::env::var_os("OBLIVION_ANCHOR_STATE_DIR");
+        if socket.is_some() != state_dir.is_some() {
+            return Err(
+                "OBLIVION_ANCHOR_SOCKET and OBLIVION_ANCHOR_STATE_DIR must be set together".into(),
+            );
+        }
+        let config = Config::new(8, 64)?;
+        #[cfg(unix)]
+        if let (Some(socket), Some(state_dir)) = (socket, state_dir) {
+            return Self::durable(output, config, socket.into(), state_dir.into());
+        }
+        #[cfg(not(unix))]
+        if socket.is_some() {
+            return Err("durable invocation anchors require Unix-domain sockets".into());
+        }
+        let store = PathOram::new(config, MemoryBackend::default())?;
+        Ok(Self {
+            store: Arc::new(Mutex::new(store)),
+        })
+    }
+
+    #[cfg(unix)]
+    fn durable(
+        _output: &Path,
+        config: Config,
+        socket: std::path::PathBuf,
+        state_dir: std::path::PathBuf,
+    ) -> Result<Self> {
+        use std::os::unix::fs::PermissionsExt;
+
+        fs::create_dir_all(&state_dir)?;
+        let state_metadata = fs::symlink_metadata(&state_dir)?;
+        if !state_metadata.is_dir() || state_metadata.file_type().is_symlink() {
+            return Err("anchor state directory must be a real directory".into());
+        }
+        fs::set_permissions(&state_dir, fs::Permissions::from_mode(0o700))?;
+        let snapshot_dir = state_dir.join("snapshots");
+        fs::create_dir_all(&snapshot_dir)?;
+        let snapshot_metadata = fs::symlink_metadata(&snapshot_dir)?;
+        if !snapshot_metadata.is_dir() || snapshot_metadata.file_type().is_symlink() {
+            return Err("anchor snapshot directory must be a real directory".into());
+        }
+        fs::set_permissions(&snapshot_dir, fs::Permissions::from_mode(0o700))?;
+
+        let mut checkpoint_anchor = UnixAnchorClient::checkpoint(&socket, "server-state-v1")?;
+        let current = checkpoint_anchor.load()?;
+        let store = if let Some(record) = current {
+            if !safe_snapshot_id(record.snapshot_id()) {
+                return Err("anchor returned an invalid snapshot identifier".into());
+            }
+            let snapshot = snapshot_dir.join(format!("{}.snapshot", record.snapshot_id()));
+            let metadata = fs::symlink_metadata(&snapshot)?;
+            if !metadata.is_file() || metadata.file_type().is_symlink() {
+                return Err("anchored snapshot must be a regular file".into());
+            }
+            let trusted = TrustedCheckpoint::from_secret_bytes(record.secret_handle())?;
+            if trusted.generation() != record.generation() {
+                return Err("anchor checkpoint handle generation mismatch".into());
+            }
+            PathOram::restore(snapshot, &trusted, MemoryBackend::default())?
+        } else {
+            PathOram::new(config, MemoryBackend::default())?
+        };
+        Ok(Self {
+            store: Arc::new(Mutex::new(store)),
+        })
+    }
+}
+
+#[cfg(unix)]
+fn safe_snapshot_id(value: &str) -> bool {
+    !value.is_empty()
+        && value.len() <= 96
+        && value
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || byte == b'-' || byte == b'_')
+}
 pub const REGISTRY_VERSION: u64 = 1;
 pub fn registry() -> Vec<Vec<u8>> {
     SOURCES
@@ -538,10 +628,8 @@ pub fn worker(output: &Path, participants: usize) -> Result<()> {
     let mut endpoints = bootstrap_rx
         .recv_timeout(PIPE_TIMEOUT)
         .map_err(|_| "executor bootstrap timed out")??;
-    let state = Arc::new(Mutex::new(PathOram::new(
-        Config::new(8, 64)?,
-        MemoryBackend::default(),
-    )?));
+    let worker_state = WorkerState::new(output)?;
+    let state = worker_state.store.clone();
     let mut executor = Executor::new(Class::small()).map_err(|e| e.to_string())?;
     for (id, source) in SOURCES.iter().enumerate() {
         executor

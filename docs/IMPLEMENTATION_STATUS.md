@@ -571,3 +571,20 @@ isolated rerun completed epoch 0 but timed out a later dummy at 81 ms of
 reported work during the earlier staging cutoff. No deadline was changed.
 Formatting and warning-denied package Clippy pass. Timing-sensitive demo
 reliability remains open and is not attributed to identity verification alone.
+
+## 2026-10-26: anchored checkpoint restore bootstrap
+
+The executor now rejects partial `OBLIVION_ANCHOR_SOCKET` /
+`OBLIVION_ANCHOR_STATE_DIR` configuration before announcing readiness. With
+both configured it loads the anchor's current checkpoint, checks the bounded
+snapshot ID and matching generation, rejects symlink/non-file snapshots, and
+restores the authenticated whole-store checkpoint. Without anchor settings it
+retains the ephemeral-memory path. Restore uses `MemoryBackend` to preserve the
+existing per-bucket trace instrumentation; the checkpoint itself is the
+durable encrypted snapshot, not a live bucket-file service. Receipt lookup,
+per-invocation checkpoint commit, and a real restart/replay integration test
+remain unfinished.
+
+The partial-configuration regression test passes. Package Clippy with warnings
+denied passes. Snapshot ID validation and recovery still need end-to-end tests
+against the local anchor service before this bootstrap is considered complete.
