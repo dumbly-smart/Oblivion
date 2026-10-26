@@ -1,0 +1,26 @@
+{
+  "collection_started_utc": "2026-10-26T08:10:15Z",
+  "collection_finished_utc": "2026-10-26T08:12:20+00:00",
+  "load_average_before_collection": [
+    3.78,
+    4.68,
+    6.0
+  ],
+  "load_average_after_collection": [
+    7.71,
+    6.3,
+    6.46
+  ],
+  "cpu": {
+    "CPU(s)": "24",
+    "Model name": "Intel(R) Core(TM) i7-14650HX",
+    "Thread(s) per core": "2",
+    "Core(s) per socket": "16",
+    "Socket(s)": "1"
+  },
+  "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+  "cpu_affinity_pinned": false,
+  "repository_benchmark_or_test_processes_before_collection": [],
+  "repository_benchmark_or_test_processes_after_collection": [],
+  "measurement_note": "Bucket handler timing was measured in a separate local service process. Host load was moderate; this was not a quiet-host or remote-network timing run."
+}

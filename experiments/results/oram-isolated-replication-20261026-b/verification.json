@@ -1,0 +1,18 @@
+{
+  "raw_session_files_verified": 1440,
+  "source_files_verified": 5,
+  "paired_trial_session_schedules_verified": 240,
+  "modes": [
+    "plaintext",
+    "encrypt_only",
+    "oram"
+  ],
+  "git_head": "33572f402b05f0aa7896121fd7fa5a8067a6c799",
+  "verification_method": "recomputed SHA-256 for every retained raw trace and recorded source/binary; rechecked each seeded private schedule across all modes",
+  "private_workload_summary": {
+    "measured_accesses": 30720,
+    "observed_address_retention_fraction": 0.8238874963377714,
+    "observed_hot_address_fraction": 0.43359375,
+    "observed_read_fraction": 0.6004231770833334
+  }
+}
