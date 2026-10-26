@@ -989,3 +989,25 @@ DP guarantee, and historical campaigns are unchanged. Focused composition,
 rebuild, identity, and selected-policy tests passed; the full Python suite
 passed (220 tests, 4 skipped; 2026-10-26). Hosted CI has not yet run for this
 increment.
+
+## 2026-10-26: preregistered two-address isolated ORAM timing follow-up
+
+Repeated the historical two-address 75/25 logical workload with fresh seed,
+paired plaintext/encrypt-only/ORAM schedules, whole-session profiling/target
+splits, and a frozen AUC primary metric. Both positive controls scored AUC
+1.000. Path ORAM scored 0.4989 [0.4888, 0.5083] over 30 trials, including
+chance; this does not reproduce the earlier weak exploratory signal. The
+timing boundary is different: service-handler-only time in a separate child
+process, rather than historical controller plus trace-drain duration. The
+shared host was heavily loaded, so smaller effects remain unresolved.
+
+The independent artifact audit rechecked 1,440 compressed raw files, five
+source/configuration/binary hashes, 240 paired schedules, 430,080 observer
+events, 720 distinct service workers and 90 prediction AUCs. The 12 focused
+replication/timing tests passed and both release examples built before
+collection. Raw output, host observations, predictions, figure and audit
+summary are in
+[`experiments/results/oram-isolated-two-address-replication-20261026`](../experiments/results/oram-isolated-two-address-replication-20261026/);
+see the [experiment report](ORAM_TWO_ADDRESS_REPLICATION_20261026.md) and
+[pre-registration](ORAM_TWO_ADDRESS_REPLICATION_PREREG_20261026.md). These
+measurements are not a remote timing study or an ORAM security proof.

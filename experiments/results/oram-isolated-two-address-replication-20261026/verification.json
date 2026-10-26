@@ -1,0 +1,38 @@
+{
+  "artifact": "experiments/results/oram-isolated-two-address-replication-20261026",
+  "report_sha256": "6790662906acb51bf64844816ba0806403b1481427ccb729710ff17564a1863f",
+  "independently_checked": {
+    "raw_sha256_files": 1440,
+    "source_sha256_files": 5,
+    "paired_trial_sessions": 240,
+    "observer_events": 430080,
+    "service_child_records": 720,
+    "unique_service_workers": 720,
+    "prediction_auc_trials": 90,
+    "primary_auc_recomputed": {
+      "plaintext": {
+        "auc_mean": 1.0,
+        "auc_ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "encrypt_only": {
+        "auc_mean": 1.0,
+        "auc_ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "oram": {
+        "auc_mean": 0.4989001821348964,
+        "auc_ci95_trials": [
+          0.48875982276705293,
+          0.5082941699843194
+        ]
+      }
+    },
+    "positive_controls_passed": true,
+    "oram_interval_contains_chance": true
+  }
+}

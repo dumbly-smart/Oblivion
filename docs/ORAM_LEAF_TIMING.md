@@ -24,6 +24,18 @@ Both deliberately leaky controls passed before the ORAM results were interpreted
 
 This closes a bounded two-record leaf-plus-timing inference experiment. It does not assess arbitrary address universes, operation-type inference, full sequences, cache/page faults, the current process scheduler or every host observation.
 
+## Isolated-service follow-up (2026-10-26)
+
+A preregistered fresh-seed follow-up retained the 75/25 two-address workload
+but changed the timing boundary to bucket-handler-only time in a separate
+service process. Plaintext and encrypt-only controls each scored AUC 1.000;
+Path ORAM scored 0.4989 [0.4888, 0.5083] over 30 trials. This does not
+reproduce the historical exploratory weak AUC signal, but the changed timing
+boundary means it is not an exact replication. The high-load shared host and
+finite experiment leave smaller effects unresolved. See the
+[preregistration](ORAM_TWO_ADDRESS_REPLICATION_PREREG_20261026.md),
+[results and retained traces](ORAM_TWO_ADDRESS_REPLICATION_20261026.md).
+
 ## Reproduce
 
 ```sh
