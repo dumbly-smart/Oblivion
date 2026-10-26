@@ -63,9 +63,10 @@ It rejects a controller whose generation is stale before publishing, and its
 recovery tests cover successful advancement, stale writers, invalid IDs and a
 definite non-commit retry. Fresh package verification passed formatting,
 `cargo test -p oblivion-store -- --test-threads=1` (20 passed, one million-op
-stress test intentionally ignored), and warning-free Clippy. The anchor service,
-snapshot catalog, durable invocation acknowledgment/side-effect transaction,
-and ambiguous remote-CAS recovery remain unimplemented.
+stress test intentionally ignored), and warning-free Clippy. Later work added a
+local anchor service and optional durable invocation response/checkpoint
+transaction. A hardware anti-rollback source, arbitrary external-side-effect
+transactions, and remote anchor service remain unimplemented.
 
 The `oblivion-registry` crate implements fixed-size Ed25519-signed records, a
 signed catalog digest, bounded exact parsing, per-record strict verification,
@@ -73,12 +74,15 @@ and monotonic activation through a caller-provided version-anchor CAS. Its
 tampering, omission, reorder, duplicate, key, version, rollback and CAS-conflict
 tests pass. The runtime now builds and verifies a signed catalog in the trusted
 executor and supplies its 160-byte rows to both secure-PIR workers over bounded
-inherited-pipe framing. Recovered rows must match the verified local pin. This
-demo signer is ephemeral and establishes no external publisher identity. A
-durable version anchor, signer custody, remote publication and partial-catalog
-inclusion proofs remain open.
+inherited-pipe framing. Recovered rows must match the verified local pin.
+Workers can now load a publisher-signed catalog and pinned public key from
+bounded files before readiness; the offline publisher example creates the
+embedded-module catalog. The built-in fallback signer remains ephemeral and
+does not establish external publisher identity. Durable catalog-version
+anti-rollback, remote publication and partial-catalog inclusion proofs remain
+open.
 
-Updated 2026-10-24. The selected pipeline and later bounded research artifacts now have evidence in [the requirements matrix](REQUIREMENTS_MATRIX.md) and [completion audit](COMPLETION_AUDIT.md). The selected artifacts and earlier passing gates are recorded. PR #1 is the review artifact while latest validation closure is held; no production-security or merge claim follows. TrustedExecutor is simulated by ordinary processes, without a hardware TEE or attestation.
+Updated 2026-10-26. The selected pipeline and later bounded research artifacts have evidence in [the requirements matrix](REQUIREMENTS_MATRIX.md) and [completion audit](COMPLETION_AUDIT.md). The selected artifacts and earlier passing gates are recorded. PR #1 is the review artifact; no production-security or merge claim follows. TrustedExecutor is simulated by ordinary processes, without a hardware TEE or attestation.
 
 ## Implemented system
 
@@ -606,7 +610,7 @@ application to persist these values. Same-ID concurrency is not fenced,
 external effects are not transactional, SQLite rollback remains possible,
 and host root can inspect state.
 
-The current-source serialized workspace run completed successfully with
+Before external-registry provisioning, a serialized workspace run completed successfully with
 `cargo test --locked --workspace -- --test-threads=1`. All test binaries
 passed, including all 18 server pipeline tests and the 100,000-operation SSE
 oracle test (160.70 seconds). The million-operation ORAM oracle remains
@@ -633,3 +637,31 @@ formatting, warning-denied workspace Clippy, and whitespace checks pass.
 Snapshot retention, same-ID concurrency fencing, external-side-effect
 transactions, and rollback resistance against an anchor database backup remain
 open limitations.
+
+## 2026-10-26: external publisher-signed registry provisioning
+
+`OBLIVION_REGISTRY_MANIFEST` and `OBLIVION_REGISTRY_PUBLIC_KEY` are now a
+paired worker configuration. The executor bounds both files, verifies the
+Ed25519 catalog signature, requires exactly five ordered records, and checks
+each module digest, embedded-location digest, and resource class before it
+starts PIR workers or announces readiness. The selected records remain pinned
+byte-for-byte for every recovered PIR response. A wrong key, partial
+configuration, 33-byte public key, and oversized manifest all failed before
+readiness in a process test; a valid external catalog reached readiness.
+
+The offline `publish-registry` example creates this versioned catalog and its
+raw 32-byte public key from a separately provisioned seed. It rejects seed
+files with group/other access on Unix. With neither runtime environment value,
+the development demo retains its ephemeral signer. This optional mode does
+not authenticate the public-key-to-publisher binding or anchor catalog-version
+freshness.
+
+The signed-catalog unit test, publisher-example test, process test, formatting,
+whitespace checks, and warning-denied server Clippy passed. The first two
+serialized full-workspace attempts stopped at deadline failures in the server
+pipeline, executor storage-schedule test, and harness ablation test; each
+affected case passed in isolation. A third serialized run completed the full
+workspace successfully, including all 19 server pipeline tests and the
+100,000-operation SSE oracle (145.92 seconds). The million-operation ORAM
+oracle remains intentionally ignored in this default run. No timing budget was
+changed.
