@@ -41,6 +41,8 @@ struct Experiment {
     read_probability: f64,
     #[serde(default = "default_backend")]
     backend: String,
+    #[serde(default)]
+    service_cpu_affinity: Option<usize>,
 }
 
 fn default_backend() -> String {
@@ -220,6 +222,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                     &std::env::current_exe()?,
                     geometry.bucket_count(),
                     geometry.bucket_bytes(),
+                    config.service_cpu_affinity,
                 )?;
                 let worker_pid = backend.worker_pid();
                 let request_bytes = backend.request_bytes();
@@ -261,12 +264,18 @@ fn main() -> Result<(), Box<dyn Error>> {
         }
         store.set_tracing(true);
         if let Some((worker_pid, request_bytes, response_bytes)) = store.isolated_metadata() {
+            let service_allowed_cpus = config
+                .service_cpu_affinity
+                .map(|_| isolated::process_allowed_cpus(worker_pid))
+                .transpose()?;
             fs::write(
                 out.join("isolated-service.json"),
                 serde_json::to_vec_pretty(&serde_json::json!({
                     "worker_pid": worker_pid, "controller_pid": std::process::id(),
                     "request_bytes": request_bytes, "response_bytes": response_bytes,
                     "bucket_bytes": geometry.bucket_bytes(), "path_buckets": geometry.path_buckets(),
+                    "service_cpu_affinity": config.service_cpu_affinity,
+                    "service_allowed_cpus": service_allowed_cpus,
                     "timing_scope": "bucket-handler-only; excludes pipe wait, path computation, request decoding, response encoding, and file output"
                 }))?,
             )?;

@@ -40,6 +40,8 @@ struct Experiment {
     address_persistence: f64,
     #[serde(default = "isolated::default_read_probability")]
     read_probability: f64,
+    #[serde(default)]
+    service_cpu_affinity: Option<usize>,
 }
 
 struct DirectStore {
@@ -58,8 +60,10 @@ impl DirectStore {
         bucket_bytes: usize,
         block_bytes: usize,
         encrypt: bool,
+        service_cpu_affinity: Option<usize>,
     ) -> Result<Self, Box<dyn Error>> {
-        let backend = IsolatedBackend::spawn(executable, blocks, bucket_bytes)?;
+        let backend =
+            IsolatedBackend::spawn(executable, blocks, bucket_bytes, service_cpu_affinity)?;
         let cipher = if encrypt {
             let mut key = [0; 32];
             rand::rngs::OsRng.fill_bytes(&mut key);
@@ -271,6 +275,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             geometry.bucket_bytes(),
             config.block_bytes,
             mode == "encrypt_only",
+            config.service_cpu_affinity,
         )?;
         store.backend.set_recording(false);
         let mut oracle = vec![vec![0; config.block_bytes]; config.blocks];
@@ -303,6 +308,10 @@ fn main() -> Result<(), Box<dyn Error>> {
             store.read(address)?;
         }
         store.backend.set_recording(true);
+        let service_allowed_cpus = config
+            .service_cpu_affinity
+            .map(|_| isolated::process_allowed_cpus(store.backend.worker_pid()))
+            .transpose()?;
         let metadata = serde_json::json!({
             "backend": mode,
             "worker_pid": store.backend.worker_pid(),
@@ -310,6 +319,8 @@ fn main() -> Result<(), Box<dyn Error>> {
             "request_bytes": store.backend.request_bytes(),
             "response_bytes": store.backend.response_bytes(),
             "bucket_bytes": geometry.bucket_bytes(),
+            "service_cpu_affinity": config.service_cpu_affinity,
+            "service_allowed_cpus": service_allowed_cpus,
             "events_per_access": 2,
             "timing_scope": "bucket-handler-only; excludes pipe wait, client crypto, request decoding, response encoding, and file output"
         });

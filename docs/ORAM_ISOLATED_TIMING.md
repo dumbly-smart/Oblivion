@@ -15,6 +15,15 @@ serialization, and trace file output. It is a local process-isolated service
 measurement, not a remote network latency or a hardware-independent timing
 guarantee. The child process and its OS are not a TEE.
 
+Linux experiment configs may set `service_cpu_affinity` to a CPU ID. The
+runner starts the bucket-service child through `taskset`; the workload driver
+remains unpinned. The requested CPU is copied into the service metadata and
+the run fails to start if the host does not permit that affinity. This reduces
+service-process migration but does not reserve a core, exclude sibling tasks,
+control frequency/thermal behavior, or eliminate host scheduling noise. It
+does not make timing constant. `taskset` is required only when affinity is
+requested; the default `null` leaves the OS scheduler unchanged.
+
 Observer rows contain the step number, direction, physical bucket identifier,
 byte count, and isolated service time. They do not contain the logical address,
 the client-side read/write label, plaintext data, or ground-truth workload

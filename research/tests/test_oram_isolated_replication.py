@@ -5,6 +5,13 @@ from research.analysis import oram_isolated_replication as study
 
 
 class IsolatedTraceTests(unittest.TestCase):
+    def test_cpu_affinity_configuration_requires_a_nonnegative_integer_or_null(self):
+        for valid in (None, 0, 23):
+            study.validate_service_cpu_affinity(valid)
+        for invalid in (-1, True, 1.0, "2"):
+            with self.assertRaises(ValueError):
+                study.validate_service_cpu_affinity(invalid)
+
     def test_path_events_collapse_to_one_observer_row_per_logical_access(self):
         events = [
             {"step": 0, "direction": "read", "bucket": 0, "bytes": 128, "service_ns": 8},

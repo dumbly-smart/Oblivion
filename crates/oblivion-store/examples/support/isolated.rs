@@ -16,6 +16,24 @@ pub fn valid_read_probability(probability: f64) -> bool {
     probability.is_finite() && (0.0..=1.0).contains(&probability)
 }
 
+#[cfg(target_os = "linux")]
+pub fn process_allowed_cpus(pid: u32) -> io::Result<String> {
+    let status = std::fs::read_to_string(format!("/proc/{pid}/status"))?;
+    status
+        .lines()
+        .find_map(|line| line.strip_prefix("Cpus_allowed_list:\t"))
+        .map(str::to_owned)
+        .ok_or_else(|| io::Error::other("process CPU affinity missing from proc status"))
+}
+
+#[cfg(not(target_os = "linux"))]
+pub fn process_allowed_cpus(_pid: u32) -> io::Result<String> {
+    Err(io::Error::new(
+        io::ErrorKind::Unsupported,
+        "process CPU affinity inspection is supported only on Linux",
+    ))
+}
+
 pub fn sample_is_write<R: Rng + ?Sized>(rng: &mut R, read_probability: f64) -> bool {
     rng.gen_bool(1.0 - read_probability)
 }
@@ -155,6 +173,7 @@ impl IsolatedBackend {
         executable: &std::path::Path,
         bucket_count: usize,
         bucket_bytes: usize,
+        service_cpu_affinity: Option<usize>,
     ) -> io::Result<Self> {
         if bucket_count == 0 || bucket_bytes == 0 || bucket_bytes > 1 << 20 {
             return Err(io::Error::new(
@@ -162,12 +181,13 @@ impl IsolatedBackend {
                 "invalid isolated bucket geometry",
             ));
         }
-        let mut child = Command::new(executable)
-            .args([
-                "--bucket-server",
-                &bucket_count.to_string(),
-                &bucket_bytes.to_string(),
-            ])
+        let mut command = command_with_cpu_affinity(executable, service_cpu_affinity)?;
+        command.args([
+            "--bucket-server",
+            &bucket_count.to_string(),
+            &bucket_bytes.to_string(),
+        ]);
+        let mut child = command
             .stdin(Stdio::piped())
             .stdout(Stdio::piped())
             .stderr(Stdio::null())
@@ -282,6 +302,34 @@ impl IsolatedBackend {
     }
 }
 
+#[cfg(target_os = "linux")]
+fn command_with_cpu_affinity(
+    executable: &std::path::Path,
+    cpu: Option<usize>,
+) -> io::Result<Command> {
+    if let Some(cpu) = cpu {
+        let mut command = Command::new("taskset");
+        command.args(["-c", &cpu.to_string()]).arg(executable);
+        Ok(command)
+    } else {
+        Ok(Command::new(executable))
+    }
+}
+
+#[cfg(not(target_os = "linux"))]
+fn command_with_cpu_affinity(
+    executable: &std::path::Path,
+    cpu: Option<usize>,
+) -> io::Result<Command> {
+    if cpu.is_some() {
+        return Err(io::Error::new(
+            io::ErrorKind::Unsupported,
+            "service CPU affinity is supported only on Linux",
+        ));
+    }
+    Ok(Command::new(executable))
+}
+
 impl Backend for IsolatedBackend {
     fn read_bucket(&mut self, bucket: usize) -> Result<Vec<u8>, Error> {
         self.transact(StorageDirection::Read, bucket, &vec![0; self.bucket_bytes])
@@ -362,6 +410,44 @@ mod tests {
     use rand::SeedableRng;
     use rand_chacha::ChaCha20Rng;
     use std::os::unix::net::UnixStream;
+
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn configured_service_cpu_affinity_is_applied_to_child_only() {
+        let status = std::fs::read_to_string("/proc/self/status").unwrap();
+        let allowed = status
+            .lines()
+            .find_map(|line| line.strip_prefix("Cpus_allowed_list:\t"))
+            .expect("Linux process CPU affinity is available");
+        let cpu = allowed
+            .split(',')
+            .next()
+            .unwrap()
+            .split('-')
+            .next()
+            .unwrap();
+
+        let mut command =
+            command_with_cpu_affinity(std::path::Path::new("sleep"), Some(cpu.parse().unwrap()))
+                .unwrap();
+        command.arg("0.1");
+        let mut child = command.spawn().unwrap();
+        let mut actual = String::new();
+        for _ in 0..100 {
+            actual = process_allowed_cpus(child.id()).unwrap();
+            if actual == cpu {
+                break;
+            }
+            std::thread::sleep(std::time::Duration::from_millis(1));
+        }
+        assert_eq!(actual, cpu);
+        assert_eq!(process_allowed_cpus(std::process::id()).unwrap(), allowed);
+        assert!(child.wait().unwrap().success());
+
+        let mut invalid =
+            command_with_cpu_affinity(std::path::Path::new("true"), Some(999_999)).unwrap();
+        assert!(!invalid.output().unwrap().status.success());
+    }
 
     #[test]
     fn configured_distribution_samples_addresses_and_rejects_invalid_labels() {

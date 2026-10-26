@@ -212,6 +212,11 @@ def verify_paired_schedules(raw_root, modes, trials, sessions, address_count=2):
             require_paired_schedules(sequences, address_count)
 
 
+def validate_service_cpu_affinity(cpu):
+    if cpu is not None and (type(cpu) is not int or cpu < 0):
+        raise ValueError("service_cpu_affinity must be a nonnegative CPU id or null")
+
+
 def capture_mode(mode, config, binaries, output, temporary):
     executable = binaries["oram"] if mode == "oram" else binaries["control"]
     result_root = output / "raw" / mode
@@ -231,6 +236,7 @@ def capture_mode(mode, config, binaries, output, temporary):
             "address_distribution": config["address_distribution"],
             "hot_addresses": config["hot_addresses"],
             "read_probability": config["read_probability"],
+            "service_cpu_affinity": config.get("service_cpu_affinity"),
         }
         if mode == "oram":
             run_config["backend"] = "isolated_process"
@@ -243,6 +249,11 @@ def capture_mode(mode, config, binaries, output, temporary):
             command = [str(executable), mode, str(config_path), str(run_output)]
         subprocess.run(command, cwd=ROOT, check=True, capture_output=True, text=True)
         metadata = json.loads((run_output / "isolated-service.json").read_text())
+        if metadata.get("service_cpu_affinity") != config.get("service_cpu_affinity"):
+            raise ValueError("isolated service did not report the preregistered CPU affinity")
+        requested_cpu = config.get("service_cpu_affinity")
+        if requested_cpu is not None and metadata.get("service_allowed_cpus") != str(requested_cpu):
+            raise ValueError("isolated service process affinity differs from the requested CPU")
         manifest.append(metadata)
         trial_dir = result_root / f"trial-{trial:02}"
         trial_dir.mkdir()
@@ -310,6 +321,8 @@ def evaluate_mode(mode, raw_root, config):
 def run(config_path, output, oram_binary, control_binary):
     started = time.time()
     config = json.loads(Path(config_path).read_text())
+    service_cpu_affinity = config.get("service_cpu_affinity")
+    validate_service_cpu_affinity(service_cpu_affinity)
     distribution = config.get("address_distribution", {"0": 0.75, "1": 0.25})
     hot_addresses = config.get("hot_addresses", [0])
     read_probability = config.get("read_probability", 0.5)
@@ -419,6 +432,7 @@ def run(config_path, output, oram_binary, control_binary):
         "attacker_model": "RandomForestClassifier(n_estimators=128, max_depth=8, min_samples_leaf=5, class_weight=balanced, random_state=1907, n_jobs=1)",
         "methodology": f"30 seeded attack trials per mode; each trial uses four complete profile sessions and four disjoint target sessions, eight sessions total. The same seeded hot/cold and read/write workload (read probability {read_probability}) is run in every mode; each session has fresh process state and fresh ORAM state or AEAD key. Primary metric is AUC; intervals bootstrap the 30 fitted-trial means. All baseline controls are run and scored before ORAM.",
         "timing_scope": "Local separate bucket-service process; handler-only time excludes pipe waiting, Path ORAM controller work, request parsing and response encoding. Not remote timing.",
+        "service_cpu_affinity": service_cpu_affinity,
         "limitations": "Synthetic configured address distribution; local process IPC and in-memory bucket service; only short-window temporal features; one binary classifier family. Each reported result applies only to its configured address universe and hot/cold partition. This is not a cryptographic security proof, remote-network experiment, or general workload result.",
         "process_metadata": process_metadata,
         "source_sha256": source_hashes,
