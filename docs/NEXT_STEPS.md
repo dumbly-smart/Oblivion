@@ -70,11 +70,11 @@ data; the original report and complete hash manifest are retained. See the
 [independent result](ORAM_ZIPF32_MONITORED_REPLICATION_20261026.md). The two
 runs are separate estimates, not a pooled analysis.
 
-A uniform-32 comparison is preregistered in
+A uniform-32 comparison was preregistered in
 [`ORAM_UNIFORM32_REPLICATION_PREREG_20261026.md`](ORAM_UNIFORM32_REPLICATION_PREREG_20261026.md).
-It uses a balanced public hot/cold partition and preserves the same operation
-mix, classifier, positive controls, and primary metric; collection remains
-outstanding.
+It used a balanced public hot/cold partition and preserved the same operation
+mix, classifier, positive controls, and primary metric; its completed result is
+recorded below.
 
 The uniform-32 replication is now complete. Both positive controls passed and
 Path ORAM scored AUC 0.5018 [0.4965, 0.5078]; the interval includes chance.
