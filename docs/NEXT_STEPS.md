@@ -102,3 +102,17 @@ classifier and is not an independent collection from that primary analysis.
 See the [protocol](ORAM_MARKOV_TRANSITION_REPLICATION_PREREG_20261026.md) and
 [result](ORAM_MARKOV_TRANSITION_REPLICATION_20261026.md). This does not settle
 other attacks, workloads, or remote timing.
+
+## Next software action
+
+Add a public-key request-authentication path for bounded-user autoscaler
+experiments. The current HMAC verifier holds signing secrets, so it cannot
+authenticate users against an adversary that can inspect verifier memory.
+Use a maintained Ed25519 library with separately provisioned client signing
+keys and a verifier-only public-key registry; keep the existing HMAC path
+explicitly labeled as a shared-secret simulation mode. Test forged identities,
+tampered request fields, unknown principals, malformed signatures, key-file
+permission/size handling, authenticated imports, and raw-data regeneration.
+Do not claim identity protection against a scheduler that also controls the
+client signing keys. This extension should not rewrite prior experiment
+artifacts or upgrade their unauthenticated evidence.
