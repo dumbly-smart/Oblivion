@@ -111,3 +111,9 @@ queueing, timing, cost, host metadata, and the complete runtime transcript.
 See [`SAMPLER_AUDIT.md`](SAMPLER_AUDIT.md) and
 [`SECURITY_ASSUMPTIONS.md`](SECURITY_ASSUMPTIONS.md) for the separate
 mechanism and identity assumptions.
+
+The committed local microbenchmark measured 30 sequential releases at four
+principal-set sizes, with p50 transaction latency from 0.154 ms (one principal)
+to 5.196 ms (256 principals) on the recorded shared host. Raw timings, source
+hashes, independent reanalysis, and limitations are in
+[`PRIVACY_LEDGER_BENCHMARK_20261026.md`](PRIVACY_LEDGER_BENCHMARK_20261026.md).

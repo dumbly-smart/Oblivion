@@ -1029,10 +1029,15 @@ Twelve focused ledger tests cover reopen composition, duplicate and atomic
 budget rejection, concurrent writers, key/identity/configuration mismatch,
 filesystem permissions, path redaction, and two actual runner invocations.
 The full research Python suite passed (232 tests, 4 skips; 2026-10-26), and
-the four changed Python modules passed `py_compile`. No new empirical run or
-performance benchmark was collected. This local mechanism does not protect
-against a privileged operator, active database tampering or backup rollback;
-stable real-world identity and key/registry migration remain assumptions.
-The ledger does not upgrade seeded artifacts to a DP guarantee. See
-[`PRIVACY_LEDGER.md`](PRIVACY_LEDGER.md). Hosted CI for this increment has not
-yet run.
+the core ledger modules compiled successfully. A 30-trial microbenchmark at
+1/16/64/256 principals per release measured p50 commit latency of
+0.154/0.521/1.713/5.196 ms and final database sizes of
+49,152/172,032/659,456/2,498,560 bytes. The raw percentiles were independently
+recomputed from all 120 saved latencies. This is a heavily loaded single-host
+measurement, not a remote capacity estimate; see
+[`PRIVACY_LEDGER_BENCHMARK_20261026.md`](PRIVACY_LEDGER_BENCHMARK_20261026.md).
+This local mechanism does not protect against a privileged operator, active
+database tampering or backup rollback; stable real-world identity and
+key/registry migration remain assumptions. The ledger does not upgrade seeded
+artifacts to a DP guarantee. See [`PRIVACY_LEDGER.md`](PRIVACY_LEDGER.md).
+Hosted CI for the ledger increment has not yet run.

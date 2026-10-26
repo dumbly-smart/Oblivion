@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "source_result_sha256": "6687f7e627aeed7f4adc4f41b36e73a77f3009383e0223529f193ffe524c5b4e",
+  "source_config_sha256": "bbfba465c2417b06902ea23bd32202a6e481c5e005e5838ec831e606b31954ca",
+  "raw_input_manifest_verified": true,
+  "primary_metrics_recomputed": true,
+  "release_accounting_recomputed": true,
+  "source_sha256_comparison": {
+    "scripts/benchmark_privacy_ledger.py": {
+      "collection_sha256": "e716b9a6943dae89bb118b8a11366ddcb6225f8befd219999eb201dd4c364345",
+      "current_sha256": "e716b9a6943dae89bb118b8a11366ddcb6225f8befd219999eb201dd4c364345",
+      "matches_current": true
+    },
+    "research/simulation/privacy_ledger.py": {
+      "collection_sha256": "bba7abc5a2f72b124b9a27fcc14694011bb736f5cb5b3c44a3a6fc486e808ccd",
+      "current_sha256": "bba7abc5a2f72b124b9a27fcc14694011bb736f5cb5b3c44a3a6fc486e808ccd",
+      "matches_current": true
+    }
+  },
+  "cases": [
+    {
+      "users_per_release": 1,
+      "trials": 30,
+      "p50_ms": 0.153518,
+      "p95_ms": 0.23596345,
+      "p99_ms": 0.26962781,
+      "mean_ms": 0.16539839999999997,
+      "throughput_releases_per_second": 6046.007700195407,
+      "final_database_bytes": 49152
+    },
+    {
+      "users_per_release": 16,
+      "trials": 30,
+      "p50_ms": 0.520853,
+      "p95_ms": 0.5611392,
+      "p99_ms": 0.6050135000000001,
+      "mean_ms": 0.511216,
+      "throughput_releases_per_second": 1956.1203092234985,
+      "final_database_bytes": 172032
+    },
+    {
+      "users_per_release": 64,
+      "trials": 30,
+      "p50_ms": 1.7131545,
+      "p95_ms": 1.780438,
+      "p99_ms": 1.7976455900000001,
+      "mean_ms": 1.6431308000000002,
+      "throughput_releases_per_second": 608.5942762438632,
+      "final_database_bytes": 659456
+    },
+    {
+      "users_per_release": 256,
+      "trials": 30,
+      "p50_ms": 5.1962934999999995,
+      "p95_ms": 6.26452785,
+      "p99_ms": 6.33634282,
+      "mean_ms": 5.1348438666666665,
+      "throughput_releases_per_second": 194.7478883421551,
+      "final_database_bytes": 2498560
+    }
+  ],
+  "analysis_provenance": {
+    "source_sha256": "c63ae5c1d635a30d14f409ad0584862599d22e5b109c98d9eade05ed6d55c9af",
+    "git_head": "7b970cc4859d6e6c7f36cddfdbb5718bba294ae5"
+  },
+  "generated_at_utc": "2026-10-26T17:25:47.898451+00:00",
+  "analysis_environment": {
+    "python": "3.14.8 (main, Oct  2 2026, 10:23:31) [GCC 16.2.1 20260810]",
+    "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+    "numpy": "2.5.4",
+    "matplotlib": "3.11.2"
+  },
+  "plot_sha256": "1d930e3c0c296d7ce940957d16d9f53a9c2f1fcf36e5dbc50f42d8968604ee9d"
+}
