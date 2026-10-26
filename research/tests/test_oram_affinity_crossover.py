@@ -4,6 +4,7 @@ import unittest
 from research.analysis.oram_affinity_crossover import (
     counterbalanced_condition_orders,
     paired_auc_summary,
+    selected_trial_indices,
 )
 
 
@@ -27,6 +28,10 @@ class AffinityCrossoverTests(unittest.TestCase):
             paired_auc_summary([0.6], [], seed=1)
         with self.assertRaises(ValueError):
             paired_auc_summary([float("nan")], [0.5], seed=1)
+
+    def test_selected_trial_indices_support_full_and_single_trial_capture(self):
+        self.assertEqual(list(selected_trial_indices(4)), [0, 1, 2, 3])
+        self.assertEqual(list(selected_trial_indices(4, [2])), [2])
 
 
 if __name__ == "__main__":

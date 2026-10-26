@@ -32,6 +32,10 @@ def counterbalanced_condition_orders(trials, seed):
     return orders
 
 
+def selected_trial_indices(trials, trial_indices=None):
+    return range(trials) if trial_indices is None else tuple(trial_indices)
+
+
 def paired_auc_summary(pinned_auc, unpinned_auc, seed):
     if len(pinned_auc) != len(unpinned_auc) or not pinned_auc:
         raise ValueError("paired AUC vectors must have equal nonzero length")
@@ -122,7 +126,7 @@ def run(config_path, output, oram_binary, control_binary):
                     process_metadata[f"{condition}:{mode}"].extend(
                         replication.capture_mode(
                             mode, condition_configs[condition], binaries, output, temporary,
-                            trial_indices=[trial], condition=condition,
+                            trial_indices=selected_trial_indices(trials, [trial]), condition=condition,
                         )
                     )
         address_count = len(config["address_distribution"])
@@ -158,7 +162,7 @@ def run(config_path, output, oram_binary, control_binary):
                 process_metadata[f"{condition}:oram"].extend(
                     replication.capture_mode(
                         "oram", condition_configs[condition], binaries, output, temporary,
-                        trial_indices=[trial], condition=condition,
+                        trial_indices=selected_trial_indices(trials, [trial]), condition=condition,
                     )
                 )
         verify_crossover_schedules(output / "raw", trials, sessions, address_count, True)

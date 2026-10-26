@@ -225,7 +225,8 @@ def capture_mode(mode, config, binaries, output, temporary, trial_indices=None, 
     result_root /= mode
     result_root.mkdir(parents=True, exist_ok=True)
     manifest = []
-    for trial in range(config["trials"] if trial_indices is None else trial_indices):
+    selected_trials = range(config["trials"]) if trial_indices is None else trial_indices
+    for trial in selected_trials:
         run_config = {
             "version": 1, "blocks": config["blocks"],
             "bucket_capacity": config["bucket_capacity"],
