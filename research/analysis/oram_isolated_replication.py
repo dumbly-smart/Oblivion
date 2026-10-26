@@ -494,6 +494,9 @@ def run(config_path, output, oram_binary, control_binary):
             "oram", config, binaries, output, temporary,
             host_observation, host_observation_path,
         )
+        source_hashes, raw_hashes = experiment_hashes(
+            config_path, oram_binary, control_binary, output,
+        )
         verify_paired_schedules(
             output / "raw", MODES, config["trials"], config["sessions_per_trial"],
             len(numeric_distribution),
