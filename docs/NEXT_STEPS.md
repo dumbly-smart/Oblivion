@@ -24,11 +24,22 @@ An additional preregistered independent ORAM leaf/timing run used a fresh eight-
 A separate 2026-10-26 preregistered Markov-locality workload B changed the seed, hot set, refresh distribution, retention probability and read/write mix. Both controls scored AUC 1.000; Path ORAM scored 0.5021 [0.4803, 0.5242] over 30 trials. All 1,440 raw trace hashes and 240 paired schedules were independently rechecked. The [preregistration](ORAM_SIGNAL_REPLICATION_20261026_B_PREREG.md), [results](ORAM_SIGNAL_REPLICATION_20261026_B.md), [raw session and prediction archive](../experiments/results/oram-isolated-replication-20261026-b/trace-data.tar.gz), figure, verification and host observation are retained. Load averages reached 7.71 on this 24-logical-CPU host; this run also cannot rule out smaller effects. Other workload families, attack families and quieter-host replications remain open.
 
 The service-pinned 2026-10-26 replication has now completed with both
-positive controls successful and ORAM AUC 0.4937 [0.4756, 0.5130]. All 90
-service processes were restricted to CPU 0 and verified from `/proc`; the
-driver remained unpinned. This is an independent run, not a paired test of
+positive controls successful and ORAM AUC 0.4937 [0.4756, 0.5130]. Its 90
+retained final-session metadata records showed CPU 0; `taskset -c 0` was
+configured for all 720 child sessions, but individual PIDs/masks were not
+retained. The driver remained unpinned. This is an independent run, not a paired test of
 pinning versus no pinning, and the host remains shared. See the
 [preregistration](ORAM_PINNED_REPLICATION_20261026_PREREG.md) and
 [results](ORAM_PINNED_REPLICATION_20261026.md). A useful follow-up is a
 preregistered within-host crossover with paired seeds and randomized
 pinned/unpinned collection order, if a suitable controlled host is available.
+
+That crossover has now completed. Across 30 paired trials, pinned minus
+unpinned ORAM AUC was +0.0172 [−0.0162, +0.0497]; the interval includes zero.
+All four controls succeeded. The result does not establish a pinning effect.
+The initial report assembly failed after capture on a missing Python import;
+all raw data were retained, verified, and reanalyzed without recollection.
+See the [preregistration](ORAM_AFFINITY_CROSSOVER_PREREG_20261026.md) and
+[result record](ORAM_AFFINITY_CROSSOVER_20261026.md). A follow-up on a
+dedicated host with per-child PID/affinity logging would improve execution
+provenance; broader classifiers/workloads and real remote timing remain open.

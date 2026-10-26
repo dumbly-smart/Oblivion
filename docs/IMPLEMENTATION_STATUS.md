@@ -757,14 +757,34 @@ child on Linux via `taskset`, records the child's effective CPU set from
 `/proc`, and leaves the workload driver's affinity unchanged. Both positive
 controls passed in the frozen fresh-seed study. Across 30 trials, plaintext
 and encrypt-only controls scored AUC 1.000; Path ORAM scored 0.4937
-[0.4756, 0.5130], an interval containing chance. All 90 service processes
-reported CPU 0. The study is not paired against earlier unpinned collections
+[0.4756, 0.5130], an interval containing chance. All 90 retained
+final-session metadata records reported CPU 0; `taskset -c 0` was configured
+for all 720 service-child sessions, but individual PIDs and masks were not
+retained. The study is not paired against earlier unpinned collections
 and does not isolate CPU 0 from host activity.
 
 The 1,440 raw trace hashes, 90 predictions, 240 paired schedules, five
-source/binary hashes and all effective affinities were independently
-rechecked. The archive, plot, verification and host observation are retained.
+source/binary hashes and 90 retained final-session affinity records were
+independently rechecked. The archive, plot, verification and host observation are retained.
 The focused 10 Python harness tests passed; both ORAM example suites passed
 (7 tests each), warning-denied package Clippy, formatting, diff checks and a
 CPU-affinity smoke invocation passed. The experiment remains empirical and
 workload-specific; it establishes no general ORAM timing guarantee.
+
+## 2026-10-26: paired ORAM service-affinity crossover
+
+A new preregistered 30-trial crossover paired identical per-session workloads
+under pinned CPU 0 and unpinned service conditions, with 15 pinned-first and
+15 unpinned-first trials. All four plaintext/encrypt-only control groups
+scored AUC 1.000. ORAM AUC was 0.5120 [0.4909, 0.5322] pinned and 0.4948
+[0.4739, 0.5167] unpinned. The paired primary difference was +0.0172
+[-0.0162, +0.0497], including zero; it does not show a reliable affinity
+effect for this classifier/workload.
+
+All 2,880 trace hashes and 240 six-stream paired schedule sets were
+recomputed. Collection completed before a report-assembly `NameError`; the
+report was regenerated from preserved traces without recollecting. The raw
+archive, paired predictions, condition order, hashes and result figure are
+retained. Individual service PIDs/affinity masks were not retained; the final
+session mask was checked per pinned collector invocation. Host isolation,
+other classifiers, and other workloads remain open.

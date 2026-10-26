@@ -40,8 +40,11 @@ ORAM; leaf placement, keys and nonces were fresh OS-random values.
 The attacker received visible leaf/bucket identifiers, fixed-shape byte
 counts, handler-only service times and the fixed short temporal features. The
 service time is measured inside a separate local process after request decode
-and before reply encoding. It is not network timing. All 90 service processes
-reported `Cpus_allowed_list: 0` in `/proc`; the driver retained `0-23`.
+and before reply encoding. It is not network timing. The 90 retained
+`isolated-service.json` records (one final session from each eight-session
+collector invocation) reported `Cpus_allowed_list: 0`; `taskset -c 0` was
+configured for all 720 service-child sessions. Individual child PIDs and
+affinity records were not retained. The driver retained `0-23`.
 Restricting affinity does not reserve the core or prevent host tasks,
 interrupts, sibling activity, frequency changes, thermal effects or
 scheduling noise.
@@ -51,12 +54,19 @@ scheduling noise.
 The preregistration was pushed in commit `8c23206b` before collection. The
 run used source/binaries at `8c23206b` and verified five source/configuration/
 binary hashes, 1,440 raw trace hashes, 90 prediction files, all 240
-trial/session schedule pairs and all 90 effective service affinities. Raw
+trial/session schedule pairs and all 90 retained final-session affinity
+records. Raw
 traces and predictions are retained in
 [`trace-data.tar.gz`](../experiments/results/oram-isolated-pinned-replication-20261026/trace-data.tar.gz)
 (SHA-256 `89ed4dc2aa799e090f9a58bdcb52ea255147ab78cb509056b0775a8210d0da16`).
 The result directory also contains the report, plot, configuration,
 verification record and host observation.
+
+Correction: one metadata JSON record was retained per eight-session collector
+invocation, so the 90 recorded CPU masks are the final session of each
+invocation, not all 720 service-child sessions. `taskset -c 0` was passed for
+each session. Individual child PIDs and affinity masks were not retained.
+The verification record reflects this distinction.
 
 ```sh
 .venv/bin/python -m unittest \

@@ -1,0 +1,8 @@
+{
+  "collector_invocations": 180,
+  "service_child_sessions": 1440,
+  "pinned_invocations_with_effective_affinity_record_checked": 90,
+  "pinned_cpu": 0,
+  "unpinned_condition": "no taskset wrapper requested",
+  "limitation": "Each Rust collector invocation emitted one isolated-service.json overwritten per session; its final session affinity was checked by the Python collector. Individual child PIDs/effective masks were not retained. taskset was configured identically for each pinned session."
+}

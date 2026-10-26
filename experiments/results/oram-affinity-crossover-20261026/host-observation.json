@@ -1,0 +1,13 @@
+{
+  "observed_after_collection_utc": "2026-10-26T09:27:07Z",
+  "hardware": "Intel(R) Core(TM) i7-14650HX",
+  "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+  "driver_allowed_cpus": "0-23",
+  "pinned_service_cpu": 0,
+  "load_average_after_collection": [
+    1.37890625,
+    1.72607421875,
+    2.1533203125
+  ],
+  "notes": "Shared Linux host; no pre-collection load snapshot was retained. Pinned core was not reserved. Individual child PIDs/effective masks were not retained; final-session affinity records were checked once per pinned collector invocation."
+}

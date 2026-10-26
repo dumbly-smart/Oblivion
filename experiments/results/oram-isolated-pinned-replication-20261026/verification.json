@@ -8,15 +8,16 @@
     "oram"
   ],
   "git_head": "8c23206bf33d443fed8e818aad58e021036ed93d",
-  "verification_method": "recomputed all raw/source SHA-256 digests, rechecked seeded private schedules across all modes, and confirmed effective child affinity for every process record",
+  "verification_method": "recomputed all raw/source SHA-256 digests, rechecked seeded private schedules across all modes, and confirmed CPU 0 in the retained final-session metadata from each 8-session collector invocation; taskset was invoked for every pinned service child, but individual child PIDs/masks were not retained",
   "private_workload_summary": {
     "measured_accesses": 30720,
     "observed_address_retention_fraction": 0.8290354330708661,
     "observed_hot_address_fraction": 0.43330078125,
     "observed_read_fraction": 0.60009765625
   },
-  "service_processes_verified": 90,
   "archived_trace_and_prediction_files_verified": 1530,
   "archive_sha256": "89ed4dc2aa799e090f9a58bdcb52ea255147ab78cb509056b0775a8210d0da16",
-  "service_process_affinity_verified": true
+  "collector_metadata_records_verified": 90,
+  "service_child_sessions": 720,
+  "service_cpu_affinity_requested_for_all_child_sessions": 0
 }
