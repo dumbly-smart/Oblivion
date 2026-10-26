@@ -69,6 +69,10 @@ pub enum Error {
     UnsupportedSchema(u32),
     #[error("anchor service socket operation failed: {0}")]
     Socket(String),
+    #[error("another durable worker already holds this invocation slot")]
+    InvocationWriterAlreadyActive,
+    #[error("invocation writer lock operation failed: {0}")]
+    InvocationWriterLock(String),
     #[error("anchor service protocol message is malformed or unsupported")]
     Protocol,
     #[error("anchor socket mode must be 0600 or 0660")]

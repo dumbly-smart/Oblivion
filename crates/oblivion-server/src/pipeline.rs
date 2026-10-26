@@ -97,6 +97,7 @@ impl WorkerState {
         }
         fs::set_permissions(&snapshot_dir, fs::Permissions::from_mode(0o700))?;
 
+        let invocation_anchor = UnixAnchorClient::invocation(&socket, "server-state-v1")?;
         let mut checkpoint_anchor = UnixAnchorClient::checkpoint(&socket, "server-state-v1")?;
         let current = checkpoint_anchor.load()?;
         let generation = current.as_ref().map(|record| record.generation());
@@ -120,7 +121,6 @@ impl WorkerState {
         } else {
             PathOram::new(config, MemoryBackend::default())?
         };
-        let invocation_anchor = UnixAnchorClient::invocation(socket, "server-state-v1")?;
         Ok(Self {
             store: Arc::new(Mutex::new(store)),
             durable: Some(DurableState {

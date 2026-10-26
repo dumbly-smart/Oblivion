@@ -1,6 +1,6 @@
 #![cfg(unix)]
 
-use oblivion_anchor::UnixAnchorClient;
+use oblivion_anchor::{Error, UnixAnchorClient};
 use oblivion_registry::{RegistryCatalogAnchor, RegistryCatalogState, RegistryVersionAnchor};
 use oblivion_store::{CheckpointAnchor, Config, FileBackend, PathOram, TrustedCheckpoint};
 use std::{
@@ -306,5 +306,80 @@ fn cli_service_restart_recovers_a_real_path_oram_checkpoint() {
 
     service.kill().unwrap();
     service.wait().unwrap();
+    std::fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn invocation_writer_lock_child_process() {
+    let Ok(socket) = std::env::var("OBLIVION_TEST_WRITER_LOCK_SOCKET") else {
+        return;
+    };
+    let expected = std::env::var("OBLIVION_TEST_WRITER_LOCK_EXPECT")
+        .expect("child lock expectation must be set");
+    let result = UnixAnchorClient::invocation(socket, "state-a");
+    if expected == "busy" {
+        assert!(matches!(result, Err(Error::InvocationWriterAlreadyActive)));
+    } else {
+        assert!(result.is_ok());
+    }
+}
+
+#[test]
+fn invocation_writer_lock_excludes_another_process_for_same_slot() {
+    let nonce = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_nanos();
+    let root = std::env::temp_dir().join(format!(
+        "oblivion-anchor-writer-lock-{}-{nonce}",
+        std::process::id()
+    ));
+    std::fs::create_dir(&root).unwrap();
+    let socket = root.join("anchor.sock");
+    let first = UnixAnchorClient::invocation(&socket, "state-a").unwrap();
+    let lock_path = root.join("anchor.sock.state-a.writer-lock");
+    assert_eq!(
+        std::fs::metadata(lock_path).unwrap().permissions().mode() & 0o777,
+        0o600
+    );
+    let independent_slot = UnixAnchorClient::invocation(&socket, "state-b").unwrap();
+    drop(independent_slot);
+
+    let run_child = |expectation: &str| {
+        Command::new(std::env::current_exe().unwrap())
+            .args(["--exact", "invocation_writer_lock_child_process"])
+            .env("OBLIVION_TEST_WRITER_LOCK_SOCKET", &socket)
+            .env("OBLIVION_TEST_WRITER_LOCK_EXPECT", expectation)
+            .stdout(Stdio::null())
+            .stderr(Stdio::null())
+            .status()
+            .unwrap()
+            .success()
+    };
+
+    assert!(run_child("busy"), "another process acquired the live slot");
+    drop(first);
+    assert!(run_child("available"), "released slot remained locked");
+    std::fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn invocation_writer_lock_rejects_a_symlink() {
+    let nonce = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_nanos();
+    let root = std::env::temp_dir().join(format!(
+        "oblivion-anchor-writer-symlink-{}-{nonce}",
+        std::process::id()
+    ));
+    std::fs::create_dir(&root).unwrap();
+    let socket = root.join("anchor.sock");
+    let victim = root.join("victim");
+    let lock_path = root.join("anchor.sock.state-a.writer-lock");
+    std::fs::write(&victim, b"unchanged").unwrap();
+    std::os::unix::fs::symlink(&victim, &lock_path).unwrap();
+    assert!(UnixAnchorClient::invocation(&socket, "state-a").is_err());
+    assert_eq!(std::fs::read(&victim).unwrap(), b"unchanged");
     std::fs::remove_dir_all(root).unwrap();
 }

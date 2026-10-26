@@ -474,6 +474,69 @@ fn partial_anchor_configuration_fails_before_worker_readiness() {
 
 #[cfg(unix)]
 #[test]
+fn durable_worker_refuses_a_second_writer_before_readiness() {
+    use oblivion_anchor::{UnixAnchorClient, serve_unix};
+    use oblivion_batcher::Endpoint;
+    use std::{io::Read, process::Stdio, time::Duration};
+    use zeroize::Zeroizing;
+
+    let root = std::env::temp_dir().join(format!(
+        "oblivion-durable-writer-lock-{}",
+        rand::rngs::OsRng.next_u64()
+    ));
+    fs::create_dir(&root).unwrap();
+    let socket = root.join("anchor.sock");
+    let database = root.join("anchor.sqlite");
+    let server_socket = socket.clone();
+    let server_database = database.clone();
+    let _anchor = std::thread::spawn(move || {
+        serve_unix(
+            server_socket,
+            server_database,
+            Zeroizing::new([0x98; 32]),
+            0o600,
+        )
+        .unwrap();
+    });
+    for _ in 0..100 {
+        if socket.exists() {
+            break;
+        }
+        std::thread::sleep(Duration::from_millis(10));
+    }
+    assert!(socket.exists(), "anchor service did not bind its socket");
+
+    let run_worker = |name: &str| {
+        let output_dir = root.join(name);
+        fs::create_dir(&output_dir).unwrap();
+        let mut child = Command::new(env!("CARGO_BIN_EXE_oblivion-server"))
+            .args(["executor-worker", output_dir.to_str().unwrap()])
+            .env("OBLIVION_ANCHOR_SOCKET", &socket)
+            .env("OBLIVION_ANCHOR_STATE_DIR", root.join("state"))
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::null())
+            .spawn()
+            .unwrap();
+        let mut input = child.stdin.take().unwrap();
+        let mut output = child.stdout.take().unwrap();
+        let _client = Endpoint::provision_over_pipe(0, &mut input).unwrap();
+        let mut ready = [0; 1];
+        let readiness_bytes = output.read(&mut ready).unwrap();
+        drop(input);
+        let success = child.wait().unwrap().success();
+        (readiness_bytes == 1 && ready == [1], success)
+    };
+
+    let active_writer = UnixAnchorClient::invocation(&socket, "server-state-v1").unwrap();
+    assert_eq!(run_worker("blocked"), (false, false));
+    drop(active_writer);
+    assert_eq!(run_worker("released"), (true, true));
+    let _ = fs::remove_dir_all(root);
+}
+
+#[cfg(unix)]
+#[test]
 fn durable_worker_commits_and_replays_signed_invocations_after_restart() {
     use ed25519_dalek::SigningKey;
     use oblivion_anchor::{UnixAnchorClient, serve_unix};
@@ -580,6 +643,7 @@ fn durable_worker_commits_and_replays_signed_invocations_after_restart() {
         .unwrap()
         .expect("worker committed response receipt");
     assert_eq!(receipt.response(), first_response);
+    drop(anchor);
 
     let mut new_payload = [0; PAYLOAD_BYTES];
     new_payload[0] = 1;

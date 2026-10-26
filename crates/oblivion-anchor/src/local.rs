@@ -14,10 +14,10 @@ use oblivion_registry::{
 use oblivion_store::{self as store, CheckpointAnchor, CheckpointAnchorRecord};
 use serde::{Deserialize, Serialize};
 use std::{
-    fs::{self, Permissions},
+    fs::{self, File, OpenOptions, Permissions},
     io::{Read, Write},
     os::unix::{
-        fs::{FileTypeExt, PermissionsExt},
+        fs::{FileTypeExt, OpenOptionsExt, PermissionsExt},
         net::{UnixListener, UnixStream},
     },
     path::{Path, PathBuf},
@@ -607,11 +607,18 @@ impl UnixAnchorClient {
         Ok(UnixCheckpointAnchor(Self::new(socket_path, slot)?))
     }
 
+    /// Opens exclusive invocation-anchor access for this local slot. The lock
+    /// is held until the returned adapter is dropped or its process exits.
     pub fn invocation(
         socket_path: impl Into<PathBuf>,
         slot: &str,
     ) -> Result<UnixInvocationAnchor, Error> {
-        Ok(UnixInvocationAnchor(Self::new(socket_path, slot)?))
+        let client = Self::new(socket_path, slot)?;
+        let writer_lock = acquire_invocation_writer_lock(&client.socket_path, slot)?;
+        Ok(UnixInvocationAnchor {
+            client,
+            _writer_lock: writer_lock,
+        })
     }
 
     fn exchange(&self, request: Request) -> Result<Response, Error> {
@@ -639,16 +646,51 @@ pub struct UnixRegistryCatalogAnchor(UnixAnchorClient);
 
 pub struct UnixCheckpointAnchor(UnixAnchorClient);
 
-pub struct UnixInvocationAnchor(UnixAnchorClient);
+pub struct UnixInvocationAnchor {
+    client: UnixAnchorClient,
+    _writer_lock: File,
+}
+
+fn acquire_invocation_writer_lock(socket_path: &Path, slot: &str) -> Result<File, Error> {
+    let mut lock_path = socket_path.as_os_str().to_os_string();
+    lock_path.push(format!(".{slot}.writer-lock"));
+    let lock_path = PathBuf::from(lock_path);
+    let lock_file = OpenOptions::new()
+        .read(true)
+        .write(true)
+        .create(true)
+        .mode(0o600)
+        .custom_flags(libc::O_CLOEXEC | libc::O_NOFOLLOW)
+        .open(lock_path)
+        .map_err(|error| Error::InvocationWriterLock(error.to_string()))?;
+    let metadata = lock_file
+        .metadata()
+        .map_err(|error| Error::InvocationWriterLock(error.to_string()))?;
+    if !metadata.is_file() {
+        return Err(Error::InvocationWriterLock(
+            "lock path is not a regular file".into(),
+        ));
+    }
+    lock_file
+        .set_permissions(Permissions::from_mode(0o600))
+        .map_err(|error| Error::InvocationWriterLock(error.to_string()))?;
+    match lock_file.try_lock() {
+        Ok(()) => Ok(lock_file),
+        Err(std::fs::TryLockError::WouldBlock) => Err(Error::InvocationWriterAlreadyActive),
+        Err(std::fs::TryLockError::Error(error)) => {
+            Err(Error::InvocationWriterLock(error.to_string()))
+        }
+    }
+}
 
 impl UnixInvocationAnchor {
     pub fn load(
         &self,
         invocation: &SignedInvocationId,
     ) -> Result<Option<InvocationReceipt>, Error> {
-        match self.0.exchange(Request::InvocationLoad {
+        match self.client.exchange(Request::InvocationLoad {
             version: PROTOCOL_VERSION,
-            slot: self.0.slot.clone(),
+            slot: self.client.slot.clone(),
             public_key: *invocation.public_key(),
             invocation_id: *invocation.invocation_id(),
             request_digest: *invocation.request_digest(),
@@ -673,9 +715,9 @@ impl UnixInvocationAnchor {
         if response.len() > MAX_INVOCATION_RESPONSE_BYTES {
             return Err(Error::InvocationResponseTooLarge);
         }
-        let result = self.0.exchange(Request::InvocationCommit {
+        let result = self.client.exchange(Request::InvocationCommit {
             version: PROTOCOL_VERSION,
-            slot: self.0.slot.clone(),
+            slot: self.client.slot.clone(),
             public_key: *invocation.public_key(),
             invocation_id: *invocation.invocation_id(),
             request_digest: *invocation.request_digest(),
