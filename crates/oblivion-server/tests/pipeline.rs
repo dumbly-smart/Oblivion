@@ -280,6 +280,207 @@ fn worker_anchors_catalog_before_ready_and_rejects_a_rollback() {
 }
 
 #[test]
+fn worker_activates_catalog_through_remote_mtls_witness_before_ready() {
+    use oblivion_anchor::{
+        AnchorDatabase, TlsRegistryCatalogAnchor, mtls_client_config_from_pem,
+        mtls_server_config_from_pem, serve_mtls_with_shutdown,
+    };
+    use oblivion_batcher::Endpoint;
+    use oblivion_registry::{
+        Record, RegistryCatalogAnchor, RegistryCatalogState, SignedRegistry, VerifiedRegistry,
+    };
+    use rcgen::{
+        BasicConstraints, CertificateParams, ExtendedKeyUsagePurpose, IsCa, Issuer, KeyPair,
+        KeyUsagePurpose,
+    };
+    use sha2::{Digest, Sha256};
+    use std::{io::Read, net::TcpListener, process::Stdio, sync::mpsc, thread};
+    use zeroize::Zeroizing;
+
+    let root = std::env::temp_dir().join(format!(
+        "oblivion-remote-registry-activation-{}",
+        rand::rngs::OsRng.next_u64()
+    ));
+    fs::create_dir(&root).unwrap();
+
+    let ca_key = KeyPair::generate().unwrap();
+    let mut ca_params = CertificateParams::new(vec!["oblivion-test-root".into()]).unwrap();
+    ca_params.is_ca = IsCa::Ca(BasicConstraints::Unconstrained);
+    ca_params.key_usages = vec![KeyUsagePurpose::KeyCertSign, KeyUsagePurpose::CrlSign];
+    let ca = ca_params.self_signed(&ca_key).unwrap();
+    let issuer = Issuer::from_params(&ca_params, &ca_key);
+
+    let server_key = KeyPair::generate().unwrap();
+    let mut server_params = CertificateParams::new(vec!["localhost".into()]).unwrap();
+    server_params.extended_key_usages = vec![ExtendedKeyUsagePurpose::ServerAuth];
+    server_params.key_usages = vec![KeyUsagePurpose::DigitalSignature];
+    let server_cert = server_params.signed_by(&server_key, &issuer).unwrap();
+
+    let client_key = KeyPair::generate().unwrap();
+    let mut client_params = CertificateParams::new(vec!["oblivion-worker".into()]).unwrap();
+    client_params.extended_key_usages = vec![ExtendedKeyUsagePurpose::ClientAuth];
+    client_params.key_usages = vec![KeyUsagePurpose::DigitalSignature];
+    let client_cert = client_params.signed_by(&client_key, &issuer).unwrap();
+
+    let ca_path = root.join("ca.pem");
+    let server_cert_path = root.join("server-cert.pem");
+    let server_key_path = root.join("server-key.pem");
+    let client_cert_path = root.join("client-cert.pem");
+    let client_key_path = root.join("client-key.pem");
+    fs::write(&ca_path, ca.pem()).unwrap();
+    fs::write(&server_cert_path, server_cert.pem()).unwrap();
+    fs::write(&server_key_path, server_key.serialize_pem()).unwrap();
+    fs::write(&client_cert_path, client_cert.pem()).unwrap();
+    fs::write(&client_key_path, client_key.serialize_pem()).unwrap();
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        fs::set_permissions(&server_key_path, fs::Permissions::from_mode(0o600)).unwrap();
+        fs::set_permissions(&client_key_path, fs::Permissions::from_mode(0o600)).unwrap();
+    }
+
+    let tls = mtls_server_config_from_pem(&server_cert_path, &server_key_path, &ca_path).unwrap();
+    let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+    let address = listener.local_addr().unwrap();
+    let database_path = root.join("witness.sqlite");
+    let database = AnchorDatabase::open(&database_path, Zeroizing::new([0x5c; 32])).unwrap();
+    let (shutdown, receiver) = mpsc::channel();
+    let witness_thread =
+        thread::spawn(move || serve_mtls_with_shutdown(listener, database, tls, receiver));
+
+    let sources: [&[u8]; 5] = [
+        include_bytes!("../../../examples/wasm-functions/echo.wat"),
+        include_bytes!("../../../examples/wasm-functions/sum.wat"),
+        include_bytes!("../../../examples/wasm-functions/fibonacci.wat"),
+        include_bytes!("../../../examples/wasm-functions/hash.wat"),
+        include_bytes!("../../../examples/wasm-functions/stateful.wat"),
+    ];
+    let publisher = SigningKey::from_bytes(&[0x95; 32]);
+    let public_key_path = root.join("publisher.pub");
+    fs::write(&public_key_path, publisher.verifying_key().to_bytes()).unwrap();
+
+    let mut remote_anchor = TlsRegistryCatalogAnchor::new(
+        address,
+        "localhost",
+        "runtime-functions",
+        mtls_client_config_from_pem(&ca_path, &client_cert_path, &client_key_path).unwrap(),
+    )
+    .unwrap();
+    let run_worker = |name: &str, catalog: &[u8], omit_client_key: bool| {
+        let manifest_path = root.join(format!("{name}.bin"));
+        fs::write(&manifest_path, catalog).unwrap();
+        let output_dir = root.join(name);
+        fs::create_dir(&output_dir).unwrap();
+        let mut command = Command::new(env!("CARGO_BIN_EXE_oblivion-server"));
+        command
+            .args(["executor-worker", output_dir.to_str().unwrap()])
+            .env_remove("OBLIVION_ANCHOR_SOCKET")
+            .env_remove("OBLIVION_ANCHOR_STATE_DIR")
+            .env_remove("OBLIVION_REGISTRY_ANCHOR_SOCKET")
+            .env_remove("OBLIVION_REGISTRY_ANCHOR_MTLS_ADDRESS")
+            .env_remove("OBLIVION_REGISTRY_ANCHOR_MTLS_SERVER_NAME")
+            .env_remove("OBLIVION_REGISTRY_ANCHOR_MTLS_SLOT")
+            .env_remove("OBLIVION_REGISTRY_ANCHOR_MTLS_CA_PEM")
+            .env_remove("OBLIVION_REGISTRY_ANCHOR_MTLS_CLIENT_CERT_PEM")
+            .env_remove("OBLIVION_REGISTRY_ANCHOR_MTLS_CLIENT_KEY_PEM")
+            .env("OBLIVION_REGISTRY_MANIFEST", &manifest_path)
+            .env("OBLIVION_REGISTRY_PUBLIC_KEY", &public_key_path)
+            .env("OBLIVION_REGISTRY_ANCHOR_MTLS_ADDRESS", address.to_string())
+            .env("OBLIVION_REGISTRY_ANCHOR_MTLS_SERVER_NAME", "localhost")
+            .env("OBLIVION_REGISTRY_ANCHOR_MTLS_SLOT", "runtime-functions")
+            .env("OBLIVION_REGISTRY_ANCHOR_MTLS_CA_PEM", &ca_path)
+            .env(
+                "OBLIVION_REGISTRY_ANCHOR_MTLS_CLIENT_CERT_PEM",
+                &client_cert_path,
+            )
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::null());
+        if !omit_client_key {
+            command.env(
+                "OBLIVION_REGISTRY_ANCHOR_MTLS_CLIENT_KEY_PEM",
+                &client_key_path,
+            );
+        }
+        let mut child = command.spawn().unwrap();
+        let mut input = child.stdin.take().unwrap();
+        let mut output = child.stdout.take().unwrap();
+        let _client = Endpoint::provision_over_pipe(0, &mut input).unwrap();
+        let mut ready = [0; 1];
+        let announced = output.read_exact(&mut ready).is_ok() && ready == [1];
+        drop(input);
+        (announced, child.wait().unwrap().success())
+    };
+
+    let catalog = |version| {
+        let records = sources
+            .iter()
+            .enumerate()
+            .map(|(id, source)| {
+                let module_digest: [u8; 32] = Sha256::digest(source).into();
+                let mut location = Sha256::new();
+                location.update(b"oblivion/demo/embedded-location/v1");
+                location.update((id as u32).to_be_bytes());
+                location.update(module_digest);
+                Record::sign(
+                    id as u32,
+                    version,
+                    module_digest,
+                    location.finalize().into(),
+                    0,
+                    &publisher,
+                )
+                .unwrap()
+            })
+            .collect();
+        SignedRegistry::sign(version, records, &publisher).unwrap()
+    };
+
+    let version_seven = catalog(7);
+    let verified_seven =
+        VerifiedRegistry::verify(&version_seven, &publisher.verifying_key()).unwrap();
+    assert_eq!(
+        run_worker("partial-remote-config", &version_seven, true),
+        (false, false)
+    );
+    assert_eq!(remote_anchor.current_catalog().unwrap(), None);
+    assert_eq!(
+        run_worker("version-seven-first", &version_seven, false),
+        (true, true)
+    );
+    let anchored_seven =
+        RegistryCatalogState::new(7, Some(*verified_seven.catalog_digest())).unwrap();
+    assert_eq!(
+        remote_anchor.current_catalog().unwrap(),
+        Some(anchored_seven)
+    );
+
+    let version_six = catalog(6);
+    assert_eq!(
+        run_worker("version-six-rollback", &version_six, false),
+        (false, false)
+    );
+    assert_eq!(
+        remote_anchor.current_catalog().unwrap(),
+        Some(anchored_seven)
+    );
+
+    let version_eight = catalog(8);
+    assert_eq!(
+        run_worker("version-eight", &version_eight, false),
+        (true, true)
+    );
+    assert_eq!(
+        remote_anchor.current_catalog().unwrap().unwrap().version(),
+        8
+    );
+
+    shutdown.send(()).unwrap();
+    witness_thread.join().unwrap().unwrap();
+    let _ = fs::remove_dir_all(root);
+}
+
+#[test]
 fn failure_diagnostics_are_bounded_and_keep_private_tail_or_missing_reason() {
     let path = std::env::temp_dir().join(format!(
         "oblivion-diagnostic-{}",

@@ -24,4 +24,5 @@ zeroize.workspace = true
 workspace = true
 
 [dev-dependencies]
+rcgen = "0.14"
 rustix = { version = "1", features = ["pipe"] }

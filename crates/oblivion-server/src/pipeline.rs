@@ -4,6 +4,7 @@ use crate::{
     secure_pir,
 };
 use ed25519_dalek::{SigningKey, VerifyingKey};
+use oblivion_anchor::{TlsRegistryCatalogAnchor, mtls_client_config_from_pem};
 use oblivion_batcher::{ENVELOPE_BYTES, Endpoint, Envelope, EpochBatcher, PAYLOAD_BYTES};
 use oblivion_exec::{Class, Executor, Namespace, Status};
 use oblivion_pir::{QueryPair, recover};
@@ -15,7 +16,8 @@ use sha2::{Digest, Sha256};
 use std::{
     fs::{self, File},
     io::{BufWriter, Read, Write},
-    path::Path,
+    net::SocketAddr,
+    path::{Path, PathBuf},
     process::{Child, Command, Stdio},
     sync::{Arc, Mutex},
     time::{Duration, Instant},
@@ -258,6 +260,136 @@ const MAX_REGISTRY_MANIFEST_BYTES: usize = REGISTRY_MANIFEST_HEADER_BYTES
 const REGISTRY_MANIFEST_ENV: &str = "OBLIVION_REGISTRY_MANIFEST";
 const REGISTRY_PUBLIC_KEY_ENV: &str = "OBLIVION_REGISTRY_PUBLIC_KEY";
 const REGISTRY_ANCHOR_SOCKET_ENV: &str = "OBLIVION_REGISTRY_ANCHOR_SOCKET";
+const REGISTRY_ANCHOR_MTLS_ADDRESS_ENV: &str = "OBLIVION_REGISTRY_ANCHOR_MTLS_ADDRESS";
+const REGISTRY_ANCHOR_MTLS_SERVER_NAME_ENV: &str = "OBLIVION_REGISTRY_ANCHOR_MTLS_SERVER_NAME";
+const REGISTRY_ANCHOR_MTLS_SLOT_ENV: &str = "OBLIVION_REGISTRY_ANCHOR_MTLS_SLOT";
+const REGISTRY_ANCHOR_MTLS_CA_PEM_ENV: &str = "OBLIVION_REGISTRY_ANCHOR_MTLS_CA_PEM";
+const REGISTRY_ANCHOR_MTLS_CLIENT_CERT_PEM_ENV: &str =
+    "OBLIVION_REGISTRY_ANCHOR_MTLS_CLIENT_CERT_PEM";
+const REGISTRY_ANCHOR_MTLS_CLIENT_KEY_PEM_ENV: &str =
+    "OBLIVION_REGISTRY_ANCHOR_MTLS_CLIENT_KEY_PEM";
+
+#[derive(Debug)]
+enum RegistryAnchorConfig {
+    LocalSocket(PathBuf),
+    RemoteMtls {
+        address: SocketAddr,
+        server_name: String,
+        slot: String,
+        ca_pem: PathBuf,
+        client_cert_pem: PathBuf,
+        client_key_pem: PathBuf,
+    },
+}
+
+impl RegistryAnchorConfig {
+    fn from_environment() -> Result<Option<Self>> {
+        let local_socket = std::env::var_os(REGISTRY_ANCHOR_SOCKET_ENV);
+        let remote = [
+            REGISTRY_ANCHOR_MTLS_ADDRESS_ENV,
+            REGISTRY_ANCHOR_MTLS_SERVER_NAME_ENV,
+            REGISTRY_ANCHOR_MTLS_SLOT_ENV,
+            REGISTRY_ANCHOR_MTLS_CA_PEM_ENV,
+            REGISTRY_ANCHOR_MTLS_CLIENT_CERT_PEM_ENV,
+            REGISTRY_ANCHOR_MTLS_CLIENT_KEY_PEM_ENV,
+        ]
+        .map(std::env::var_os);
+        let remote_count = remote.iter().filter(|value| value.is_some()).count();
+
+        if local_socket.is_some() && remote_count > 0 {
+            return Err(format!(
+                "{REGISTRY_ANCHOR_SOCKET_ENV} and remote mTLS registry anchor settings cannot be combined"
+            )
+            .into());
+        }
+        if remote_count == 0 {
+            return Ok(local_socket.map(PathBuf::from).map(Self::LocalSocket));
+        }
+        if remote_count != remote.len() {
+            return Err(
+                "all remote mTLS registry anchor settings must be configured together".into(),
+            );
+        }
+
+        let [
+            Some(address),
+            Some(server_name),
+            Some(slot),
+            Some(ca_pem),
+            Some(client_cert_pem),
+            Some(client_key_pem),
+        ] = remote
+        else {
+            return Err(
+                "all remote mTLS registry anchor settings must be configured together".into(),
+            );
+        };
+        let address =
+            required_utf8(address, REGISTRY_ANCHOR_MTLS_ADDRESS_ENV)?.parse::<SocketAddr>()?;
+        if address.port() == 0 {
+            return Err(
+                format!("{REGISTRY_ANCHOR_MTLS_ADDRESS_ENV} must use a nonzero port").into(),
+            );
+        }
+        let server_name = required_utf8(server_name, REGISTRY_ANCHOR_MTLS_SERVER_NAME_ENV)?;
+        if server_name.is_empty() {
+            return Err(format!("{REGISTRY_ANCHOR_MTLS_SERVER_NAME_ENV} must not be empty").into());
+        }
+        let slot = required_utf8(slot, REGISTRY_ANCHOR_MTLS_SLOT_ENV)?;
+        if slot.is_empty() {
+            return Err(format!("{REGISTRY_ANCHOR_MTLS_SLOT_ENV} must not be empty").into());
+        }
+        let ca_pem = PathBuf::from(ca_pem);
+        let client_cert_pem = PathBuf::from(client_cert_pem);
+        let client_key_pem = PathBuf::from(client_key_pem);
+
+        Ok(Some(Self::RemoteMtls {
+            address,
+            server_name,
+            slot,
+            ca_pem,
+            client_cert_pem,
+            client_key_pem,
+        }))
+    }
+
+    fn activate(&self, verified: &VerifiedRegistry) -> Result<()> {
+        match self {
+            Self::LocalSocket(socket) => {
+                #[cfg(unix)]
+                {
+                    let mut anchor = UnixAnchorClient::catalog(socket, "runtime-functions")?;
+                    verified.activate_catalog(&mut anchor)?;
+                }
+                #[cfg(not(unix))]
+                {
+                    let _ = socket;
+                    return Err("registry catalog anchor requires Unix domain sockets".into());
+                }
+            }
+            Self::RemoteMtls {
+                address,
+                server_name,
+                slot,
+                ca_pem,
+                client_cert_pem,
+                client_key_pem,
+            } => {
+                let tls = mtls_client_config_from_pem(ca_pem, client_cert_pem, client_key_pem)?;
+                let mut anchor = TlsRegistryCatalogAnchor::new(*address, server_name, slot, tls)?;
+                verified.activate_catalog(&mut anchor)?;
+            }
+        }
+        Ok(())
+    }
+}
+
+fn required_utf8(value: std::ffi::OsString, setting: &str) -> Result<String> {
+    value
+        .into_string()
+        .map_err(|_| format!("{setting} must contain valid UTF-8").into())
+}
+
 pub fn registry() -> Vec<Vec<u8>> {
     SOURCES
         .iter()
@@ -282,14 +414,14 @@ impl Deployment {
     /// Load an external publisher-signed catalog, or retain the local demo
     /// signer only when neither external trust input is configured.
     fn from_environment() -> Result<Self> {
-        let anchor_socket = std::env::var_os(REGISTRY_ANCHOR_SOCKET_ENV);
+        let anchor = RegistryAnchorConfig::from_environment()?;
         match (
             std::env::var_os(REGISTRY_MANIFEST_ENV),
             std::env::var_os(REGISTRY_PUBLIC_KEY_ENV),
         ) {
-            (None, None) if anchor_socket.is_none() => Self::create(),
+            (None, None) if anchor.is_none() => Self::create(),
             (None, None) => Err(format!(
-                "{REGISTRY_ANCHOR_SOCKET_ENV} requires {REGISTRY_MANIFEST_ENV} and {REGISTRY_PUBLIC_KEY_ENV}"
+                "a registry anchor requires {REGISTRY_MANIFEST_ENV} and {REGISTRY_PUBLIC_KEY_ENV}"
             )
             .into()),
             (Some(manifest_path), Some(public_key_path)) => {
@@ -300,11 +432,7 @@ impl Deployment {
                     .try_into()
                     .map_err(|_| "registry public key must contain exactly 32 bytes")?;
                 let publisher = VerifyingKey::from_bytes(&key_bytes)?;
-                Self::from_catalog(
-                    &manifest,
-                    &publisher,
-                    anchor_socket.as_deref().map(Path::new),
-                )
+                Self::from_catalog(&manifest, &publisher, anchor.as_ref())
             }
             _ => Err(format!(
                 "{REGISTRY_MANIFEST_ENV} and {REGISTRY_PUBLIC_KEY_ENV} must be configured together"
@@ -316,7 +444,7 @@ impl Deployment {
     fn from_catalog(
         encoded: &[u8],
         publisher: &VerifyingKey,
-        anchor_socket: Option<&Path>,
+        anchor: Option<&RegistryAnchorConfig>,
     ) -> Result<Self> {
         let verified = VerifiedRegistry::verify(encoded, publisher)?;
         if verified.len() != SOURCES.len() {
@@ -337,17 +465,8 @@ impl Deployment {
             }
             records.push(record.to_bytes().to_vec());
         }
-        if let Some(socket) = anchor_socket {
-            #[cfg(unix)]
-            {
-                let mut anchor = UnixAnchorClient::catalog(socket, "runtime-functions")?;
-                verified.activate_catalog(&mut anchor)?;
-            }
-            #[cfg(not(unix))]
-            {
-                let _ = socket;
-                return Err("registry catalog anchor requires Unix domain sockets".into());
-            }
+        if let Some(anchor) = anchor {
+            anchor.activate(&verified)?;
         }
         Ok(Self { records })
     }

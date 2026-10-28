@@ -1034,6 +1034,7 @@ dependencies = [
  "oblivion-sse",
  "oblivion-store",
  "rand",
+ "rcgen",
  "rustix",
  "serde_json",
  "sha2 0.10.9",
