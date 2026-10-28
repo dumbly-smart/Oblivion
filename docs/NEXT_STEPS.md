@@ -118,16 +118,30 @@ its separate OS rollback/key-custody limitations remain documented. The
 schema-v4 encrypted SQLite slot, additive protocol-v3 Unix operations,
 `SseJournalAnchor` adapter and process-restart integration are implemented.
 
-**Current follow-up (2026-10-28):** a machine-readable persistent SSE journal
-size/recovery benchmark is implemented and its configuration/method are frozen
-in [the preregistration](SSE_JOURNAL_BENCHMARK_20261028.md). It uses the actual
-Unix anchor service, distinct keyword postings, and fresh-process restore
-timings. Collection and result review are pending; the application-level
-journal-byte metric must not be described as physical or SQLite write
-amplification. After collecting and checking that evidence, investigate an
-anchor freshness source that survives privileged SQLite backup rollback. The
-local service relies on the host OS and a stable, independently provisioned
-master key; do not claim hardware anti-rollback or backward privacy. S11
-remains partial until freshness is protected against the stated storage
-adversary and the remaining distributed update/acknowledgment boundary is
-addressed.
+**Completed follow-up (2026-10-28):** the preregistered persistent SSE journal
+benchmark ran all 30 trials at sizes 64, 257, 1,024, and 4,093 against the
+actual Unix SQLite anchor service. Five fresh-process reopens were measured per
+index. The independent verifier checked all 120 trial/size samples, 600
+distinct recovery child processes, byte/generation invariants, and descriptive
+statistics. Mean application journal-byte amplification increased from
+84.037× to 244.754×; mean build time ranged from 3.316 s to 242.889 s. The
+[result report](SSE_JOURNAL_BENCHMARK_20261028_RESULT.md) and raw result bundle
+state the warm-page-cache, single-host, and application-level-byte limits.
+
+The current serial workspace test command exits 0 with all enabled tests
+passing; the default command intentionally ignores the million-operation ORAM
+stress tier. The venv Python suite passed 240 tests with four skips. An earlier
+run's timing-sensitive 100 ms mixed-invocation timeout is retained as
+historical evidence; the same test and a fresh full workspace run passed
+without changing production deadlines. The independent result verifier and
+artifact checksum validation also pass.
+
+**Next:** define and implement a freshness boundary that survives privileged
+rollback of the local SQLite anchor. A second file or counter on the same host
+does not survive the same administrator's rollback. The candidate must use
+either a genuinely independent trusted witness/hardware source or a specified
+rollback-resilient replicated-register protocol, with its own failure model,
+client state, availability behavior, and adversarial recovery tests. Keep the
+local anchor explicitly process-restart-only until that boundary is reviewed.
+S11 remains partial; this benchmark adds no anti-rollback protection and makes
+no backward-privacy claim.

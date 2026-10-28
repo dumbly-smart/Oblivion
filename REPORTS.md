@@ -28,7 +28,7 @@ This index points to technical reports and retained outputs. Read [docs/EXPERIME
 | Two-server XOR PIR and authenticated transport | [PIR transport](docs/PIR_TRANSPORT.md), [SimplePIR comparison](docs/SIMPLEPIR_REFERENCE.md), [100k correctness](docs/SIMPLEPIR_100K.md), [square-root PIR](docs/SQRT_PIR.md) |
 | Fixed-shape executor and error inference | [Execution evaluation](docs/EXECUTION_EVALUATION.md), [executor resource/CPU costs](docs/EXECUTOR_RESOURCES.md) |
 | SSE construction and integration boundary | [SSE design](docs/SSE_DESIGN.md), [SSE implementation](docs/SSE_IMPLEMENTATION.md) |
-| Persistent SSE journal performance preregistration (collection pending) | [Benchmark method](docs/SSE_JOURNAL_BENCHMARK_20261028.md), [machine config](experiments/configs/sse-persistent-journal-benchmark-20261028.json) |
+| Persistent SSE journal size/recovery performance (30 trials; local anchor) | [Result and limits](docs/SSE_JOURNAL_BENCHMARK_20261028_RESULT.md), [method](docs/SSE_JOURNAL_BENCHMARK_20261028.md), [raw report, SVG, and hashes](experiments/results/sse-persistent-journal-benchmark-20261028/), [verifier](research/analysis/verify_sse_journal_benchmark.py) |
 
 ## Leakage, attacks, and traffic experiments
 

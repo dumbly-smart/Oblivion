@@ -1,6 +1,6 @@
 # Research notes and decisions
 
-Updated 2026-10-27. Current status and acceptance evidence are maintained in [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) and [REQUIREMENTS_MATRIX.md](REQUIREMENTS_MATRIX.md). Historical results retain their launch-time source hashes.
+Updated 2026-10-28. Current status and acceptance evidence are maintained in [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) and [REQUIREMENTS_MATRIX.md](REQUIREMENTS_MATRIX.md). Historical results retain their launch-time source hashes.
 
 ## Specification reconciliation
 
@@ -26,11 +26,34 @@ The roadmap's autoscaler acceptance asks for a policy that dominates naive scali
 - [facebook/oram](https://github.com/facebook/oram), including its [trait](https://raw.githubusercontent.com/facebook/oram/main/src/lib.rs) and [Path ORAM implementation](https://raw.githubusercontent.com/facebook/oram/main/src/path_oram.rs). Its enclave-memory-encryption assumption is material: it does not itself encrypt bucket writes. Oblivion instead explicitly AEAD-encrypts the bucket interface. Its oblivious client structures and recursion are not reproduced here. No source code was copied.
 - Official [Wasmtime interruption documentation](https://docs.wasmtime.dev/examples-interrupting-wasm.html), [Config](https://docs.rs/wasmtime/49.0.4/wasmtime/struct.Config.html), and resource-limit APIs. Local Wasmtime 49.0.4 sources were checked for owned/static host state and current resource-limiter signatures. This dependency requires Rust 1.96; the workspace declares that minimum.
 - RustCrypto [ChaCha20-Poly1305 documentation](https://docs.rs/chacha20poly1305/0.10.1/chacha20poly1305/). The implementation uses the established library, not a homemade primitive.
+- Rollback freshness: [TrInc (NSDI 2009)](https://www.microsoft.com/en-us/research/publication/trinc-small-trusted-hardware-for-large-distributed-systems/) uses a trusted monotonic counter and key; [ROTE (USENIX Security 2017)](https://www.usenix.org/system/files/conference/usenixsecurity17/sec17-matetic.pdf) distributes freshness state among cooperating SGX enclaves; [Nimble (OSDI 2023)](https://www.usenix.org/conference/osdi23/presentation/angel) replicates a TEE-backed append-only ledger; [TEE Is Not a Healer / TEE-Rex (DISC 2025)](https://drops.dagstuhl.de/storage/00lipics/lipics-vol356-disc2025/html/LIPIcs.DISC.2025.39/LIPIcs.DISC.2025.39.html) studies rollback-resilient atomic registers under explicit crash/restart/rollback replica models. These works use hardware trust or distributed protocol assumptions; none makes a second local file an anti-rollback source.
 - Ghosh, Roughgarden and Sundararajan, [Universally Utility-Maximizing Privacy Mechanisms](https://timroughgarden.org/papers/priv.pdf), especially the two-sided geometric count mechanism and its neighboring-count probability-ratio argument. This supports the ideal discrete mechanism derivation for sensitivity-one integer counts. Oblivion's bounded rational implementation separately accounts for finite precision and geometric-tail capping with a conservative approximate-DP delta; it remains unaudited code, not a machine-checked proof.
 - OpenDP's [discrete additive-noise guide](https://docs.opendp.org/en/stable/api/user-guide/measurements/additive-noise-mechanisms.html) and [`make_laplace` API](https://docs.opendp.org/en/stable/api/python/opendp.measurements.html) describe integer-domain discrete Laplace sampling and a proof interface. The current Python API marks the constructor as `contrib`; it was not added as a runtime dependency. OpenDP remains a candidate for a separately reviewed exact-discrete backend.
 - [Verified Foundations for Differential Privacy](https://doi.org/10.1145/3729294) provides machine-checked sampler proofs, including discrete Laplace. This supports the feasibility of verified samplers; it does not verify Oblivion's sampler or establish a guarantee for its generated traces.
 
 The roadmap's complete literature list has **not** been independently verified. SSE construction/source verification is now recorded in SSE_DESIGN.md and the genuine reference pin/license in SIMPLEPIR_REFERENCE.md. Attack algorithms/artifacts, recent ORAM follow-ups, external datasets/licensing and the broader literature still require targeted verification before use. No published IKK, IHOP, Cash or Diana reproduction is claimed. No external dataset was used.
+
+## SSE journal benchmark and anchor freshness
+
+The preregistered persistent SSE journal benchmark completed on 2026-10-28.
+Its [result report](SSE_JOURNAL_BENCHMARK_20261028_RESULT.md) records 30
+trial-level measurements per size, a real local Unix/SQLite anchor, and five
+fresh-process recovery opens per index. Average application journal-byte
+amplification ranged from 84.037× to 244.754×; these are encrypted frame bytes
+and not SQLite/WAL or device writes. The output includes all raw timings,
+reported bootstrap intervals, a standard-library verifier and a reproducible
+SVG. The verifier recomputes means and interpolated quantiles but does not
+replay Rust's `StdRng` bootstrap stream.
+
+The open anti-rollback design question is now narrower: a local counter/file
+under the same privileged host cannot distinguish the current SQLite state
+from a rolled-back SQLite backup. Any mitigation must state what state remains
+outside the rollback adversary. Candidate directions are an independently
+administered witness or a faithful replicated rollback-resilient register such
+as the TEE-Rex model; the latter requires specifying replica count, restart and
+rollback failures, client behavior, messages, and liveness conditions. Until
+one is implemented and reviewed, the local anchor only establishes ordinary
+process-restart recovery and no anti-rollback claim is made.
 
 ## Engineering decisions
 

@@ -1177,18 +1177,39 @@ configuration and method are frozen in
 [the preregistration](SSE_JOURNAL_BENCHMARK_20261028.md) and
 [the config](../experiments/configs/sse-persistent-journal-benchmark-20261028.json).
 
-The app-level journal-byte metric is explicitly not physical device or
-SQLite/WAL write amplification. Recovery runs in a new process, but the host
-page cache is not flushed. The 30-trial collection has not yet run; no result
-or latency/cost conclusion is claimed.
+The full 30-trial collection completed in about 2 h 54 min. It produced 120
+index-build trials, five fresh-process recovery opens per trial (600 distinct
+child PIDs), raw per-operation timings, summary statistics, and an SVG. The
+report's source revision is the frozen runner commit above, with a clean
+tracked source tree. The independent verifier rechecked all configured trial
+and size pairs, generation/update counts, byte ratios, checkpoint schedules,
+recovery process counts, and descriptive means/quantiles from the raw rows.
+Its eight unit tests pass. It checks the 5,000-resample interval metadata and
+ordering but does not duplicate the runner's exact Rust `StdRng` stream.
+
+The mean application journal-byte amplification ranged from 84.037× at 64
+postings to 244.754× at 4,093 postings; mean index-build time ranged from
+3.316 s to 242.889 s. The 4,093-posting recovery-open mean of trial medians was
+25.963 ms. These are host-specific measurements, not SQLite/WAL or physical
+device write amplification. Recovery launches a fresh process but does not
+flush the operating-system page cache. The report, raw JSON, SVG, checksums,
+method, and reproduction commands are in
+[SSE_JOURNAL_BENCHMARK_20261028_RESULT.md](SSE_JOURNAL_BENCHMARK_20261028_RESULT.md).
 
 Verification for the implementation: the new real-anchor/fresh-process smoke
 test passes; all 21 tests in `cargo test --locked -p oblivion-sse --
 --test-threads=1` pass; `cargo fmt --all --check` and workspace Clippy pass. A
-serial workspace test command stopped on one timing-sensitive failure in
-`sse_metadata_discovery_precedes_real_mixed_invocation`: captured private
-fields show 8.48 ms PIR plus 96.83 ms preparation against a 100 ms class
-budget. The same test passed when rerun alone without code or deadline changes.
-This matches the already documented host-contention risk, but the failed full
-workspace command is not reported as a passing gate. The exact revision still
-needs hosted CI and the planned benchmark collection.
+fresh serial `cargo test --locked --workspace -- --test-threads=1` exited 0
+with every enabled workspace test passing; the million-operation ORAM stress
+test is intentionally ignored by that default command. An earlier serial run
+stopped on the timing-sensitive `sse_metadata_discovery_precedes_real_mixed_invocation`
+100 ms timeout; its isolated rerun passed without code or deadline changes.
+The benchmark runner's code predates this result and its push/PR CI passed. The
+independent verifier and plot renderer were added in commit `1e5a3b75`; their
+focused Python tests and actual-report verification pass. The full test command
+does not include the separately invoked million-operation stress tier.
+
+Fresh result-bundle validation (2026-10-28): the independent verifier checked
+120 samples across 30 trials and four index sizes; all three retained artifact
+checksums match `SHA256SUMS`. The venv Python research suite passed 240 tests
+with four skips.

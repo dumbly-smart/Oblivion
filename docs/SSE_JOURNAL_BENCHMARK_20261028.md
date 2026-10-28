@@ -2,6 +2,10 @@
 
 **Status:** design and configuration frozen before collection. No benchmark result is claimed in this document.
 
+The completed execution and measurements are recorded separately in the
+[result report](SSE_JOURNAL_BENCHMARK_20261028_RESULT.md); this file preserves
+the preregistered method and reproduction command.
+
 ## Question
 
 How do encrypted client-journal bytes and restart-recovery latency change as the persistent SSE client tracks more distinct keyword/document postings when every update uses the real local Unix anchor service?
