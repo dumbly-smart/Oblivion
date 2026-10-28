@@ -117,10 +117,17 @@ The opt-in persistent autoscaler privacy ledger is implemented and measured;
 its separate OS rollback/key-custody limitations remain documented. The
 schema-v4 encrypted SQLite slot, additive protocol-v3 Unix operations,
 `SseJournalAnchor` adapter and process-restart integration are implemented.
-Next measure journal write amplification and recovery latency across larger
-indexes, then investigate an anchor freshness source that survives privileged
-SQLite backup rollback. The local service relies on the host OS and a stable,
-independently provisioned master key; do not claim hardware anti-rollback or
-backward privacy. S11 remains partial until freshness is protected against the
-stated storage adversary and the remaining distributed update/acknowledgment
-boundary is addressed.
+
+**Current follow-up (2026-10-28):** a machine-readable persistent SSE journal
+size/recovery benchmark is implemented and its configuration/method are frozen
+in [the preregistration](SSE_JOURNAL_BENCHMARK_20261028.md). It uses the actual
+Unix anchor service, distinct keyword postings, and fresh-process restore
+timings. Collection and result review are pending; the application-level
+journal-byte metric must not be described as physical or SQLite write
+amplification. After collecting and checking that evidence, investigate an
+anchor freshness source that survives privileged SQLite backup rollback. The
+local service relies on the host OS and a stable, independently provisioned
+master key; do not claim hardware anti-rollback or backward privacy. S11
+remains partial until freshness is protected against the stated storage
+adversary and the remaining distributed update/acknowledgment boundary is
+addressed.

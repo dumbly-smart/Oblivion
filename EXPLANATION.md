@@ -146,6 +146,8 @@ The server holds encrypted postings/tokens; the client maintains secret state ne
 
 The legacy client is ephemeral. An opt-in persistent client journals encrypted client state and can anchor journal generations through the local Unix anchor service, allowing recovery after an ordinary service process restart. A caller must retain the same opaque slot and service key; restoring the SQLite anchor backup defeats freshness. Distributed transactions, rollback-resistant external freshness, and a complete end-to-end search-invocation composition remain open. Details: [docs/SSE_DESIGN.md](docs/SSE_DESIGN.md), [docs/SSE_IMPLEMENTATION.md](docs/SSE_IMPLEMENTATION.md), [docs/SSE_ATTACKS.md](docs/SSE_ATTACKS.md).
 
+The persistent client journal also has a dedicated size/recovery benchmark. It records encrypted journal frame bytes when each immutable record is created, even if checkpoint compaction later deletes that record, and times `PersistentClient::open` in newly launched child processes. It uses the real local Unix anchor service. It does not measure SQLite/WAL or physical device write amplification, and it does not flush the host page cache; see [the benchmark preregistration](docs/SSE_JOURNAL_BENCHMARK_20261028.md).
+
 ## 7. Leakage harness: how privacy claims are tested
 
 The Rust harness runs real component mechanisms and produces structured observer events. The Python analysis layer separates three types of data:

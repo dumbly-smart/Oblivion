@@ -92,6 +92,13 @@ These historical component scores do not establish joint runtime privacy or zero
 
 [SSE_IMPLEMENTATION.md](SSE_IMPLEMENTATION.md) records the constrained-GGM component, release oracle, retained-capability challenge and optional real JSONL export. Its sample timings/challenge are narrower evidence than a committed 30-trial attack dataset. The legacy client and runtime path are ephemeral; standalone persistent journal recovery is available through the local anchor service after process restart, subject to stable slot/key custody and SQLite rollback limits. Search equality/volume/timing and later authorization remain visible. The [actual count/frequency campaign](SSE_ATTACKS.md), [offline likelihood/iterative/exact comparisons](ADVANCED_ATTACKS.md) and [chosen-update association experiment](UPDATE_LINKABILITY.md) now supply six bounded SSE-facing methods with controls. They are not faithful published Cash/SAP/IHOP/file-injection reproductions. The [common attack API](ATTACK_INTERFACE.md) preserves those original algorithms and their evidence boundaries.
 
+The persistent client journal now has a dedicated 30-trial size/recovery
+benchmark definition in [SSE_JOURNAL_BENCHMARK_20261028.md](SSE_JOURNAL_BENCHMARK_20261028.md)
+and its [machine configuration](../experiments/configs/sse-persistent-journal-benchmark-20261028.json).
+The runner uses the actual local Unix anchor service and fresh child processes.
+Collection is pending; the byte metric is application-level encrypted
+journal-record output, not device or SQLite/WAL write amplification.
+
 [AUTOSCALER.md](AUTOSCALER.md) documents the five-policy default event simulation, observer knowledge, whole-session splits, trial bootstrap, SLO/drop accounting and plot regeneration. Saved `scaler-paper-30-final/` and `scaler-prewarm2-30-final/` contain 30 trials each, eight sessions/trial, four synthetic workload families and raw compressed public/private records. The optional autoscaler studies, raw reanalysis, centroid/forest attacks, paired epsilon sweep, and sampler assumptions are documented in [AUTOSCALER_DP.md](AUTOSCALER_DP.md). The current 30-trial event-level and bounded-user OS-CSPRNG studies use the bounded discrete-geometric sampler and pass all naive controls; the event-level burst hot-pool forest interval is marginally above chance, while all protected cap-2 forest intervals include chance. Costs use hypothetical instance-second prices; public-seed artifacts have no DP guarantee, and there is no cloud provisioning. Policy tradeoffs and failed SLOs remain reported.
 
 ## Actual traces, execution and joint experiments

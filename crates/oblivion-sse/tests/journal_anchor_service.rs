@@ -170,6 +170,80 @@ fn persistent_sse_state_survives_anchor_process_restart() {
     );
 }
 
+#[test]
+fn journal_benchmark_uses_real_anchor_and_fresh_process_recovery() {
+    let root = TestDirectory::new();
+    let mut service = start_anchor(root.path());
+    let config = root.path().join("benchmark-config.json");
+    fs::write(
+        &config,
+        serde_json::json!({
+            "schema_version": 1,
+            "index_sizes": [4, 129],
+            "trials": 1,
+            "recovery_repetitions": 1,
+            "schedule_seed": 20261028
+        })
+        .to_string(),
+    )
+    .unwrap();
+    let output_dir = root.path().join("benchmark-output");
+    let result = Command::new(env!("CARGO_BIN_EXE_sse-journal-benchmark"))
+        .args([
+            "run",
+            service.socket.to_str().unwrap(),
+            config.to_str().unwrap(),
+            output_dir.to_str().unwrap(),
+        ])
+        .output()
+        .unwrap();
+    assert!(
+        result.status.success(),
+        "benchmark failed: {}",
+        String::from_utf8_lossy(&result.stderr)
+    );
+    let report: serde_json::Value =
+        serde_json::from_slice(&fs::read(output_dir.join("report.json")).unwrap()).unwrap();
+    let samples = report["samples"].as_array().unwrap();
+    let small = samples
+        .iter()
+        .find(|sample| sample["index_size"] == 4)
+        .unwrap();
+    let checkpointed = samples
+        .iter()
+        .find(|sample| sample["index_size"] == 129)
+        .unwrap();
+    assert_eq!(small["journal_records_written"], 9);
+    assert_eq!(small["generation"], 8);
+    assert!(small["journal_record_bytes_written"].as_u64().unwrap() > 0);
+    assert!(small["retained_journal_bytes"].as_u64().unwrap() > 0);
+    assert_ne!(
+        small["recovery_child_pids"][0].as_u64().unwrap(),
+        u64::from(std::process::id())
+    );
+    assert!(small["recovery_open_ns"][0].as_u64().unwrap() > 0);
+    assert_eq!(checkpointed["journal_records_written"], 259);
+    assert_eq!(checkpointed["generation"], 258);
+    assert_eq!(
+        checkpointed["checkpoint_generations"],
+        serde_json::json!([0, 256])
+    );
+    assert_eq!(checkpointed["retained_journal_records"], 3);
+    assert!(
+        checkpointed["journal_record_bytes_written"]
+            .as_u64()
+            .unwrap()
+            > checkpointed["retained_journal_bytes"].as_u64().unwrap()
+    );
+    assert!(
+        report["summary"][0]["recovery_open_trial_median_ns"]["p50"]
+            .as_f64()
+            .unwrap()
+            > 0.0
+    );
+    service.stop();
+}
+
 fn assert_same_request(left: &UpdateRequest, right: &UpdateRequest) {
     assert_eq!(left.version, right.version);
     assert_eq!(left.index_id, right.index_id);

@@ -1163,3 +1163,32 @@ from 6.46 to 7.52 (one-minute load average) during the 88-second run. See the
 [preregistration](ORAM_ZIPF16_MARKOV_REPLICATION_PREREG_20261028.md),
 [result report](ORAM_ZIPF16_MARKOV_REPLICATION_20261028.md), and raw
 [verification record](../experiments/results/oram-isolated-zipf16-markov-replication-20261028/verification.json).
+
+## 2026-10-28: persistent SSE journal benchmark implementation
+
+Added `sse-journal-benchmark`, a reproducible benchmark for the existing
+`PersistentClient` using the actual Unix SQLite anchor service. It builds
+distinct-keyword indexes at configured sizes, measures each durable journal
+record at creation (including later-pruned checkpoint records), separates
+server insertion from persistent-client update calls, and performs repeated
+recovery attempts in fresh child processes. The client key travels over a
+private child stdin pipe and is not written to the result bundle. The machine
+configuration and method are frozen in
+[the preregistration](SSE_JOURNAL_BENCHMARK_20261028.md) and
+[the config](../experiments/configs/sse-persistent-journal-benchmark-20261028.json).
+
+The app-level journal-byte metric is explicitly not physical device or
+SQLite/WAL write amplification. Recovery runs in a new process, but the host
+page cache is not flushed. The 30-trial collection has not yet run; no result
+or latency/cost conclusion is claimed.
+
+Verification for the implementation: the new real-anchor/fresh-process smoke
+test passes; all 21 tests in `cargo test --locked -p oblivion-sse --
+--test-threads=1` pass; `cargo fmt --all --check` and workspace Clippy pass. A
+serial workspace test command stopped on one timing-sensitive failure in
+`sse_metadata_discovery_precedes_real_mixed_invocation`: captured private
+fields show 8.48 ms PIR plus 96.83 ms preparation against a 100 ms class
+budget. The same test passed when rerun alone without code or deadline changes.
+This matches the already documented host-contention risk, but the failed full
+workspace command is not reported as a passing gate. The exact revision still
+needs hosted CI and the planned benchmark collection.

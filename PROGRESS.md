@@ -32,6 +32,7 @@ The report, frozen preregistration, config, raw traces, hashes, predictions, ver
 - A separate Python/Rust measurement stack with public observer features separate from ground truth, attacks with controls, trial-cluster uncertainty, raw artifacts, and reproducible plots.
 - Constrained GGM-inspired SSE with a persistent-client journal adapter, and an autoscaler simulator with explicitly bounded privacy-mechanism studies.
 - Optional local checkpoint/catalog/invocation anchoring, with rollback and key-custody limits documented.
+- A 30-trial persistent SSE journal size/recovery benchmark runner, using the real SQLite-backed Unix anchor and fresh recovery processes. Its preregistration is frozen; collection is pending.
 
 See the [requirements matrix](docs/REQUIREMENTS_MATRIX.md) for exact requirement-level evidence and explicit partial/unfinished items.
 
@@ -39,7 +40,9 @@ See the [requirements matrix](docs/REQUIREMENTS_MATRIX.md) for exact requirement
 
 The latest ORAM run's focused Python checks passed 12 tests, both release measurement examples built, and an independent verifier rechecked the frozen output hashes, paired session schedules, CPU metadata, trial means, bootstrap intervals, and disjoint splits. See the result report.
 
-The repository's selected-scope serial Rust/Python/stress gate and hosted CI were recorded as passing on their documented earlier source revision. That is valuable historical evidence but is not a substitute for a fresh whole-repository run on every later commit. The current Markdown guides need link/format checks; a docs-only update does not rerun cryptographic or runtime correctness.
+The repository's selected-scope serial Rust/Python/stress gate and hosted CI were recorded as passing on their documented earlier source revision. That is valuable historical evidence but is not a substitute for a fresh whole-repository run on every later commit. The root guides and benchmark preregistration have local link/diff checks; those do not rerun or replace cryptographic and runtime correctness.
+
+For the current journal-benchmark implementation, the focused real-anchor/fresh-process integration test and all 21 SSE crate tests pass; workspace formatting and warning-denied Clippy pass. One serial workspace test run failed `sse_metadata_discovery_precedes_real_mixed_invocation` on a recorded 100 ms timeout; the same test passed on an isolated rerun. The workspace command therefore remains a failed attempt, not a current full-suite pass. Details are in [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md).
 
 Correctness test integration uses one Rust test thread because these fixtures have real deadlines and can be delayed by local CPU contention. Benchmark concurrency and production deadlines have not been silently changed to make tests pass.
 
@@ -57,7 +60,7 @@ Correctness test integration uses one Rust test thread because these fixtures ha
 ## Next engineering sequence
 
 1. Keep the root contributor/architecture/report/progress/explanation guides consistent with the canonical technical docs.
-2. Follow [docs/NEXT_STEPS.md](docs/NEXT_STEPS.md): measure persistent SSE journal write amplification and recovery latency across increasing index sizes; preserve fresh raw evidence and controls.
+2. Collect the frozen SSE journal benchmark in [docs/SSE_JOURNAL_BENCHMARK_20261028.md](docs/SSE_JOURNAL_BENCHMARK_20261028.md), preserve the output bundle, and report only application-level journal bytes and fresh-process timings.
 3. Specify a freshness source that survives privileged rollback before claiming anti-rollback. Evaluate a hardware or independently administered anchor only where supported.
 4. Continue bounded independent ORAM replication only with a frozen protocol, passed controls, new sessions, and an available host whose noise/provenance limitations are recorded.
 5. Run current-source local and hosted validation after meaningful code changes; update this snapshot with exact revision, commands, results, and any failures.
