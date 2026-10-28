@@ -136,12 +136,25 @@ historical evidence; the same test and a fresh full workspace run passed
 without changing production deadlines. The independent result verifier and
 artifact checksum validation also pass.
 
-**Next:** define and implement a freshness boundary that survives privileged
-rollback of the local SQLite anchor. A second file or counter on the same host
-does not survive the same administrator's rollback. The candidate must use
-either a genuinely independent trusted witness/hardware source or a specified
-rollback-resilient replicated-register protocol, with its own failure model,
-client state, availability behavior, and adversarial recovery tests. Keep the
-local anchor explicitly process-restart-only until that boundary is reviewed.
-S11 remains partial; this benchmark adds no anti-rollback protection and makes
-no backward-privacy claim.
+**Freshness extension (2026-10-28):** a standalone SSE client can now use a
+separately administered mTLS witness. It detects rollback of the application
+host's encrypted journal while the witness preserves its current SQLite head.
+The witness itself remains a single trusted operator/database and can be
+rolled back or made unavailable. This does not protect catalog, ORAM
+checkpoint, or invocation-receipt anchors, and it is not wired into the server
+worker.
+
+**Next:** add mTLS remote adapters for catalog activation, ORAM checkpoint
+handles, and invocation receipts, then expose explicit worker configuration
+without silently changing local defaults. Each must preserve atomicity and
+indeterminate-commit semantics; invocation receipts additionally need an
+exclusive-writer/fencing design across hosts. In parallel, evaluate whether
+the project needs a genuinely replicated rollback-resistant register for a
+weaker single-witness assumption. A replication follow-up must specify its
+crash/rollback/equivocation model and test schedules before claiming a quorum
+guarantee. Keep the local anchor explicitly process-restart-only and the
+remote SSE guarantee scoped to an honest, durable independent witness. S11
+remains partial; this work makes no hardware anti-rollback, TEE, or
+backward-privacy claim. Before exposing the remote service to multiple client
+principals, add an explicit certificate-to-slot authorization model and
+bounded rate/quota controls; the current configured CA is a global allow-list.

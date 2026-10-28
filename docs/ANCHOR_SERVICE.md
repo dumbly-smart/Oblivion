@@ -1,4 +1,4 @@
-# Local durable anchor service
+# Durable anchor services
 
 `oblivion-anchor` provides SQLite-backed implementations of the store's
 `CheckpointAnchor`, registry's version-only `RegistryVersionAnchor`, and
@@ -74,19 +74,83 @@ replace a live lock file. Raw protocol clients and direct `AnchorDatabase`
 callers can bypass this cooperative lock, so they remain trusted components.
 The lock does not coordinate separate hosts or remote anchor services.
 
+## Independent mTLS witness for persistent SSE
+
+The `oblivion-anchor-remote` binary exposes the SSE journal-head CAS through
+an authenticated TLS listener. It is intended to run under a separate witness
+operator, with that operator's database and master key stored outside the
+application host's administrative domain. The service accepts only the SSE
+load and compare-and-swap contract; registry activation, ORAM checkpoints,
+and invocation receipts still use the local service/API.
+
+Start the witness with:
+
+```sh
+oblivion-anchor-remote serve \
+  0.0.0.0:7443 witness.sqlite witness-master-key.bin \
+  witness-cert.pem witness-key.pem client-ca.pem
+```
+
+The master key is exactly 32 raw bytes in a regular file with mode `0600` on
+Unix. The witness private TLS key must also be a regular non-symlink file with
+no group/world permissions. The server certificate must chain to a CA trusted
+by the client, and the client certificate must chain to a CA trusted by the
+witness. Provision certificates and private keys through an authenticated
+operator channel; this prototype does not issue or rotate them.
+
+The Rust client setup is explicit:
+
+```rust,ignore
+let tls = oblivion_anchor::mtls_client_config_from_pem(
+    "witness-ca.pem",
+    "oblivion-client-cert.pem",
+    "oblivion-client-key.pem",
+)?;
+let anchor = oblivion_anchor::TlsSseJournalAnchor::new(
+    "witness.example:7443".parse()?,
+    "witness.example",
+    "stable-sse-index-slot",
+    tls,
+)?;
+```
+
+`oblivion-sse` implements its `SseJournalAnchor` trait for this client, so a
+standalone `PersistentClient` can use the remote witness without changing its
+encrypted local journal format. The application must preserve the same slot,
+client journal key, and client journal directory identity across restart. The
+network path is synchronous, uses one bounded 512 KiB version-1 JSON frame per
+connection, a five-second TCP connect timeout, and an absolute five-second
+TLS/frame I/O deadline shared by reads and writes after connect/accept. The
+deadline includes the TLS handshake, so byte trickling cannot reset it. The
+single-process listener handles connections serially. It fails closed on authentication,
+protocol, or availability errors and does not automatically retry an uncertain
+CAS result.
+
+To anchor a restored application's freshness, keep the witness current while
+restoring only the application-side journal. The regression test
+`restored_application_journal_is_rejected_when_remote_witness_kept_newer_head`
+exercises this case against the actual SQLite-backed service. The test does
+not roll back the witness database.
+
 ## Trust limits
 
-This is a trusted local service, not a remotely authenticated network anchor.
-The Unix socket limits clients through OS filesystem permissions, while a
-host administrator can still inspect the service process, key and socket
-traffic. The SQLite database operator and master-key source must be trusted
-separately from the ORAM snapshot and registry publication path. SQLite
-transactions provide atomic updates and process-crash durability; they do not
-provide a hardware monotonic counter. An operator or attacker able to restore
-an older database image can roll back both version state and checkpoint
-handles. A remote authenticated protocol, production key provisioning,
-backup/restore policy, and an anti-rollback source remain open under the
-project's untrusted-storage threat model.
+The Unix socket remains a trusted local service, not a remotely authenticated
+network anchor. The mTLS witness is a separate trust domain, not a distributed
+or rollback-proof service. The SSE remote adapter detects rollback of the
+application host's database only while the witness operator preserves the
+latest committed row, protects its master key and database, and remains
+reachable. A witness administrator who restores an old SQLite image can roll
+back the witness itself. The client and server CAs, certificate issuance,
+private-key storage, witness host and service code are trusted. TLS protects
+payloads in transit from a network observer but does not hide connection
+endpoints, sizes, timing, or witness access patterns. Host root can still
+inspect the local executor and client keys. The service has no quorum, no
+hardware monotonic counter, and no Byzantine or crash-tolerant replication.
+Any client certificate chaining to the configured client CA can access any
+valid slot: there is no per-certificate slot authorization, quota, or rate
+limit. The configured CA and network policy therefore define the complete
+client authorization boundary. Production key provisioning, certificate rotation, remote availability,
+backup/restore controls and a replicated register remain open.
 
 The optional durable worker mode uses this service for anchored checkpoint
 recovery and signed invocation receipts. This does not prove the identity of a

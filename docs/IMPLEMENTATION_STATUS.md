@@ -65,8 +65,12 @@ definite non-commit retry. Fresh package verification passed formatting,
 `cargo test -p oblivion-store -- --test-threads=1` (20 passed, one million-op
 stress test intentionally ignored), and warning-free Clippy. Later work added a
 local anchor service and optional durable invocation response/checkpoint
-transaction. A hardware anti-rollback source, arbitrary external-side-effect
-transactions, and remote anchor service remain unimplemented.
+transaction. A hardware anti-rollback source and arbitrary external-side-effect
+transactions remain unimplemented. At the time of this historical entry,
+remote authenticated transport was also unimplemented. A later 2026-10-28
+increment adds an independent mTLS witness for standalone SSE journal heads;
+remote catalog, checkpoint, and invocation-receipt anchors remain
+unimplemented.
 
 The `oblivion-registry` crate implements fixed-size Ed25519-signed records, a
 signed catalog digest, bounded exact parsing, per-record strict verification,
@@ -95,7 +99,7 @@ Seven Rust crates implement encrypted Path ORAM, two-server XOR PIR, Wasmtime ex
 
 Protected execution reads eight blocks at the public 25 ms phase and commits eight at 50 ms. Guest failures discard staged mutations; uncertain backend failure can poison partially written state. At eight logical blocks an invocation emits 128 actual bucket events of 316 bytes, with O(M log N) bandwidth for public working-set M. Trusted drivers prepare encrypted responses/private instrumentation before the 100 ms publication wait. Clients prepare requests before their public epoch. Slot starts are epoch arrival plus slot × 100 ms. OS scheduling and work overruns remain visible.
 
-The current response reader timestamps completion immediately after `read_exact`, before channel handoff and later client decryption/oracle/logging. Public pipe timing and separate private client latency are not interchangeable. The default process demo remains ephemeral. Opt-in durable invocation receipts/checkpoints and persistent SSE journal recovery use the local anchor service and survive ordinary service-process restart; neither resists rollback of the anchor SQLite database by a privileged host operator.
+The current response reader timestamps completion immediately after `read_exact`, before channel handoff and later client decryption/oracle/logging. Public pipe timing and separate private client latency are not interchangeable. The default process demo remains ephemeral. Opt-in durable invocation receipts/checkpoints use the local anchor service. Persistent SSE journal recovery can use that local service or the later standalone mTLS witness. The local anchor does not resist privileged SQLite rollback; remote SSE freshness depends on the separate witness retaining its current database and is not integrated with worker anchors.
 
 The built-in demo's real/dummy/function schedule is public given its code, real percentage and epoch. It validates correctness/topology, not anonymity against an adversary who knows that schedule. Research datasets keep workload labels/seeds outside each declared attack input; public cadence, classes, batch size and geometry remain known. Encryption cannot hide an identity already determined by auxiliary knowledge.
 
@@ -1213,3 +1217,41 @@ Fresh result-bundle validation (2026-10-28): the independent verifier checked
 120 samples across 30 trials and four index sizes; all three retained artifact
 checksums match `SHA256SUMS`. The venv Python research suite passed 240 tests
 with four skips.
+
+## 2026-10-28: independent mTLS witness for standalone SSE
+
+Added `oblivion-anchor-remote`, a separate synchronous TLS service backed by
+the existing SQLite journal-head CAS, and `TlsSseJournalAnchor`, the matching
+client adapter. Mutual TLS authenticates both endpoints. Each connection
+carries one versioned JSON request and response, each limited to 512 KiB;
+there is a five-second TCP connect timeout and an absolute five-second
+TLS/frame I/O deadline shared by reads and writes after connect/accept. Byte
+trickling cannot reset the I/O deadline. The CLI
+requires a 32-byte master key in a regular restricted file and rejects
+symlink/special-file key paths. The service listener is serial and suitable
+for low-rate research anchoring, not a production availability target.
+The service and CLI are in commit `7db12546`; the `PersistentClient` adapter
+and application-journal rollback negative control are in `b758d0d4`.
+
+The adapter is available to standalone `PersistentClient` SSE only. It is not
+configured into the worker's catalog, ORAM checkpoint, or invocation-receipt
+paths. If the separate witness operator retains the current database, it
+detects restoration of an older application-side journal. A witness rollback,
+compromise, credential theft, or outage defeats availability or freshness;
+there is no quorum, hardware monotonic counter, automatic retry after an
+uncertain commit, or local fallback. The witness sees the stable slot, index
+identifier, generation, digest, and operation time. The network sees peer
+addresses, timing, and approximate TLS record sizes.
+Every certificate chaining to the configured client CA can address any valid
+slot; there are no per-client ACLs, quotas, or rate limits. Certificate
+issuance and network policy are the authorization controls in this version.
+
+The focused anchor and SSE package suites passed, including wrong-CA/client
+certificate rejection, service restart, outage fail-closed behavior, a
+slow-drip deadline regression, and the end-to-end application-journal rollback
+negative control. The fresh serial
+`cargo test --locked --workspace -- --test-threads=1` run exited 0 with every
+enabled workspace test passing; the million-operation ORAM stress test remains
+intentionally ignored. Workspace warning-denied Clippy, formatting, and
+whitespace checks passed. This is not cryptographic review or hosted CI
+evidence for this increment.

@@ -23,6 +23,7 @@ This index points to technical reports and retained outputs. Read [docs/EXPERIME
 | Path ORAM construction and attack diagnostics | [ORAM leaf/timing](docs/ORAM_LEAF_TIMING.md), [trace validation](docs/TRACE_VALIDATION.md), [geometry/stash](docs/GEOMETRY_EVALUATION.md) |
 | Checkpoint API, crash ordering, cryptographic and freshness limits | [Storage recovery](docs/STORAGE_RECOVERY.md) |
 | Local SQLite anchor and socket interface | [Anchor service](docs/ANCHOR_SERVICE.md) |
+| Independent mTLS witness scope and freshness limits | [Witness design](docs/ANCHOR_FRESHNESS_DESIGN.md), [anchor service](docs/ANCHOR_SERVICE.md), [threat model](docs/THREAT_MODEL.md) |
 | Durable invocation and receipt replay | [Invocation durability](docs/INVOCATION_DURABILITY.md) |
 | Signed catalog wire and offline provisioning | [Registry records](docs/REGISTRY.md), [external registry](docs/EXTERNAL_REGISTRY.md), [registry activation](docs/REGISTRY_ACTIVATION.md) |
 | Two-server XOR PIR and authenticated transport | [PIR transport](docs/PIR_TRANSPORT.md), [SimplePIR comparison](docs/SIMPLEPIR_REFERENCE.md), [100k correctness](docs/SIMPLEPIR_100K.md), [square-root PIR](docs/SQRT_PIR.md) |
