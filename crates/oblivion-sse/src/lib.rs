@@ -621,7 +621,7 @@ pub use journal::{
     JournalError, PersistentClient, SseJournalAnchor, SseJournalAnchorError, SseJournalAnchorRecord,
 };
 
-#[cfg(unix)]
 mod anchor;
+pub use oblivion_anchor::TlsSseJournalAnchor;
 #[cfg(unix)]
 pub use oblivion_anchor::{UnixAnchorClient, UnixSseJournalAnchor};

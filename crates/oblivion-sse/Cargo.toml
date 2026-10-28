@@ -20,6 +20,8 @@ oblivion-anchor = { path = "../oblivion-anchor" }
 
 [dev-dependencies]
 rand_chacha.workspace = true
+rcgen = "0.14"
+rustls.workspace = true
 
 [lints]
 workspace = true
