@@ -103,7 +103,14 @@ See the [protocol](ORAM_MARKOV_TRANSITION_REPLICATION_PREREG_20261026.md) and
 [result](ORAM_MARKOV_TRANSITION_REPLICATION_20261026.md). This does not settle
 other attacks, workloads, or remote timing.
 
-## Next software action
+## Subsequent software action (after the active ORAM replication)
+
+**Active research action:** independently replicate the possible ORAM
+leaf/timing signal using the frozen 16-address Zipf/Markov workload, isolated
+bucket-service timing, paired positive controls, and trial-level ROC AUC. The
+[preregistration](ORAM_ZIPF16_MARKOV_REPLICATION_PREREG_20261028.md) and
+machine-readable [configuration](../experiments/configs/oram-isolated-zipf16-markov-replication-20261028.json)
+must be committed before any study-specific tests, builds, or collection.
 
 The opt-in persistent autoscaler privacy ledger is implemented and measured;
 its separate OS rollback/key-custody limitations remain documented. The
