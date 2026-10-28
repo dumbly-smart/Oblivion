@@ -21,6 +21,8 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 thiserror = "2"
 zeroize = "1"
+rustls = { version = "0.23", default-features = false, features = ["std", "ring"] }
+rustls-pemfile = "2.2"
 
 wasmtime = { version = "49.0.4", default-features = false, features = ["cranelift", "runtime", "wat", "std", "anyhow"] }
 anyhow = "1"

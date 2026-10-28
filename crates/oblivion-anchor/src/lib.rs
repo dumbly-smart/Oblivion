@@ -31,6 +31,12 @@ pub use local::{
     UnixRegistryCatalogAnchor, UnixSseJournalAnchor, serve_unix,
 };
 
+mod remote;
+pub use remote::{
+    TlsSseJournalAnchor, mtls_client_config, mtls_client_config_from_pem, mtls_server_config,
+    mtls_server_config_from_pem, serve_mtls, serve_mtls_with_shutdown,
+};
+
 const NONCE_BYTES: usize = 12;
 const HANDLE_BYTES: usize = 88;
 const SSE_JOURNAL_INDEX_ID_BYTES: usize = 16;
