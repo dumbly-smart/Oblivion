@@ -41,10 +41,14 @@ reconciliation and never treated as success without a reload.
 ## Runtime policy
 
 `OBLIVION_REGISTRY_ANCHOR_SOCKET` optionally enables activation for an external
-signed catalog. It requires the manifest and pinned public key configuration.
-Activation completes before PIR workers start or readiness is published.
-Without this socket, the worker still verifies signatures and embedded-module
-digests but provides no catalog-version rollback protection. The anchor's local
-OS boundary and SQLite database can still be inspected or rolled back by a
-host administrator; hardware monotonicity and remote witnesses remain outside
-the implementation.
+signed catalog through the local Unix service. Alternatively, configure all six
+`OBLIVION_REGISTRY_ANCHOR_MTLS_*` settings documented in
+[ANCHOR_SERVICE.md](ANCHOR_SERVICE.md) to use the independent witness. The local
+and remote modes are mutually exclusive, and either mode requires the manifest
+and pinned public key. Activation completes before PIR workers start or
+readiness is published. With neither anchor configured, the worker still
+verifies signatures and embedded-module digests but provides no catalog-version
+rollback protection. Local SQLite can be inspected or rolled back by a host
+administrator; a remote witness protects freshness only while its independent
+operator preserves its current database. Neither mode provides hardware
+monotonicity.

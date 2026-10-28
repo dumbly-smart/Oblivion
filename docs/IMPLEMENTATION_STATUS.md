@@ -69,8 +69,10 @@ transaction. A hardware anti-rollback source and arbitrary external-side-effect
 transactions remain unimplemented. At the time of this historical entry,
 remote authenticated transport was also unimplemented. A later 2026-10-28
 increment adds an independent mTLS witness for standalone SSE journal heads;
-remote catalog, checkpoint, and invocation-receipt anchors remain
-unimplemented.
+the same transport now also supports standalone digest-bound registry catalog
+activation. The runtime worker's remote catalog configuration was added in the
+2026-10-29 increment below. Remote checkpoint and invocation-receipt anchors
+remain unimplemented.
 
 The `oblivion-registry` crate implements fixed-size Ed25519-signed records, a
 signed catalog digest, bounded exact parsing, per-record strict verification,
@@ -99,7 +101,7 @@ Seven Rust crates implement encrypted Path ORAM, two-server XOR PIR, Wasmtime ex
 
 Protected execution reads eight blocks at the public 25 ms phase and commits eight at 50 ms. Guest failures discard staged mutations; uncertain backend failure can poison partially written state. At eight logical blocks an invocation emits 128 actual bucket events of 316 bytes, with O(M log N) bandwidth for public working-set M. Trusted drivers prepare encrypted responses/private instrumentation before the 100 ms publication wait. Clients prepare requests before their public epoch. Slot starts are epoch arrival plus slot × 100 ms. OS scheduling and work overruns remain visible.
 
-The current response reader timestamps completion immediately after `read_exact`, before channel handoff and later client decryption/oracle/logging. Public pipe timing and separate private client latency are not interchangeable. The default process demo remains ephemeral. Opt-in durable invocation receipts/checkpoints use the local anchor service. Persistent SSE journal recovery can use that local service or the later standalone mTLS witness. The local anchor does not resist privileged SQLite rollback; remote SSE freshness depends on the separate witness retaining its current database and is not integrated with worker anchors.
+The current response reader timestamps completion immediately after `read_exact`, before channel handoff and later client decryption/oracle/logging. Public pipe timing and separate private client latency are not interchangeable. The default process demo remains ephemeral. Opt-in durable invocation receipts/checkpoints use the local anchor service. Persistent SSE journal recovery and runtime signed-catalog activation can use the separate mTLS witness. The local anchor does not resist privileged SQLite rollback; remote freshness depends on the witness retaining its current database. Remote checkpoint and invocation-receipt anchoring remain unimplemented.
 
 The built-in demo's real/dummy/function schedule is public given its code, real percentage and epoch. It validates correctness/topology, not anonymity against an adversary who knows that schedule. Research datasets keep workload labels/seeds outside each declared attack input; public cadence, classes, batch size and geometry remain known. Encryption cannot hide an identity already determined by auxiliary knowledge.
 
@@ -172,6 +174,43 @@ The research-only `demo-sweep` now retains authenticated masked runtime failures
 [The figure reproduction audit](FIGURE_REPRODUCTION.md) now records raw-derived regeneration of all eight required main figures and the supplemental three-axis/SLO plot without ignored measurement executables. Both autoscaler campaigns rebuild from four raw/config files rather than cached reports; audited numerical reports and PNG bytes matched, and accepted inputs stayed unchanged. The serial local and hosted source gates are accepted; subsequent closing Markdown-only checks are accessible on PR #1.
 
 Selected implementation/evaluation and the serial local/hosted source gates are accepted within their bounded scope. [PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is ready for delivery on `codex/oblivion-research-platform`; no main merge is claimed. A bounded-user autoscaler simulator now supports optional HMAC-authenticated request identities from an external local key registry; this does not add production identity binding, cross-session composition, production DP integration, or an external sampler/code audit. Expanded finite exact-rational checks and the source-review findings are recorded in [SAMPLER_AUDIT.md](SAMPLER_AUDIT.md). Hardware isolation, rollback-resistant/backward-private SSE, recursive/native Circuit storage, DPF/native single-server runtime selection and durable application side effects remain deployment/research extensions. Human P1–P12 study and mutable bibliography/course listings are context, not machine-proof software gates.
+
+## 2026-10-29: runtime mTLS registry catalog configuration
+
+Worker startup now accepts either the existing local registry-anchor socket or
+the complete six-setting mTLS witness configuration. The two modes are
+mutually exclusive. Remote configuration requires the external signed
+manifest and pinned publisher key; partial settings, invalid numeric address,
+TLS/configuration errors, witness unavailability, rollback/equivocation, or an
+indeterminate CAS fail startup before readiness. There is no local fallback.
+The real worker integration test uses generated CA/server/client certificates,
+an actual mTLS witness and SQLite state. It covers partial configuration,
+catalog activation, rollback rejection, version advancement, and witness state.
+The focused integration test first failed against the unimplemented setting
+path, then passed after the worker wiring. On source commit `1befc5c2`, the
+serial workspace suite initially hit a `Timeout` in the system ablation test
+under host scheduling load. The retained private trace showed 80.7 ms of total
+work and a 55.4 ms storage span against the existing 50 ms commit boundary.
+The isolated target reproduced once without affinity, then passed pinned to a
+quiet CPU. The complete pinned run
+`taskset -c 21 cargo test --locked --workspace -- --test-threads=1` exited 0;
+all enabled tests passed, including the 100,000-operation SSE oracle, and the
+million-operation ORAM stress test remained intentionally ignored. This is
+consistent with the already documented scheduler sensitivity; no runtime
+deadline or test oracle was weakened.
+
+`taskset -c 21 cargo clippy --locked --workspace --all-targets -- -D warnings`,
+`cargo fmt --all --check`, and `git diff --check` passed. A local validator
+resolved 308 relative Markdown links in the 12 changed Markdown files. Hosted
+Rust quality gates for this commit are running as Actions run
+[40758604155](https://github.com/dumbly-smart/Oblivion/actions/runs/40758604155);
+the result will be added after completion.
+
+The remote witness remains one trusted operator and database with no per-slot
+client authorization. It can be rolled back or made unavailable. The selected
+function remains visible to the trusted executor; this remote anchor changes
+freshness state for signed-catalog activation only. Remote ORAM checkpoints,
+invocation receipts, witness replication, and a TEE remain unfinished.
 
 ## Optional follow-up: isolated ORAM timing
 
@@ -1218,7 +1257,7 @@ Fresh result-bundle validation (2026-10-28): the independent verifier checked
 checksums match `SHA256SUMS`. The venv Python research suite passed 240 tests
 with four skips.
 
-## 2026-10-28: independent mTLS witness for standalone SSE
+## 2026-10-28: independent mTLS witness for standalone SSE and catalog clients
 
 Added `oblivion-anchor-remote`, a separate synchronous TLS service backed by
 the existing SQLite journal-head CAS, and `TlsSseJournalAnchor`, the matching
@@ -1233,15 +1272,20 @@ for low-rate research anchoring, not a production availability target.
 The service and CLI are in commit `7db12546`; the `PersistentClient` adapter
 and application-journal rollback negative control are in `b758d0d4`.
 
-The adapter is available to standalone `PersistentClient` SSE only. It is not
-configured into the worker's catalog, ORAM checkpoint, or invocation-receipt
-paths. If the separate witness operator retains the current database, it
-detects restoration of an older application-side journal. A witness rollback,
+`TlsSseJournalAnchor` is available to standalone `PersistentClient` SSE, and
+`TlsRegistryCatalogAnchor` implements standalone signed catalog activation
+using version/digest CAS. At this point in the implementation history, the
+runtime worker was not yet configured to use the remote catalog adapter.
+Remote ORAM
+checkpoint and invocation-receipt contracts remain unimplemented. If the
+separate witness operator retains the current database, it detects restoration
+of an older application-side journal or catalog state. A witness rollback,
 compromise, credential theft, or outage defeats availability or freshness;
 there is no quorum, hardware monotonic counter, automatic retry after an
-uncertain commit, or local fallback. The witness sees the stable slot, index
-identifier, generation, digest, and operation time. The network sees peer
-addresses, timing, and approximate TLS record sizes.
+uncertain commit, or local fallback. The witness sees the stable slot, SSE
+index identifier/generation/digest or catalog version/digest, and operation
+time. The network sees peer addresses, timing, and approximate TLS record
+sizes.
 Every certificate chaining to the configured client CA can address any valid
 slot; there are no per-client ACLs, quotas, or rate limits. Certificate
 issuance and network policy are the authorization controls in this version.
@@ -1249,9 +1293,41 @@ issuance and network policy are the authorization controls in this version.
 The focused anchor and SSE package suites passed, including wrong-CA/client
 certificate rejection, service restart, outage fail-closed behavior, a
 slow-drip deadline regression, and the end-to-end application-journal rollback
-negative control. The fresh serial
+negative control. The mTLS integration test also runs a real signed catalog
+through `VerifiedRegistry::activate_catalog`, rejects stale catalog CAS, and
+recovers its version/digest after witness restart. A catalog CAS against an
+unavailable witness returns `AnchorCommitUnknown` for caller reconciliation.
+The fresh serial
 `cargo test --locked --workspace -- --test-threads=1` run exited 0 with every
 enabled workspace test passing; the million-operation ORAM stress test remains
 intentionally ignored. Workspace warning-denied Clippy, formatting, and
-whitespace checks passed. This is not cryptographic review or hosted CI
-evidence for this increment.
+whitespace checks passed. Hosted CI passed on complete source commit
+`38efb2a3` (runs `40742102781` and `40742122501`); an earlier intermediate
+service-only push failed because its lockfile included the SSE test dependency
+before that manifest change was pushed. This is not cryptographic review.
+
+## 2026-10-29: remote registry catalog adapter
+
+`TlsRegistryCatalogAnchor` now implements `RegistryCatalogAnchor` over the
+existing mutually authenticated witness protocol. A standalone caller can load
+and compare-and-swap a catalog version and 32-byte digest, then call
+`VerifiedRegistry::activate_catalog`; the witness persists the state in its
+SQLite-backed slot. Stale CAS is rejected, an unavailable or ambiguous CAS is
+reported as `AnchorCommitUnknown`, and an exact catalog activation remains
+idempotent after witness restart. At this adapter-only stage, the runtime
+worker had not yet been wired to the remote catalog; startup integration is
+recorded in the following entry. This increment does not add remote ORAM checkpoints, remote
+invocation receipts, witness replication, per-certificate slot ACLs, or
+hardware anti-rollback.
+
+Fresh local verification on this source: `cargo test --locked --workspace --
+--test-threads=1` exited 0 with all enabled workspace tests passing; the
+million-operation ORAM stress test remains intentionally ignored by that
+command. The four mTLS integration tests passed, including real signed catalog
+activation, stale-writer rejection, witness restart, and unavailable-witness
+uncertainty. `cargo clippy --locked --workspace --all-targets -- -D warnings`,
+`cargo fmt --all --check`, and `git diff --check` passed. A relative-link check
+resolved 308 links across 11 changed Markdown files. Hosted Rust quality gates
+for source commit `a2f1281f77c065311fe3e8f78202187e56df25c2` passed in Actions
+run [40745540050](https://github.com/dumbly-smart/Oblivion/actions/runs/40745540050):
+Rust quality, million-operation ORAM stress, and analysis all succeeded.

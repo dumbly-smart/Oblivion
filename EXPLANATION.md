@@ -132,13 +132,35 @@ A bucket file or encrypted checkpoint by itself cannot say it is the newest chec
 
 A root operator who restores an older SQLite database can roll back the catalog version floor, receipt history, and SSE freshness state. Host root can also inspect the process and keys. The anchor does not make arbitrary third-party side effects atomic. These limits are detailed in [docs/ANCHOR_SERVICE.md](docs/ANCHOR_SERVICE.md) and [docs/INVOCATION_DURABILITY.md](docs/INVOCATION_DURABILITY.md).
 
-### 5.3 Independent mTLS witness for standalone SSE
+### 5.3 Independent mTLS witness for SSE and runtime catalog activation
 
-`oblivion-anchor-remote` is a separate synchronous TCP service backed by SQLite. It exposes only the persistent SSE journal-head load/CAS contract in this first implementation. It requires mutual TLS: the client authenticates the witness through its configured CA roots, and the witness verifies the client's certificate against its own configured client CA. Each connection carries one version-1, length-prefixed JSON frame in each direction, capped at 512 KiB, with a five-second TCP connect timeout and an absolute five-second TLS/frame I/O deadline shared by reads and writes after connect/accept. Byte trickling cannot reset that I/O budget. Rustls performs the TLS cryptography; there is no custom handshake or plaintext fallback. The server uses an atomic SQLite compare-and-swap, and the client treats transport/protocol failure as unavailable and an uncertain commit as indeterminate.
+`oblivion-anchor-remote` is a separate synchronous TCP service backed by SQLite. It exposes two contracts: persistent SSE journal-head load/CAS and digest-bound signed-registry catalog activation. It requires mutual TLS: the client authenticates the witness through its configured CA roots, and the witness verifies the client's certificate against its own configured client CA. Each connection carries one version-1, length-prefixed JSON frame in each direction, capped at 512 KiB, with a five-second TCP connect timeout and an absolute five-second TLS/frame I/O deadline shared by reads and writes after connect/accept. Byte trickling cannot reset that I/O budget. Rustls performs the TLS cryptography; there is no custom handshake or plaintext fallback. The server uses an atomic SQLite compare-and-swap, and the client treats transport/protocol failure as unavailable and an uncertain commit as indeterminate.
 
-The witness must be administered independently from the application host. Under that assumption, the mTLS adapter can reject an old local encrypted-journal snapshot because its head generation/digest differs from the witness's newest head. The witness operator sees the stable slot, SSE index identifier, generation, digest, and operation times. A network observer sees peer endpoints, connection timing, and approximate TLS sizes, but not those fields inside the encrypted TLS payload. A client that cannot reach the witness fails closed; there is no local fallback or automatic mutation retry.
+The witness must be administered independently from the application host. Under that assumption, the mTLS SSE adapter can reject an old local encrypted-journal snapshot because its head generation/digest differs from the witness's newest head. The runtime worker can construct `TlsRegistryCatalogAnchor` from explicit environment settings and activate its verified catalog version/digest through CAS before readiness. Local Unix and remote mTLS catalog settings are mutually exclusive; all six remote settings must be present, and manifest plus pinned publisher key are still required. The witness operator sees the configured slot and catalog version/digest, along with operation times. A network observer sees peer endpoints, connection timing, and approximate TLS sizes, but not those fields inside the encrypted TLS payload. A client that cannot reach the witness fails closed; there is no local fallback or automatic mutation retry.
 
-This is a single trusted witness, not a quorum protocol, hardware monotonic counter, or replicated register. A witness administrator who rolls back its own SQLite database can roll back the freshness head. The client and witness certificates, private keys, CA provisioning, witness code, operator, and durable witness database are trusted. The service has no per-certificate slot ACL: every certificate chaining to the configured client CA can read or mutate any valid slot, so the CA must be dedicated to authorized witness clients. The adapter is limited to standalone `PersistentClient` SSE; runtime registry activation, ORAM checkpoints and invocation receipts continue to use local anchors or caller-provided adapters. Full protocol and failure details are in [docs/ANCHOR_SERVICE.md](docs/ANCHOR_SERVICE.md) and [the design record](docs/ANCHOR_FRESHNESS_DESIGN.md).
+The remote worker settings are:
+
+| Environment variable | Purpose |
+| --- | --- |
+| `OBLIVION_REGISTRY_ANCHOR_MTLS_ADDRESS` | Numeric witness IP address and TCP port |
+| `OBLIVION_REGISTRY_ANCHOR_MTLS_SERVER_NAME` | DNS name used to verify the witness certificate |
+| `OBLIVION_REGISTRY_ANCHOR_MTLS_SLOT` | Opaque catalog-state slot stored by the witness |
+| `OBLIVION_REGISTRY_ANCHOR_MTLS_CA_PEM` | PEM CA roots trusted by the worker |
+| `OBLIVION_REGISTRY_ANCHOR_MTLS_CLIENT_CERT_PEM` | Worker certificate chain presented to the witness |
+| `OBLIVION_REGISTRY_ANCHOR_MTLS_CLIENT_KEY_PEM` | Private key matching the worker certificate |
+
+All six must be set together. They cannot be combined with
+`OBLIVION_REGISTRY_ANCHOR_SOCKET`, which selects the local Unix anchor instead.
+Both anchored modes require `OBLIVION_REGISTRY_MANIFEST` and
+`OBLIVION_REGISTRY_PUBLIC_KEY`: the publisher signature and each record's
+embedded-module binding are checked before the catalog is sent to the witness.
+The witness performs the version/digest compare-and-swap before the worker
+announces readiness. If the response is lost after the witness committed, the
+worker cannot know whether activation occurred; it exits without readiness,
+and the operator must reconcile witness state before retrying. No fallback
+silently turns the same startup into a local or unanchored activation.
+
+This is a single trusted witness, not a quorum protocol, hardware monotonic counter, or replicated register. A witness administrator who rolls back its own SQLite database can roll back the freshness head. The client and witness certificates, private keys, CA provisioning, witness code, operator, and durable witness database are trusted. The service has no per-certificate slot ACL: every certificate chaining to the configured client CA can read or mutate any valid slot, so the CA must be dedicated to authorized witness clients. Remote registry activation is opt-in in the runtime worker; ORAM checkpoints and invocation receipts continue to use local anchors or caller-provided adapters. Full protocol and failure details are in [docs/ANCHOR_SERVICE.md](docs/ANCHOR_SERVICE.md) and [the design record](docs/ANCHOR_FRESHNESS_DESIGN.md).
 
 ### 5.4 Optional durable invocation receipts
 
@@ -241,7 +263,7 @@ The preregistration must be read before any re-run. The original output director
 | `crates/oblivion-batcher` | Epoch envelope, endpoints, queue and batch tests/examples. |
 | `crates/oblivion-server` | Integration process, client/demo, invocation verification and registry/PIR orchestration. |
 | `crates/oblivion-registry` | Fixed signed catalog types and version activation interface. |
-| `crates/oblivion-anchor` | Local persistent anchor database/service, standalone SSE mTLS witness, and crash/restart/rollback tests. |
+| `crates/oblivion-anchor` | Local persistent anchor database/service, standalone SSE and registry mTLS witness, and crash/restart/rollback tests. |
 | `crates/oblivion-sse` | Dynamic encrypted search, client state/journal, attacks and tests. |
 | `crates/oblivion-harness` | Actual-mechanism experimental traces and attack inputs. |
 | `examples/wasm-functions` | Guest modules executed by the runtime. |
@@ -265,5 +287,5 @@ The preregistration must be read before any re-run. The original output director
 - **Positive control:** deliberately leaky setting in which the evaluated attack should recover the target above the declared baseline.
 - **Preregistration:** frozen workload, attacker, split, metric, controls and analysis written before collection.
 - **SSE:** searchable symmetric encryption; the server sees ciphertext/index activity and some declared leakage while the client keeps search keys/state.
-- **Trusted anchor:** independently trusted state used to select the newest durable checkpoint/version. The local SQLite service is not resistant to privileged rollback. The standalone SSE mTLS witness detects application-host journal rollback only while its separate operator preserves its own SQLite state; it is not replicated or hardware-backed.
+- **Trusted anchor:** independently trusted state used to select the newest durable checkpoint/version. The local SQLite service is not resistant to privileged rollback. The standalone mTLS witness supports SSE journal and registry catalog state only while its separate operator preserves its own SQLite state; it is not replicated or hardware-backed.
 - **Trusted executor:** a role and assumption in this project threat model, not a claim that the current Rust process is hardware protected.

@@ -1,6 +1,6 @@
 # Architecture
 
-Updated 2026-10-22. The complete supplied roadmap is the specification. [REQUIREMENTS_MATRIX.md](REQUIREMENTS_MATRIX.md) maps implementation, acceptance evidence and outstanding work. The runtime uses the **TrustedExecutor** model, simulating the trust boundary with processes; no hardware TEE or attestation exists.
+Updated 2026-10-29. The complete supplied roadmap is the specification. [REQUIREMENTS_MATRIX.md](REQUIREMENTS_MATRIX.md) maps implementation, acceptance evidence and outstanding work. The runtime uses the **TrustedExecutor** model, simulating the trust boundary with processes; no hardware TEE or attestation exists.
 
 ## Process path
 
@@ -15,13 +15,14 @@ flowchart LR
   T --> O[Trusted ORAM controller]
   O --> S[Encrypted buckets]
   S --> L[Storage observer trace]
+  E -. optional signed-catalog freshness CAS over mTLS .-> R[Independent witness]
 ```
 
 Client and queue APIs share a parent process. The executor is a child process, with two independently instantiated PIR workers. Inherited private pipes provision fresh directional session keys. Kernel protection of these pipes is assumed. A host administrator can read every process and violates the TrustedExecutor assumption.
 
 The demo enrolls one to four clients, runs eight epochs and optionally mixes all five modules. Modules are loaded and validated before readiness. Slots execute sequentially. The epoch period is 150 ms times participant count; the small class deadline is 100 ms per invocation. Public slot order and class are visible.
 
-PIR occurs after epoch release on behalf of the trusted client. Each worker sees one decrypted random query vector, and TCP frames are authenticated/encrypted. At startup the trusted executor either verifies a configured external Ed25519-signed catalog with a pinned public key or uses the development-only ephemeral signer. It provisions the verified 160-byte records to both workers; each recovered row must match the exact local pin before dispatch. External mode moves signing outside the executor, but does not authenticate the public-key-to-publisher binding or provide durable catalog-version anti-rollback or online catalog publication. Process separation does not enforce operator non-collusion, and both workers share one host.
+PIR occurs after epoch release on behalf of the trusted client. Each worker sees one decrypted random query vector, and TCP frames are authenticated/encrypted. At startup the trusted executor either verifies a configured external Ed25519-signed catalog with a pinned public key or uses the development-only ephemeral signer. It provisions the verified 160-byte records to both workers; each recovered row must match the exact local pin before dispatch. External mode moves signing outside the executor, but does not authenticate the public-key-to-publisher binding or provide online catalog publication. An optional local Unix anchor or independently administered mTLS witness can reject catalog-version rollback/equivocation before readiness. Process separation does not enforce operator non-collusion, and both workers share one host.
 
 ## Components
 
@@ -33,7 +34,7 @@ PIR occurs after epoch release on behalf of the trusted client. Each worker sees
 | `oblivion-batcher` | Directional authenticated endpoints and bounded fixed epoch queues |
 | `oblivion-server` | Process orchestration, verified signed registry rows over encrypted PIR, enrolled slot validation and client oracle |
 | `oblivion-registry` | Fixed-size signed registry catalogs/records and rollback-aware version-activation adapter |
-| `oblivion-anchor` | SQLite-backed atomic checkpoint/version CAS, signed invocation receipts and local Unix service; also provides a single mTLS/TCP SSE-head witness |
+| `oblivion-anchor` | SQLite-backed atomic checkpoint/version CAS, signed invocation receipts and local Unix service; also provides a single mTLS/TCP witness for standalone SSE journal heads and registry catalog version/digest state |
 | `oblivion-harness` | Actual component workloads with separate public observations and truth |
 | `oblivion-sse` | Append-only encrypted posting index with constrained GGM capabilities; optional persistent journal uses local or explicit mTLS anchor adapter |
 | Python research tools | Attack analysis, trial-cluster confidence intervals, autoscaler event simulation and reference comparisons |
@@ -60,11 +61,11 @@ Path ORAM uses next-power-of-two leaves, Z=4 by default, a trusted position map/
 
 A bounded file backend and full-image checkpoint/restore API exist separately from the memory-backed process demo. Checkpoints authenticate controller keys/maps/stash/versions/counters and all encrypted buckets, publish with file/directory synchronization and return a secret `TrustedCheckpoint` handle. Restore requires the independently protected latest handle, validates the entire image and rekeys/re-encrypts every bucket before returning a controller, preventing reuse of pre-crash bucket nonce domains.
 
-The caller must publish a new handle to a trusted durable anchor before acknowledging durability, retaining the preceding snapshot until that publication commits. `oblivion-anchor` supplies a local SQLite CAS service over a permission-controlled Unix socket and an atomic checkpoint-plus-invocation-receipt API. The invocation API is not wired into the runtime pipeline; there is no end-to-end durable acknowledgment claim. Local state can be rolled back with a database snapshot. The new remote TLS listener covers only standalone SSE journal heads; it relies on a trusted, separately administered witness and does not protect against rollback of that witness. Checkpoint/recovery are observable full-tree maintenance phases. See [STORAGE_RECOVERY.md](STORAGE_RECOVERY.md), [ANCHOR_SERVICE.md](ANCHOR_SERVICE.md), and [INVOCATION_DURABILITY.md](INVOCATION_DURABILITY.md).
+The caller must publish a new handle to a trusted durable anchor before acknowledging durability, retaining the preceding snapshot until that publication commits. `oblivion-anchor` supplies a local SQLite CAS service over a permission-controlled Unix socket and an atomic checkpoint-plus-invocation-receipt API. The invocation API is not wired into the runtime pipeline; there is no end-to-end durable acknowledgment claim. Local state can be rolled back with a database snapshot. The remote TLS listener supports SSE journal heads and registry catalog version/digest CAS. The runtime worker can opt into remote catalog activation through explicit mTLS environment settings; this relies on a trusted, separately administered witness and does not protect against rollback of that witness. Remote checkpoints and invocation receipts are not implemented. Checkpoint/recovery are observable full-tree maintenance phases. See [STORAGE_RECOVERY.md](STORAGE_RECOVERY.md), [ANCHOR_SERVICE.md](ANCHOR_SERVICE.md), and [INVOCATION_DURABILITY.md](INVOCATION_DURABILITY.md).
 
 ## SSE and later experiments
 
-SSE is a separate bounded client/server component. The legacy client remains ephemeral; opt-in `PersistentClient` stores its state in an encrypted journal and can anchor generations through local Unix SQLite or `TlsSseJournalAnchor`. The remote adapter detects rollback of the application-side journal only while the independent witness preserves its current head; witness rollback or outage defeats availability/freshness. A caller must preserve the same opaque slot, journal key and TLS credentials across restarts. Search equality, volume, timing and historical posting linkage remain visible, and no backward privacy is provided. [SSE_DESIGN.md](SSE_DESIGN.md) and [ANCHOR_SERVICE.md](ANCHOR_SERVICE.md) give the exact construction and limits.
+SSE is a separate bounded client/server component. The legacy client remains ephemeral; opt-in `PersistentClient` stores its state in an encrypted journal and can anchor generations through local Unix SQLite or `TlsSseJournalAnchor`. The remote adapter detects rollback of the application-side journal only while the independent witness preserves its current head; witness rollback or outage defeats availability/freshness. A caller must preserve the same opaque slot, journal key and TLS credentials across restarts. `TlsRegistryCatalogAnchor` supports runtime signed-catalog activation over the witness when explicitly configured. Search equality, volume, timing and historical posting linkage remain visible, and no backward privacy is provided. [SSE_DESIGN.md](SSE_DESIGN.md) and [ANCHOR_SERVICE.md](ANCHOR_SERVICE.md) give the exact construction and limits.
 
 The SimplePIR experiment executes the genuine pinned reference with real preprocessing on 10,000 eight-byte records and compares it with actual XOR PIR. It is not the runtime PIR backend. Autoscaling is an independent event simulation with five policies, synthetic workloads, declared observer features and hypothetical prices; it does not provision runtime workers or establish DP.
 

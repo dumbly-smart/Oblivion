@@ -19,14 +19,15 @@ flowchart LR
   S --> V[Storage observer]
   R[Signed function catalog] --> X
   A[Optional local anchor service] -. checkpoint / version / receipt .-> X
-  C -. standalone SSE freshness over mTLS .-> WIT[Independent witness service]
+  C -. standalone SSE anchors over mTLS .-> WIT[Independent witness service]
+  X -. optional signed-catalog activation over mTLS .-> WIT
   Q[Separate Python research tools] -. attack-visible traces .-> V
   Q -. labels kept separate .-> T[Ground truth and private diagnostics]
 ```
 
 The trusted client submits a fixed-size authenticated envelope through an epoch queue. After epoch release, the executor privately selects a fixed-size function-registry record using two-server XOR PIR, checks that it matches its locally verified catalog, and dispatches an embedded WASM module. The guest's storage calls use a bounded staging layer backed by Path ORAM. The executor returns a fixed class-shaped encrypted response. Research tools consume declared observer-visible traces; labels and private instrumentation are separate inputs used only for scoring and correctness.
 
-The dotted local anchor path is opt-in durability. The separate mTLS path is only for the standalone persistent SSE client; it is not connected to the runtime registry, ORAM checkpoints or invocation receipts. The dashed research path is not in the request pipeline. None of these paths means hardware isolation.
+The dotted local anchor path is opt-in durability. The separate mTLS witness supports persistent SSE and signed registry catalog clients, and the runtime worker can select it through explicit all-or-none environment settings. Neither path covers remote ORAM checkpoints or invocation receipts. The dashed research path is not in the request pipeline. None of these paths means hardware isolation.
 
 ## Trust and visibility
 
@@ -46,7 +47,7 @@ Public observers can still learn frame timing and sizes, epoch/slot schedules, s
 | `oblivion-pir` | XOR PIR, fixed database geometry, full scans, and the authenticated generic transport. |
 | `oblivion-exec` | Wasmtime validation, execution classes, fuel/memory/host-call bounds, fixed I/O, staged storage schedule. |
 | `oblivion-store` | Path ORAM, fixed encrypted buckets, memory/file backends, traces, checkpoints, and restore. |
-| `oblivion-anchor` | Local SQLite/Unix-socket compare-and-swap for checkpoint/version state and invocation receipts, plus a bounded mTLS/TCP witness for standalone SSE journal heads. |
+| `oblivion-anchor` | Local SQLite/Unix-socket compare-and-swap for checkpoint/version state and invocation receipts, plus a bounded mTLS/TCP witness for standalone SSE journal heads and registry catalog version/digest state. |
 | `oblivion-sse` | Bounded GGM-inspired dynamic encrypted search, with optional persistent client journal adapter. |
 | `oblivion-harness` | Rust-side actual-mechanism workloads and separate observer/label files. |
 | Python under `research/` | Attack runners, statistical analyses, reproducibility checks, plotting, simulator, and reference evaluations. |
@@ -59,7 +60,7 @@ The current documented authenticated invocation envelope is 228 bytes: a 20-byte
 
 ## Durable state and research-only components
 
-Normal process operation is ephemeral. Optional checkpoint/recovery and signed invocation receipts use the local anchor service; their freshness depends on keeping the anchor database and keys trusted. Restoring an old SQLite backup defeats the version/receipt floor. Standalone persistent SSE can use an mTLS witness to detect rollback of its application-side journal while the separate witness database remains current. The single witness is not replicated; restoring its database defeats this property. Neither service makes arbitrary external side effects atomic.
+Normal process operation is ephemeral. Optional checkpoint/recovery and signed invocation receipts use the local anchor service; their freshness depends on keeping the anchor database and keys trusted. Restoring an old SQLite backup defeats the version/receipt floor. Persistent SSE journals and signed registry catalogs can use an mTLS witness to detect rollback of application-side state while the separate witness database remains current. The worker's remote catalog mode is opt-in and fails closed before readiness when configuration, authentication, availability, or CAS reconciliation fails. The single witness is not replicated; restoring its database defeats this property. Neither service makes arbitrary external side effects atomic.
 
 SSE and the autoscaler are separate research components rather than required steps in the main invocation pipeline. Persistent SSE journal recovery is opt-in and still leaks search equality, result volume, and timing; it is not backward private. Autoscaling is a discrete-event simulation, not a production scaler, and its seeded outputs have no differential-privacy guarantee.
 

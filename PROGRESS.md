@@ -1,12 +1,12 @@
 # Project progress snapshot
 
-**Updated:** 2026-10-28. This is a snapshot; the chronological and source-sensitive record is [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md), and the complete requirement-by-requirement record is [docs/REQUIREMENTS_MATRIX.md](docs/REQUIREMENTS_MATRIX.md).
+**Updated:** 2026-10-29. This is a snapshot; the chronological and source-sensitive record is [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md), and the complete requirement-by-requirement record is [docs/REQUIREMENTS_MATRIX.md](docs/REQUIREMENTS_MATRIX.md).
 
 ## Current state
 
 Oblivion is a functioning Rust research prototype with a selected local end-to-end process path and a substantial collection of component and system experiments. The selected-scope audit reports the required local source gate and hosted source gate passing on their recorded revisions. The full project is **not complete as a production system or as every possible extension in the fourteen-week research roadmap**. Results from historical source revisions remain attached to those revisions and should not be described as current-head validation without rerunning the gate.
 
-Recent commits are being delivered on `codex/oblivion-research-platform` in small increments. The 2026-10-28 ORAM data/report was pushed in commit `03f04b76` after its preregistration commit `1cc21e3b`. The SSE benchmark verifier and standard-library SVG renderer were pushed separately in `1e5a3b75`. The remote mTLS witness service and standalone SSE adapter were pushed in `7db12546` and `b758d0d4` respectively.
+Recent commits are being delivered on `codex/oblivion-research-platform` in small increments. The 2026-10-28 ORAM data/report was pushed in commit `03f04b76` after its preregistration commit `1cc21e3b`. The SSE benchmark verifier and standard-library SVG renderer were pushed separately in `1e5a3b75`. The remote mTLS witness service and standalone SSE adapter were pushed in `7db12546` and `b758d0d4` respectively. The remote signed-registry catalog client and CAS integration were pushed in `a2f1281f`; runtime worker mTLS configuration and its end-to-end test were pushed in `1befc5c2`.
 
 ## Latest experiment
 
@@ -34,7 +34,7 @@ The preregistered persistent SSE journal benchmark also completed: 30 trials at 
 - A separate Python/Rust measurement stack with public observer features separate from ground truth, attacks with controls, trial-cluster uncertainty, raw artifacts, and reproducible plots.
 - Constrained GGM-inspired SSE with a persistent-client journal adapter, and an autoscaler simulator with explicitly bounded privacy-mechanism studies.
 - Optional local checkpoint/catalog/invocation anchoring, with rollback and key-custody limits documented.
-- An optional remote mTLS witness for standalone persistent SSE journal freshness. It detects application-host journal rollback only while the independently administered witness keeps its current SQLite state; it is not wired into the runtime worker's catalog, ORAM, or invocation anchors.
+- An optional remote mTLS witness for persistent SSE journal freshness and signed-registry catalog activation. The runtime worker can activate a verified catalog through this witness using a complete, mutually exclusive configuration; remote ORAM and invocation anchors remain unimplemented.
 - A 30-trial persistent SSE journal size/recovery benchmark runner and completed collection using the real SQLite-backed Unix anchor and fresh recovery processes. The verifier checks all 120 trial/size samples and the retained output includes raw rows, SVG, and checksums.
 
 See the [requirements matrix](docs/REQUIREMENTS_MATRIX.md) for exact requirement-level evidence and explicit partial/unfinished items.
@@ -43,7 +43,7 @@ See the [requirements matrix](docs/REQUIREMENTS_MATRIX.md) for exact requirement
 
 The latest ORAM run's focused Python checks passed 12 tests, both release measurement examples built, and an independent verifier rechecked the frozen output hashes, paired session schedules, CPU metadata, trial means, bootstrap intervals, and disjoint splits. See the result report.
 
-The repository's selected-scope serial Rust/Python/stress gate and hosted CI were recorded as passing on their documented earlier source revision. That is valuable historical evidence but is not a substitute for a fresh whole-repository run on every later commit. The root guides and benchmark preregistration have local link/diff checks; those do not rerun or replace cryptographic and runtime correctness.
+The selected-scope serial Rust/Python/stress gate and hosted CI were recorded as passing on their documented earlier source revision. The runtime mTLS worker increment also passed a fresh pinned serial workspace suite and warning-denied Clippy locally; the exact results are in [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md). Hosted checks for `1befc5c2` are still running at the time of this snapshot. This evidence is not a substitute for a fresh whole-repository run on every later commit.
 
 For the remote-witness increment, a fresh serial `cargo test --locked --workspace -- --test-threads=1` run exited 0, with every enabled workspace test passing, including mTLS service authentication, outage handling, service restart, slow-drip deadline enforcement, and rejection of a restored application journal when the witness retains a newer head. The million-operation ORAM stress test remains intentionally ignored in this default command. Workspace warning-denied Clippy, formatting, and whitespace checks pass. The earlier CPU-contention timeout remains historical evidence. The venv Python suite's prior 240-test result is unchanged because this increment does not modify Python. Details are in [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md).
 
@@ -55,7 +55,7 @@ Correctness test integration uses one Rust test thread because these fixtures ha
 
 1. **No TEE:** process isolation and Wasmtime are not hardware confidentiality. TEE, attestation, host-root defense, and hardware side channels need supported hardware and a separate design/review.
 2. **PIR assumption:** the two servers must not collude; the current process topology does not enforce independent operators.
-3. **Freshness root:** local catalog, checkpoint, invocation-receipt, and local SSE freshness rely on the local SQLite anchor and key remaining trusted. A privileged database rollback can undo them. Standalone persistent SSE can instead use one independent mTLS witness; rolling back, compromising, or losing that witness removes its freshness guarantee. Its configured client CA is the authorization boundary, without per-slot ACLs or rate limits. Remote anchors for worker state and hardware/replicated rollback resistance remain research/deployment work.
+3. **Freshness root:** local catalog, checkpoint, invocation-receipt, and local SSE freshness rely on the local SQLite anchor and key remaining trusted. A privileged database rollback can undo them. Standalone SSE and signed-registry clients can instead use one independent mTLS witness; rolling back, compromising, or losing that witness removes its freshness guarantee. Its configured client CA is the authorization boundary, without per-slot ACLs or rate limits. The runtime worker remains local for registry state; remote checkpoint/receipt anchors and hardware/replicated rollback resistance remain research/deployment work.
 4. **Execution leakage:** fixed resource-access count and frame shapes do not make CPU work constant-time. Scheduling, cache behavior, completion time, deadlines, active failures, participation, and host-level resource observations remain.
 5. **SSE:** constrained GGM-inspired construction is not a complete Diana implementation. Search equality, result volume, timing, and historical capability/linkability leak; no backward privacy is claimed. The persistent journal cost is measured. A standalone mTLS witness detects application-host journal rollback under its single-operator trust assumption; witness rollback resistance, replicated acknowledgment, and runtime integration remain.
 6. **Autoscaling:** the subsystem is a simulator, not provisioning. Mechanism arguments depend on declared adjacency, bounded horizon, sampler, and observer; public seeded artifacts are not DP releases.
@@ -65,7 +65,7 @@ Correctness test integration uses one Rust test thread because these fixtures ha
 ## Next engineering sequence
 
 1. Keep the root contributor/architecture/report/progress/explanation guides consistent with the canonical technical docs.
-2. Extend remote anchoring only with an explicit per-interface atomicity and concurrency model: registry activation, ORAM checkpoint handles, then invocation receipts with cross-host fencing. Decide whether a single independent operator is sufficient or design and test a genuinely replicated rollback-resilient register.
+2. Add a remote ORAM checkpoint adapter with restart/replay tests. Design remote invocation receipts only with a cross-host fencing model. Decide whether a single independent operator is sufficient or design and test a genuinely replicated rollback-resilient register.
 3. Continue the bounded SSE implementation only with a written leakage target, positive controls, and explicit search/update/recovery failure behavior.
 4. Continue bounded independent ORAM replication only with a frozen protocol, passed controls, new sessions, and an available host whose noise/provenance limitations are recorded.
 5. Run current-source local and hosted validation after meaningful code changes; update this snapshot with exact revision, commands, results, and any failures.

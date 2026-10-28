@@ -74,14 +74,15 @@ replace a live lock file. Raw protocol clients and direct `AnchorDatabase`
 callers can bypass this cooperative lock, so they remain trusted components.
 The lock does not coordinate separate hosts or remote anchor services.
 
-## Independent mTLS witness for persistent SSE
+## Independent mTLS witness for SSE and runtime catalog activation
 
-The `oblivion-anchor-remote` binary exposes the SSE journal-head CAS through
-an authenticated TLS listener. It is intended to run under a separate witness
-operator, with that operator's database and master key stored outside the
-application host's administrative domain. The service accepts only the SSE
-load and compare-and-swap contract; registry activation, ORAM checkpoints,
-and invocation receipts still use the local service/API.
+The `oblivion-anchor-remote` binary exposes the SSE journal-head CAS and
+digest-bound registry catalog activation CAS through an authenticated TLS
+listener. It is intended to run under a separate witness operator, with that
+operator's database and master key stored outside the application host's
+administrative domain. Runtime workers can opt into remote registry activation
+with the six environment settings described below. ORAM checkpoints and
+invocation receipts still use the local service/API.
 
 Start the witness with:
 
@@ -117,8 +118,33 @@ let anchor = oblivion_anchor::TlsSseJournalAnchor::new(
 `oblivion-sse` implements its `SseJournalAnchor` trait for this client, so a
 standalone `PersistentClient` can use the remote witness without changing its
 encrypted local journal format. The application must preserve the same slot,
-client journal key, and client journal directory identity across restart. The
-network path is synchronous, uses one bounded 512 KiB version-1 JSON frame per
+client journal key, and client journal directory identity across restart.
+`oblivion_anchor::TlsRegistryCatalogAnchor` implements
+`oblivion_registry::RegistryCatalogAnchor`; pass it to
+`VerifiedRegistry::activate_catalog` to anchor a signed catalog version and
+digest. Reusing a version with a different digest is rejected by registry
+activation, and the CAS rejects stale state. The runtime worker can construct
+this adapter through the following settings:
+
+| Setting | Meaning |
+| --- | --- |
+| `OBLIVION_REGISTRY_ANCHOR_MTLS_ADDRESS` | Numeric `IP:PORT` for the witness, such as `127.0.0.1:7443` |
+| `OBLIVION_REGISTRY_ANCHOR_MTLS_SERVER_NAME` | TLS server name checked against the witness certificate |
+| `OBLIVION_REGISTRY_ANCHOR_MTLS_SLOT` | Validated catalog slot, commonly `runtime-functions` |
+| `OBLIVION_REGISTRY_ANCHOR_MTLS_CA_PEM` | PEM trust roots for authenticating the witness |
+| `OBLIVION_REGISTRY_ANCHOR_MTLS_CLIENT_CERT_PEM` | Worker client certificate chain |
+| `OBLIVION_REGISTRY_ANCHOR_MTLS_CLIENT_KEY_PEM` | Worker client private key |
+
+All six settings are required together and cannot be combined with
+`OBLIVION_REGISTRY_ANCHOR_SOCKET`. The worker also requires the external
+`OBLIVION_REGISTRY_MANIFEST` and 32-byte pinned
+`OBLIVION_REGISTRY_PUBLIC_KEY` files. Invalid or partial settings,
+TLS/authentication failures,
+witness unavailability, catalog rollback/equivocation, and indeterminate CAS
+results prevent worker readiness; there is no local fallback or automatic
+retry. The worker verifies the publisher signature and embedded module
+bindings, then activates the catalog before announcing readiness. The network path is synchronous,
+uses one bounded 512 KiB version-1 JSON frame per
 connection, a five-second TCP connect timeout, and an absolute five-second
 TLS/frame I/O deadline shared by reads and writes after connect/accept. The
 deadline includes the TLS handshake, so byte trickling cannot reset it. The
@@ -126,20 +152,39 @@ single-process listener handles connections serially. It fails closed on authent
 protocol, or availability errors and does not automatically retry an uncertain
 CAS result.
 
+Standalone registry activation uses the same mutual-TLS setup:
+
+```rust,ignore
+let tls = oblivion_anchor::mtls_client_config_from_pem(
+    "witness-ca.pem",
+    "oblivion-client-cert.pem",
+    "oblivion-client-key.pem",
+)?;
+let mut catalog_anchor = oblivion_anchor::TlsRegistryCatalogAnchor::new(
+    "witness.example:7443".parse()?,
+    "witness.example",
+    "function-catalog-slot",
+    tls,
+)?;
+verified_catalog.activate_catalog(&mut catalog_anchor)?;
+```
+
 To anchor a restored application's freshness, keep the witness current while
 restoring only the application-side journal. The regression test
 `restored_application_journal_is_rejected_when_remote_witness_kept_newer_head`
-exercises this case against the actual SQLite-backed service. The test does
-not roll back the witness database.
+exercises this case against the actual SQLite-backed service. The mTLS
+integration test also activates a real signed catalog, rejects a stale CAS,
+and checks the version/digest after witness-process restart. These tests do not
+roll back the witness database.
 
 ## Trust limits
 
 The Unix socket remains a trusted local service, not a remotely authenticated
 network anchor. The mTLS witness is a separate trust domain, not a distributed
-or rollback-proof service. The SSE remote adapter detects rollback of the
-application host's database only while the witness operator preserves the
-latest committed row, protects its master key and database, and remains
-reachable. A witness administrator who restores an old SQLite image can roll
+or rollback-proof service. The remote SSE and catalog adapters detect rollback
+of the corresponding application-side journal or catalog state only while the
+witness operator preserves the latest committed row, protects its master key
+and database, and remains reachable. A witness administrator who restores an old SQLite image can roll
 back the witness itself. The client and server CAs, certificate issuance,
 private-key storage, witness host and service code are trusted. TLS protects
 payloads in transit from a network observer but does not hide connection
@@ -152,8 +197,8 @@ limit. The configured CA and network policy therefore define the complete
 client authorization boundary. Production key provisioning, certificate rotation, remote availability,
 backup/restore controls and a replicated register remain open.
 
-The optional durable worker mode uses this service for anchored checkpoint
-recovery and signed invocation receipts. This does not prove the identity of a
+The optional durable worker mode uses the local Unix service for anchored
+checkpoint recovery and signed invocation receipts. This does not prove the identity of a
 registry publisher: the runtime registry signer is ephemeral, and publisher
 key custody remains a separate concern.
 

@@ -9,9 +9,11 @@ for the freshness head. The application can then detect rollback of its own
 local database, provided the witness keeps its committed state and remains
 reachable.
 
-The first target is the persistent SSE journal head. The same transport may
-later carry catalog, ORAM checkpoint, and invocation-receipt anchors, but those
-interfaces are not included in this first version.
+The current service supports two standalone contracts: the persistent SSE
+journal head and digest-bound signed-registry catalog activation. The runtime
+worker can use the remote catalog adapter through explicit mutually exclusive
+configuration alongside the local Unix adapter. ORAM checkpoint and
+invocation-receipt anchors are not included.
 
 ## Approaches considered
 
@@ -64,11 +66,13 @@ formal proof, or a production audit.
 ## Protocol and state transition
 
 Each TLS connection carries one bounded, versioned JSON request and one
-bounded response. The client opens a stable configured slot and requests
-either the current state or an atomic transition from an empty slot to genesis
-generation `0`, or from expected generation `g` to `g + 1`. The request includes the SSE index identifier and the digest
-of the authenticated journal head. The service binds the slot to the index
-identifier and delegates the transition to the existing SQLite CAS.
+bounded response. Each operation is bound to a stable configured slot. SSE
+requests load the current index identifier, generation, and journal digest,
+or atomically advance an empty slot to generation `0` or generation `g` to
+`g + 1` while preserving the index identifier. Registry requests load the
+current version and optional catalog digest, or compare-and-swap from the
+expected state to a strictly newer version and its signed-catalog digest.
+Both operations delegate to the existing SQLite CAS.
 
 The client authenticates the witness certificate against configured roots and
 presents a client certificate accepted by the witness. There is no plaintext
@@ -104,6 +108,10 @@ hide witness-side access timing from the witness operator.
   anchor response.
 - The remote adapter's `SseJournalAnchor` operations round-trip through the
   actual SQLite database, including ordinary witness-process restart.
+- A signed registry activates through `TlsRegistryCatalogAnchor`; digest and
+  version survive witness restart and stale CAS writers are rejected.
+- A catalog CAS with an unavailable witness returns an indeterminate result so
+  the caller reloads and reconciles instead of retrying blindly.
 - A demonstration restoring the application-side journal while retaining the
   witness head fails closed. Restoring the witness database is documented as
   outside the guarantee.
