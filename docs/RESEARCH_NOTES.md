@@ -9,7 +9,7 @@ The supplied roadmap was initially missing, then supplied during this session an
 | Roadmap area | Current treatment |
 | --- | --- |
 | Prerequisites/security games/leakage functions | Assumptions and observation scopes documented; no new proof is claimed |
-| L2 Path ORAM | Actual non-recursive encrypted store; memory/file backends, position map/stash, live-session freshness, externally anchored full checkpoints and fresh-key restore |
+| L2 Path ORAM | Actual non-recursive encrypted store; memory/file backends, position map/stash, live-session freshness, externally anchored full checkpoints and fresh-key restore; 2026-10-28 independent Zipf-16/Markov leaf/timing replication retained with positive controls |
 | L3 PIR | Actual XOR and generic authenticated geometry-bound transport; large TCP/process tests. Genuine pinned SimplePIR reference comparison exists separately from runtime |
 | L4 execution | Five real WASM functions, resource classes, public staged storage schedule and namespaces; no TEE/constant-time claim |
 | L5 epochs | Fixed rate/shape queues and cover/dummy processing; DP variant deferred as specified |

@@ -31,6 +31,7 @@ Audited 2026-10-23 against the complete supplied [research roadmap](../Oblivion_
 | B23 | `PRESENCE_EVALUATION.md`, original presence raw and independent-ties-Wilson analysis | 60 actual-batcher virtual-clock trials; strong explicit semantic beacon; intermittent fixed-rate presence remains identifiable. No packet-timing claim |
 | G23 | `GEOMETRY_EVALUATION.md`, `experiments/results/geometry-20261022/` | 42 geometry cells × 30 trials; 138,240 ORAM accesses, 2,880 PIR queries; genuine stash traces/full-record oracles; in-process payload/timing scope |
 | LT23 | `ORAM_LEAF_TIMING.md`, `oram-leaf-timing-20261023/` | 30 profiled trial clusters; possible weak ORAM AUC 0.511 [0.501,0.521] retained, not a privacy pass |
+| LT24 | `ORAM_ZIPF16_MARKOV_REPLICATION_20261028.md`, `oram-isolated-zipf16-markov-replication-20261028/` | Fresh 16-address Zipf/Markov workload, 30 trials, isolated handler timing, 1,440 raw hashes and 240 paired schedules verified; controls AUC 1.0, ORAM 0.4968 [0.4864,0.5072], inconclusive |
 | PT23 | `PIR_TARGET_TIMING.md`, `pir-target-timing-20261023/` | 46,080 oracle-verified requests, 30 fits/geometry/mode, own-share/local-time observer and control first |
 | SQ23 | `SQRT_PIR.md`, `sqrt-pir-20261023/` | Genuine packed-row variant, 5,760 checked retrievals; full scans and potentially larger responses |
 | R23 | `simplepir-100k-20261023/summary.json` | 100,020 checked SimplePIR queries and 100,020 matched XOR queries, 30 setups each; no observed failures, dependent outcomes within setup |

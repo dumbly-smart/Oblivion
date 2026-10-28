@@ -1138,3 +1138,28 @@ Review of `844b2047` found no Critical or Important issues. One Minor test-harne
 cleanup issue is deferred: if anchor startup times out before the RAII process
 guard is constructed, the child can remain orphaned. This affects the failing
 startup path, not the exercised restart path.
+
+## 2026-10-28: independent ORAM leaf/timing replication
+
+The preregistered 16-address Zipf-1.10 workload with 0.65 Markov retention,
+80% reads and 32-block Path ORAM completed 30 trials × eight sessions across
+plaintext, encrypt-only and ORAM. The fixed temporal random forest used four
+whole profiling sessions and four disjoint target sessions per trial. Both
+positive controls scored AUC 1.000 [1.000, 1.000]. Path ORAM scored 0.4968
+[0.4864, 0.5072]; the interval includes chance and the point estimate was not
+post-hoc reversed. This does not reproduce the prior possible weak signal for
+this workload, classifier and local handler-time boundary; it is not evidence
+of cryptographic privacy. The 57.85% realized hot-class proportion and 57.06%
+majority raw-accuracy baseline are reported so raw accuracy is not mistaken for
+chance.
+
+The runner retained 1,440 compressed raw files and hashes, 240 paired schedules,
+720 service-process records, predictions, host snapshots and `auc.png`. A
+separate post-run check matched every raw hash and recomputed all 90 trial AUC
+means/intervals and disjoint profile/target splits. The focused replication and
+timing tests passed 12/12 before collection; both release examples built.
+Collection used separate CPUs for driver/service, but the shared host load rose
+from 6.46 to 7.52 (one-minute load average) during the 88-second run. See the
+[preregistration](ORAM_ZIPF16_MARKOV_REPLICATION_PREREG_20261028.md),
+[result report](ORAM_ZIPF16_MARKOV_REPLICATION_20261028.md), and raw
+[verification record](../experiments/results/oram-isolated-zipf16-markov-replication-20261028/verification.json).

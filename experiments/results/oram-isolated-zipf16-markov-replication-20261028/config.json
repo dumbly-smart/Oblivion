@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "blocks": 32,
+  "bucket_capacity": 4,
+  "block_bytes": 64,
+  "operations": 256,
+  "warmup": 16,
+  "sessions_per_trial": 8,
+  "trials": 30,
+  "seed": 20261028,
+  "address_distribution": {
+    "0": 0.33011172350518,
+    "1": 0.154002564461705,
+    "2": 0.09858879712236,
+    "3": 0.071844736712022,
+    "4": 0.056207457822421,
+    "5": 0.045993300155546,
+    "6": 0.038819783056509,
+    "7": 0.033516754810296,
+    "8": 0.029443822275768,
+    "9": 0.026221706259366,
+    "10": 0.023611794476923,
+    "11": 0.02145663321739,
+    "12": 0.019648222182161,
+    "13": 0.018110069158012,
+    "14": 0.016786515780714,
+    "15": 0.015636119003627
+  },
+  "address_persistence": 0.65,
+  "hot_addresses": [
+    0,
+    1,
+    2
+  ],
+  "read_probability": 0.8,
+  "service_cpu_affinity": 0,
+  "primary_metric": "roc_auc",
+  "positive_control_min_mean_auc": 0.8,
+  "positive_control_ci_lower_must_exceed": 0.5,
+  "ci_method": "percentile bootstrap with 5000 resamples over 30 per-trial AUCs"
+}

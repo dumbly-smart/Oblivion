@@ -1,0 +1,54 @@
+{
+  "verified_at_utc": "2026-10-28T13:28:23.467615+00:00",
+  "frozen_source_commit": "1cc21e3b3ddde8f939eb9150611f44e9a0f07b81",
+  "checks": {
+    "raw_file_set_matches_manifest": true,
+    "raw_gzip_files": 1440,
+    "raw_sha256_hashes_matched": 1440,
+    "paired_mode_schedules": 240,
+    "modes": [
+      "plaintext",
+      "encrypt_only",
+      "oram"
+    ],
+    "trial_auc_means_and_5000_resample_intervals_recomputed": 90,
+    "whole_profile_target_session_splits_disjoint": true,
+    "service_process_metadata_records": 720,
+    "all_service_processes_effective_cpu": "0",
+    "positive_control_thresholds_passed": true,
+    "oram_primary_interval_contains_chance": true
+  },
+  "results": {
+    "plaintext": {
+      "trials": 30,
+      "auc_mean": 1.0,
+      "auc_ci95_trials": [
+        1.0,
+        1.0
+      ],
+      "balanced_accuracy_mean": 0.9997448235901791,
+      "profile_majority_accuracy_mean": 0.5706380208333334
+    },
+    "encrypt_only": {
+      "trials": 30,
+      "auc_mean": 1.0,
+      "auc_ci95_trials": [
+        1.0,
+        1.0
+      ],
+      "balanced_accuracy_mean": 0.9998958868043251,
+      "profile_majority_accuracy_mean": 0.5706380208333334
+    },
+    "oram": {
+      "trials": 30,
+      "auc_mean": 0.49679837776756514,
+      "auc_ci95_trials": [
+        0.4864392163662765,
+        0.5072172238505941
+      ],
+      "balanced_accuracy_mean": 0.49831348868322267,
+      "profile_majority_accuracy_mean": 0.5706380208333334
+    }
+  },
+  "verification_scope": "Independent post-run checks of raw hashes, paired schedules, trial summaries, disjoint profile/target sessions, and service CPU affinity. This does not establish cryptographic privacy or eliminate shared-host timing noise."
+}

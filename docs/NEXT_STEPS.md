@@ -105,12 +105,13 @@ other attacks, workloads, or remote timing.
 
 ## Subsequent software action (after the active ORAM replication)
 
-**Active research action:** independently replicate the possible ORAM
-leaf/timing signal using the frozen 16-address Zipf/Markov workload, isolated
-bucket-service timing, paired positive controls, and trial-level ROC AUC. The
-[preregistration](ORAM_ZIPF16_MARKOV_REPLICATION_PREREG_20261028.md) and
-machine-readable [configuration](../experiments/configs/oram-isolated-zipf16-markov-replication-20261028.json)
-must be committed before any study-specific tests, builds, or collection.
+**Completed 2026-10-28:** the preregistered 30-trial 16-address Zipf/Markov
+replication passed both positive controls and measured Path ORAM ROC AUC
+0.4968 [0.4864, 0.5072]. The interval includes chance; this does not establish
+privacy or rule out a smaller signal. Raw traces, hashes, paired schedules,
+verification, host observations and the figure are in the result bundle. See
+the [preregistration](ORAM_ZIPF16_MARKOV_REPLICATION_PREREG_20261028.md) and
+[result report](ORAM_ZIPF16_MARKOV_REPLICATION_20261028.md).
 
 The opt-in persistent autoscaler privacy ledger is implemented and measured;
 its separate OS rollback/key-custody limitations remain documented. The
