@@ -6,9 +6,13 @@ use std::{
     time::{SystemTime, UNIX_EPOCH},
 };
 
+use ed25519_dalek::SigningKey;
 use oblivion_anchor::{
-    AnchorDatabase, SseJournalState, TlsSseJournalAnchor, mtls_client_config, mtls_server_config,
-    serve_mtls_with_shutdown,
+    AnchorDatabase, SseJournalState, TlsRegistryCatalogAnchor, TlsSseJournalAnchor,
+    mtls_client_config, mtls_server_config, serve_mtls_with_shutdown,
+};
+use oblivion_registry::{
+    Record, RegistryCatalogAnchor, RegistryCatalogState, SignedRegistry, VerifiedRegistry,
 };
 use rcgen::{
     BasicConstraints, CertificateParams, ExtendedKeyUsagePurpose, IsCa, Issuer, KeyPair,
@@ -177,7 +181,7 @@ fn remote_anchor_rejects_untrusted_client_and_untrusted_witness_certificates() {
         root_store(trusted_root.clone()),
     )
     .expect("server TLS config");
-    let witness = start_witness(path.clone(), server_config);
+    let witness = start_witness(path.clone(), server_config.clone());
 
     let untrusted_client = mtls_client_config(
         root_store(trusted_root.clone()),
@@ -218,6 +222,7 @@ fn remote_anchor_rejects_untrusted_client_and_untrusted_witness_certificates() {
         .join()
         .expect("witness thread")
         .expect("witness");
+
     let _ = std::fs::remove_file(path);
 }
 
@@ -230,9 +235,96 @@ fn remote_anchor_fails_closed_when_witness_is_unavailable() {
     let listener = TcpListener::bind("127.0.0.1:0").expect("temporary listener");
     let address = listener.local_addr().expect("temporary address");
     drop(listener);
-    let mut anchor = client(address, client_config);
+    let mut anchor = client(address, client_config.clone());
     assert!(matches!(
         anchor.load(),
         Err(oblivion_anchor::Error::Socket(_))
     ));
+    let mut catalog =
+        TlsRegistryCatalogAnchor::new(address, "localhost", "registry", client_config)
+            .expect("catalog TLS anchor");
+    assert_eq!(
+        catalog.compare_and_swap_catalog(None, 1, [0x55; 32]),
+        Err(oblivion_registry::Error::AnchorCommitUnknown)
+    );
+}
+
+#[test]
+fn remote_catalog_anchor_preserves_digest_cas_and_rejects_stale_writer() {
+    let path = temp_database();
+    let (server_cert, server_key, client_cert, client_key, root_cert) =
+        identity_pair("catalog-root");
+    let server_config =
+        mtls_server_config(vec![server_cert], server_key, root_store(root_cert.clone()))
+            .expect("server TLS config");
+    let client_config = mtls_client_config(
+        root_store(root_cert.clone()),
+        vec![client_cert.clone()],
+        client_key.clone_key(),
+    )
+    .expect("client TLS config");
+    let witness = start_witness(path.clone(), server_config.clone());
+    let mut anchor = TlsRegistryCatalogAnchor::new(
+        witness.address,
+        "localhost",
+        "function-registry",
+        client_config,
+    )
+    .expect("catalog TLS anchor");
+
+    assert_eq!(anchor.current_catalog().expect("empty catalog"), None);
+    let signing = SigningKey::from_bytes(&[0x29; 32]);
+    let record =
+        Record::sign(0, 1, [0x31; 32], [0x42; 32], 0, &signing).expect("signed function record");
+    let encoded = SignedRegistry::sign(1, vec![record], &signing).expect("signed catalog");
+    let verified =
+        VerifiedRegistry::verify(&encoded, &signing.verifying_key()).expect("verified catalog");
+    verified
+        .activate_catalog(&mut anchor)
+        .expect("first catalog activation");
+    verified
+        .activate_catalog(&mut anchor)
+        .expect("exact catalog restart");
+    let expected =
+        RegistryCatalogState::new(1, Some(*verified.catalog_digest())).expect("catalog state");
+    assert_eq!(
+        anchor.current_catalog().expect("published catalog"),
+        Some(expected)
+    );
+    assert_eq!(
+        anchor.compare_and_swap_catalog(None, 2, [0x24; 32]),
+        Err(oblivion_registry::Error::AnchorConflict)
+    );
+    assert_eq!(
+        anchor.current_catalog().expect("state after stale write"),
+        Some(expected)
+    );
+
+    let _ = witness.shutdown.send(());
+    witness
+        .thread
+        .join()
+        .expect("witness thread")
+        .expect("witness");
+
+    let restarted = start_witness(path.clone(), server_config);
+    let mut recovered = TlsRegistryCatalogAnchor::new(
+        restarted.address,
+        "localhost",
+        "function-registry",
+        mtls_client_config(root_store(root_cert), vec![client_cert], client_key)
+            .expect("client TLS config after restart"),
+    )
+    .expect("recovered catalog TLS anchor");
+    assert_eq!(
+        recovered.current_catalog().expect("catalog after restart"),
+        Some(expected)
+    );
+    let _ = restarted.shutdown.send(());
+    restarted
+        .thread
+        .join()
+        .expect("restarted witness thread")
+        .expect("restarted witness");
+    let _ = std::fs::remove_file(path);
 }

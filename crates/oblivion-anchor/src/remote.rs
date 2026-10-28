@@ -24,6 +24,7 @@ use rustls::{
 use serde::{Deserialize, Serialize};
 
 use crate::{AnchorDatabase, Error, SseJournalState};
+use oblivion_registry::{RegistryCatalogAnchor, RegistryCatalogState};
 
 const MAX_FRAME_BYTES: usize = 512 * 1024;
 const PROTOCOL_VERSION: u8 = 1;
@@ -41,12 +42,22 @@ enum Request {
         expected_generation: Option<u64>,
         state: WireState,
     },
+    CatalogLoad {
+        slot: String,
+    },
+    CatalogCompareAndSwap {
+        slot: String,
+        expected: Option<WireCatalogState>,
+        next_version: u64,
+        next_digest: [u8; 32],
+    },
 }
 
 #[derive(Deserialize, Serialize)]
 #[serde(tag = "result", rename_all = "snake_case", deny_unknown_fields)]
 enum Response {
     Loaded { state: Option<WireState> },
+    CatalogLoaded { state: Option<WireCatalogState> },
     Updated,
     Error { code: WireError },
 }
@@ -71,6 +82,30 @@ struct WireState {
     index_id: Vec<u8>,
     generation: u64,
     digest: Vec<u8>,
+}
+
+#[derive(Clone, Copy, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct WireCatalogState {
+    version: u64,
+    digest: Option<[u8; 32]>,
+}
+
+impl From<RegistryCatalogState> for WireCatalogState {
+    fn from(state: RegistryCatalogState) -> Self {
+        Self {
+            version: state.version(),
+            digest: state.digest().copied(),
+        }
+    }
+}
+
+impl TryFrom<WireCatalogState> for RegistryCatalogState {
+    type Error = oblivion_registry::Error;
+
+    fn try_from(state: WireCatalogState) -> Result<Self, Self::Error> {
+        Self::new(state.version, state.digest)
+    }
 }
 
 impl From<SseJournalState> for WireState {
@@ -250,13 +285,116 @@ fn open_pem_file(path: &Path, private: bool) -> Result<File, Error> {
 /// connection. Each operation uses a fresh bounded connection and fails
 /// closed if TLS, framing, or the witness protocol fails.
 pub struct TlsSseJournalAnchor {
+    client: RemoteAnchorClient,
+}
+
+impl TlsSseJournalAnchor {
+    pub fn new(
+        address: SocketAddr,
+        server_name: &str,
+        slot: &str,
+        config: Arc<ClientConfig>,
+    ) -> Result<Self, Error> {
+        Ok(Self {
+            client: RemoteAnchorClient::new(address, server_name, slot, config)?,
+        })
+    }
+
+    pub fn load(&mut self) -> Result<Option<SseJournalState>, Error> {
+        match self.client.exchange(Request::Load {
+            slot: self.client.slot.clone(),
+        })? {
+            Response::Loaded { state } => state.map(TryInto::try_into).transpose(),
+            Response::Error { code } => Err(error_from_wire(code)),
+            Response::Updated | Response::CatalogLoaded { .. } => Err(Error::Protocol),
+        }
+    }
+
+    pub fn compare_and_swap(
+        &mut self,
+        expected_generation: Option<u64>,
+        state: SseJournalState,
+    ) -> Result<(), Error> {
+        match self.client.exchange(Request::CompareAndSwap {
+            slot: self.client.slot.clone(),
+            expected_generation,
+            state: state.into(),
+        })? {
+            Response::Updated => Ok(()),
+            Response::Error { code } => Err(error_from_wire(code)),
+            Response::Loaded { .. } | Response::CatalogLoaded { .. } => Err(Error::Protocol),
+        }
+    }
+}
+
+/// A synchronous digest-bound registry activation anchor over mutually
+/// authenticated TLS. Its freshness guarantee depends on the witness
+/// retaining its own SQLite database.
+pub struct TlsRegistryCatalogAnchor {
+    client: RemoteAnchorClient,
+}
+
+impl TlsRegistryCatalogAnchor {
+    pub fn new(
+        address: SocketAddr,
+        server_name: &str,
+        slot: &str,
+        config: Arc<ClientConfig>,
+    ) -> Result<Self, Error> {
+        Ok(Self {
+            client: RemoteAnchorClient::new(address, server_name, slot, config)?,
+        })
+    }
+}
+
+impl RegistryCatalogAnchor for TlsRegistryCatalogAnchor {
+    fn current_catalog(
+        &mut self,
+    ) -> Result<Option<RegistryCatalogState>, oblivion_registry::Error> {
+        match self.client.exchange(Request::CatalogLoad {
+            slot: self.client.slot.clone(),
+        }) {
+            Ok(Response::CatalogLoaded { state }) => state
+                .map(TryInto::try_into)
+                .transpose()
+                .map_err(|error: oblivion_registry::Error| {
+                    oblivion_registry::Error::Anchor(error.to_string())
+                }),
+            Ok(Response::Error { code }) => Err(registry_error_from_wire(code, false)),
+            Ok(_) => Err(oblivion_registry::Error::Anchor(
+                "invalid remote catalog load response".into(),
+            )),
+            Err(error) => Err(oblivion_registry::Error::Anchor(error.to_string())),
+        }
+    }
+
+    fn compare_and_swap_catalog(
+        &mut self,
+        expected: Option<RegistryCatalogState>,
+        next_version: u64,
+        next_digest: [u8; 32],
+    ) -> Result<(), oblivion_registry::Error> {
+        match self.client.exchange(Request::CatalogCompareAndSwap {
+            slot: self.client.slot.clone(),
+            expected: expected.map(Into::into),
+            next_version,
+            next_digest,
+        }) {
+            Ok(Response::Updated) => Ok(()),
+            Ok(Response::Error { code }) => Err(registry_error_from_wire(code, true)),
+            Ok(_) | Err(_) => Err(oblivion_registry::Error::AnchorCommitUnknown),
+        }
+    }
+}
+
+struct RemoteAnchorClient {
     address: SocketAddr,
     server_name: ServerName<'static>,
     slot: String,
     config: Arc<ClientConfig>,
 }
 
-impl TlsSseJournalAnchor {
+impl RemoteAnchorClient {
     pub fn new(
         address: SocketAddr,
         server_name: &str,
@@ -272,32 +410,6 @@ impl TlsSseJournalAnchor {
             slot: slot.to_owned(),
             config,
         })
-    }
-
-    pub fn load(&mut self) -> Result<Option<SseJournalState>, Error> {
-        match self.exchange(Request::Load {
-            slot: self.slot.clone(),
-        })? {
-            Response::Loaded { state } => state.map(TryInto::try_into).transpose(),
-            Response::Error { code } => Err(error_from_wire(code)),
-            Response::Updated => Err(Error::Protocol),
-        }
-    }
-
-    pub fn compare_and_swap(
-        &mut self,
-        expected_generation: Option<u64>,
-        state: SseJournalState,
-    ) -> Result<(), Error> {
-        match self.exchange(Request::CompareAndSwap {
-            slot: self.slot.clone(),
-            expected_generation,
-            state: state.into(),
-        })? {
-            Response::Updated => Ok(()),
-            Response::Error { code } => Err(error_from_wire(code)),
-            Response::Loaded { .. } => Err(Error::Protocol),
-        }
     }
 
     fn exchange(&self, request: Request) -> Result<Response, Error> {
@@ -444,6 +556,49 @@ fn serve_request(database: &mut AnchorDatabase, request: Request) -> Response {
                 },
             }
         }
+        Request::CatalogLoad { slot } => {
+            match database
+                .registry_catalog_anchor(&slot)
+                .and_then(|mut anchor| {
+                    anchor
+                        .current_catalog()
+                        .map_err(|error| Error::Database(error.to_string()))
+                }) {
+                Ok(state) => Response::CatalogLoaded {
+                    state: state.map(Into::into),
+                },
+                Err(error) => Response::Error {
+                    code: wire_from_error(error),
+                },
+            }
+        }
+        Request::CatalogCompareAndSwap {
+            slot,
+            expected,
+            next_version,
+            next_digest,
+        } => {
+            let expected = match expected.map(TryInto::try_into).transpose() {
+                Ok(expected) => expected,
+                Err(_) => {
+                    return Response::Error {
+                        code: WireError::Protocol,
+                    };
+                }
+            };
+            match database
+                .registry_catalog_anchor(&slot)
+                .and_then(|mut anchor| {
+                    anchor
+                        .compare_and_swap_catalog(expected, next_version, next_digest)
+                        .map_err(anchor_error_from_registry)
+                }) {
+                Ok(()) => Response::Updated,
+                Err(error) => Response::Error {
+                    code: wire_from_error(error),
+                },
+            }
+        }
     }
 }
 
@@ -456,12 +611,36 @@ fn wire_from_error(error: Error) -> WireError {
     }
 }
 
+fn anchor_error_from_registry(error: oblivion_registry::Error) -> Error {
+    match error {
+        oblivion_registry::Error::AnchorConflict => Error::Conflict,
+        oblivion_registry::Error::AnchorCommitUnknown => Error::CommitIndeterminate,
+        other => Error::Database(other.to_string()),
+    }
+}
+
 fn error_from_wire(error: WireError) -> Error {
     match error {
         WireError::Conflict => Error::Conflict,
         WireError::CommitIndeterminate => Error::CommitIndeterminate,
         WireError::Unavailable => Error::Socket("remote anchor unavailable".into()),
         WireError::Protocol => Error::Protocol,
+    }
+}
+
+fn registry_error_from_wire(error: WireError, mutation: bool) -> oblivion_registry::Error {
+    match error {
+        WireError::Conflict if mutation => oblivion_registry::Error::AnchorConflict,
+        WireError::CommitIndeterminate if mutation => oblivion_registry::Error::AnchorCommitUnknown,
+        WireError::Conflict => {
+            oblivion_registry::Error::Anchor("unexpected catalog conflict on load".into())
+        }
+        WireError::CommitIndeterminate | WireError::Unavailable => {
+            oblivion_registry::Error::Anchor("remote anchor unavailable".into())
+        }
+        WireError::Protocol => {
+            oblivion_registry::Error::Anchor("remote anchor rejected catalog request".into())
+        }
     }
 }
 
@@ -621,6 +800,19 @@ mod tests {
             br#"{"version":1,"request":{"operation":"load","slot":"sse-slot","extra":true}}"#;
         assert!(matches!(
             decode_request(unknown_field),
+            Err(WireError::Protocol)
+        ));
+
+        let catalog_load =
+            br#"{"version":1,"request":{"operation":"catalog_load","slot":"functions"}}"#;
+        assert!(matches!(
+            decode_request(catalog_load),
+            Ok(Request::CatalogLoad { slot }) if slot == "functions"
+        ));
+
+        let malformed_catalog_cas = br#"{"version":1,"request":{"operation":"catalog_compare_and_swap","slot":"functions","expected":null,"next_version":1,"next_digest":[1,2]}}"#;
+        assert!(matches!(
+            decode_request(malformed_catalog_cas),
             Err(WireError::Protocol)
         ));
     }
