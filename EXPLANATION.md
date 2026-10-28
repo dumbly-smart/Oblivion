@@ -1,0 +1,257 @@
+# Oblivion, explained
+
+This is the detailed orientation and walkthrough for the repository. It explains the intent, request flow, components, messages, trust assumptions, experiments, and limits using the implementation that exists in this checkout. It is a guide, not a replacement for the precise [threat model](docs/THREAT_MODEL.md), [protocol specification](docs/PROTOCOL.md), [security assumptions](docs/SECURITY_ASSUMPTIONS.md), component designs, or source code. Follow those links whenever a security or wire-level detail matters.
+
+## 1. The problem the project studies
+
+Serverless function execution is often described as a function receiving input and returning output. The infrastructure around that computation can expose much more: which function was selected, when it ran, how often it ran, which state locations it accessed, how large requests and responses were, whether an instance was cold, how much work the host performed, and how traffic changes over time.
+
+Encryption protects message contents in transit or stored bytes against parties without the key. By itself it does not hide packet length, arrival time, repetition, storage locations, queue behavior, or machine activity. Oblivion combines mechanisms that target different observable channels, then tests whether an attacker can still infer workload properties and measures the overhead that those mechanisms add.
+
+The project is explicitly empirical and experimental. A cryptographic construction can support a precise claim under its formal assumptions. An attack study can report what a specified classifier inferred from a specified set of observations. An engineering mechanism such as padding or fixed-rate batching can make some messages more regular under operational assumptions. Those are different kinds of evidence and are not interchangeable.
+
+## 2. Primary specification and current scope
+
+The complete roadmap in [Oblivion Research Roadmap and Build Plan](Oblivion_%20Research%20Roadmap%20and%20Build%20Plan%20%281%29.md) is the primary specification. The [requirements matrix](docs/REQUIREMENTS_MATRIX.md) maps its items to implementation/evidence and marks remaining work. The prototype has a working local process path and many retained measurements, but the entire research program and production deployment are not complete.
+
+The original layered design is:
+
+1. **Forward-private searchable encryption (SSE):** hide stored index contents while supporting updates/search, subject to stated leakage.
+2. **Oblivious storage (Path ORAM):** make the server access tree paths rather than the application's logical address.
+3. **Private function discovery (PIR):** let a client recover one registry record without exposing its index to either single PIR server.
+4. **Bounded WASM execution:** validate and execute functions with fixed interface shapes and fuel/resource bounds.
+5. **Epoch batching and dummy traffic:** regularize request schedules and include cover work.
+6. **Privacy-aware scaling:** study how resource-count decisions reveal demand; the existing implementation is a simulator.
+7. **Leakage measurement:** build controls, attacks, and analysis over server-visible traces.
+
+These layers are complementary but do not automatically compose into whole-system indistinguishability. For example, ORAM affects storage traces but does not hide cold starts; PIR masks a selected row from one server but the trusted executor sees the row; padding standardizes a response representation but not every internal runtime cost.
+
+## 3. Threat model and trust boundaries
+
+### 3.1 Adopted model
+
+The implementation follows **Threat Model A: TrustedExecutor; untrusted storage, network, and scheduler**. The client and executor are treated as trusted. Storage, communications and scheduling are observable or controlled by an adversary. The prototype simulates the boundary with operating-system process isolation and a Wasmtime sandbox.
+
+This is an assumption, not hardware protection. A privileged host operator can inspect either process's memory, keys, plaintext, selected registry row, labels if mounted there, and internal timing. There is no TEE, remote attestation, secure boot, enclave runtime, or hardware anti-rollback proof in this repository. Wasmtime limits guest capabilities; it does not keep the host from reading its own memory and does not make guest code constant-time.
+
+### 3.2 Adversary knowledge and observation
+
+The adversary is assumed to know the implementation, cryptographic algorithms, public parameters, message formats, and defense configuration. Depending on the experiment, observations include some subset of:
+
+- request/response size and time;
+- epoch and public slot cadence;
+- storage physical bucket, ORAM leaf, operation direction, or byte count;
+- individual PIR server query share, local scan timing, and frame metadata;
+- visible batch arrivals, output timing, and queue effects;
+- instance count and scaling/cold-start events in a simulator;
+- failures, availability, deadlines, and partial storage traces.
+
+Experiments define an exact attacker view. They must not quietly provide the target label or private runtime fields to a classifier. Public parameters such as cadence and ORAM geometry may be supplied when the study declares them as attacker knowledge.
+
+### 3.3 PIR non-collusion
+
+The XOR PIR implementation uses two servers. The client sends a uniformly random bit-selection vector to server 1 and that same vector XOR the target one-hot vector to server 2. Each individual share is distributed independently of the requested index. If the servers combine their shares, they recover the target vector and the privacy property fails. Two local worker processes on one machine are a test topology, not evidence of organizational non-collusion.
+
+### 3.4 Assets and residual exposure
+
+Important assets include client secrets, invocation plaintext, function catalog and selection, WASM inputs/outputs, persistent state, ORAM controller map/stash/keys, PIR session keys, SSE client state and keys, anchor secrets, user identities, and experiment labels. Different components protect different assets. The executor must see invocation data and function code to execute them; ORAM does not hide data from that trusted executor.
+
+Residual leakage includes public schedules, timing and scheduling noise, host resource behavior, request participation, module work variation, error/deadline events, authenticated metadata, ORAM controller computation and stash behavior inside the trusted domain, failure traces, the existence of checkpoint maintenance, SSE equality/result volumes, and any observation not represented by a tested defense. See [docs/THREAT_MODEL.md](docs/THREAT_MODEL.md) for formal leakage-function notation and documented attacks/non-goals.
+
+## 4. End-to-end invocation, one step at a time
+
+The relevant source responsibilities are in `crates/oblivion-server`, `crates/oblivion-batcher`, `crates/oblivion-pir`, `crates/oblivion-registry`, `crates/oblivion-exec`, and `crates/oblivion-store`. The diagram is in [ARCHITECTURE.md](ARCHITECTURE.md); the exact versioned protocol fields are in [docs/PROTOCOL.md](docs/PROTOCOL.md).
+
+### Step 1: Startup and function catalog
+
+The server loads and validates bundled WASM modules before accepting work. Each function has a registry row describing an ID/version, module digest, location digest, and resource class. The runtime can use an external publisher-signed catalog plus a separately provisioned pinned Ed25519 public key. It verifies the signature and checks that the records match the actual embedded modules before worker readiness.
+
+Each registry row is exactly 160 bytes, including its signature. The offline signed-catalog format has a 124-byte manifest header followed by fixed-size records. The external catalog key must arrive through an independently authenticated deployment channel; a valid signature alone does not prove who owns the key. The example's module-location digest is synthetic; module retrieval from a remote encrypted object store is not implemented. With no external catalog settings, a development-only ephemeral signer is available. See [registry runtime](docs/REGISTRY_RUNTIME.md) and [external provisioning](docs/EXTERNAL_REGISTRY.md).
+
+### Step 2: Client request envelope
+
+The current invocation protocol documents a 228-byte authenticated envelope: a 20-byte public header, 192 bytes of ciphertext, and a 16-byte authentication tag. The header carries a magic/version, direction, epoch, and participant slot. It is authenticated as AEAD associated data. The nonce is derived from slot and epoch; it is not sent as a separate field. HKDF-SHA256 separates request and response keys from a fresh operating-system-random session root. Epochs must increase, and a channel's keys/state must not be cloned or restored to reuse a nonce.
+
+Inside the request ciphertext, the payload contains the real/dummy indicator, registry index, fixed 64-byte input, invocation ID, Ed25519 public key and signature, plus reserved zero bytes. The request signature binds a domain-separated digest of the canonical request fields to the participant slot. The server first authenticates the envelope, then verifies the signature and canonical fields. An invalid request is routed through the fixed-shape cover path. The real/dummy field is encrypted from a network observer, but the trusted executor necessarily learns what work it will perform.
+
+Some older experiment reports refer to 164-byte envelopes or earlier execution schedules. These are historical formats for those captured binaries, not the current protocol. Never combine their measurements with v2 without an explicit compatibility analysis.
+
+### Step 3: Epoch queue and batching
+
+The batcher collects fixed-shape participant envelopes for an epoch. It has bounded queues and backpressure behavior. Dummy requests are designed to take a downstream cover path with equivalent observable processing shape; they are not simply discarded at the edge and then counted as end-to-end privacy. The local demo uses fixed periods, a bounded number of clients, and sequential slot execution.
+
+The demo's real/dummy/function schedule is deterministic and public from the source, configured percentage, and epoch. That makes the demo a correctness and topology exercise, not an anonymity experiment against an attacker that knows the schedule. Research workloads may keep the seed and truth labels private relative to a declared attacker, but must make that boundary explicit.
+
+The demo runs eight epochs, with a 150 ms period per enrolled participant, and a 100 ms execution-class target. A public slot order and resource class are visible. These configured deadlines do not force a process to run at an exact time: scheduler jitter, overloaded cores, synchronous work, and host wake-up delay can cause lateness.
+
+### Step 4: Private registry lookup
+
+After epoch release, the executor (on behalf of the trusted side of the protocol) performs two-server XOR PIR. For a database with `n` records and requested index `i`, it samples random vector `S` of length `n`; server 1 receives `S`, and server 2 receives `S XOR e_i`. Each server scans the database and XORs all records selected by its share. XORing the two answers cancels `S` and yields record `i`.
+
+The database records have equal width. Query and response shapes are determined by public database geometry, not by `i`. The basic server computation is linear in the database size; this implementation does not claim sublinear computation. The authenticated generic transport binds geometry, slot, sequence, and epoch and encrypts each link with independently derived directional keys. It does not make a malicious PIR server return a correct answer. The executor checks the recovered record byte-for-byte against its locally pinned signed catalog before dispatch. A party that sees both query shares can recover `i`.
+
+The separate generic transport supports bounded larger geometries, including the studied 10,000 records × 1 KiB. The runtime demo uses five 160-byte function records and a small padded query. Do not confuse the generic PIR benchmark's 1 KiB records with the separate genuine SimplePIR reference comparison, which uses 8-byte records. Full protocol details and failure bounds are in [docs/PIR_TRANSPORT.md](docs/PIR_TRANSPORT.md) and [docs/PROTOCOL.md](docs/PROTOCOL.md).
+
+### Step 5: WASM execution
+
+The executor validates each module and runs it with Wasmtime. The guest ABI exports linear memory and an `invoke(input_ptr, input_len, output_ptr, capacity)` function returning the number of output bytes. WASI is not provided. A function's public execution class defines its input/output limits, fuel budget, memory/table/instance bounds, host-call budget, and deadline.
+
+The repository includes five actual example functions with different computational behavior. The protected path uses fixed-size buffers and returns a fixed-size class response, with uniform external error framing for invalid input, guest traps, fuel exhaustion, and related failures. Internal status remains private to the trusted side and to separately stored private instrumentation.
+
+Fuel is a count of metered WASM work. It is not wall-clock time. It does not automatically count all runtime, operating-system, or host-function work, and a timer cannot make scheduling, caches, or machine execution constant-time. The executor sets a public response target and records missed deadlines. These mechanisms bound and regularize specific behaviors; they do not guarantee exact-time execution.
+
+### Step 6: Bounded state access through Path ORAM
+
+The host gives a WASM guest a restricted key-value-like state interface. In the protected schedule, guest operations use a staged snapshot rather than directly causing an arbitrary number of backend operations. The current public working-set size is eight blocks. At a public read phase the executor reads all eight blocks into trusted staging memory. At a later public commit phase it writes all eight blocks back. Successful guest work commits the staged state. On a guest trap, invalid input, or fuel failure, guest modifications are discarded and the original snapshot is written back. On a successful backend path, stateful and non-stateful functions perform the same scheduled read/write counts.
+
+Path ORAM maps each logical block to a leaf in a binary tree. The client-side trusted controller keeps a position map, encryption keys, nonce counters, and a stash of blocks temporarily outside buckets. A logical read/write obtains the current leaf, reads every encrypted bucket on the path, removes the target block into trusted state, assigns the block a new random leaf, and evicts blocks back into buckets subject to path-placement invariants. A write changes the block contents before the same remap/eviction process. Empty slots are fixed-size dummy entries. The storage backend sees complete encrypted buckets rather than a logical address.
+
+The default bucket capacity is `Z=4`. Bucket payloads have fixed size for a configuration. AEAD binds the physical bucket index and trusted version, so relocation/substitution and corruption are authenticated. A live trusted per-bucket version vector detects stale bucket replay in the current controller. AEAD by itself would only prove that old ciphertext was authentic; it would not prove that it was fresh. The controller serializes accesses and can be poisoned after uncertain failures; separate controllers cannot safely share one live tree.
+
+For a tree with `N` logical blocks, the number of leaves is the next power of two at least `N`; total binary buckets are `2*leaves - 1`. A root-to-leaf path contains `log2(leaves)+1` buckets. One logical access reads and then writes the whole path. For an 8-block tree, capacity 4, and 64-byte values, each bucket holds four slots, each slot being an 8-byte logical ID plus 64 data bytes. The encrypted representation adds a 12-byte nonce and 16-byte tag, yielding `12 + 4*(8+64) + 16 = 316` bytes. Each logical access therefore emits eight bucket backend events (four reads and four writes). Sixteen logical operations yield 128 events. These are backend payload/event counts, not a measured remote RPC/network protocol.
+
+ORAM hides the logical address in its access pattern under the construction's assumptions, but the Rust position map/stash code is not constant-time. The experiment may additionally observe random leaf values and backend-handler timing. Failure paths can produce shorter traces; they are not silently declared indistinguishable. See [storage details](docs/ARCHITECTURE.md) and [storage recovery](docs/STORAGE_RECOVERY.md).
+
+### Step 7: Fixed response and publication
+
+The runtime returns the fixed payload through the authenticated response direction. The result's class width and external envelope size are fixed. Internal success/failure details are encrypted. The client checks the matching epoch and independently verifies expected function outputs/state counters in the demo.
+
+The process prepares response encryption and instrumentation, then waits for its public publication target. It records private lateness and work diagnostics, but no timer can force the kernel or a shared machine to publish at an exact instant. Network delivery, queue arrival, load, CPU/cache behavior, backend errors, and later client processing may still differ.
+
+## 5. Storage durability and the anchor service
+
+### 5.1 Checkpoint model
+
+The `FileBackend` stores fixed-size bucket ciphertexts in a bounded file. A full checkpoint authenticates encrypted buckets and the trusted controller state (maps, stash, versions, counters, and geometry). It is published using synchronized file/directory operations and returns a secret `TrustedCheckpoint` handle. Restore requires the trusted latest handle, verifies the full snapshot and every bucket/placement invariant, then rekeys and reencrypts all buckets before returning a controller. Re-encryption prevents reuse of an old bucket nonce domain after recovery.
+
+A bucket file or encrypted checkpoint by itself cannot say it is the newest checkpoint. The caller must keep the latest secret handle somewhere the storage adversary cannot roll back, atomically publish the new snapshot identifier and handle, and only then acknowledge durability. Failure or ambiguous compare-and-swap outcomes require reconciliation. See [docs/STORAGE_RECOVERY.md](docs/STORAGE_RECOVERY.md) for APIs, layout, crash ordering, and failure cases.
+
+### 5.2 Local anchor service
+
+`oblivion-anchor` exposes a local Unix socket backed by SQLite. It can atomically compare-and-swap catalog version/digest, checkpoint handle, SSE journal generation, and signed invocation receipt information. File permissions and a stable master key are part of the local assumption. This is useful for process restart on one host; it is not a remote consensus service or hardware monotonic counter.
+
+A root operator who restores an older SQLite database can roll back the catalog version floor, receipt history, and SSE freshness state. Host root can also inspect the process and keys. The anchor does not make arbitrary third-party side effects atomic. These limits are detailed in [docs/ANCHOR_SERVICE.md](docs/ANCHOR_SERVICE.md) and [docs/INVOCATION_DURABILITY.md](docs/INVOCATION_DURABILITY.md).
+
+### 5.3 Optional durable invocation receipts
+
+When the optional local anchor/state-directory configuration is used, a valid stable client identity and invocation ID can be checked for an earlier receipt. A repeated canonical request can receive its original fixed response through the reserved cover path; a new request can atomically associate a fixed-size response with a new full-store checkpoint in the local anchor contract. This can recover state and receipt behavior after an ordinary worker process restart.
+
+The built-in demo generates per-run client IDs and signing keys. An application that wants retries across process restarts must persist and safely provision the same identity/key and canonical request. Same-ID concurrent requests are not fully fenced, arbitrary external effects are not transactional, and privileged SQLite rollback breaks freshness. Full checkpoints are visible maintenance work. These details are not a claim that the default in-memory demo is durable.
+
+## 6. SSE: encrypted search and its limits
+
+`oblivion-sse` is a separate bounded dynamic encrypted-search component. Its implementation is inspired by constrained GGM/forward-private designs and is accompanied by an explicit security target, oracle tests, retained-capability controls, and leakage attacks. It must not be called a faithful implementation of Diana, Sophos, or another named scheme unless the relevant construction is actually present.
+
+The server holds encrypted postings/tokens; the client maintains secret state needed to create/update search capabilities. An update changes client state so that a later search capability does not trivially expose new updates to an observer retaining earlier capabilities, within the exact construction and corruption/capability model. That property is narrower than hiding all query relations. Search equality, result volume, timing, update sizes, and some historical posting linkage can be visible. No backward-privacy claim is made.
+
+The legacy client is ephemeral. An opt-in persistent client journals encrypted client state and can anchor journal generations through the local Unix anchor service, allowing recovery after an ordinary service process restart. A caller must retain the same opaque slot and service key; restoring the SQLite anchor backup defeats freshness. Distributed transactions, rollback-resistant external freshness, and a complete end-to-end search-invocation composition remain open. Details: [docs/SSE_DESIGN.md](docs/SSE_DESIGN.md), [docs/SSE_IMPLEMENTATION.md](docs/SSE_IMPLEMENTATION.md), [docs/SSE_ATTACKS.md](docs/SSE_ATTACKS.md).
+
+## 7. Leakage harness: how privacy claims are tested
+
+The Rust harness runs real component mechanisms and produces structured observer events. The Python analysis layer separates three types of data:
+
+1. **Attacker-visible features:** the columns actually supplied to an attack, such as event timing, length, visible storage tag, or declared public configuration.
+2. **Ground-truth labels:** what the experiment wants the attack to infer, held in a separate file until scoring.
+3. **Private internal instrumentation:** useful for correctness, process timing, status, or debugging, but outside the attacker view unless a threat model explicitly includes it.
+
+File names do not enforce this separation; deployment permissions and analysis code must. An observer schema should reject truth/private-only columns. The attack interface returns predictions, confidence only where implemented/calibrated, and metrics; registered adapters are not automatically validated attacks. See [trace/protocol schemas](docs/PROTOCOL.md), [attack API](docs/ATTACK_INTERFACE.md), and [trace validation](docs/TRACE_VALIDATION.md).
+
+### Positive controls
+
+Every attack is first tested against a configuration designed to leak the target (for example plaintext addresses or clear request sizes). A successful positive control demonstrates that this attacker and feature set can recognize the signal in that setting. If the control fails, a near-chance defended score may mean the attack is broken or underpowered, so the defense comparison is invalid.
+
+Training and target sessions are split at the independent unit, such as whole sessions or whole trials; observations from a single session must not leak across the split. Report class counts, majority baseline for raw accuracy, balanced accuracy, ROC AUC where appropriate, confidence intervals clustered over the independent trial/session, and exactly which features were tested. Do not tune on the held-out target or call chance-level performance proof of cryptographic security.
+
+### Attack families in the repository
+
+The repository includes frequency and traffic classifiers, SSE count/volume and inference methods, chosen-update association, corpus/auxiliary drift, presence/intersection inference, ORAM leaf/timing and transition attacks, PIR server timing, integrated epoch/batch inference, and autoscaler demand/popularity attacks. Some are simplified bounded attacks, not faithful reproductions of published attack papers. Each report states the method, auxiliary knowledge, control, split, uncertainty, and limits. Browse [REPORTS.md](REPORTS.md) by category.
+
+## 8. Autoscaling simulator and privacy mechanism studies
+
+The autoscaler is a discrete-event simulator. It supports synthetic uniform/Zipf/diurnal/burst loads and imported data, and compares policies such as reactive, smoothed, quantized/hysteretic, fixed schedule, and noise-affected signals. It computes simulated instances, queueing/cold starts, latency/SLO/cost proxies, and attacks on visible instance counts/scaling events. It does not provision Kubernetes, cloud functions, or real provider resources.
+
+Some studies analyze a bounded event-level or user-level mechanism under a declared fixed horizon, sensitivity, contribution cap, sampler, and observer. Any `(epsilon, delta)` statement is conditional on those assumptions and composition. Public seeded traces are reproducible experiment artifacts, not differentially private releases. The optional local accountant's persistent SQLite state itself has key custody and rollback limitations. See [docs/AUTOSCALER.md](docs/AUTOSCALER.md), [docs/AUTOSCALER_DP.md](docs/AUTOSCALER_DP.md), and [docs/PRIVACY_LEDGER.md](docs/PRIVACY_LEDGER.md).
+
+## 9. What the latest ORAM replication says
+
+The frozen study used 30 independent trials, eight sessions/trial, four profiling and four disjoint target sessions, 256 measured operations/session, and 16 warmups. Its address workload was a 16-address rank^-1.10 Zipf distribution with a Markov retention component. The declared classifier and sole primary metric were frozen before collection. Plaintext and encrypt-only controls both achieved mean ROC AUC 1.000. Path ORAM scored 0.4968 with a 95% percentile-bootstrap interval [0.4864, 0.5072].
+
+The observer's timer covered the isolated in-memory bucket service only, excluding ORAM path calculation, pipe waiting/encoding, and trace output. The service was pinned to CPU 0 and the driver to CPU 2 on a shared 24-logical-CPU machine; the CPUs were not reserved and load increased during the run. Thus this is evidence that the frozen classifier did not reproduce the earlier possible weak signal under this specific local workload, machine, and timing boundary. The interval contains 0.5. It is not evidence that all ORAM timing is independent, that no better attack exists, or that the system is secure.
+
+The complete preregistration, output, hashes, predictions, host metadata, independent verifier record, figure and exact reproduction command are linked from [REPORTS.md](REPORTS.md) and [the result report](docs/ORAM_ZIPF16_MARKOV_REPLICATION_20261028.md).
+
+## 10. Build, run, test, and reproduce
+
+### Toolchain
+
+The root workspace uses stable Rust, edition 2024, and requires Rust 1.96 or newer. Wasmtime compilation is large. Research analysis uses the pinned versions in `research/requirements.lock`; the recorded latest study used the repository's `.venv` Python environment. The independent Circuit ORAM reference has its own separately licensed workspace; read its README before building or redistributing it.
+
+### Build and run local pipeline
+
+From the repository root:
+
+    cargo build --locked --workspace
+    cargo run --locked -p oblivion-server -- demo target/demo-half 50 2 mixed
+
+Use a fresh output path for each demo. To test all-dummy/all-real configurations, use 0 or 100 instead of 50. The demo starts local child processes, performs eight epochs, runs the embedded modules and checks outputs with a trusted client oracle. It makes no network call to an external cloud. For the richer recorded terminal visualization, see [docs/DEMO.md](docs/DEMO.md).
+
+### Quality and tests
+
+    cargo fmt --all --check
+    cargo clippy --locked --workspace --all-targets -- -D warnings
+    cargo test --locked --workspace -- --test-threads=1
+    cargo test --locked --release -p oblivion-store million_operation_oracle -- --ignored --exact
+
+The million-operation command is deliberately separate from the normal suite. Do not report it as run unless it completed. The serial Rust test setting reduces deadline failures caused by test-thread CPU contention; it does not alter runtime SLOs.
+
+### Python analysis tests and full validation
+
+    python3 -m venv .venv
+    .venv/bin/python -m pip install -r research/requirements.lock
+    cargo build --locked --release --workspace --bins --examples
+    .venv/bin/python -m unittest discover -s research/tests
+    .venv/bin/python scripts/validate.py target/validation-new
+
+The full validator may build and test the separate reference and run long stress tiers. Always use a new validation output directory and read the resulting command manifest, source fingerprints, skips, and exit statuses. Historical successful gates in `experiments/results/` validate their recorded source hashes; they do not automatically certify later commits.
+
+### Reproduce the newest ORAM experiment
+
+The preregistration must be read before any re-run. The original output directory is immutable. Use the exact command and a new output path shown in [REPORTS.md](REPORTS.md); compare its config and attacker implementation hashes with the new report. The collector runs plaintext and encrypt-only positive controls before Path ORAM. If a positive-control gate fails, do not interpret the protected result.
+
+## 11. Repository map
+
+| Path | What belongs there |
+| --- | --- |
+| `Cargo.toml`, `Cargo.lock` | Workspace membership, pinned dependency resolution, compiler/lint settings. |
+| `crates/oblivion-store` | ORAM controller, encrypted storage backend, recovery, tests, measurement examples. |
+| `crates/oblivion-pir` | PIR algorithms, generic authenticated transport, workers, geometry tests. |
+| `crates/oblivion-exec` | Wasmtime ABI, classes, host interfaces, staged schedules and tests. |
+| `crates/oblivion-batcher` | Epoch envelope, endpoints, queue and batch tests/examples. |
+| `crates/oblivion-server` | Integration process, client/demo, invocation verification and registry/PIR orchestration. |
+| `crates/oblivion-registry` | Fixed signed catalog types and version activation interface. |
+| `crates/oblivion-anchor` | Local persistent anchor database/service and crash/restart tests. |
+| `crates/oblivion-sse` | Dynamic encrypted search, client state/journal, attacks and tests. |
+| `crates/oblivion-harness` | Actual-mechanism experimental traces and attack inputs. |
+| `examples/wasm-functions` | Guest modules executed by the runtime. |
+| `research/analysis`, `research/attacks` | Parsers, statistics, classifiers, figures and evaluations. |
+| `research/simulation` | Workload and autoscaling simulation. |
+| `research/oram_reference`, `research/pir_reference` | Separately built/pinned comparison programs with their own licensing. |
+| `experiments/configs` | Machine-readable configurations and frozen seeds/settings. |
+| `experiments/results` | Retained generated evidence, plots, logs and provenance. Do not edit results by hand. |
+| `docs/` | Detailed designs, protocol, security, result reports, preregistrations and status. |
+| `scripts/`, `.github/workflows/` | Reproduction/validation utilities and CI gates. |
+
+## 12. Glossary
+
+- **AEAD:** authenticated encryption that protects ciphertext confidentiality and detects modification, but does not on its own prove freshness.
+- **AUC:** area under a receiver-operating-characteristic curve; 0.5 is chance-level ranking for a binary distinction, not a proof of no leakage.
+- **Balanced accuracy:** average recall over classes; unlike raw accuracy, it accounts for class imbalance.
+- **Dummy request:** cover operation that follows a fixed-shape scheduled path; its exact equivalence is limited to tested external features.
+- **Ground truth:** experiment label used to score an attack, held outside attacker features.
+- **ORAM:** oblivious RAM; here, Path ORAM remaps logical blocks to random tree leaves and moves encrypted buckets.
+- **PIR:** private information retrieval; here, two-server XOR PIR hides the selected row from either server alone under non-collusion.
+- **Positive control:** deliberately leaky setting in which the evaluated attack should recover the target above the declared baseline.
+- **Preregistration:** frozen workload, attacker, split, metric, controls and analysis written before collection.
+- **SSE:** searchable symmetric encryption; the server sees ciphertext/index activity and some declared leakage while the client keeps search keys/state.
+- **Trusted anchor:** independently trusted, freshness-protecting state for selecting the newest durable checkpoint/version. The current local SQLite service is not resistant to privileged rollback.
+- **Trusted executor:** a role and assumption in this project threat model, not a claim that the current Rust process is hardware protected.
