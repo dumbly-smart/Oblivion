@@ -347,6 +347,16 @@ Training and target sessions are split at the independent unit, such as whole se
 
 The repository includes frequency and traffic classifiers, SSE count/volume and inference methods, chosen-update association, corpus/auxiliary drift, presence/intersection inference, ORAM leaf/timing and transition attacks, PIR server timing, integrated epoch/batch inference, and autoscaler demand/popularity attacks. Some are simplified bounded attacks, not faithful reproductions of published attack papers. Each report states the method, auxiliary knowledge, control, split, uncertainty, and limits. Browse [REPORTS.md](REPORTS.md) by category.
 
+For the isolated ORAM replication series, the independent bundle verifier
+checks the collector's compressed-file SHA-256 manifest, exact configured set
+of sessions, paired private address/read-write schedules, fixed observer event
+shape, service-process CPU masks, prediction session IDs, saved trial metrics,
+and the bootstrap interval recomputed from the per-trial AUC values. It reads
+ground truth only after predictions have been saved and emits counts and
+recomputed scores, not target labels. It cannot prove that the attack is
+optimal or that the underlying construction is secure. The newest run's
+verification receipt and raw report are linked from [REPORTS.md](REPORTS.md).
+
 ## 8. Autoscaling simulator and privacy mechanism studies
 
 The autoscaler is a discrete-event simulator. It supports synthetic uniform/Zipf/diurnal/burst loads and imported data, and compares policies such as reactive, smoothed, quantized/hysteretic, fixed schedule, and noise-affected signals. It computes simulated instances, queueing/cold starts, latency/SLO/cost proxies, and attacks on visible instance counts/scaling events. It does not provision Kubernetes, cloud functions, or real provider resources.
@@ -355,11 +365,27 @@ Some studies analyze a bounded event-level or user-level mechanism under a decla
 
 ## 9. What the latest ORAM replication says
 
-The frozen study used 30 independent trials, eight sessions/trial, four profiling and four disjoint target sessions, 256 measured operations/session, and 16 warmups. Its address workload was a 16-address rank^-1.10 Zipf distribution with a Markov retention component. The declared classifier and sole primary metric were frozen before collection. Plaintext and encrypt-only controls both achieved mean ROC AUC 1.000. Path ORAM scored 0.4968 with a 95% percentile-bootstrap interval [0.4864, 0.5072].
+The latest frozen study used 30 independent trials, eight sessions/trial, four
+profiling and four disjoint target sessions, 512 measured operations/session,
+32 warmups, and a 64-address Zipf/Markov workload. The fixed random-forest
+attacker and ROC AUC metric were frozen before collection. Plaintext and
+encrypt-only controls both achieved mean ROC AUC 1.000. Path ORAM scored
+0.502474 with a 95% percentile-bootstrap interval [0.496502, 0.508492]. The
+interval includes 0.5, so the result is inconclusive for the declared attacker
+and workload.
 
-The observer's timer covered the isolated in-memory bucket service only, excluding ORAM path calculation, pipe waiting/encoding, and trace output. The service was pinned to CPU 0 and the driver to CPU 2 on a shared 24-logical-CPU machine; the CPUs were not reserved and load increased during the run. Thus this is evidence that the frozen classifier did not reproduce the earlier possible weak signal under this specific local workload, machine, and timing boundary. The interval contains 0.5. It is not evidence that all ORAM timing is independent, that no better attack exists, or that the system is secure.
-
-The complete preregistration, output, hashes, predictions, host metadata, independent verifier record, figure and exact reproduction command are linked from [REPORTS.md](REPORTS.md) and [the result report](docs/ORAM_ZIPF16_MARKOV_REPLICATION_20261028.md).
+The observer timer covered only the isolated in-memory bucket handler. It
+excluded ORAM path calculation, pipe waiting, request/reply encoding, and trace
+output. The service used CPU 0 and the driver CPU 2 on a shared
+24-logical-CPU machine. The CPUs were not reserved; the governor reported
+`powersave`, and host load and scheduling noise remain possible. This measures
+one local component boundary, not remote timing, and does not establish that
+all ORAM timing is independent, that no stronger attack exists, or that the
+system is secure. The full workload, feature list, realized class prevalence,
+host observations, source/binary hashes, raw data, verifier output, plot, and
+reproduction command are in [the result report](docs/ORAM_RANK64_MARKOV_REPLICATION_20261030.md)
+and [REPORTS.md](REPORTS.md). The earlier 2026-10-28 Zipf-16 result remains a
+separate study and is not pooled with this one.
 
 ## 10. Build, run, test, and reproduce
 
@@ -415,6 +441,7 @@ The preregistration must be read before any re-run. The original output director
 | `crates/oblivion-harness` | Actual-mechanism experimental traces and attack inputs. |
 | `examples/wasm-functions` | Guest modules executed by the runtime. |
 | `research/analysis`, `research/attacks` | Parsers, statistics, classifiers, figures and evaluations. |
+| `research/analysis/verify_oram_isolated_bundle.py` | Independent validation of raw ORAM replication hashes, schedules, event/frame shape, CPU masks, saved predictions, and bootstrap statistics. |
 | `research/simulation` | Workload and autoscaling simulation. |
 | `research/oram_reference`, `research/pir_reference` | Separately built/pinned comparison programs with their own licensing. |
 | `experiments/configs` | Machine-readable configurations and frozen seeds/settings. |

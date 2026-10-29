@@ -1635,8 +1635,69 @@ was not reproduced in those runs. No runtime deadline, retry, or test
 threshold changed. No Python suite, million-operation stress run, or hosted CI
 run was performed for this source revision.
 
-The rank-64 replication remains preregistered but unrun. Before collection,
-run its focused test and release build, check that the output path is still
-unused, and run both frozen leaky controls before any ORAM arm. If the
-100 ms timeout recurs, retain host-load and phase timing evidence for diagnosis
-without modifying the frozen experiment or weakening its controls.
+### Pre-collection status (superseded by the completion record below)
+
+At this point in the chronology, the rank-64 replication had been
+preregistered but not run. Its output path was absent before collection, and
+the control gate was still pending. The following completion record supersedes
+that state without changing the frozen configuration.
+
+## 2026-10-30: rank-64 Zipf/Markov ORAM replication completed
+
+The study frozen in
+[`ORAM_RANK64_MARKOV_REPLICATION_PREREG_20261030.md`](ORAM_RANK64_MARKOV_REPLICATION_PREREG_20261030.md)
+completed from source revision `e7813b99887ce537cd04607aa258949c53e160d7`.
+The fixed temporal leaf/timing attacker passed both positive controls at mean
+AUC 1.0000 with intervals [1.0000, 1.0000]. Path ORAM scored mean AUC
+0.502474 with a 95% percentile trial-bootstrap interval [0.496502,
+0.508492], which includes chance. Mean balanced accuracy was 0.503593; the
+profile-majority accuracy baseline was 0.502913. This is inconclusive only for
+the declared workload, attacker and local handler-timing observer, not a
+cryptographic security result. The detailed methodology, class prevalence,
+host environment, timing boundary, deviations, and interpretation are in
+[`ORAM_RANK64_MARKOV_REPLICATION_20261030.md`](ORAM_RANK64_MARKOV_REPLICATION_20261030.md).
+
+The complete evidence bundle is
+[`oram-isolated-rank64-markov-replication-20261030/`](../experiments/results/oram-isolated-rank64-markov-replication-20261030/).
+It contains 1,440 raw compressed observer/driver files, 90 trial prediction
+files, host snapshots, service-process metadata, configuration, plot, and
+source/binary hashes. The independent verifier in
+[`verify_oram_isolated_bundle.py`](../research/analysis/verify_oram_isolated_bundle.py)
+and final record `independent-verification-v5.json` checked all raw hashes,
+240 paired trial/session schedules, 720 private and observer sessions, 720
+service process records, 90 trial metrics and bootstrap intervals, and all
+five source/binary digests. It verified the recorded CPU masks and fixed
+request/response/bucket sizes. The earlier `independent-verification-v1.json`
+through `v3.json` are retained but superseded by v5. One attempted v4
+verification produced no output because a later workspace-wide example build
+had replaced the measured ORAM binaries; the exact preregistered package build
+restored the recorded binary hashes before v5 succeeded. No raw trace,
+prediction, or metric was edited or recollected.
+
+Before collection, `research.tests.test_oram_isolated_replication` passed 9
+tests, the exact release examples built, and
+`research.tests.test_oram_isolated_timing` passed 3 tests. Afterward,
+`research.tests.test_oram_isolated_bundle_verifier` passed 6 tests. The full
+Python suite passed 246 tests with four skips after building all main-workspace
+examples and the separately locked ORAM-reference crate. Its first run had
+five setup errors/failures because this worktree lacked those unrelated
+example/reference binaries; the rerun passed after building them. Formatting,
+warning-denied workspace Clippy, and the serial Rust workspace suite passed
+for unchanged Rust source revision `24ded25d`; the million-operation ORAM
+stress tier was not run in this increment.
+
+The post-collection workspace-wide release build initially changed both
+measured executable hashes. Rebuilding only the two preregistered
+`oblivion-store` examples restored exact equality with the report's captured
+SHA-256 values. The experiment's source code, workload/configuration hashes,
+and raw traces remained unchanged. The collector's effective CPU masks were
+recorded (`[2]` for the driver, `0` for each service process); external
+per-PID `taskset -pc` output was not retained as a separate file.
+
+The earlier 100 ms pipeline timeout on source `24ded25d` remains unresolved:
+the exact case passed six focused executions and the complete serial workspace
+rerun passed without deadline or retry changes, but those successes did not
+identify the first failure's cause. The million-operation stress tier and
+hosted CI remain unrun for this increment. Future work should preregister a
+new attack/workload before evaluating it; same-session post-hoc scorers must
+be identified as secondary analyses rather than independent replication.

@@ -46,7 +46,7 @@ Updated 2026-10-30. This index points to technical reports and retained outputs.
 
 ## ORAM timing replication series
 
-The newest run is the preregistered [Zipf-16/Markov replication from 2026-10-28](docs/ORAM_ZIPF16_MARKOV_REPLICATION_20261028.md). Its complete machine-readable bundle is in [experiments/results/oram-isolated-zipf16-markov-replication-20261028](experiments/results/oram-isolated-zipf16-markov-replication-20261028), and its frozen configuration is [here](experiments/configs/oram-isolated-zipf16-markov-replication-20261028.json). Controls passed; ORAM AUC was 0.4968 with a 95% trial-bootstrap interval [0.4864, 0.5072]. This is a bounded inconclusive classifier result, not a security proof.
+The newest run is the preregistered [rank-64 Zipf/Markov replication from 2026-10-30](docs/ORAM_RANK64_MARKOV_REPLICATION_20261030.md). Its frozen configuration is [here](experiments/configs/oram-isolated-rank64-markov-replication-20261030.json), and its raw bundle, host observations, figure, predictions, and independent verification are retained in [the result directory](experiments/results/oram-isolated-rank64-markov-replication-20261030/). Both controls scored AUC 1.000; Path ORAM scored 0.502474 with a 95% trial-bootstrap interval [0.496502, 0.508492]. The interval includes chance and is inconclusive for this attacker and measurement boundary, not a security proof.
 
 Earlier studies are retained as separate experiments; do not pool them without a declared analysis:
 
@@ -55,6 +55,7 @@ Earlier studies are retained as separate experiments; do not pool them without a
 - [Markov workload B](docs/ORAM_MARKOV_REPLICATION_20261026.md) and [protocol](docs/ORAM_MARKOV_REPLICATION_20261026_PREREG.md); [Markov transition attack](docs/ORAM_MARKOV_TRANSITION_REPLICATION_20261026.md) and [protocol](docs/ORAM_MARKOV_TRANSITION_REPLICATION_PREREG_20261026.md).
 - [Pinned service](docs/ORAM_PINNED_REPLICATION_20261026.md) and [protocol](docs/ORAM_PINNED_REPLICATION_20261026_PREREG.md); [paired affinity crossover](docs/ORAM_AFFINITY_CROSSOVER_20261026.md) and [protocol](docs/ORAM_AFFINITY_CROSSOVER_PREREG_20261026.md).
 - [Zipf-32](docs/ORAM_ZIPF32_REPLICATION_20261026.md), [monitored Zipf-32](docs/ORAM_ZIPF32_MONITORED_REPLICATION_20261026.md), [uniform-32](docs/ORAM_UNIFORM32_REPLICATION_20261026.md), and [higher-skew Zipf-32](docs/ORAM_ZIPF32_ALPHA15_REPLICATION_20261026.md). Each report links its own preregistration and output bundle.
+- [Zipf-16/Markov replication from 2026-10-28](docs/ORAM_ZIPF16_MARKOV_REPLICATION_20261028.md), followed by the independent [rank-64 Zipf/Markov result](docs/ORAM_RANK64_MARKOV_REPLICATION_20261030.md). The latter reuses the attacker unchanged and changes the workload and logical address space; the two runs are not pooled.
 - Workload/attacker follow-ups: [uniform access](docs/ORAM_UNIFORM.md), [eight-address timing](docs/ORAM_EIGHT_ADDRESS.md), [frequency attacker](docs/ORAM_ATTACK_FAMILIES.md), [read-heavy](docs/ORAM_READ_HEAVY.md), [write-heavy](docs/ORAM_WRITE_HEAVY.md), [frequency orientation](docs/ORAM_FREQUENCY_ORIENTATION.md), and [isolated timing design](docs/ORAM_ISOLATED_TIMING.md).
 - Reference and geometry comparisons: [matched Circuit ORAM](docs/CIRCUIT_ORAM_REFERENCE.md), [geometry evaluation](docs/GEOMETRY_EVALUATION.md), [PIR target timing](docs/PIR_TARGET_TIMING.md).
 
@@ -87,24 +88,26 @@ attacker features, measurement boundaries, source/binary identity, and
 independent sampling units. Never overwrite a captured output directory; use a
 new path for a reproduction and document exclusions or superseding analyses.
 
-## Next preregistered ORAM replication
+## Completed rank-64 ORAM replication
 
-The next independent study changes to a rank-64 Zipf/Markov workload and
-isolated bucket-handler timing. Its protocol and machine-readable configuration
-were frozen and pushed in commit `d5847766` before study-specific testing,
-release builds, and collection: [preregistration](docs/ORAM_RANK64_MARKOV_REPLICATION_PREREG_20261030.md),
-[configuration](experiments/configs/oram-isolated-rank64-markov-replication-20261030.json).
-No result is available yet. The planned output directory is
-`experiments/results/oram-isolated-rank64-markov-replication-20261030/` and
-must remain new; the study may proceed only after the current workspace test
-failure is understood and its positive controls pass.
+The preregistration and configuration were frozen and pushed in `d5847766`
+before study-specific tests, release builds, or collection. The study later
+passed both positive controls and retained its result and raw evidence in
+`experiments/results/oram-isolated-rank64-markov-replication-20261030/`.
+The detailed [result report](docs/ORAM_RANK64_MARKOV_REPLICATION_20261030.md)
+and [independent verifier](research/analysis/verify_oram_isolated_bundle.py)
+describe integrity checks and limits.
 
 ## Latest completed ORAM study reproduction
 
-The preregistration was committed before building and collecting. The completed runner and independent verifier used the Python environment pinned for this repository. To repeat with a new, empty output directory, first build the release measurement tools, then run:
+The latest preregistration was committed before building and collecting. The completed runner and independent verifier used the repository's pinned Python environment. To repeat with a new, empty output directory, first build the release measurement tools, then run:
 
-    cargo build --locked --release -p oblivion-store --example oram-measure
-    cargo build --locked --release -p oblivion-store --example oram-control
-    taskset -c 2 .venv/bin/python -m research.analysis.oram_isolated_replication --config experiments/configs/oram-isolated-zipf16-markov-replication-20261028.json --output experiments/results/oram-isolated-zipf16-markov-replication-NEW
+    cargo build --locked --release -p oblivion-store --example oram-measure --example oram-control
+    taskset -c 2 .venv/bin/python -m research.analysis.oram_isolated_replication --config experiments/configs/oram-isolated-rank64-markov-replication-20261030.json --output experiments/results/oram-isolated-rank64-markov-replication-NEW --oram-binary target/release/examples/oram-measure --control-binary target/release/examples/oram-control
+    .venv/bin/python -m research.analysis.verify_oram_isolated_bundle --bundle experiments/results/oram-isolated-rank64-markov-replication-NEW --output experiments/results/oram-isolated-rank64-markov-replication-NEW/independent-verification.json
 
-The collected 2026-10-28 run used output name `oram-isolated-zipf16-markov-replication-20261028`; the command above is for a fresh repeat and must not overwrite that directory. The exact frozen command and statistical method are in the [preregistration](docs/ORAM_ZIPF16_MARKOV_REPLICATION_PREREG_20261028.md). The report and raw manifest are the source for the displayed result.
+The command is for a fresh repeat and must not overwrite the retained
+2026-10-30 or 2026-10-28 output directories. Frozen parameters and statistical
+methods are in the [2026-10-30 preregistration](docs/ORAM_RANK64_MARKOV_REPLICATION_PREREG_20261030.md).
+The raw report and independent verification are the sources for the displayed
+result.

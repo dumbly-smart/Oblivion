@@ -141,11 +141,24 @@ Use each linked component document's exact configuration and fresh-directory run
 | [Isolated ORAM timing replication](ORAM_TIMING_REPLICATION.md) | `oram-isolated-replication-20261025-v2/` | 30 trials/mode, paired schedules and disjoint profiling/target sessions; positive controls succeed, ORAM timing classifier remains near chance for this setup |
 | [Pinned-service ORAM timing replication](ORAM_PINNED_REPLICATION_20261026.md) | `oram-isolated-pinned-replication-20261026/` | 30 trials/mode, fresh seed, CPU 0 requested for all service children; 90 retained final-session affinity records, controls succeed, ORAM AUC 0.4937 [0.4756, 0.5130] |
 | [ORAM affinity crossover](ORAM_AFFINITY_CROSSOVER_20261026.md) | `oram-affinity-crossover-20261026/` | 30 paired schedules/condition, balanced order and positive controls; pinned-minus-unpinned AUC +0.0172 [-0.0162, +0.0497], inconclusive |
+| [Rank-64 Zipf/Markov ORAM timing](ORAM_RANK64_MARKOV_REPLICATION_20261030.md) | `oram-isolated-rank64-markov-replication-20261030/` | 30 trials/mode, eight sessions/trial, 64 addresses; both controls AUC 1.000, ORAM AUC 0.502474 [0.496502, 0.508492]; 1,440 raw hashes independently checked |
 | [Eight-address ORAM timing](ORAM_EIGHT_ADDRESS.md) | `oram-isolated-eight-address-20261024/` | 30 trials/mode over eight addresses; Zipf-like hot/cold labels, positive controls succeed, raw schedules paired and hashes verified |
 | [ORAM frequency-only attacker](ORAM_ATTACK_FAMILIES.md) | `oram-eight-address-frequency-20261024/` | Post-hoc independent tag-count attacker; positive controls pass before ORAM, 1,440 input hashes retained, same held-out sessions as temporal RF |
 | [Read-heavy ORAM timing](ORAM_READ_HEAVY.md) | `oram-isolated-eight-address-read-heavy-20261024/` | 30 trials/mode at 90% requested reads, 9.84% realized writes; matched address schedules, controls pass, all 1,440 hashes verified |
 | [Batcher population sweep](POPULATION_SWEEP.md) | `population-sweep-20261025/` | 120 local trials across 1/8/32/64 participants; fixed-shape authenticated batches, observer/private traces separated |
 | [Full-path 64-offer load](RUNTIME_POPULATION.md) | `runtime-population-64-20261024/` | 60 fresh processes / 3,840 real end-to-end offers, each checked through PIR/WASM/ORAM; underload and bounded-queue overload retained |
+
+The rank-64 result was frozen before tests, release builds, and collection.
+Its raw data and immutable runner report are in the linked result directory;
+`independent-verification-v5.json` is the authoritative post-run integrity
+record. The reusable checker refuses to overwrite an existing verification
+file and can be run with a new output filename:
+
+```sh
+.venv/bin/python -m research.analysis.verify_oram_isolated_bundle \
+  --bundle experiments/results/oram-isolated-rank64-markov-replication-20261030 \
+  --output experiments/results/oram-isolated-rank64-markov-replication-20261030/independent-verification-recheck.json
+```
 
 The integrated epoch campaign's immutable executable/source copy is authoritative. Live checkout fingerprints changed for an unrelated PIR example; later default-wrapper input hardening is separately recorded. The older mixed/private epoch observer files are never attacker input, and the intermediate separated campaign timestamps client consumption rather than pure pipe reads. Neither is relabeled as the current measurement.
 

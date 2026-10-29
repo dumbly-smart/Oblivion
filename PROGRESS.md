@@ -1,10 +1,9 @@
 # Project progress snapshot
 
-**Updated:** 2026-10-30. **Source revision tested:** `24ded25d` on
-`codex/oblivion-research-platform`; verification was rerun after the
-documentation-only commits `d5847766` and `e2b85646`. The active study
-protocol/config commit is `d5847766`, pushed to `origin`. This snapshot
-describes source commit `24ded25d`; the chronological record is
+**Updated:** 2026-10-30. Rust runtime source remains `24ded25d` on
+`codex/oblivion-research-platform`; the rank-64 study ran at `e7813b99`, and
+the independent bundle verifier/tests were added in `d5d90054`. The study
+protocol/config was frozen in `d5847766` before collection. The chronological record is
 [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md), and the full
 requirement audit is [docs/REQUIREMENTS_MATRIX.md](docs/REQUIREMENTS_MATRIX.md).
 
@@ -17,23 +16,27 @@ local or remote durability. This does not complete every extension in the
 fourteen-week roadmap and does not make the system production-safe. Processes
 and Wasmtime simulate a trusted-executor boundary; neither is a hardware TEE.
 
-The latest source change bounds concurrent remote mTLS connection handling:
+The latest Rust runtime change bounds concurrent remote mTLS connection handling:
 four fixed TLS/frame workers share a queue capped at sixteen accepted sockets,
 with a five-second I/O deadline that includes queue wait. SQLite operations
 remain serialized through one connection. A full queue closes the newly
 accepted connection. Per-certificate/per-slot token buckets default to 100
 requests per second with burst 200. They reset on restart and do not cover TCP
 accepts, TLS handshakes, IP-level limits, or multiple witness instances.
+The latest research tooling adds an independent verifier for isolated ORAM
+bundles; it validates raw hashes, paired schedules, fixed event/frame shape,
+process masks, predictions, and bootstrap statistics.
 
 ## Latest measurement
 
-The newest completed independent ORAM leaf/timing study is the preregistered
-2026-10-28 Zipf-16/Markov replication. Plaintext and encrypt-only controls both
-scored mean ROC AUC 1.0000; Path ORAM scored 0.4968 with a 95% trial-bootstrap
-interval [0.4864, 0.5072]. The interval includes chance. This is an
-inconclusive result for one classifier, workload, host, and isolated handler
-timing boundary, not a security proof. Its preregistration, raw bundle,
-verification, and report are indexed in [REPORTS.md](REPORTS.md).
+The latest completed independent ORAM leaf/timing study is the preregistered
+2026-10-30 rank-64 Zipf/Markov replication. Plaintext and encrypt-only controls
+scored mean ROC AUC 1.0000; Path ORAM scored 0.502474 with a 95%
+trial-bootstrap interval [0.496502, 0.508492]. The interval includes chance:
+the result is inconclusive for the fixed classifier, workload, host, and
+handler-only timing boundary. It is not a security proof. The complete raw
+bundle, source/binary hashes, independent verification, plot, preregistration,
+and interpretation are indexed in [REPORTS.md](REPORTS.md).
 
 The completed persistent SSE journal benchmark ran 30 trials at each of 64,
 257, 1,024, and 4,093 postings, with five fresh-process reopens per index. Its
@@ -43,7 +46,7 @@ application-level encrypted journal-byte amplification ranged from 84.037× to
 
 ## Verification status
 
-For source commit `24ded25d`, `cargo fmt --all --check`,
+For unchanged Rust source `24ded25d`, `cargo fmt --all --check`,
 `cargo clippy --locked --workspace --all-targets -- -D warnings`, and a fresh
 `cargo test --locked --workspace -- --test-threads=1` rerun all exited 0. The
 workspace suite passed with one intentionally ignored million-operation ORAM
@@ -58,25 +61,31 @@ does not establish its cause. No deadline, retry, or test threshold was
 changed. The million-operation stress tier, Python suite, and hosted CI have
 not been run for this source revision.
 
-The million-operation ORAM stress tier and Python suite were not rerun for
-`24ded25d`. Earlier passing results remain valid only for their recorded
-revisions. See the per-commit evidence in
+The full research Python suite passed 246 tests with four skips after building
+all workspace examples and the separate locked ORAM reference workspace. Its
+first run had five setup failures caused by absent release binaries in this
+worktree; no test failed after the prerequisites were built. The focused study
+suite passed 9 tests and the isolated-process suite passed 3; the independent
+bundle verifier's six focused tests also passed. The million-operation ORAM
+stress tier was not run for this increment. Earlier gate results remain valid
+only for their recorded revisions. See the per-commit evidence in
 [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md).
 
-## Current ORAM study preparation
+## Latest ORAM study
 
-A fresh rank-64 Zipf/Markov workload and isolated bucket-handler timing study
-have a frozen preregistration and machine-readable configuration, committed
-and pushed before study-specific testing, building, or data collection in
-`d5847766`:
+The rank-64 Zipf/Markov handler-timing study completed after the preregistration
+and configuration were committed in `d5847766`:
 
 - [Preregistration](docs/ORAM_RANK64_MARKOV_REPLICATION_PREREG_20261030.md)
 - [Configuration](experiments/configs/oram-isolated-rank64-markov-replication-20261030.json)
+- [Results](docs/ORAM_RANK64_MARKOV_REPLICATION_20261030.md)
+- [Raw bundle and independent verification](experiments/results/oram-isolated-rank64-markov-replication-20261030/)
 
-Its focused test, release build, and data collection have not run. Collection
-must wait until the workspace test failure is understood and both positive
-controls pass. Use the new output directory
-`experiments/results/oram-isolated-rank64-markov-replication-20261030/`.
+Its 30-trial positive controls passed at AUC 1.000; Path ORAM scored 0.502474
+[0.496502, 0.508492]. Independent verification matched 1,440 raw hashes,
+all 240 paired schedules, 90 prediction trials, and the captured executable
+hashes. The output is immutable; a reproduction requires a new preregistered
+seed and directory.
 
 ## Implemented components
 
@@ -105,13 +114,10 @@ controls pass. Use the new output directory
    focused repetitions and full serial rerun passed, but they did not identify
    its cause. Capture host-load and per-phase diagnostics if it recurs, without
    changing runtime limits or adding retries.
-2. Recheck the study-specific focused test and release build, then run the
-   frozen positive controls first. Collect the protected condition only if
-   both controls pass and the study's prerequisites remain satisfied.
-3. Verify the retained raw bundle independently, record environment and source
-   hashes, and add the result (including any inconclusive outcome) to
-   `REPORTS.md`, `PROGRESS.md`, and the detailed implementation status.
-4. Continue the remaining work in [docs/NEXT_STEPS.md](docs/NEXT_STEPS.md),
+2. Choose and preregister the next independent ORAM attack/workload study
+   before running it; keep the current study's same-session post-hoc analyses
+   clearly labeled as secondary rather than independent replication.
+3. Continue the remaining work in [docs/NEXT_STEPS.md](docs/NEXT_STEPS.md),
    preserving the threat model and reporting data- or hardware-dependent
    extensions as unimplemented where appropriate.
 
