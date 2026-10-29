@@ -1,6 +1,7 @@
 target/
 __pycache__/
 .venv/
+.worktrees/
 
 /research/pir_reference/upstream/
 /research/pir_reference/build/
