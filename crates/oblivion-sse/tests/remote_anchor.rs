@@ -11,7 +11,7 @@ use oblivion_anchor::{
     AnchorDatabase, ClientAuthorizationPolicy, mtls_client_config, mtls_server_config,
     serve_mtls_with_shutdown,
 };
-use oblivion_sse::{Limits, PersistentClient, Server, TlsSseJournalAnchor};
+use oblivion_sse::{JournalError, Limits, PersistentClient, Server, TlsSseJournalAnchor};
 use rcgen::{
     BasicConstraints, CertificateParams, ExtendedKeyUsagePurpose, IsCa, Issuer, KeyPair,
     KeyUsagePurpose,
@@ -214,6 +214,91 @@ fn restored_application_journal_is_rejected_when_remote_witness_kept_newer_head(
     assert!(
         restored.is_err(),
         "old local journal snapshot must not reopen"
+    );
+
+    let _ = witness.shutdown.send(());
+    witness
+        .thread
+        .join()
+        .expect("witness thread")
+        .expect("witness service");
+}
+
+#[test]
+fn remote_witness_reserves_pending_update_against_stale_writer() {
+    let root = TestDirectory::new();
+    let journal = root.path().join("journal");
+    let (server_config, client_config, authorization) = configs();
+    let witness = start_witness(root.path(), server_config, authorization);
+
+    let mut winner = PersistentClient::create(
+        &journal,
+        &CLIENT_KEY,
+        Limits::default(),
+        anchor(witness.address, client_config.clone()),
+    )
+    .expect("create persistent SSE index");
+    let mut server = Server::new(winner.index_id(), Limits::default()).expect("SSE server");
+    let mut stale = PersistentClient::open(
+        &journal,
+        &CLIENT_KEY,
+        anchor(witness.address, client_config.clone()),
+    )
+    .expect("open stale writer at the same generation");
+
+    let winning_request = winner
+        .prepare_add(b"reserved-keyword", 42)
+        .expect("reserve the pending update in the remote witness");
+    assert!(matches!(
+        stale.prepare_add(b"competing-keyword", 99),
+        Err(JournalError::AnchorConflict)
+    ));
+    assert!(matches!(stale.retry_pending(), Err(JournalError::Poisoned)));
+    drop(stale);
+
+    let mut recovered = PersistentClient::open(
+        &journal,
+        &CLIENT_KEY,
+        anchor(witness.address, client_config.clone()),
+    )
+    .expect("recover the witness-selected journal head");
+    let retry = recovered
+        .retry_pending()
+        .expect("recover the winning pending update");
+    assert_eq!(retry.address, winning_request.address);
+    assert_eq!(retry.ciphertext, winning_request.ciphertext);
+    let acknowledgement = server
+        .insert(retry)
+        .expect("submit the reserved request exactly once");
+    recovered
+        .finish_add(acknowledgement)
+        .expect("persist the acknowledgement");
+    drop(recovered);
+    drop(winner);
+
+    let restored = PersistentClient::open(
+        &journal,
+        &CLIENT_KEY,
+        anchor(witness.address, client_config),
+    )
+    .expect("reopen acknowledged state");
+    let (snapshot, request) = restored
+        .prepare_search(b"reserved-keyword")
+        .expect("prepare winning-keyword search");
+    assert_eq!(
+        restored
+            .finish_search(&snapshot, server.search(&request).expect("search server"))
+            .expect("decode winning result"),
+        vec![42]
+    );
+    let (snapshot, request) = restored
+        .prepare_search(b"competing-keyword")
+        .expect("prepare losing-keyword search");
+    assert!(
+        restored
+            .finish_search(&snapshot, server.search(&request).expect("search server"))
+            .expect("decode empty result")
+            .is_empty()
     );
 
     let _ = witness.shutdown.send(());
