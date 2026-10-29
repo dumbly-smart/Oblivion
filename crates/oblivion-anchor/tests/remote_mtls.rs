@@ -1,6 +1,6 @@
 use std::{
     io::Read,
-    net::{SocketAddr, TcpListener},
+    net::{SocketAddr, TcpListener, TcpStream},
     path::PathBuf,
     sync::{Arc, mpsc},
     thread,
@@ -329,6 +329,46 @@ fn remote_anchor_rate_limit_is_per_authenticated_certificate_and_slot() {
         .join()
         .expect("restarted witness thread")
         .expect("restarted witness");
+    let _ = std::fs::remove_file(path);
+}
+
+#[test]
+fn stalled_tls_peer_does_not_block_another_authenticated_anchor_client() {
+    use std::time::{Duration, Instant};
+
+    let path = temp_database();
+    let (server_cert, server_key, client_cert, client_key, root_cert) =
+        identity_pair("stalled-peer-root");
+    let server_config =
+        mtls_server_config(vec![server_cert], server_key, root_store(root_cert.clone()))
+            .expect("server TLS config");
+    let authorization = authorization_policy_for(&client_cert, &["sse-main-index"]);
+    let client_config = mtls_client_config(root_store(root_cert), vec![client_cert], client_key)
+        .expect("client TLS config");
+    let witness = start_witness(path.clone(), server_config, authorization);
+
+    let mut warmup = client(witness.address, client_config.clone());
+    assert_eq!(warmup.load().expect("warmup request"), None);
+    let stalled = TcpStream::connect(witness.address).expect("stalled client connection");
+    thread::sleep(Duration::from_millis(50));
+
+    let started = Instant::now();
+    let mut active = client(witness.address, client_config);
+    let loaded = active.load();
+    let elapsed = started.elapsed();
+    assert!(
+        elapsed < Duration::from_secs(2),
+        "a stalled TLS peer delayed a valid request for {elapsed:?}"
+    );
+    assert_eq!(loaded.expect("active request behind stalled peer"), None);
+
+    drop(stalled);
+    let _ = witness.shutdown.send(());
+    witness
+        .thread
+        .join()
+        .expect("witness thread")
+        .expect("witness");
     let _ = std::fs::remove_file(path);
 }
 

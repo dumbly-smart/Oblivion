@@ -10,7 +10,10 @@ use std::{
     io::{BufReader, Read, Write},
     net::{SocketAddr, TcpListener, TcpStream},
     path::Path,
-    sync::{Arc, mpsc::Receiver},
+    sync::{
+        Arc, Mutex,
+        mpsc::{Receiver, TrySendError, sync_channel},
+    },
     thread,
     time::{Duration, Instant},
 };
@@ -45,6 +48,8 @@ const INVOCATION_CAPACITY_DIGITS: usize = 5;
 const IO_TIMEOUT: Duration = Duration::from_secs(5);
 const ACCEPT_POLL: Duration = Duration::from_millis(10);
 const MAX_RATE_LIMIT_TOKENS: u32 = 1_000_000;
+const CONNECTION_WORKERS: usize = 4;
+const QUEUED_CONNECTIONS: usize = 16;
 
 /// Errors while loading the witness's certificate-to-slot authorization file.
 #[derive(Debug, thiserror::Error)]
@@ -1433,6 +1438,14 @@ impl CheckpointAnchor for TlsInvocationAnchor {
 
 /// Serve TLS anchor requests until `shutdown` receives a message. The listener
 /// is polled so a shutdown request is observed even when the service is idle.
+///
+/// Four fixed workers process TLS and frames concurrently, with room for
+/// sixteen accepted connections waiting for a worker. The absolute five-second
+/// I/O deadline begins at accept and includes time in that queue. SQLite
+/// request dispatch is serialized through one database connection. If the
+/// pending queue is full, the newly accepted connection is closed. Four slow
+/// peers can still occupy all workers until their deadlines expire; this does
+/// not limit TCP accepts or TLS handshakes.
 pub fn serve_mtls_with_shutdown(
     listener: TcpListener,
     database: AnchorDatabase,
@@ -1454,7 +1467,7 @@ pub fn serve_mtls_with_shutdown(
 /// per-slot rate limit until `shutdown` receives a message.
 pub fn serve_mtls_with_shutdown_and_rate_limit(
     listener: TcpListener,
-    mut database: AnchorDatabase,
+    database: AnchorDatabase,
     config: Arc<ServerConfig>,
     authorization: ClientAuthorizationPolicy,
     rate_limit: AnchorRequestRateLimit,
@@ -1462,16 +1475,17 @@ pub fn serve_mtls_with_shutdown_and_rate_limit(
 ) -> Result<(), Error> {
     serve_mtls_inner(
         listener,
-        &mut database,
+        database,
         config,
-        &authorization,
+        authorization,
         rate_limit,
         Some(shutdown),
     )
 }
 
 /// Serve TLS anchor requests indefinitely. Use
-/// [`serve_mtls_with_shutdown`] when the caller needs orderly shutdown.
+/// [`serve_mtls_with_shutdown`] when the caller needs orderly shutdown. This
+/// uses the same fixed worker pool and bounded pending-connection queue.
 pub fn serve_mtls(
     listener: TcpListener,
     database: AnchorDatabase,
@@ -1491,67 +1505,119 @@ pub fn serve_mtls(
 /// per-client, per-slot rate limit.
 pub fn serve_mtls_with_rate_limit(
     listener: TcpListener,
-    mut database: AnchorDatabase,
+    database: AnchorDatabase,
     config: Arc<ServerConfig>,
     authorization: ClientAuthorizationPolicy,
     rate_limit: AnchorRequestRateLimit,
 ) -> Result<(), Error> {
-    serve_mtls_inner(
-        listener,
-        &mut database,
-        config,
-        &authorization,
-        rate_limit,
-        None,
-    )
+    serve_mtls_inner(listener, database, config, authorization, rate_limit, None)
 }
 
 fn serve_mtls_inner(
     listener: TcpListener,
-    database: &mut AnchorDatabase,
+    database: AnchorDatabase,
     config: Arc<ServerConfig>,
-    authorization: &ClientAuthorizationPolicy,
+    authorization: ClientAuthorizationPolicy,
     rate_limit: AnchorRequestRateLimit,
     shutdown: Option<Receiver<()>>,
 ) -> Result<(), Error> {
     listener
         .set_nonblocking(true)
         .map_err(|error| Error::Socket(error.to_string()))?;
-    let mut request_limiter = RequestRateLimiter::new(authorization, rate_limit);
-    loop {
+    let database = Arc::new(Mutex::new(database));
+    let authorization = Arc::new(authorization);
+    let request_limiter = Arc::new(Mutex::new(RequestRateLimiter::new(
+        &authorization,
+        rate_limit,
+    )));
+    let (sender, receiver) = sync_channel::<DeadlineStream>(QUEUED_CONNECTIONS);
+    let receiver = Arc::new(Mutex::new(receiver));
+    let mut workers = Vec::with_capacity(CONNECTION_WORKERS);
+    for worker_index in 0..CONNECTION_WORKERS {
+        let receiver = Arc::clone(&receiver);
+        let database = Arc::clone(&database);
+        let config = Arc::clone(&config);
+        let authorization = Arc::clone(&authorization);
+        let request_limiter = Arc::clone(&request_limiter);
+        let worker = thread::Builder::new()
+            .name(format!("oblivion-anchor-remote-{worker_index}"))
+            .spawn(move || {
+                loop {
+                    let stream = {
+                        let receiver = match receiver.lock() {
+                            Ok(receiver) => receiver,
+                            Err(_) => return,
+                        };
+                        match receiver.recv() {
+                            Ok(stream) => stream,
+                            Err(_) => return,
+                        }
+                    };
+                    let _ = serve_connection(
+                        stream,
+                        &database,
+                        &config,
+                        &authorization,
+                        &request_limiter,
+                    );
+                }
+            })
+            .map_err(|error| Error::Socket(error.to_string()));
+        match worker {
+            Ok(worker) => workers.push(worker),
+            Err(error) => {
+                drop(sender);
+                for worker in workers {
+                    let _ = worker.join();
+                }
+                return Err(error);
+            }
+        }
+    }
+
+    let service_result = 'service: loop {
         if let Some(receiver) = &shutdown {
             match receiver.try_recv() {
-                Ok(()) | Err(std::sync::mpsc::TryRecvError::Disconnected) => return Ok(()),
+                Ok(()) | Err(std::sync::mpsc::TryRecvError::Disconnected) => break 'service Ok(()),
                 Err(std::sync::mpsc::TryRecvError::Empty) => {}
             }
         }
         match listener.accept() {
             Ok((stream, _peer)) => {
-                let _ = serve_connection(
-                    stream,
-                    database,
-                    &config,
-                    authorization,
-                    &mut request_limiter,
-                );
+                let stream = DeadlineStream::with_timeout(stream, IO_TIMEOUT);
+                match sender.try_send(stream) {
+                    Ok(()) | Err(TrySendError::Full(_)) => {}
+                    Err(TrySendError::Disconnected(_)) => {
+                        break 'service Err(Error::Socket(
+                            "remote anchor connection workers stopped".into(),
+                        ));
+                    }
+                }
             }
             Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
                 thread::sleep(ACCEPT_POLL);
             }
             Err(error) if error.kind() == std::io::ErrorKind::Interrupted => continue,
-            Err(error) => return Err(Error::Socket(error.to_string())),
+            Err(error) => break 'service Err(Error::Socket(error.to_string())),
         }
+    };
+    drop(sender);
+    let worker_panicked = workers.into_iter().any(|worker| worker.join().is_err());
+    if worker_panicked {
+        return Err(Error::Socket(
+            "remote anchor connection worker panicked".into(),
+        ));
     }
+    service_result
 }
 
 fn serve_connection(
-    stream: TcpStream,
-    database: &mut AnchorDatabase,
+    stream: DeadlineStream,
+    database: &Mutex<AnchorDatabase>,
     config: &Arc<ServerConfig>,
     authorization: &ClientAuthorizationPolicy,
-    request_limiter: &mut RequestRateLimiter,
+    request_limiter: &Mutex<RequestRateLimiter>,
 ) -> Result<(), Error> {
-    let stream = DeadlineStream::with_timeout(stream, IO_TIMEOUT);
     let connection =
         ServerConnection::new(config.clone()).map_err(|error| Error::Socket(error.to_string()))?;
     let mut stream = StreamOwned::new(connection, stream);
@@ -1567,8 +1633,15 @@ fn serve_connection(
             if !authorization.allows_fingerprint(&fingerprint, request.slot()) {
                 return Err(Error::Protocol);
             }
-            if request_limiter.try_consume(&fingerprint, request.slot(), Instant::now()) {
-                serve_request(database, request)
+            let allowed = request_limiter
+                .lock()
+                .map_err(|_| Error::Socket("remote anchor rate limiter is poisoned".into()))?
+                .try_consume(&fingerprint, request.slot(), Instant::now());
+            if allowed {
+                let mut database = database
+                    .lock()
+                    .map_err(|_| Error::Socket("remote anchor database is poisoned".into()))?;
+                serve_request(&mut database, request)
             } else {
                 Response::Error {
                     code: WireError::RateLimited,
