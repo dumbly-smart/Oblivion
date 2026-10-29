@@ -1619,3 +1619,24 @@ No focused test, release build, or data collection has been run. The output
 directory was verified absent before the preregistration commit. Require
 successful plaintext and encrypt-only controls before interpreting the Path
 ORAM arm.
+
+### Verification follow-up (2026-10-30; source unchanged at `24ded25d`)
+
+After the first full serial workspace run reported the pipeline timeout above,
+the exact `sse_metadata_discovery_precedes_real_mixed_invocation` case passed
+once in a focused invocation and five more times in a sequential diagnostic
+loop. `cargo fmt --all --check && cargo test --locked --workspace --
+--test-threads=1` then exited 0. The complete enabled suite passed, including
+the 24 pipeline tests; the million-operation ORAM test remained intentionally
+ignored. A subsequent `cargo clippy --locked --workspace --all-targets --
+-D warnings` also exited 0. The earlier timeout remains a real retained
+failure with no established root cause; subsequent passes show only that it
+was not reproduced in those runs. No runtime deadline, retry, or test
+threshold changed. No Python suite, million-operation stress run, or hosted CI
+run was performed for this source revision.
+
+The rank-64 replication remains preregistered but unrun. Before collection,
+run its focused test and release build, check that the output path is still
+unused, and run both frozen leaky controls before any ORAM arm. If the
+100 ms timeout recurs, retain host-load and phase timing evidence for diagnosis
+without modifying the frozen experiment or weakening its controls.

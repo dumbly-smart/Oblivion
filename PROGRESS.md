@@ -1,9 +1,10 @@
 # Project progress snapshot
 
 **Updated:** 2026-10-30. **Source revision tested:** `24ded25d` on
-`codex/oblivion-research-platform`. The active study protocol/config commit is
-`d5847766`, pushed to `origin`. This snapshot describes source commit
-`24ded25d`; the chronological record is
+`codex/oblivion-research-platform`; verification was rerun after the
+documentation-only commits `d5847766` and `e2b85646`. The active study
+protocol/config commit is `d5847766`, pushed to `origin`. This snapshot
+describes source commit `24ded25d`; the chronological record is
 [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md), and the full
 requirement audit is [docs/REQUIREMENTS_MATRIX.md](docs/REQUIREMENTS_MATRIX.md).
 
@@ -42,18 +43,20 @@ application-level encrypted journal-byte amplification ranged from 84.037× to
 
 ## Verification status
 
-For source commit `24ded25d`, `cargo fmt --all --check` and
-`cargo clippy --locked --workspace --all-targets -- -D warnings` completed
-successfully. A fresh
-`cargo test --locked --workspace -- --test-threads=1` run exited 101: the
-integration test
+For source commit `24ded25d`, `cargo fmt --all --check`,
+`cargo clippy --locked --workspace --all-targets -- -D warnings`, and a fresh
+`cargo test --locked --workspace -- --test-threads=1` rerun all exited 0. The
+workspace suite passed with one intentionally ignored million-operation ORAM
+stress test. Before that rerun, one full suite had exited 101 when
 `oblivion-server/tests/pipeline.rs::sse_metadata_discovery_precedes_real_mixed_invocation`
 received a `Timeout` during a 100 ms invocation. Its retained fixture was
 `/tmp/oblivion-sse-demo-6450479058385519197`; the private execution record
-reported about 86.1 ms of work and a 100.29 ms response elapsed time. The cause
-has not been established, the focused rerun is pending, and no deadline or
-retry change has been made. Do not describe the current workspace test gate as
-passing. No hosted CI run was visible for this commit when checked.
+reported about 86.1 ms of work and a 100.29 ms response elapsed time. The
+focused test then passed six sequential executions, and the full serial suite
+passed on rerun. This narrows the observation to an intermittent failure but
+does not establish its cause. No deadline, retry, or test threshold was
+changed. The million-operation stress tier, Python suite, and hosted CI have
+not been run for this source revision.
 
 The million-operation ORAM stress tier and Python suite were not rerun for
 `24ded25d`. Earlier passing results remain valid only for their recorded
@@ -98,12 +101,13 @@ controls pass. Use the new output directory
 
 ## Remaining work in the active sequence
 
-1. Diagnose and reproduce the current 100 ms pipeline timeout without
-   changing runtime limits or adding retries; then rerun the relevant focused
-   and full serial workspace checks.
-2. After diagnosing the workspace failure, run the study's focused tests and
-   release build. Run the frozen positive controls first, then the protected
-   condition only if the controls pass.
+1. Keep the intermittent 100 ms pipeline timeout visible as unresolved; the
+   focused repetitions and full serial rerun passed, but they did not identify
+   its cause. Capture host-load and per-phase diagnostics if it recurs, without
+   changing runtime limits or adding retries.
+2. Recheck the study-specific focused test and release build, then run the
+   frozen positive controls first. Collect the protected condition only if
+   both controls pass and the study's prerequisites remain satisfied.
 3. Verify the retained raw bundle independently, record environment and source
    hashes, and add the result (including any inconclusive outcome) to
    `REPORTS.md`, `PROGRESS.md`, and the detailed implementation status.
