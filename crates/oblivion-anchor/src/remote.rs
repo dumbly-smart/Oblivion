@@ -5,6 +5,7 @@
 //! the witness database rollback-resistant.
 
 use std::{
+    collections::{HashMap, HashSet},
     fs::{File, OpenOptions},
     io::{BufReader, Read, Write},
     net::{SocketAddr, TcpListener, TcpStream},
@@ -22,6 +23,7 @@ use rustls::{
     server::WebPkiClientVerifier,
 };
 use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 use zeroize::{Zeroize, Zeroizing};
 
 use crate::{AnchorDatabase, Error, SseJournalState};
@@ -31,9 +33,153 @@ use oblivion_store::{
 };
 
 const MAX_FRAME_BYTES: usize = 512 * 1024;
+const MAX_AUTHORIZATION_POLICY_BYTES: usize = 1024 * 1024;
 const PROTOCOL_VERSION: u8 = 2;
 const IO_TIMEOUT: Duration = Duration::from_secs(5);
 const ACCEPT_POLL: Duration = Duration::from_millis(10);
+
+/// Errors while loading the witness's certificate-to-slot authorization file.
+#[derive(Debug, thiserror::Error)]
+pub enum AuthorizationPolicyError {
+    #[error("could not read authorization policy: {0}")]
+    Io(#[from] std::io::Error),
+    #[error("authorization policy file is unsafe: {0}")]
+    File(String),
+    #[error("authorization policy file must not be writable by group or other")]
+    WritableFile,
+    #[error("authorization policy exceeds the 1 MiB limit")]
+    TooLarge,
+    #[error("authorization policy JSON is malformed or contains invalid grants")]
+    InvalidDocument,
+    #[error("authorization policy version is unsupported")]
+    UnsupportedVersion,
+    #[error("authorization policy must contain at least one client grant")]
+    Empty,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct AuthorizationPolicyDocument {
+    version: u8,
+    clients: Vec<AuthorizationClient>,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct AuthorizationClient {
+    certificate_sha256: String,
+    slots: Vec<String>,
+}
+
+/// Exact leaf-certificate SHA-256 fingerprint to remote-anchor-slot grants.
+///
+/// The policy is immutable while the listener runs. Updating grants requires
+/// changing the policy file and restarting the witness.
+#[derive(Clone, Debug, Default)]
+pub struct ClientAuthorizationPolicy {
+    grants: HashMap<[u8; 32], HashSet<String>>,
+}
+
+impl ClientAuthorizationPolicy {
+    /// Load a version-1 JSON policy, rejecting oversized or empty policies.
+    pub fn from_file(path: &Path) -> Result<Self, AuthorizationPolicyError> {
+        let mut bytes = Vec::new();
+        let file = open_pem_file(path, false)
+            .map_err(|error| AuthorizationPolicyError::File(error.to_string()))?;
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::PermissionsExt;
+            if file.metadata()?.permissions().mode() & 0o022 != 0 {
+                return Err(AuthorizationPolicyError::WritableFile);
+            }
+        }
+        file.take((MAX_AUTHORIZATION_POLICY_BYTES + 1) as u64)
+            .read_to_end(&mut bytes)?;
+        if bytes.len() > MAX_AUTHORIZATION_POLICY_BYTES {
+            return Err(AuthorizationPolicyError::TooLarge);
+        }
+        Self::from_json(&bytes)
+    }
+
+    /// Parse a version-1 JSON policy. Fingerprints are 64 lowercase hex
+    /// characters for the complete DER-encoded leaf certificate.
+    pub fn from_json(bytes: &[u8]) -> Result<Self, AuthorizationPolicyError> {
+        if bytes.len() > MAX_AUTHORIZATION_POLICY_BYTES {
+            return Err(AuthorizationPolicyError::TooLarge);
+        }
+        let document: AuthorizationPolicyDocument =
+            serde_json::from_slice(bytes).map_err(|_| AuthorizationPolicyError::InvalidDocument)?;
+        if document.version != 1 {
+            return Err(AuthorizationPolicyError::UnsupportedVersion);
+        }
+        if document.clients.is_empty() {
+            return Err(AuthorizationPolicyError::Empty);
+        }
+
+        let mut grants = HashMap::with_capacity(document.clients.len());
+        for client in document.clients {
+            let fingerprint = parse_certificate_fingerprint(&client.certificate_sha256)
+                .ok_or(AuthorizationPolicyError::InvalidDocument)?;
+            let mut slots = HashSet::with_capacity(client.slots.len());
+            for slot in client.slots {
+                if !valid_policy_slot(&slot) || !slots.insert(slot) {
+                    return Err(AuthorizationPolicyError::InvalidDocument);
+                }
+            }
+            if slots.is_empty() || grants.insert(fingerprint, slots).is_some() {
+                return Err(AuthorizationPolicyError::InvalidDocument);
+            }
+        }
+        Ok(Self { grants })
+    }
+
+    fn allows(&self, certificate_der: &[u8], slot: &str) -> bool {
+        let fingerprint: [u8; 32] = Sha256::digest(certificate_der).into();
+        self.allows_fingerprint(&fingerprint, slot)
+    }
+
+    fn allows_fingerprint(&self, fingerprint: &[u8; 32], slot: &str) -> bool {
+        self.grants
+            .get(fingerprint)
+            .is_some_and(|slots| slots.contains(slot))
+    }
+}
+
+fn parse_certificate_fingerprint(encoded: &str) -> Option<[u8; 32]> {
+    let bytes = encoded.as_bytes();
+    if bytes.len() != 64
+        || !bytes
+            .iter()
+            .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(byte))
+    {
+        return None;
+    }
+    let mut fingerprint = [0; 32];
+    for (index, pair) in bytes.as_chunks::<2>().0.iter().enumerate() {
+        fingerprint[index] = (decode_hex_nibble(pair[0])? << 4) | decode_hex_nibble(pair[1])?;
+    }
+    Some(fingerprint)
+}
+
+fn valid_policy_slot(slot: &str) -> bool {
+    (1..=128).contains(&slot.len())
+        && slot
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b'_' | b'-'))
+}
+
+impl Request {
+    fn slot(&self) -> &str {
+        match self {
+            Self::Load { slot }
+            | Self::CompareAndSwap { slot, .. }
+            | Self::CheckpointLoad { slot }
+            | Self::CheckpointCompareAndSwap { slot, .. }
+            | Self::CatalogLoad { slot }
+            | Self::CatalogCompareAndSwap { slot, .. } => slot,
+        }
+    }
+}
 
 #[derive(Deserialize, Serialize)]
 #[serde(tag = "operation", rename_all = "snake_case", deny_unknown_fields)]
@@ -621,9 +767,16 @@ pub fn serve_mtls_with_shutdown(
     listener: TcpListener,
     mut database: AnchorDatabase,
     config: Arc<ServerConfig>,
+    authorization: ClientAuthorizationPolicy,
     shutdown: Receiver<()>,
 ) -> Result<(), Error> {
-    serve_mtls_inner(listener, &mut database, config, Some(shutdown))
+    serve_mtls_inner(
+        listener,
+        &mut database,
+        config,
+        &authorization,
+        Some(shutdown),
+    )
 }
 
 /// Serve TLS anchor requests indefinitely. Use
@@ -632,14 +785,16 @@ pub fn serve_mtls(
     listener: TcpListener,
     mut database: AnchorDatabase,
     config: Arc<ServerConfig>,
+    authorization: ClientAuthorizationPolicy,
 ) -> Result<(), Error> {
-    serve_mtls_inner(listener, &mut database, config, None)
+    serve_mtls_inner(listener, &mut database, config, &authorization, None)
 }
 
 fn serve_mtls_inner(
     listener: TcpListener,
     database: &mut AnchorDatabase,
     config: Arc<ServerConfig>,
+    authorization: &ClientAuthorizationPolicy,
     shutdown: Option<Receiver<()>>,
 ) -> Result<(), Error> {
     listener
@@ -654,7 +809,7 @@ fn serve_mtls_inner(
         }
         match listener.accept() {
             Ok((stream, _peer)) => {
-                let _ = serve_connection(stream, database, &config);
+                let _ = serve_connection(stream, database, &config, authorization);
             }
             Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
                 thread::sleep(ACCEPT_POLL);
@@ -669,6 +824,7 @@ fn serve_connection(
     stream: TcpStream,
     database: &mut AnchorDatabase,
     config: &Arc<ServerConfig>,
+    authorization: &ClientAuthorizationPolicy,
 ) -> Result<(), Error> {
     let stream = DeadlineStream::with_timeout(stream, IO_TIMEOUT);
     let connection =
@@ -676,7 +832,17 @@ fn serve_connection(
     let mut stream = StreamOwned::new(connection, stream);
     let request_bytes = Zeroizing::new(read_frame(&mut stream)?);
     let response = match decode_request(&request_bytes) {
-        Ok(request) => serve_request(database, request),
+        Ok(request) => {
+            let certificate = stream
+                .conn
+                .peer_certificates()
+                .and_then(|certificates| certificates.first())
+                .ok_or(Error::Protocol)?;
+            if !authorization.allows(certificate.as_ref(), request.slot()) {
+                return Err(Error::Protocol);
+            }
+            serve_request(database, request)
+        }
         Err(code) => Response::Error { code },
     };
     let frame = Zeroizing::new(
@@ -992,8 +1158,120 @@ impl Write for DeadlineStream {
 
 #[cfg(test)]
 mod tests {
-    use super::{Request, WireCheckpointState, WireError, decode_request};
+    use super::{
+        AuthorizationPolicyError, ClientAuthorizationPolicy, MAX_AUTHORIZATION_POLICY_BYTES,
+        Request, WireCheckpointState, WireError, decode_request,
+    };
     use oblivion_store::CheckpointAnchorRecord;
+
+    #[test]
+    fn client_authorization_policy_enforces_exact_fingerprint_and_slot() {
+        let json = br#"{"version":1,"clients":[{"certificate_sha256":"0000000000000000000000000000000000000000000000000000000000000000","slots":["sse-main-index","oram-main"]}]}"#;
+        let policy = ClientAuthorizationPolicy::from_json(json).expect("valid policy");
+
+        assert!(policy.allows_fingerprint(&[0; 32], "sse-main-index"));
+        assert!(policy.allows_fingerprint(&[0; 32], "oram-main"));
+        assert!(!policy.allows_fingerprint(&[1; 32], "sse-main-index"));
+        assert!(!policy.allows_fingerprint(&[0; 32], "unlisted-slot"));
+    }
+
+    #[test]
+    fn client_authorization_policy_rejects_invalid_grants() {
+        let invalid_documents: &[&[u8]] = &[
+            br#"{"version":2,"clients":[{"certificate_sha256":"0000000000000000000000000000000000000000000000000000000000000000","slots":["valid-slot"]}]}"#,
+            br#"{"version":1,"clients":[]}"#,
+            br#"{"version":1,"clients":[{"certificate_sha256":"0000000000000000000000000000000000000000000000000000000000000000","slots":[]}] }"#,
+            br#"{"version":1,"clients":[{"certificate_sha256":"0000000000000000000000000000000000000000000000000000000000000000","slots":["valid-slot","valid-slot"]}]}"#,
+            br#"{"version":1,"clients":[{"certificate_sha256":"0000000000000000000000000000000000000000000000000000000000000000","slots":["*"]}]}"#,
+            br#"{"version":1,"clients":[{"certificate_sha256":"000000000000000000000000000000000000000000000000000000000000000A","slots":["valid-slot"]}]}"#,
+            br#"{"version":1,"clients":[{"certificate_sha256":"0000000000000000000000000000000000000000000000000000000000000000","slots":["valid-slot"],"admin":true}]}"#,
+        ];
+        for document in invalid_documents {
+            assert!(
+                ClientAuthorizationPolicy::from_json(document).is_err(),
+                "invalid policy was accepted: {}",
+                String::from_utf8_lossy(document)
+            );
+        }
+    }
+
+    #[test]
+    fn client_authorization_policy_rejects_oversized_documents() {
+        let document = vec![b' '; MAX_AUTHORIZATION_POLICY_BYTES + 1];
+        assert!(matches!(
+            ClientAuthorizationPolicy::from_json(&document),
+            Err(AuthorizationPolicyError::TooLarge)
+        ));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn client_authorization_policy_rejects_symlinked_file() {
+        use std::{
+            fs,
+            os::unix::fs::symlink,
+            time::{SystemTime, UNIX_EPOCH},
+        };
+
+        let unique = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("clock")
+            .as_nanos();
+        let directory = std::env::temp_dir().join(format!(
+            "oblivion-policy-symlink-{}-{unique}",
+            std::process::id()
+        ));
+        fs::create_dir(&directory).expect("policy test directory");
+        let policy_path = directory.join("policy.json");
+        let symlink_path = directory.join("policy-link.json");
+        fs::write(
+            &policy_path,
+            br#"{"version":1,"clients":[{"certificate_sha256":"0000000000000000000000000000000000000000000000000000000000000000","slots":["valid-slot"]}]}"#,
+        )
+        .expect("policy file");
+        symlink(&policy_path, &symlink_path).expect("policy symlink");
+
+        let result = ClientAuthorizationPolicy::from_file(&symlink_path);
+        fs::remove_dir_all(directory).expect("cleanup policy test directory");
+
+        assert!(result.is_err(), "policy loader followed a symlink");
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn client_authorization_policy_rejects_group_writable_file() {
+        use std::{
+            fs,
+            os::unix::fs::PermissionsExt,
+            time::{SystemTime, UNIX_EPOCH},
+        };
+
+        let unique = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("clock")
+            .as_nanos();
+        let directory = std::env::temp_dir().join(format!(
+            "oblivion-policy-mode-{}-{unique}",
+            std::process::id()
+        ));
+        fs::create_dir(&directory).expect("policy test directory");
+        let policy_path = directory.join("policy.json");
+        fs::write(
+            &policy_path,
+            br#"{"version":1,"clients":[{"certificate_sha256":"0000000000000000000000000000000000000000000000000000000000000000","slots":["valid-slot"]}]}"#,
+        )
+        .expect("policy file");
+        fs::set_permissions(&policy_path, fs::Permissions::from_mode(0o620))
+            .expect("policy permissions");
+
+        let result = ClientAuthorizationPolicy::from_file(&policy_path);
+        fs::remove_dir_all(directory).expect("cleanup policy test directory");
+
+        assert!(
+            result.is_err(),
+            "policy loader accepted a group-writable file"
+        );
+    }
 
     #[test]
     fn checkpoint_wire_handle_has_fixed_width_independent_of_secret_bytes() {

@@ -5,7 +5,9 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use oblivion_anchor::{AnchorDatabase, mtls_server_config_from_pem, serve_mtls};
+use oblivion_anchor::{
+    AnchorDatabase, ClientAuthorizationPolicy, mtls_server_config_from_pem, serve_mtls,
+};
 use zeroize::Zeroizing;
 
 fn main() {
@@ -19,12 +21,12 @@ fn run() -> Result<(), String> {
     let args: Vec<_> = std::env::args_os().skip(1).collect();
     if args.len() == 1 && args[0] == "--help" {
         println!(
-            "usage: oblivion-anchor-remote serve ADDRESS DATABASE MASTER_KEY_FILE SERVER_CERT_PEM SERVER_KEY_PEM CLIENT_CA_PEM"
+            "usage: oblivion-anchor-remote serve ADDRESS DATABASE MASTER_KEY_FILE SERVER_CERT_PEM SERVER_KEY_PEM CLIENT_CA_PEM AUTHORIZATION_POLICY_JSON"
         );
         return Ok(());
     }
-    if args.len() != 7 || args[0] != "serve" {
-        return Err("expected `serve ADDRESS DATABASE MASTER_KEY_FILE SERVER_CERT_PEM SERVER_KEY_PEM CLIENT_CA_PEM` (use --help)".into());
+    if args.len() != 8 || args[0] != "serve" {
+        return Err("expected `serve ADDRESS DATABASE MASTER_KEY_FILE SERVER_CERT_PEM SERVER_KEY_PEM CLIENT_CA_PEM AUTHORIZATION_POLICY_JSON` (use --help)".into());
     }
 
     let address: SocketAddr = args[1]
@@ -37,6 +39,8 @@ fn run() -> Result<(), String> {
     let master_key = read_master_key(Path::new(&args[3]))?;
     let tls = mtls_server_config_from_pem(&args[4], &args[5], &args[6])
         .map_err(|error| format!("invalid mutual-TLS configuration: {error}"))?;
+    let authorization = ClientAuthorizationPolicy::from_file(Path::new(&args[7]))
+        .map_err(|error| format!("invalid client authorization policy: {error}"))?;
     let database = AnchorDatabase::open(&database_path, master_key)
         .map_err(|error| format!("cannot open witness database: {error}"))?;
     #[cfg(unix)]
@@ -47,7 +51,7 @@ fn run() -> Result<(), String> {
     }
     let listener = TcpListener::bind(address)
         .map_err(|error| format!("cannot bind witness listener: {error}"))?;
-    serve_mtls(listener, database, tls).map_err(|error| error.to_string())
+    serve_mtls(listener, database, tls, authorization).map_err(|error| error.to_string())
 }
 
 fn validate_database_path(path: &Path) -> Result<(), String> {

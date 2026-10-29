@@ -282,8 +282,8 @@ fn worker_anchors_catalog_before_ready_and_rejects_a_rollback() {
 #[test]
 fn worker_activates_catalog_through_remote_mtls_witness_before_ready() {
     use oblivion_anchor::{
-        AnchorDatabase, TlsRegistryCatalogAnchor, mtls_client_config_from_pem,
-        mtls_server_config_from_pem, serve_mtls_with_shutdown,
+        AnchorDatabase, ClientAuthorizationPolicy, TlsRegistryCatalogAnchor,
+        mtls_client_config_from_pem, mtls_server_config_from_pem, serve_mtls_with_shutdown,
     };
     use oblivion_batcher::Endpoint;
     use oblivion_registry::{
@@ -340,13 +340,24 @@ fn worker_activates_catalog_through_remote_mtls_witness_before_ready() {
     }
 
     let tls = mtls_server_config_from_pem(&server_cert_path, &server_key_path, &ca_path).unwrap();
+    let client_fingerprint: [u8; 32] = Sha256::digest(client_cert.der().as_ref()).into();
+    let client_fingerprint: String = client_fingerprint
+        .iter()
+        .map(|byte| format!("{byte:02x}"))
+        .collect();
+    let authorization_json = format!(
+        "{{\"version\":1,\"clients\":[{{\"certificate_sha256\":\"{client_fingerprint}\",\"slots\":[\"runtime-functions\"]}}]}}"
+    );
+    let authorization = ClientAuthorizationPolicy::from_json(authorization_json.as_bytes())
+        .expect("client authorization policy");
     let listener = TcpListener::bind("127.0.0.1:0").unwrap();
     let address = listener.local_addr().unwrap();
     let database_path = root.join("witness.sqlite");
     let database = AnchorDatabase::open(&database_path, Zeroizing::new([0x5c; 32])).unwrap();
     let (shutdown, receiver) = mpsc::channel();
-    let witness_thread =
-        thread::spawn(move || serve_mtls_with_shutdown(listener, database, tls, receiver));
+    let witness_thread = thread::spawn(move || {
+        serve_mtls_with_shutdown(listener, database, tls, authorization, receiver)
+    });
 
     let sources: [&[u8]; 5] = [
         include_bytes!("../../../examples/wasm-functions/echo.wat"),

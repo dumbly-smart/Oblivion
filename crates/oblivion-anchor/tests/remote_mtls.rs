@@ -8,8 +8,8 @@ use std::{
 
 use ed25519_dalek::SigningKey;
 use oblivion_anchor::{
-    AnchorDatabase, SseJournalState, TlsRegistryCatalogAnchor, TlsSseJournalAnchor,
-    mtls_client_config, mtls_server_config, serve_mtls_with_shutdown,
+    AnchorDatabase, ClientAuthorizationPolicy, SseJournalState, TlsRegistryCatalogAnchor,
+    TlsSseJournalAnchor, mtls_client_config, mtls_server_config, serve_mtls_with_shutdown,
 };
 use oblivion_registry::{
     Record, RegistryCatalogAnchor, RegistryCatalogState, SignedRegistry, VerifiedRegistry,
@@ -19,7 +19,11 @@ use rcgen::{
     BasicConstraints, CertificateParams, ExtendedKeyUsagePurpose, IsCa, Issuer, KeyPair,
     KeyUsagePurpose,
 };
-use rustls::{RootCertStore, pki_types::PrivateKeyDer};
+use rustls::{
+    RootCertStore,
+    pki_types::{CertificateDer, PrivateKeyDer},
+};
+use sha2::{Digest, Sha256};
 use zeroize::Zeroizing;
 
 fn test_root(label: &str) -> (rcgen::Certificate, KeyPair, CertificateParams) {
@@ -103,13 +107,38 @@ struct RunningWitness {
     thread: thread::JoinHandle<Result<(), oblivion_anchor::Error>>,
 }
 
-fn start_witness(path: PathBuf, config: Arc<rustls::ServerConfig>) -> RunningWitness {
+fn authorization_policy_for(
+    certificate: &CertificateDer<'_>,
+    slots: &[&str],
+) -> ClientAuthorizationPolicy {
+    let fingerprint: [u8; 32] = Sha256::digest(certificate.as_ref()).into();
+    let fingerprint: String = fingerprint
+        .iter()
+        .map(|byte| format!("{byte:02x}"))
+        .collect();
+    let slots = slots
+        .iter()
+        .map(|slot| format!("\"{slot}\""))
+        .collect::<Vec<_>>()
+        .join(",");
+    let json = format!(
+        "{{\"version\":1,\"clients\":[{{\"certificate_sha256\":\"{fingerprint}\",\"slots\":[{slots}]}}]}}"
+    );
+    ClientAuthorizationPolicy::from_json(json.as_bytes()).expect("valid client ACL")
+}
+
+fn start_witness(
+    path: PathBuf,
+    config: Arc<rustls::ServerConfig>,
+    authorization: ClientAuthorizationPolicy,
+) -> RunningWitness {
     let listener = TcpListener::bind("127.0.0.1:0").expect("bind witness");
     let address = listener.local_addr().expect("witness address");
     let database = AnchorDatabase::open(&path, Zeroizing::new([0x5a; 32])).expect("open database");
     let (shutdown, receiver) = mpsc::channel();
-    let thread =
-        thread::spawn(move || serve_mtls_with_shutdown(listener, database, config, receiver));
+    let thread = thread::spawn(move || {
+        serve_mtls_with_shutdown(listener, database, config, authorization, receiver)
+    });
     RunningWitness {
         address,
         shutdown,
@@ -138,10 +167,11 @@ fn mutually_authenticated_remote_anchor_cas_survives_witness_restart() {
     let server_config =
         mtls_server_config(vec![server_cert], server_key, root_store(root_cert.clone()))
             .expect("server TLS config");
+    let authorization = authorization_policy_for(&client_cert, &["sse-main-index"]);
     let client_config = mtls_client_config(root_store(root_cert), vec![client_cert], client_key)
         .expect("client TLS config");
 
-    let first = start_witness(path.clone(), server_config.clone());
+    let first = start_witness(path.clone(), server_config.clone(), authorization.clone());
     let mut anchor = client(first.address, client_config.clone());
     assert_eq!(anchor.load().expect("initial load"), None);
     let first_state = SseJournalState::new([7; 16], 0, [9; 32]).expect("first state");
@@ -163,7 +193,7 @@ fn mutually_authenticated_remote_anchor_cas_survives_witness_restart() {
         .expect("first witness thread")
         .expect("first witness");
 
-    let second = start_witness(path.clone(), server_config);
+    let second = start_witness(path.clone(), server_config, authorization);
     let mut after_restart = client(second.address, client_config);
     assert_eq!(
         after_restart.load().expect("load after witness restart"),
@@ -191,7 +221,8 @@ fn remote_anchor_rejects_untrusted_client_and_untrusted_witness_certificates() {
         root_store(trusted_root.clone()),
     )
     .expect("server TLS config");
-    let witness = start_witness(path.clone(), server_config.clone());
+    let authorization = authorization_policy_for(&client_cert, &["sse-main-index"]);
+    let witness = start_witness(path.clone(), server_config.clone(), authorization);
 
     let untrusted_client = mtls_client_config(
         root_store(trusted_root.clone()),
@@ -234,6 +265,75 @@ fn remote_anchor_rejects_untrusted_client_and_untrusted_witness_certificates() {
         .expect("witness");
 
     let _ = std::fs::remove_file(path);
+}
+
+#[test]
+fn remote_anchor_rejects_certificate_granted_for_different_slot() {
+    let path = temp_database();
+    let (server_cert, server_key, client_cert, client_key, trusted_root) =
+        identity_pair("acl-slot-root");
+    let server_config = mtls_server_config(
+        vec![server_cert],
+        server_key,
+        root_store(trusted_root.clone()),
+    )
+    .expect("server TLS config");
+    let authorization = authorization_policy_for(&client_cert, &["sse-main-index"]);
+    let witness = start_witness(path.clone(), server_config, authorization);
+    let client_config = mtls_client_config(root_store(trusted_root), vec![client_cert], client_key)
+        .expect("trusted client TLS config");
+    let mut other_slot =
+        TlsSseJournalAnchor::new(witness.address, "localhost", "private-state", client_config)
+            .expect("valid TLS anchor");
+
+    let result = other_slot.load();
+    let _ = witness.shutdown.send(());
+    witness
+        .thread
+        .join()
+        .expect("witness thread")
+        .expect("witness");
+    let _ = std::fs::remove_file(path);
+
+    assert!(
+        result.is_err(),
+        "a client must not read a slot outside its certificate ACL"
+    );
+}
+
+#[test]
+fn remote_anchor_rejects_ca_valid_client_without_slot_grant() {
+    let path = temp_database();
+    let (server_cert, server_key, client_cert, client_key, trusted_root) =
+        identity_pair("acl-trusted-root");
+    let server_config = mtls_server_config(
+        vec![server_cert],
+        server_key,
+        root_store(trusted_root.clone()),
+    )
+    .expect("server TLS config");
+    let witness = start_witness(
+        path.clone(),
+        server_config,
+        ClientAuthorizationPolicy::default(),
+    );
+    let trusted_client =
+        mtls_client_config(root_store(trusted_root), vec![client_cert], client_key)
+            .expect("trusted client TLS config");
+
+    let result = client(witness.address, trusted_client).load();
+    let _ = witness.shutdown.send(());
+    witness
+        .thread
+        .join()
+        .expect("witness thread")
+        .expect("witness");
+    let _ = std::fs::remove_file(path);
+
+    assert!(
+        result.is_err(),
+        "a CA-valid certificate without an explicit slot grant must be denied"
+    );
 }
 
 #[test]
@@ -287,13 +387,14 @@ fn remote_catalog_anchor_preserves_digest_cas_and_rejects_stale_writer() {
     let server_config =
         mtls_server_config(vec![server_cert], server_key, root_store(root_cert.clone()))
             .expect("server TLS config");
+    let authorization = authorization_policy_for(&client_cert, &["function-registry"]);
     let client_config = mtls_client_config(
         root_store(root_cert.clone()),
         vec![client_cert.clone()],
         client_key.clone_key(),
     )
     .expect("client TLS config");
-    let witness = start_witness(path.clone(), server_config.clone());
+    let witness = start_witness(path.clone(), server_config.clone(), authorization.clone());
     let mut anchor = TlsRegistryCatalogAnchor::new(
         witness.address,
         "localhost",
@@ -337,7 +438,7 @@ fn remote_catalog_anchor_preserves_digest_cas_and_rejects_stale_writer() {
         .expect("witness thread")
         .expect("witness");
 
-    let restarted = start_witness(path.clone(), server_config);
+    let restarted = start_witness(path.clone(), server_config, authorization);
     let mut recovered = TlsRegistryCatalogAnchor::new(
         restarted.address,
         "localhost",
@@ -373,13 +474,18 @@ fn remote_checkpoint_anchor_recovers_oram_and_rejects_stale_writer_after_restart
     let server_config =
         mtls_server_config(vec![server_cert], server_key, root_store(root_cert.clone()))
             .expect("server TLS config");
+    let authorization = authorization_policy_for(&client_cert, &["oram-main"]);
     let client_config = mtls_client_config(
         root_store(root_cert.clone()),
         vec![client_cert.clone()],
         client_key.clone_key(),
     )
     .expect("client TLS config");
-    let witness = start_witness(database.clone(), server_config.clone());
+    let witness = start_witness(
+        database.clone(),
+        server_config.clone(),
+        authorization.clone(),
+    );
     let mut anchor = checkpoint_client(witness.address, "oram-main", client_config.clone());
     let config = Config::new(8, 16).expect("ORAM config");
     let mut store = PathOram::new(config.clone(), MemoryBackend::default()).expect("ORAM");
@@ -402,7 +508,7 @@ fn remote_checkpoint_anchor_recovers_oram_and_rejects_stale_writer_after_restart
         .expect("witness thread")
         .expect("witness");
 
-    let restarted = start_witness(database.clone(), server_config);
+    let restarted = start_witness(database.clone(), server_config, authorization);
     let mut recovered_anchor = checkpoint_client(
         restarted.address,
         "oram-main",

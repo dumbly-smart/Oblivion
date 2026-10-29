@@ -8,7 +8,8 @@ use std::{
 };
 
 use oblivion_anchor::{
-    AnchorDatabase, mtls_client_config, mtls_server_config, serve_mtls_with_shutdown,
+    AnchorDatabase, ClientAuthorizationPolicy, mtls_client_config, mtls_server_config,
+    serve_mtls_with_shutdown,
 };
 use oblivion_sse::{Limits, PersistentClient, Server, TlsSseJournalAnchor};
 use rcgen::{
@@ -16,6 +17,7 @@ use rcgen::{
     KeyUsagePurpose,
 };
 use rustls::{RootCertStore, pki_types::PrivateKeyDer};
+use sha2::{Digest, Sha256};
 use zeroize::Zeroizing;
 
 const CLIENT_KEY: [u8; 32] = [0x63; 32];
@@ -91,15 +93,29 @@ fn identity_pair() -> (
     )
 }
 
-fn configs() -> (Arc<rustls::ServerConfig>, Arc<rustls::ClientConfig>) {
+fn configs() -> (
+    Arc<rustls::ServerConfig>,
+    Arc<rustls::ClientConfig>,
+    ClientAuthorizationPolicy,
+) {
     let (server_cert, server_key, client_cert, client_key, root_cert) = identity_pair();
     let mut roots = RootCertStore::empty();
     roots.add(root_cert).expect("root");
     let server_config =
         mtls_server_config(vec![server_cert], server_key, roots.clone()).expect("server TLS");
+    let fingerprint: [u8; 32] = Sha256::digest(client_cert.as_ref()).into();
+    let fingerprint: String = fingerprint
+        .iter()
+        .map(|byte| format!("{byte:02x}"))
+        .collect();
+    let policy_json = format!(
+        "{{\"version\":1,\"clients\":[{{\"certificate_sha256\":\"{fingerprint}\",\"slots\":[\"independent-sse-index\"]}}]}}"
+    );
+    let authorization = ClientAuthorizationPolicy::from_json(policy_json.as_bytes())
+        .expect("valid client authorization policy");
     let client_config =
         mtls_client_config(roots, vec![client_cert], client_key).expect("client TLS");
-    (server_config, client_config)
+    (server_config, client_config, authorization)
 }
 
 struct Witness {
@@ -108,14 +124,19 @@ struct Witness {
     thread: thread::JoinHandle<Result<(), oblivion_anchor::Error>>,
 }
 
-fn start_witness(root: &Path, config: Arc<rustls::ServerConfig>) -> Witness {
+fn start_witness(
+    root: &Path,
+    config: Arc<rustls::ServerConfig>,
+    authorization: ClientAuthorizationPolicy,
+) -> Witness {
     let listener = TcpListener::bind("127.0.0.1:0").expect("witness listener");
     let address = listener.local_addr().expect("witness address");
     let database = AnchorDatabase::open(root.join("witness.sqlite"), Zeroizing::new(WITNESS_KEY))
         .expect("witness database");
     let (shutdown, receiver) = mpsc::channel();
-    let thread =
-        thread::spawn(move || serve_mtls_with_shutdown(listener, database, config, receiver));
+    let thread = thread::spawn(move || {
+        serve_mtls_with_shutdown(listener, database, config, authorization, receiver)
+    });
     Witness {
         address,
         shutdown,
@@ -149,8 +170,8 @@ fn restored_application_journal_is_rejected_when_remote_witness_kept_newer_head(
     let root = TestDirectory::new();
     let journal = root.path().join("journal");
     let old_snapshot = root.path().join("old-journal-snapshot");
-    let (server_config, client_config) = configs();
-    let witness = start_witness(root.path(), server_config);
+    let (server_config, client_config, authorization) = configs();
+    let witness = start_witness(root.path(), server_config, authorization);
 
     let mut client = PersistentClient::create(
         &journal,
