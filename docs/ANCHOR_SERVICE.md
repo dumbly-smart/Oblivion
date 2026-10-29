@@ -74,15 +74,17 @@ replace a live lock file. Raw protocol clients and direct `AnchorDatabase`
 callers can bypass this cooperative lock, so they remain trusted components.
 The lock does not coordinate separate hosts or remote anchor services.
 
-## Independent mTLS witness for SSE and runtime catalog activation
+## Independent mTLS witness for SSE, runtime catalog activation, and ORAM checkpoint anchoring
 
-The `oblivion-anchor-remote` binary exposes the SSE journal-head CAS and
-digest-bound registry catalog activation CAS through an authenticated TLS
-listener. It is intended to run under a separate witness operator, with that
-operator's database and master key stored outside the application host's
-administrative domain. Runtime workers can opt into remote registry activation
-with the six environment settings described below. ORAM checkpoints and
-invocation receipts still use the local service/API.
+The `oblivion-anchor-remote` binary exposes SSE journal-head CAS,
+digest-bound registry catalog activation CAS, and ORAM checkpoint load/CAS
+through an authenticated TLS listener. It is intended to run under a separate
+witness operator, with that operator's database and master key stored outside
+the application host's administrative domain. Runtime workers can opt into
+remote registry activation with the six environment settings described below.
+The worker's durable ORAM checkpoint and invocation-receipt path still uses the
+local service/API; remote checkpoint anchoring is currently an explicit
+standalone adapter for callers of `PathOram::checkpoint_anchored`.
 
 Start the witness with:
 
@@ -144,7 +146,7 @@ witness unavailability, catalog rollback/equivocation, and indeterminate CAS
 results prevent worker readiness; there is no local fallback or automatic
 retry. The worker verifies the publisher signature and embedded module
 bindings, then activates the catalog before announcing readiness. The network path is synchronous,
-uses one bounded 512 KiB version-1 JSON frame per
+uses one bounded 512 KiB version-2 JSON frame per
 connection, a five-second TCP connect timeout, and an absolute five-second
 TLS/frame I/O deadline shared by reads and writes after connect/accept. The
 deadline includes the TLS handshake, so byte trickling cannot reset it. The
@@ -169,6 +171,58 @@ let mut catalog_anchor = oblivion_anchor::TlsRegistryCatalogAnchor::new(
 verified_catalog.activate_catalog(&mut catalog_anchor)?;
 ```
 
+### Remote ORAM checkpoint anchor
+
+`oblivion_anchor::TlsCheckpointAnchor` implements the store's
+`CheckpointAnchor` trait. It can be passed directly to
+`PathOram::checkpoint_anchored`; loading returns the current opaque snapshot
+identifier and secret handle, and publishing uses the store's generation
+compare-and-swap. For example:
+
+```rust,ignore
+let tls = oblivion_anchor::mtls_client_config_from_pem(
+    "witness-ca.pem",
+    "oblivion-client-cert.pem",
+    "oblivion-client-key.pem",
+)?;
+let mut checkpoint_anchor = oblivion_anchor::TlsCheckpointAnchor::new(
+    "witness.example:7443".parse()?,
+    "witness.example",
+    "oram-state-slot",
+    tls,
+)?;
+oram.checkpoint_anchored(
+    "snapshot-0001.bin",
+    "snapshot-0001",
+    &mut checkpoint_anchor,
+)?;
+```
+
+The checkpoint request contains the snapshot identifier and the
+`TrustedCheckpoint` secret handle encoded as exactly 176 lowercase ASCII hex
+characters. The decoded handle is 88 bytes and includes the snapshot
+decryption key, digest, size and generation. This fixed-width encoding keeps
+the request length independent of the handle's byte values. TLS protects it from a network-only observer,
+but the witness process receives the plaintext handle and can decrypt a
+snapshot it can also access. The SQLite database encrypts the handle at rest
+under the witness master key; this does not hide it from the witness operator
+or a privileged witness host administrator. Use this adapter only when the
+witness is trusted with ORAM snapshot confidentiality. The server and client
+zeroize their application-owned handle fields and serialized frames on drop;
+this is best-effort memory cleanup and does not establish erasure of copies
+inside the TLS library, allocator, kernel or crash dumps.
+
+The remote checkpoint CAS preserves the store contract: a definite stale
+generation returns `AnchorConflict`; a reported uncertain database commit or
+a lost/malformed response after request transmission returns
+`AnchorCommitUnknown`, requiring restore/reconciliation before the controller
+continues. A connection failure before sending returns a backend error. The
+remote adapter has no local fallback. The checkpoint operation and fixed-width
+hex handle encoding use protocol version 2; version-1 peers are rejected, so
+both ends must run compatible version-2 binaries. The mTLS integration test checkpoints real ORAM data,
+restarts the witness process, restores and reads the actual snapshot, advances
+the checkpoint, and rejects a stale controller.
+
 To anchor a restored application's freshness, keep the witness current while
 restoring only the application-side journal. The regression test
 `restored_application_journal_is_rejected_when_remote_witness_kept_newer_head`
@@ -182,7 +236,8 @@ roll back the witness database.
 The Unix socket remains a trusted local service, not a remotely authenticated
 network anchor. The mTLS witness is a separate trust domain, not a distributed
 or rollback-proof service. The remote SSE and catalog adapters detect rollback
-of the corresponding application-side journal or catalog state only while the
+of the corresponding application-side journal or catalog state, and the
+checkpoint adapter rejects stale snapshot handles, only while the
 witness operator preserves the latest committed row, protects its master key
 and database, and remains reachable. A witness administrator who restores an old SQLite image can roll
 back the witness itself. The client and server CAs, certificate issuance,
@@ -196,6 +251,14 @@ valid slot: there is no per-certificate slot authorization, quota, or rate
 limit. The configured CA and network policy therefore define the complete
 client authorization boundary. Production key provisioning, certificate rotation, remote availability,
 backup/restore controls and a replicated register remain open.
+
+Checkpoint anchoring expands what must be trusted: the witness sees each
+checkpoint slot, snapshot identifier, generation and 88-byte secret handle
+inside the TLS endpoint. Since that handle contains the snapshot key, the
+witness can decrypt an available snapshot. A valid client certificate can
+read or mutate any syntactically valid slot; there is no per-client-to-slot
+authorization, so the configured client CA must be dedicated to principals
+trusted for all of these data types.
 
 The optional durable worker mode uses the local Unix service for anchored
 checkpoint recovery and signed invocation receipts. This does not prove the identity of a
@@ -219,7 +282,8 @@ errors. CLI integration tests run the service as a separate process, check
 socket and database permissions, exercise persistent registry version and
 catalog CAS, and reject invalid key-file permissions/lengths, symlink key and
 database paths.
-Another process-level test checkpoints real Path ORAM state through the service,
-restarts the service, and restores the snapshot through the durable checkpoint
-adapter. The tests do not test power-loss
+Another process-level test checkpoints real Path ORAM state through the local
+service, restarts it, and restores the snapshot. The remote mTLS test also
+performs real ORAM checkpoint/restore and stale-writer rejection across witness
+restart. The tests do not test power-loss
 behavior of every filesystem or establish rollback resistance.

@@ -6,7 +6,7 @@
 
 Oblivion is a functioning Rust research prototype with a selected local end-to-end process path and a substantial collection of component and system experiments. The selected-scope audit reports the required local source gate and hosted source gate passing on their recorded revisions. The full project is **not complete as a production system or as every possible extension in the fourteen-week research roadmap**. Results from historical source revisions remain attached to those revisions and should not be described as current-head validation without rerunning the gate.
 
-Recent commits are being delivered on `codex/oblivion-research-platform` in small increments. The 2026-10-28 ORAM data/report was pushed in commit `03f04b76` after its preregistration commit `1cc21e3b`. The SSE benchmark verifier and standard-library SVG renderer were pushed separately in `1e5a3b75`. The remote mTLS witness service and standalone SSE adapter were pushed in `7db12546` and `b758d0d4` respectively. The remote signed-registry catalog client and CAS integration were pushed in `a2f1281f`; runtime worker mTLS configuration and its end-to-end test were pushed in `1befc5c2`.
+Recent commits are being delivered on `codex/oblivion-research-platform` in small increments. The 2026-10-28 ORAM data/report was pushed in commit `03f04b76` after its preregistration commit `1cc21e3b`. The SSE benchmark verifier and standard-library SVG renderer were pushed separately in `1e5a3b75`. The remote mTLS witness service and standalone SSE adapter were pushed in `7db12546` and `b758d0d4` respectively. The remote signed-registry catalog client and CAS integration were pushed in `a2f1281f`; runtime worker mTLS configuration and its end-to-end test were pushed in `1befc5c2`. Standalone remote ORAM checkpoint support was pushed in `a3201105`, followed by the fixed-width/version-2 wire correction in `2b79f0e4`; the expanded witness trust boundary is recorded below and in the security docs.
 
 ## Latest experiment
 
@@ -34,7 +34,7 @@ The preregistered persistent SSE journal benchmark also completed: 30 trials at 
 - A separate Python/Rust measurement stack with public observer features separate from ground truth, attacks with controls, trial-cluster uncertainty, raw artifacts, and reproducible plots.
 - Constrained GGM-inspired SSE with a persistent-client journal adapter, and an autoscaler simulator with explicitly bounded privacy-mechanism studies.
 - Optional local checkpoint/catalog/invocation anchoring, with rollback and key-custody limits documented.
-- An optional remote mTLS witness for persistent SSE journal freshness and signed-registry catalog activation. The runtime worker can activate a verified catalog through this witness using a complete, mutually exclusive configuration; remote ORAM and invocation anchors remain unimplemented.
+- An optional remote mTLS witness for persistent SSE journals, signed-registry catalog activation, and standalone Path ORAM checkpoint anchoring. The runtime worker can activate a verified catalog through the witness using a complete, mutually exclusive configuration. The checkpoint adapter sends an 88-byte snapshot secret handle to the witness, so the witness is trusted with snapshot confidentiality; runtime checkpoint and invocation receipts still use the local anchor.
 - A 30-trial persistent SSE journal size/recovery benchmark runner and completed collection using the real SQLite-backed Unix anchor and fresh recovery processes. The verifier checks all 120 trial/size samples and the retained output includes raw rows, SVG, and checksums.
 
 See the [requirements matrix](docs/REQUIREMENTS_MATRIX.md) for exact requirement-level evidence and explicit partial/unfinished items.
@@ -47,6 +47,28 @@ The selected-scope serial Rust/Python/stress gate and hosted CI were recorded as
 
 For the remote-witness increment, a fresh serial `cargo test --locked --workspace -- --test-threads=1` run exited 0, with every enabled workspace test passing, including mTLS service authentication, outage handling, service restart, slow-drip deadline enforcement, and rejection of a restored application journal when the witness retains a newer head. The million-operation ORAM stress test remains intentionally ignored in this default command. Workspace warning-denied Clippy, formatting, and whitespace checks pass. The earlier CPU-contention timeout remains historical evidence. The venv Python suite's prior 240-test result is unchanged because this increment does not modify Python. Details are in [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md).
 
+For source commit `a3201105`, the pinned serial command
+`taskset -c 21 cargo test --locked --workspace -- --test-threads=1` completed
+with all enabled tests passing; the million-operation ORAM stress test remains
+ignored by this default suite. Whole-workspace warning-denied Clippy and
+formatting passed. The new mTLS integration test stores a real ORAM checkpoint,
+restarts the witness, restores and reads actual data, advances the CAS, and
+rejects the stale controller. Hosted run
+[40809388355](https://github.com/dumbly-smart/Oblivion/actions/runs/40809388355)
+passed Rust quality, the million-operation ORAM stress oracle, and analysis on
+the exact source SHA. Concurrent run
+[40809398937](https://github.com/dumbly-smart/Oblivion/actions/runs/40809398937)
+also passed Rust quality and analysis, with the stress job skipped by workflow
+concurrency. No performance benchmark was run for this adapter. See the
+appended `a3201105` record in [implementation status](docs/IMPLEMENTATION_STATUS.md).
+
+Follow-up source commit `2b79f0e4` changes the remote protocol to version 2 and
+encodes the 88-byte snapshot handle as a fixed 176-character hex field, so the
+serialized length no longer depends on secret byte values. Version-1 peers are
+rejected. The anchor all-targets suite passed 44 tests; whole-workspace
+warning-denied Clippy and formatting passed. Hosted checks for this follow-up
+are pending. See its separate implementation-status entry.
+
 The independent benchmark verifier has 8 passing Python tests and successfully revalidated the full report at source revision `5fe4f603`; the report's checksums pass. The verifier commit is pushed separately from the raw result commit.
 
 Correctness test integration uses one Rust test thread because these fixtures have real deadlines and can be delayed by local CPU contention. Benchmark concurrency and production deadlines have not been silently changed to make tests pass.
@@ -55,7 +77,7 @@ Correctness test integration uses one Rust test thread because these fixtures ha
 
 1. **No TEE:** process isolation and Wasmtime are not hardware confidentiality. TEE, attestation, host-root defense, and hardware side channels need supported hardware and a separate design/review.
 2. **PIR assumption:** the two servers must not collude; the current process topology does not enforce independent operators.
-3. **Freshness root:** local catalog, checkpoint, invocation-receipt, and local SSE freshness rely on the local SQLite anchor and key remaining trusted. A privileged database rollback can undo them. Standalone SSE and signed-registry clients can instead use one independent mTLS witness; rolling back, compromising, or losing that witness removes its freshness guarantee. Its configured client CA is the authorization boundary, without per-slot ACLs or rate limits. The runtime worker remains local for registry state; remote checkpoint/receipt anchors and hardware/replicated rollback resistance remain research/deployment work.
+3. **Freshness root:** local catalog, checkpoint, invocation-receipt, and local SSE freshness rely on the local SQLite anchor and key remaining trusted. A privileged database rollback can undo them. Standalone SSE, signed-registry, and Path ORAM checkpoint clients can instead use one independent mTLS witness; rolling back, compromising, or losing that witness removes its freshness guarantee. For ORAM checkpoints the witness sees the snapshot key and can decrypt snapshots it can access. Its configured client CA is the authorization boundary, without per-slot ACLs or rate limits. Runtime checkpoints/receipts still use the local anchor; remote invocation receipts, host-independent writer fencing, and hardware/replicated rollback resistance remain research/deployment work.
 4. **Execution leakage:** fixed resource-access count and frame shapes do not make CPU work constant-time. Scheduling, cache behavior, completion time, deadlines, active failures, participation, and host-level resource observations remain.
 5. **SSE:** constrained GGM-inspired construction is not a complete Diana implementation. Search equality, result volume, timing, and historical capability/linkability leak; no backward privacy is claimed. The persistent journal cost is measured. A standalone mTLS witness detects application-host journal rollback under its single-operator trust assumption; witness rollback resistance, replicated acknowledgment, and runtime integration remain.
 6. **Autoscaling:** the subsystem is a simulator, not provisioning. Mechanism arguments depend on declared adjacency, bounded horizon, sampler, and observer; public seeded artifacts are not DP releases.
@@ -65,7 +87,7 @@ Correctness test integration uses one Rust test thread because these fixtures ha
 ## Next engineering sequence
 
 1. Keep the root contributor/architecture/report/progress/explanation guides consistent with the canonical technical docs.
-2. Add a remote ORAM checkpoint adapter with restart/replay tests. Design remote invocation receipts only with a cross-host fencing model. Decide whether a single independent operator is sufficient or design and test a genuinely replicated rollback-resilient register.
+2. Evaluate runtime adoption of the standalone remote ORAM checkpoint adapter, including filesystem ownership and snapshot access by the trusted witness. Design remote invocation receipts only with a cross-host fencing model. Decide whether a single independent operator is sufficient or design and test a genuinely replicated rollback-resilient register.
 3. Continue the bounded SSE implementation only with a written leakage target, positive controls, and explicit search/update/recovery failure behavior.
 4. Continue bounded independent ORAM replication only with a frozen protocol, passed controls, new sessions, and an available host whose noise/provenance limitations are recorded.
 5. Run current-source local and hosted validation after meaningful code changes; update this snapshot with exact revision, commands, results, and any failures.

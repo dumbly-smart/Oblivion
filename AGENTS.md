@@ -28,6 +28,7 @@ Use grep or file listing when searching non-code artifacts such as configs, Mark
 - Keep the adopted model explicit: the executor is trusted; storage, network, and scheduler are untrusted. Processes and Wasmtime simulate boundaries; neither is a TEE.
 - Never call WASM constant-time or data-oblivious. Fuel bounds metered guest work, not elapsed time or all host work.
 - For two-server XOR PIR, state the non-collusion assumption every time the privacy property is discussed. Separate processes on one host do not establish non-collusion.
+- `TlsCheckpointAnchor` sends the 88-byte ORAM checkpoint handle, including the snapshot key, to the mTLS witness. Treat that witness as trusted with snapshot confidentiality; it can decrypt snapshots it can access. The client CA currently grants access to every valid slot because there is no per-client slot ACL.
 - Distinguish implemented mechanism, trusted assumption, hardware-dependent property, empirical result, and unprotected leakage. Do not infer a proof from a test or near-chance score.
 - Use vetted cryptographic libraries and OS cryptographic randomness for runtime secrets. Never replace encryption with plaintext while retaining a secure label. Do not log keys, plaintext, query shares, or private truth.
 - Validate untrusted input, bound sizes before allocation, preserve typed errors, and keep public observer traces separate from ground truth and private diagnostics.

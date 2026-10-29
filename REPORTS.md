@@ -21,7 +21,7 @@ This index points to technical reports and retained outputs. Read [docs/EXPERIME
 | End-to-end demo and current process path | [Recorded integration demo](docs/DEMO.md), [runtime integration](docs/RUNTIME_INTEGRATION.md), [runtime registry/PIR](docs/REGISTRY_RUNTIME.md) |
 | Versioned envelope, registry bootstrap, ORAM event and trace schemas | [Protocols and trace schemas](docs/PROTOCOL.md) |
 | Path ORAM construction and attack diagnostics | [ORAM leaf/timing](docs/ORAM_LEAF_TIMING.md), [trace validation](docs/TRACE_VALIDATION.md), [geometry/stash](docs/GEOMETRY_EVALUATION.md) |
-| Checkpoint API, crash ordering, cryptographic and freshness limits | [Storage recovery](docs/STORAGE_RECOVERY.md) |
+| Checkpoint API, crash ordering, cryptographic and freshness limits | [Storage recovery](docs/STORAGE_RECOVERY.md), [anchor service and remote checkpoint adapter](docs/ANCHOR_SERVICE.md) |
 | Local SQLite anchor and socket interface | [Anchor service](docs/ANCHOR_SERVICE.md) |
 | Independent mTLS witness scope and freshness limits | [Witness design](docs/ANCHOR_FRESHNESS_DESIGN.md), [anchor service](docs/ANCHOR_SERVICE.md), [threat model](docs/THREAT_MODEL.md) |
 | Durable invocation and receipt replay | [Invocation durability](docs/INVOCATION_DURABILITY.md) |

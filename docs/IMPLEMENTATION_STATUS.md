@@ -71,8 +71,7 @@ remote authenticated transport was also unimplemented. A later 2026-10-28
 increment adds an independent mTLS witness for standalone SSE journal heads;
 the same transport now also supports standalone digest-bound registry catalog
 activation. The runtime worker's remote catalog configuration was added in the
-2026-10-29 increment below. Remote checkpoint and invocation-receipt anchors
-remain unimplemented.
+2026-10-29 increment below. At this historical point, remote checkpoint and invocation-receipt anchors had not yet been implemented; the later standalone checkpoint adapter is recorded below.
 
 The `oblivion-registry` crate implements fixed-size Ed25519-signed records, a
 signed catalog digest, bounded exact parsing, per-record strict verification,
@@ -101,7 +100,7 @@ Seven Rust crates implement encrypted Path ORAM, two-server XOR PIR, Wasmtime ex
 
 Protected execution reads eight blocks at the public 25 ms phase and commits eight at 50 ms. Guest failures discard staged mutations; uncertain backend failure can poison partially written state. At eight logical blocks an invocation emits 128 actual bucket events of 316 bytes, with O(M log N) bandwidth for public working-set M. Trusted drivers prepare encrypted responses/private instrumentation before the 100 ms publication wait. Clients prepare requests before their public epoch. Slot starts are epoch arrival plus slot × 100 ms. OS scheduling and work overruns remain visible.
 
-The current response reader timestamps completion immediately after `read_exact`, before channel handoff and later client decryption/oracle/logging. Public pipe timing and separate private client latency are not interchangeable. The default process demo remains ephemeral. Opt-in durable invocation receipts/checkpoints use the local anchor service. Persistent SSE journal recovery and runtime signed-catalog activation can use the separate mTLS witness. The local anchor does not resist privileged SQLite rollback; remote freshness depends on the witness retaining its current database. Remote checkpoint and invocation-receipt anchoring remain unimplemented.
+The current response reader timestamps completion immediately after `read_exact`, before channel handoff and later client decryption/oracle/logging. Public pipe timing and separate private client latency are not interchangeable. The default process demo remains ephemeral. Opt-in durable invocation receipts/checkpoints use the local anchor service. Persistent SSE journal recovery and runtime signed-catalog activation can use the separate mTLS witness. A standalone remote Path ORAM checkpoint adapter is also available, but the runtime worker still uses the local anchor for checkpoints and invocation receipts. The local anchor does not resist privileged SQLite rollback; remote freshness depends on the witness retaining its current database, and the checkpoint witness also receives snapshot decryption keys.
 
 The built-in demo's real/dummy/function schedule is public given its code, real percentage and epoch. It validates correctness/topology, not anonymity against an adversary who knows that schedule. Research datasets keep workload labels/seeds outside each declared attack input; public cadence, classes, batch size and geometry remain known. Encryption cannot hide an identity already determined by auxiliary knowledge.
 
@@ -207,10 +206,7 @@ passed all three jobs for this exact source commit: Rust format/Clippy/tests,
 the million-operation ORAM stress oracle, and the research analysis checks.
 
 The remote witness remains one trusted operator and database with no per-slot
-client authorization. It can be rolled back or made unavailable. The selected
-function remains visible to the trusted executor; this remote anchor changes
-freshness state for signed-catalog activation only. Remote ORAM checkpoints,
-invocation receipts, witness replication, and a TEE remain unfinished.
+client authorization. It can be rolled back or made unavailable. The selected function remains visible to the trusted executor. The runtime remote anchor changes freshness state for signed-catalog activation; a separate standalone checkpoint adapter is documented below. Runtime remote checkpoints, invocation receipts, witness replication, and a TEE remain unfinished.
 
 ## Optional follow-up: isolated ORAM timing
 
@@ -1331,3 +1327,74 @@ resolved 308 links across 11 changed Markdown files. Hosted Rust quality gates
 for source commit `a2f1281f77c065311fe3e8f78202187e56df25c2` passed in Actions
 run [40745540050](https://github.com/dumbly-smart/Oblivion/actions/runs/40745540050):
 Rust quality, million-operation ORAM stress, and analysis all succeeded.
+
+## 2026-10-29: remote mTLS Path ORAM checkpoint adapter
+
+Commit `a3201105` adds `TlsCheckpointAnchor`, an implementation of the existing
+`oblivion_store::CheckpointAnchor` trait over the versioned mTLS witness
+protocol. Checkpoint load returns the persisted snapshot ID and secret handle;
+compare-and-swap delegates generation validation and atomic persistence to the
+existing SQLite checkpoint slot. Definite stale generations map to
+`AnchorConflict`. A response lost or malformed after request transmission, or
+an explicit uncertain SQLite commit, maps to `AnchorCommitUnknown`. A failed
+TCP connection before sending is a definite backend error. There is no retry
+or local fallback.
+
+The protocol transmits the 88-byte `TrustedCheckpoint` handle inside the TLS
+channel. That handle contains the snapshot decryption key, so the witness is
+trusted with snapshot confidentiality and can decrypt snapshots it can
+access. The database encrypts handles at rest, but this does not conceal them
+from the witness process/operator. Application-owned wire fields and serialized
+frames are zeroized on drop as best effort; TLS-library, allocator, kernel and
+crash-dump copies are outside that guarantee. Existing mTLS authorization is
+global to the configured client CA: there is no per-certificate slot ACL.
+Witness database rollback, compromise and outage remain outside the freshness
+guarantee.
+
+The integration test uses real Path ORAM state and a real encrypted snapshot:
+it publishes through `TlsCheckpointAnchor`, stops and restarts the witness,
+loads and restores the persisted handle, advances to a new snapshot, verifies
+restored values, and confirms that a stale restored controller gets
+`AnchorConflict`. The unavailable-witness test also checks that a failed
+pre-send connection is a definite backend error for both load and CAS.
+
+Verification on source commit `a3201105753bc14a220f1d4acddbcd301efc3578`:
+`cargo fmt --all --check` passed; the anchor package's all-targets suite passed
+42 tests; `cargo clippy --locked --workspace --all-targets -- -D warnings`
+passed; and `git diff --check` passed. The pinned serial
+`taskset -c 21 cargo test --locked --workspace -- --test-threads=1` run
+completed with every enabled workspace test passing. The million-operation
+stress test remains intentionally ignored by the default test suite, but the
+dedicated hosted stress job passed. Hosted run
+[40809388355](https://github.com/dumbly-smart/Oblivion/actions/runs/40809388355)
+passed Rust quality, the million-operation ORAM stress oracle, and research
+analysis on this exact source SHA. Concurrent run
+[40809398937](https://github.com/dumbly-smart/Oblivion/actions/runs/40809398937)
+also passed Rust quality and analysis; its stress job was skipped due workflow
+concurrency. No performance benchmark was collected for this adapter.
+
+This adapter is not wired into the runtime worker's durable checkpoint/receipt
+configuration. Remote invocation receipts, multi-host writer fencing,
+per-slot client authorization, replicated rollback resistance and
+hardware-backed freshness remain open.
+
+## 2026-10-29: fixed-width checkpoint handle encoding
+
+Follow-up commit `2b79f0e4` removes a size side channel found during wire review:
+JSON decimal byte arrays had different serialized lengths for different
+secret-handle values. Protocol version 2 encodes the logical 88-byte handle as
+exactly 176 lowercase hexadecimal characters. This keeps frame length
+independent of snapshot-key/digest byte values. The parser validates exact
+length and hex digits, decodes into a zeroizing fixed-size array, then rebuilds
+the validated `CheckpointAnchorRecord`. The exported
+`TRUSTED_CHECKPOINT_HANDLE_BYTES` constant keeps that wire adapter aligned with
+the store's handle size. Version-1 remote anchor peers are rejected; both ends
+must use version 2 for remote operations.
+
+Two unit tests verify equal serialized lengths for different handle byte
+values and reject malformed length/hex input. Verification on code commit
+`2b79f0e4d4bfc3f7806636d5d32bc6ac841869fe`: the anchor all-targets suite passed
+44 tests, workspace warning-denied Clippy passed, formatting passed, and
+`git diff --check` passed. Full workspace tests and hosted CI are pending for
+this follow-up commit; the preceding source commit's full workspace and hosted
+stress evidence is recorded above. No performance benchmark was collected.

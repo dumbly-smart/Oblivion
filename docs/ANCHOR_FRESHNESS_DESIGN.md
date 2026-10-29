@@ -9,11 +9,12 @@ for the freshness head. The application can then detect rollback of its own
 local database, provided the witness keeps its committed state and remains
 reachable.
 
-The current service supports two standalone contracts: the persistent SSE
-journal head and digest-bound signed-registry catalog activation. The runtime
-worker can use the remote catalog adapter through explicit mutually exclusive
-configuration alongside the local Unix adapter. ORAM checkpoint and
-invocation-receipt anchors are not included.
+The current service supports standalone remote adapters for the persistent SSE
+journal head, digest-bound signed-registry catalog activation, and Path ORAM
+checkpoint freshness. The runtime worker can use the remote catalog adapter
+through explicit mutually exclusive configuration alongside the local Unix
+adapter. Its durable checkpoint and invocation-receipt path still uses the
+local service. Remote invocation receipts are not included.
 
 ## Approaches considered
 
@@ -52,7 +53,16 @@ entire authorization boundary in this prototype.
 
 The witness operator, its host administrator, its signing keys, its durable
 storage, certificate issuance, and client credential provisioning are inside
-the trusted boundary. The network may observe packet lengths and timing,
+the trusted boundary. For checkpoint requests, this specifically includes
+confidentiality of ORAM snapshot contents: the witness receives the plaintext
+88-byte secret handle containing the snapshot key and can decrypt a snapshot
+it can access. The versioned JSON wire encodes that handle as a fixed-width
+176-character hex string, so the serialized frame length does not depend on
+secret byte values. Its SQLite copy encrypts the handle at rest under the witness
+master key, but this does not hide the key from the witness process/operator.
+Application-owned wire state and JSON frame buffers are zeroized on drop as
+best-effort cleanup; TLS-library, allocator, kernel and crash-dump copies are
+outside that claim. The network may observe packet lengths and timing,
 delay or drop connections, and inject, replay, or alter bytes. TLS protects
 application payload confidentiality and integrity and authenticates both
 peers. Connection failure is an availability failure: the client must stop
@@ -72,29 +82,42 @@ or atomically advance an empty slot to generation `0` or generation `g` to
 `g + 1` while preserving the index identifier. Registry requests load the
 current version and optional catalog digest, or compare-and-swap from the
 expected state to a strictly newer version and its signed-catalog digest.
-Both operations delegate to the existing SQLite CAS.
+Checkpoint requests load a snapshot identifier and secret handle, or atomically
+compare-and-swap to a consecutive checkpoint generation. The decoded handle is
+88 bytes and includes the generation, snapshot size, digest and snapshot
+decryption key; the JSON field carries a fixed-width 176-character hex string.
+All operations delegate to the corresponding SQLite CAS.
 
 The client authenticates the witness certificate against configured roots and
 presents a client certificate accepted by the witness. There is no plaintext
 fallback and no custom transport cryptography. A TLS or protocol failure maps
-to anchor unavailability. A CAS conflict remains a conflict. An uncertain
-database commit remains an indeterminate commit, which requires caller
-reconciliation; it is never silently retried as though it were known not to
-have committed.
+to a fail-closed error at the adapter. A CAS conflict remains a conflict. An
+uncertain database commit remains an indeterminate commit, which requires
+caller reconciliation; it is never silently retried as though it were known
+not to have committed.
 
-The adapter implements only the existing SSE anchor trait. Search/update
-behavior, encrypted journal contents, and local Unix service behavior do not
-change. It does not add retry logic: repeating a mutation after a transport
-failure could obscure whether the witness committed it.
+Each remote adapter implements its existing component trait; no search/update,
+registry-signing or local Unix behavior changes. A checkpoint connection
+failure before request transmission is a definite backend failure. A failed
+write after transmission begins or a missing/malformed response is treated as
+`AnchorCommitUnknown`, because the commit may already have occurred. The client
+does not retry automatically: repeating a mutation after a transport failure
+could obscure whether the witness committed it. Both peer binaries must
+understand protocol version 2 to use checkpoint anchoring and its fixed-width
+hex handle encoding; version-1 peers are rejected rather than silently
+downgraded.
 
 ## Observable behavior
 
 The network observer learns when anchor operations happen, peer network
 addresses, connection timing, record counts, and approximate TLS record
 sizes. The observer cannot read the slot, index identifier, digest, generation,
-or operation kind from the protected application payload under the TLS
-assumption. This does not conceal which client connects or when, nor does it
-hide witness-side access timing from the witness operator.
+snapshot identifier, secret handle, or operation kind from the protected
+application payload under the TLS assumption. This does not conceal which
+client connects or when, nor does it hide witness-side access timing from the
+witness operator. The witness itself sees the slot, snapshot identifier,
+generation and secret handle for checkpoint operations and can derive the
+snapshot key from that handle.
 
 ## Acceptance tests
 
@@ -110,6 +133,9 @@ hide witness-side access timing from the witness operator.
   actual SQLite database, including ordinary witness-process restart.
 - A signed registry activates through `TlsRegistryCatalogAnchor`; digest and
   version survive witness restart and stale CAS writers are rejected.
+- `PathOram::checkpoint_anchored` uses `TlsCheckpointAnchor` to publish a real
+  encrypted snapshot, restores its real blocks after witness restart, advances
+  the checkpoint, and rejects a stale restored controller.
 - A catalog CAS with an unavailable witness returns an indeterminate result so
   the caller reloads and reconciles instead of retrying blindly.
 - A demonstration restoring the application-side journal while retaining the
@@ -118,7 +144,7 @@ hide witness-side access timing from the witness operator.
 
 ## Implementation limits
 
-The first version is synchronous and serial at the witness listener, suitable
+The service is synchronous and serial at the witness listener, suitable
 for local research and low-rate anchoring. It has a five-second TCP connect
 timeout and an absolute five-second TLS/frame I/O deadline shared by reads
 and writes after connect/accept, plus bounded frames. Byte trickling cannot
