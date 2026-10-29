@@ -14,6 +14,7 @@ use oblivion_anchor::{
 use oblivion_registry::{
     Record, RegistryCatalogAnchor, RegistryCatalogState, SignedRegistry, VerifiedRegistry,
 };
+use oblivion_store::{CheckpointAnchor, Config, MemoryBackend, PathOram, TrustedCheckpoint};
 use rcgen::{
     BasicConstraints, CertificateParams, ExtendedKeyUsagePurpose, IsCa, Issuer, KeyPair,
     KeyUsagePurpose,
@@ -119,6 +120,15 @@ fn start_witness(path: PathBuf, config: Arc<rustls::ServerConfig>) -> RunningWit
 fn client(address: SocketAddr, config: Arc<rustls::ClientConfig>) -> TlsSseJournalAnchor {
     TlsSseJournalAnchor::new(address, "localhost", "sse-main-index", config)
         .expect("valid TLS anchor client")
+}
+
+fn checkpoint_client(
+    address: SocketAddr,
+    slot: &str,
+    config: Arc<rustls::ClientConfig>,
+) -> oblivion_anchor::TlsCheckpointAnchor {
+    oblivion_anchor::TlsCheckpointAnchor::new(address, "localhost", slot, config)
+        .expect("valid checkpoint TLS anchor client")
 }
 
 #[test]
@@ -240,6 +250,26 @@ fn remote_anchor_fails_closed_when_witness_is_unavailable() {
         anchor.load(),
         Err(oblivion_anchor::Error::Socket(_))
     ));
+    let mut checkpoint = checkpoint_client(address, "oram-state", client_config.clone());
+    assert!(matches!(
+        checkpoint.load(),
+        Err(oblivion_store::Error::Backend(_))
+    ));
+    let snapshot = temp_database().with_extension("offline-snapshot");
+    let mut store = PathOram::new(
+        Config::new(2, 16).expect("ORAM config"),
+        MemoryBackend::default(),
+    )
+    .expect("ORAM");
+    let trusted = store.checkpoint(&snapshot).expect("valid checkpoint");
+    let secret = trusted.to_secret_bytes();
+    let record = oblivion_store::CheckpointAnchorRecord::new("snapshot-offline", secret.as_ref())
+        .expect("valid anchor record");
+    assert!(matches!(
+        checkpoint.compare_and_swap(None, record),
+        Err(oblivion_store::Error::Backend(_))
+    ));
+    let _ = std::fs::remove_file(snapshot);
     let mut catalog =
         TlsRegistryCatalogAnchor::new(address, "localhost", "registry", client_config)
             .expect("catalog TLS anchor");
@@ -327,4 +357,96 @@ fn remote_catalog_anchor_preserves_digest_cas_and_rejects_stale_writer() {
         .expect("restarted witness thread")
         .expect("restarted witness");
     let _ = std::fs::remove_file(path);
+}
+
+#[test]
+fn remote_checkpoint_anchor_recovers_oram_and_rejects_stale_writer_after_restart() {
+    let root = temp_database();
+    let root_dir = root.with_extension("data");
+    std::fs::create_dir(&root_dir).expect("test data directory");
+    let database = root_dir.join("anchor.sqlite");
+    let checkpoint_one = root_dir.join("checkpoint-one.bin");
+    let checkpoint_two = root_dir.join("checkpoint-two.bin");
+    let stale_checkpoint = root_dir.join("checkpoint-stale.bin");
+    let (server_cert, server_key, client_cert, client_key, root_cert) =
+        identity_pair("checkpoint-root");
+    let server_config =
+        mtls_server_config(vec![server_cert], server_key, root_store(root_cert.clone()))
+            .expect("server TLS config");
+    let client_config = mtls_client_config(
+        root_store(root_cert.clone()),
+        vec![client_cert.clone()],
+        client_key.clone_key(),
+    )
+    .expect("client TLS config");
+    let witness = start_witness(database.clone(), server_config.clone());
+    let mut anchor = checkpoint_client(witness.address, "oram-main", client_config.clone());
+    let config = Config::new(8, 16).expect("ORAM config");
+    let mut store = PathOram::new(config.clone(), MemoryBackend::default()).expect("ORAM");
+    store.write(3, &[3; 16]).expect("initial ORAM write");
+    store
+        .checkpoint_anchored(&checkpoint_one, "snapshot-one", &mut anchor)
+        .expect("initial remote checkpoint");
+    assert_eq!(
+        anchor
+            .load()
+            .expect("load anchored checkpoint")
+            .map(|record| (record.snapshot_id().to_owned(), record.generation(),)),
+        Some(("snapshot-one".to_owned(), 1))
+    );
+
+    let _ = witness.shutdown.send(());
+    witness
+        .thread
+        .join()
+        .expect("witness thread")
+        .expect("witness");
+
+    let restarted = start_witness(database.clone(), server_config);
+    let mut recovered_anchor = checkpoint_client(
+        restarted.address,
+        "oram-main",
+        mtls_client_config(root_store(root_cert), vec![client_cert], client_key)
+            .expect("client TLS config after restart"),
+    );
+    let record = recovered_anchor
+        .load()
+        .expect("load after witness restart")
+        .expect("persisted checkpoint");
+    let trusted = TrustedCheckpoint::from_secret_bytes(record.secret_handle())
+        .expect("trusted checkpoint handle");
+    let (mut live, mut stale) = (
+        PathOram::restore(&checkpoint_one, &trusted, MemoryBackend::default())
+            .expect("restore live controller"),
+        PathOram::restore(&checkpoint_one, &trusted, MemoryBackend::default())
+            .expect("restore stale controller"),
+    );
+    live.write(3, &[9; 16]).expect("updated ORAM write");
+    live.write(4, &[4; 16]).expect("second ORAM write");
+    live.checkpoint_anchored(&checkpoint_two, "snapshot-two", &mut recovered_anchor)
+        .expect("advance remote checkpoint");
+    assert!(matches!(
+        stale.checkpoint_anchored(&stale_checkpoint, "snapshot-stale", &mut recovered_anchor),
+        Err(oblivion_store::Error::AnchorConflict)
+    ));
+
+    let current = recovered_anchor
+        .load()
+        .expect("load current checkpoint")
+        .expect("current checkpoint");
+    assert_eq!(current.snapshot_id(), "snapshot-two");
+    let trusted = TrustedCheckpoint::from_secret_bytes(current.secret_handle())
+        .expect("current checkpoint handle");
+    let mut restored =
+        PathOram::restore(&checkpoint_two, &trusted, MemoryBackend::default()).expect("restore");
+    assert_eq!(restored.read(3).expect("read block 3"), vec![9; 16]);
+    assert_eq!(restored.read(4).expect("read block 4"), vec![4; 16]);
+
+    let _ = restarted.shutdown.send(());
+    restarted
+        .thread
+        .join()
+        .expect("restarted witness thread")
+        .expect("restarted witness");
+    let _ = std::fs::remove_dir_all(root_dir);
 }

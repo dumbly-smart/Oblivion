@@ -22,9 +22,11 @@ use rustls::{
     server::WebPkiClientVerifier,
 };
 use serde::{Deserialize, Serialize};
+use zeroize::{Zeroize, Zeroizing};
 
 use crate::{AnchorDatabase, Error, SseJournalState};
 use oblivion_registry::{RegistryCatalogAnchor, RegistryCatalogState};
+use oblivion_store::{CheckpointAnchor, CheckpointAnchorRecord, Error as StoreError};
 
 const MAX_FRAME_BYTES: usize = 512 * 1024;
 const PROTOCOL_VERSION: u8 = 1;
@@ -42,6 +44,14 @@ enum Request {
         expected_generation: Option<u64>,
         state: WireState,
     },
+    CheckpointLoad {
+        slot: String,
+    },
+    CheckpointCompareAndSwap {
+        slot: String,
+        expected_generation: Option<u64>,
+        state: WireCheckpointState,
+    },
     CatalogLoad {
         slot: String,
     },
@@ -57,6 +67,7 @@ enum Request {
 #[serde(tag = "result", rename_all = "snake_case", deny_unknown_fields)]
 enum Response {
     Loaded { state: Option<WireState> },
+    CheckpointLoaded { state: Option<WireCheckpointState> },
     CatalogLoaded { state: Option<WireCatalogState> },
     Updated,
     Error { code: WireError },
@@ -82,6 +93,32 @@ struct WireState {
     index_id: Vec<u8>,
     generation: u64,
     digest: Vec<u8>,
+}
+
+#[derive(Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct WireCheckpointState {
+    snapshot_id: String,
+    secret_handle: Vec<u8>,
+}
+
+impl WireCheckpointState {
+    fn from_record(record: &CheckpointAnchorRecord) -> Self {
+        Self {
+            snapshot_id: record.snapshot_id().to_owned(),
+            secret_handle: record.secret_handle().to_vec(),
+        }
+    }
+
+    fn to_record(&self) -> Result<CheckpointAnchorRecord, StoreError> {
+        CheckpointAnchorRecord::new(&self.snapshot_id, &self.secret_handle)
+    }
+}
+
+impl Drop for WireCheckpointState {
+    fn drop(&mut self) {
+        self.secret_handle.zeroize();
+    }
 }
 
 #[derive(Clone, Copy, Deserialize, Serialize)]
@@ -306,7 +343,9 @@ impl TlsSseJournalAnchor {
         })? {
             Response::Loaded { state } => state.map(TryInto::try_into).transpose(),
             Response::Error { code } => Err(error_from_wire(code)),
-            Response::Updated | Response::CatalogLoaded { .. } => Err(Error::Protocol),
+            Response::Updated
+            | Response::CheckpointLoaded { .. }
+            | Response::CatalogLoaded { .. } => Err(Error::Protocol),
         }
     }
 
@@ -322,7 +361,71 @@ impl TlsSseJournalAnchor {
         })? {
             Response::Updated => Ok(()),
             Response::Error { code } => Err(error_from_wire(code)),
-            Response::Loaded { .. } | Response::CatalogLoaded { .. } => Err(Error::Protocol),
+            Response::Loaded { .. }
+            | Response::CheckpointLoaded { .. }
+            | Response::CatalogLoaded { .. } => Err(Error::Protocol),
+        }
+    }
+}
+
+/// A synchronous checkpoint anchor over mutually authenticated TLS.
+///
+/// The witness receives the checkpoint secret handle in plaintext inside the
+/// authenticated channel. It can decrypt snapshots it can access, so callers
+/// must trust the witness operator with checkpoint confidentiality as well as
+/// durable compare-and-swap state.
+pub struct TlsCheckpointAnchor {
+    client: RemoteAnchorClient,
+}
+
+impl TlsCheckpointAnchor {
+    pub fn new(
+        address: SocketAddr,
+        server_name: &str,
+        slot: &str,
+        config: Arc<ClientConfig>,
+    ) -> Result<Self, Error> {
+        Ok(Self {
+            client: RemoteAnchorClient::new(address, server_name, slot, config)?,
+        })
+    }
+}
+
+impl CheckpointAnchor for TlsCheckpointAnchor {
+    fn load(&mut self) -> Result<Option<CheckpointAnchorRecord>, StoreError> {
+        match self.client.exchange(Request::CheckpointLoad {
+            slot: self.client.slot.clone(),
+        }) {
+            Ok(Response::CheckpointLoaded { state }) => state
+                .as_ref()
+                .map(WireCheckpointState::to_record)
+                .transpose()
+                .map_err(|_| StoreError::Integrity),
+            Ok(Response::Error { code }) => Err(store_error_from_wire(code, false)),
+            Ok(_) => Err(StoreError::Integrity),
+            Err(error) => Err(StoreError::Backend(error.to_string())),
+        }
+    }
+
+    fn compare_and_swap(
+        &mut self,
+        expected_generation: Option<u64>,
+        next_record: CheckpointAnchorRecord,
+    ) -> Result<(), StoreError> {
+        let request = Request::CheckpointCompareAndSwap {
+            slot: self.client.slot.clone(),
+            expected_generation,
+            state: WireCheckpointState::from_record(&next_record),
+        };
+        match self.client.exchange_checkpoint_mutation(request) {
+            Ok(Response::Updated) => Ok(()),
+            Ok(Response::Error { code }) => Err(store_error_from_wire(code, true)),
+            Ok(_) | Err(CheckpointMutationFailure::Indeterminate) => {
+                Err(StoreError::AnchorCommitUnknown)
+            }
+            Err(CheckpointMutationFailure::NotSent(error)) => {
+                Err(StoreError::Backend(error.to_string()))
+            }
         }
     }
 }
@@ -413,11 +516,13 @@ impl RemoteAnchorClient {
     }
 
     fn exchange(&self, request: Request) -> Result<Response, Error> {
-        let frame = serde_json::to_vec(&RequestEnvelope {
-            version: PROTOCOL_VERSION,
-            request,
-        })
-        .map_err(|_| Error::Protocol)?;
+        let frame = Zeroizing::new(
+            serde_json::to_vec(&RequestEnvelope {
+                version: PROTOCOL_VERSION,
+                request,
+            })
+            .map_err(|_| Error::Protocol)?,
+        );
         if frame.is_empty() || frame.len() > MAX_FRAME_BYTES {
             return Err(Error::Protocol);
         }
@@ -428,7 +533,7 @@ impl RemoteAnchorClient {
             .map_err(|error| Error::Socket(error.to_string()))?;
         let mut stream = StreamOwned::new(connection, stream);
         write_frame(&mut stream, &frame)?;
-        let response = read_frame(&mut stream)?;
+        let response = Zeroizing::new(read_frame(&mut stream)?);
         let response: ResponseEnvelope =
             serde_json::from_slice(&response).map_err(|_| Error::Protocol)?;
         if response.version != PROTOCOL_VERSION {
@@ -436,6 +541,48 @@ impl RemoteAnchorClient {
         }
         Ok(response.response)
     }
+
+    fn exchange_checkpoint_mutation(
+        &self,
+        request: Request,
+    ) -> Result<Response, CheckpointMutationFailure> {
+        let frame = Zeroizing::new(
+            serde_json::to_vec(&RequestEnvelope {
+                version: PROTOCOL_VERSION,
+                request,
+            })
+            .map_err(|_| CheckpointMutationFailure::NotSent(Error::Protocol))?,
+        );
+        if frame.is_empty() || frame.len() > MAX_FRAME_BYTES {
+            return Err(CheckpointMutationFailure::NotSent(Error::Protocol));
+        }
+        let stream = TcpStream::connect_timeout(&self.address, IO_TIMEOUT).map_err(|error| {
+            CheckpointMutationFailure::NotSent(Error::Socket(error.to_string()))
+        })?;
+        let stream = DeadlineStream::with_timeout(stream, IO_TIMEOUT);
+        let connection = ClientConnection::new(self.config.clone(), self.server_name.clone())
+            .map_err(|error| {
+                CheckpointMutationFailure::NotSent(Error::Socket(error.to_string()))
+            })?;
+        let mut stream = StreamOwned::new(connection, stream);
+        // rustls completes the handshake during I/O. Once this call begins, a
+        // failed write may have sent some or all of the mutation request.
+        write_frame(&mut stream, &frame).map_err(|_| CheckpointMutationFailure::Indeterminate)?;
+        let response = Zeroizing::new(
+            read_frame(&mut stream).map_err(|_| CheckpointMutationFailure::Indeterminate)?,
+        );
+        let response: ResponseEnvelope = serde_json::from_slice(&response)
+            .map_err(|_| CheckpointMutationFailure::Indeterminate)?;
+        if response.version != PROTOCOL_VERSION {
+            return Err(CheckpointMutationFailure::Indeterminate);
+        }
+        Ok(response.response)
+    }
+}
+
+enum CheckpointMutationFailure {
+    NotSent(Error),
+    Indeterminate,
 }
 
 /// Serve TLS anchor requests until `shutdown` receives a message. The listener
@@ -497,16 +644,18 @@ fn serve_connection(
     let connection =
         ServerConnection::new(config.clone()).map_err(|error| Error::Socket(error.to_string()))?;
     let mut stream = StreamOwned::new(connection, stream);
-    let request_bytes = read_frame(&mut stream)?;
+    let request_bytes = Zeroizing::new(read_frame(&mut stream)?);
     let response = match decode_request(&request_bytes) {
         Ok(request) => serve_request(database, request),
         Err(code) => Response::Error { code },
     };
-    let frame = serde_json::to_vec(&ResponseEnvelope {
-        version: PROTOCOL_VERSION,
-        response,
-    })
-    .map_err(|_| Error::Protocol)?;
+    let frame = Zeroizing::new(
+        serde_json::to_vec(&ResponseEnvelope {
+            version: PROTOCOL_VERSION,
+            response,
+        })
+        .map_err(|_| Error::Protocol)?,
+    );
     write_frame(&mut stream, &frame)?;
     stream
         .flush()
@@ -553,6 +702,52 @@ fn serve_request(database: &mut AnchorDatabase, request: Request) -> Response {
                 Ok(()) => Response::Updated,
                 Err(error) => Response::Error {
                     code: wire_from_error(error),
+                },
+            }
+        }
+        Request::CheckpointLoad { slot } => {
+            let mut anchor = match database.checkpoint_anchor(&slot) {
+                Ok(anchor) => anchor,
+                Err(error) => {
+                    return Response::Error {
+                        code: wire_from_error(error),
+                    };
+                }
+            };
+            match anchor.load() {
+                Ok(state) => Response::CheckpointLoaded {
+                    state: state.as_ref().map(WireCheckpointState::from_record),
+                },
+                Err(error) => Response::Error {
+                    code: wire_from_store_error(error),
+                },
+            }
+        }
+        Request::CheckpointCompareAndSwap {
+            slot,
+            expected_generation,
+            state,
+        } => {
+            let state = match state.to_record() {
+                Ok(state) => state,
+                Err(_) => {
+                    return Response::Error {
+                        code: WireError::Protocol,
+                    };
+                }
+            };
+            let mut anchor = match database.checkpoint_anchor(&slot) {
+                Ok(anchor) => anchor,
+                Err(error) => {
+                    return Response::Error {
+                        code: wire_from_error(error),
+                    };
+                }
+            };
+            match anchor.compare_and_swap(expected_generation, state) {
+                Ok(()) => Response::Updated,
+                Err(error) => Response::Error {
+                    code: wire_from_store_error(error),
                 },
             }
         }
@@ -608,6 +803,29 @@ fn wire_from_error(error: Error) -> WireError {
         Error::CommitIndeterminate => WireError::CommitIndeterminate,
         Error::Protocol | Error::InvalidSlot => WireError::Protocol,
         _ => WireError::Unavailable,
+    }
+}
+
+fn wire_from_store_error(error: StoreError) -> WireError {
+    match error {
+        StoreError::AnchorConflict => WireError::Conflict,
+        StoreError::AnchorCommitUnknown => WireError::CommitIndeterminate,
+        StoreError::Backend(_) => WireError::Unavailable,
+        _ => WireError::Protocol,
+    }
+}
+
+fn store_error_from_wire(error: WireError, mutation: bool) -> StoreError {
+    match error {
+        WireError::Conflict if mutation => StoreError::AnchorConflict,
+        WireError::CommitIndeterminate if mutation => StoreError::AnchorCommitUnknown,
+        WireError::Conflict | WireError::CommitIndeterminate => {
+            StoreError::Backend("unexpected checkpoint witness response".into())
+        }
+        WireError::Unavailable => {
+            StoreError::Backend("remote checkpoint witness unavailable".into())
+        }
+        WireError::Protocol => StoreError::Integrity,
     }
 }
 
