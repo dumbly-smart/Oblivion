@@ -20,10 +20,10 @@ Further work is optional and should begin with its own threat model and acceptan
 The remote SSE journal now has stale-writer and barrier-synchronized race
 tests. Two clients opened from the same anchored generation can attempt an
 update together; one advances the witness, while a reopened client recovers
-the winner's exact request. The synchronized race passed 10 repetitions. These
-are same-host tests, not a multi-host schedule or a transaction with the SSE
-server. S11 remains partial because the witness can be rolled back and the
-anchor/server boundary is not atomic.
+the winner's exact request. The synchronized race passed 10 repetitions. This
+completes the bounded S11 reservation/recovery behavior under the configured
+single trusted anchor. Witness rollback resistance, multi-host availability,
+and an atomic transaction with the SSE server remain extensions.
 
 The deterministic built-in demo remains a correctness/topology exercise. Its code/configuration can reveal the entire real/dummy/function schedule; encryption cannot conceal an identity already fixed by auxiliary knowledge. Experimental workload seeds/truth are separate private driver inputs under the declared attacker contracts, while mechanism parameters remain public. Accepted bounded experiments do not establish global indistinguishability or production security.
 
@@ -190,5 +190,7 @@ Python suite.
 host-independent writer-fencing protocol; checkpoint CAS alone rejects stale
 publication but is not a distributed lease. Keep witness rollback, snapshot
 key custody, single-operator trust, no TEE, and no arbitrary external-side-
-effect guarantee explicit. S11 remains partial; this update claims no hardware
-anti-rollback or backward privacy.
+effect guarantee explicit. At the time of that recorded update, S11 remained
+partial; that historical entry claimed no hardware anti-rollback or backward
+privacy. The current bounded S11 status is recorded at the top of this file and
+in the requirements matrix.

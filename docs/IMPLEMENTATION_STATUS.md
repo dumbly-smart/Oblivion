@@ -1102,10 +1102,11 @@ extend the sparse oversized-record fixture beyond 64 MiB and verify that a
 valid authenticated chain longer than the replay cap returns `JournalError::Limit`.
 `cargo clippy --locked -p oblivion-sse --all-targets -- -D warnings` and
 `cargo fmt --all --check` passed.
-Hosted CI for this code has not run yet. S11 remains partial: only an in-memory
-test anchor is connected to `PersistentClient`; the SQLite anchor service's
-new journal slot is not yet exposed over its Unix protocol. Rollback protection
-requires an independent durable anchor and caller-managed key custody. The
+At this 2026-10-26 checkpoint, hosted CI for this code had not run yet and S11
+was partial: only an in-memory test anchor was connected to `PersistentClient`;
+the SQLite anchor service's new journal slot was not yet exposed over its Unix
+protocol. Rollback protection requires an independent durable anchor and
+caller-managed key custody. The
 local file journal itself is not a TEE, and the 8 MiB plaintext cap is a current
 capacity limit. Journal write amplification and restart cost have not been
 benchmarked.
@@ -1542,6 +1543,7 @@ million-operation ORAM stress test. Workspace Clippy with `-D warnings`,
 formatting, and whitespace checks passed. The stress test was not rerun; its
 last measured pass remains attached to code commit `7bee2666`. No benchmark,
 Python suite, or hosted CI run was performed. The clients raced on one host
-against one witness; this does not establish cross-host operation, witness
-rollback resistance, or an atomic transaction with the SSE server. S11 remains
-partial.
+against one witness; this does not establish cross-host availability, witness
+rollback resistance, or an atomic transaction with the SSE server. This closes
+the selected bounded S11 reservation/recovery behavior under the configured
+single trusted-anchor assumption; those broader properties remain extensions.
