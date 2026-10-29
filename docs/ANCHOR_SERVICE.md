@@ -74,17 +74,18 @@ replace a live lock file. Raw protocol clients and direct `AnchorDatabase`
 callers can bypass this cooperative lock, so they remain trusted components.
 The lock does not coordinate separate hosts or remote anchor services.
 
-## Independent mTLS witness for SSE, runtime catalog activation, and ORAM checkpoint anchoring
+## Independent mTLS witness for SSE, runtime catalog and invocation anchoring, and ORAM checkpoints
 
 The `oblivion-anchor-remote` binary exposes SSE journal-head CAS,
-digest-bound registry catalog activation CAS, and ORAM checkpoint load/CAS
-through an authenticated TLS listener. It is intended to run under a separate
-witness operator, with that operator's database and master key stored outside
-the application host's administrative domain. Runtime workers can opt into
-remote registry activation with the six environment settings described below.
-The worker's durable ORAM checkpoint and invocation-receipt path still uses the
-local service/API; remote checkpoint anchoring is currently an explicit
-standalone adapter for callers of `PathOram::checkpoint_anchored`.
+digest-bound registry catalog activation, runtime atomic invocation
+receipt/checkpoint commit, and ORAM checkpoint load/CAS through an authenticated
+TLS listener. It is intended to run under a separate witness operator, with
+that operator's database and master key stored outside the application host's
+administrative domain. Runtime workers can opt into remote catalog activation
+and remote invocation durability using separate all-or-none environment
+blocks. The runtime's remote invocation mode keeps encrypted snapshot files in
+the worker's local state directory; the witness stores checkpoint handles and
+receipts but does not replicate those files.
 
 Start the witness with:
 
@@ -185,6 +186,75 @@ deadline includes the TLS handshake, so byte trickling cannot reset it. The
 single-process listener handles connections serially. It fails closed on authentication,
 protocol, or availability errors and does not automatically retry an uncertain
 CAS result.
+
+### Remote runtime invocation receipts
+
+The runtime worker can use `TlsInvocationAnchor` to commit the signed
+invocation receipt and ORAM checkpoint handle in one witness transaction.
+Remote mode requires `OBLIVION_ANCHOR_STATE_DIR` and every setting below. It
+cannot be combined with `OBLIVION_ANCHOR_SOCKET`; partial settings, a missing
+state directory, or local/remote conflicts fail before readiness. It does not
+fall back to local or ephemeral state. The PEM loader validates the witness
+CA, worker certificate/key pair, and private-key file permissions.
+
+| Setting | Meaning |
+| --- | --- |
+| `OBLIVION_INVOCATION_ANCHOR_MTLS_ADDRESS` | Numeric witness `IP:PORT`, using a nonzero port. |
+| `OBLIVION_INVOCATION_ANCHOR_MTLS_SERVER_NAME` | Nonempty TLS server name matched against the witness certificate. |
+| `OBLIVION_INVOCATION_ANCHOR_MTLS_SLOT` | Exact slot granted to the worker certificate by the witness policy. |
+| `OBLIVION_INVOCATION_ANCHOR_MTLS_CA_PEM` | PEM trust roots for witness authentication. |
+| `OBLIVION_INVOCATION_ANCHOR_MTLS_CLIENT_CERT_PEM` | Worker certificate chain presented to the witness. |
+| `OBLIVION_INVOCATION_ANCHOR_MTLS_CLIENT_KEY_PEM` | Matching worker private key. |
+| `OBLIVION_ANCHOR_STATE_DIR` | Local durable snapshot directory, mode 0700; snapshot files are not replicated remotely. |
+
+For example, a remote-only worker environment is configured as:
+
+```sh
+OBLIVION_ANCHOR_STATE_DIR=/var/lib/oblivion/executor-state \
+OBLIVION_INVOCATION_ANCHOR_MTLS_ADDRESS=127.0.0.1:7443 \
+OBLIVION_INVOCATION_ANCHOR_MTLS_SERVER_NAME=witness.example \
+OBLIVION_INVOCATION_ANCHOR_MTLS_SLOT=server-state-v1 \
+OBLIVION_INVOCATION_ANCHOR_MTLS_CA_PEM=/etc/oblivion/witness-ca.pem \
+OBLIVION_INVOCATION_ANCHOR_MTLS_CLIENT_CERT_PEM=/etc/oblivion/worker-cert.pem \
+OBLIVION_INVOCATION_ANCHOR_MTLS_CLIENT_KEY_PEM=/etc/oblivion/worker-key.pem \
+cargo run --locked -p oblivion-server -- executor-worker /var/lib/oblivion/run
+```
+
+The runtime fixes invocation responses to `PAYLOAD_BYTES` (80 bytes) and
+configures that as the public response capacity. The version-3 mTLS invocation
+protocol uses fixed-width identity, action, checkpoint and response fields.
+The server sees these values after TLS decryption. The network observer sees
+the peer endpoints, operation timing/count, request cadence, failures and
+fixed-capacity frame shapes. The configured slot policy must grant the worker
+certificate exactly this invocation slot; catalog activation uses its own
+separate `OBLIVION_REGISTRY_ANCHOR_MTLS_*` configuration block.
+
+Every valid request uses `load` followed by `finish`, whether or not a receipt
+exists. A miss runs the function, writes a new local encrypted snapshot, then
+atomically commits its handle and fixed response. A hit executes the reserved
+cover function, copies the stored response and idempotently calls `finish`
+with the currently loaded checkpoint; it does not create a snapshot or advance
+the checkpoint. If the receipt is older than the current checkpoint, duplicate
+finish returns that exact old receipt while leaving the current generation
+unchanged. After a possibly lost finish reply, the client sends an exact
+response `confirm`; it does not automatically retry the mutation. Startup
+loads the current witness checkpoint and restores its local snapshot before
+readiness. The worker fails closed on missing/corrupt snapshots, certificate
+or policy errors, unavailable witness, request conflicts and unresolved
+indeterminate commits.
+
+The witness receives the signed invocation identity, response bytes, slot and
+plaintext 88-byte checkpoint handle. The handle includes the snapshot key, so
+the witness can decrypt snapshots it can access. This remote invocation mode
+does not hide receipt-hit status from the trusted witness. An external network
+observer sees fixed-capacity messages for a public configuration, but still
+sees the number and timing of load/finish/confirm calls, connection failures
+and worker restarts. The witness stores no snapshot bytes and supplies no
+host failover or distributed lease. Its atomic generation CAS rejects stale
+writers, but multiple workers may compute from the same prior checkpoint and
+only a current-generation writer can publish. Local snapshot custody, witness
+database rollback, witness availability, client identity persistence and
+external side effects remain outside the guarantee.
 
 Standalone registry activation uses the same mutual-TLS setup:
 
@@ -294,10 +364,12 @@ certificate holder can still read or mutate every slot granted to its
 fingerprint; there is no quota, rate limit, automated revocation or hot policy
 reload.
 
-The optional durable worker mode uses the local Unix service for anchored
-checkpoint recovery and signed invocation receipts. This does not prove the identity of a
-registry publisher: the runtime registry signer is ephemeral, and publisher
-key custody remains a separate concern.
+The optional durable worker mode uses either the local Unix service or the
+remote mTLS witness for anchored checkpoint recovery and signed invocation
+receipts. Remote mode leaves snapshots on the worker host and has no
+distributed lease or witness-side file replication. This does not prove the
+identity of a registry publisher: the runtime registry signer is ephemeral,
+and publisher key custody remains a separate concern.
 
 Run its adapter tests with:
 

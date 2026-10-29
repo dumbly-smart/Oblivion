@@ -100,7 +100,7 @@ Seven Rust crates implement encrypted Path ORAM, two-server XOR PIR, Wasmtime ex
 
 Protected execution reads eight blocks at the public 25 ms phase and commits eight at 50 ms. Guest failures discard staged mutations; uncertain backend failure can poison partially written state. At eight logical blocks an invocation emits 128 actual bucket events of 316 bytes, with O(M log N) bandwidth for public working-set M. Trusted drivers prepare encrypted responses/private instrumentation before the 100 ms publication wait. Clients prepare requests before their public epoch. Slot starts are epoch arrival plus slot × 100 ms. OS scheduling and work overruns remain visible.
 
-The current response reader timestamps completion immediately after `read_exact`, before channel handoff and later client decryption/oracle/logging. Public pipe timing and separate private client latency are not interchangeable. The default process demo remains ephemeral. Opt-in durable invocation receipts/checkpoints use the local anchor service. Persistent SSE journal recovery and runtime signed-catalog activation can use the separate mTLS witness. A standalone remote Path ORAM checkpoint adapter is also available, but the runtime worker still uses the local anchor for checkpoints and invocation receipts. The local anchor does not resist privileged SQLite rollback; remote freshness depends on the witness retaining its current database, and the checkpoint witness also receives snapshot decryption keys.
+The current response reader timestamps completion immediately after `read_exact`, before channel handoff and later client decryption/oracle/logging. Public pipe timing and separate private client latency are not interchangeable. The default process demo remains ephemeral. Opt-in durable invocation receipts/checkpoints use the local anchor service. Persistent SSE journal recovery and runtime signed-catalog activation can use the separate mTLS witness. A standalone remote Path ORAM checkpoint adapter is also available. The 2026-10-29 runtime extension now supports local or remote mTLS for durable invocation checkpoints and receipts; remote mode sends the checkpoint secret handle to the witness and provides no distributed lease or host failover. The local anchor does not resist privileged SQLite rollback; remote freshness depends on the witness retaining its current database, and the checkpoint witness also receives snapshot decryption keys.
 
 The built-in demo's real/dummy/function schedule is public given its code, real percentage and epoch. It validates correctness/topology, not anonymity against an adversary who knows that schedule. Research datasets keep workload labels/seeds outside each declared attack input; public cadence, classes, batch size and geometry remain known. Encryption cannot hide an identity already determined by auxiliary knowledge.
 
@@ -205,7 +205,7 @@ run [40758604155](https://github.com/dumbly-smart/Oblivion/actions/runs/40758604
 passed all three jobs for this exact source commit: Rust format/Clippy/tests,
 the million-operation ORAM stress oracle, and the research analysis checks.
 
-The remote witness remains one trusted operator and database and can be rolled back or made unavailable. A versioned SHA-256 DER leaf-certificate-to-exact-slot policy now limits which slots each mTLS client may address; policy changes require restart. Per-slot quotas and rate limits remain unimplemented. The selected function remains visible to the trusted executor. Runtime remote checkpoints, invocation receipts, witness replication, and a TEE remain unfinished.
+The remote witness remains one trusted operator and database and can be rolled back or made unavailable. A versioned SHA-256 DER leaf-certificate-to-exact-slot policy now limits which slots each mTLS client may address; policy changes require restart. Per-slot quotas and rate limits remain unimplemented. The selected function remains visible to the trusted executor. The runtime now supports remote mTLS invocation anchoring. Host-independent writer fencing, witness replication and rollback resistance, and a TEE remain unfinished.
 
 ## Optional follow-up: isolated ORAM timing
 
@@ -1426,3 +1426,59 @@ intentionally ignored by the default suite. `cargo clippy --locked --workspace
 and the updated remote CLI help check passed. A changed-Markdown link check
 resolved 328 relative links across 12 files. Hosted checks were pending when
 this entry was written. No performance benchmark was collected for the policy.
+
+## 2026-10-29: runtime remote mTLS invocation anchoring
+
+Code commit `7bee2666` wires the runtime worker to choose either the existing
+local Unix invocation anchor or `TlsInvocationAnchor`. Remote mode requires all
+six `OBLIVION_INVOCATION_ANCHOR_MTLS_*` settings plus
+`OBLIVION_ANCHOR_STATE_DIR`; partial configuration, a missing state directory,
+and combining local and remote settings fail before readiness. Existing PEM
+loading and permission checks are used, and there is no local fallback. The
+wire exchange uses protocol v3 and an 80-byte fixed response capacity.
+
+Both receipt hits and misses follow the same `load` then `finish` action
+sequence. A hit reuses the current checkpoint and secret handle, writes no
+snapshot, and returns the original saved response. This also handles an older
+receipt after a later checkpoint without rolling the checkpoint backward. A
+new invocation writes the encrypted snapshot locally and asks the witness to
+atomically commit its pointer with the exact receipt. Only an ambiguous finish
+uses exact-response confirmation. Remote mode has no distributed writer
+lease: the witness CAS rejects a stale checkpoint publication but does not
+fence concurrent execution or provide multi-host recovery.
+
+The public storage schedule now reads the eight-block staged set at 5% of
+the class deadline and commits it at 65%, leaving more time for real ORAM work
+before the write phase. The former 25%/50% boundaries caused deadline failures
+in two mixed stateful-function pipeline cases; the full serial pipeline suite
+passes with the updated schedule. These targets do not force exact wall-clock
+completion on a contended host.
+
+The process integration test starts a real mTLS witness with a certificate-
+to-slot grant, invokes an actual stateful WASM function using a signed
+invocation, restarts the witness, verifies exact replay and restored ORAM
+state, makes a later state transition, and replays the older receipt while
+confirming that the newer checkpoint and state remain intact. Configuration
+tests check partial credentials, missing state-directory configuration, and
+local/remote conflicts. The witness receives the plaintext checkpoint handle,
+which contains the snapshot key, and can distinguish receipt hits from misses.
+Snapshot files remain on the worker host. There is no multi-host fencing,
+witness replication, witness rollback protection, snapshot file replication,
+or arbitrary external-side-effect atomicity.
+
+Verification on code commit `7bee2666`: the serial whole-workspace command
+`cargo test --locked --workspace -- --test-threads=1` passed 187 tests with one
+intentionally ignored million-operation ORAM stress test. The separate
+`cargo test --locked --release -p oblivion-store million_operation_oracle --
+--ignored --exact` command passed that million-operation test in 88.76 seconds.
+Workspace Clippy with `-D warnings`, formatting, and whitespace checks passed.
+The dedicated server pipeline suite passed all 24 tests. Hosted run
+[40824696959](https://github.com/dumbly-smart/Oblivion/actions/runs/40824696959)
+passed Rust quality and analysis (including the research Python suite and
+reference workspace); its million-operation stress job was skipped. No
+performance benchmark or local Python suite was run for this Rust-only
+increment. The existing remote ambiguous-
+finish transport test drops the connection after reading the request; it does
+not simulate a database commit followed by loss of that commit's reply. A
+commit-then-drop fault test remains a precise follow-up before making a tested
+reconciliation claim for that failure schedule.

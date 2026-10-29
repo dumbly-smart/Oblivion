@@ -134,7 +134,7 @@ A root operator who restores an older SQLite database can roll back the catalog 
 
 ### 5.3 Independent mTLS witness for SSE, runtime catalog activation, and ORAM checkpoints
 
-`oblivion-anchor-remote` is a separate synchronous TCP service backed by SQLite. It exposes three contracts: persistent SSE journal-head load/CAS, digest-bound signed-registry catalog activation, and standalone Path ORAM checkpoint load/CAS. It requires mutual TLS: the client authenticates the witness through its configured CA roots, and the witness verifies the client's certificate against its own configured client CA. Each connection carries one version-2, length-prefixed JSON frame in each direction, capped at 512 KiB, with a five-second TCP connect timeout and an absolute five-second TLS/frame I/O deadline shared by reads and writes after connect/accept. Byte trickling cannot reset that I/O budget. Rustls performs the TLS cryptography; there is no custom handshake or plaintext fallback. The server uses an atomic SQLite compare-and-swap. For checkpoint mutation, a lost or malformed response after sending is indeterminate because the update may have committed; pre-send connection failure is a definite backend error. No operation silently falls back to the local anchor.
+`oblivion-anchor-remote` is a separate synchronous TCP service backed by SQLite. It exposes persistent SSE journal-head load/CAS, digest-bound signed-registry catalog activation, standalone Path ORAM checkpoint load/CAS, and atomic runtime invocation receipt/checkpoint commits. It requires mutual TLS: the client authenticates the witness through its configured CA roots, and the witness verifies the client's certificate against its own configured client CA. Existing operations use version-2 frames; the atomic invocation exchange uses version 3. Frames remain capped at 512 KiB, with a five-second TCP connect timeout and an absolute five-second TLS/frame I/O deadline shared by reads and writes after connect/accept. Byte trickling cannot reset that I/O budget. Rustls performs the TLS cryptography; there is no custom handshake or plaintext fallback. The server uses atomic SQLite transactions. If a mutation reply is lost or malformed after sending, the result is indeterminate because the update may have committed; the invocation adapter follows that with exact-response confirmation. Pre-send connection failure is a definite backend error. No operation silently falls back to the local anchor.
 
 The witness must be administered independently from the application host. Under that assumption, the mTLS SSE adapter can reject an old local encrypted-journal snapshot because its head generation/digest differs from the witness's newest head. The runtime worker can construct `TlsRegistryCatalogAnchor` from explicit environment settings and activate its verified catalog version/digest through CAS before readiness. Local Unix and remote mTLS catalog settings are mutually exclusive; all six remote settings must be present, and manifest plus pinned publisher key are still required. The witness operator sees the configured slot and catalog version/digest, along with operation times. A network observer sees peer endpoints, connection timing, and approximate TLS sizes, but not those fields inside the encrypted TLS payload. A client that cannot reach the witness fails closed; there is no local fallback or automatic mutation retry.
 
@@ -160,15 +160,92 @@ worker cannot know whether activation occurred; it exits without readiness,
 and the operator must reconcile witness state before retrying. No fallback
 silently turns the same startup into a local or unanchored activation.
 
-This is a single trusted witness, not a quorum protocol, hardware monotonic counter, or replicated register. A witness administrator who rolls back its own SQLite database can roll back the freshness head. The client and witness certificates, private keys, CA provisioning, witness code, operator, and durable witness database are trusted. The checkpoint adapter expands this trust: its 88-byte handle contains the snapshot decryption key, so the witness can decrypt any snapshot it can access. It encrypts the handle in SQLite at rest, but the witness process sees plaintext during load and compare-and-swap. After validating the certificate chain, the witness checks a versioned policy mapping the SHA-256 fingerprint of the DER leaf certificate to explicit slots. Policy files are loaded once at startup; changes and revocation require a restart. A certificate can still issue unlimited requests for its granted slots because quotas and rate limits are not implemented. Remote registry activation is opt-in in the runtime worker; standalone ORAM callers can use the remote adapter, while runtime checkpoint and invocation receipts continue to use local anchors. Full protocol and failure details are in [docs/ANCHOR_SERVICE.md](docs/ANCHOR_SERVICE.md) and [the design record](docs/ANCHOR_FRESHNESS_DESIGN.md).
+This is a single trusted witness, not a quorum protocol, hardware monotonic counter, or replicated register. A witness administrator who rolls back its own SQLite database can roll back the freshness head. The client and witness certificates, private keys, CA provisioning, witness code, operator, and durable witness database are trusted. The checkpoint adapter expands this trust: its 88-byte handle contains the snapshot decryption key, so the witness can decrypt any snapshot it can access. Runtime invocation requests also disclose their signed identities, exact saved response, current checkpoint handle, and slot to the witness. The witness sees plaintext during load, finish, and confirmation. After validating the certificate chain, the witness checks a versioned policy mapping the SHA-256 fingerprint of the DER leaf certificate to explicit slots. Policy files are loaded once at startup; changes and revocation require a restart. A certificate can still issue unlimited requests for its granted slots because quotas and rate limits are not implemented. Runtime invocation anchoring is opt-in, and uses the same witness trust model. Full protocol and failure details are in [docs/ANCHOR_SERVICE.md](docs/ANCHOR_SERVICE.md) and [the design record](docs/ANCHOR_FRESHNESS_DESIGN.md).
 
 At the wire level, checkpoint load is a request containing the configured slot and returns either no record or a snapshot ID plus handle. Compare-and-swap sends the slot, the caller's expected current generation (or `null` for an empty slot), a snapshot ID, and the 88-byte logical handle encoded as exactly 176 lowercase ASCII hex characters. This makes wire length independent of the key/digest byte values. The remote server decodes and validates the handle, rebuilds a `CheckpointAnchorRecord`, which derives its generation from the trusted handle, then delegates atomicity and consecutive-generation checks to the existing SQLite-backed `CheckpointSlot`. A success returns `updated`; a stale generation returns `conflict`. A server-side uncertain commit returns `commit_indeterminate`. If the client connected and began transmitting but cannot validate the reply, it reports `AnchorCommitUnknown` so Path ORAM requires recovery/reconciliation; if TCP connection fails before sending, it reports a definite backend failure. The client does not retry or fall back. The witness is serial and handles one accepted connection at a time; the API is suitable for low-rate research calls and has not been capacity- or multi-host-benchmarked. The 512 KiB cap, five-second connect timeout, absolute five-second TLS/frame deadline, strict JSON fields, and mutual TLS apply to this operation as they do to the other remote anchor operations. Application-owned JSON frames and secret-handle hex strings are zeroized on drop, but this does not erase copies that rustls, allocators, the kernel, or crash reporting may keep.
 
 ### 5.4 Optional durable invocation receipts
 
-When the optional local anchor/state-directory configuration is used, a valid stable client identity and invocation ID can be checked for an earlier receipt. A repeated canonical request can receive its original fixed response through the reserved cover path; a new request can atomically associate a fixed-size response with a new full-store checkpoint in the local anchor contract. This can recover state and receipt behavior after an ordinary worker process restart.
+When durable anchor settings are used, a valid stable client identity and invocation ID are checked for an earlier receipt. A repeated canonical request can receive its original fixed response through the reserved cover path; a new request can atomically associate a fixed-size response with a new full-store checkpoint. Local mode uses the Unix SQLite service. Remote mode uses the mTLS witness and keeps snapshot files in the executor's local `OBLIVION_ANCHOR_STATE_DIR`. Both can recover state and receipt behavior after an ordinary worker process restart.
 
-The built-in demo generates per-run client IDs and signing keys. An application that wants retries across process restarts must persist and safely provision the same identity/key and canonical request. Same-ID concurrent requests are not fully fenced, arbitrary external effects are not transactional, and privileged SQLite rollback breaks freshness. Full checkpoints are visible maintenance work. These details are not a claim that the default in-memory demo is durable.
+The built-in demo generates per-run client IDs and signing keys. An application that wants retries across process restarts must persist and safely provision the same identity/key and canonical request. Same-ID concurrent requests are not a distributed lease: atomic checkpoint CAS allows only a writer based on the current generation to publish, and stale writers fail closed. Execution is not exactly-once for future external side effects. A local SQLite rollback breaks local freshness; restoring the remote witness database breaks remote freshness. Full checkpoints are visible maintenance work. These details are not a claim that the default in-memory demo is durable.
+
+### 5.5 Remote runtime invocation settings
+
+The executor chooses exactly one durable backend. The existing local mode uses
+`OBLIVION_ANCHOR_SOCKET` together with `OBLIVION_ANCHOR_STATE_DIR`. Remote
+mode uses `OBLIVION_ANCHOR_STATE_DIR` and every setting in the following
+table. Partial blocks, a missing state directory, or a local socket combined
+with any remote setting are rejected before the worker announces readiness.
+There is no automatic local fallback.
+
+| Setting | Smallest detail that matters |
+| --- | --- |
+| `OBLIVION_INVOCATION_ANCHOR_MTLS_ADDRESS` | Numeric IP address and nonzero TCP port, for example `127.0.0.1:7443`; hostnames are not accepted in this field. |
+| `OBLIVION_INVOCATION_ANCHOR_MTLS_SERVER_NAME` | Nonempty TLS server name checked against the server certificate. |
+| `OBLIVION_INVOCATION_ANCHOR_MTLS_SLOT` | Nonempty witness slot. The witness certificate-to-slot policy must grant this exact string to the client's DER certificate fingerprint. |
+| `OBLIVION_INVOCATION_ANCHOR_MTLS_CA_PEM` | PEM trust root(s) used by the worker to validate the witness certificate. |
+| `OBLIVION_INVOCATION_ANCHOR_MTLS_CLIENT_CERT_PEM` | Worker certificate chain presented during mutual TLS. |
+| `OBLIVION_INVOCATION_ANCHOR_MTLS_CLIENT_KEY_PEM` | Private key matching the worker certificate; existing PEM permission checks apply. |
+| `OBLIVION_ANCHOR_STATE_DIR` | Local directory containing `snapshots/`; it is created with mode 0700 and is not copied to the witness. |
+
+The witness operator must configure its server certificate, client CA, SQLite
+database and master key, plus a policy granting the client certificate the
+requested slot. Certificate rotation requires policy updates and a witness
+restart. The remote witness is single-instance state; its database must be
+kept in a separate administrative domain. The worker and witness can restart
+independently as long as the witness database and master key persist and the
+executor's anchored snapshot file is retained.
+
+### 5.6 Invocation request flow, hit and miss behavior
+
+For every valid signed request, the worker performs the same logical exchange:
+
+1. Verify the authenticated envelope and Ed25519 identity signature. The
+   signature binds the endpoint slot, canonical request digest and invocation
+   ID. It proves key possession, not application authorization.
+2. Send a receipt `load` using the signed identity. The result is either no
+   receipt or the original snapshot ID, generation and fixed response.
+3. Run the normal function for a miss, or execute the reserved dummy cover
+   path for a hit. A hit replaces the dummy result with the saved response.
+4. Send a `finish` action in both cases. On a miss, the worker creates a
+   randomized snapshot ID, checkpoints the complete ORAM state, and sends the
+   new checkpoint record plus response. On a hit, it sends the currently
+   loaded checkpoint record and the saved response without creating a file.
+5. The witness atomically commits a new checkpoint and encrypted receipt on a
+   miss. On a duplicate ID/digest, it returns the original receipt without
+   advancing its checkpoint. The worker checks that the result is exactly the
+   receipt it loaded before using the response.
+6. Publish the fixed-size application response only after the finish result
+   has been accepted. If the finish reply may have been lost, the worker sends
+   `confirm` with the exact response. It fails closed if the witness cannot
+   confirm it.
+
+The `finish` action is the same code on a hit and a miss. The fixed v3 request
+and response structures use a public capacity of 80 bytes for this runtime
+path; hit/miss action order and serialized shape do not change. The witness is
+trusted and decrypts these fields, so the equal shape is for an external
+network observer. That observer can still see the TLS peer, timing, connection
+count, request cadence, failures and restarts. The witness itself can infer a
+hit from the loaded receipt, old receipt generation, response and checkpoint
+record values.
+
+A replay does not write a snapshot, and it does not advance the checkpoint.
+This remains true for an old receipt after newer invocations: `finish` receives
+the current checkpoint, but idempotence returns the older loaded receipt. The
+worker checks that exact receipt and leaves the current checkpoint unchanged.
+The process-level integration test covers witness restart, stateful WASM
+read/write, exact replay, a later state generation, and replay of the older
+receipt without rollback.
+
+Local mode obtains a cooperative same-host per-slot advisory lock through the
+Unix invocation client before restore/readiness. Remote mode has no distributed
+lease. The witness's generation compare-and-swap rejects a stale writer, but
+workers can compute from the same prior state and only one may publish. Snapshot
+files remain local, so losing a host or its state directory is not repaired by
+the witness. A worker that loses a CAS race fails; it does not merge state or
+retry automatically. External side effects are not covered by the receipt and
+checkpoint transaction.
 
 ## 6. SSE: encrypted search and its limits
 

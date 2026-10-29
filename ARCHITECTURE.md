@@ -18,7 +18,7 @@ flowchart LR
   O --> S[Encrypted storage backend]
   S --> V[Storage observer]
   R[Signed function catalog] --> X
-  A[Optional local anchor service] -. checkpoint / version / receipt .-> X
+  A[Local anchor or independent mTLS witness] -. checkpoint / version / receipt .-> X
   C -. standalone SSE anchors over mTLS .-> WIT[Independent witness service]
   X -. optional signed-catalog activation over mTLS .-> WIT
   O -. optional checkpoint handle over mTLS .-> WIT
@@ -28,7 +28,7 @@ flowchart LR
 
 The trusted client submits a fixed-size authenticated envelope through an epoch queue. After epoch release, the executor privately selects a fixed-size function-registry record using two-server XOR PIR, checks that it matches its locally verified catalog, and dispatches an embedded WASM module. The guest's storage calls use a bounded staging layer backed by Path ORAM. The executor returns a fixed class-shaped encrypted response. Research tools consume declared observer-visible traces; labels and private instrumentation are separate inputs used only for scoring and correctness.
 
-The dotted local anchor path is opt-in durability. The separate mTLS witness supports persistent SSE, signed registry catalog clients, and a standalone ORAM checkpoint adapter; the runtime worker can select remote catalog activation through explicit all-or-none environment settings. Remote checkpoint anchoring sends the 88-byte logical handle as a fixed-width 176-character hex field. The handle contains the snapshot key, so the witness can decrypt snapshots it can access and must be trusted with ORAM confidentiality. The runtime worker still uses the local anchor for durable checkpoints and invocation receipts. The dashed research path is not in the request pipeline. None of these paths means hardware isolation.
+Durability is opt-in. The runtime can use either its existing local Unix anchor or the independent mTLS witness for atomic checkpoint-plus-invocation-receipt commits; the same witness also supports persistent SSE, signed registry catalog activation, and standalone ORAM checkpoint anchoring. All remote invocation settings are all-or-none and exclusive with the local socket. Remote checkpoint anchoring sends the 88-byte logical handle as a fixed-width 176-character hex field. The handle contains the snapshot key, so the witness can decrypt snapshots it can access and must be trusted with ORAM confidentiality. The witness does not replicate snapshot files or provide a distributed lease. The dashed research path is not in the request pipeline. None of these paths means hardware isolation.
 
 ## Trust and visibility
 
@@ -48,20 +48,20 @@ Public observers can still learn frame timing and sizes, epoch/slot schedules, s
 | `oblivion-pir` | XOR PIR, fixed database geometry, full scans, and the authenticated generic transport. |
 | `oblivion-exec` | Wasmtime validation, execution classes, fuel/memory/host-call bounds, fixed I/O, staged storage schedule. |
 | `oblivion-store` | Path ORAM, fixed encrypted buckets, memory/file backends, traces, checkpoints, and restore. |
-| `oblivion-anchor` | Local SQLite/Unix-socket compare-and-swap for checkpoint/version state and invocation receipts, plus a bounded mTLS/TCP witness for standalone SSE journal heads, registry catalog version/digest, and Path ORAM checkpoint handles. |
+| `oblivion-anchor` | Local SQLite/Unix-socket compare-and-swap for checkpoint/version state and invocation receipts, plus a bounded mTLS/TCP witness for runtime invocation receipts, SSE journal heads, registry catalog version/digest, and Path ORAM checkpoint handles. |
 | `oblivion-sse` | Bounded GGM-inspired dynamic encrypted search, with optional persistent client journal adapter. |
 | `oblivion-harness` | Rust-side actual-mechanism workloads and separate observer/label files. |
 | Python under `research/` | Attack runners, statistical analyses, reproducibility checks, plotting, simulator, and reference evaluations. |
 
 ## Timing and storage shape
 
-The current protected execution class targets a 100 ms response boundary. The demo uses an epoch period of 150 ms per enrolled participant and sequential slots. For the public 8-block staged schedule, each successful-backend invocation makes eight logical ORAM reads and eight writes. Each logical access reads and rewrites a root-to-leaf path, so with N=8 leaves and Z=4 it produces 128 bucket-service events per invocation. With 64-byte blocks each encrypted bucket payload is 316 bytes. This is an O(M log N) traffic schedule for public working-set size M; it is not a constant-time schedule at the CPU, operating-system, or network level.
+The default protected execution class targets a 100 ms response boundary; `OBLIVION_EXECUTION_DEADLINE_MS` selects a public class deadline from 2–1000 ms for the pipeline worker. The demo defaults to an epoch period of 150 ms per enrolled participant and sequential slots; it records the configured class and phase fractions. The executor reads its eight-block working set at 5% of the class deadline and commits it at 65%. Each successful-backend invocation makes eight logical ORAM reads and eight writes. Each logical access reads and rewrites a root-to-leaf path, so with N=8 leaves and Z=4 it produces 128 bucket-service events per invocation. With 64-byte blocks each encrypted bucket payload is 316 bytes. This is an O(M log N) traffic schedule for public working-set size M; it is not a constant-time schedule at the CPU, operating-system, or network level.
 
 The current documented authenticated invocation envelope is 228 bytes: a 20-byte header, a 192-byte encrypted payload, and a 16-byte authentication tag. Older measurements may use earlier envelope or schedule versions; they remain historical and must not be relabeled as measurements of the current format. Exact field layouts are in [docs/PROTOCOL.md](docs/PROTOCOL.md).
 
 ## Durable state and research-only components
 
-Normal process operation is ephemeral. The runtime's optional checkpoint/recovery and signed invocation receipts use the local anchor service; their freshness depends on keeping the anchor database and keys trusted. Restoring an old SQLite backup defeats the version/receipt floor. Persistent SSE journals, signed registry catalogs, and standalone Path ORAM checkpoints can use an mTLS witness to detect rollback of application-side state while the separate witness database remains current. The worker's remote catalog mode is opt-in and fails closed before readiness when configuration, authentication, availability, or CAS reconciliation fails. The checkpoint witness sees and can use the snapshot key from each handle. The single witness is not replicated; restoring its database defeats freshness. Neither service makes arbitrary external side effects atomic.
+Normal process operation is ephemeral. The runtime's optional checkpoint/recovery and signed invocation receipts can use the local anchor or remote mTLS witness; freshness depends on retaining the corresponding trusted database and keys. Restoring an old database backup defeats the version/receipt floor. Remote invocation configuration requires all six `OBLIVION_INVOCATION_ANCHOR_MTLS_*` values and `OBLIVION_ANCHOR_STATE_DIR`, and cannot be combined with `OBLIVION_ANCHOR_SOCKET`. The worker uses one load-then-finish schedule on receipt hits and misses. A hit returns the saved response and idempotently finishes against the currently loaded checkpoint without writing a new snapshot. An ambiguous finish is reconciled with the exact-response confirmation action. The mTLS witness receives receipt data and the snapshot key handle, and can distinguish receipt hits from misses. The single witness is not replicated, supplies no distributed lease, and does not store executor snapshot files. Neither service makes arbitrary external side effects atomic.
 
 SSE and the autoscaler are separate research components rather than required steps in the main invocation pipeline. Persistent SSE journal recovery is opt-in and still leaks search equality, result volume, and timing; it is not backward private. Autoscaling is a discrete-event simulation, not a production scaler, and its seeded outputs have no differential-privacy guarantee.
 

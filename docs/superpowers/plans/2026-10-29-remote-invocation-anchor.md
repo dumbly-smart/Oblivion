@@ -94,31 +94,34 @@
   idempotent finish returns the original receipt without writing a snapshot or
   advancing the generation. Use `confirm` only after an ambiguous finish.
 
-- [ ] Add startup tests for partial credentials, missing state directory, and
+- [x] Add startup tests for partial credentials, missing state directory, and
   simultaneous local/remote anchors; run and observe their expected failure.
-- [ ] Add a process integration test that uses an actual mTLS witness, signed
+- [x] Add a process integration test that uses an actual mTLS witness, signed
   request, stateful WASM function, local encrypted snapshot, restart, exact
   receipt replay, and a subsequent state read/write.
-- [ ] Implement configuration parsing and backend selection using existing
+- [x] Implement configuration parsing and backend selection using existing
   PEM permission validation; do not alter the local-mode defaults.
-- [ ] Run the focused runtime tests and the existing local restart/single-writer
+- [x] Run the focused runtime tests and the existing local restart/single-writer
   tests.
-- [ ] Commit `feat(server): use remote durable invocation anchor`.
+- [x] Commit `feat(server): use remote durable invocation anchor` as `7bee2666`;
+  push it to `codex/oblivion-research-platform`.
 
 ### Task 4: Security documentation, status, and full verification
 
 **Files:**
 - Modify: `README.md`, `ARCHITECTURE.md`, `EXPLANATION.md`, `PROGRESS.md`,
-  `docs/ARCHITECTURE.md`, `docs/ANCHOR_SERVICE.md`,
+  `REPORTS.md`, `AGENTS.md`, `docs/ARCHITECTURE.md`, `docs/ANCHOR_SERVICE.md`,
   `docs/INVOCATION_DURABILITY.md`, `docs/SECURITY_ASSUMPTIONS.md`,
   `docs/THREAT_MODEL.md`, `docs/IMPLEMENTATION_STATUS.md`, `docs/NEXT_STEPS.md`.
 
-- [ ] Document exact environment variables, policy slot, certificate setup,
+- [x] Document exact environment variables, policy slot, certificate setup,
   wire sizing, transaction semantics, restart procedure, and residual timing,
   snapshot custody, witness rollback, and host-failover limits.
-- [ ] Run `cargo fmt --all --check`, warning-denied workspace Clippy, and
+- [x] Run `cargo fmt --all --check`, warning-denied workspace Clippy, and
   `cargo test --locked --workspace -- --test-threads=1`.
-- [ ] Check changed Markdown links and `git diff --check`; record the million
-  operation ORAM stress tier as skipped unless run separately.
+- [x] Check 433 relative links across 14 changed Markdown files and
+  `git diff --check`; record the million-operation ORAM stress tier as
+  intentionally ignored by default and run its dedicated release command
+  separately (passed in 88.76 seconds).
 - [ ] Commit `docs: describe remote durable invocation path` and push each
   completed commit to the current branch.

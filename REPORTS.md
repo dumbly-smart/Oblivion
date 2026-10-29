@@ -24,7 +24,7 @@ This index points to technical reports and retained outputs. Read [docs/EXPERIME
 | Checkpoint API, crash ordering, cryptographic and freshness limits | [Storage recovery](docs/STORAGE_RECOVERY.md), [anchor service and remote checkpoint adapter](docs/ANCHOR_SERVICE.md) |
 | Local SQLite anchor and socket interface | [Anchor service](docs/ANCHOR_SERVICE.md) |
 | Independent mTLS witness scope and freshness limits | [Witness design](docs/ANCHOR_FRESHNESS_DESIGN.md), [anchor service](docs/ANCHOR_SERVICE.md), [threat model](docs/THREAT_MODEL.md) |
-| Durable invocation and receipt replay | [Invocation durability](docs/INVOCATION_DURABILITY.md) |
+| Durable invocation, local/remote anchor selection, and receipt replay | [Invocation durability and remote mTLS operation](docs/INVOCATION_DURABILITY.md), [runtime anchor design](docs/ANCHOR_SERVICE.md), [runtime integration test](docs/IMPLEMENTATION_STATUS.md) |
 | Signed catalog wire and offline provisioning | [Registry records](docs/REGISTRY.md), [external registry](docs/EXTERNAL_REGISTRY.md), [registry activation](docs/REGISTRY_ACTIVATION.md) |
 | Two-server XOR PIR and authenticated transport | [PIR transport](docs/PIR_TRANSPORT.md), [SimplePIR comparison](docs/SIMPLEPIR_REFERENCE.md), [100k correctness](docs/SIMPLEPIR_100K.md), [square-root PIR](docs/SQRT_PIR.md) |
 | Fixed-shape executor and error inference | [Execution evaluation](docs/EXECUTION_EVALUATION.md), [executor resource/CPU costs](docs/EXECUTOR_RESOURCES.md) |
