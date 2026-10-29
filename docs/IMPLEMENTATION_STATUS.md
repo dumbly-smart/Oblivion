@@ -201,10 +201,10 @@ deadline or test oracle was weakened.
 
 `taskset -c 21 cargo clippy --locked --workspace --all-targets -- -D warnings`,
 `cargo fmt --all --check`, and `git diff --check` passed. A local validator
-resolved 308 relative Markdown links in the 12 changed Markdown files. Hosted
-Rust quality gates for this commit are running as Actions run
-[40758604155](https://github.com/dumbly-smart/Oblivion/actions/runs/40758604155);
-the result will be added after completion.
+resolved 309 relative Markdown links in the 12 changed Markdown files. Hosted
+run [40758604155](https://github.com/dumbly-smart/Oblivion/actions/runs/40758604155)
+passed all three jobs for this exact source commit: Rust format/Clippy/tests,
+the million-operation ORAM stress oracle, and the research analysis checks.
 
 The remote witness remains one trusted operator and database with no per-slot
 client authorization. It can be rolled back or made unavailable. The selected
