@@ -206,9 +206,9 @@ impl Executor {
         publish_padding: bool,
     ) -> Execution {
         let deadline = started + Duration::from_millis(self.class.deadline_ms);
-        let commit_at = started + Duration::from_micros(self.class.deadline_ms * 500);
+        let commit_at = started + Duration::from_micros(self.class.deadline_ms * 650);
         // Public registry/read boundary, independent of selected function.
-        let read_at = started + Duration::from_micros(self.class.deadline_ms * 250);
+        let read_at = started + Duration::from_micros(self.class.deadline_ms * 50);
         if let Some(remaining) = read_at.checked_duration_since(Instant::now()) {
             thread::sleep(remaining);
         }

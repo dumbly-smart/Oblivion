@@ -25,7 +25,10 @@ use std::{
 use zeroize::Zeroizing;
 
 #[cfg(unix)]
-use oblivion_anchor::{Error as AnchorError, UnixAnchorClient, UnixInvocationAnchor};
+use oblivion_anchor::{
+    Error as AnchorError, InvocationReceipt, TlsInvocationAnchor, UnixAnchorClient,
+    UnixInvocationAnchor,
+};
 #[cfg(unix)]
 use oblivion_store::{CheckpointAnchor, CheckpointAnchorRecord};
 
@@ -44,29 +47,185 @@ struct WorkerState {
 }
 
 #[cfg(unix)]
+enum InvocationAnchorConfig {
+    LocalSocket {
+        socket: PathBuf,
+        state_dir: PathBuf,
+    },
+    RemoteMtls {
+        address: SocketAddr,
+        server_name: String,
+        slot: String,
+        ca_pem: PathBuf,
+        client_cert_pem: PathBuf,
+        client_key_pem: PathBuf,
+        state_dir: PathBuf,
+    },
+}
+
+#[cfg(unix)]
+impl InvocationAnchorConfig {
+    fn from_environment() -> Result<Option<Self>> {
+        let local_socket = std::env::var_os("OBLIVION_ANCHOR_SOCKET");
+        let state_dir = std::env::var_os("OBLIVION_ANCHOR_STATE_DIR");
+        let setting_names = [
+            "OBLIVION_INVOCATION_ANCHOR_MTLS_ADDRESS",
+            "OBLIVION_INVOCATION_ANCHOR_MTLS_SERVER_NAME",
+            "OBLIVION_INVOCATION_ANCHOR_MTLS_SLOT",
+            "OBLIVION_INVOCATION_ANCHOR_MTLS_CA_PEM",
+            "OBLIVION_INVOCATION_ANCHOR_MTLS_CLIENT_CERT_PEM",
+            "OBLIVION_INVOCATION_ANCHOR_MTLS_CLIENT_KEY_PEM",
+        ];
+        let remote = setting_names.map(std::env::var_os);
+        let remote_count = remote.iter().filter(|value| value.is_some()).count();
+
+        if local_socket.is_some() && remote_count > 0 {
+            return Err(
+                "OBLIVION_ANCHOR_SOCKET and remote mTLS invocation anchor settings cannot be combined"
+                    .into(),
+            );
+        }
+        if remote_count == 0 {
+            return match (local_socket, state_dir) {
+                (None, None) => Ok(None),
+                (Some(_), None) | (None, Some(_)) => Err(
+                    "OBLIVION_ANCHOR_SOCKET and OBLIVION_ANCHOR_STATE_DIR must be set together"
+                        .into(),
+                ),
+                (Some(socket), Some(state_dir)) => Ok(Some(Self::LocalSocket {
+                    socket: socket.into(),
+                    state_dir: state_dir.into(),
+                })),
+            };
+        }
+        if remote_count != remote.len() {
+            return Err(
+                "all remote mTLS invocation anchor settings must be configured together".into(),
+            );
+        }
+        let Some(state_dir) = state_dir else {
+            return Err(
+                "remote mTLS invocation anchor settings require OBLIVION_ANCHOR_STATE_DIR".into(),
+            );
+        };
+        let [
+            Some(address),
+            Some(server_name),
+            Some(slot),
+            Some(ca_pem),
+            Some(client_cert_pem),
+            Some(client_key_pem),
+        ] = remote
+        else {
+            return Err(
+                "all remote mTLS invocation anchor settings must be configured together".into(),
+            );
+        };
+        let address = required_utf8(address, "OBLIVION_INVOCATION_ANCHOR_MTLS_ADDRESS")?
+            .parse::<SocketAddr>()?;
+        if address.port() == 0 {
+            return Err("OBLIVION_INVOCATION_ANCHOR_MTLS_ADDRESS must use a nonzero port".into());
+        }
+        let server_name =
+            required_utf8(server_name, "OBLIVION_INVOCATION_ANCHOR_MTLS_SERVER_NAME")?;
+        if server_name.is_empty() {
+            return Err("OBLIVION_INVOCATION_ANCHOR_MTLS_SERVER_NAME must not be empty".into());
+        }
+        let slot = required_utf8(slot, "OBLIVION_INVOCATION_ANCHOR_MTLS_SLOT")?;
+        if slot.is_empty() {
+            return Err("OBLIVION_INVOCATION_ANCHOR_MTLS_SLOT must not be empty".into());
+        }
+        Ok(Some(Self::RemoteMtls {
+            address,
+            server_name,
+            slot,
+            ca_pem: ca_pem.into(),
+            client_cert_pem: client_cert_pem.into(),
+            client_key_pem: client_key_pem.into(),
+            state_dir: state_dir.into(),
+        }))
+    }
+}
+
+#[cfg(unix)]
+enum InvocationAnchor {
+    Local(UnixInvocationAnchor),
+    Remote(TlsInvocationAnchor),
+}
+
+#[cfg(unix)]
 struct DurableState {
     snapshot_dir: std::path::PathBuf,
     generation: Option<u64>,
-    invocation_anchor: UnixInvocationAnchor,
+    current_snapshot_id: Option<String>,
+    current_secret_handle: Option<Zeroizing<Vec<u8>>>,
+    invocation_anchor: InvocationAnchor,
+}
+
+#[cfg(unix)]
+impl InvocationAnchor {
+    fn load(
+        &self,
+        invocation: &oblivion_anchor::SignedInvocationId,
+    ) -> std::result::Result<Option<InvocationReceipt>, AnchorError> {
+        match self {
+            Self::Local(anchor) => anchor.load(invocation),
+            Self::Remote(anchor) => anchor.load(invocation),
+        }
+    }
+
+    fn commit(
+        &self,
+        invocation: &oblivion_anchor::SignedInvocationId,
+        expected_generation: Option<u64>,
+        record: CheckpointAnchorRecord,
+        response: &[u8; PAYLOAD_BYTES],
+    ) -> std::result::Result<InvocationReceipt, AnchorError> {
+        match self {
+            Self::Local(anchor) => anchor.commit(invocation, expected_generation, record, response),
+            Self::Remote(anchor) => {
+                anchor.commit(invocation, expected_generation, record, response)
+            }
+        }
+    }
+
+    fn confirm(
+        &self,
+        invocation: &oblivion_anchor::SignedInvocationId,
+        response: &[u8; PAYLOAD_BYTES],
+    ) -> std::result::Result<InvocationReceipt, AnchorError> {
+        match self {
+            Self::Local(anchor) => match anchor.load(invocation)? {
+                Some(receipt) if receipt.response() == response => Ok(receipt),
+                Some(_) | None => Err(AnchorError::Conflict),
+            },
+            Self::Remote(anchor) => anchor.confirm(invocation, response),
+        }
+    }
 }
 
 impl WorkerState {
     fn new(output: &Path) -> Result<Self> {
-        let socket = std::env::var_os("OBLIVION_ANCHOR_SOCKET");
-        let state_dir = std::env::var_os("OBLIVION_ANCHOR_STATE_DIR");
-        if socket.is_some() != state_dir.is_some() {
-            return Err(
-                "OBLIVION_ANCHOR_SOCKET and OBLIVION_ANCHOR_STATE_DIR must be set together".into(),
-            );
-        }
         let config = Config::new(8, 64)?;
         #[cfg(unix)]
-        if let (Some(socket), Some(state_dir)) = (socket, state_dir) {
-            return Self::durable(output, config, socket.into(), state_dir.into());
+        if let Some(anchor) = InvocationAnchorConfig::from_environment()? {
+            return Self::durable(output, config, anchor);
         }
         #[cfg(not(unix))]
-        if socket.is_some() {
-            return Err("durable invocation anchors require Unix-domain sockets".into());
+        if std::env::var_os("OBLIVION_ANCHOR_SOCKET").is_some()
+            || std::env::var_os("OBLIVION_ANCHOR_STATE_DIR").is_some()
+            || [
+                "OBLIVION_INVOCATION_ANCHOR_MTLS_ADDRESS",
+                "OBLIVION_INVOCATION_ANCHOR_MTLS_SERVER_NAME",
+                "OBLIVION_INVOCATION_ANCHOR_MTLS_SLOT",
+                "OBLIVION_INVOCATION_ANCHOR_MTLS_CA_PEM",
+                "OBLIVION_INVOCATION_ANCHOR_MTLS_CLIENT_CERT_PEM",
+                "OBLIVION_INVOCATION_ANCHOR_MTLS_CLIENT_KEY_PEM",
+            ]
+            .into_iter()
+            .any(|setting| std::env::var_os(setting).is_some())
+        {
+            return Err("durable invocation anchors require Unix filesystem permissions".into());
         }
         let store = PathOram::new(config, MemoryBackend::default())?;
         Ok(Self {
@@ -80,10 +239,41 @@ impl WorkerState {
     fn durable(
         _output: &Path,
         config: Config,
-        socket: std::path::PathBuf,
-        state_dir: std::path::PathBuf,
+        anchor_config: InvocationAnchorConfig,
     ) -> Result<Self> {
         use std::os::unix::fs::PermissionsExt;
+
+        let (state_dir, invocation_anchor, current) = match anchor_config {
+            InvocationAnchorConfig::LocalSocket { socket, state_dir } => {
+                let invocation_anchor = InvocationAnchor::Local(UnixAnchorClient::invocation(
+                    &socket,
+                    "server-state-v1",
+                )?);
+                let mut checkpoint_anchor =
+                    UnixAnchorClient::checkpoint(&socket, "server-state-v1")?;
+                let current = checkpoint_anchor.load()?;
+                (state_dir, invocation_anchor, current)
+            }
+            InvocationAnchorConfig::RemoteMtls {
+                address,
+                server_name,
+                slot,
+                ca_pem,
+                client_cert_pem,
+                client_key_pem,
+                state_dir,
+            } => {
+                let tls = mtls_client_config_from_pem(&ca_pem, &client_cert_pem, &client_key_pem)?;
+                let mut invocation_anchor =
+                    TlsInvocationAnchor::new(address, &server_name, &slot, tls, PAYLOAD_BYTES)?;
+                let current = CheckpointAnchor::load(&mut invocation_anchor)?;
+                (
+                    state_dir,
+                    InvocationAnchor::Remote(invocation_anchor),
+                    current,
+                )
+            }
+        };
 
         fs::create_dir_all(&state_dir)?;
         let state_metadata = fs::symlink_metadata(&state_dir)?;
@@ -99,13 +289,13 @@ impl WorkerState {
         }
         fs::set_permissions(&snapshot_dir, fs::Permissions::from_mode(0o700))?;
 
-        let invocation_anchor = UnixAnchorClient::invocation(&socket, "server-state-v1")?;
-        let mut checkpoint_anchor = UnixAnchorClient::checkpoint(&socket, "server-state-v1")?;
-        let current = checkpoint_anchor.load()?;
         let generation = current.as_ref().map(|record| record.generation());
         let current_snapshot_id = current
             .as_ref()
             .map(|record| record.snapshot_id().to_owned());
+        let current_secret_handle = current
+            .as_ref()
+            .map(|record| Zeroizing::new(record.secret_handle().to_vec()));
         if current.is_none() && fs::read_dir(&snapshot_dir)?.next().transpose()?.is_some() {
             return Err("unanchored snapshots exist but no checkpoint is present".into());
         }
@@ -132,6 +322,8 @@ impl WorkerState {
             durable: Some(DurableState {
                 snapshot_dir,
                 generation,
+                current_snapshot_id,
+                current_secret_handle,
                 invocation_anchor,
             }),
         })
@@ -195,62 +387,126 @@ impl DurableState {
     fn load_receipt(
         &self,
         invocation: &oblivion_anchor::SignedInvocationId,
-    ) -> std::result::Result<Option<Vec<u8>>, AnchorError> {
+    ) -> std::result::Result<Option<InvocationReceipt>, AnchorError> {
         match self.invocation_anchor.load(invocation) {
             Ok(Some(receipt)) => {
                 if receipt.response().len() != PAYLOAD_BYTES {
                     return Err(AnchorError::Protocol);
                 }
-                Ok(Some(receipt.response().to_vec()))
+                Ok(Some(receipt))
             }
             Ok(None) => Ok(None),
             Err(error) => Err(error),
         }
     }
 
-    fn commit(
+    fn finish(
         &mut self,
         store: &mut PathOram<MemoryBackend>,
         invocation: &oblivion_anchor::SignedInvocationId,
         response: &[u8; PAYLOAD_BYTES],
+        loaded_receipt: Option<&InvocationReceipt>,
     ) -> Result<Vec<u8>> {
-        let mut random_id = [0; 16];
-        OsRng.try_fill_bytes(&mut random_id)?;
-        let suffix: String = random_id.iter().map(|byte| format!("{byte:02x}")).collect();
-        let snapshot_id = format!("snap-{suffix}");
-        let snapshot_path = self.snapshot_dir.join(format!("{snapshot_id}.snapshot"));
-        let checkpoint = store.checkpoint(&snapshot_path)?;
         let expected_generation = self.generation;
-        let next_generation = expected_generation
-            .unwrap_or(0)
-            .checked_add(1)
-            .ok_or("ORAM checkpoint generation exhausted")?;
-        if checkpoint.generation() != next_generation {
-            return Err("ORAM checkpoint generation does not follow anchor generation".into());
-        }
-        let handle = checkpoint.to_secret_bytes();
-        let record = CheckpointAnchorRecord::new(&snapshot_id, handle.as_ref())?;
-        let receipt =
-            match self
-                .invocation_anchor
-                .commit(invocation, expected_generation, record, response)
-            {
-                Ok(receipt) => receipt,
-                Err(AnchorError::CommitIndeterminate) => {
-                    let receipt = self
-                        .invocation_anchor
-                        .load(invocation)?
-                        .ok_or("anchor commit is indeterminate and no receipt can be recovered")?;
-                    if receipt.response() != response {
-                        return Err("recovered invocation receipt response mismatch".into());
+        let (snapshot_id, generation, secret_handle, snapshot_path) = if loaded_receipt.is_some() {
+            let snapshot_id = self
+                .current_snapshot_id
+                .clone()
+                .ok_or("receipt replay has no anchored checkpoint snapshot")?;
+            let generation = expected_generation
+                .ok_or("receipt replay has no anchored checkpoint generation")?;
+            let secret_handle = self
+                .current_secret_handle
+                .as_ref()
+                .ok_or("receipt replay has no anchored checkpoint handle")?
+                .to_vec();
+            (snapshot_id, generation, Zeroizing::new(secret_handle), None)
+        } else {
+            let mut random_id = [0; 16];
+            OsRng.try_fill_bytes(&mut random_id)?;
+            let suffix: String = random_id.iter().map(|byte| format!("{byte:02x}")).collect();
+            let snapshot_id = format!("snap-{suffix}");
+            let snapshot_path = self.snapshot_dir.join(format!("{snapshot_id}.snapshot"));
+            let checkpoint = store.checkpoint(&snapshot_path)?;
+            let next_generation = expected_generation
+                .unwrap_or(0)
+                .checked_add(1)
+                .ok_or("ORAM checkpoint generation exhausted")?;
+            if checkpoint.generation() != next_generation {
+                remove_snapshot(&snapshot_path)?;
+                return Err("ORAM checkpoint generation does not follow anchor generation".into());
+            }
+            let secret_handle = checkpoint.to_secret_bytes();
+            (
+                snapshot_id,
+                checkpoint.generation(),
+                Zeroizing::new(secret_handle.as_ref().to_vec()),
+                Some(snapshot_path),
+            )
+        };
+        let record = CheckpointAnchorRecord::new(&snapshot_id, secret_handle.as_slice())?;
+        let result =
+            self.invocation_anchor
+                .commit(invocation, expected_generation, record, response);
+        let receipt = match result {
+            Ok(receipt) => receipt,
+            Err(AnchorError::CommitIndeterminate) => {
+                match self.invocation_anchor.confirm(invocation, response) {
+                    Ok(receipt) => receipt,
+                    Err(AnchorError::Conflict) => {
+                        if let Some(path) = &snapshot_path {
+                            remove_snapshot(path)?;
+                        }
+                        return Err("anchor did not confirm the exact invocation receipt".into());
                     }
-                    receipt
+                    Err(error) => return Err(error.into()),
                 }
-                Err(error) => return Err(error.into()),
-            };
-        self.generation = Some(receipt.generation());
-        prune_snapshots(&self.snapshot_dir, Some(receipt.snapshot_id()))?;
+            }
+            Err(error) => {
+                if let Some(path) = &snapshot_path {
+                    remove_snapshot(path)?;
+                }
+                return Err(error.into());
+            }
+        };
+        let matches = if let Some(loaded) = loaded_receipt {
+            receipt.snapshot_id() == loaded.snapshot_id()
+                && receipt.generation() == loaded.generation()
+                && receipt.response() == loaded.response()
+                && receipt.response() == response
+        } else {
+            receipt.response() == response
+                && receipt.snapshot_id() == snapshot_id
+                && receipt.generation() == generation
+        };
+        if !matches {
+            if let Some(path) = &snapshot_path {
+                remove_snapshot(path)?;
+            }
+            return Err("invocation receipt does not match the committed checkpoint".into());
+        }
+        if loaded_receipt.is_none() {
+            self.generation = Some(receipt.generation());
+            self.current_snapshot_id = Some(receipt.snapshot_id().to_owned());
+            self.current_secret_handle = Some(secret_handle);
+            prune_snapshots(&self.snapshot_dir, Some(receipt.snapshot_id()))?;
+        }
         Ok(receipt.response().to_vec())
+    }
+}
+
+#[cfg(unix)]
+fn remove_snapshot(snapshot: &Path) -> Result<()> {
+    match fs::symlink_metadata(snapshot) {
+        Ok(_) => {
+            fs::remove_file(snapshot)?;
+            if let Some(parent) = snapshot.parent() {
+                File::open(parent)?.sync_all()?;
+            }
+            Ok(())
+        }
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(()),
+        Err(error) => Err(error.into()),
     }
 }
 pub const REGISTRY_VERSION: u64 = 1;
@@ -388,6 +644,18 @@ fn required_utf8(value: std::ffi::OsString, setting: &str) -> Result<String> {
     value
         .into_string()
         .map_err(|_| format!("{setting} must contain valid UTF-8").into())
+}
+
+fn execution_class_from_environment() -> Result<Class> {
+    let mut class = Class::small();
+    if let Some(value) = std::env::var_os("OBLIVION_EXECUTION_DEADLINE_MS") {
+        let deadline = required_utf8(value, "OBLIVION_EXECUTION_DEADLINE_MS")?.parse::<u64>()?;
+        if !(2..=1000).contains(&deadline) {
+            return Err("OBLIVION_EXECUTION_DEADLINE_MS must be between 2 and 1000".into());
+        }
+        class.deadline_ms = deadline;
+    }
+    Ok(class)
 }
 
 pub fn registry() -> Vec<Vec<u8>> {
@@ -730,9 +998,14 @@ fn demo_schedule(
     if ![0, 50, 100].contains(&real_percent) || !(1..=4).contains(&participants) {
         return Err("real percent must be 0, 50 or 100; participants 1..4".into());
     }
-    if !(100 * participants as u64..=1000).contains(&epoch_ms) || !(1..=128).contains(&epochs) {
+    let class_deadline_ms = execution_class_from_environment()?.deadline_ms;
+    let minimum_epoch_ms = class_deadline_ms
+        .checked_mul(participants as u64)
+        .ok_or("minimum epoch period overflow")?;
+    if !(minimum_epoch_ms..=1000).contains(&epoch_ms) || !(1..=128).contains(&epochs) {
         return Err(
-            "epoch_ms must cover sequential public slots and be at most1000; epochs1..128".into(),
+            "epoch_ms must cover every configured execution deadline and be at most1000; epochs1..128"
+                .into(),
         );
     }
     fs::create_dir(output)?;
@@ -889,7 +1162,8 @@ fn demo_schedule(
         }
         trace.flush()?;
     }
-    let summary = serde_json::json!({"sse_metadata_discovery":discovery,"sse_searches_verified":discoveries.iter().flatten().map(|index|index.verified).sum::<u64>(),"registry_version":REGISTRY_VERSION,"registry_deployment_sha256":Deployment::contents_digest_hex(),"registry_record_bytes":oblivion_registry::RECORD_BYTES,"real_invocations":real,"dummy_invocations":dummy,"offered_invocations":epochs*participants as u64,"completed_invocations":real+dummy,"successful_real_invocations":real_successes,"failed_real_invocations":real_failures,"successful_dummy_invocations":dummy_successes,"failed_dummy_invocations":dummy_failures,"retains_runtime_errors":matches!(mode,RunMode::Sweep),"last_real_counter":counters[0],"client_state_counters":counters,"participants":participants,"functions_verified":functions.len(),"request_bytes":ENVELOPE_BYTES,"response_bytes":ENVELOPE_BYTES,"processes":4,"encrypted_pir_links":true,"real_percent":real_percent,"epoch_ms":period.as_millis(),"epochs":epochs,"measurement_wall_ns":start.elapsed().as_nanos() as u64,"execution_class_ms":Class::small().deadline_ms,"state_working_set_blocks":8,"logical_oram_operations_per_invocation":16,"limitations":["PIR servers must not collude","PIR workers share a host in this local demo","registry signing key is ephemeral and generated inside the trusted executor process; it does not establish an external publisher identity","embedded module-location digests are synthetic; encrypted module-location retrieval is not implemented","registry version has no persistent monotonic anchor in this demo","inherited pipes simulate trusted provisioning; no hardware TEE","demo state is ephemeral, durable store API tested separately","public sequential slots and bounded eight-block working set; deadline misses and resource leakage remain"]});
+    let execution_class_ms = execution_class_from_environment()?.deadline_ms;
+    let summary = serde_json::json!({"sse_metadata_discovery":discovery,"sse_searches_verified":discoveries.iter().flatten().map(|index|index.verified).sum::<u64>(),"registry_version":REGISTRY_VERSION,"registry_deployment_sha256":Deployment::contents_digest_hex(),"registry_record_bytes":oblivion_registry::RECORD_BYTES,"real_invocations":real,"dummy_invocations":dummy,"offered_invocations":epochs*participants as u64,"completed_invocations":real+dummy,"successful_real_invocations":real_successes,"failed_real_invocations":real_failures,"successful_dummy_invocations":dummy_successes,"failed_dummy_invocations":dummy_failures,"retains_runtime_errors":matches!(mode,RunMode::Sweep),"last_real_counter":counters[0],"client_state_counters":counters,"participants":participants,"functions_verified":functions.len(),"request_bytes":ENVELOPE_BYTES,"response_bytes":ENVELOPE_BYTES,"processes":4,"encrypted_pir_links":true,"real_percent":real_percent,"epoch_ms":period.as_millis(),"epochs":epochs,"measurement_wall_ns":start.elapsed().as_nanos() as u64,"execution_class_ms":execution_class_ms,"state_working_set_blocks":8,"logical_oram_operations_per_invocation":16,"limitations":["PIR servers must not collude","PIR workers share a host in this local demo","registry signing key is ephemeral and generated inside the trusted executor process; it does not establish an external publisher identity","embedded module-location digests are synthetic; encrypted module-location retrieval is not implemented","registry version has no persistent monotonic anchor in this demo","inherited pipes simulate trusted provisioning; no hardware TEE","demo state is ephemeral, durable store API tested separately","public sequential slots and bounded eight-block working set; deadline misses and resource leakage remain"]});
     fs::write(
         output.join("client-summary.json"),
         serde_json::to_vec_pretty(&summary)?,
@@ -979,7 +1253,8 @@ pub fn worker(output: &Path, participants: usize) -> Result<()> {
         .map_err(|_| "executor bootstrap timed out")??;
     let mut worker_state = WorkerState::new(output)?;
     let state = worker_state.store.clone();
-    let mut executor = Executor::new(Class::small()).map_err(|e| e.to_string())?;
+    let mut executor =
+        Executor::new(execution_class_from_environment()?).map_err(|e| e.to_string())?;
     for (id, source) in SOURCES.iter().enumerate() {
         executor
             .register(id as u32, source)
@@ -1040,19 +1315,19 @@ pub fn worker(output: &Path, participants: usize) -> Result<()> {
             && !(payload[0] == 1
                 && requested == 4
                 && state_address >= if participants == 1 { 7 } else { 1 });
-        let mut receipt_response = None;
+        let mut receipt = None;
         #[cfg(unix)]
         if valid
             && let (Some(durable), Some(invocation)) =
                 (worker_state.durable.as_ref(), invocation.as_ref())
         {
             match durable.load_receipt(invocation) {
-                Ok(receipt) => receipt_response = receipt,
+                Ok(loaded) => receipt = loaded,
                 Err(AnchorError::Conflict) => valid = false,
                 Err(error) => return Err(error.into()),
             }
         }
-        let receipt_replay = receipt_response.is_some();
+        let receipt_replay = receipt.is_some();
         let real = valid && payload[0] == 1 && !receipt_replay;
         let selected = if valid && !receipt_replay {
             requested
@@ -1104,17 +1379,16 @@ pub fn worker(output: &Path, participants: usize) -> Result<()> {
         for (out, byte) in body[1..65].iter_mut().zip(&result.body) {
             *out = *byte & mask;
         }
-        if let Some(saved) = &receipt_response {
-            body.copy_from_slice(saved);
+        if let Some(saved) = &receipt {
+            body.copy_from_slice(saved.response());
         }
         #[cfg(unix)]
         if valid
-            && !receipt_replay
             && let (Some(durable), Some(invocation)) =
                 (worker_state.durable.as_mut(), invocation.as_ref())
         {
             let mut store = state.lock().map_err(|_| "storage lock")?;
-            let committed = durable.commit(&mut store, invocation, &body)?;
+            let committed = durable.finish(&mut store, invocation, &body, receipt.as_ref())?;
             body.copy_from_slice(&committed);
         }
         let response = endpoint.send(epoch, &body)?;
@@ -1162,9 +1436,17 @@ fn default_epoch_ms(participants: usize) -> Result<u64> {
     if !(1..=4).contains(&participants) {
         return Err("participants must be 1..4".into());
     }
-    (participants as u64)
-        .checked_mul(150)
-        .ok_or_else(|| "default epoch period overflow".into())
+    let per_slot_ms = execution_class_from_environment()?
+        .deadline_ms
+        .checked_add(50)
+        .ok_or("default epoch period overflow")?;
+    let epoch_ms = (participants as u64)
+        .checked_mul(per_slot_ms)
+        .ok_or("default epoch period overflow")?;
+    if epoch_ms > 1000 {
+        return Err("configured execution deadlines cannot fit in a 1000 ms epoch".into());
+    }
+    Ok(epoch_ms)
 }
 
 pub(crate) fn write_metadata(
@@ -1191,6 +1473,7 @@ fn write_schedule_metadata(
     epoch_ms: u64,
     epochs: u64,
 ) -> Result<()> {
+    let class_ms = execution_class_from_environment()?.deadline_ms;
     fn text_command(program: &str, args: &[&str]) -> String {
         Command::new(program)
             .args(args)
@@ -1224,7 +1507,7 @@ fn write_schedule_metadata(
         digest.update([0]);
     }
     let source_sha256 = format!("{:x}", digest.finalize());
-    let metadata = serde_json::json!({"schema_version":1,"software_version":env!("CARGO_PKG_VERSION"),"git_head":text_command("git",&["rev-parse","HEAD"]),"git_status":text_command("git",&["status","--porcelain"]),"source_tree_sha256":source_sha256,"rustc":text_command("rustc",&["--version","--verbose"]),"platform":text_command("uname",&["-a"]),"cpu":fs::read_to_string("/proc/cpuinfo").unwrap_or_else(|_|"unavailable".into()),"configuration":{"real_percent":real_percent,"epochs":epochs,"participants":participants,"epoch_ms":epoch_ms,"class_ms":Class::small().deadline_ms,"mixed_functions":mixed},"workload_seed":null,"workload":"fixed deterministic real/dummy schedule and constant inputs; no workload RNG; crypto uses OS randomness","trials":1,"statistical_methodology":"integration smoke check with client oracle and raw observer traces; no inference or statistical conclusion","resource_isolation":"shared host, no CPU pinning","output":output.display().to_string()});
+    let metadata = serde_json::json!({"schema_version":1,"software_version":env!("CARGO_PKG_VERSION"),"git_head":text_command("git",&["rev-parse","HEAD"]),"git_status":text_command("git",&["status","--porcelain"]),"source_tree_sha256":source_sha256,"rustc":text_command("rustc",&["--version","--verbose"]),"platform":text_command("uname",&["-a"]),"cpu":fs::read_to_string("/proc/cpuinfo").unwrap_or_else(|_|"unavailable".into()),"configuration":{"real_percent":real_percent,"epochs":epochs,"participants":participants,"epoch_ms":epoch_ms,"class_ms":class_ms,"read_phase_percent":5,"commit_phase_percent":65,"mixed_functions":mixed},"workload_seed":null,"workload":"fixed deterministic real/dummy schedule and constant inputs; no workload RNG; crypto uses OS randomness","trials":1,"statistical_methodology":"integration smoke check with client oracle and raw observer traces; no inference or statistical conclusion","resource_isolation":"shared host, no CPU pinning","output":output.display().to_string()});
     fs::write(
         output.join("metadata.json"),
         serde_json::to_vec_pretty(&metadata)?,

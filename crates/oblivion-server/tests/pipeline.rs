@@ -686,6 +686,100 @@ fn partial_anchor_configuration_fails_before_worker_readiness() {
 
 #[cfg(unix)]
 #[test]
+fn remote_invocation_anchor_configuration_is_all_or_nothing_and_exclusive() {
+    use oblivion_batcher::Endpoint;
+    use std::{io::Read, process::Stdio};
+
+    let root = std::env::temp_dir().join(format!(
+        "oblivion-remote-invocation-config-{}",
+        rand::rngs::OsRng.next_u64()
+    ));
+    fs::create_dir(&root).unwrap();
+    let settings = [
+        "OBLIVION_INVOCATION_ANCHOR_MTLS_ADDRESS",
+        "OBLIVION_INVOCATION_ANCHOR_MTLS_SERVER_NAME",
+        "OBLIVION_INVOCATION_ANCHOR_MTLS_SLOT",
+        "OBLIVION_INVOCATION_ANCHOR_MTLS_CA_PEM",
+        "OBLIVION_INVOCATION_ANCHOR_MTLS_CLIENT_CERT_PEM",
+        "OBLIVION_INVOCATION_ANCHOR_MTLS_CLIENT_KEY_PEM",
+    ];
+    let launch = |name: &str, configuration: u8| {
+        let output_dir = root.join(name);
+        fs::create_dir(&output_dir).unwrap();
+        let mut command = Command::new(env!("CARGO_BIN_EXE_oblivion-server"));
+        command
+            .args(["executor-worker", output_dir.to_str().unwrap()])
+            .env_remove("OBLIVION_ANCHOR_SOCKET")
+            .env_remove("OBLIVION_ANCHOR_STATE_DIR")
+            .env_remove("OBLIVION_INVOCATION_ANCHOR_MTLS_ADDRESS")
+            .env_remove("OBLIVION_INVOCATION_ANCHOR_MTLS_SERVER_NAME")
+            .env_remove("OBLIVION_INVOCATION_ANCHOR_MTLS_SLOT")
+            .env_remove("OBLIVION_INVOCATION_ANCHOR_MTLS_CA_PEM")
+            .env_remove("OBLIVION_INVOCATION_ANCHOR_MTLS_CLIENT_CERT_PEM")
+            .env_remove("OBLIVION_INVOCATION_ANCHOR_MTLS_CLIENT_KEY_PEM")
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped());
+        if configuration != 1 {
+            command.env(settings[0], "127.0.0.1:1");
+            command.env(settings[1], "localhost");
+            command.env(settings[2], "server-state-v1");
+            command.env(settings[3], root.join("missing-ca.pem"));
+            command.env(settings[4], root.join("missing-client.pem"));
+            command.env(settings[5], root.join("missing-key.pem"));
+        } else {
+            command.env(settings[0], "127.0.0.1:1");
+        }
+        if configuration != 3 {
+            command.env("OBLIVION_ANCHOR_STATE_DIR", root.join("state"));
+        }
+        if configuration == 2 {
+            command.env("OBLIVION_ANCHOR_SOCKET", root.join("anchor.sock"));
+        }
+        let mut child = command.spawn().unwrap();
+        let mut input = child.stdin.take().unwrap();
+        let mut output = child.stdout.take().unwrap();
+        let _client = Endpoint::provision_over_pipe(0, &mut input).unwrap();
+        let mut ready = [0; 1];
+        let ready_bytes = output.read(&mut ready).unwrap();
+        drop(input);
+        let status = child.wait().unwrap();
+        let mut stderr = String::new();
+        child
+            .stderr
+            .take()
+            .unwrap()
+            .read_to_string(&mut stderr)
+            .unwrap();
+        (ready_bytes, ready, status, stderr)
+    };
+
+    let (bytes, ready, status, _) = launch("partial", 1);
+    assert_eq!(bytes, 0, "partial remote settings were accepted");
+    assert!(!status.success());
+    assert_ne!(ready, [1]);
+
+    let (bytes, ready, status, _) = launch("missing-state", 3);
+    assert_eq!(
+        bytes, 0,
+        "remote anchor without a state directory was accepted"
+    );
+    assert!(!status.success());
+    assert_ne!(ready, [1]);
+
+    let (bytes, ready, status, stderr) = launch("conflict", 2);
+    assert_eq!(
+        bytes, 0,
+        "local and remote invocation anchors were combined"
+    );
+    assert!(!status.success());
+    assert_ne!(ready, [1]);
+    assert!(stderr.contains("cannot be combined"), "{stderr}");
+    let _ = fs::remove_dir_all(root);
+}
+
+#[cfg(unix)]
+#[test]
 fn durable_worker_refuses_a_second_writer_before_readiness() {
     use oblivion_anchor::{UnixAnchorClient, serve_unix};
     use oblivion_batcher::Endpoint;
@@ -773,6 +867,7 @@ fn durable_worker_commits_and_replays_signed_invocations_after_restart() {
             .args(["executor-worker", output_dir.to_str().unwrap()])
             .env("OBLIVION_ANCHOR_SOCKET", socket)
             .env("OBLIVION_ANCHOR_STATE_DIR", state_dir)
+            .env("OBLIVION_EXECUTION_DEADLINE_MS", "250")
             .stdin(Stdio::piped())
             .stdout(Stdio::piped())
             .stderr(Stdio::null())
@@ -907,6 +1002,321 @@ fn durable_worker_commits_and_replays_signed_invocations_after_restart() {
             .map(|line| serde_json::from_str(line).unwrap())
             .collect();
     assert_eq!(private_rows[2]["request_valid"], false);
+    let _ = fs::remove_dir_all(root);
+}
+
+#[cfg(unix)]
+#[test]
+fn remote_durable_worker_replays_and_restores_state_across_witness_restart() {
+    use ed25519_dalek::SigningKey;
+    use oblivion_anchor::{
+        AnchorDatabase, ClientAuthorizationPolicy, TlsInvocationAnchor,
+        mtls_client_config_from_pem, mtls_server_config_from_pem, serve_mtls_with_shutdown,
+    };
+    use oblivion_batcher::{ENVELOPE_BYTES, Endpoint, Envelope, PAYLOAD_BYTES};
+    use oblivion_server::invocation::sign_request;
+    use oblivion_store::CheckpointAnchor;
+    use oblivion_store::{MemoryBackend, PathOram, TrustedCheckpoint};
+    use rcgen::{
+        BasicConstraints, CertificateParams, ExtendedKeyUsagePurpose, IsCa, Issuer, KeyPair,
+        KeyUsagePurpose,
+    };
+    use sha2::{Digest, Sha256};
+    use std::{
+        io::{Read, Write},
+        net::TcpListener,
+        os::unix::fs::PermissionsExt,
+        process::Stdio,
+        sync::mpsc,
+        thread,
+    };
+    use zeroize::Zeroizing;
+
+    let root = std::env::temp_dir().join(format!(
+        "oblivion-remote-durable-worker-{}",
+        rand::rngs::OsRng.next_u64()
+    ));
+    fs::create_dir(&root).unwrap();
+    fs::set_permissions(&root, fs::Permissions::from_mode(0o700)).unwrap();
+
+    let ca_key = KeyPair::generate().unwrap();
+    let mut ca_params = CertificateParams::new(vec!["oblivion-anchor-test-root".into()]).unwrap();
+    ca_params.is_ca = IsCa::Ca(BasicConstraints::Unconstrained);
+    ca_params.key_usages = vec![KeyUsagePurpose::KeyCertSign, KeyUsagePurpose::CrlSign];
+    let ca = ca_params.self_signed(&ca_key).unwrap();
+    let issuer = Issuer::from_params(&ca_params, &ca_key);
+
+    let server_key = KeyPair::generate().unwrap();
+    let mut server_params = CertificateParams::new(vec!["localhost".into()]).unwrap();
+    server_params.extended_key_usages = vec![ExtendedKeyUsagePurpose::ServerAuth];
+    server_params.key_usages = vec![KeyUsagePurpose::DigitalSignature];
+    let server_cert = server_params.signed_by(&server_key, &issuer).unwrap();
+
+    let client_key = KeyPair::generate().unwrap();
+    let mut client_params = CertificateParams::new(vec!["oblivion-worker".into()]).unwrap();
+    client_params.extended_key_usages = vec![ExtendedKeyUsagePurpose::ClientAuth];
+    client_params.key_usages = vec![KeyUsagePurpose::DigitalSignature];
+    let client_cert = client_params.signed_by(&client_key, &issuer).unwrap();
+
+    let ca_path = root.join("ca.pem");
+    let server_cert_path = root.join("witness-cert.pem");
+    let server_key_path = root.join("witness-key.pem");
+    let client_cert_path = root.join("worker-cert.pem");
+    let client_key_path = root.join("worker-key.pem");
+    fs::write(&ca_path, ca.pem()).unwrap();
+    fs::write(&server_cert_path, server_cert.pem()).unwrap();
+    fs::write(&server_key_path, server_key.serialize_pem()).unwrap();
+    fs::write(&client_cert_path, client_cert.pem()).unwrap();
+    fs::write(&client_key_path, client_key.serialize_pem()).unwrap();
+    fs::set_permissions(&server_key_path, fs::Permissions::from_mode(0o600)).unwrap();
+    fs::set_permissions(&client_key_path, fs::Permissions::from_mode(0o600)).unwrap();
+
+    let fingerprint: [u8; 32] = Sha256::digest(client_cert.der().as_ref()).into();
+    let fingerprint = fingerprint
+        .iter()
+        .map(|byte| format!("{byte:02x}"))
+        .collect::<String>();
+    let authorization = ClientAuthorizationPolicy::from_json(
+        format!(
+            "{{\"version\":1,\"clients\":[{{\"certificate_sha256\":\"{fingerprint}\",\"slots\":[\"server-state-v1\"]}}]}}"
+        )
+        .as_bytes(),
+    )
+    .unwrap();
+    let database_path = root.join("witness.sqlite");
+    let anchor_key = [0x6d; 32];
+    let start_witness = || {
+        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+        let address = listener.local_addr().unwrap();
+        let tls =
+            mtls_server_config_from_pem(&server_cert_path, &server_key_path, &ca_path).unwrap();
+        let database = AnchorDatabase::open(&database_path, Zeroizing::new(anchor_key)).unwrap();
+        let policy = authorization.clone();
+        let (shutdown, receiver) = mpsc::channel();
+        let thread = thread::spawn(move || {
+            serve_mtls_with_shutdown(listener, database, tls, policy, receiver)
+        });
+        (address, shutdown, thread)
+    };
+    let run_worker = |name: &str,
+                      state_dir: &std::path::Path,
+                      address: std::net::SocketAddr,
+                      requests: &[(u64, [u8; PAYLOAD_BYTES])]| {
+        let output_dir = root.join(name);
+        fs::create_dir(&output_dir).unwrap();
+        let stderr_path = output_dir.join("worker-stderr.log");
+        let mut child = Command::new(env!("CARGO_BIN_EXE_oblivion-server"))
+            .args(["executor-worker", output_dir.to_str().unwrap()])
+            .env_remove("OBLIVION_ANCHOR_SOCKET")
+            .env_remove("OBLIVION_ANCHOR_STATE_DIR")
+            .env_remove("OBLIVION_INVOCATION_ANCHOR_MTLS_ADDRESS")
+            .env_remove("OBLIVION_INVOCATION_ANCHOR_MTLS_SERVER_NAME")
+            .env_remove("OBLIVION_INVOCATION_ANCHOR_MTLS_SLOT")
+            .env_remove("OBLIVION_INVOCATION_ANCHOR_MTLS_CA_PEM")
+            .env_remove("OBLIVION_INVOCATION_ANCHOR_MTLS_CLIENT_CERT_PEM")
+            .env_remove("OBLIVION_INVOCATION_ANCHOR_MTLS_CLIENT_KEY_PEM")
+            .env_remove("OBLIVION_REGISTRY_MANIFEST")
+            .env_remove("OBLIVION_REGISTRY_PUBLIC_KEY")
+            .env_remove("OBLIVION_REGISTRY_ANCHOR_SOCKET")
+            .env_remove("OBLIVION_REGISTRY_ANCHOR_MTLS_ADDRESS")
+            .env_remove("OBLIVION_REGISTRY_ANCHOR_MTLS_SERVER_NAME")
+            .env_remove("OBLIVION_REGISTRY_ANCHOR_MTLS_SLOT")
+            .env_remove("OBLIVION_REGISTRY_ANCHOR_MTLS_CA_PEM")
+            .env_remove("OBLIVION_REGISTRY_ANCHOR_MTLS_CLIENT_CERT_PEM")
+            .env_remove("OBLIVION_REGISTRY_ANCHOR_MTLS_CLIENT_KEY_PEM")
+            .env("OBLIVION_ANCHOR_STATE_DIR", state_dir)
+            .env("OBLIVION_EXECUTION_DEADLINE_MS", "250")
+            .env(
+                "OBLIVION_INVOCATION_ANCHOR_MTLS_ADDRESS",
+                address.to_string(),
+            )
+            .env("OBLIVION_INVOCATION_ANCHOR_MTLS_SERVER_NAME", "localhost")
+            .env("OBLIVION_INVOCATION_ANCHOR_MTLS_SLOT", "server-state-v1")
+            .env("OBLIVION_INVOCATION_ANCHOR_MTLS_CA_PEM", &ca_path)
+            .env(
+                "OBLIVION_INVOCATION_ANCHOR_MTLS_CLIENT_CERT_PEM",
+                &client_cert_path,
+            )
+            .env(
+                "OBLIVION_INVOCATION_ANCHOR_MTLS_CLIENT_KEY_PEM",
+                &client_key_path,
+            )
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::from(fs::File::create(&stderr_path).unwrap()))
+            .spawn()
+            .unwrap();
+        let mut input = child.stdin.take().unwrap();
+        let mut output = child.stdout.take().unwrap();
+        let mut client = Endpoint::provision_over_pipe(0, &mut input).unwrap();
+        let mut ready = [0; 1];
+        output.read_exact(&mut ready).unwrap_or_else(|error| {
+            panic!(
+                "worker did not become ready: {error}; {}",
+                fs::read_to_string(&stderr_path).unwrap_or_default()
+            )
+        });
+        assert_eq!(ready, [1]);
+        let mut responses = Vec::new();
+        for (epoch, payload) in requests {
+            input
+                .write_all(client.send(*epoch, payload).unwrap().as_bytes())
+                .unwrap();
+            input.flush().unwrap();
+            let mut encoded = [0; ENVELOPE_BYTES];
+            output.read_exact(&mut encoded).unwrap();
+            responses.push(
+                client
+                    .receive(&Envelope::from_bytes(&encoded).unwrap())
+                    .unwrap(),
+            );
+        }
+        drop(input);
+        assert!(
+            child.wait().unwrap().success(),
+            "{}",
+            fs::read_to_string(&stderr_path).unwrap_or_default()
+        );
+        responses
+    };
+    let invocation_client = |address| {
+        TlsInvocationAnchor::new(
+            address,
+            "localhost",
+            "server-state-v1",
+            mtls_client_config_from_pem(&ca_path, &client_cert_path, &client_key_path).unwrap(),
+            PAYLOAD_BYTES,
+        )
+        .unwrap()
+    };
+
+    let signing_key = SigningKey::from_bytes(&[0x79; 32]);
+    let mut first_payload = [0; PAYLOAD_BYTES];
+    first_payload[0] = 1;
+    first_payload[1..5].copy_from_slice(&4u32.to_be_bytes());
+    first_payload[9..13].copy_from_slice(&0u32.to_le_bytes());
+    let first_token = sign_request(&mut first_payload, 0, [0x42; 16], &signing_key);
+    let warmup_payload = [0; PAYLOAD_BYTES];
+
+    let state_dir = root.join("state");
+    let (first_address, first_shutdown, first_thread) = start_witness();
+    let first_response = run_worker(
+        "first-run",
+        &state_dir,
+        first_address,
+        &[(0, warmup_payload), (1, first_payload)],
+    )[1];
+    assert_eq!(first_response[0], 0);
+    assert_eq!(
+        u32::from_le_bytes(first_response[1..5].try_into().unwrap()),
+        1
+    );
+    let first_receipt = invocation_client(first_address)
+        .load(&first_token)
+        .unwrap()
+        .expect("remote witness should retain the committed receipt");
+    assert_eq!(first_receipt.response(), first_response);
+    assert_eq!(first_receipt.generation(), 1);
+    let snapshot_dir = state_dir.join("snapshots");
+    let snapshots = || {
+        fs::read_dir(&snapshot_dir)
+            .unwrap()
+            .map(|entry| entry.unwrap().path())
+            .filter(|path| {
+                path.extension()
+                    .is_some_and(|extension| extension == "snapshot")
+            })
+            .count()
+    };
+    let snapshot_counter = |address| {
+        let mut anchor = invocation_client(address);
+        let checkpoint = CheckpointAnchor::load(&mut anchor).unwrap().unwrap();
+        let trusted = TrustedCheckpoint::from_secret_bytes(checkpoint.secret_handle()).unwrap();
+        let snapshot = snapshot_dir.join(format!("{}.snapshot", checkpoint.snapshot_id()));
+        let mut recovered =
+            PathOram::restore(snapshot, &trusted, MemoryBackend::default()).unwrap();
+        let bytes = recovered.read(0).unwrap();
+        u32::from_le_bytes(bytes[..4].try_into().unwrap())
+    };
+    assert_eq!(snapshots(), 1);
+    assert_eq!(snapshot_counter(first_address), 1);
+    first_shutdown.send(()).unwrap();
+    first_thread.join().unwrap().unwrap();
+
+    let (second_address, second_shutdown, second_thread) = start_witness();
+    let replay = run_worker(
+        "replay-run",
+        &state_dir,
+        second_address,
+        &[(0, warmup_payload), (1, first_payload)],
+    )[1];
+    assert_eq!(
+        replay, first_response,
+        "replay must return the stored bytes"
+    );
+    assert_eq!(snapshots(), 1, "replay must not create another snapshot");
+    assert_eq!(snapshot_counter(second_address), 1);
+    let mut replay_anchor = invocation_client(second_address);
+    let replay_receipt = replay_anchor
+        .load(&first_token)
+        .unwrap()
+        .expect("replay receipt should remain present");
+    assert_eq!(replay_receipt.snapshot_id(), first_receipt.snapshot_id());
+    assert_eq!(replay_receipt.generation(), first_receipt.generation());
+    assert_eq!(
+        CheckpointAnchor::load(&mut replay_anchor)
+            .unwrap()
+            .unwrap()
+            .generation(),
+        1,
+        "replay must not advance the remote checkpoint"
+    );
+
+    let mut next_payload = first_payload;
+    let next_token = sign_request(&mut next_payload, 0, [0x43; 16], &signing_key);
+    let next_response = run_worker(
+        "next-run",
+        &state_dir,
+        second_address,
+        &[(0, warmup_payload), (1, next_payload)],
+    )[1];
+    assert_eq!(next_response[0], 0);
+    assert_eq!(
+        u32::from_le_bytes(next_response[1..5].try_into().unwrap()),
+        2
+    );
+    assert_eq!(snapshots(), 1, "only the latest anchored snapshot is kept");
+    let mut final_anchor = invocation_client(second_address);
+    let next_receipt = final_anchor.load(&next_token).unwrap().unwrap();
+    assert_eq!(next_receipt.generation(), 2);
+    assert_ne!(next_receipt.snapshot_id(), first_receipt.snapshot_id());
+    assert_eq!(
+        CheckpointAnchor::load(&mut final_anchor)
+            .unwrap()
+            .unwrap()
+            .generation(),
+        2
+    );
+    let old_replay = run_worker(
+        "old-replay-run",
+        &state_dir,
+        second_address,
+        &[(0, warmup_payload), (1, first_payload)],
+    )[1];
+    assert_eq!(old_replay, first_response);
+    assert_eq!(snapshots(), 1, "an old replay must not create a snapshot");
+    assert_eq!(snapshot_counter(second_address), 2);
+    let mut after_old_replay = invocation_client(second_address);
+    assert_eq!(
+        CheckpointAnchor::load(&mut after_old_replay)
+            .unwrap()
+            .unwrap()
+            .generation(),
+        2,
+        "an old replay must not roll back the current checkpoint"
+    );
+    second_shutdown.send(()).unwrap();
+    second_thread.join().unwrap().unwrap();
     let _ = fs::remove_dir_all(root);
 }
 
