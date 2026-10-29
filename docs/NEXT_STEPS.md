@@ -1,5 +1,37 @@
 # Optional research and deployment work
 
+## Immediate continuation (updated 2026-10-30)
+
+Continue the active ORAM timing replication on the current task branch. The
+latest full serial workspace run on source commit `24ded25d` failed in
+`sse_metadata_discovery_precedes_real_mixed_invocation` with a `Timeout` during
+a 100 ms invocation. The diagnostic fixture is retained under
+`/tmp/oblivion-sse-demo-6450479058385519197`; its timing does not establish a
+root cause. Reproduce the test in isolation, compare it with the test's
+deadline controls and retained scheduling diagnostics, then run the full
+serial suite. Do not increase the deadline, add retry behavior, or classify it
+as environmental without evidence.
+
+The independent ORAM replication protocol and configuration were committed
+and pushed before study-specific testing or collection in `d5847766`. The
+protocol is at
+[`ORAM_RANK64_MARKOV_REPLICATION_PREREG_20261030.md`](ORAM_RANK64_MARKOV_REPLICATION_PREREG_20261030.md)
+and configuration at
+[`oram-isolated-rank64-markov-replication-20261030.json`](../experiments/configs/oram-isolated-rank64-markov-replication-20261030.json).
+The focused tests, release builds, and collection remain unrun. After the
+workspace failure is understood, run the stated focused tests and release
+builds, collect into the new output directory, enforce the positive-control
+gate, independently verify raw hashes and trial-level statistics, and report
+the exact isolated-handler timing boundary. If either control fails, stop that
+attack comparison and preserve the failed artifacts.
+
+After the run, add its report and output links to `REPORTS.md`, record current
+validation and limitations in `PROGRESS.md` and this file, and append the
+source/configuration hashes and actual command outcomes to
+`docs/IMPLEMENTATION_STATUS.md`. Keep each preregistration, implementation,
+result bundle, and analysis correction in a separate reviewable commit when
+they represent separate changes.
+
 **Selected-scope acceptance:** the [serial local gate](../experiments/results/validation-20261023-serial/commands.json) passed all ten commands, including 91 core Rust tests, one reference test, 120 Python tests without skips and the million-operation oracle. [Before/after source fingerprints](../experiments/results/validation-20261023-serial/metadata.json) match: `a83d606782f63e9f5c9f8b95a3c80b299f57da30c916de670f61751e8068becc`. All three jobs in [hosted run 39971009249](https://github.com/dumbly-smart/Oblivion/actions/runs/39971009249) for `ade31d2c` passed. The selected roadmap software and empirical deliverables, local gate and hosted source gate are accepted within the documented boundaries. [PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is ready for delivery; no merge is claimed. Subsequent closing Markdown-only checks are accessible on the PR and do not create a new unfinished source requirement.
 
 The later failed [historical run 39969711451](https://github.com/dumbly-smart/Oblivion/actions/runs/39969711451) remains preserved: Rust failed while analysis/stress passed, and its specific cause remains unproved. [Three-arm scheduling diagnostics](PIPELINE_TEST_SCHEDULING.md) reproduced authenticated timeouts under CPU contention: pinned two-CPU parallel tests had two timeouts, the same serial suite passed, and one CPU with 16 competitors produced an actual 218 ms Timeout with both PIR operations and 128 storage events. Correctness suites explicitly use `--test-threads=1`; production budgets, benchmark concurrency and retry behavior are unchanged.

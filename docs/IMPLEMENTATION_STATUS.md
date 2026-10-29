@@ -1583,3 +1583,39 @@ not a durable quota. TCP accepts, TLS handshakes, unauthenticated connection
 attempts, and slow clients before request authentication remain outside it.
 The service remains synchronous, so a slow authenticated peer can occupy the
 single request handler until the absolute I/O deadline.
+
+## 2026-10-30: bounded remote-witness connection handling
+
+Source commit `24ded25d` was pushed to
+`codex/oblivion-research-platform`. The remote mTLS witness now assigns TLS and
+frame handling to four fixed workers behind a bounded queue of sixteen accepted
+connections. Each accepted connection has the existing absolute five-second
+I/O deadline, including time waiting in the queue. If the queue is full, the
+newly accepted socket is closed. SQLite dispatch still uses one serialized
+database connection. This prevents one stalled TLS/frame peer from blocking
+all request handlers, but four slow peers can still occupy all workers until
+their deadlines. It does not bound TCP accepts, TLS handshakes before the
+handler deadline, kernel backlog, IP-level traffic, or multiple witness
+instances.
+
+For this commit, `cargo fmt --all --check` and
+`cargo clippy --locked --workspace --all-targets -- -D warnings` completed
+successfully. A fresh
+`cargo test --locked --workspace -- --test-threads=1` run exited 101 at
+`oblivion-server/tests/pipeline.rs::sse_metadata_discovery_precedes_real_mixed_invocation`.
+That test received `Timeout` during a 100 ms invocation after prior fixture
+slots had succeeded. The retained fixture was
+`/tmp/oblivion-sse-demo-6450479058385519197`; its private record reported
+approximately 86.1 ms of work and 100.29 ms response elapsed time. This does
+not identify the cause. An isolated rerun and fresh workspace rerun are still
+required; no timeout, retry, or test threshold was changed. No hosted CI result,
+million-operation stress run, or Python suite was available for this commit.
+
+The rank-64 Zipf/Markov ORAM timing protocol and configuration were committed
+and pushed before study-specific tests, release builds, or data collection in
+`d5847766`: `docs/ORAM_RANK64_MARKOV_REPLICATION_PREREG_20261030.md` and
+`experiments/configs/oram-isolated-rank64-markov-replication-20261030.json`.
+No focused test, release build, or data collection has been run. The output
+directory was verified absent before the preregistration commit. Require
+successful plaintext and encrypt-only controls before interpreting the Path
+ORAM arm.

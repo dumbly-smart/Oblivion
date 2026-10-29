@@ -134,9 +134,21 @@ A root operator who restores an older SQLite database can roll back the catalog 
 
 ### 5.3 Independent mTLS witness for SSE, runtime catalog activation, and ORAM checkpoints
 
-`oblivion-anchor-remote` is a separate synchronous TCP service backed by SQLite. It exposes persistent SSE journal-head load/CAS, digest-bound signed-registry catalog activation, standalone Path ORAM checkpoint load/CAS, and atomic runtime invocation receipt/checkpoint commits. It requires mutual TLS: the client authenticates the witness through its configured CA roots, and the witness verifies the client's certificate against its own configured client CA. Every remote request and response envelope uses protocol version 4; older peers fail closed. The local Unix anchor protocol has its own version and is unchanged. Frames remain capped at 512 KiB, with a five-second TCP connect timeout and an absolute five-second TLS/frame I/O deadline shared by reads and writes after connect/accept. Byte trickling cannot reset that I/O budget. Rustls performs the TLS cryptography; there is no custom handshake or plaintext fallback. The server uses atomic SQLite transactions. If a mutation reply is lost or malformed after sending, the result is indeterminate because the update may have committed; the invocation adapter follows that with exact-response confirmation. Pre-send connection failure is a definite backend error. No operation silently falls back to the local anchor.
+`oblivion-anchor-remote` is a separate synchronous TCP service backed by SQLite. It exposes persistent SSE journal-head load/CAS, digest-bound signed-registry catalog activation, standalone Path ORAM checkpoint load/CAS, and atomic runtime invocation receipt/checkpoint commits. It requires mutual TLS: the client authenticates the witness through its configured CA roots, and the witness verifies the client's certificate against its own configured client CA. Every remote request and response envelope uses protocol version 4; older peers fail closed. The local Unix anchor protocol has its own version and is unchanged. Frames remain capped at 512 KiB, with a five-second TCP connect timeout and an absolute five-second TLS/frame I/O deadline shared by reads and writes after connect/accept. Byte trickling cannot reset that I/O budget. Rustls performs the TLS cryptography; there is no custom handshake or plaintext fallback. Four fixed workers process TLS and frames concurrently, with a bounded queue for sixteen accepted connections; queue time counts toward the absolute I/O deadline. SQLite requests remain serialized through one database connection. Full queues close accepted sockets, and four slow peers can occupy all workers until their deadlines. The server uses atomic SQLite transactions. If a mutation reply is lost or malformed after sending, the result is indeterminate because the update may have committed; the invocation adapter follows that with exact-response confirmation. Pre-send connection failure is a definite backend error. No operation silently falls back to the local anchor.
 
 The witness must be administered independently from the application host. Under that assumption, the mTLS SSE adapter can reject an old local encrypted-journal snapshot because its head generation/digest differs from the witness's newest head. The runtime worker can construct `TlsRegistryCatalogAnchor` from explicit environment settings and activate its verified catalog version/digest through CAS before readiness. Local Unix and remote mTLS catalog settings are mutually exclusive; all six remote settings must be present, and manifest plus pinned publisher key are still required. The witness operator sees the configured slot and catalog version/digest, along with operation times. A network observer sees peer endpoints, connection timing, and approximate TLS sizes, but not those fields inside the encrypted TLS payload. A client that cannot reach the witness fails closed; there is no local fallback or automatic mutation retry.
+
+Before a request reaches SQLite, the witness checks the authenticated
+certificate's configured slot grant and consumes one token from that
+certificate/slot bucket. The default is 100 requests per second with burst 200;
+the binary accepts rate, interval, and burst overrides only when all three
+settings are present. Each process starts with full buckets and maintains its
+own counters, so restart or a second witness instance does not share quota
+state. Rejected requests receive a typed rate-limit response before database
+dispatch. This limit covers authenticated request volume; it does not filter
+TCP accepts, TLS handshakes, or IP traffic. Four connection workers and a
+sixteen-connection queue provide bounded handler concurrency, while four slow
+clients can still hold every worker until the absolute I/O deadlines expire.
 
 After TLS authentication, request decoding, and the certificate/slot grant check,
 the server consumes one token for that exact leaf-certificate fingerprint and
@@ -156,10 +168,11 @@ These counters live only in the running process. Restarting resets each bucket
 to full, and running multiple witness instances gives each an independent
 budget. This is an authenticated-request volume control, not a durable user
 quota or a distributed fairness mechanism. TLS handshakes happen before the
-certificate/slot bucket is consulted, and a slow connection can occupy the
-single synchronous handler up to its absolute I/O deadline. Network filtering,
-connection concurrency, identity-level quotas, and shared multi-replica
-accounting remain unimplemented.
+certificate/slot bucket is consulted. Four workers can handle TLS and frame
+I/O at once, with sixteen accepted sockets queued; four slow clients can fill
+the worker pool until their deadlines expire. A full queue closes the newly
+accepted socket. The kernel accept backlog, IP-level limits, durable identity
+quotas, and shared multi-replica accounting are not controlled here.
 
 The remote worker settings are:
 
@@ -183,9 +196,9 @@ worker cannot know whether activation occurred; it exits without readiness,
 and the operator must reconcile witness state before retrying. No fallback
 silently turns the same startup into a local or unanchored activation.
 
-This is a single trusted witness, not a quorum protocol, hardware monotonic counter, or replicated register. A witness administrator who rolls back its own SQLite database can roll back the freshness head. The client and witness certificates, private keys, CA provisioning, witness code, operator, and durable witness database are trusted. The checkpoint adapter expands this trust: its 88-byte handle contains the snapshot decryption key, so the witness can decrypt any snapshot it can access. Runtime invocation requests also disclose their signed identities, exact saved response, current checkpoint handle, and slot to the witness. The witness sees plaintext during load, finish, and confirmation. After validating the certificate chain, the witness checks a versioned policy mapping the SHA-256 fingerprint of the DER leaf certificate to explicit slots. Policy files are loaded once at startup; changes and revocation require a restart. A certificate can still issue unlimited requests for its granted slots because quotas and rate limits are not implemented. Runtime invocation anchoring is opt-in, and uses the same witness trust model. Full protocol and failure details are in [docs/ANCHOR_SERVICE.md](docs/ANCHOR_SERVICE.md) and [the design record](docs/ANCHOR_FRESHNESS_DESIGN.md).
+This is a single trusted witness, not a quorum protocol, hardware monotonic counter, or replicated register. A witness administrator who rolls back its own SQLite database can roll back the freshness head. The client and witness certificates, private keys, CA provisioning, witness code, operator, and durable witness database are trusted. The checkpoint adapter expands this trust: its 88-byte handle contains the snapshot decryption key, so the witness can decrypt any snapshot it can access. Runtime invocation requests also disclose their signed identities, exact saved response, current checkpoint handle, and slot to the witness. The witness sees plaintext during load, finish, and confirmation. After validating the certificate chain, the witness checks a versioned policy mapping the SHA-256 fingerprint of the DER leaf certificate to explicit slots. Policy files are loaded once at startup; changes and revocation require a restart. A certificate can issue requests up to its per-process certificate/slot token bucket; the default is 100 requests per second with burst 200, and bucket state resets on restart. The worker pool limits simultaneous TLS/frame handlers to four with sixteen queued connections, but does not limit TCP accepts, handshakes, or distributed quotas. Runtime invocation anchoring is opt-in, and uses the same witness trust model. Full protocol and failure details are in [docs/ANCHOR_SERVICE.md](docs/ANCHOR_SERVICE.md) and [the design record](docs/ANCHOR_FRESHNESS_DESIGN.md).
 
-At the wire level, checkpoint load is a request containing the configured slot and returns either no record or a snapshot ID plus handle. Compare-and-swap sends the slot, the caller's expected current generation (or `null` for an empty slot), a snapshot ID, and the 88-byte logical handle encoded as exactly 176 lowercase ASCII hex characters. This makes wire length independent of the key/digest byte values. The remote server decodes and validates the handle, rebuilds a `CheckpointAnchorRecord`, which derives its generation from the trusted handle, then delegates atomicity and consecutive-generation checks to the existing SQLite-backed `CheckpointSlot`. A success returns `updated`; a stale generation returns `conflict`. A server-side uncertain commit returns `commit_indeterminate`. If the client connected and began transmitting but cannot validate the reply, it reports `AnchorCommitUnknown` so Path ORAM requires recovery/reconciliation; if TCP connection fails before sending, it reports a definite backend failure. The client does not retry or fall back. The witness is serial and handles one accepted connection at a time; the API is suitable for low-rate research calls and has not been capacity- or multi-host-benchmarked. The 512 KiB cap, five-second connect timeout, absolute five-second TLS/frame deadline, strict JSON fields, and mutual TLS apply to this operation as they do to the other remote anchor operations. Application-owned JSON frames and secret-handle hex strings are zeroized on drop, but this does not erase copies that rustls, allocators, the kernel, or crash reporting may keep.
+At the wire level, checkpoint load is a request containing the configured slot and returns either no record or a snapshot ID plus handle. Compare-and-swap sends the slot, the caller's expected current generation (or `null` for an empty slot), a snapshot ID, and the 88-byte logical handle encoded as exactly 176 lowercase ASCII hex characters. This makes wire length independent of the key/digest byte values. The remote server decodes and validates the handle, rebuilds a `CheckpointAnchorRecord`, which derives its generation from the trusted handle, then delegates atomicity and consecutive-generation checks to the existing SQLite-backed `CheckpointSlot`. A success returns `updated`; a stale generation returns `conflict`. A server-side uncertain commit returns `commit_indeterminate`. If the client connected and began transmitting but cannot validate the reply, it reports `AnchorCommitUnknown` so Path ORAM requires recovery/reconciliation; if TCP connection fails before sending, it reports a definite backend failure. The client does not retry or fall back. Four fixed workers handle TLS/frame work concurrently with a bounded queue of sixteen accepted sockets; database operations remain serialized. This improves behavior against one stalled connection, but is not a capacity or multi-host availability result. The 512 KiB cap, five-second connect timeout, absolute five-second TLS/frame deadline, strict JSON fields, and mutual TLS apply to this operation as they do to the other remote anchor operations. Application-owned JSON frames and secret-handle hex strings are zeroized on drop, but this does not erase copies that rustls, allocators, the kernel, or crash reporting may keep.
 
 ### 5.4 Optional durable invocation receipts
 
@@ -423,3 +436,35 @@ The preregistration must be read before any re-run. The original output director
 - **SSE:** searchable symmetric encryption; the server sees ciphertext/index activity and some declared leakage while the client keeps search keys/state.
 - **Trusted anchor:** independently trusted state used to select the newest durable checkpoint/version. The local SQLite service is not resistant to privileged rollback. The standalone mTLS witness supports SSE journal, registry catalog, and ORAM checkpoint state only while its separate operator preserves its SQLite state; checkpoint handles include snapshot keys, so the witness is trusted with checkpoint confidentiality. It is not replicated or hardware-backed.
 - **Trusted executor:** a role and assumption in this project threat model, not a claim that the current Rust process is hardware protected.
+
+## 13. How the repository fits together
+
+Use the root documents as a map and the detailed documents as contracts:
+
+| Question | Start here | Normative detail |
+| --- | --- | --- |
+| What runs in the request path? | [ARCHITECTURE.md](ARCHITECTURE.md) | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), [docs/RUNTIME_INTEGRATION.md](docs/RUNTIME_INTEGRATION.md) |
+| What bytes cross a boundary? | [docs/PROTOCOL.md](docs/PROTOCOL.md) | [docs/PIR_TRANSPORT.md](docs/PIR_TRANSPORT.md), [docs/ANCHOR_SERVICE.md](docs/ANCHOR_SERVICE.md) |
+| What is trusted and what leaks? | [docs/THREAT_MODEL.md](docs/THREAT_MODEL.md) | [docs/SECURITY_ASSUMPTIONS.md](docs/SECURITY_ASSUMPTIONS.md) and subsystem security targets |
+| Which requirement is implemented? | [docs/REQUIREMENTS_MATRIX.md](docs/REQUIREMENTS_MATRIX.md) | The linked source, test, or result for that row |
+| Which evidence is current? | [PROGRESS.md](PROGRESS.md) | [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md) plus source hashes in each result bundle |
+| How do I reproduce a result? | [REPORTS.md](REPORTS.md) | [docs/EXPERIMENTS.md](docs/EXPERIMENTS.md), that study's preregistration, and its verifier |
+
+The Rust workspace owns runtime mechanisms and their local integration tests.
+The `research/` tree owns attack implementations, simulators, statistical
+analysis, and independent reference adapters. `experiments/configs/` stores
+machine-readable run parameters; `experiments/results/` stores generated
+evidence and must be treated as immutable. A report is only reproducible when
+its source/binary identity, configuration, seed, workload, attacker view,
+independent trial split, and analysis are retained together.
+
+When a request fails, distinguish the guest result from the service result.
+The executor maps invalid input, guest traps, fuel exhaustion, and timeout to
+private internal statuses; the protected external response keeps the fixed
+class shape. The driver and test harness retain private diagnostics for
+correctness. A real backend failure may stop an access partway through the
+tree and can poison the controller when its final state is uncertain. A
+response deadline miss is measured, not repaired by silently retrying or
+extending the budget. The test suite uses serial test threads because several
+fixtures intentionally exercise short real deadlines; that setting does not
+change runtime scheduling or benchmark concurrency.

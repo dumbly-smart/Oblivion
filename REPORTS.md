@@ -1,6 +1,6 @@
 # Reports and evidence index
 
-This index points to technical reports and retained outputs. Read [docs/EXPERIMENTS.md](docs/EXPERIMENTS.md) for the current command catalog and [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md) for chronology and source-validation status. Each report defines its own workload, attacker view, executable/source identity, and limits. A result is not automatically evidence about current source or a different threat model.
+Updated 2026-10-30. This index points to technical reports and retained outputs. Read [docs/EXPERIMENTS.md](docs/EXPERIMENTS.md) for the current command catalog and [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md) for chronology and source-validation status. Each report defines its own workload, attacker view, executable/source identity, and limits. A result is not automatically evidence about current source or a different threat model.
 
 ## Project status, design, and assumptions
 
@@ -68,7 +68,38 @@ The [implementation status](docs/IMPLEMENTATION_STATUS.md) explains which earlie
 
 These reports describe simulators and bounded observers. They are not a deployed autoscaler or a general privacy proof. In particular, public deterministic seeds and privileged rollback of the local ledger are explicit limitations.
 
-## Latest ORAM study reproduction
+## How to read an experiment record
+
+Read the preregistration before the result. It fixes the workload, attacker
+view, train/test split, primary metric, positive-control gate, uncertainty
+method, seed, and output path. The result report records deviations and
+interpretation. Raw observations, labels, predictions, checksums, and
+environment metadata are retained under the referenced `experiments/results/`
+directory when the experiment collects them.
+
+A failed positive control invalidates that attack comparison. A successful
+control shows that the selected attacker can detect the intended signal in
+the leaky baseline; it does not prove the attacker is optimal. A confidence
+interval that includes chance means the study did not distinguish the tested
+conditions at that resolution. It does not prove indistinguishability or
+cryptographic security. Compare only studies with compatible workloads,
+attacker features, measurement boundaries, source/binary identity, and
+independent sampling units. Never overwrite a captured output directory; use a
+new path for a reproduction and document exclusions or superseding analyses.
+
+## Next preregistered ORAM replication
+
+The next independent study changes to a rank-64 Zipf/Markov workload and
+isolated bucket-handler timing. Its protocol and machine-readable configuration
+were frozen and pushed in commit `d5847766` before study-specific testing,
+release builds, and collection: [preregistration](docs/ORAM_RANK64_MARKOV_REPLICATION_PREREG_20261030.md),
+[configuration](experiments/configs/oram-isolated-rank64-markov-replication-20261030.json).
+No result is available yet. The planned output directory is
+`experiments/results/oram-isolated-rank64-markov-replication-20261030/` and
+must remain new; the study may proceed only after the current workspace test
+failure is understood and its positive controls pass.
+
+## Latest completed ORAM study reproduction
 
 The preregistration was committed before building and collecting. The completed runner and independent verifier used the Python environment pinned for this repository. To repeat with a new, empty output directory, first build the release measurement tools, then run:
 

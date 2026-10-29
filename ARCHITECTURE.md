@@ -1,6 +1,6 @@
 # Oblivion architecture
 
-This file is the short top-level map of the system. The deeper, component-specific specification is in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), [docs/PROTOCOL.md](docs/PROTOCOL.md), and the [threat model](docs/THREAT_MODEL.md). For a full narrative walkthrough, see [EXPLANATION.md](EXPLANATION.md).
+Updated 2026-10-30. This file is the short top-level map of the system. The deeper, component-specific specification is in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), [docs/PROTOCOL.md](docs/PROTOCOL.md), and the [threat model](docs/THREAT_MODEL.md). For a full narrative walkthrough, see [EXPLANATION.md](EXPLANATION.md).
 
 ## System shape
 
@@ -32,11 +32,33 @@ Durability is opt-in. The runtime can use either its existing local Unix anchor 
 
 ## Trust and visibility
 
-The adopted model is **TrustedExecutor**: the client and executor are trusted; storage, network, and scheduler are untrusted. The optional mTLS witness is an additional independent trust assumption: its operator must preserve committed anchor state and protect its keys. For ORAM checkpoint operations it also receives the snapshot decryption handle in plaintext and is trusted with checkpoint confidentiality. The witness validates each client certificate against its configured CA and then checks a versioned SHA-256 DER leaf-certificate-to-slot policy before dispatch. Each authenticated certificate/slot pair has a process-local token bucket (default 100 requests/second and burst 200); custom limits are available through the service API or remote-service environment settings. Counters reset at restart and are not shared between witness instances. This does not rate-limit TLS handshakes or slow connections. The prototype models executor isolation with process separation and Wasmtime. A host administrator can inspect process memory, so this prototype has no TEE, secure boot, remote attestation, or protection from host-root compromise.
+The adopted model is **TrustedExecutor**: the client and executor are trusted; storage, network, and scheduler are untrusted. The optional mTLS witness is an additional independent trust assumption: its operator must preserve committed anchor state and protect its keys. For ORAM checkpoint operations it also receives the snapshot decryption handle in plaintext and is trusted with checkpoint confidentiality. The witness validates each client certificate against its configured CA and then checks a versioned SHA-256 DER leaf-certificate-to-slot policy before dispatch. Each authenticated certificate/slot pair has a process-local token bucket (default 100 requests/second and burst 200); custom limits are available through the service API or remote-service environment settings. Counters reset at restart and are not shared between witness instances. A fixed pool of four workers handles TLS and frame I/O, with a bounded queue of sixteen accepted connections; SQLite dispatch still uses one serialized database connection. Queue wait counts toward the five-second I/O deadline, and a full queue closes the accepted connection. Four slow peers can occupy all workers until their deadlines; TCP accepts, TLS handshakes, IP-level limits, and multi-replica quotas remain outside these controls. The prototype models executor isolation with process separation and Wasmtime. A host administrator can inspect process memory, so this prototype has no TEE, secure boot, remote attestation, or protection from host-root compromise.
 
 The two PIR workers each receive one XOR share. Privacy from either server depends on the workers not colluding. Running two processes on one machine is a simulation of that assumption, not evidence that it holds. PIR conceals the selected registry row from one worker; the trusted executor learns the recovered row and selected module.
 
 Public observers can still learn frame timing and sizes, epoch/slot schedules, storage leaves or service events where included in their view, queueing, missed deadlines, resource/cold-start information if instrumented, and availability failures. See the [leakage model](docs/THREAT_MODEL.md) for the exact functions and residual leakage.
+
+### Who can observe which data
+
+| Observer | Receives or can infer | Does not receive from this interface alone |
+| --- | --- | --- |
+| Network observer | Public frame header, peer addresses, connection timing, ciphertext sizes, retries, and connection failures. | Authenticated payload plaintext, unless the observer also controls an endpoint or obtains its keys. |
+| One PIR worker | Its own decrypted XOR query share, database geometry, request sequence, and scan activity. | The target index under the two-server XOR construction, assuming this worker does not collude with the other worker. |
+| Both PIR workers together | Both XOR shares, which reconstruct the target index. | Nothing about the target index is hidden after collusion. The demo's two local processes do not establish non-collusion. |
+| Trusted executor | Invocation identity and plaintext, requested registry row, module and guest state, ORAM keys/map/stash, and private execution status. | These values are not concealed from the trusted executor; its trust is an assumption. |
+| Storage observer | Fixed-size encrypted buckets, physical path/leaf activity, operation timing, and backend failures visible at the storage interface. | Logical block contents without controller keys. ORAM does not hide access existence or all timing. |
+| Optional mTLS witness | The operation-specific slot and state: catalog version/digest, SSE journal head, ORAM checkpoint handle, or signed invocation receipt/response. Checkpoint and invocation handles contain the snapshot key. | It is not given snapshot files by the protocol, but a witness that can access them can decrypt them using the handle. |
+| Research attacker | Only the feature columns and auxiliary knowledge declared by the experiment. | Ground-truth labels and private diagnostics, unless a particular attacker model explicitly permits them. File separation alone does not enforce access control. |
+
+The mTLS witness has four fixed TLS/frame workers and a queue for up to sixteen
+accepted connections. Queue wait is inside the five-second I/O deadline; a
+full queue closes the newly accepted connection. SQLite dispatch uses one
+serialized database connection. Authenticated certificate/slot pairs have
+process-local token buckets (default 100 requests/second, burst 200). The
+buckets reset on restart and are not shared across witness instances. These
+controls do not limit TCP accepts, TLS handshakes, IP-level traffic, or four
+slow peers occupying all workers until their deadlines. See
+[docs/ANCHOR_SERVICE.md](docs/ANCHOR_SERVICE.md).
 
 ## Crates and responsibilities
 

@@ -110,8 +110,16 @@ oblivion-anchor-remote serve ...
 
 The two counts must be in `1..=1,000,000`, and the interval must be positive.
 Buckets are process-local and reset on restart. This authenticated-request
-limit does not throttle TLS handshakes or protect the serial service loop from
-slow connections.
+limit does not throttle TCP accepts or TLS handshakes.
+
+The listener uses four fixed connection workers and a bounded queue of sixteen
+accepted connections. The five-second absolute I/O deadline starts when a
+socket is accepted, so time spent queued consumes the same budget. A full
+queue closes the newly accepted connection. TLS handshakes and frame I/O can
+proceed concurrently, while request dispatch is serialized through the single
+SQLite connection. One stalled peer no longer blocks every client, but four
+slow peers can occupy every worker until their deadlines expire. There is no
+per-IP admission control or shared rate accounting across witness instances.
 
 The witness requires a version-1 certificate-to-slot authorization policy.
 Fingerprint the complete DER leaf certificate with
@@ -197,11 +205,14 @@ witness unavailability, catalog rollback/equivocation, and indeterminate CAS
 results prevent worker readiness; there is no local fallback or automatic
 retry. The worker verifies the publisher signature and embedded module
 bindings, then activates the catalog before announcing readiness. The network path is synchronous,
-uses one bounded 512 KiB version-2 JSON frame per
+uses one bounded 512 KiB protocol-version-4 JSON frame per
 connection, a five-second TCP connect timeout, and an absolute five-second
 TLS/frame I/O deadline shared by reads and writes after connect/accept. The
-deadline includes the TLS handshake, so byte trickling cannot reset it. The
-single-process listener handles connections serially. It fails closed on authentication,
+deadline includes the TLS handshake, so byte trickling cannot reset it. Four
+fixed workers process TLS and frames concurrently, with up to sixteen accepted
+connections queued; queue delay consumes the absolute I/O budget. SQLite
+operations remain serialized through one connection. A full queue closes a
+newly accepted connection. The service fails closed on authentication,
 protocol, or availability errors and does not automatically retry an uncertain
 CAS result.
 
@@ -381,10 +392,11 @@ the database handler runs. Each bucket starts full. Fractional refill is
 carried exactly between checks and capacity is capped at the configured burst.
 Counters live in process memory, reset on restart, and are not coordinated
 across witness instances. This does not limit TCP accepts, TLS handshakes,
-unauthenticated traffic, or a slow authenticated peer holding the serial
-connection handler until its five-second I/O deadline. Certificate
-issuance/rotation, remote availability, backup/restore controls and a replicated
-register remain operator/research responsibilities.
+unauthenticated traffic, or four slow peers holding all connection workers
+until their five-second I/O deadlines. The bounded queue drops excess accepted
+connections but does not prevent the kernel accept backlog or handshake work.
+Certificate issuance/rotation, remote availability, backup/restore controls
+and a replicated register remain operator/research responsibilities.
 
 Checkpoint anchoring expands what must be trusted: the witness sees each
 checkpoint slot, snapshot identifier, generation and 88-byte secret handle

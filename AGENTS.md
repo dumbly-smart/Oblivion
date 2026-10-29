@@ -11,6 +11,29 @@ This file is the entry point for people and coding agents working on Oblivion. I
 
 The root guides are summaries and navigation aids. When they differ from a protocol, threat model, preregistration, or source behavior, investigate and update the summary; do not override the precise source contract by inference.
 
+## Documentation ownership
+
+The uppercase root files are the canonical names. Do not add case-only
+lowercase duplicates such as `architecture.md` beside `ARCHITECTURE.md`.
+
+- `AGENTS.md` defines contributor and agent workflow.
+- `ARCHITECTURE.md` is the short system map; `docs/ARCHITECTURE.md` and the
+  component designs define the details.
+- `REPORTS.md` indexes reports and evidence; the linked report, preregistration,
+  raw output, and verifier are the authorities for a measurement.
+- `PROGRESS.md` is the current concise snapshot. Record the current source
+  revision, exact verification commands and outcomes, known defects, unrun
+  tiers, and the next concrete action. Keep chronology in
+  `docs/IMPLEMENTATION_STATUS.md` and requirement coverage in
+  `docs/REQUIREMENTS_MATRIX.md`.
+- `EXPLANATION.md` is the long-form walkthrough. Explain each request stage,
+  state owner, observer view, failure path, and limitation, then link to the
+  exact protocol or design for normative detail.
+
+Update the relevant overview when implementation behavior changes. Do not
+copy an old measurement into a current-source claim; retain its commit, binary,
+configuration, workload, and observer boundary.
+
 ## Code discovery
 
 This repository is indexed by graft. Before searching or reading source code, use the graft command that fits the question:
