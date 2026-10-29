@@ -91,8 +91,40 @@ Start the witness with:
 ```sh
 oblivion-anchor-remote serve \
   0.0.0.0:7443 witness.sqlite witness-master-key.bin \
-  witness-cert.pem witness-key.pem client-ca.pem
+  witness-cert.pem witness-key.pem client-ca.pem authorization-policy.json
 ```
+
+The witness requires a version-1 certificate-to-slot authorization policy.
+Fingerprint the complete DER leaf certificate with
+`openssl x509 -in client-cert.pem -outform DER | sha256sum`, then place its
+64-character lowercase SHA-256 digest and the exact allowed slot names in the
+policy file:
+
+```json
+{
+  "version": 1,
+  "clients": [
+    {
+      "certificate_sha256": "<replace with the client's lowercase DER SHA-256>",
+      "slots": ["sse-main-index", "function-registry", "oram-main"]
+    }
+  ]
+}
+```
+
+Replace the fingerprint placeholder with exactly 64 lowercase hexadecimal
+characters. Slot names contain 1–128 ASCII letters, digits, dots, underscores,
+or hyphens. Each request is checked against both the mTLS-authenticated leaf
+certificate and its exact requested slot before any anchor operation is
+dispatched. An unlisted certificate or slot is denied by closing the connection;
+the caller sees a transport failure. There are no wildcard grants. The JSON
+schema rejects unknown fields, duplicate certificates, duplicate slots,
+unsupported versions, empty policies, and malformed fingerprints. The policy is
+loaded once at startup and capped at 1 MiB, so changes require a witness restart.
+On Unix it must be a regular, non-symlink file that is not group- or
+world-writable. Certificate rotation requires updating the fingerprint and
+restarting the witness. The client CA still controls which certificates can
+complete mTLS; the policy narrows those accepted certificates to slots.
 
 The master key is exactly 32 raw bytes in a regular file with mode `0600` on
 Unix. The witness private TLS key must also be a regular non-symlink file with
@@ -246,19 +278,21 @@ payloads in transit from a network observer but does not hide connection
 endpoints, sizes, timing, or witness access patterns. Host root can still
 inspect the local executor and client keys. The service has no quorum, no
 hardware monotonic counter, and no Byzantine or crash-tolerant replication.
-Any client certificate chaining to the configured client CA can access any
-valid slot: there is no per-certificate slot authorization, quota, or rate
-limit. The configured CA and network policy therefore define the complete
-client authorization boundary. Production key provisioning, certificate rotation, remote availability,
-backup/restore controls and a replicated register remain open.
+The configured client CA validates certificate issuance, while the loaded
+fingerprint policy limits each accepted leaf certificate to named slots. The
+policy is immutable for the life of the process. The service still has no
+request quota or rate limit. Certificate issuance/rotation, remote availability,
+backup/restore controls and a replicated register remain operator/research
+responsibilities.
 
 Checkpoint anchoring expands what must be trusted: the witness sees each
 checkpoint slot, snapshot identifier, generation and 88-byte secret handle
 inside the TLS endpoint. Since that handle contains the snapshot key, the
-witness can decrypt an available snapshot. A valid client certificate can
-read or mutate any syntactically valid slot; there is no per-client-to-slot
-authorization, so the configured client CA must be dedicated to principals
-trusted for all of these data types.
+witness can decrypt an available snapshot. The certificate-to-slot policy is
+checked before dispatch for SSE, registry and checkpoint operations. A
+certificate holder can still read or mutate every slot granted to its
+fingerprint; there is no quota, rate limit, automated revocation or hot policy
+reload.
 
 The optional durable worker mode uses the local Unix service for anchored
 checkpoint recovery and signed invocation receipts. This does not prove the identity of a

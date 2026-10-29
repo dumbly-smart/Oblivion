@@ -6,7 +6,7 @@
 
 Oblivion is a functioning Rust research prototype with a selected local end-to-end process path and a substantial collection of component and system experiments. The selected-scope audit reports the required local source gate and hosted source gate passing on their recorded revisions. The full project is **not complete as a production system or as every possible extension in the fourteen-week research roadmap**. Results from historical source revisions remain attached to those revisions and should not be described as current-head validation without rerunning the gate.
 
-Recent commits are being delivered on `codex/oblivion-research-platform` in small increments. The 2026-10-28 ORAM data/report was pushed in commit `03f04b76` after its preregistration commit `1cc21e3b`. The SSE benchmark verifier and standard-library SVG renderer were pushed separately in `1e5a3b75`. The remote mTLS witness service and standalone SSE adapter were pushed in `7db12546` and `b758d0d4` respectively. The remote signed-registry catalog client and CAS integration were pushed in `a2f1281f`; runtime worker mTLS configuration and its end-to-end test were pushed in `1befc5c2`. Standalone remote ORAM checkpoint support was pushed in `a3201105`, followed by the fixed-width/version-2 wire correction in `2b79f0e4`; the expanded witness trust boundary is recorded below and in the security docs.
+Recent commits are being delivered on `codex/oblivion-research-platform` in small increments. The 2026-10-28 ORAM data/report was pushed in commit `03f04b76` after its preregistration commit `1cc21e3b`. The SSE benchmark verifier and standard-library SVG renderer were pushed separately in `1e5a3b75`. The remote mTLS witness service and standalone SSE adapter were pushed in `7db12546` and `b758d0d4` respectively. The remote signed-registry catalog client and CAS integration were pushed in `a2f1281f`; runtime worker mTLS configuration and its end-to-end test were pushed in `1befc5c2`. Standalone remote ORAM checkpoint support was pushed in `a3201105`, followed by the fixed-width/version-2 wire correction in `2b79f0e4`; the expanded witness trust boundary is recorded below and in the security docs. Certificate-to-slot authorization was added in `cfd1a04d`; its local verification and remaining limits are recorded below.
 
 ## Latest experiment
 
@@ -71,13 +71,22 @@ are pending. See its separate implementation-status entry.
 
 The independent benchmark verifier has 8 passing Python tests and successfully revalidated the full report at source revision `5fe4f603`; the report's checksums pass. The verifier commit is pushed separately from the raw result commit.
 
+On source commit `cfd1a04d`, the versioned mTLS certificate-to-slot policy
+passed the full serial Rust workspace suite, warning-denied workspace Clippy,
+formatting, whitespace validation, CLI help inspection, and the changed-doc
+link check (328 relative links across 12 files). The default test run leaves
+the million-operation ORAM stress case intentionally ignored. Hosted runs
+[40813595940](https://github.com/dumbly-smart/Oblivion/actions/runs/40813595940)
+and [40813584568](https://github.com/dumbly-smart/Oblivion/actions/runs/40813584568)
+were still in progress when this snapshot was written.
+
 Correctness test integration uses one Rust test thread because these fixtures have real deadlines and can be delayed by local CPU contention. Benchmark concurrency and production deadlines have not been silently changed to make tests pass.
 
 ## Remaining limits and work
 
 1. **No TEE:** process isolation and Wasmtime are not hardware confidentiality. TEE, attestation, host-root defense, and hardware side channels need supported hardware and a separate design/review.
 2. **PIR assumption:** the two servers must not collude; the current process topology does not enforce independent operators.
-3. **Freshness root:** local catalog, checkpoint, invocation-receipt, and local SSE freshness rely on the local SQLite anchor and key remaining trusted. A privileged database rollback can undo them. Standalone SSE, signed-registry, and Path ORAM checkpoint clients can instead use one independent mTLS witness; rolling back, compromising, or losing that witness removes its freshness guarantee. For ORAM checkpoints the witness sees the snapshot key and can decrypt snapshots it can access. Its configured client CA is the authorization boundary, without per-slot ACLs or rate limits. Runtime checkpoints/receipts still use the local anchor; remote invocation receipts, host-independent writer fencing, and hardware/replicated rollback resistance remain research/deployment work.
+3. **Freshness root:** local catalog, checkpoint, invocation-receipt, and local SSE freshness rely on the local SQLite anchor and key remaining trusted. A privileged database rollback can undo them. Standalone SSE, signed-registry, and Path ORAM checkpoint clients can instead use one independent mTLS witness; rolling back, compromising, or losing that witness removes its freshness guarantee. For ORAM checkpoints the witness sees the snapshot key and can decrypt snapshots it can access. The witness validates the configured client CA and then applies a versioned SHA-256 DER leaf-certificate-to-slot allowlist; policy changes require restart. Per-slot request quotas and rate limits remain unimplemented. Runtime checkpoints/receipts still use the local anchor; remote invocation receipts, host-independent writer fencing, and hardware/replicated rollback resistance remain research/deployment work.
 4. **Execution leakage:** fixed resource-access count and frame shapes do not make CPU work constant-time. Scheduling, cache behavior, completion time, deadlines, active failures, participation, and host-level resource observations remain.
 5. **SSE:** constrained GGM-inspired construction is not a complete Diana implementation. Search equality, result volume, timing, and historical capability/linkability leak; no backward privacy is claimed. The persistent journal cost is measured. A standalone mTLS witness detects application-host journal rollback under its single-operator trust assumption; witness rollback resistance, replicated acknowledgment, and runtime integration remain.
 6. **Autoscaling:** the subsystem is a simulator, not provisioning. Mechanism arguments depend on declared adjacency, bounded horizon, sampler, and observer; public seeded artifacts are not DP releases.

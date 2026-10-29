@@ -205,8 +205,7 @@ run [40758604155](https://github.com/dumbly-smart/Oblivion/actions/runs/40758604
 passed all three jobs for this exact source commit: Rust format/Clippy/tests,
 the million-operation ORAM stress oracle, and the research analysis checks.
 
-The remote witness remains one trusted operator and database with no per-slot
-client authorization. It can be rolled back or made unavailable. The selected function remains visible to the trusted executor. The runtime remote anchor changes freshness state for signed-catalog activation; a separate standalone checkpoint adapter is documented below. Runtime remote checkpoints, invocation receipts, witness replication, and a TEE remain unfinished.
+The remote witness remains one trusted operator and database and can be rolled back or made unavailable. A versioned SHA-256 DER leaf-certificate-to-exact-slot policy now limits which slots each mTLS client may address; policy changes require restart. Per-slot quotas and rate limits remain unimplemented. The selected function remains visible to the trusted executor. Runtime remote checkpoints, invocation receipts, witness replication, and a TEE remain unfinished.
 
 ## Optional follow-up: isolated ORAM timing
 
@@ -1398,3 +1397,32 @@ values and reject malformed length/hex input. Verification on code commit
 `git diff --check` passed. Full workspace tests and hosted CI are pending for
 this follow-up commit; the preceding source commit's full workspace and hosted
 stress evidence is recorded above. No performance benchmark was collected.
+
+## 2026-10-29: mTLS certificate-to-slot authorization
+
+Source commit `cfd1a04d` adds a version-1 witness authorization policy. It maps
+an exact lowercase SHA-256 fingerprint of the complete DER leaf certificate to
+one or more exact anchor slots. The witness first completes normal mTLS chain
+validation, decodes the bounded request, and checks the authenticated leaf and
+requested slot before dispatching an anchor operation. There are no wildcard
+slots. The strict JSON parser rejects unknown fields, duplicate clients or
+slots, malformed fingerprints, unsupported versions, empty grants and files
+over 1 MiB. On Unix the policy file must be a regular non-symlink file and
+must not be group- or world-writable. The policy is loaded once when the
+witness starts; updates and certificate revocation require a restart. The
+remote witness CLI now requires the policy file as its final argument.
+
+Integration tests prove that a CA-valid certificate without a grant and a
+granted certificate requesting another slot are both denied. Existing remote
+SSE, signed-catalog and ORAM checkpoint tests now provision explicit grants.
+This policy limits certificate-to-slot access only: it adds no per-slot quota,
+rate limit, automated revocation, hot reload, witness replication, or
+multi-host runtime checkpoint/receipt integration.
+
+Verification on `cfd1a04d`: `cargo test --locked --workspace --
+--test-threads=1` exited 0; the million-operation ORAM test remains
+intentionally ignored by the default suite. `cargo clippy --locked --workspace
+--all-targets -- -D warnings`, `cargo fmt --all --check`, `git diff --check`,
+and the updated remote CLI help check passed. A changed-Markdown link check
+resolved 328 relative links across 12 files. Hosted checks were pending when
+this entry was written. No performance benchmark was collected for the policy.

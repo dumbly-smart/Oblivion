@@ -164,6 +164,4 @@ guarantee. Keep the local anchor explicitly process-restart-only and the
 remote freshness guarantee scoped to an honest, durable independent witness;
 for checkpoint use, the witness is also trusted with snapshot decryption keys. S11
 remains partial; this work makes no hardware anti-rollback, TEE, or
-backward-privacy claim. Before exposing the remote service to multiple client
-principals, add an explicit certificate-to-slot authorization model and
-bounded rate/quota controls; the current configured CA is a global allow-list.
+backward-privacy claim. The witness now applies an explicit certificate-to-slot policy after CA validation. Before broad multi-principal deployment, consider bounded rate/quota controls and operational policy reload or revocation; the current policy is startup-loaded and requires a witness restart for changes. These controls do not address remote invocation receipts, multi-host writer fencing, or witness rollback, which remain separate design work.

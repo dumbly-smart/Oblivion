@@ -46,10 +46,11 @@ older snapshot. The witness is in a separate administrative domain and is
 trusted to authenticate clients, perform the documented atomic CAS, preserve
 accepted state across restart, and not restore an older database. The client
 trusts a configured certificate authority for the witness and the witness
-trusts a configured CA for Oblivion clients. The service has no per-client
-identity mapping or per-slot ACL: every certificate chaining to that CA can
-load or update any syntactically valid slot. The configured client CA is the
-entire authorization boundary in this prototype.
+trusts a configured CA for Oblivion clients. After mTLS validates the client
+chain, the service hashes the DER leaf certificate with SHA-256 and checks a
+versioned allowlist for the requested exact slot. Malformed or empty policy
+files fail closed. This separates certificate issuance from slot authorization;
+the service still has no request quota or rate limit.
 
 The witness operator, its host administrator, its signing keys, its durable
 storage, certificate issuance, and client credential provisioning are inside
@@ -115,15 +116,20 @@ sizes. The observer cannot read the slot, index identifier, digest, generation,
 snapshot identifier, secret handle, or operation kind from the protected
 application payload under the TLS assumption. This does not conceal which
 client connects or when, nor does it hide witness-side access timing from the
-witness operator. The witness itself sees the slot, snapshot identifier,
-generation and secret handle for checkpoint operations and can derive the
-snapshot key from that handle.
+witness operator. The witness sees the slot, snapshot identifier, generation
+and secret handle for checkpoint operations and can derive the snapshot key
+from that handle. The exact-slot policy determines which anchor slots each
+authenticated certificate may access.
 
 ## Acceptance tests
 
 - An mTLS client reads an empty slot, commits its first head, reloads it, and
   rejects a stale compare-and-swap.
 - A client that does not chain to the configured client CA is rejected.
+- A CA-valid client whose leaf fingerprint is absent from the policy is denied.
+- A CA-valid client cannot use a slot absent from its fingerprint's grant.
+- Malformed, duplicate, empty, oversized, symlinked or group/world-writable
+  authorization policies are rejected before the listener starts.
 - A client that does not trust the witness CA is rejected.
 - A slow-drip client cannot extend the absolute connection I/O deadline by
   sending a frame in small pieces.
@@ -149,8 +155,9 @@ for local research and low-rate anchoring. It has a five-second TCP connect
 timeout and an absolute five-second TLS/frame I/O deadline shared by reads
 and writes after connect/accept, plus bounded frames. Byte trickling cannot
 reset the absolute I/O budget. It does not provide load balancing, quorum
-replication, per-client or per-slot authorization, request quotas, rate
-limiting, automated certificate issuance/rotation, remote deployment
-automation, or a benchmarked multi-host service. Production certificate and
-key provisioning remain operator responsibilities; do not reuse a broad
-client CA for unrelated workloads.
+replication, request quotas, rate limiting, automated certificate
+issuance/rotation, hot policy reload, remote deployment automation, or a
+benchmarked multi-host service. The exact-fingerprint policy is read only at
+startup, so certificate rotation requires editing the policy and restarting
+the witness. Production certificate and key provisioning remain operator
+responsibilities; do not reuse a broad client CA for unrelated workloads.
