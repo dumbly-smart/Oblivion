@@ -2,7 +2,7 @@ use std::{
     fs,
     net::{SocketAddr, TcpListener},
     path::{Path, PathBuf},
-    sync::{Arc, mpsc},
+    sync::{Arc, Barrier, mpsc},
     thread,
     time::{SystemTime, UNIX_EPOCH},
 };
@@ -300,6 +300,116 @@ fn remote_witness_reserves_pending_update_against_stale_writer() {
             .expect("decode empty result")
             .is_empty()
     );
+
+    let _ = witness.shutdown.send(());
+    witness
+        .thread
+        .join()
+        .expect("witness thread")
+        .expect("witness service");
+}
+
+#[test]
+fn remote_witness_allows_one_simultaneous_pending_update_from_a_generation() {
+    let root = TestDirectory::new();
+    let journal = root.path().join("journal");
+    let (server_config, client_config, authorization) = configs();
+    let witness = start_witness(root.path(), server_config, authorization);
+
+    let initial = PersistentClient::create(
+        &journal,
+        &CLIENT_KEY,
+        Limits::default(),
+        anchor(witness.address, client_config.clone()),
+    )
+    .expect("create persistent SSE index");
+    let index_id = initial.index_id();
+    drop(initial);
+
+    let mut first = PersistentClient::open(
+        &journal,
+        &CLIENT_KEY,
+        anchor(witness.address, client_config.clone()),
+    )
+    .expect("open first writer");
+    let mut second = PersistentClient::open(
+        &journal,
+        &CLIENT_KEY,
+        anchor(witness.address, client_config.clone()),
+    )
+    .expect("open second writer");
+    let barrier = Arc::new(Barrier::new(3));
+
+    let first_barrier = barrier.clone();
+    let first_writer = thread::spawn(move || {
+        first_barrier.wait();
+        (42_u64, first.prepare_add(b"concurrent-a", 42))
+    });
+    let second_barrier = barrier.clone();
+    let second_writer = thread::spawn(move || {
+        second_barrier.wait();
+        (99_u64, second.prepare_add(b"concurrent-b", 99))
+    });
+
+    barrier.wait();
+    let (first_id, first_result) = first_writer.join().expect("first writer thread");
+    let (second_id, second_result) = second_writer.join().expect("second writer thread");
+    let (winning_id, winning_request, losing_id) = match (first_result, second_result) {
+        (Ok(request), Err(JournalError::AnchorConflict)) => (first_id, request, second_id),
+        (Err(JournalError::AnchorConflict), Ok(request)) => (second_id, request, first_id),
+        _ => panic!("exactly one writer should reserve the generation"),
+    };
+
+    let mut server = Server::new(index_id, Limits::default()).expect("SSE server");
+    let mut recovered = PersistentClient::open(
+        &journal,
+        &CLIENT_KEY,
+        anchor(witness.address, client_config.clone()),
+    )
+    .expect("reopen the selected pending update");
+    let retry = recovered
+        .retry_pending()
+        .expect("recover winning pending update");
+    assert_eq!(retry.address, winning_request.address);
+    assert_eq!(retry.ciphertext, winning_request.ciphertext);
+    let acknowledgement = server
+        .insert(retry)
+        .expect("send the selected request to the SSE server");
+    recovered
+        .finish_add(acknowledgement)
+        .expect("persist selected server acknowledgement");
+    drop(recovered);
+
+    let restored = PersistentClient::open(
+        &journal,
+        &CLIENT_KEY,
+        anchor(witness.address, client_config.clone()),
+    )
+    .expect("reopen acknowledged journal");
+    for (keyword, document_id, should_exist) in [
+        (b"concurrent-a".as_slice(), first_id, first_id == winning_id),
+        (
+            b"concurrent-b".as_slice(),
+            second_id,
+            second_id == winning_id,
+        ),
+    ] {
+        let (snapshot, request) = restored
+            .prepare_search(keyword)
+            .expect("prepare race outcome search");
+        let results = restored
+            .finish_search(
+                &snapshot,
+                server.search(&request).expect("SSE server search"),
+            )
+            .expect("decode race outcome");
+        if should_exist {
+            assert_eq!(results, vec![document_id]);
+        } else {
+            assert!(results.is_empty(), "losing update must never be submitted");
+            assert_eq!(document_id, losing_id);
+        }
+    }
 
     let _ = witness.shutdown.send(());
     witness
