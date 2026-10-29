@@ -23,6 +23,14 @@ suite passed 189 tests with one ignored ORAM stress test; warning-denied Clippy,
 formatting, and whitespace checks passed. Benchmarks, the Python suite, and
 hosted CI were not run for this test-only change.
 
+Source commit `dc2c7201` adds a barrier-synchronized remote SSE writer race.
+Both clients open the same journal generation; exactly one reservation wins,
+and the selected update is recovered and searched against the real SSE server.
+The focused race passed 10 consecutive runs. The full serial workspace suite
+passed 190 tests with one ignored ORAM stress test; warning-denied Clippy,
+formatting, and whitespace checks passed. Cross-host validation, benchmarks,
+the Python suite, and hosted CI were not run for this test-only increment.
+
 ## Latest experiment
 
 The 30-trial preregistered ORAM leaf/timing replication completed with both leaky positive controls first and successful:

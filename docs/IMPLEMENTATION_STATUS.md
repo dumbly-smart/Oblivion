@@ -1526,3 +1526,22 @@ increment. This validates stale-generation reservation/recovery, not
 simultaneous independent-host scheduling or a transaction spanning the witness
 and SSE server. The witness can still be rolled back by its operator, so S11
 remains partial.
+
+### Concurrent remote SSE writer reservation (source commit `dc2c7201`)
+
+Added `remote_witness_allows_one_simultaneous_pending_update_from_a_generation`.
+Two `PersistentClient` instances load the same remote journal head, wait at a
+barrier, and concurrently attempt different `prepare_add` operations. Exactly
+one call returns a request; the other receives `AnchorConflict`. A newly
+opened client recovers the winner's exact pending request, submits it to the
+SSE server, persists the acknowledgement, and verifies that only the winning
+keyword is searchable. The focused race passed 10 consecutive executions.
+
+The serial workspace suite passed 190 tests with one intentionally ignored
+million-operation ORAM stress test. Workspace Clippy with `-D warnings`,
+formatting, and whitespace checks passed. The stress test was not rerun; its
+last measured pass remains attached to code commit `7bee2666`. No benchmark,
+Python suite, or hosted CI run was performed. The clients raced on one host
+against one witness; this does not establish cross-host operation, witness
+rollback resistance, or an atomic transaction with the SSE server. S11 remains
+partial.

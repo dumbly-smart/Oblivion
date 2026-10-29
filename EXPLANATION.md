@@ -280,9 +280,12 @@ and publishes the next generation. If the server committed but the client
 lost the acknowledgment, recovery resends the same request, and the server
 must treat that request idempotently. The new remote-witness test checks this
 stale-generation sequence through real mTLS and SQLite, including that only
-the winning keyword is searchable. It does not test simultaneous scheduling
-on separate hosts or create an atomic transaction spanning the anchor and
-SSE server.
+the winning keyword is searchable. A second test releases two clients from a
+barrier after both opened the same generation, checks one CAS winner and one
+conflict, then reopens and verifies the losing keyword is absent. That test
+passed 10 repeated executions on one host. Neither test measures simultaneous
+scheduling on separate hosts or creates an atomic transaction spanning the
+anchor and SSE server.
 
 The persistent client journal also has a dedicated size/recovery benchmark. It records encrypted journal frame bytes when each immutable record is created, even if checkpoint compaction later deletes that record, and times `PersistentClient::open` in newly launched child processes. The 2026-10-28 study ran 30 indexes at each of 64, 257, 1,024, and 4,093 postings, then performed five reopens per index. It used the real local Unix anchor service. Mean application-level journal-byte amplification was 84.037×, 99.225×, 130.489×, and 244.754× respectively; mean build time rose from 3.316 seconds to 242.889 seconds. The full 95% intervals, p50/p95/p99 values, raw samples, and reproduction commands are in [the result report](docs/SSE_JOURNAL_BENCHMARK_20261028_RESULT.md).
 
