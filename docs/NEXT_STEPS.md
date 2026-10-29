@@ -11,14 +11,22 @@ independent verification are linked from
 [`REPORTS.md`](../REPORTS.md) and described in
 [`ORAM_RANK64_MARKOV_REPLICATION_20261030.md`](ORAM_RANK64_MARKOV_REPLICATION_20261030.md).
 
-Next, select a different attack family or workload and preregister its
+The planned frequency-only tag attack is now complete as a post-hoc secondary
+analysis of those same sessions. Plaintext and encrypt-only controls both
+scored AUC 1.000; Path ORAM scored 0.496447 [0.491316, 0.501515]. Its interval
+includes 0.50, and the result is inconclusive for this tag-frequency scorer;
+because it reuses the primary study's sessions, it is not independent sample
+evidence. The plan, output, and independent verification are in
+[`ORAM_RANK64_FREQUENCY_ORIENTATION_SECONDARY_20261030.md`](ORAM_RANK64_FREQUENCY_ORIENTATION_SECONDARY_20261030.md).
+
+Next, choose a new independent ORAM workload or attack study and freeze its
 attacker-visible fields, positive-control gate, independent split, metric, and
-seed before any analysis or collection. Treat any new scorer run over these
-same 30 sessions as a secondary post-hoc analysis, not an independent
-replication. Preserve the earlier 100 ms mixed-invocation timeout as
-unresolved: six focused executions and a full serial rerun passed, but the
-cause of the original retained failure is still unknown. If it recurs, collect
-host-load and per-phase evidence without changing deadlines or adding retries.
+seed before analysis or collection. Do not describe another scorer on these
+30 sessions as an independent replication. Preserve the earlier 100 ms
+mixed-invocation timeout as unresolved: six focused executions and a full
+serial rerun passed, but the cause of the original retained failure is still
+unknown. If it recurs, collect host-load and per-phase evidence without
+changing deadlines or adding retries.
 
 The independent bundle verifier is
 [`research/analysis/verify_oram_isolated_bundle.py`](../research/analysis/verify_oram_isolated_bundle.py);
@@ -26,6 +34,14 @@ its six tests cover raw hashes, paired schedules, event/frame shape, saved
 trial scores, and bootstrap intervals. Keep future preregistrations,
 implementations, result bundles, and analysis corrections in separate small
 reviewable commits when they represent separate changes.
+
+The secondary-analysis verifier is
+[`research/analysis/oram_frequency_secondary_verifier.py`](../research/analysis/oram_frequency_secondary_verifier.py);
+its tests cover prediction-label separation, raw-manifest completeness,
+private write/read label semantics, trial metric recomputation, and plan hash
+parsing. The current receipt checked 1,440 raw session files and 90 trial
+predictions. The full Python suite and verifier test count for the newest
+increment are recorded in [`IMPLEMENTATION_STATUS.md`](IMPLEMENTATION_STATUS.md).
 
 **Selected-scope acceptance:** the [serial local gate](../experiments/results/validation-20261023-serial/commands.json) passed all ten commands, including 91 core Rust tests, one reference test, 120 Python tests without skips and the million-operation oracle. [Before/after source fingerprints](../experiments/results/validation-20261023-serial/metadata.json) match: `a83d606782f63e9f5c9f8b95a3c80b299f57da30c916de670f61751e8068becc`. All three jobs in [hosted run 39971009249](https://github.com/dumbly-smart/Oblivion/actions/runs/39971009249) for `ade31d2c` passed. The selected roadmap software and empirical deliverables, local gate and hosted source gate are accepted within the documented boundaries. [PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is ready for delivery; no merge is claimed. Subsequent closing Markdown-only checks are accessible on the PR and do not create a new unfinished source requirement.
 

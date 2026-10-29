@@ -387,6 +387,28 @@ reproduction command are in [the result report](docs/ORAM_RANK64_MARKOV_REPLICAT
 and [REPORTS.md](REPORTS.md). The earlier 2026-10-28 Zipf-16 result remains a
 separate study and is not pooled with this one.
 
+### Frequency-only follow-up on the same data
+
+A frozen post-hoc analysis also tested a simpler attack: count how often each
+visible tag appeared in the labeled profile sessions, then score the disjoint
+target sessions from those counts. It omitted timing and byte features, and
+chose the score direction only through leave-one-profile-session-out
+validation. Plaintext and encrypt-only controls both scored AUC 1.000; Path
+ORAM scored 0.496447 [0.491316, 0.501515], with balanced accuracy 0.497667.
+The interval includes chance, so this scorer did not distinguish hot from
+cold target addresses in these sessions. It is post-hoc and reuses the primary
+study's data, so it adds a different attack view but no independent sample
+evidence. It does not prove cryptographic security or indistinguishability.
+
+The secondary study reports mean target hot prevalence 0.491357, mean
+evaluation-only target-majority accuracy 0.516227, and mean profile-majority
+accuracy 0.502913. These help interpret raw accuracy under class imbalance.
+Its independent verifier checks the immutable raw-file hashes, exact study
+file set, source/configuration hashes, target-only prediction schema, trial
+metrics, and bootstrap intervals. See the [secondary result report](docs/ORAM_RANK64_FREQUENCY_ORIENTATION_SECONDARY_20261030.md),
+[frozen plan](docs/ORAM_RANK64_FREQUENCY_ORIENTATION_SECONDARY_PLAN_20261030.md),
+and [REPORTS.md](REPORTS.md).
+
 ## 10. Build, run, test, and reproduce
 
 ### Toolchain
@@ -442,6 +464,7 @@ The preregistration must be read before any re-run. The original output director
 | `examples/wasm-functions` | Guest modules executed by the runtime. |
 | `research/analysis`, `research/attacks` | Parsers, statistics, classifiers, figures and evaluations. |
 | `research/analysis/verify_oram_isolated_bundle.py` | Independent validation of raw ORAM replication hashes, schedules, event/frame shape, CPU masks, saved predictions, and bootstrap statistics. |
+| `research/analysis/oram_frequency_secondary_verifier.py` | Independent validation of the rank-64 post-hoc frequency study's raw/source hashes, target-only predictions, labels, and trial metrics. |
 | `research/simulation` | Workload and autoscaling simulation. |
 | `research/oram_reference`, `research/pir_reference` | Separately built/pinned comparison programs with their own licensing. |
 | `experiments/configs` | Machine-readable configurations and frozen seeds/settings. |

@@ -2,8 +2,9 @@
 
 **Updated:** 2026-10-30. Rust runtime source remains `24ded25d` on
 `codex/oblivion-research-platform`; the rank-64 study ran at `e7813b99`, and
-the independent bundle verifier/tests were added in `d5d90054`. The study
-protocol/config was frozen in `d5847766` before collection. The chronological record is
+the independent bundle verifier/tests were added in `d5d90054`. The frequency
+secondary plan and verifier/tests were pushed in `80678c6d` and `22bb0024`.
+The study protocol/config was frozen in `d5847766` before collection. The chronological record is
 [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md), and the full
 requirement audit is [docs/REQUIREMENTS_MATRIX.md](docs/REQUIREMENTS_MATRIX.md).
 
@@ -23,9 +24,10 @@ remain serialized through one connection. A full queue closes the newly
 accepted connection. Per-certificate/per-slot token buckets default to 100
 requests per second with burst 200. They reset on restart and do not cover TCP
 accepts, TLS handshakes, IP-level limits, or multiple witness instances.
-The latest research tooling adds an independent verifier for isolated ORAM
-bundles; it validates raw hashes, paired schedules, fixed event/frame shape,
-process masks, predictions, and bootstrap statistics.
+The latest research tooling adds independent verifiers for isolated ORAM
+bundles and the frequency-only secondary analysis; they validate raw hashes,
+paired schedules where applicable, fixed event/frame shape, process masks,
+target-only predictions, and bootstrap statistics.
 
 ## Latest measurement
 
@@ -37,6 +39,13 @@ the result is inconclusive for the fixed classifier, workload, host, and
 handler-only timing boundary. It is not a security proof. The complete raw
 bundle, source/binary hashes, independent verification, plot, preregistration,
 and interpretation are indexed in [REPORTS.md](REPORTS.md).
+
+A separate post-hoc frequency-only tag attack reused those same rank-64
+sessions. Plaintext and encrypt-only controls both scored AUC 1.000; the ORAM
+scorer measured 0.496447 [0.491316, 0.501515], inconclusive for this attack
+and workload. It is not an independent replication. Its frozen analysis plan,
+raw report/predictions, result interpretation, and independent verification
+are linked from [REPORTS.md](REPORTS.md).
 
 The completed persistent SSE journal benchmark ran 30 trials at each of 64,
 257, 1,024, and 4,093 postings, with five fresh-process reopens per index. Its
@@ -66,9 +75,12 @@ all workspace examples and the separate locked ORAM reference workspace. Its
 first run had five setup failures caused by absent release binaries in this
 worktree; no test failed after the prerequisites were built. The focused study
 suite passed 9 tests and the isolated-process suite passed 3; the independent
-bundle verifier's six focused tests also passed. The million-operation ORAM
-stress tier was not run for this increment. Earlier gate results remain valid
-only for their recorded revisions. See the per-commit evidence in
+bundle verifier's six focused tests also passed during the primary study
+increment. For the subsequent frequency-verifier increment, a fresh Python
+suite run passed 252 tests with four skips, including six focused tests for
+the new verifier. The million-operation ORAM stress tier was not run for
+either increment. Earlier gate results remain valid only for their recorded
+revisions. See the per-commit evidence in
 [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md).
 
 ## Latest ORAM study
@@ -80,6 +92,7 @@ and configuration were committed in `d5847766`:
 - [Configuration](experiments/configs/oram-isolated-rank64-markov-replication-20261030.json)
 - [Results](docs/ORAM_RANK64_MARKOV_REPLICATION_20261030.md)
 - [Raw bundle and independent verification](experiments/results/oram-isolated-rank64-markov-replication-20261030/)
+- [Post-hoc frequency-only result and verification](docs/ORAM_RANK64_FREQUENCY_ORIENTATION_SECONDARY_20261030.md)
 
 Its 30-trial positive controls passed at AUC 1.000; Path ORAM scored 0.502474
 [0.496502, 0.508492]. Independent verification matched 1,440 raw hashes,
@@ -114,9 +127,9 @@ seed and directory.
    focused repetitions and full serial rerun passed, but they did not identify
    its cause. Capture host-load and per-phase diagnostics if it recurs, without
    changing runtime limits or adding retries.
-2. Choose and preregister the next independent ORAM attack/workload study
-   before running it; keep the current study's same-session post-hoc analyses
-   clearly labeled as secondary rather than independent replication.
+2. Choose and preregister a new independent ORAM attack/workload study before
+   running it; keep the completed same-session frequency analysis labeled as
+   post-hoc and secondary rather than independent replication.
 3. Continue the remaining work in [docs/NEXT_STEPS.md](docs/NEXT_STEPS.md),
    preserving the threat model and reporting data- or hardware-dependent
    extensions as unimplemented where appropriate.

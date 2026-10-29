@@ -1701,3 +1701,53 @@ identify the first failure's cause. The million-operation stress tier and
 hosted CI remain unrun for this increment. Future work should preregister a
 new attack/workload before evaluating it; same-session post-hoc scorers must
 be identified as secondary analyses rather than independent replication.
+
+## 2026-10-30: rank-64 tag-frequency secondary analysis
+
+The analysis plan was committed and pushed in `80678c6d` before running the
+frequency-only scorer. It explicitly records that the primary rank-64 result
+was already known and that this is a post-hoc secondary analysis of the same
+sessions. The run reused the immutable 1,440-file raw bundle and original
+configuration. It produced all three modes only after the plaintext and
+encrypt-only positive controls each scored AUC 1.000.
+
+Path ORAM mean selected-direction AUC was 0.496447 with 95% trial-bootstrap
+interval [0.491316, 0.501515]. Fixed-direction AUC was 0.503477
+[0.498123, 0.508641]; balanced accuracy was 0.497667 [0.493352, 0.502003].
+Mean raw accuracy was 0.498112, below the 0.502913 profile-majority accuracy
+and 0.516227 evaluation-only target-majority reference. Mean target hot
+prevalence was 0.491357. The interval includes chance, so this scorer's result
+is inconclusive for these sessions and does not establish indistinguishability
+or cryptographic security.
+
+The post-hoc result record is
+[`ORAM_RANK64_FREQUENCY_ORIENTATION_SECONDARY_20261030.md`](ORAM_RANK64_FREQUENCY_ORIENTATION_SECONDARY_20261030.md).
+The raw runner report, 90 target prediction files, plot, and independent
+verification receipt are in
+[`oram-rank64-frequency-orientation-secondary-20261030/`](../experiments/results/oram-rank64-frequency-orientation-secondary-20261030/).
+The new independent verifier checks the frozen source/configuration digests,
+exact raw-session path set and all 1,440 SHA-256 values, the complete 90-file
+prediction set, profile/target session IDs, target-label-free prediction
+schema, private-label-derived trial metrics, positive-control gate, and
+5,000-resample intervals. It recomputed all 90 trial metric rows. The first
+successful receipt is retained as `independent-verification-v1.json`; the
+canonical receipt reflects the strengthened complete-file-set and
+target-majority-baseline checks. No source raw file or prediction was changed.
+
+One output-schema deviation is recorded: the unchanged runner also places the
+profile-selected orientation sign in each prediction artifact. It is derived
+only from profile labels and contains no target labels or private addresses;
+the independent verifier allows exactly that documented metadata field and
+rejects other unexpected fields.
+
+`research.tests.test_oram_frequency_secondary_verifier` passed 6 tests. A
+fresh full Python run passed 252 tests with four skips (exit 0):
+
+```sh
+.venv/bin/python -m unittest discover research/tests
+```
+
+The successful positive controls and this post-hoc result are reported
+separately from the primary temporal random-forest analysis. No Rust source
+changed and no new benchmark was run. The next independent ORAM result needs a
+new workload or sample and a frozen protocol before any further scoring.

@@ -48,6 +48,13 @@ Updated 2026-10-30. This index points to technical reports and retained outputs.
 
 The newest run is the preregistered [rank-64 Zipf/Markov replication from 2026-10-30](docs/ORAM_RANK64_MARKOV_REPLICATION_20261030.md). Its frozen configuration is [here](experiments/configs/oram-isolated-rank64-markov-replication-20261030.json), and its raw bundle, host observations, figure, predictions, and independent verification are retained in [the result directory](experiments/results/oram-isolated-rank64-markov-replication-20261030/). Both controls scored AUC 1.000; Path ORAM scored 0.502474 with a 95% trial-bootstrap interval [0.496502, 0.508492]. The interval includes chance and is inconclusive for this attacker and measurement boundary, not a security proof.
 
+The [frequency-only tag attack follow-up](docs/ORAM_RANK64_FREQUENCY_ORIENTATION_SECONDARY_20261030.md)
+reuses those same sessions and is explicitly post-hoc, not independent
+replication evidence. Both positive controls scored AUC 1.000; the ORAM
+frequency scorer measured 0.496447 [0.491316, 0.501515]. The output and
+independent verification receipt are retained in
+[`oram-rank64-frequency-orientation-secondary-20261030/`](experiments/results/oram-rank64-frequency-orientation-secondary-20261030/).
+
 Earlier studies are retained as separate experiments; do not pool them without a declared analysis:
 
 - [Initial isolated timing](docs/ORAM_TIMING_REPLICATION.md) and [two-address replication](docs/ORAM_TWO_ADDRESS_REPLICATION_20261026.md), with their preregistration in [ORAM_TWO_ADDRESS_REPLICATION_PREREG_20261026.md](docs/ORAM_TWO_ADDRESS_REPLICATION_PREREG_20261026.md).
