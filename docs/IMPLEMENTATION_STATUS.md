@@ -1547,3 +1547,39 @@ against one witness; this does not establish cross-host availability, witness
 rollback resistance, or an atomic transaction with the SSE server. This closes
 the selected bounded S11 reservation/recovery behavior under the configured
 single trusted-anchor assumption; those broader properties remain extensions.
+
+## 2026-10-29: mTLS witness request rate limits
+
+Source commit `8af78514` adds `AnchorRequestRateLimit` and a token bucket for
+each configured authenticated certificate/slot pair. The default permits 100
+requests per second with an initial burst of 200. The remote CLI accepts the
+complete `OBLIVION_ANCHOR_RATE_TOKENS`, `OBLIVION_ANCHOR_RATE_INTERVAL_MS`, and
+`OBLIVION_ANCHOR_RATE_BURST` group or none; partial or invalid values fail
+before the witness database opens. Token rate and burst are bounded to one
+million. The server consumes a token only after TLS authentication, request
+decoding, and the exact certificate/slot grant check, and returns a typed
+rate-limited response before invoking database operations. Bucket keys come
+from the bounded grant policy at startup, preventing arbitrary request slots
+from growing the limiter map. Integer fractional refill is carried across
+checks and capped at the configured burst.
+
+The remote envelope version advances to 4 because older strict clients cannot
+decode the new `rate_limited` wire error. The local Unix protocol is unchanged.
+The remote mTLS integration test checks rejection and independence between two
+slots. Unit tests cover invalid configuration, exact fractional refill, and
+burst capping; a binary test covers default, complete, partial, and invalid
+environment configuration.
+
+At this revision, `cargo fmt --all --check` passed. The full serial workspace
+suite passed 194 tests with one intentionally ignored million-operation ORAM
+stress test. Workspace `cargo clippy --locked --workspace --all-targets --
+-D warnings` passed, and the remote CLI help output was checked. The Python
+suite, million-operation ORAM stress tier, benchmarks, and hosted CI have not
+yet run for this increment.
+
+The limiter is process-local and resets to full on restart; separate witness
+instances do not share budgets. It is an authenticated-request rate control,
+not a durable quota. TCP accepts, TLS handshakes, unauthenticated connection
+attempts, and slow clients before request authentication remain outside it.
+The service remains synchronous, so a slow authenticated peer can occupy the
+single request handler until the absolute I/O deadline.

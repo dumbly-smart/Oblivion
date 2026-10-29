@@ -25,6 +25,14 @@ completes the bounded S11 reservation/recovery behavior under the configured
 single trusted anchor. Witness rollback resistance, multi-host availability,
 and an atomic transaction with the SSE server remain extensions.
 
+The remote mTLS witness now applies process-local token buckets per authenticated
+certificate and slot (default 100 requests/second, burst 200); the CLI can
+override the rate, interval, and burst together. Focused anchor tests and
+warning-denied workspace Clippy pass. The serial workspace test gate passed
+194 tests with one intentionally ignored million-operation ORAM stress test;
+hosted validation remains to be run. The limits reset on witness restart and
+do not cover TCP accepts, TLS handshakes, or slow unauthenticated clients.
+
 The deterministic built-in demo remains a correctness/topology exercise. Its code/configuration can reveal the entire real/dummy/function schedule; encryption cannot conceal an identity already fixed by auxiliary knowledge. Experimental workload seeds/truth are separate private driver inputs under the declared attacker contracts, while mechanism parameters remain public. Accepted bounded experiments do not establish global indistinguishability or production security.
 
 An additional preregistered independent ORAM leaf/timing run used a fresh eight-address skew, address 0 as the hot class, and 70% reads. Plaintext and encrypt-only controls both scored AUC 1.000; ORAM scored 0.5015 [0.4935, 0.5095] over 30 whole-session trials. A post-hoc frequency-only attacker on the same sessions scored ORAM AUC 0.5017 [0.4931, 0.5101], with both controls at 1.000. The [protocol](ORAM_SIGNAL_REPLICATION_20261025_PREREG.md), [results](ORAM_SIGNAL_REPLICATION_20261025.md), raw sessions, predictions, figure, and host observation are retained. All raw hashes and paired session schedules were rechecked. Host load was present during collection, so this is process-isolated service timing with host scheduling noise, not a quiet-host replication or a security proof.

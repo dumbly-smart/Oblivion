@@ -31,6 +31,19 @@ passed 190 tests with one ignored ORAM stress test; warning-denied Clippy,
 formatting, and whitespace checks passed. Cross-host validation, benchmarks,
 the Python suite, and hosted CI were not run for this test-only increment.
 
+Source commit `8af78514` adds a process-local token bucket
+per authenticated client certificate and granted slot to the remote mTLS
+witness. The default is 100 requests per second and a burst of 200; the remote
+binary accepts an all-or-none environment override. Focused tests cover
+rejection, isolation between slots, fractional refill and burst caps. The
+anchor crate's 43 library tests, one CLI test, 9 local-service tests, 11
+remote-mTLS tests, and the full serial workspace gate passed; the workspace
+total was 194 passing with one intentionally ignored million-operation ORAM
+stress test. Formatting and warning-denied workspace Clippy passed. Hosted CI,
+the Python suite, and the release stress tier have not yet run for this
+increment. Limits reset on restart and do not cover TLS-handshake or
+slow-connection denial of service.
+
 ## Latest experiment
 
 The 30-trial preregistered ORAM leaf/timing replication completed with both leaky positive controls first and successful:
@@ -125,7 +138,7 @@ Correctness test integration uses one Rust test thread because these fixtures ha
 
 1. **No TEE:** process isolation and Wasmtime are not hardware confidentiality. TEE, attestation, host-root defense, and hardware side channels need supported hardware and a separate design/review.
 2. **PIR assumption:** the two servers must not collude; the current process topology does not enforce independent operators.
-3. **Freshness root:** local catalog, checkpoint, invocation-receipt, and local SSE freshness rely on the local SQLite anchor and key remaining trusted. A privileged database rollback can undo them. Standalone SSE, signed-registry, Path ORAM checkpoint, and runtime invocation clients can instead use one independent mTLS witness; rolling back, compromising, or losing that witness removes its freshness guarantee. For ORAM checkpoints and runtime invocation receipts, the witness sees the snapshot key and can decrypt snapshots it can access. The witness validates the configured client CA and then applies a versioned SHA-256 DER leaf-certificate-to-slot allowlist; policy changes require restart. Per-slot request quotas and rate limits remain unimplemented. Runtime remote receipts now work, but host-independent writer fencing, replicated rollback resistance, and hardware anti-rollback remain research/deployment work.
+3. **Freshness root:** local catalog, checkpoint, invocation-receipt, and local SSE freshness rely on the local SQLite anchor and key remaining trusted. A privileged database rollback can undo them. Standalone SSE, signed-registry, Path ORAM checkpoint, and runtime invocation clients can instead use one independent mTLS witness; rolling back, compromising, or losing that witness removes its freshness guarantee. For ORAM checkpoints and runtime invocation receipts, the witness sees the snapshot key and can decrypt snapshots it can access. The witness validates the configured client CA and then applies a versioned SHA-256 DER leaf-certificate-to-slot allowlist; policy changes require restart. Authenticated requests are rate-limited per certificate/slot with process-local token buckets; TLS-handshake and slow-connection limits and shared multi-instance quotas are absent. Runtime remote receipts now work, but host-independent writer fencing, replicated rollback resistance, and hardware anti-rollback remain research/deployment work.
 4. **Execution leakage:** fixed resource-access count and frame shapes do not make CPU work constant-time. Scheduling, cache behavior, completion time, deadlines, active failures, participation, and host-level resource observations remain.
 5. **SSE:** constrained GGM-inspired construction is not a complete Diana implementation. Search equality, result volume, timing, and historical capability/linkability leak; no backward privacy is claimed. The persistent journal cost is measured. A standalone mTLS witness detects application-host journal rollback under its single-operator trust assumption; witness rollback resistance, replicated acknowledgment, and runtime integration remain.
 6. **Autoscaling:** the subsystem is a simulator, not provisioning. Mechanism arguments depend on declared adjacency, bounded horizon, sampler, and observer; public seeded artifacts are not DP releases.

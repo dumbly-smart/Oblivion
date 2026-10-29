@@ -134,9 +134,32 @@ A root operator who restores an older SQLite database can roll back the catalog 
 
 ### 5.3 Independent mTLS witness for SSE, runtime catalog activation, and ORAM checkpoints
 
-`oblivion-anchor-remote` is a separate synchronous TCP service backed by SQLite. It exposes persistent SSE journal-head load/CAS, digest-bound signed-registry catalog activation, standalone Path ORAM checkpoint load/CAS, and atomic runtime invocation receipt/checkpoint commits. It requires mutual TLS: the client authenticates the witness through its configured CA roots, and the witness verifies the client's certificate against its own configured client CA. Existing operations use version-2 frames; the atomic invocation exchange uses version 3. Frames remain capped at 512 KiB, with a five-second TCP connect timeout and an absolute five-second TLS/frame I/O deadline shared by reads and writes after connect/accept. Byte trickling cannot reset that I/O budget. Rustls performs the TLS cryptography; there is no custom handshake or plaintext fallback. The server uses atomic SQLite transactions. If a mutation reply is lost or malformed after sending, the result is indeterminate because the update may have committed; the invocation adapter follows that with exact-response confirmation. Pre-send connection failure is a definite backend error. No operation silently falls back to the local anchor.
+`oblivion-anchor-remote` is a separate synchronous TCP service backed by SQLite. It exposes persistent SSE journal-head load/CAS, digest-bound signed-registry catalog activation, standalone Path ORAM checkpoint load/CAS, and atomic runtime invocation receipt/checkpoint commits. It requires mutual TLS: the client authenticates the witness through its configured CA roots, and the witness verifies the client's certificate against its own configured client CA. Every remote request and response envelope uses protocol version 4; older peers fail closed. The local Unix anchor protocol has its own version and is unchanged. Frames remain capped at 512 KiB, with a five-second TCP connect timeout and an absolute five-second TLS/frame I/O deadline shared by reads and writes after connect/accept. Byte trickling cannot reset that I/O budget. Rustls performs the TLS cryptography; there is no custom handshake or plaintext fallback. The server uses atomic SQLite transactions. If a mutation reply is lost or malformed after sending, the result is indeterminate because the update may have committed; the invocation adapter follows that with exact-response confirmation. Pre-send connection failure is a definite backend error. No operation silently falls back to the local anchor.
 
 The witness must be administered independently from the application host. Under that assumption, the mTLS SSE adapter can reject an old local encrypted-journal snapshot because its head generation/digest differs from the witness's newest head. The runtime worker can construct `TlsRegistryCatalogAnchor` from explicit environment settings and activate its verified catalog version/digest through CAS before readiness. Local Unix and remote mTLS catalog settings are mutually exclusive; all six remote settings must be present, and manifest plus pinned publisher key are still required. The witness operator sees the configured slot and catalog version/digest, along with operation times. A network observer sees peer endpoints, connection timing, and approximate TLS sizes, but not those fields inside the encrypted TLS payload. A client that cannot reach the witness fails closed; there is no local fallback or automatic mutation retry.
+
+After TLS authentication, request decoding, and the certificate/slot grant check,
+the server consumes one token for that exact leaf-certificate fingerprint and
+slot. The configured grant list determines the bucket keys at startup, so
+incoming names cannot grow the bucket map. Each bucket begins with its burst
+capacity. Refill uses monotonic elapsed nanoseconds and carries the integer
+remainder of the token-rate division; repeated short checks therefore do not
+discard fractional refill. The bucket never grows beyond burst. The default is
+100 tokens per second with burst 200. The remote binary can override rate,
+interval in milliseconds, and burst only when all three
+`OBLIVION_ANCHOR_RATE_*` variables are set. A rejected request receives a
+version-4 `rate_limited` response before any database handler runs. SSE and
+catalog clients surface a typed anchor error; the checkpoint adapter reports
+a definite backend rejection because that request was not dispatched.
+
+These counters live only in the running process. Restarting resets each bucket
+to full, and running multiple witness instances gives each an independent
+budget. This is an authenticated-request volume control, not a durable user
+quota or a distributed fairness mechanism. TLS handshakes happen before the
+certificate/slot bucket is consulted, and a slow connection can occupy the
+single synchronous handler up to its absolute I/O deadline. Network filtering,
+connection concurrency, identity-level quotas, and shared multi-replica
+accounting remain unimplemented.
 
 The remote worker settings are:
 

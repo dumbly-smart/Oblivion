@@ -85,7 +85,9 @@ administrative domain. Runtime workers can opt into remote catalog activation
 and remote invocation durability using separate all-or-none environment
 blocks. The runtime's remote invocation mode keeps encrypted snapshot files in
 the worker's local state directory; the witness stores checkpoint handles and
-receipts but does not replicate those files.
+receipts but does not replicate those files. The remote mTLS request/response
+envelope uses protocol version 4; v3 and older peers fail closed. This is
+separate from the local Unix protocol, which remains version 2.
 
 Start the witness with:
 
@@ -94,6 +96,22 @@ oblivion-anchor-remote serve \
   0.0.0.0:7443 witness.sqlite witness-master-key.bin \
   witness-cert.pem witness-key.pem client-ca.pem authorization-policy.json
 ```
+
+The default request limit is 100 authenticated requests per second and a burst
+of 200 for each certificate/slot pair. To override it, set all three variables
+or leave all three unset:
+
+```sh
+OBLIVION_ANCHOR_RATE_TOKENS=100 \
+OBLIVION_ANCHOR_RATE_INTERVAL_MS=1000 \
+OBLIVION_ANCHOR_RATE_BURST=200 \
+oblivion-anchor-remote serve ...
+```
+
+The two counts must be in `1..=1,000,000`, and the interval must be positive.
+Buckets are process-local and reset on restart. This authenticated-request
+limit does not throttle TLS handshakes or protect the serial service loop from
+slow connections.
 
 The witness requires a version-1 certificate-to-slot authorization policy.
 Fingerprint the complete DER leaf certificate with
@@ -221,8 +239,9 @@ cargo run --locked -p oblivion-server -- executor-worker /var/lib/oblivion/run
 ```
 
 The runtime fixes invocation responses to `PAYLOAD_BYTES` (80 bytes) and
-configures that as the public response capacity. The version-3 mTLS invocation
-protocol uses fixed-width identity, action, checkpoint and response fields.
+configures that as the public response capacity. The version-4 mTLS envelope
+carries fixed-width invocation identity, action, checkpoint and response
+fields.
 The server sees these values after TLS decryption. The network observer sees
 the peer endpoints, operation timing/count, request cadence, failures and
 fixed-capacity frame shapes. The configured slot policy must grant the worker
@@ -319,9 +338,9 @@ generation returns `AnchorConflict`; a reported uncertain database commit or
 a lost/malformed response after request transmission returns
 `AnchorCommitUnknown`, requiring restore/reconciliation before the controller
 continues. A connection failure before sending returns a backend error. The
-remote adapter has no local fallback. The checkpoint operation and fixed-width
-hex handle encoding use protocol version 2; version-1 peers are rejected, so
-both ends must run compatible version-2 binaries. The mTLS integration test checkpoints real ORAM data,
+remote adapter has no local fallback. The fixed-width checkpoint field encodes
+an 88-byte handle as 176 lowercase ASCII hex characters inside the mTLS
+protocol-v4 envelope; incompatible peers are rejected. The mTLS integration test checkpoints real ORAM data,
 restarts the witness process, restores and reads the actual snapshot, advances
 the checkpoint, and rejects a stale controller.
 
@@ -350,10 +369,22 @@ inspect the local executor and client keys. The service has no quorum, no
 hardware monotonic counter, and no Byzantine or crash-tolerant replication.
 The configured client CA validates certificate issuance, while the loaded
 fingerprint policy limits each accepted leaf certificate to named slots. The
-policy is immutable for the life of the process. The service still has no
-request quota or rate limit. Certificate issuance/rotation, remote availability,
-backup/restore controls and a replicated register remain operator/research
-responsibilities.
+policy is immutable for the life of the process. The service also applies a
+token bucket per authenticated certificate and granted slot. Defaults are 100
+tokens per second with a burst of 200. The remote CLI accepts an all-or-none
+override using `OBLIVION_ANCHOR_RATE_TOKENS`,
+`OBLIVION_ANCHOR_RATE_INTERVAL_MS`, and `OBLIVION_ANCHOR_RATE_BURST`; library
+service functions accept `AnchorRequestRateLimit` directly. Token count and
+burst must each be in `1..=1,000,000`, and the interval must be nonzero.
+Excess authenticated requests receive a typed `rate_limited` response before
+the database handler runs. Each bucket starts full. Fractional refill is
+carried exactly between checks and capacity is capped at the configured burst.
+Counters live in process memory, reset on restart, and are not coordinated
+across witness instances. This does not limit TCP accepts, TLS handshakes,
+unauthenticated traffic, or a slow authenticated peer holding the serial
+connection handler until its five-second I/O deadline. Certificate
+issuance/rotation, remote availability, backup/restore controls and a replicated
+register remain operator/research responsibilities.
 
 Checkpoint anchoring expands what must be trusted: the witness sees each
 checkpoint slot, snapshot identifier, generation and 88-byte secret handle
@@ -361,8 +392,9 @@ inside the TLS endpoint. Since that handle contains the snapshot key, the
 witness can decrypt an available snapshot. The certificate-to-slot policy is
 checked before dispatch for SSE, registry and checkpoint operations. A
 certificate holder can still read or mutate every slot granted to its
-fingerprint; there is no quota, rate limit, automated revocation or hot policy
-reload.
+fingerprint within the configured process-local rate; the token buckets are
+not durable quotas or a revocation mechanism. There is no automated revocation
+or hot policy reload.
 
 The optional durable worker mode uses either the local Unix service or the
 remote mTLS witness for anchored checkpoint recovery and signed invocation
