@@ -262,9 +262,9 @@ struct WireCheckpointState {
     secret_handle_hex: String,
 }
 
-/// Fixed-layout invocation request. The action is the only field whose value
-/// varies between load, finish, and confirmation requests. Every byte string
-/// is hex-encoded into its protocol maximum; decimal values are left-padded.
+/// Fixed-layout invocation request. `action` is the one-byte operation
+/// selector; every field is present for every action, and byte strings are
+/// hex-encoded into fixed widths while decimal values are left-padded.
 #[derive(Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 struct WireInvocationRequest {
@@ -339,9 +339,62 @@ impl WireInvocationOutcome {
             error_code: 0,
             receipt_present: 1,
             snapshot_id_hex,
-            generation: format!("{:020}", receipt.generation()),
+            generation: format!(
+                "{:0width$}",
+                receipt.generation(),
+                width = INVOCATION_GENERATION_DIGITS
+            ),
             response_hex: encode_hex(receipt.response()),
         })
+    }
+
+    fn into_receipt(self, response_capacity: usize) -> Result<Option<InvocationReceipt>, Error> {
+        match self.status {
+            0 if self.error_code == 0 && self.receipt_present == 0 => {
+                if !self.empty_payload(response_capacity) {
+                    return Err(Error::Protocol);
+                }
+                Ok(None)
+            }
+            1 if self.error_code == 0 && self.receipt_present == 1 => {
+                let snapshot_id =
+                    decode_padded_hex(&self.snapshot_id_hex, INVOCATION_SNAPSHOT_ID_BYTES)
+                        .map_err(|_| Error::Protocol)?;
+                let snapshot_id = String::from_utf8(snapshot_id).map_err(|_| Error::Protocol)?;
+                let generation =
+                    parse_fixed_decimal(&self.generation, INVOCATION_GENERATION_DIGITS)
+                        .map_err(|_| Error::Protocol)?;
+                let response = decode_hex_bytes(&self.response_hex, response_capacity)
+                    .map_err(|_| Error::Protocol)?;
+                InvocationReceipt::from_parts(snapshot_id, generation, response).map(Some)
+            }
+            2 if self.receipt_present == 0 => {
+                if !self.empty_payload(response_capacity) {
+                    return Err(Error::Protocol);
+                }
+                Err(invocation_error_from_code(self.error_code))
+            }
+            _ => Err(Error::Protocol),
+        }
+    }
+
+    fn empty_payload(&self, response_capacity: usize) -> bool {
+        self.snapshot_id_hex.len() == INVOCATION_SNAPSHOT_ID_BYTES * 2
+            && self.snapshot_id_hex.bytes().all(|byte| byte == b'0')
+            && self.generation.len() == INVOCATION_GENERATION_DIGITS
+            && self.generation.bytes().all(|byte| byte == b'0')
+            && self.response_hex.len() == response_capacity.saturating_mul(2)
+            && self.response_hex.bytes().all(|byte| byte == b'0')
+    }
+}
+
+fn invocation_error_from_code(code: u8) -> Error {
+    match code {
+        1 => Error::Conflict,
+        2 => Error::CommitIndeterminate,
+        3 => Error::Database("remote anchor unavailable".into()),
+        5 => Error::InvalidInvocationSignature,
+        _ => Error::Protocol,
     }
 }
 
@@ -1003,11 +1056,231 @@ impl RemoteAnchorClient {
         }
         Ok(response.response)
     }
+
+    fn invocation_request(
+        &self,
+        action: u8,
+        invocation: &SignedInvocationId,
+        expected_generation: Option<u64>,
+        record: Option<&CheckpointAnchorRecord>,
+        response: &[u8],
+        response_capacity: usize,
+    ) -> Result<Request, Error> {
+        if !(1..=MAX_INVOCATION_RESPONSE_BYTES).contains(&response_capacity)
+            || response.len() != response_capacity
+        {
+            return Err(if response.len() > MAX_INVOCATION_RESPONSE_BYTES {
+                Error::InvocationResponseTooLarge
+            } else {
+                Error::Protocol
+            });
+        }
+        let (record_present, snapshot_id_hex, secret_handle_hex) = match record {
+            Some(record) => (
+                1,
+                encode_padded_hex(
+                    record.snapshot_id().as_bytes(),
+                    INVOCATION_SNAPSHOT_ID_BYTES,
+                )
+                .ok_or(Error::Protocol)?,
+                encode_hex(record.secret_handle()),
+            ),
+            None => (
+                0,
+                "00".repeat(INVOCATION_SNAPSHOT_ID_BYTES),
+                "00".repeat(TRUSTED_CHECKPOINT_HANDLE_BYTES),
+            ),
+        };
+        let wire = WireInvocationRequest {
+            slot: format!("{:<INVOCATION_SLOT_BYTES$}", self.slot),
+            action,
+            public_key_hex: encode_hex(invocation.public_key()),
+            invocation_id_hex: encode_hex(invocation.invocation_id()),
+            request_digest_hex: encode_hex(invocation.request_digest()),
+            signature_hex: encode_hex(invocation.signature()),
+            expected_present: u8::from(expected_generation.is_some()),
+            expected_generation: format!(
+                "{:0width$}",
+                expected_generation.unwrap_or(0),
+                width = INVOCATION_GENERATION_DIGITS
+            ),
+            record_present,
+            snapshot_id_hex,
+            secret_handle_hex,
+            response_capacity: format!(
+                "{:0width$}",
+                response_capacity,
+                width = INVOCATION_CAPACITY_DIGITS
+            ),
+            response_hex: encode_hex(response),
+        };
+        wire.validate().map_err(|_| Error::Protocol)?;
+        Ok(Request::Invocation { wire })
+    }
+
+    fn exchange_invocation(&self, request: Request) -> Result<WireInvocationOutcome, Error> {
+        match self.exchange(request)? {
+            Response::Invocation { outcome } => Ok(outcome),
+            Response::Error { code } => Err(error_from_wire(code)),
+            _ => Err(Error::Protocol),
+        }
+    }
 }
 
 enum CheckpointMutationFailure {
     NotSent(Error),
     Indeterminate,
+}
+
+/// Remote durable anchor for signed invocation receipts and ORAM checkpoint
+/// state. The witness must be trusted with the checkpoint handle and response
+/// contents. Its `CheckpointAnchor::compare_and_swap` method is checkpoint-only;
+/// durable invocations must use [`Self::commit`] to keep receipt and checkpoint
+/// advancement in one witness transaction.
+pub struct TlsInvocationAnchor {
+    client: RemoteAnchorClient,
+    response_capacity: usize,
+}
+
+impl TlsInvocationAnchor {
+    /// Create a mutually authenticated invocation anchor. `response_capacity`
+    /// is public and must match the fixed response size used by the runtime.
+    pub fn new(
+        address: SocketAddr,
+        server_name: &str,
+        slot: &str,
+        config: Arc<ClientConfig>,
+        response_capacity: usize,
+    ) -> Result<Self, Error> {
+        if !(1..=MAX_INVOCATION_RESPONSE_BYTES).contains(&response_capacity) {
+            return Err(Error::Protocol);
+        }
+        Ok(Self {
+            client: RemoteAnchorClient::new(address, server_name, slot, config)?,
+            response_capacity,
+        })
+    }
+
+    /// Load a previously committed invocation receipt, if one exists.
+    pub fn load(
+        &self,
+        invocation: &SignedInvocationId,
+    ) -> Result<Option<InvocationReceipt>, Error> {
+        let zeros = Zeroizing::new(vec![0; self.response_capacity]);
+        let request = self.client.invocation_request(
+            0,
+            invocation,
+            None,
+            None,
+            &zeros,
+            self.response_capacity,
+        )?;
+        self.client
+            .exchange_invocation(request)?
+            .into_receipt(self.response_capacity)
+    }
+
+    /// Atomically commit the signed receipt and next checkpoint. Repeating the
+    /// same invocation returns its original receipt without advancing state.
+    pub fn commit(
+        &self,
+        invocation: &SignedInvocationId,
+        expected_generation: Option<u64>,
+        next_record: CheckpointAnchorRecord,
+        response: &[u8],
+    ) -> Result<InvocationReceipt, Error> {
+        let request = self.client.invocation_request(
+            1,
+            invocation,
+            expected_generation,
+            Some(&next_record),
+            response,
+            self.response_capacity,
+        )?;
+        let result = self.client.exchange_checkpoint_mutation(request);
+        match result {
+            Err(CheckpointMutationFailure::NotSent(error)) => Err(error),
+            Err(CheckpointMutationFailure::Indeterminate) => Err(Error::CommitIndeterminate),
+            Ok(Response::Invocation { outcome }) => {
+                let explicit_protocol_error = outcome.status == 2 && outcome.error_code == 4;
+                match outcome.into_receipt(self.response_capacity) {
+                    Ok(Some(receipt)) => Ok(receipt),
+                    Ok(None) => Err(Error::CommitIndeterminate),
+                    Err(Error::Protocol) if !explicit_protocol_error => {
+                        Err(Error::CommitIndeterminate)
+                    }
+                    Err(error) => Err(error),
+                }
+            }
+            Ok(Response::Error { code }) => Err(error_from_wire(code)),
+            Ok(_) => Err(Error::CommitIndeterminate),
+        }
+    }
+
+    /// Confirm that the witness has a receipt with exactly these response
+    /// bytes. This does not mutate checkpoint state.
+    pub fn confirm(
+        &self,
+        invocation: &SignedInvocationId,
+        response: &[u8],
+    ) -> Result<InvocationReceipt, Error> {
+        let request = self.client.invocation_request(
+            2,
+            invocation,
+            None,
+            None,
+            response,
+            self.response_capacity,
+        )?;
+        let receipt = self
+            .client
+            .exchange_invocation(request)?
+            .into_receipt(self.response_capacity)?
+            .ok_or(Error::Conflict)?;
+        if receipt.response() != response {
+            return Err(Error::Conflict);
+        }
+        Ok(receipt)
+    }
+}
+
+impl CheckpointAnchor for TlsInvocationAnchor {
+    fn load(&mut self) -> Result<Option<CheckpointAnchorRecord>, StoreError> {
+        match self.client.exchange(Request::CheckpointLoad {
+            slot: self.client.slot.clone(),
+        }) {
+            Ok(Response::CheckpointLoaded { state }) => state
+                .as_ref()
+                .map(WireCheckpointState::to_record)
+                .transpose()
+                .map_err(|_| StoreError::Integrity),
+            Ok(Response::Error { code }) => Err(store_error_from_wire(code, false)),
+            Ok(_) => Err(StoreError::Integrity),
+            Err(error) => Err(StoreError::Backend(error.to_string())),
+        }
+    }
+
+    fn compare_and_swap(
+        &mut self,
+        expected_generation: Option<u64>,
+        next_record: CheckpointAnchorRecord,
+    ) -> Result<(), StoreError> {
+        let request = Request::CheckpointCompareAndSwap {
+            slot: self.client.slot.clone(),
+            expected_generation,
+            state: WireCheckpointState::from_record(&next_record),
+        };
+        match self.client.exchange_checkpoint_mutation(request) {
+            Ok(Response::Updated) => Ok(()),
+            Ok(Response::Error { code }) => Err(store_error_from_wire(code, true)),
+            Ok(_) | Err(CheckpointMutationFailure::Indeterminate) => {
+                Err(StoreError::AnchorCommitUnknown)
+            }
+            Err(CheckpointMutationFailure::NotSent(error)) => {
+                Err(StoreError::Backend(error.to_string()))
+            }
+        }
+    }
 }
 
 /// Serve TLS anchor requests until `shutdown` receives a message. The listener
@@ -1251,34 +1524,36 @@ fn serve_request(database: &mut AnchorDatabase, request: Request) -> Response {
 fn serve_invocation(database: &mut AnchorDatabase, wire: &WireInvocationRequest) -> Response {
     let response_capacity = match wire.response_capacity() {
         Ok(capacity) => capacity,
-        Err(code) => return invocation_error_response(2, code, MAX_INVOCATION_RESPONSE_BYTES),
+        Err(_) => {
+            return invocation_error_response(2, 4, MAX_INVOCATION_RESPONSE_BYTES);
+        }
     };
     let invocation = match wire.signed_invocation() {
         Ok(invocation) => invocation,
-        Err(code) => return invocation_error_response(2, code, response_capacity),
+        Err(_) => return invocation_error_response(2, 4, response_capacity),
     };
 
     let result = match wire.action {
         0 => database
             .load_invocation_receipt(wire.slot.trim_end_matches(' '), &invocation)
-            .map_err(wire_from_error),
+            .map_err(invocation_error_code),
         1 => {
             let expected_generation = match wire.expected_generation() {
                 Ok(generation) => generation,
-                Err(code) => {
-                    return invocation_error_response(2, code, response_capacity);
+                Err(_) => {
+                    return invocation_error_response(2, 4, response_capacity);
                 }
             };
             let record = match wire.checkpoint_record() {
                 Ok(record) => record,
-                Err(code) => {
-                    return invocation_error_response(2, code, response_capacity);
+                Err(_) => {
+                    return invocation_error_response(2, 4, response_capacity);
                 }
             };
             let response = match wire.response_bytes() {
                 Ok(response) => response,
-                Err(code) => {
-                    return invocation_error_response(2, code, response_capacity);
+                Err(_) => {
+                    return invocation_error_response(2, 4, response_capacity);
                 }
             };
             database
@@ -1290,27 +1565,27 @@ fn serve_invocation(database: &mut AnchorDatabase, wire: &WireInvocationRequest)
                     response.as_slice(),
                 )
                 .map(Some)
-                .map_err(wire_from_error)
+                .map_err(invocation_error_code)
         }
         2 => {
             let expected_response = match wire.response_bytes() {
                 Ok(response) => response,
-                Err(code) => {
-                    return invocation_error_response(2, code, response_capacity);
+                Err(_) => {
+                    return invocation_error_response(2, 4, response_capacity);
                 }
             };
             database
                 .load_invocation_receipt(wire.slot.trim_end_matches(' '), &invocation)
-                .map_err(wire_from_error)
+                .map_err(invocation_error_code)
                 .and_then(|receipt| match receipt {
                     Some(receipt) if receipt.response() == expected_response.as_slice() => {
                         Ok(Some(receipt))
                     }
-                    Some(_) => Err(WireError::Conflict),
+                    Some(_) => Err(1),
                     None => Ok(None),
                 })
         }
-        _ => Err(WireError::Protocol),
+        _ => Err(4),
     };
 
     let outcome = match result {
@@ -1320,14 +1595,31 @@ fn serve_invocation(database: &mut AnchorDatabase, wire: &WireInvocationRequest)
             Err(code) => WireInvocationOutcome::empty(2, wire_error_code(code), response_capacity),
         },
         Ok(None) => WireInvocationOutcome::empty(0, 0, response_capacity),
-        Err(code) => WireInvocationOutcome::empty(2, wire_error_code(code), response_capacity),
+        Err(code) => WireInvocationOutcome::empty(2, code, response_capacity),
     };
     Response::Invocation { outcome }
 }
 
-fn invocation_error_response(status: u8, code: WireError, response_capacity: usize) -> Response {
+fn invocation_error_response(status: u8, code: u8, response_capacity: usize) -> Response {
     Response::Invocation {
-        outcome: WireInvocationOutcome::empty(status, wire_error_code(code), response_capacity),
+        outcome: WireInvocationOutcome::empty(status, code, response_capacity),
+    }
+}
+
+fn invocation_error_code(error: Error) -> u8 {
+    match error {
+        Error::Conflict => 1,
+        Error::CommitIndeterminate => 2,
+        Error::InvalidInvocationSignature => 5,
+        Error::InvalidSlot
+        | Error::IntegerRange
+        | Error::InvalidHandle
+        | Error::InvalidInvocationReceipt
+        | Error::InvalidCatalogDigest
+        | Error::InvocationResponseTooLarge
+        | Error::Protocol
+        | Error::InvalidSocketMode => 4,
+        _ => 3,
     }
 }
 
@@ -1857,6 +2149,19 @@ mod tests {
         assert!(decode_request(invalid_hex.as_bytes()).is_err());
         assert!(decode_request(invalid_capacity.as_bytes()).is_err());
         assert!(decode_request(invalid_slot.as_bytes()).is_err());
+    }
+
+    #[test]
+    fn invocation_response_decoder_rejects_truncated_empty_payloads() {
+        let malformed = WireInvocationOutcome {
+            status: 0,
+            error_code: 0,
+            receipt_present: 0,
+            snapshot_id_hex: "00".to_owned(),
+            generation: "0".to_owned(),
+            response_hex: "00".repeat(80),
+        };
+        assert!(malformed.into_receipt(80).is_err());
     }
 
     #[test]

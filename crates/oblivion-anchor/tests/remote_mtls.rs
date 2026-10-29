@@ -1,4 +1,5 @@
 use std::{
+    io::Read,
     net::{SocketAddr, TcpListener},
     path::PathBuf,
     sync::{Arc, mpsc},
@@ -6,22 +7,26 @@ use std::{
     time::{SystemTime, UNIX_EPOCH},
 };
 
-use ed25519_dalek::SigningKey;
+use ed25519_dalek::{Signer, SigningKey};
 use oblivion_anchor::{
-    AnchorDatabase, ClientAuthorizationPolicy, SseJournalState, TlsRegistryCatalogAnchor,
-    TlsSseJournalAnchor, mtls_client_config, mtls_server_config, serve_mtls_with_shutdown,
+    AnchorDatabase, ClientAuthorizationPolicy, MAX_INVOCATION_RESPONSE_BYTES, SignedInvocationId,
+    SseJournalState, TlsInvocationAnchor, TlsRegistryCatalogAnchor, TlsSseJournalAnchor,
+    mtls_client_config, mtls_server_config, serve_mtls_with_shutdown,
 };
 use oblivion_registry::{
     Record, RegistryCatalogAnchor, RegistryCatalogState, SignedRegistry, VerifiedRegistry,
 };
-use oblivion_store::{CheckpointAnchor, Config, MemoryBackend, PathOram, TrustedCheckpoint};
+use oblivion_store::{
+    CheckpointAnchor, CheckpointAnchorRecord, Config, MemoryBackend, PathOram, TrustedCheckpoint,
+};
 use rcgen::{
     BasicConstraints, CertificateParams, ExtendedKeyUsagePurpose, IsCa, Issuer, KeyPair,
     KeyUsagePurpose,
 };
 use rustls::{
-    RootCertStore,
+    RootCertStore, StreamOwned,
     pki_types::{CertificateDer, PrivateKeyDer},
+    server::ServerConnection,
 };
 use sha2::{Digest, Sha256};
 use zeroize::Zeroizing;
@@ -160,6 +165,29 @@ fn checkpoint_client(
         .expect("valid checkpoint TLS anchor client")
 }
 
+fn signed_invocation(seed: u8, id: [u8; 16], digest: [u8; 32]) -> SignedInvocationId {
+    let signing_key = SigningKey::from_bytes(&[seed; 32]);
+    let signature = signing_key
+        .sign(&SignedInvocationId::signing_message(&id, &digest))
+        .to_bytes();
+    SignedInvocationId::new(
+        signing_key.verifying_key().to_bytes(),
+        id,
+        digest,
+        signature,
+    )
+}
+
+fn invocation_handle(generation: u64) -> [u8; 88] {
+    let mut bytes = [0; 88];
+    bytes[..8].copy_from_slice(b"OBLTRST1");
+    bytes[8..16].copy_from_slice(&generation.to_le_bytes());
+    bytes[16..24].copy_from_slice(&48_u64.to_le_bytes());
+    bytes[24..56].fill(generation as u8);
+    bytes[56..].fill(0xA5);
+    bytes
+}
+
 #[test]
 fn mutually_authenticated_remote_anchor_cas_survives_witness_restart() {
     let path = temp_database();
@@ -205,6 +233,296 @@ fn mutually_authenticated_remote_anchor_cas_survives_witness_restart() {
         .join()
         .expect("second witness thread")
         .expect("second witness");
+    let _ = std::fs::remove_file(path);
+}
+
+#[test]
+fn remote_invocation_anchor_commits_replays_and_recovers_the_original_receipt() {
+    let root = temp_database();
+    let root_dir = root.with_extension("invocation-data");
+    std::fs::create_dir(&root_dir).expect("test data directory");
+    let database = root_dir.join("anchor.sqlite");
+    let snapshot = root_dir.join("snapshot.bin");
+    let (server_cert, server_key, client_cert, client_key, root_cert) =
+        identity_pair("invocation-root");
+    let server_config =
+        mtls_server_config(vec![server_cert], server_key, root_store(root_cert.clone()))
+            .expect("server TLS config");
+    let authorization = authorization_policy_for(&client_cert, &["runtime-slot"]);
+    let client_config = mtls_client_config(
+        root_store(root_cert.clone()),
+        vec![client_cert.clone()],
+        client_key.clone_key(),
+    )
+    .expect("client TLS config");
+    for invalid_capacity in [0, MAX_INVOCATION_RESPONSE_BYTES + 1] {
+        assert!(
+            TlsInvocationAnchor::new(
+                SocketAddr::from(([127, 0, 0, 1], 1)),
+                "localhost",
+                "runtime-slot",
+                client_config.clone(),
+                invalid_capacity,
+            )
+            .is_err()
+        );
+    }
+    let witness = start_witness(
+        database.clone(),
+        server_config.clone(),
+        authorization.clone(),
+    );
+    let mut anchor = TlsInvocationAnchor::new(
+        witness.address,
+        "localhost",
+        "runtime-slot",
+        client_config.clone(),
+        80,
+    )
+    .expect("invocation TLS anchor");
+    let invocation = signed_invocation(9, [0x42; 16], [0x53; 32]);
+    let response = [0x6a; 80];
+
+    let short_response_record =
+        CheckpointAnchorRecord::new("snapshot-short-response", &invocation_handle(1))
+            .expect("short response record");
+    assert!(matches!(
+        anchor.commit(
+            &invocation,
+            None,
+            short_response_record,
+            &response[..response.len() - 1],
+        ),
+        Err(oblivion_anchor::Error::Protocol)
+    ));
+
+    assert!(
+        anchor
+            .load(&invocation)
+            .expect("initial receipt load")
+            .is_none()
+    );
+    assert!(
+        CheckpointAnchor::load(&mut anchor)
+            .expect("initial checkpoint load")
+            .is_none()
+    );
+
+    let mut oram = PathOram::new(
+        Config::new(8, 16).expect("ORAM config"),
+        MemoryBackend::default(),
+    )
+    .expect("ORAM");
+    oram.write(3, &[3; 16]).expect("initial ORAM write");
+    let trusted = oram.checkpoint(&snapshot).expect("ORAM checkpoint");
+    let secret_handle = trusted.to_secret_bytes();
+    let first_record = CheckpointAnchorRecord::new("snapshot-one", secret_handle.as_ref())
+        .expect("first anchor record");
+    let receipt = anchor
+        .commit(&invocation, None, first_record, &response)
+        .expect("atomic remote invocation commit");
+    assert_eq!(receipt.snapshot_id(), "snapshot-one");
+    assert_eq!(receipt.generation(), 1);
+    assert_eq!(receipt.response(), &response);
+
+    let replay_record =
+        CheckpointAnchorRecord::new("snapshot-two", secret_handle.as_ref()).expect("replay record");
+    let replay = anchor
+        .commit(&invocation, Some(1), replay_record, &[0x11; 80])
+        .expect("idempotent duplicate finish");
+    assert_eq!(replay.snapshot_id(), "snapshot-one");
+    assert_eq!(replay.generation(), 1);
+    assert_eq!(replay.response(), &response);
+    assert_eq!(
+        anchor
+            .confirm(&invocation, &response)
+            .expect("exact receipt confirmation")
+            .response(),
+        &response
+    );
+    assert!(matches!(
+        anchor.confirm(&invocation, &[0; 80]),
+        Err(oblivion_anchor::Error::Conflict)
+    ));
+
+    let checkpoint = CheckpointAnchor::load(&mut anchor)
+        .expect("load committed checkpoint")
+        .expect("checkpoint present");
+    assert_eq!(checkpoint.snapshot_id(), "snapshot-one");
+    assert_eq!(checkpoint.generation(), 1);
+
+    let invalid_signature = SignedInvocationId::new(
+        *invocation.public_key(),
+        *invocation.invocation_id(),
+        *invocation.request_digest(),
+        [0; 64],
+    );
+    assert!(matches!(
+        anchor.load(&invalid_signature),
+        Err(oblivion_anchor::Error::InvalidInvocationSignature)
+    ));
+
+    let stale = signed_invocation(10, [0x43; 16], [0x54; 32]);
+    let stale_record = CheckpointAnchorRecord::new("snapshot-stale", &invocation_handle(1))
+        .expect("stale checkpoint record");
+    assert!(matches!(
+        anchor.commit(&stale, Some(2), stale_record, &response),
+        Err(oblivion_anchor::Error::Conflict)
+    ));
+
+    let _ = witness.shutdown.send(());
+    witness
+        .thread
+        .join()
+        .expect("witness thread")
+        .expect("witness");
+
+    let restarted = start_witness(database.clone(), server_config, authorization);
+    let mut after_restart = TlsInvocationAnchor::new(
+        restarted.address,
+        "localhost",
+        "runtime-slot",
+        mtls_client_config(root_store(root_cert), vec![client_cert], client_key)
+            .expect("client TLS config after restart"),
+        80,
+    )
+    .expect("restarted invocation TLS anchor");
+    let recovered = after_restart
+        .load(&invocation)
+        .expect("load receipt after restart")
+        .expect("persisted invocation receipt");
+    assert_eq!(recovered.snapshot_id(), "snapshot-one");
+    assert_eq!(recovered.generation(), 1);
+    assert_eq!(recovered.response(), &response);
+    let recovered_checkpoint = CheckpointAnchor::load(&mut after_restart)
+        .expect("load checkpoint after restart")
+        .expect("persisted checkpoint");
+    assert_eq!(recovered_checkpoint.snapshot_id(), "snapshot-one");
+    assert_eq!(recovered_checkpoint.generation(), 1);
+
+    let _ = restarted.shutdown.send(());
+    restarted
+        .thread
+        .join()
+        .expect("restarted witness thread")
+        .expect("restarted witness");
+    let _ = std::fs::remove_dir_all(root_dir);
+}
+
+#[test]
+fn remote_invocation_anchor_requires_an_exact_certificate_slot_grant() {
+    let path = temp_database();
+    let (server_cert, server_key, client_cert, client_key, root_cert) =
+        identity_pair("invocation-acl-root");
+    let server_config =
+        mtls_server_config(vec![server_cert], server_key, root_store(root_cert.clone()))
+            .expect("server TLS config");
+    let authorization = authorization_policy_for(&client_cert, &["different-slot"]);
+    let witness = start_witness(path.clone(), server_config, authorization);
+    let client_config = mtls_client_config(root_store(root_cert), vec![client_cert], client_key)
+        .expect("client TLS config");
+    let anchor = TlsInvocationAnchor::new(
+        witness.address,
+        "localhost",
+        "runtime-slot",
+        client_config,
+        80,
+    )
+    .expect("invocation TLS anchor");
+    let invocation = signed_invocation(13, [0x44; 16], [0x55; 32]);
+    let result = anchor.load(&invocation);
+
+    let _ = witness.shutdown.send(());
+    witness
+        .thread
+        .join()
+        .expect("witness thread")
+        .expect("witness");
+    let _ = std::fs::remove_file(path);
+
+    assert!(result.is_err(), "a different slot grant must be denied");
+}
+
+#[test]
+fn remote_invocation_anchor_treats_a_lost_finish_reply_as_indeterminate() {
+    let path = temp_database();
+    let (server_cert, server_key, client_cert, client_key, root_cert) =
+        identity_pair("invocation-ambiguous-root");
+    let server_config =
+        mtls_server_config(vec![server_cert], server_key, root_store(root_cert.clone()))
+            .expect("server TLS config");
+    let authorization = authorization_policy_for(&client_cert, &["runtime-slot"]);
+    let client_config = mtls_client_config(root_store(root_cert), vec![client_cert], client_key)
+        .expect("client TLS config");
+    let witness = start_witness(path.clone(), server_config.clone(), authorization);
+    let anchor = TlsInvocationAnchor::new(
+        witness.address,
+        "localhost",
+        "runtime-slot",
+        client_config.clone(),
+        80,
+    )
+    .expect("invocation TLS anchor");
+    let invocation = signed_invocation(14, [0x45; 16], [0x56; 32]);
+    let response = [0x7b; 80];
+    let record =
+        CheckpointAnchorRecord::new("snapshot-one", &invocation_handle(1)).expect("anchor record");
+    let committed = anchor
+        .commit(&invocation, None, record, &response)
+        .expect("initial commit");
+    assert_eq!(committed.response(), &response);
+
+    let listener = TcpListener::bind("127.0.0.1:0").expect("ambiguous witness listener");
+    let ambiguous_address = listener.local_addr().expect("ambiguous witness address");
+    let server = thread::spawn(move || {
+        let (stream, _) = listener.accept().expect("ambiguous client");
+        let mut stream = StreamOwned::new(
+            ServerConnection::new(server_config).expect("TLS server connection"),
+            stream,
+        );
+        let mut header = [0; 4];
+        stream
+            .read_exact(&mut header)
+            .expect("request frame header");
+        let frame_len = u32::from_be_bytes(header) as usize;
+        assert!(frame_len <= 512 * 1024);
+        let mut request = vec![0; frame_len];
+        stream
+            .read_exact(&mut request)
+            .expect("complete invocation request");
+        drop(stream);
+    });
+    let ambiguous_anchor = TlsInvocationAnchor::new(
+        ambiguous_address,
+        "localhost",
+        "runtime-slot",
+        client_config,
+        80,
+    )
+    .expect("ambiguous invocation TLS anchor");
+    let duplicate = CheckpointAnchorRecord::new("snapshot-duplicate", &invocation_handle(1))
+        .expect("duplicate record");
+    let error = match ambiguous_anchor.commit(&invocation, Some(1), duplicate, &response) {
+        Ok(_) => panic!("a witness that dropped its reply must not look successful"),
+        Err(error) => error,
+    };
+    assert!(matches!(error, oblivion_anchor::Error::CommitIndeterminate));
+    server.join().expect("ambiguous witness thread");
+
+    assert_eq!(
+        anchor
+            .confirm(&invocation, &response)
+            .expect("reconcile exact receipt")
+            .response(),
+        &response
+    );
+
+    let _ = witness.shutdown.send(());
+    witness
+        .thread
+        .join()
+        .expect("witness thread")
+        .expect("witness");
     let _ = std::fs::remove_file(path);
 }
 
@@ -348,6 +666,25 @@ fn remote_anchor_fails_closed_when_witness_is_unavailable() {
     let mut anchor = client(address, client_config.clone());
     assert!(matches!(
         anchor.load(),
+        Err(oblivion_anchor::Error::Socket(_))
+    ));
+    let invocation = signed_invocation(12, [0x42; 16], [0x53; 32]);
+    let invocation_anchor = TlsInvocationAnchor::new(
+        address,
+        "localhost",
+        "oram-state",
+        client_config.clone(),
+        80,
+    )
+    .expect("invocation TLS anchor");
+    assert!(matches!(
+        invocation_anchor.load(&invocation),
+        Err(oblivion_anchor::Error::Socket(_))
+    ));
+    let unavailable_record = CheckpointAnchorRecord::new("snapshot-offline", &invocation_handle(1))
+        .expect("offline invocation record");
+    assert!(matches!(
+        invocation_anchor.commit(&invocation, None, unavailable_record, &[0x7a; 80]),
         Err(oblivion_anchor::Error::Socket(_))
     ));
     let mut checkpoint = checkpoint_client(address, "oram-state", client_config.clone());

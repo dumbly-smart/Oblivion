@@ -33,7 +33,7 @@ pub use local::{
 
 mod remote;
 pub use remote::{
-    AuthorizationPolicyError, ClientAuthorizationPolicy, TlsCheckpointAnchor,
+    AuthorizationPolicyError, ClientAuthorizationPolicy, TlsCheckpointAnchor, TlsInvocationAnchor,
     TlsRegistryCatalogAnchor, TlsSseJournalAnchor, mtls_client_config, mtls_client_config_from_pem,
     mtls_server_config, mtls_server_config_from_pem, serve_mtls, serve_mtls_with_shutdown,
 };
