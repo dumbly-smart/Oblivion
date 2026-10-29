@@ -7,7 +7,8 @@ use chacha20poly1305::{
 use hkdf::Hkdf;
 use rand::{RngCore, rngs::OsRng};
 pub use recovery::{
-    CheckpointAnchor, CheckpointAnchorRecord, MAX_SNAPSHOT_BYTES, TrustedCheckpoint,
+    CheckpointAnchor, CheckpointAnchorRecord, MAX_SNAPSHOT_BYTES, TRUSTED_CHECKPOINT_HANDLE_BYTES,
+    TrustedCheckpoint,
 };
 use sha2::Sha256;
 use std::collections::BTreeMap;

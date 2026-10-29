@@ -14,7 +14,7 @@ pub use config::Config;
 pub use file_backend::FileBackend;
 pub use oram::{
     CheckpointAnchor, CheckpointAnchorRecord, MAX_SNAPSHOT_BYTES, PathOram, PrivateStats,
-    TrustedCheckpoint,
+    TRUSTED_CHECKPOINT_HANDLE_BYTES, TrustedCheckpoint,
 };
 
 #[derive(Debug, thiserror::Error)]

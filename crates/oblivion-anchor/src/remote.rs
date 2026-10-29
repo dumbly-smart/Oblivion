@@ -26,10 +26,12 @@ use zeroize::{Zeroize, Zeroizing};
 
 use crate::{AnchorDatabase, Error, SseJournalState};
 use oblivion_registry::{RegistryCatalogAnchor, RegistryCatalogState};
-use oblivion_store::{CheckpointAnchor, CheckpointAnchorRecord, Error as StoreError};
+use oblivion_store::{
+    CheckpointAnchor, CheckpointAnchorRecord, Error as StoreError, TRUSTED_CHECKPOINT_HANDLE_BYTES,
+};
 
 const MAX_FRAME_BYTES: usize = 512 * 1024;
-const PROTOCOL_VERSION: u8 = 1;
+const PROTOCOL_VERSION: u8 = 2;
 const IO_TIMEOUT: Duration = Duration::from_secs(5);
 const ACCEPT_POLL: Duration = Duration::from_millis(10);
 
@@ -99,25 +101,53 @@ struct WireState {
 #[serde(deny_unknown_fields)]
 struct WireCheckpointState {
     snapshot_id: String,
-    secret_handle: Vec<u8>,
+    secret_handle_hex: String,
 }
 
 impl WireCheckpointState {
     fn from_record(record: &CheckpointAnchorRecord) -> Self {
+        const HEX: &[u8; 16] = b"0123456789abcdef";
+        let mut secret_handle_hex = String::with_capacity(TRUSTED_CHECKPOINT_HANDLE_BYTES * 2);
+        for byte in record.secret_handle() {
+            secret_handle_hex.push(HEX[(byte >> 4) as usize] as char);
+            secret_handle_hex.push(HEX[(byte & 0x0f) as usize] as char);
+        }
         Self {
             snapshot_id: record.snapshot_id().to_owned(),
-            secret_handle: record.secret_handle().to_vec(),
+            secret_handle_hex,
         }
     }
 
     fn to_record(&self) -> Result<CheckpointAnchorRecord, StoreError> {
-        CheckpointAnchorRecord::new(&self.snapshot_id, &self.secret_handle)
+        if self.secret_handle_hex.len() != TRUSTED_CHECKPOINT_HANDLE_BYTES * 2 {
+            return Err(StoreError::Integrity);
+        }
+        let mut secret_handle = Zeroizing::new([0; TRUSTED_CHECKPOINT_HANDLE_BYTES]);
+        let (pairs, remainder) = self.secret_handle_hex.as_bytes().as_chunks::<2>();
+        if !remainder.is_empty() {
+            return Err(StoreError::Integrity);
+        }
+        for (index, pair) in pairs.iter().enumerate() {
+            let high = decode_hex_nibble(pair[0]).ok_or(StoreError::Integrity)?;
+            let low = decode_hex_nibble(pair[1]).ok_or(StoreError::Integrity)?;
+            secret_handle[index] = (high << 4) | low;
+        }
+        CheckpointAnchorRecord::new(&self.snapshot_id, secret_handle.as_ref())
     }
 }
 
 impl Drop for WireCheckpointState {
     fn drop(&mut self) {
-        self.secret_handle.zeroize();
+        self.secret_handle_hex.zeroize();
+    }
+}
+
+fn decode_hex_nibble(byte: u8) -> Option<u8> {
+    match byte {
+        b'0'..=b'9' => Some(byte - b'0'),
+        b'a'..=b'f' => Some(byte - b'a' + 10),
+        b'A'..=b'F' => Some(byte - b'A' + 10),
+        _ => None,
     }
 }
 
@@ -962,7 +992,50 @@ impl Write for DeadlineStream {
 
 #[cfg(test)]
 mod tests {
-    use super::{Request, WireError, decode_request};
+    use super::{Request, WireCheckpointState, WireError, decode_request};
+    use oblivion_store::CheckpointAnchorRecord;
+
+    #[test]
+    fn checkpoint_wire_handle_has_fixed_width_independent_of_secret_bytes() {
+        fn record(fill: u8) -> CheckpointAnchorRecord {
+            let mut handle = [fill; 88];
+            handle[..8].copy_from_slice(b"OBLTRST1");
+            handle[8..16].copy_from_slice(&1u64.to_le_bytes());
+            handle[16..24].copy_from_slice(&64u64.to_le_bytes());
+            CheckpointAnchorRecord::new("snapshot", &handle).expect("valid handle")
+        }
+
+        let low = WireCheckpointState::from_record(&record(0));
+        let high = WireCheckpointState::from_record(&record(0xff));
+        assert_eq!(low.secret_handle_hex.len(), 176);
+        assert_eq!(high.secret_handle_hex.len(), 176);
+        assert_eq!(
+            serde_json::to_vec(&low)
+                .expect("low-secret wire encoding")
+                .len(),
+            serde_json::to_vec(&high)
+                .expect("high-secret wire encoding")
+                .len()
+        );
+        let decoded = low.to_record().expect("decode fixed-width handle");
+        assert_eq!(decoded.snapshot_id(), "snapshot");
+        assert_eq!(decoded.generation(), 1);
+        assert_eq!(decoded.secret_handle(), record(0).secret_handle());
+    }
+
+    #[test]
+    fn checkpoint_wire_handle_rejects_invalid_hex_and_length() {
+        for secret_handle_hex in ["gg".repeat(88), "00".repeat(87)] {
+            let state = WireCheckpointState {
+                snapshot_id: "snapshot".into(),
+                secret_handle_hex,
+            };
+            assert!(matches!(
+                state.to_record(),
+                Err(oblivion_store::Error::Integrity)
+            ));
+        }
+    }
 
     #[test]
     fn slow_chunked_frame_cannot_extend_total_read_deadline() {
@@ -996,13 +1069,13 @@ mod tests {
 
     #[test]
     fn remote_protocol_requires_version_and_rejects_unknown_fields() {
-        let valid = br#"{"version":1,"request":{"operation":"load","slot":"sse-slot"}}"#;
+        let valid = br#"{"version":2,"request":{"operation":"load","slot":"sse-slot"}}"#;
         assert!(matches!(
             decode_request(valid),
             Ok(Request::Load { slot }) if slot == "sse-slot"
         ));
 
-        let unsupported = br#"{"version":2,"request":{"operation":"load","slot":"sse-slot"}}"#;
+        let unsupported = br#"{"version":1,"request":{"operation":"load","slot":"sse-slot"}}"#;
         assert!(matches!(
             decode_request(unsupported),
             Err(WireError::Protocol)
@@ -1015,20 +1088,20 @@ mod tests {
         ));
 
         let unknown_field =
-            br#"{"version":1,"request":{"operation":"load","slot":"sse-slot","extra":true}}"#;
+            br#"{"version":2,"request":{"operation":"load","slot":"sse-slot","extra":true}}"#;
         assert!(matches!(
             decode_request(unknown_field),
             Err(WireError::Protocol)
         ));
 
         let catalog_load =
-            br#"{"version":1,"request":{"operation":"catalog_load","slot":"functions"}}"#;
+            br#"{"version":2,"request":{"operation":"catalog_load","slot":"functions"}}"#;
         assert!(matches!(
             decode_request(catalog_load),
             Ok(Request::CatalogLoad { slot }) if slot == "functions"
         ));
 
-        let malformed_catalog_cas = br#"{"version":1,"request":{"operation":"catalog_compare_and_swap","slot":"functions","expected":null,"next_version":1,"next_digest":[1,2]}}"#;
+        let malformed_catalog_cas = br#"{"version":2,"request":{"operation":"catalog_compare_and_swap","slot":"functions","expected":null,"next_version":1,"next_digest":[1,2]}}"#;
         assert!(matches!(
             decode_request(malformed_catalog_cas),
             Err(WireError::Protocol)

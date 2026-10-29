@@ -12,7 +12,9 @@ use std::{
 /// Bound on the complete encrypted checkpoint, including trusted metadata.
 pub const MAX_SNAPSHOT_BYTES: usize = 256 * 1024 * 1024;
 const HEADER: usize = 32;
-const HANDLE: usize = 88;
+/// Size of the exported secret handle for `TrustedCheckpoint`.
+pub const TRUSTED_CHECKPOINT_HANDLE_BYTES: usize = 88;
+const HANDLE: usize = TRUSTED_CHECKPOINT_HANDLE_BYTES;
 const SNAPSHOT_ID_MAX_BYTES: usize = 128;
 
 /// External trusted freshness anchor AND decryption secret. Store this only in
