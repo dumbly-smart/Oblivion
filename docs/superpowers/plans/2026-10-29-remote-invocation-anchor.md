@@ -22,7 +22,7 @@
 
 ## Review Focus
 
-- A replay could accidentally create an orphan snapshot or advance ORAM generation; test confirmation does neither.
+- A replay could accidentally create an orphan snapshot or advance ORAM generation; verify the identical finish exchange reuses the loaded checkpoint and returns the original generation.
 - A hit/miss encoding could alter frame length; test fixed-capacity serialized lengths for both states.
 - A truncated, non-hex, padded, or over-capacity response could be accepted; test strict bounds and zero-padding validation.
 - A lost reply could be mistaken for a definite failure; test typed indeterminacy and receipt reconciliation.
@@ -38,19 +38,19 @@
 
 **Interfaces:**
 - Add version-3 `Request::Invocation` with fixed-width token fields, action,
-  response capacity/length/data, expected generation, and optional checkpoint
+  response capacity/data, expected generation, and optional checkpoint
   record fields.
 - Add one fixed-shape invocation response carrying status and optional receipt
   data at the request's declared capacity.
 
-- [ ] Write tests for equal load hit/miss lengths, equal finish success/replay
+- [x] Write tests for equal load hit/miss lengths, equal finish success/replay
   lengths, and malformed hex/length/capacity rejection.
-- [ ] Run the focused wire tests and confirm they fail because the v3 message
+- [x] Run the focused wire tests and confirm they fail because the v3 message
   types and fixed encoder are absent.
-- [ ] Implement strict fixed-width encode/decode helpers, request validation,
+- [x] Implement strict fixed-width encode/decode helpers, request validation,
   and protocol version 3 while retaining the existing 512 KiB limit.
-- [ ] Run the focused wire tests, then all `oblivion-anchor` tests.
-- [ ] Commit `feat(anchor): add fixed-width invocation wire protocol`.
+- [x] Run the focused wire tests, then all `oblivion-anchor` tests.
+- [x] Commit `feat(anchor): add fixed-width invocation wire protocol`.
 
 ### Task 2: Atomic mTLS invocation anchor client and server
 
@@ -89,8 +89,10 @@
 - Add the six `OBLIVION_INVOCATION_ANCHOR_MTLS_*` settings listed in the spec;
   require them all with `OBLIVION_ANCHOR_STATE_DIR` and reject conflicts with
   `OBLIVION_ANCHOR_SOCKET`.
-- On receipt replay, call `confirm` and do not write a new snapshot. On a new
-  invocation, retain the existing checkpoint/receipt commit path.
+- For every invocation, send the same load-then-finish action sequence. On a
+  receipt hit, reuse the currently loaded checkpoint and saved response; the
+  idempotent finish returns the original receipt without writing a snapshot or
+  advancing the generation. Use `confirm` only after an ambiguous finish.
 
 - [ ] Add startup tests for partial credentials, missing state directory, and
   simultaneous local/remote anchors; run and observe their expected failure.

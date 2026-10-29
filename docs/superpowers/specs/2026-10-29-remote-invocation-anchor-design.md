@@ -65,14 +65,13 @@ match; it does not advance the checkpoint.
 
 Invocation wire fields use fixed-width lowercase hex for keys, IDs, digests,
 signatures, checkpoint handles, snapshot IDs, and response bytes. Decimal
-lengths and generations use fixed-width strings. The client declares a
-response capacity from 1 byte through `MAX_INVOCATION_RESPONSE_BYTES`; the
-request and response carry that many response bytes, padded with zeroes, plus
-the actual length. Thus receipt presence does not change frame size for one
-configured capacity. The runtime uses its fixed 80-byte response capacity.
-The witness returns one fixed-shape invocation result for hit, miss, and
-protocol-level operation statuses. Timing, connection visibility, and failure
-behavior remain observable.
+lengths and generations use fixed-width strings. The client declares an exact
+response capacity from 1 byte through `MAX_INVOCATION_RESPONSE_BYTES`; each
+response is already padded to that exact capacity, so no separate data length
+is sent. The runtime uses its fixed 80-byte response capacity. The witness
+returns one fixed-shape invocation result for hit, miss, success, and typed
+operation errors. Timing, connection visibility, and failure behavior remain
+observable.
 
 The public `TlsInvocationAnchor` provides `load`, `commit`, and `confirm` and
 also supplies the checkpoint load operation needed during runtime restore.
@@ -91,10 +90,16 @@ fail before worker readiness. Remote credentials use the existing PEM
 validation and permissions checks. No fallback is allowed.
 
 For every valid durable invocation the worker loads the receipt, performs the
-same executor/PIR/storage schedule, then sends exactly one finish exchange:
-new invocations commit a new checkpoint and response; receipt hits confirm
-the saved response without creating another snapshot. A commit whose reply is
-lost is reconciled by loading the receipt and comparing the exact response.
+same executor/PIR/storage schedule, then sends exactly one finish exchange.
+On a miss, finish submits the new checkpoint and response. On a hit, finish
+resubmits the current checkpoint and the saved response; the anchor's
+idempotent `commit_invocation` returns the original receipt before inspecting
+the candidate checkpoint, so it neither advances the generation nor writes a
+second snapshot. The action sequence is identical for hits and misses. A
+separate confirm exchange is reserved for reconciling an ambiguous finish;
+the client compares the exact saved response before treating it as committed.
+A commit whose reply is lost is reconciled by loading the receipt or using
+that exact-response confirmation.
 The remote witness is trusted with the checkpoint secret handle and can decrypt
 available snapshots. The state directory still needs trusted custody and
 backup. A separate host cannot restore unless it has the referenced snapshot;
@@ -124,6 +129,8 @@ failover mechanism.
 - New commit, exact duplicate commit, response mismatch, stale generation,
   invalid signature, malformed fixed-width fields, too-small capacity, and
   oversized frames have explicit outcomes.
+- Normal hit and miss paths use the same load-then-finish operation sequence;
+  an exact duplicate finish preserves the original checkpoint generation.
 - A runtime test creates a real signed request, persists an actual ORAM state
   change and response through the remote witness, restarts both worker and
   witness while retaining witness state, replays the request byte-for-byte,
