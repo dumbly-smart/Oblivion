@@ -68,15 +68,15 @@
 - Route new commits to the existing atomic `AnchorDatabase::commit_invocation`;
   route receipt confirmation to an exact response comparison without mutation.
 
-- [ ] Add real-certificate tests for miss, receipt recovery, exact duplicate,
+- [x] Add real-certificate tests for miss, receipt recovery, exact duplicate,
   response mismatch, stale generation, invalid signature, denied slot,
   witness outage, and ambiguous commit/reconciliation.
-- [ ] Run those tests first and observe expected missing-adapter failures.
-- [ ] Implement the mTLS client/server path and map conflict/indeterminate
+- [x] Run those tests first and observe expected missing-adapter failures.
+- [x] Implement the mTLS client/server path and map conflict/indeterminate
   responses to existing typed errors.
-- [ ] Run anchor tests and verify the checkpoint and receipt remain one atomic
+- [x] Run anchor tests and verify the checkpoint and receipt remain one atomic
   SQLite update.
-- [ ] Commit `feat(anchor): support atomic remote invocation receipts`.
+- [x] Commit `feat(anchor): support atomic remote invocation receipts`.
 
 ### Task 3: Runtime remote configuration and backend selection
 
