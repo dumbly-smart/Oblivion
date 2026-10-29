@@ -9,9 +9,10 @@ use std::{
 
 use ed25519_dalek::{Signer, SigningKey};
 use oblivion_anchor::{
-    AnchorDatabase, ClientAuthorizationPolicy, MAX_INVOCATION_RESPONSE_BYTES, SignedInvocationId,
-    SseJournalState, TlsInvocationAnchor, TlsRegistryCatalogAnchor, TlsSseJournalAnchor,
-    mtls_client_config, mtls_server_config, serve_mtls_with_shutdown,
+    AnchorDatabase, AnchorRequestRateLimit, ClientAuthorizationPolicy,
+    MAX_INVOCATION_RESPONSE_BYTES, SignedInvocationId, SseJournalState, TlsInvocationAnchor,
+    TlsRegistryCatalogAnchor, TlsSseJournalAnchor, mtls_client_config, mtls_server_config,
+    serve_mtls_with_shutdown, serve_mtls_with_shutdown_and_rate_limit,
 };
 use oblivion_registry::{
     Record, RegistryCatalogAnchor, RegistryCatalogState, SignedRegistry, VerifiedRegistry,
@@ -151,6 +152,34 @@ fn start_witness(
     }
 }
 
+fn start_rate_limited_witness(
+    path: PathBuf,
+    config: Arc<rustls::ServerConfig>,
+    authorization: ClientAuthorizationPolicy,
+    rate_limit: AnchorRequestRateLimit,
+) -> RunningWitness {
+    let listener = TcpListener::bind("127.0.0.1:0").expect("bind rate-limited witness");
+    let address = listener.local_addr().expect("witness address");
+    let database = AnchorDatabase::open(&path, Zeroizing::new([0x5a; 32]))
+        .expect("open rate-limited database");
+    let (shutdown, receiver) = mpsc::channel();
+    let thread = thread::spawn(move || {
+        serve_mtls_with_shutdown_and_rate_limit(
+            listener,
+            database,
+            config,
+            authorization,
+            rate_limit,
+            receiver,
+        )
+    });
+    RunningWitness {
+        address,
+        shutdown,
+        thread,
+    }
+}
+
 fn client(address: SocketAddr, config: Arc<rustls::ClientConfig>) -> TlsSseJournalAnchor {
     TlsSseJournalAnchor::new(address, "localhost", "sse-main-index", config)
         .expect("valid TLS anchor client")
@@ -233,6 +262,73 @@ fn mutually_authenticated_remote_anchor_cas_survives_witness_restart() {
         .join()
         .expect("second witness thread")
         .expect("second witness");
+    let _ = std::fs::remove_file(path);
+}
+
+#[test]
+fn remote_anchor_rate_limit_is_per_authenticated_certificate_and_slot() {
+    use std::time::Duration;
+
+    let path = temp_database();
+    let (server_cert, server_key, client_cert, client_key, root_cert) =
+        identity_pair("rate-limit-root");
+    let server_config =
+        mtls_server_config(vec![server_cert], server_key, root_store(root_cert.clone()))
+            .expect("server TLS config");
+    let authorization = authorization_policy_for(&client_cert, &["sse-main-index", "other-slot"]);
+    let client_config = mtls_client_config(root_store(root_cert), vec![client_cert], client_key)
+        .expect("client TLS config");
+    let rate_limit = AnchorRequestRateLimit::new(1, Duration::from_secs(24 * 60 * 60), 1)
+        .expect("valid rate limit");
+    let witness = start_rate_limited_witness(
+        path.clone(),
+        server_config.clone(),
+        authorization.clone(),
+        rate_limit,
+    );
+
+    let mut main_slot = client(witness.address, client_config.clone());
+    assert_eq!(main_slot.load().expect("first request"), None);
+    assert!(matches!(
+        main_slot.load(),
+        Err(oblivion_anchor::Error::RateLimited)
+    ));
+    let pending = SseJournalState::new([3; 16], 0, [4; 32]).expect("journal state");
+    assert!(matches!(
+        main_slot.compare_and_swap(None, pending),
+        Err(oblivion_anchor::Error::RateLimited)
+    ));
+
+    let mut other_slot = TlsSseJournalAnchor::new(
+        witness.address,
+        "localhost",
+        "other-slot",
+        client_config.clone(),
+    )
+    .expect("other-slot TLS client");
+    assert_eq!(other_slot.load().expect("independent slot limit"), None);
+
+    let _ = witness.shutdown.send(());
+    witness
+        .thread
+        .join()
+        .expect("witness thread")
+        .expect("witness");
+
+    let restarted = start_witness(path.clone(), server_config, authorization);
+    let mut after_restart = client(restarted.address, client_config);
+    assert_eq!(
+        after_restart
+            .load()
+            .expect("limited mutation was not dispatched"),
+        None
+    );
+    let _ = restarted.shutdown.send(());
+    restarted
+        .thread
+        .join()
+        .expect("restarted witness thread")
+        .expect("restarted witness");
     let _ = std::fs::remove_file(path);
 }
 

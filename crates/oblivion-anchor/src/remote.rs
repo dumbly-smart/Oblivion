@@ -37,13 +37,14 @@ use oblivion_store::{
 
 const MAX_FRAME_BYTES: usize = 512 * 1024;
 const MAX_AUTHORIZATION_POLICY_BYTES: usize = 1024 * 1024;
-const PROTOCOL_VERSION: u8 = 3;
+const PROTOCOL_VERSION: u8 = 4;
 const INVOCATION_SLOT_BYTES: usize = 128;
 const INVOCATION_SNAPSHOT_ID_BYTES: usize = 128;
 const INVOCATION_GENERATION_DIGITS: usize = 20;
 const INVOCATION_CAPACITY_DIGITS: usize = 5;
 const IO_TIMEOUT: Duration = Duration::from_secs(5);
 const ACCEPT_POLL: Duration = Duration::from_millis(10);
+const MAX_RATE_LIMIT_TOKENS: u32 = 1_000_000;
 
 /// Errors while loading the witness's certificate-to-slot authorization file.
 #[derive(Debug, thiserror::Error)]
@@ -62,6 +63,65 @@ pub enum AuthorizationPolicyError {
     UnsupportedVersion,
     #[error("authorization policy must contain at least one client grant")]
     Empty,
+}
+
+/// Token-bucket limits applied separately to each authenticated certificate
+/// and authorized slot. A full bucket starts with `burst` requests and refills
+/// by `tokens_per_interval` every `interval`, up to that same burst capacity.
+///
+/// These limits are process-local and reset when the witness restarts. They
+/// bound authenticated request volume; they do not limit TLS handshakes or
+/// slow clients that have not yet completed an authenticated request.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct AnchorRequestRateLimit {
+    tokens_per_interval: u32,
+    interval: Duration,
+    burst: u32,
+}
+
+impl AnchorRequestRateLimit {
+    /// Create a per-certificate, per-slot token bucket. Counts must be in
+    /// `1..=1_000_000`; a zero interval is rejected.
+    pub fn new(tokens_per_interval: u32, interval: Duration, burst: u32) -> Result<Self, Error> {
+        if tokens_per_interval == 0
+            || tokens_per_interval > MAX_RATE_LIMIT_TOKENS
+            || burst == 0
+            || burst > MAX_RATE_LIMIT_TOKENS
+            || interval.is_zero()
+        {
+            return Err(Error::InvalidRequestRateLimit);
+        }
+        Ok(Self {
+            tokens_per_interval,
+            interval,
+            burst,
+        })
+    }
+
+    /// Sustained allowance represented as whole tokens per interval.
+    pub fn tokens_per_interval(self) -> u32 {
+        self.tokens_per_interval
+    }
+
+    /// Refill interval for the sustained allowance.
+    pub fn interval(self) -> Duration {
+        self.interval
+    }
+
+    /// Maximum immediately available requests.
+    pub fn burst(self) -> u32 {
+        self.burst
+    }
+}
+
+impl Default for AnchorRequestRateLimit {
+    fn default() -> Self {
+        Self {
+            tokens_per_interval: 100,
+            interval: Duration::from_secs(1),
+            burst: 200,
+        }
+    }
 }
 
 #[derive(Deserialize)]
@@ -140,6 +200,7 @@ impl ClientAuthorizationPolicy {
         Ok(Self { grants })
     }
 
+    #[cfg(test)]
     fn allows(&self, certificate_der: &[u8], slot: &str) -> bool {
         let fingerprint: [u8; 32] = Sha256::digest(certificate_der).into();
         self.allows_fingerprint(&fingerprint, slot)
@@ -149,6 +210,92 @@ impl ClientAuthorizationPolicy {
         self.grants
             .get(fingerprint)
             .is_some_and(|slots| slots.contains(slot))
+    }
+}
+
+struct TokenBucket {
+    available: u32,
+    last_refill: Instant,
+    fractional_remainder: u128,
+}
+
+impl TokenBucket {
+    fn full(limit: AnchorRequestRateLimit, now: Instant) -> Self {
+        Self {
+            available: limit.burst,
+            last_refill: now,
+            fractional_remainder: 0,
+        }
+    }
+
+    fn try_consume(&mut self, limit: AnchorRequestRateLimit, now: Instant) -> bool {
+        if now > self.last_refill {
+            let elapsed = now.duration_since(self.last_refill).as_nanos();
+            let interval = limit.interval.as_nanos();
+            let numerator =
+                elapsed * u128::from(limit.tokens_per_interval) + self.fractional_remainder;
+            let replenished = numerator / interval;
+            self.fractional_remainder = numerator % interval;
+
+            let room = limit.burst - self.available;
+            if replenished >= u128::from(room) {
+                self.available = limit.burst;
+                self.fractional_remainder = 0;
+            } else {
+                self.available += replenished as u32;
+            }
+            if self.available == limit.burst {
+                self.fractional_remainder = 0;
+            }
+            self.last_refill = now;
+        }
+
+        if self.available == 0 {
+            false
+        } else {
+            self.available -= 1;
+            true
+        }
+    }
+}
+
+#[derive(Hash, PartialEq, Eq)]
+struct RateLimitKey {
+    certificate: [u8; 32],
+    slot: String,
+}
+
+struct RequestRateLimiter {
+    limit: AnchorRequestRateLimit,
+    buckets: HashMap<RateLimitKey, TokenBucket>,
+}
+
+impl RequestRateLimiter {
+    fn new(authorization: &ClientAuthorizationPolicy, limit: AnchorRequestRateLimit) -> Self {
+        let now = Instant::now();
+        let bucket_count = authorization.grants.values().map(HashSet::len).sum();
+        let mut buckets = HashMap::with_capacity(bucket_count);
+        for (certificate, slots) in &authorization.grants {
+            for slot in slots {
+                buckets.insert(
+                    RateLimitKey {
+                        certificate: *certificate,
+                        slot: slot.clone(),
+                    },
+                    TokenBucket::full(limit, now),
+                );
+            }
+        }
+        Self { limit, buckets }
+    }
+
+    fn try_consume(&mut self, certificate: &[u8; 32], slot: &str, now: Instant) -> bool {
+        self.buckets
+            .get_mut(&RateLimitKey {
+                certificate: *certificate,
+                slot: slot.to_owned(),
+            })
+            .is_some_and(|bucket| bucket.try_consume(self.limit, now))
     }
 }
 
@@ -646,6 +793,7 @@ impl TryFrom<WireState> for SseJournalState {
 enum WireError {
     Conflict,
     CommitIndeterminate,
+    RateLimited,
     Unavailable,
     Protocol,
 }
@@ -1287,9 +1435,29 @@ impl CheckpointAnchor for TlsInvocationAnchor {
 /// is polled so a shutdown request is observed even when the service is idle.
 pub fn serve_mtls_with_shutdown(
     listener: TcpListener,
+    database: AnchorDatabase,
+    config: Arc<ServerConfig>,
+    authorization: ClientAuthorizationPolicy,
+    shutdown: Receiver<()>,
+) -> Result<(), Error> {
+    serve_mtls_with_shutdown_and_rate_limit(
+        listener,
+        database,
+        config,
+        authorization,
+        AnchorRequestRateLimit::default(),
+        shutdown,
+    )
+}
+
+/// Serve TLS anchor requests using the supplied process-local per-client,
+/// per-slot rate limit until `shutdown` receives a message.
+pub fn serve_mtls_with_shutdown_and_rate_limit(
+    listener: TcpListener,
     mut database: AnchorDatabase,
     config: Arc<ServerConfig>,
     authorization: ClientAuthorizationPolicy,
+    rate_limit: AnchorRequestRateLimit,
     shutdown: Receiver<()>,
 ) -> Result<(), Error> {
     serve_mtls_inner(
@@ -1297,6 +1465,7 @@ pub fn serve_mtls_with_shutdown(
         &mut database,
         config,
         &authorization,
+        rate_limit,
         Some(shutdown),
     )
 }
@@ -1305,11 +1474,36 @@ pub fn serve_mtls_with_shutdown(
 /// [`serve_mtls_with_shutdown`] when the caller needs orderly shutdown.
 pub fn serve_mtls(
     listener: TcpListener,
-    mut database: AnchorDatabase,
+    database: AnchorDatabase,
     config: Arc<ServerConfig>,
     authorization: ClientAuthorizationPolicy,
 ) -> Result<(), Error> {
-    serve_mtls_inner(listener, &mut database, config, &authorization, None)
+    serve_mtls_with_rate_limit(
+        listener,
+        database,
+        config,
+        authorization,
+        AnchorRequestRateLimit::default(),
+    )
+}
+
+/// Serve TLS anchor requests indefinitely using the supplied process-local
+/// per-client, per-slot rate limit.
+pub fn serve_mtls_with_rate_limit(
+    listener: TcpListener,
+    mut database: AnchorDatabase,
+    config: Arc<ServerConfig>,
+    authorization: ClientAuthorizationPolicy,
+    rate_limit: AnchorRequestRateLimit,
+) -> Result<(), Error> {
+    serve_mtls_inner(
+        listener,
+        &mut database,
+        config,
+        &authorization,
+        rate_limit,
+        None,
+    )
 }
 
 fn serve_mtls_inner(
@@ -1317,11 +1511,13 @@ fn serve_mtls_inner(
     database: &mut AnchorDatabase,
     config: Arc<ServerConfig>,
     authorization: &ClientAuthorizationPolicy,
+    rate_limit: AnchorRequestRateLimit,
     shutdown: Option<Receiver<()>>,
 ) -> Result<(), Error> {
     listener
         .set_nonblocking(true)
         .map_err(|error| Error::Socket(error.to_string()))?;
+    let mut request_limiter = RequestRateLimiter::new(authorization, rate_limit);
     loop {
         if let Some(receiver) = &shutdown {
             match receiver.try_recv() {
@@ -1331,7 +1527,13 @@ fn serve_mtls_inner(
         }
         match listener.accept() {
             Ok((stream, _peer)) => {
-                let _ = serve_connection(stream, database, &config, authorization);
+                let _ = serve_connection(
+                    stream,
+                    database,
+                    &config,
+                    authorization,
+                    &mut request_limiter,
+                );
             }
             Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
                 thread::sleep(ACCEPT_POLL);
@@ -1347,6 +1549,7 @@ fn serve_connection(
     database: &mut AnchorDatabase,
     config: &Arc<ServerConfig>,
     authorization: &ClientAuthorizationPolicy,
+    request_limiter: &mut RequestRateLimiter,
 ) -> Result<(), Error> {
     let stream = DeadlineStream::with_timeout(stream, IO_TIMEOUT);
     let connection =
@@ -1360,10 +1563,17 @@ fn serve_connection(
                 .peer_certificates()
                 .and_then(|certificates| certificates.first())
                 .ok_or(Error::Protocol)?;
-            if !authorization.allows(certificate.as_ref(), request.slot()) {
+            let fingerprint: [u8; 32] = Sha256::digest(certificate.as_ref()).into();
+            if !authorization.allows_fingerprint(&fingerprint, request.slot()) {
                 return Err(Error::Protocol);
             }
-            serve_request(database, request)
+            if request_limiter.try_consume(&fingerprint, request.slot(), Instant::now()) {
+                serve_request(database, request)
+            } else {
+                Response::Error {
+                    code: WireError::RateLimited,
+                }
+            }
         }
         Err(code) => Response::Error { code },
     };
@@ -1629,6 +1839,7 @@ fn wire_error_code(error: WireError) -> u8 {
         WireError::CommitIndeterminate => 2,
         WireError::Unavailable => 3,
         WireError::Protocol => 4,
+        WireError::RateLimited => 5,
     }
 }
 
@@ -1636,6 +1847,7 @@ fn wire_from_error(error: Error) -> WireError {
     match error {
         Error::Conflict => WireError::Conflict,
         Error::CommitIndeterminate => WireError::CommitIndeterminate,
+        Error::RateLimited => WireError::RateLimited,
         Error::Protocol | Error::InvalidSlot => WireError::Protocol,
         _ => WireError::Unavailable,
     }
@@ -1660,6 +1872,9 @@ fn store_error_from_wire(error: WireError, mutation: bool) -> StoreError {
         WireError::Unavailable => {
             StoreError::Backend("remote checkpoint witness unavailable".into())
         }
+        WireError::RateLimited => {
+            StoreError::Backend("remote checkpoint witness rate limit exceeded".into())
+        }
         WireError::Protocol => StoreError::Integrity,
     }
 }
@@ -1676,6 +1891,7 @@ fn error_from_wire(error: WireError) -> Error {
     match error {
         WireError::Conflict => Error::Conflict,
         WireError::CommitIndeterminate => Error::CommitIndeterminate,
+        WireError::RateLimited => Error::RateLimited,
         WireError::Unavailable => Error::Socket("remote anchor unavailable".into()),
         WireError::Protocol => Error::Protocol,
     }
@@ -1690,6 +1906,9 @@ fn registry_error_from_wire(error: WireError, mutation: bool) -> oblivion_regist
         }
         WireError::CommitIndeterminate | WireError::Unavailable => {
             oblivion_registry::Error::Anchor("remote anchor unavailable".into())
+        }
+        WireError::RateLimited => {
+            oblivion_registry::Error::Anchor("remote anchor rate limit exceeded".into())
         }
         WireError::Protocol => {
             oblivion_registry::Error::Anchor("remote anchor rejected catalog request".into())
@@ -1798,15 +2017,54 @@ impl Write for DeadlineStream {
 #[cfg(test)]
 mod tests {
     use super::{
-        AnchorDatabase, AuthorizationPolicyError, ClientAuthorizationPolicy, DeadlineStream,
-        IO_TIMEOUT, MAX_AUTHORIZATION_POLICY_BYTES, PROTOCOL_VERSION, Request, Response,
-        ResponseEnvelope, SignedInvocationId, TlsInvocationAnchor, WireCheckpointState, WireError,
-        WireInvocationOutcome, decode_request, read_frame, serve_request, write_frame,
+        AnchorDatabase, AnchorRequestRateLimit, AuthorizationPolicyError,
+        ClientAuthorizationPolicy, DeadlineStream, IO_TIMEOUT, MAX_AUTHORIZATION_POLICY_BYTES,
+        PROTOCOL_VERSION, Request, Response, ResponseEnvelope, SignedInvocationId,
+        TlsInvocationAnchor, TokenBucket, WireCheckpointState, WireError, WireInvocationOutcome,
+        decode_request, read_frame, serve_request, write_frame,
     };
     use ed25519_dalek::{Signer, SigningKey};
     use oblivion_store::{
         CheckpointAnchor, CheckpointAnchorRecord, TRUSTED_CHECKPOINT_HANDLE_BYTES,
     };
+    use std::time::{Duration, Instant};
+
+    #[test]
+    fn request_rate_limit_validates_parameters_and_refills_fractionally() {
+        assert!(matches!(
+            AnchorRequestRateLimit::new(0, Duration::from_secs(1), 1),
+            Err(crate::Error::InvalidRequestRateLimit)
+        ));
+        assert!(matches!(
+            AnchorRequestRateLimit::new(1, Duration::ZERO, 1),
+            Err(crate::Error::InvalidRequestRateLimit)
+        ));
+
+        let limit =
+            AnchorRequestRateLimit::new(3, Duration::from_secs(1), 3).expect("valid rate limit");
+        let start = Instant::now();
+        let mut bucket = TokenBucket::full(limit, start);
+        assert!(bucket.try_consume(limit, start));
+        assert!(bucket.try_consume(limit, start));
+        assert!(bucket.try_consume(limit, start));
+        assert!(!bucket.try_consume(limit, start));
+        assert!(!bucket.try_consume(limit, start + Duration::from_nanos(333_333_333)));
+        assert!(bucket.try_consume(limit, start + Duration::from_nanos(333_333_334)));
+        assert!(bucket.try_consume(limit, start + Duration::from_nanos(666_666_667)));
+        assert!(!bucket.try_consume(limit, start + Duration::from_nanos(999_999_999)));
+        assert!(bucket.try_consume(limit, start + Duration::from_secs(1)));
+    }
+
+    #[test]
+    fn request_rate_limit_caps_refill_at_the_configured_burst() {
+        let limit =
+            AnchorRequestRateLimit::new(10, Duration::from_secs(1), 2).expect("valid rate limit");
+        let start = Instant::now();
+        let mut bucket = TokenBucket::full(limit, start);
+        assert!(bucket.try_consume(limit, start + Duration::from_secs(10)));
+        assert!(bucket.try_consume(limit, start + Duration::from_secs(10)));
+        assert!(!bucket.try_consume(limit, start + Duration::from_secs(10)));
+    }
 
     #[test]
     fn client_authorization_policy_enforces_exact_fingerprint_and_slot() {
@@ -1991,13 +2249,13 @@ mod tests {
 
     #[test]
     fn remote_protocol_requires_version_and_rejects_unknown_fields() {
-        let valid = br#"{"version":3,"request":{"operation":"load","slot":"sse-slot"}}"#;
+        let valid = br#"{"version":4,"request":{"operation":"load","slot":"sse-slot"}}"#;
         assert!(matches!(
             decode_request(valid),
             Ok(Request::Load { slot }) if slot == "sse-slot"
         ));
 
-        let unsupported = br#"{"version":2,"request":{"operation":"load","slot":"sse-slot"}}"#;
+        let unsupported = br#"{"version":3,"request":{"operation":"load","slot":"sse-slot"}}"#;
         assert!(matches!(
             decode_request(unsupported),
             Err(WireError::Protocol)
@@ -2010,20 +2268,20 @@ mod tests {
         ));
 
         let unknown_field =
-            br#"{"version":3,"request":{"operation":"load","slot":"sse-slot","extra":true}}"#;
+            br#"{"version":4,"request":{"operation":"load","slot":"sse-slot","extra":true}}"#;
         assert!(matches!(
             decode_request(unknown_field),
             Err(WireError::Protocol)
         ));
 
         let catalog_load =
-            br#"{"version":3,"request":{"operation":"catalog_load","slot":"functions"}}"#;
+            br#"{"version":4,"request":{"operation":"catalog_load","slot":"functions"}}"#;
         assert!(matches!(
             decode_request(catalog_load),
             Ok(Request::CatalogLoad { slot }) if slot == "functions"
         ));
 
-        let malformed_catalog_cas = br#"{"version":3,"request":{"operation":"catalog_compare_and_swap","slot":"functions","expected":null,"next_version":1,"next_digest":[1,2]}}"#;
+        let malformed_catalog_cas = br#"{"version":4,"request":{"operation":"catalog_compare_and_swap","slot":"functions","expected":null,"next_version":1,"next_digest":[1,2]}}"#;
         assert!(matches!(
             decode_request(malformed_catalog_cas),
             Err(WireError::Protocol)
@@ -2032,7 +2290,7 @@ mod tests {
 
     fn fixed_invocation_request(action: u8) -> Vec<u8> {
         format!(
-            r#"{{"version":3,"request":{{"operation":"invocation","wire":{{"slot":"{:<128}","action":{},"public_key_hex":"{}","invocation_id_hex":"{}","request_digest_hex":"{}","signature_hex":"{}","expected_present":0,"expected_generation":"{}","record_present":{},"snapshot_id_hex":"{}","secret_handle_hex":"{}","response_capacity":"00080","response_hex":"{}"}}}}}}"#,
+            r#"{{"version":4,"request":{{"operation":"invocation","wire":{{"slot":"{:<128}","action":{},"public_key_hex":"{}","invocation_id_hex":"{}","request_digest_hex":"{}","signature_hex":"{}","expected_present":0,"expected_generation":"{}","record_present":{},"snapshot_id_hex":"{}","secret_handle_hex":"{}","response_capacity":"00080","response_hex":"{}"}}}}}}"#,
             "invocation-slot",
             action,
             "00".repeat(32),
