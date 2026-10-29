@@ -26,7 +26,10 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use zeroize::{Zeroize, Zeroizing};
 
-use crate::{AnchorDatabase, Error, SseJournalState};
+use crate::{
+    AnchorDatabase, Error, InvocationReceipt, MAX_INVOCATION_RESPONSE_BYTES, SignedInvocationId,
+    SseJournalState,
+};
 use oblivion_registry::{RegistryCatalogAnchor, RegistryCatalogState};
 use oblivion_store::{
     CheckpointAnchor, CheckpointAnchorRecord, Error as StoreError, TRUSTED_CHECKPOINT_HANDLE_BYTES,
@@ -34,7 +37,11 @@ use oblivion_store::{
 
 const MAX_FRAME_BYTES: usize = 512 * 1024;
 const MAX_AUTHORIZATION_POLICY_BYTES: usize = 1024 * 1024;
-const PROTOCOL_VERSION: u8 = 2;
+const PROTOCOL_VERSION: u8 = 3;
+const INVOCATION_SLOT_BYTES: usize = 128;
+const INVOCATION_SNAPSHOT_ID_BYTES: usize = 128;
+const INVOCATION_GENERATION_DIGITS: usize = 20;
+const INVOCATION_CAPACITY_DIGITS: usize = 5;
 const IO_TIMEOUT: Duration = Duration::from_secs(5);
 const ACCEPT_POLL: Duration = Duration::from_millis(10);
 
@@ -177,6 +184,7 @@ impl Request {
             | Self::CheckpointCompareAndSwap { slot, .. }
             | Self::CatalogLoad { slot }
             | Self::CatalogCompareAndSwap { slot, .. } => slot,
+            Self::Invocation { wire } => wire.slot.trim_end_matches(' '),
         }
     }
 }
@@ -209,6 +217,9 @@ enum Request {
         next_version: u64,
         next_digest: [u8; 32],
     },
+    Invocation {
+        wire: WireInvocationRequest,
+    },
 }
 
 #[derive(Deserialize, Serialize)]
@@ -217,6 +228,7 @@ enum Response {
     Loaded { state: Option<WireState> },
     CheckpointLoaded { state: Option<WireCheckpointState> },
     CatalogLoaded { state: Option<WireCatalogState> },
+    Invocation { outcome: WireInvocationOutcome },
     Updated,
     Error { code: WireError },
 }
@@ -248,6 +260,89 @@ struct WireState {
 struct WireCheckpointState {
     snapshot_id: String,
     secret_handle_hex: String,
+}
+
+/// Fixed-layout invocation request. The action is the only field whose value
+/// varies between load, finish, and confirmation requests. Every byte string
+/// is hex-encoded into its protocol maximum; decimal values are left-padded.
+#[derive(Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct WireInvocationRequest {
+    slot: String,
+    action: u8,
+    public_key_hex: String,
+    invocation_id_hex: String,
+    request_digest_hex: String,
+    signature_hex: String,
+    expected_present: u8,
+    expected_generation: String,
+    record_present: u8,
+    snapshot_id_hex: String,
+    secret_handle_hex: String,
+    response_capacity: String,
+    response_hex: String,
+}
+
+impl Drop for WireInvocationRequest {
+    fn drop(&mut self) {
+        self.response_hex.zeroize();
+        self.secret_handle_hex.zeroize();
+    }
+}
+
+/// Fixed-shape response used by every valid invocation request, including
+/// misses and storage errors. `response_hex` is exactly twice the public
+/// configured response capacity.
+#[derive(Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct WireInvocationOutcome {
+    status: u8,
+    error_code: u8,
+    receipt_present: u8,
+    snapshot_id_hex: String,
+    generation: String,
+    response_hex: String,
+}
+
+impl Drop for WireInvocationOutcome {
+    fn drop(&mut self) {
+        self.response_hex.zeroize();
+    }
+}
+
+impl WireInvocationOutcome {
+    fn empty(status: u8, error_code: u8, response_capacity: usize) -> Self {
+        Self {
+            status,
+            error_code,
+            receipt_present: 0,
+            snapshot_id_hex: "00".repeat(INVOCATION_SNAPSHOT_ID_BYTES),
+            generation: "0".repeat(INVOCATION_GENERATION_DIGITS),
+            response_hex: "00".repeat(response_capacity),
+        }
+    }
+
+    fn from_receipt(
+        receipt: &InvocationReceipt,
+        response_capacity: usize,
+    ) -> Result<Self, WireError> {
+        if receipt.response().len() != response_capacity {
+            return Err(WireError::Protocol);
+        }
+        let snapshot_id_hex = encode_padded_hex(
+            receipt.snapshot_id().as_bytes(),
+            INVOCATION_SNAPSHOT_ID_BYTES,
+        )
+        .ok_or(WireError::Protocol)?;
+        Ok(Self {
+            status: 1,
+            error_code: 0,
+            receipt_present: 1,
+            snapshot_id_hex,
+            generation: format!("{:020}", receipt.generation()),
+            response_hex: encode_hex(receipt.response()),
+        })
+    }
 }
 
 impl WireCheckpointState {
@@ -295,6 +390,158 @@ fn decode_hex_nibble(byte: u8) -> Option<u8> {
         b'A'..=b'F' => Some(byte - b'A' + 10),
         _ => None,
     }
+}
+
+impl WireInvocationRequest {
+    fn validate(&self) -> Result<(), WireError> {
+        let slot = self.slot.trim_end_matches(' ');
+        if self.slot.len() != INVOCATION_SLOT_BYTES
+            || !valid_policy_slot(slot)
+            || self.action > 2
+            || self.expected_present > 1
+            || self.record_present > 1
+            || !has_lower_hex(&self.public_key_hex, 32)
+            || !has_lower_hex(&self.invocation_id_hex, 16)
+            || !has_lower_hex(&self.request_digest_hex, 32)
+            || !has_lower_hex(&self.signature_hex, 64)
+            || !has_lower_hex(&self.snapshot_id_hex, INVOCATION_SNAPSHOT_ID_BYTES)
+            || !has_lower_hex(&self.secret_handle_hex, TRUSTED_CHECKPOINT_HANDLE_BYTES)
+        {
+            return Err(WireError::Protocol);
+        }
+
+        let expected_generation =
+            parse_fixed_decimal(&self.expected_generation, INVOCATION_GENERATION_DIGITS)?;
+        if (self.expected_present == 0 && expected_generation != 0)
+            || (self.expected_present == 1 && expected_generation == 0)
+            || (self.action == 1 && self.record_present != 1)
+            || (self.action != 1 && self.record_present != 0)
+            || (self.action != 1 && self.expected_present != 0)
+        {
+            return Err(WireError::Protocol);
+        }
+
+        let capacity = self.response_capacity()?;
+        if !has_lower_hex(&self.response_hex, capacity) {
+            return Err(WireError::Protocol);
+        }
+        if self.action != 1
+            && (self.snapshot_id_hex.bytes().any(|byte| byte != b'0')
+                || self.secret_handle_hex.bytes().any(|byte| byte != b'0'))
+        {
+            return Err(WireError::Protocol);
+        }
+        Ok(())
+    }
+
+    fn response_capacity(&self) -> Result<usize, WireError> {
+        let capacity = parse_fixed_decimal(&self.response_capacity, INVOCATION_CAPACITY_DIGITS)?;
+        let capacity = usize::try_from(capacity).map_err(|_| WireError::Protocol)?;
+        if !(1..=MAX_INVOCATION_RESPONSE_BYTES).contains(&capacity) {
+            return Err(WireError::Protocol);
+        }
+        Ok(capacity)
+    }
+
+    fn signed_invocation(&self) -> Result<SignedInvocationId, WireError> {
+        Ok(SignedInvocationId::new(
+            decode_fixed_hex::<32>(&self.public_key_hex)?,
+            decode_fixed_hex::<16>(&self.invocation_id_hex)?,
+            decode_fixed_hex::<32>(&self.request_digest_hex)?,
+            decode_fixed_hex::<64>(&self.signature_hex)?,
+        ))
+    }
+
+    fn expected_generation(&self) -> Result<Option<u64>, WireError> {
+        if self.expected_present == 0 {
+            return Ok(None);
+        }
+        Ok(Some(parse_fixed_decimal(
+            &self.expected_generation,
+            INVOCATION_GENERATION_DIGITS,
+        )?))
+    }
+
+    fn checkpoint_record(&self) -> Result<CheckpointAnchorRecord, WireError> {
+        let snapshot_id = decode_padded_hex(&self.snapshot_id_hex, INVOCATION_SNAPSHOT_ID_BYTES)?;
+        let snapshot_id = std::str::from_utf8(&snapshot_id).map_err(|_| WireError::Protocol)?;
+        let secret_handle = Zeroizing::new(decode_fixed_hex::<TRUSTED_CHECKPOINT_HANDLE_BYTES>(
+            &self.secret_handle_hex,
+        )?);
+        CheckpointAnchorRecord::new(snapshot_id, secret_handle.as_ref())
+            .map_err(|_| WireError::Protocol)
+    }
+
+    fn response_bytes(&self) -> Result<Zeroizing<Vec<u8>>, WireError> {
+        let capacity = self.response_capacity()?;
+        Ok(Zeroizing::new(decode_hex_bytes(
+            &self.response_hex,
+            capacity,
+        )?))
+    }
+}
+
+fn has_lower_hex(encoded: &str, byte_count: usize) -> bool {
+    encoded.len() == byte_count.saturating_mul(2)
+        && encoded
+            .bytes()
+            .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
+}
+
+fn parse_fixed_decimal(encoded: &str, width: usize) -> Result<u64, WireError> {
+    if encoded.len() != width || !encoded.bytes().all(|byte| byte.is_ascii_digit()) {
+        return Err(WireError::Protocol);
+    }
+    encoded.parse().map_err(|_| WireError::Protocol)
+}
+
+fn decode_fixed_hex<const N: usize>(encoded: &str) -> Result<[u8; N], WireError> {
+    let bytes = decode_hex_bytes(encoded, N)?;
+    bytes.try_into().map_err(|_| WireError::Protocol)
+}
+
+fn decode_padded_hex(encoded: &str, byte_count: usize) -> Result<Vec<u8>, WireError> {
+    let bytes = decode_hex_bytes(encoded, byte_count)?;
+    let content_len = bytes
+        .iter()
+        .position(|byte| *byte == 0)
+        .unwrap_or(bytes.len());
+    if bytes[content_len..].iter().any(|byte| *byte != 0) {
+        return Err(WireError::Protocol);
+    }
+    Ok(bytes[..content_len].to_vec())
+}
+
+fn decode_hex_bytes(encoded: &str, byte_count: usize) -> Result<Vec<u8>, WireError> {
+    if !has_lower_hex(encoded, byte_count) {
+        return Err(WireError::Protocol);
+    }
+    let mut decoded = Vec::with_capacity(byte_count);
+    for pair in encoded.as_bytes().as_chunks::<2>().0 {
+        let high = decode_hex_nibble(pair[0]).ok_or(WireError::Protocol)?;
+        let low = decode_hex_nibble(pair[1]).ok_or(WireError::Protocol)?;
+        decoded.push((high << 4) | low);
+    }
+    Ok(decoded)
+}
+
+fn encode_hex(bytes: &[u8]) -> String {
+    const HEX: &[u8; 16] = b"0123456789abcdef";
+    let mut encoded = String::with_capacity(bytes.len() * 2);
+    for byte in bytes {
+        encoded.push(HEX[(byte >> 4) as usize] as char);
+        encoded.push(HEX[(byte & 0x0f) as usize] as char);
+    }
+    encoded
+}
+
+fn encode_padded_hex(bytes: &[u8], capacity: usize) -> Option<String> {
+    if bytes.is_empty() || bytes.len() > capacity {
+        return None;
+    }
+    let mut padded = vec![0; capacity];
+    padded[..bytes.len()].copy_from_slice(bytes);
+    Some(encode_hex(&padded))
 }
 
 #[derive(Clone, Copy, Deserialize, Serialize)]
@@ -521,7 +768,8 @@ impl TlsSseJournalAnchor {
             Response::Error { code } => Err(error_from_wire(code)),
             Response::Updated
             | Response::CheckpointLoaded { .. }
-            | Response::CatalogLoaded { .. } => Err(Error::Protocol),
+            | Response::CatalogLoaded { .. }
+            | Response::Invocation { .. } => Err(Error::Protocol),
         }
     }
 
@@ -539,7 +787,8 @@ impl TlsSseJournalAnchor {
             Response::Error { code } => Err(error_from_wire(code)),
             Response::Loaded { .. }
             | Response::CheckpointLoaded { .. }
-            | Response::CatalogLoaded { .. } => Err(Error::Protocol),
+            | Response::CatalogLoaded { .. }
+            | Response::Invocation { .. } => Err(Error::Protocol),
         }
     }
 }
@@ -860,7 +1109,12 @@ fn serve_connection(
 
 fn decode_request(frame: &[u8]) -> Result<Request, WireError> {
     match serde_json::from_slice::<RequestEnvelope>(frame) {
-        Ok(envelope) if envelope.version == PROTOCOL_VERSION => Ok(envelope.request),
+        Ok(envelope) if envelope.version == PROTOCOL_VERSION => {
+            if let Request::Invocation { wire } = &envelope.request {
+                wire.validate()?;
+            }
+            Ok(envelope.request)
+        }
         _ => Err(WireError::Protocol),
     }
 }
@@ -990,6 +1244,99 @@ fn serve_request(database: &mut AnchorDatabase, request: Request) -> Response {
                 },
             }
         }
+        Request::Invocation { wire } => serve_invocation(database, &wire),
+    }
+}
+
+fn serve_invocation(database: &mut AnchorDatabase, wire: &WireInvocationRequest) -> Response {
+    let response_capacity = match wire.response_capacity() {
+        Ok(capacity) => capacity,
+        Err(code) => return invocation_error_response(2, code, MAX_INVOCATION_RESPONSE_BYTES),
+    };
+    let invocation = match wire.signed_invocation() {
+        Ok(invocation) => invocation,
+        Err(code) => return invocation_error_response(2, code, response_capacity),
+    };
+
+    let result = match wire.action {
+        0 => database
+            .load_invocation_receipt(wire.slot.trim_end_matches(' '), &invocation)
+            .map_err(wire_from_error),
+        1 => {
+            let expected_generation = match wire.expected_generation() {
+                Ok(generation) => generation,
+                Err(code) => {
+                    return invocation_error_response(2, code, response_capacity);
+                }
+            };
+            let record = match wire.checkpoint_record() {
+                Ok(record) => record,
+                Err(code) => {
+                    return invocation_error_response(2, code, response_capacity);
+                }
+            };
+            let response = match wire.response_bytes() {
+                Ok(response) => response,
+                Err(code) => {
+                    return invocation_error_response(2, code, response_capacity);
+                }
+            };
+            database
+                .commit_invocation(
+                    wire.slot.trim_end_matches(' '),
+                    &invocation,
+                    expected_generation,
+                    record,
+                    response.as_slice(),
+                )
+                .map(Some)
+                .map_err(wire_from_error)
+        }
+        2 => {
+            let expected_response = match wire.response_bytes() {
+                Ok(response) => response,
+                Err(code) => {
+                    return invocation_error_response(2, code, response_capacity);
+                }
+            };
+            database
+                .load_invocation_receipt(wire.slot.trim_end_matches(' '), &invocation)
+                .map_err(wire_from_error)
+                .and_then(|receipt| match receipt {
+                    Some(receipt) if receipt.response() == expected_response.as_slice() => {
+                        Ok(Some(receipt))
+                    }
+                    Some(_) => Err(WireError::Conflict),
+                    None => Ok(None),
+                })
+        }
+        _ => Err(WireError::Protocol),
+    };
+
+    let outcome = match result {
+        Ok(Some(receipt)) => match WireInvocationOutcome::from_receipt(&receipt, response_capacity)
+        {
+            Ok(outcome) => outcome,
+            Err(code) => WireInvocationOutcome::empty(2, wire_error_code(code), response_capacity),
+        },
+        Ok(None) => WireInvocationOutcome::empty(0, 0, response_capacity),
+        Err(code) => WireInvocationOutcome::empty(2, wire_error_code(code), response_capacity),
+    };
+    Response::Invocation { outcome }
+}
+
+fn invocation_error_response(status: u8, code: WireError, response_capacity: usize) -> Response {
+    Response::Invocation {
+        outcome: WireInvocationOutcome::empty(status, wire_error_code(code), response_capacity),
+    }
+}
+
+fn wire_error_code(error: WireError) -> u8 {
+    match error {
+        WireError::Conflict => 1,
+        WireError::CommitIndeterminate => 2,
+        WireError::Unavailable => 3,
+        WireError::Protocol => 4,
     }
 }
 
@@ -1159,10 +1506,12 @@ impl Write for DeadlineStream {
 #[cfg(test)]
 mod tests {
     use super::{
-        AuthorizationPolicyError, ClientAuthorizationPolicy, MAX_AUTHORIZATION_POLICY_BYTES,
-        Request, WireCheckpointState, WireError, decode_request,
+        AnchorDatabase, AuthorizationPolicyError, ClientAuthorizationPolicy,
+        MAX_AUTHORIZATION_POLICY_BYTES, Request, Response, SignedInvocationId, WireCheckpointState,
+        WireError, WireInvocationOutcome, decode_request,
     };
-    use oblivion_store::CheckpointAnchorRecord;
+    use ed25519_dalek::{Signer, SigningKey};
+    use oblivion_store::{CheckpointAnchorRecord, TRUSTED_CHECKPOINT_HANDLE_BYTES};
 
     #[test]
     fn client_authorization_policy_enforces_exact_fingerprint_and_slot() {
@@ -1347,13 +1696,13 @@ mod tests {
 
     #[test]
     fn remote_protocol_requires_version_and_rejects_unknown_fields() {
-        let valid = br#"{"version":2,"request":{"operation":"load","slot":"sse-slot"}}"#;
+        let valid = br#"{"version":3,"request":{"operation":"load","slot":"sse-slot"}}"#;
         assert!(matches!(
             decode_request(valid),
             Ok(Request::Load { slot }) if slot == "sse-slot"
         ));
 
-        let unsupported = br#"{"version":1,"request":{"operation":"load","slot":"sse-slot"}}"#;
+        let unsupported = br#"{"version":2,"request":{"operation":"load","slot":"sse-slot"}}"#;
         assert!(matches!(
             decode_request(unsupported),
             Err(WireError::Protocol)
@@ -1366,24 +1715,262 @@ mod tests {
         ));
 
         let unknown_field =
-            br#"{"version":2,"request":{"operation":"load","slot":"sse-slot","extra":true}}"#;
+            br#"{"version":3,"request":{"operation":"load","slot":"sse-slot","extra":true}}"#;
         assert!(matches!(
             decode_request(unknown_field),
             Err(WireError::Protocol)
         ));
 
         let catalog_load =
-            br#"{"version":2,"request":{"operation":"catalog_load","slot":"functions"}}"#;
+            br#"{"version":3,"request":{"operation":"catalog_load","slot":"functions"}}"#;
         assert!(matches!(
             decode_request(catalog_load),
             Ok(Request::CatalogLoad { slot }) if slot == "functions"
         ));
 
-        let malformed_catalog_cas = br#"{"version":2,"request":{"operation":"catalog_compare_and_swap","slot":"functions","expected":null,"next_version":1,"next_digest":[1,2]}}"#;
+        let malformed_catalog_cas = br#"{"version":3,"request":{"operation":"catalog_compare_and_swap","slot":"functions","expected":null,"next_version":1,"next_digest":[1,2]}}"#;
         assert!(matches!(
             decode_request(malformed_catalog_cas),
             Err(WireError::Protocol)
         ));
+    }
+
+    fn fixed_invocation_request(action: u8) -> Vec<u8> {
+        format!(
+            r#"{{"version":3,"request":{{"operation":"invocation","wire":{{"slot":"{:<128}","action":{},"public_key_hex":"{}","invocation_id_hex":"{}","request_digest_hex":"{}","signature_hex":"{}","expected_present":0,"expected_generation":"{}","record_present":{},"snapshot_id_hex":"{}","secret_handle_hex":"{}","response_capacity":"00080","response_hex":"{}"}}}}}}"#,
+            "invocation-slot",
+            action,
+            "00".repeat(32),
+            "00".repeat(16),
+            "00".repeat(32),
+            "00".repeat(64),
+            "0".repeat(20),
+            u8::from(action == 1),
+            "00".repeat(128),
+            "00".repeat(88),
+            "00".repeat(80),
+        )
+        .into_bytes()
+    }
+
+    fn signed_invocation(seed: u8, id: [u8; 16], digest: [u8; 32]) -> SignedInvocationId {
+        let signing_key = SigningKey::from_bytes(&[seed; 32]);
+        let signature = signing_key
+            .sign(&SignedInvocationId::signing_message(&id, &digest))
+            .to_bytes();
+        SignedInvocationId::new(
+            signing_key.verifying_key().to_bytes(),
+            id,
+            digest,
+            signature,
+        )
+    }
+
+    fn checkpoint_record(snapshot_id: &str, generation: u64) -> CheckpointAnchorRecord {
+        let mut secret_handle = [0; TRUSTED_CHECKPOINT_HANDLE_BYTES];
+        secret_handle[..8].copy_from_slice(b"OBLTRST1");
+        secret_handle[8..16].copy_from_slice(&generation.to_le_bytes());
+        secret_handle[16..24].copy_from_slice(&48_u64.to_le_bytes());
+        secret_handle[24..56].fill(generation as u8);
+        secret_handle[56..].fill(0xA5);
+        CheckpointAnchorRecord::new(snapshot_id, &secret_handle).expect("checkpoint record")
+    }
+
+    fn invocation_wire(
+        invocation: &SignedInvocationId,
+        action: u8,
+        expected_generation: Option<u64>,
+        record: Option<&CheckpointAnchorRecord>,
+        response: &[u8],
+    ) -> super::WireInvocationRequest {
+        super::WireInvocationRequest {
+            slot: format!("{:<128}", "runtime-slot"),
+            action,
+            public_key_hex: super::encode_hex(invocation.public_key()),
+            invocation_id_hex: super::encode_hex(invocation.invocation_id()),
+            request_digest_hex: super::encode_hex(invocation.request_digest()),
+            signature_hex: super::encode_hex(invocation.signature()),
+            expected_present: u8::from(expected_generation.is_some()),
+            expected_generation: format!("{:020}", expected_generation.unwrap_or(0)),
+            record_present: u8::from(record.is_some()),
+            snapshot_id_hex: record
+                .map(|record| {
+                    super::encode_padded_hex(
+                        record.snapshot_id().as_bytes(),
+                        super::INVOCATION_SNAPSHOT_ID_BYTES,
+                    )
+                    .expect("fixed snapshot ID")
+                })
+                .unwrap_or_else(|| "00".repeat(super::INVOCATION_SNAPSHOT_ID_BYTES)),
+            secret_handle_hex: record
+                .map(|record| super::encode_hex(record.secret_handle()))
+                .unwrap_or_else(|| "00".repeat(TRUSTED_CHECKPOINT_HANDLE_BYTES)),
+            response_capacity: format!("{:05}", response.len()),
+            response_hex: super::encode_hex(response),
+        }
+    }
+
+    fn invocation_outcome(response: &Response) -> &WireInvocationOutcome {
+        match response {
+            Response::Invocation { outcome } => outcome,
+            _ => panic!("invocation response expected"),
+        }
+    }
+
+    #[test]
+    fn invocation_v3_request_actions_have_the_same_fixed_shape() {
+        let mut encoded_lengths = Vec::new();
+
+        for action in 0..=2 {
+            let frame = fixed_invocation_request(action);
+            let request = match decode_request(&frame) {
+                Ok(request) => request,
+                Err(_) => panic!("valid invocation request was rejected"),
+            };
+            let encoded = serde_json::to_vec(&super::RequestEnvelope {
+                version: super::PROTOCOL_VERSION,
+                request,
+            })
+            .expect("request serialization");
+            assert_eq!(frame.len(), encoded.len());
+            encoded_lengths.push(encoded.len());
+        }
+
+        assert!(encoded_lengths.windows(2).all(|pair| pair[0] == pair[1]));
+    }
+
+    #[test]
+    fn invocation_v3_rejects_malformed_fixed_width_fields() {
+        let invalid_hex = String::from_utf8(fixed_invocation_request(0))
+            .expect("request frame")
+            .replacen(r#""public_key_hex":"00"#, r#""public_key_hex":"0g"#, 1);
+        let invalid_capacity = String::from_utf8(fixed_invocation_request(0))
+            .expect("request frame")
+            .replace(
+                r#""response_capacity":"00080""#,
+                r#""response_capacity":"00000""#,
+            );
+        let invalid_slot = String::from_utf8(fixed_invocation_request(0))
+            .expect("request frame")
+            .replacen("invocation-slot", "invalid slot", 1);
+
+        assert!(decode_request(invalid_hex.as_bytes()).is_err());
+        assert!(decode_request(invalid_capacity.as_bytes()).is_err());
+        assert!(decode_request(invalid_slot.as_bytes()).is_err());
+    }
+
+    #[test]
+    fn invocation_response_hit_miss_commit_and_error_have_the_same_shape() {
+        let miss = WireInvocationOutcome::empty(0, 0, 80);
+        let receipt =
+            crate::InvocationReceipt::from_parts("snapshot-1".to_owned(), 1, vec![0x5a; 80])
+                .expect("valid receipt");
+        let hit = match WireInvocationOutcome::from_receipt(&receipt, 80) {
+            Ok(outcome) => outcome,
+            Err(_) => panic!("valid receipt was rejected"),
+        };
+        let replay = match WireInvocationOutcome::from_receipt(&receipt, 80) {
+            Ok(outcome) => outcome,
+            Err(_) => panic!("valid replay was rejected"),
+        };
+        let error = WireInvocationOutcome::empty(2, 1, 80);
+
+        let serialized_lengths = [miss, hit, replay, error].map(|outcome| {
+            serde_json::to_vec(&super::ResponseEnvelope {
+                version: super::PROTOCOL_VERSION,
+                response: super::Response::Invocation { outcome },
+            })
+            .expect("response serialization")
+            .len()
+        });
+        assert!(serialized_lengths.windows(2).all(|pair| pair[0] == pair[1]));
+    }
+
+    #[test]
+    fn invocation_wire_dispatch_commits_atomically_and_replays_the_first_receipt() {
+        use std::time::{SystemTime, UNIX_EPOCH};
+
+        let unique = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("clock")
+            .as_nanos();
+        let path = std::env::temp_dir().join(format!(
+            "oblivion-wire-invocation-{}-{unique}.sqlite",
+            std::process::id()
+        ));
+        let mut database = AnchorDatabase::open(&path, zeroize::Zeroizing::new([0x37; 32]))
+            .expect("anchor database");
+        let invocation = signed_invocation(7, [0x42; 16], [0x53; 32]);
+        let response = [0x5a; 80];
+
+        let miss = super::serve_invocation(
+            &mut database,
+            &invocation_wire(&invocation, 0, None, None, &[0; 80]),
+        );
+        let first = super::serve_invocation(
+            &mut database,
+            &invocation_wire(
+                &invocation,
+                1,
+                None,
+                Some(&checkpoint_record("snapshot-1", 1)),
+                &response,
+            ),
+        );
+        let replay = super::serve_invocation(
+            &mut database,
+            &invocation_wire(
+                &invocation,
+                1,
+                Some(1),
+                Some(&checkpoint_record("snapshot-2", 2)),
+                &[0x11; 80],
+            ),
+        );
+        let confirmed = super::serve_invocation(
+            &mut database,
+            &invocation_wire(&invocation, 2, None, None, &response),
+        );
+        let mismatched_confirmation = super::serve_invocation(
+            &mut database,
+            &invocation_wire(&invocation, 2, None, None, &[0; 80]),
+        );
+        let hit = super::serve_invocation(
+            &mut database,
+            &invocation_wire(&invocation, 0, None, None, &[0; 80]),
+        );
+
+        let miss_outcome = invocation_outcome(&miss);
+        assert_eq!(miss_outcome.status, 0);
+        assert_eq!(miss_outcome.receipt_present, 0);
+        for receipt_response in [&first, &replay, &confirmed, &hit] {
+            let outcome = invocation_outcome(receipt_response);
+            assert_eq!(outcome.status, 1);
+            assert_eq!(outcome.receipt_present, 1);
+            assert_eq!(
+                outcome.snapshot_id_hex,
+                super::encode_padded_hex(b"snapshot-1", 128).unwrap()
+            );
+            assert_eq!(outcome.generation, "00000000000000000001");
+            assert_eq!(outcome.response_hex, super::encode_hex(&response));
+        }
+        let mismatch = invocation_outcome(&mismatched_confirmation);
+        assert_eq!(mismatch.status, 2);
+        assert_eq!(mismatch.error_code, 1);
+
+        let responses = [miss, first, replay, confirmed, mismatched_confirmation, hit];
+        let lengths = responses.map(|response| {
+            serde_json::to_vec(&super::ResponseEnvelope {
+                version: super::PROTOCOL_VERSION,
+                response,
+            })
+            .expect("response serialization")
+            .len()
+        });
+        assert!(lengths.windows(2).all(|pair| pair[0] == pair[1]));
+
+        drop(database);
+        let _ = std::fs::remove_file(path);
     }
 
     #[cfg(unix)]
