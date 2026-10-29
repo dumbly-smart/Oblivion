@@ -1798,12 +1798,15 @@ impl Write for DeadlineStream {
 #[cfg(test)]
 mod tests {
     use super::{
-        AnchorDatabase, AuthorizationPolicyError, ClientAuthorizationPolicy,
-        MAX_AUTHORIZATION_POLICY_BYTES, Request, Response, SignedInvocationId, WireCheckpointState,
-        WireError, WireInvocationOutcome, decode_request,
+        AnchorDatabase, AuthorizationPolicyError, ClientAuthorizationPolicy, DeadlineStream,
+        IO_TIMEOUT, MAX_AUTHORIZATION_POLICY_BYTES, PROTOCOL_VERSION, Request, Response,
+        ResponseEnvelope, SignedInvocationId, TlsInvocationAnchor, WireCheckpointState, WireError,
+        WireInvocationOutcome, decode_request, read_frame, serve_request, write_frame,
     };
     use ed25519_dalek::{Signer, SigningKey};
-    use oblivion_store::{CheckpointAnchorRecord, TRUSTED_CHECKPOINT_HANDLE_BYTES};
+    use oblivion_store::{
+        CheckpointAnchor, CheckpointAnchorRecord, TRUSTED_CHECKPOINT_HANDLE_BYTES,
+    };
 
     #[test]
     fn client_authorization_policy_enforces_exact_fingerprint_and_slot() {
@@ -2100,6 +2103,178 @@ mod tests {
             response_capacity: format!("{:05}", response.len()),
             response_hex: super::encode_hex(response),
         }
+    }
+
+    #[test]
+    fn dropped_finish_reply_after_database_commit_is_reconciled_from_persisted_receipt() {
+        use std::{
+            io::Write,
+            net::TcpListener,
+            thread,
+            time::{SystemTime, UNIX_EPOCH},
+        };
+
+        use rcgen::{
+            BasicConstraints, CertificateParams, ExtendedKeyUsagePurpose, IsCa, Issuer, KeyPair,
+            KeyUsagePurpose,
+        };
+        use rustls::{
+            RootCertStore, StreamOwned,
+            pki_types::{CertificateDer, PrivateKeyDer},
+            server::ServerConnection,
+        };
+        use sha2::{Digest, Sha256};
+        use zeroize::Zeroizing;
+
+        fn identity(
+            name: &str,
+            usage: ExtendedKeyUsagePurpose,
+            issuer_params: &CertificateParams,
+            issuer_key: &KeyPair,
+        ) -> (CertificateDer<'static>, PrivateKeyDer<'static>) {
+            let key = KeyPair::generate().expect("leaf key");
+            let mut params = CertificateParams::new(vec![name.to_owned()]).expect("leaf params");
+            params.extended_key_usages = vec![usage];
+            params.key_usages = vec![KeyUsagePurpose::DigitalSignature];
+            let issuer = Issuer::from_params(issuer_params, issuer_key);
+            let cert = params.signed_by(&key, &issuer).expect("leaf certificate");
+            (
+                cert.der().clone(),
+                PrivateKeyDer::Pkcs8(key.serialize_der().into()),
+            )
+        }
+
+        let root_key = KeyPair::generate().expect("root key");
+        let mut root_params = CertificateParams::new(vec!["invocation-drop-reply-root".to_owned()])
+            .expect("root params");
+        root_params.is_ca = IsCa::Ca(BasicConstraints::Unconstrained);
+        root_params.key_usages = vec![KeyUsagePurpose::KeyCertSign, KeyUsagePurpose::CrlSign];
+        let root_cert = root_params
+            .self_signed(&root_key)
+            .expect("root certificate");
+        let (server_cert, server_key) = identity(
+            "localhost",
+            ExtendedKeyUsagePurpose::ServerAuth,
+            &root_params,
+            &root_key,
+        );
+        let (client_cert, client_key) = identity(
+            "oblivion-client",
+            ExtendedKeyUsagePurpose::ClientAuth,
+            &root_params,
+            &root_key,
+        );
+
+        let mut roots = RootCertStore::empty();
+        roots.add(root_cert.der().clone()).expect("trusted root");
+        let server_config = super::mtls_server_config(vec![server_cert], server_key, roots.clone())
+            .expect("server TLS config");
+        let client_config = super::mtls_client_config(roots, vec![client_cert.clone()], client_key)
+            .expect("client TLS config");
+        let fingerprint = super::encode_hex(&Sha256::digest(client_cert.as_ref()));
+        let policy = serde_json::to_vec(&serde_json::json!({
+            "version": 1,
+            "clients": [{
+                "certificate_sha256": fingerprint,
+                "slots": ["runtime-slot"]
+            }]
+        }))
+        .expect("authorization policy JSON");
+        let authorization = ClientAuthorizationPolicy::from_json(&policy).expect("client grant");
+
+        let listener = TcpListener::bind("127.0.0.1:0").expect("witness listener");
+        let address = listener.local_addr().expect("witness address");
+        let unique = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("clock")
+            .as_nanos();
+        let database_path = std::env::temp_dir().join(format!(
+            "oblivion-anchor-drop-after-commit-{}-{unique}.sqlite",
+            std::process::id()
+        ));
+        let witness_database_path = database_path.clone();
+
+        let witness = thread::spawn(move || {
+            let mut database =
+                AnchorDatabase::open(&witness_database_path, Zeroizing::new([0x4d; 32]))
+                    .expect("witness database");
+
+            for request_number in 0..2 {
+                let (tcp, _) = listener.accept().expect("client connection");
+                let stream = DeadlineStream::with_timeout(tcp, IO_TIMEOUT);
+                let connection =
+                    ServerConnection::new(server_config.clone()).expect("TLS server connection");
+                let mut stream = StreamOwned::new(connection, stream);
+                let request_bytes = Zeroizing::new(read_frame(&mut stream).expect("request frame"));
+                let request = match decode_request(&request_bytes) {
+                    Ok(request) => request,
+                    Err(_) => panic!("valid anchor request was rejected"),
+                };
+                let certificate = stream
+                    .conn
+                    .peer_certificates()
+                    .and_then(|certificates| certificates.first())
+                    .expect("authenticated client certificate");
+                assert!(authorization.allows(certificate.as_ref(), request.slot()));
+
+                // This is the production request decoder and SQLite-backed request handler.
+                // On the first request it commits the checkpoint and receipt before the test
+                // intentionally drops the TLS connection without writing the response.
+                let response = serve_request(&mut database, request);
+                assert!(matches!(
+                    &response,
+                    Response::Invocation { outcome }
+                        if outcome.status == 1 && outcome.receipt_present == 1
+                ));
+                if request_number == 0 {
+                    drop(stream);
+                    continue;
+                }
+
+                let frame = Zeroizing::new(
+                    serde_json::to_vec(&ResponseEnvelope {
+                        version: PROTOCOL_VERSION,
+                        response,
+                    })
+                    .expect("response envelope"),
+                );
+                write_frame(&mut stream, &frame).expect("write reconciliation response");
+                stream.flush().expect("flush reconciliation response");
+            }
+            database
+        });
+
+        let anchor =
+            TlsInvocationAnchor::new(address, "localhost", "runtime-slot", client_config, 80)
+                .expect("invocation TLS anchor");
+        let invocation = signed_invocation(14, [0x45; 16], [0x56; 32]);
+        let response = [0x7b; 80];
+        let record = checkpoint_record("snapshot-one", 1);
+        assert!(matches!(
+            anchor.commit(&invocation, None, record, &response),
+            Err(crate::Error::CommitIndeterminate)
+        ));
+
+        let receipt = anchor
+            .confirm(&invocation, &response)
+            .expect("read the committed receipt after reconnecting");
+        assert_eq!(receipt.snapshot_id(), "snapshot-one");
+        assert_eq!(receipt.generation(), 1);
+        assert_eq!(receipt.response(), &response);
+
+        let mut database = witness.join().expect("witness thread");
+        let mut checkpoint = database
+            .checkpoint_anchor("runtime-slot")
+            .expect("checkpoint anchor");
+        let record = checkpoint
+            .load()
+            .expect("load committed checkpoint")
+            .expect("checkpoint exists");
+        assert_eq!(record.snapshot_id(), "snapshot-one");
+        assert_eq!(record.generation(), 1);
+        drop(checkpoint);
+        drop(database);
+        let _ = std::fs::remove_file(database_path);
     }
 
     fn invocation_outcome(response: &Response) -> &WireInvocationOutcome {
