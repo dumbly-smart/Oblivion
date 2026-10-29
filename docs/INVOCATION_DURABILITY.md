@@ -200,8 +200,15 @@ insert fails, response confidentiality at rest, and the version-1 to version-2
 schema migration. The Unix service tests must exercise signed lookup, commit,
 and invalid signature behavior across the versioned local protocol. Remote
 mTLS tests cover exact certificate-slot authorization, replay and witness
-restart. The current lost-finish transport test disconnects after the peer
-reads the request; it does not simulate a committed SQLite transaction whose
-reply is then dropped. A commit-then-drop integration fault test remains open.
-Documentation must retain the single-writer, rollback, host-root, unverified
-request-digest, and external-side-effect limitations.
+restart. The process-level lost-finish test disconnects after the peer reads
+the request, before it commits. A separate unit-level mTLS fault test now
+passes a real v3 client request through the production decoder, certificate-
+to-slot authorization, and SQLite-backed request handler. The handler commits
+the checkpoint and receipt; the test then omits the TLS response, verifies the
+client returns `CommitIndeterminate`, reconnects with `confirm`, checks the
+exact response and receipt, and reads generation 1 from the committed
+checkpoint. Fault injection replaces only the response-write step; it does
+not kill the production `serve_mtls` process at the socket boundary. Broader
+process-crash testing remains open. Documentation must retain the single-
+writer, rollback, host-root, unverified request-digest, and external-side-
+effect limitations.

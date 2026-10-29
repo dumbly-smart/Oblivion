@@ -166,10 +166,20 @@ was run for this Rust-only change. Full details and the limitation of the
 current ambiguous-reply transport test are recorded in
 [implementation status](IMPLEMENTATION_STATUS.md).
 
-**Next:** add fault injection where the witness commits the invocation and the
-reply is dropped before the client receives it, then verify exact confirmation
-after reconnect. Before multiple remote workers are supported, design and test
-a host-independent fencing protocol; checkpoint CAS alone rejects stale
+**Completed 2026-10-29 (source commit `4e66221d`):** a focused mTLS fault test
+commits an invocation receipt and checkpoint through the production request
+handler, drops the TLS reply, then reconnects to confirm the exact receipt and
+response. It also checks the checkpoint remains at the committed generation.
+The test uses a one-shot test server and suppresses the response after handler
+completion; it does not simulate killing the production `serve_mtls` process
+inside its network write path. The full serial workspace suite passed 188
+tests, with the million-operation ORAM stress test intentionally ignored by
+the default tier. Warning-denied workspace Clippy, formatting, and whitespace
+checks passed. This Rust-only test increment did not run benchmarks or the
+Python suite.
+
+**Next:** before multiple remote workers are supported, design and test a
+host-independent writer-fencing protocol; checkpoint CAS alone rejects stale
 publication but is not a distributed lease. Keep witness rollback, snapshot
 key custody, single-operator trust, no TEE, and no arbitrary external-side-
 effect guarantee explicit. S11 remains partial; this update claims no hardware

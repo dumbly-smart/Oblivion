@@ -8,6 +8,14 @@ Oblivion is a functioning Rust research prototype with a selected local end-to-e
 
 Recent commits are being delivered on `codex/oblivion-research-platform` in small increments. The 2026-10-28 ORAM data/report was pushed in commit `03f04b76` after its preregistration commit `1cc21e3b`. The SSE benchmark verifier and standard-library SVG renderer were pushed separately in `1e5a3b75`. The remote mTLS witness service and standalone SSE adapter were pushed in `7db12546` and `b758d0d4` respectively. The remote signed-registry catalog client and CAS integration were pushed in `a2f1281f`; runtime worker mTLS configuration and its end-to-end test were pushed in `1befc5c2`. Standalone remote ORAM checkpoint support was pushed in `a3201105`, followed by the fixed-width/version-2 wire correction in `2b79f0e4`; the expanded witness trust boundary is recorded below and in the security docs. Certificate-to-slot authorization was added in `cfd1a04d`. Runtime remote invocation anchoring was implemented and pushed as `7bee2666`; its serial workspace test, Clippy and formatting results are recorded below.
 
+The post-commit lost-reply case was covered in source commit `4e66221d` and
+pushed separately. The new mTLS fault test confirmed the receipt and checkpoint
+after a committed finish reply was dropped; the serial workspace suite passed
+188 tests, warning-denied Clippy and formatting passed, and no benchmark or
+Python suite was run for this test-only increment. The test's exact boundary
+and the remaining full-process fault coverage are in
+[the implementation status](docs/IMPLEMENTATION_STATUS.md).
+
 ## Latest experiment
 
 The 30-trial preregistered ORAM leaf/timing replication completed with both leaky positive controls first and successful:
@@ -112,7 +120,7 @@ Correctness test integration uses one Rust test thread because these fixtures ha
 ## Next engineering sequence
 
 1. Keep the root contributor/architecture/report/progress/explanation guides consistent with the canonical technical docs.
-2. Add a witness commit-then-drop-reply fault test and verify exact receipt confirmation after reconnect. Before multiple remote workers are supported, design a host-independent writer-fencing protocol; compare a single trusted witness against a genuinely replicated rollback-resilient register.
+2. Before multiple remote workers are supported, design a host-independent writer-fencing protocol; compare a single trusted witness against a genuinely replicated rollback-resilient register. The witness commit-then-drop-reply case now has a focused mTLS request-handler test.
 3. Continue the bounded SSE implementation only with a written leakage target, positive controls, and explicit search/update/recovery failure behavior.
 4. Continue bounded independent ORAM replication only with a frozen protocol, passed controls, new sessions, and an available host whose noise/provenance limitations are recorded.
 5. Run current-source local and hosted validation after meaningful code changes; update this snapshot with exact revision, commands, results, and any failures.

@@ -1477,8 +1477,30 @@ The dedicated server pipeline suite passed all 24 tests. Hosted run
 passed Rust quality and analysis (including the research Python suite and
 reference workspace); its million-operation stress job was skipped. No
 performance benchmark or local Python suite was run for this Rust-only
-increment. The existing remote ambiguous-
-finish transport test drops the connection after reading the request; it does
-not simulate a database commit followed by loss of that commit's reply. A
-commit-then-drop fault test remains a precise follow-up before making a tested
-reconciliation claim for that failure schedule.
+increment. At the time of `7bee2666`, the remote ambiguous-finish transport
+test dropped the connection after reading the request and did not simulate a
+database commit followed by loss of that commit's reply. Source commit
+`4e66221d` adds the handler-level commit-then-drop reconciliation test below.
+
+### Remote invocation lost-reply fault coverage (source commit `4e66221d`)
+
+Added `dropped_finish_reply_after_database_commit_is_reconciled_from_persisted_receipt`.
+It uses a real mTLS client and test TLS listener, then exercises the production
+protocol decoder, certificate-to-slot authorization, and `serve_request`
+against a temporary SQLite `AnchorDatabase`. The first finish commits both
+the checkpoint and receipt before the test drops the stream without writing a
+response. The client observes `CommitIndeterminate`; a second TLS connection
+confirms the exact invocation receipt and response, and the test reads back
+the committed checkpoint generation and snapshot ID. The existing
+process-level lost-reply test remains useful for the earlier failure point
+where the peer reads the request and disconnects before dispatch.
+
+`cargo test --locked --workspace -- --test-threads=1` passed 188 tests with
+one intentionally ignored million-operation ORAM stress test. The dedicated
+stress test was not rerun for this test-only increment; its previous measured
+pass was on code commit `7bee2666`. Workspace Clippy with `-D warnings`,
+formatting, and `git diff --check` passed. No benchmark, local Python suite,
+or hosted CI run was performed for this increment. The TLS fault harness
+suppresses the response after the production request handler returns; it does
+not kill the `serve_mtls` process inside the real server write path. That
+process/socket failure schedule remains future fault-injection work.

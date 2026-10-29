@@ -238,6 +238,17 @@ The process-level integration test covers witness restart, stateful WASM
 read/write, exact replay, a later state generation, and replay of the older
 receipt without rollback.
 
+A separate fault test uses a real mTLS client and the production v3 request
+decoder, certificate-to-slot check, and SQLite request handler. The handler
+commits a new receipt and checkpoint, then the test server closes the TLS
+connection before sending the response. The client must report an indeterminate
+commit; a new `confirm` connection must return the exact response and receipt,
+and the stored checkpoint must still be at generation 1. This verifies the
+commit-then-lost-reply reconciliation contract at the handler boundary. The
+fault harness intentionally skips the response write rather than killing the
+production witness process, so socket/process crash timing is still broader
+fault-injection work.
+
 Local mode obtains a cooperative same-host per-slot advisory lock through the
 Unix invocation client before restore/readiness. Remote mode has no distributed
 lease. The witness's generation compare-and-swap rejects a stale writer, but
