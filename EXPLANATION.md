@@ -266,6 +266,24 @@ The server holds encrypted postings/tokens; the client maintains secret state ne
 
 The legacy client is ephemeral. An opt-in persistent client journals encrypted client state and can anchor journal generations through the local Unix service for ordinary process restart, or through the independent mTLS witness to detect application-host rollback while the witness keeps its state. Restoring the local SQLite database defeats local freshness; restoring the witness database defeats remote freshness. A caller must preserve the stable slot, client journal key, client certificate, and witness trust configuration. Distributed transactions, witness rollback protection, and a complete end-to-end search-invocation composition remain open. Details: [docs/SSE_DESIGN.md](docs/SSE_DESIGN.md), [docs/SSE_IMPLEMENTATION.md](docs/SSE_IMPLEMENTATION.md), [docs/SSE_ATTACKS.md](docs/SSE_ATTACKS.md).
 
+For a persistent update, `prepare_add` first changes the client's in-memory
+state and creates the encrypted journal record containing that exact pending
+request. It writes the record, then compare-and-swaps the `(index, generation,
+digest)` head at the configured anchor before returning the request to the
+caller. Only after that reservation succeeds should the caller submit the
+request to the SSE server. A second client opened from the old generation may
+construct a competing record, but its anchor CAS fails; that client is
+poisoned and cannot return or retry its competing request. Reopening from the
+current anchored head recovers the winning pending request byte-for-byte.
+After the server acknowledges it, `finish_add` journals the acknowledgement
+and publishes the next generation. If the server committed but the client
+lost the acknowledgment, recovery resends the same request, and the server
+must treat that request idempotently. The new remote-witness test checks this
+stale-generation sequence through real mTLS and SQLite, including that only
+the winning keyword is searchable. It does not test simultaneous scheduling
+on separate hosts or create an atomic transaction spanning the anchor and
+SSE server.
+
 The persistent client journal also has a dedicated size/recovery benchmark. It records encrypted journal frame bytes when each immutable record is created, even if checkpoint compaction later deletes that record, and times `PersistentClient::open` in newly launched child processes. The 2026-10-28 study ran 30 indexes at each of 64, 257, 1,024, and 4,093 postings, then performed five reopens per index. It used the real local Unix anchor service. Mean application-level journal-byte amplification was 84.037×, 99.225×, 130.489×, and 244.754× respectively; mean build time rose from 3.316 seconds to 242.889 seconds. The full 95% intervals, p50/p95/p99 values, raw samples, and reproduction commands are in [the result report](docs/SSE_JOURNAL_BENCHMARK_20261028_RESULT.md).
 
 “Application-level journal bytes” is the sum of encrypted frame-file lengths written by the client divided by logical keyword-plus-document-ID bytes. It includes records later pruned and the initial checkpoint. It excludes SQLite pages, the WAL, filesystem amplification, block-device writes, and storage-controller behavior. Fresh processes reused the host's potentially warm page cache; this is not cold-cache recovery. The run remained on one host and did not test rollback resistance. The [independent verifier](research/analysis/verify_sse_journal_benchmark.py) checks raw trial coverage, generation/byte relations, distinct recovery-process IDs, and descriptive summaries. It validates bootstrap metadata but does not replay the exact Rust RNG stream.

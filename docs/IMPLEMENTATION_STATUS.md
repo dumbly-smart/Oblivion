@@ -1504,3 +1504,25 @@ or hosted CI run was performed for this increment. The TLS fault harness
 suppresses the response after the production request handler returns; it does
 not kill the `serve_mtls` process inside the real server write path. That
 process/socket failure schedule remains future fault-injection work.
+
+### Remote SSE stale-writer reservation coverage (source commit `12c2dd03`)
+
+Added `remote_witness_reserves_pending_update_against_stale_writer` to
+`crates/oblivion-sse/tests/remote_anchor.rs`. Two independent
+`PersistentClient` instances open the same encrypted journal at one remote
+anchor generation. The first client persists its pending update through the
+mTLS SQLite witness. The stale client's competing `prepare_add` fails with
+`AnchorConflict` before returning a request and poisons that stale instance.
+A fresh instance reopens from the witness head, recovers the exact winning
+request, submits it to the actual SSE server, persists the acknowledgement,
+and verifies that only the winning keyword is searchable.
+
+The full serial workspace suite passed 189 tests, with one intentionally
+ignored million-operation ORAM stress test. Workspace Clippy with `-D
+warnings`, formatting, and whitespace checks passed. The ORAM stress test was
+not rerun; its last measured pass remains attached to code commit `7bee2666`.
+No benchmark, Python suite, or hosted CI run was performed for this test-only
+increment. This validates stale-generation reservation/recovery, not
+simultaneous independent-host scheduling or a transaction spanning the witness
+and SSE server. The witness can still be rolled back by its operator, so S11
+remains partial.

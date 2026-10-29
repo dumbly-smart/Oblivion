@@ -16,6 +16,13 @@ Python suite was run for this test-only increment. The test's exact boundary
 and the remaining full-process fault coverage are in
 [the implementation status](docs/IMPLEMENTATION_STATUS.md).
 
+Source commit `12c2dd03` adds a real mTLS SSE stale-writer test: the remote
+witness rejects a second client opened at an old generation, and a fresh client
+recovers and completes the winning pending request. The full serial workspace
+suite passed 189 tests with one ignored ORAM stress test; warning-denied Clippy,
+formatting, and whitespace checks passed. Benchmarks, the Python suite, and
+hosted CI were not run for this test-only change.
+
 ## Latest experiment
 
 The 30-trial preregistered ORAM leaf/timing replication completed with both leaky positive controls first and successful:
