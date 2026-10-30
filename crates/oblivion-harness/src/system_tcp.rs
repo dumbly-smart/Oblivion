@@ -65,6 +65,54 @@ pub(super) fn read_fixed_frame(
     read_frame_body(reader, length).map(Some)
 }
 
+/// Reads a fixed-shape TCP frame under one absolute deadline.
+///
+/// The remaining duration is applied before every socket read, so a peer
+/// cannot renew the total budget by slowly sending one byte at a time.
+pub(super) fn read_fixed_frame_with_timeout(
+    stream: &mut TcpStream,
+    expected: usize,
+    timeout: Duration,
+) -> io::Result<Option<Vec<u8>>> {
+    let deadline = Instant::now()
+        .checked_add(timeout)
+        .ok_or_else(|| io::Error::new(io::ErrorKind::InvalidInput, "frame deadline overflow"))?;
+    let mut reader = FrameDeadlineReader { stream, deadline };
+    read_fixed_frame(&mut reader, expected)
+}
+
+struct FrameDeadlineReader<'a> {
+    stream: &'a TcpStream,
+    deadline: Instant,
+}
+
+impl Read for FrameDeadlineReader<'_> {
+    fn read(&mut self, buffer: &mut [u8]) -> io::Result<usize> {
+        let remaining = self.deadline.saturating_duration_since(Instant::now());
+        if remaining.is_zero() {
+            return Err(io::Error::new(
+                io::ErrorKind::TimedOut,
+                "absolute frame read deadline elapsed",
+            ));
+        }
+        self.stream.set_read_timeout(Some(remaining))?;
+        match self.stream.read(buffer) {
+            Err(error)
+                if matches!(
+                    error.kind(),
+                    io::ErrorKind::TimedOut | io::ErrorKind::WouldBlock
+                ) =>
+            {
+                Err(io::Error::new(
+                    io::ErrorKind::TimedOut,
+                    "absolute frame read deadline elapsed",
+                ))
+            }
+            result => result,
+        }
+    }
+}
+
 fn read_frame_length(reader: &mut impl Read) -> io::Result<Option<usize>> {
     let mut prefix = [0_u8; 4];
     let first = loop {
@@ -173,7 +221,8 @@ pub(super) fn worker(output: &Path, mode_name: &str, maximum_frame: usize) -> Re
 
     let service_started = Instant::now();
     let mut sequence = 0_u64;
-    while let Some(body) = read_fixed_frame(&mut stream, fixed_frame)? {
+    while let Some(body) = read_fixed_frame_with_timeout(&mut stream, fixed_frame, SOCKET_TIMEOUT)?
+    {
         let request_observed_ns = monotonic_ns(service_started);
         let invocation_started = Instant::now();
         write_json_line(
@@ -449,8 +498,12 @@ fn run_session(
             } else {
                 5
             };
-            let response = read_fixed_frame(&mut stream, expected_response_bytes)?
-                .ok_or("TCP worker closed before returning an invocation response")?;
+            let response = read_fixed_frame_with_timeout(
+                &mut stream,
+                expected_response_bytes,
+                SOCKET_TIMEOUT,
+            )?
+            .ok_or("TCP worker closed before returning an invocation response")?;
             response_body_bytes = response.len();
             response_wire_bytes = response.len() + 4;
             latency_ns = submitted.elapsed().as_nanos().min(u64::MAX as u128) as u64;
@@ -540,7 +593,12 @@ fn validate_response(
 
 #[cfg(test)]
 mod tests {
-    use std::io::{self, Cursor, Read, Write};
+    use std::{
+        io::{self, Cursor, Read, Write},
+        net::{TcpListener, TcpStream},
+        thread,
+        time::{Duration, Instant},
+    };
 
     struct ShortReader {
         inner: Cursor<Vec<u8>>,
@@ -634,6 +692,30 @@ mod tests {
             io::ErrorKind::InvalidData
         );
         assert_eq!(oversized.position(), 4);
+    }
+
+    #[test]
+    fn trickled_frame_cannot_extend_its_absolute_read_deadline() {
+        let listener = TcpListener::bind(("127.0.0.1", 0)).unwrap();
+        let address = listener.local_addr().unwrap();
+        let writer = thread::spawn(move || {
+            let (mut stream, _) = listener.accept().unwrap();
+            for byte in [0, 0, 0, 2, 0xaa, 0xbb] {
+                thread::sleep(Duration::from_millis(20));
+                if stream.write_all(&[byte]).is_err() {
+                    break;
+                }
+            }
+        });
+
+        let mut stream = TcpStream::connect(address).unwrap();
+        let started = Instant::now();
+        let error = super::read_fixed_frame_with_timeout(&mut stream, 2, Duration::from_millis(50))
+            .unwrap_err();
+
+        assert_eq!(error.kind(), io::ErrorKind::TimedOut);
+        assert!(started.elapsed() < Duration::from_millis(250));
+        writer.join().unwrap();
     }
 
     #[test]
