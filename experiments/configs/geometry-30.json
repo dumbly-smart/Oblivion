@@ -1,0 +1,617 @@
+{
+  "schema_version": 1,
+  "cells": [
+    {
+      "kind": "oram",
+      "name": "oram-n64-b64-z3-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 64,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b64-z3-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 64,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b64-z4-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 64,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b64-z4-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 64,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b64-z5-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 64,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b64-z5-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 64,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b256-z3-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 256,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b256-z3-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 256,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b256-z4-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 256,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b256-z4-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 256,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b256-z5-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 256,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b256-z5-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 256,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b1024-z3-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 1024,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b1024-z3-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 1024,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b1024-z4-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 1024,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b1024-z4-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 1024,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b1024-z5-same",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 1024,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n64-b1024-z5-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 64,
+        "block_bytes": 1024,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b64-z3-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 64,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b64-z3-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 64,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b64-z4-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 64,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b64-z4-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 64,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b64-z5-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 64,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b64-z5-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 64,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b256-z3-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 256,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b256-z3-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 256,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b256-z4-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 256,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b256-z4-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 256,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b256-z5-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 256,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b256-z5-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 256,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b1024-z3-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 1024,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b1024-z3-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 1024,
+        "bucket_capacity": 3,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b1024-z4-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 1024,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b1024-z4-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 1024,
+        "bucket_capacity": 4,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b1024-z5-same",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 1024,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "same"
+      }
+    },
+    {
+      "kind": "oram",
+      "name": "oram-n256-b1024-z5-uniform",
+      "config": {
+        "version": 1,
+        "blocks": 256,
+        "block_bytes": 1024,
+        "bucket_capacity": 5,
+        "operations": 128,
+        "warmup": 16,
+        "trials": 30,
+        "seed": 20261022,
+        "workload": "uniform"
+      }
+    },
+    {
+      "kind": "pir",
+      "name": "pir-n64-b64",
+      "config": {
+        "version": 1,
+        "count": 64,
+        "record_bytes": 64,
+        "trials": 30,
+        "queries_per_trial": 16,
+        "seed": 20261022
+      }
+    },
+    {
+      "kind": "pir",
+      "name": "pir-n64-b1024",
+      "config": {
+        "version": 1,
+        "count": 64,
+        "record_bytes": 1024,
+        "trials": 30,
+        "queries_per_trial": 16,
+        "seed": 20261022
+      }
+    },
+    {
+      "kind": "pir",
+      "name": "pir-n1024-b64",
+      "config": {
+        "version": 1,
+        "count": 1024,
+        "record_bytes": 64,
+        "trials": 30,
+        "queries_per_trial": 16,
+        "seed": 20261022
+      }
+    },
+    {
+      "kind": "pir",
+      "name": "pir-n1024-b1024",
+      "config": {
+        "version": 1,
+        "count": 1024,
+        "record_bytes": 1024,
+        "trials": 30,
+        "queries_per_trial": 16,
+        "seed": 20261022
+      }
+    },
+    {
+      "kind": "pir",
+      "name": "pir-n10000-b64",
+      "config": {
+        "version": 1,
+        "count": 10000,
+        "record_bytes": 64,
+        "trials": 30,
+        "queries_per_trial": 16,
+        "seed": 20261022
+      }
+    },
+    {
+      "kind": "pir",
+      "name": "pir-n10000-b1024",
+      "config": {
+        "version": 1,
+        "count": 10000,
+        "record_bytes": 1024,
+        "trials": 30,
+        "queries_per_trial": 16,
+        "seed": 20261022
+      }
+    }
+  ]
+}

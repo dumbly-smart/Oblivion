@@ -1,0 +1,30 @@
+{
+  "format_version": 1,
+  "modes": [
+    "plaintext",
+    "encrypt_only",
+    "oram"
+  ],
+  "observer_sessions_verified": 720,
+  "operations_per_session": 512,
+  "oram_auc_interval": [
+    0.4965015264214424,
+    0.5084924852588715
+  ],
+  "paired_schedules_verified": 240,
+  "positive_controls_passed": true,
+  "prediction_trials_verified": 90,
+  "private_sessions_verified": 720,
+  "raw_files_verified": 1440,
+  "recomputed_auc_mean": {
+    "encrypt_only": 1.0,
+    "oram": 0.5024740007057774,
+    "plaintext": 1.0
+  },
+  "service_process_records": 720,
+  "sessions_per_trial": 8,
+  "source_and_binary_hashes_verified": 5,
+  "trials_per_mode": 30,
+  "verifier": "research/analysis/verify_oram_isolated_bundle.py",
+  "verifier_sha256": "ae5b2ea7aebf432cd6187c1876b7981d572088b6f6495ab6f23359681fb8ca5f"
+}

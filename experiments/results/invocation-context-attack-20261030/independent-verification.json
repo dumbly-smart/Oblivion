@@ -1,0 +1,62 @@
+{
+  "attacker_prediction_rows": 960,
+  "control_auc": {
+    "A": 1.0,
+    "B": 0.6989583333333333
+  },
+  "control_auc_ci95": {
+    "A": [
+      1.0,
+      1.0
+    ],
+    "B": [
+      0.6682291666666667,
+      0.7317708333333334
+    ]
+  },
+  "control_gate_verified": true,
+  "format_version": 1,
+  "ground_truth_rows_checked": 13440,
+  "integrity": {
+    "analysis_environment_verified": true,
+    "analysis_outputs_hashed": 4,
+    "configuration_verified": true,
+    "raw_files_hashed": 4204,
+    "release_binary_verified": true,
+    "source_files_verified": 9
+  },
+  "limitations": [
+    "The traces come from a local in-process component-boundary simulation, not remote packet capture or internet-path timing.",
+    "The encrypt-only control missed the preregistered mean AUC threshold; protected modes were not scored.",
+    "This experiment does not establish cryptographic indistinguishability or security.",
+    "The verifier replays the declared scikit-learn classifier and independently rebuilds its public feature matrix from raw observer frames."
+  ],
+  "mode_metrics_and_predictions_recomputed": [
+    {
+      "heldout_predictions_replayed": 480,
+      "mode": "A",
+      "trials_recomputed": 30
+    },
+    {
+      "heldout_predictions_replayed": 480,
+      "mode": "B",
+      "trials_recomputed": 30
+    }
+  ],
+  "positive_controls_passed": false,
+  "private_label_rows": 960,
+  "protected_scoring": "omitted_control_failure",
+  "public_observations_reconstructed_by_mode": {
+    "A": 960,
+    "B": 960,
+    "C": 960,
+    "D": 960,
+    "E": 1920,
+    "F": 960,
+    "G": 1920
+  },
+  "session_directories_reconstructed": 840,
+  "study": "session-normalized-invocation-context-function-identity",
+  "verified_utc": "2026-10-30T12:01:16.030328+00:00",
+  "verifier_sha256": "d3f9073e0b003509e68fc9cbdad76c557e29411afd0a8971a1f97e55db1c29a6"
+}

@@ -1,0 +1,9 @@
+{
+  "analysis_sha256": "c7f54682eff8141b9834c8c716f0ddaabde457767c529ea4f698e73e54f97b42",
+  "numpy": "2.5.4",
+  "matplotlib": "3.11.2",
+  "resamples": 5000,
+  "bootstrap_seed": 20261021,
+  "independent_unit": "whole trial",
+  "successful_trials": 270
+}

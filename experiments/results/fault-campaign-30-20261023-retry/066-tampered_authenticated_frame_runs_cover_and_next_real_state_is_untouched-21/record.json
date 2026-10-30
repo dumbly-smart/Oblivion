@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/home/xtrmn8/oblivion/target/debug/deps/pipeline-0e939ed6f6044d0a",
+    "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+    "--exact",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "returncode": 0,
+  "timed_out": false,
+  "wall_ns": 314540583,
+  "passed": true,
+  "scenario": "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched",
+  "trial": 21,
+  "order": 66
+}

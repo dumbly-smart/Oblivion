@@ -1,0 +1,74 @@
+[
+  {
+    "process_id": "m1-t00-s00",
+    "role": "target",
+    "private_label": 1,
+    "workload_seed": 31261024
+  },
+  {
+    "process_id": "m1-t00-s01",
+    "role": "target",
+    "private_label": 0,
+    "workload_seed": 31261025
+  },
+  {
+    "process_id": "m1-t00-s02",
+    "role": "target",
+    "private_label": 2,
+    "workload_seed": 31261026
+  },
+  {
+    "process_id": "m1-t00-s03",
+    "role": "target",
+    "private_label": 1,
+    "workload_seed": 31261027
+  },
+  {
+    "process_id": "m1-t00-s04",
+    "role": "profile",
+    "private_label": 1,
+    "workload_seed": 31261028
+  },
+  {
+    "process_id": "m1-t00-s05",
+    "role": "profile",
+    "private_label": 0,
+    "workload_seed": 31261029
+  },
+  {
+    "process_id": "m1-t00-s06",
+    "role": "profile",
+    "private_label": 1,
+    "workload_seed": 31261030
+  },
+  {
+    "process_id": "m1-t00-s07",
+    "role": "target",
+    "private_label": 2,
+    "workload_seed": 31261031
+  },
+  {
+    "process_id": "m1-t00-s08",
+    "role": "profile",
+    "private_label": 2,
+    "workload_seed": 31261032
+  },
+  {
+    "process_id": "m1-t00-s09",
+    "role": "target",
+    "private_label": 0,
+    "workload_seed": 31261033
+  },
+  {
+    "process_id": "m1-t00-s10",
+    "role": "profile",
+    "private_label": 0,
+    "workload_seed": 31261034
+  },
+  {
+    "process_id": "m1-t00-s11",
+    "role": "profile",
+    "private_label": 2,
+    "workload_seed": 31261035
+  }
+]

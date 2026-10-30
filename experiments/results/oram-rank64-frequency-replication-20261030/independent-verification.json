@@ -1,0 +1,38 @@
+{
+  "verification": "passed",
+  "study": "oram-rank64-frequency-replication-20261030",
+  "report_sha256": "7369df1806e0053aba3e1e8ba3b72c52d8542503ad215513669b96d38fe16628",
+  "raw_session_file_count": 1440,
+  "prediction_artifact_count": 90,
+  "private_truth_fields_in_prediction_artifacts": false,
+  "trial_metrics_recomputed": 90,
+  "modes": {
+    "plaintext": {
+      "trials": 30,
+      "mean_auc": 1.0,
+      "mean_fixed_direction_auc": 1.0,
+      "mean_balanced_accuracy": 0.999344344817978,
+      "mean_target_hot_prevalence": 0.49295247395833336,
+      "mean_target_majority_accuracy": 0.5180826822916667
+    },
+    "encrypt_only": {
+      "trials": 30,
+      "mean_auc": 1.0,
+      "mean_fixed_direction_auc": 1.0,
+      "mean_balanced_accuracy": 0.999344344817978,
+      "mean_target_hot_prevalence": 0.49295247395833336,
+      "mean_target_majority_accuracy": 0.5180826822916667
+    },
+    "oram": {
+      "trials": 30,
+      "mean_auc": 0.5022480507937669,
+      "mean_fixed_direction_auc": 0.499120743473279,
+      "mean_balanced_accuracy": 0.5004675890318435,
+      "mean_target_hot_prevalence": 0.49295247395833336,
+      "mean_target_majority_accuracy": 0.5180826822916667
+    }
+  },
+  "source_revision": "b5f4d8c12eaef80348ee9208c84798337cb08354",
+  "plan_sha256": "adbce12fff3061fe00a0db812527931680014f54eaa2b25465395c854cd13191",
+  "verifier_sha256": "33751fab7f471d3c7f59d705e1ce5343ae0560703847e4ec40327f083f4908fa"
+}

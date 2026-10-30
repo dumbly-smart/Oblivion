@@ -1,0 +1,17 @@
+{
+  "recorded_artifact_hashes_verified": 2955,
+  "all_frozen_source_hashes_match_current": true,
+  "expected_unique_trials": 360,
+  "successful_trials": 360,
+  "failed_trials": 0,
+  "raw_trials_reanalyzed": 360,
+  "retained_metrics_exactly_reproduced": true,
+  "strict_public_rows_verified": 2160,
+  "separate_private_latency_rows_joined": 2160,
+  "rust_tests": 3,
+  "python_tests": 3,
+  "test_exits": 0,
+  "clippy_exit": 0,
+  "historical_original_artifact_hashes_unchanged": 2595,
+  "scope": "audit only; original campaigns and their manifests preserved"
+}

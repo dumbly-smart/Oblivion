@@ -1,0 +1,4862 @@
+[
+  {
+    "order": 0,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 0,
+    "seed": 20261021,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261021"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65974701
+  },
+  {
+    "order": 1,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 1,
+    "seed": 20261022,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261022"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802266704
+  },
+  {
+    "order": 2,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 3,
+    "seed": 20261024,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261024"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66094998
+  },
+  {
+    "order": 3,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 13,
+    "seed": 20261034,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261034"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322217442
+  },
+  {
+    "order": 4,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 17,
+    "seed": 20261038,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261038"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802049979
+  },
+  {
+    "order": 5,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 19,
+    "seed": 20261040,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261040"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 323440471
+  },
+  {
+    "order": 6,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 10,
+    "seed": 20261031,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261031"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 806661916
+  },
+  {
+    "order": 7,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 5,
+    "seed": 20261026,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261026"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322001105
+  },
+  {
+    "order": 8,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 4,
+    "seed": 20261025,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261025"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65612463
+  },
+  {
+    "order": 9,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 21,
+    "seed": 20261042,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261042"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802252565
+  },
+  {
+    "order": 10,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 21,
+    "seed": 20261042,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261042"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322440327
+  },
+  {
+    "order": 11,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 2,
+    "seed": 20261023,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261023"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802702563
+  },
+  {
+    "order": 12,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 24,
+    "seed": 20261045,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261045"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66663063
+  },
+  {
+    "order": 13,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 23,
+    "seed": 20261044,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261044"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322616818
+  },
+  {
+    "order": 14,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 20,
+    "seed": 20261041,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261041"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66783806
+  },
+  {
+    "order": 15,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 17,
+    "seed": 20261038,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261038"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802744808
+  },
+  {
+    "order": 16,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 16,
+    "seed": 20261037,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261037"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802944530
+  },
+  {
+    "order": 17,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 9,
+    "seed": 20261030,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261030"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802948816
+  },
+  {
+    "order": 18,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 5,
+    "seed": 20261026,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261026"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 67042065
+  },
+  {
+    "order": 19,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 4,
+    "seed": 20261025,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261025"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322457314
+  },
+  {
+    "order": 20,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 3,
+    "seed": 20261024,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261024"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802754605
+  },
+  {
+    "order": 21,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 25,
+    "seed": 20261046,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261046"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802395595
+  },
+  {
+    "order": 22,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 12,
+    "seed": 20261033,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261033"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66114394
+  },
+  {
+    "order": 23,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 22,
+    "seed": 20261043,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261043"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66218992
+  },
+  {
+    "order": 24,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 9,
+    "seed": 20261030,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261030"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66197223
+  },
+  {
+    "order": 25,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 23,
+    "seed": 20261044,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261044"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802279599
+  },
+  {
+    "order": 26,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 19,
+    "seed": 20261040,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261040"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66183271
+  },
+  {
+    "order": 27,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 14,
+    "seed": 20261035,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261035"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322369348
+  },
+  {
+    "order": 28,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 17,
+    "seed": 20261038,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261038"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66094006
+  },
+  {
+    "order": 29,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 23,
+    "seed": 20261044,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261044"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802008902
+  },
+  {
+    "order": 30,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 9,
+    "seed": 20261030,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261030"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65949276
+  },
+  {
+    "order": 31,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 29,
+    "seed": 20261050,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261050"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65986953
+  },
+  {
+    "order": 32,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 14,
+    "seed": 20261035,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261035"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65969069
+  },
+  {
+    "order": 33,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 16,
+    "seed": 20261037,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261037"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66081204
+  },
+  {
+    "order": 34,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 2,
+    "seed": 20261023,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261023"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322173436
+  },
+  {
+    "order": 35,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 20,
+    "seed": 20261041,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261041"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65854083
+  },
+  {
+    "order": 36,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 13,
+    "seed": 20261034,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261034"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321776973
+  },
+  {
+    "order": 37,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 0,
+    "seed": 20261021,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261021"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802319597
+  },
+  {
+    "order": 38,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 22,
+    "seed": 20261043,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261043"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802576608
+  },
+  {
+    "order": 39,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 21,
+    "seed": 20261042,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261042"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802589175
+  },
+  {
+    "order": 40,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 23,
+    "seed": 20261044,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261044"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66464697
+  },
+  {
+    "order": 41,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 15,
+    "seed": 20261036,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261036"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322742335
+  },
+  {
+    "order": 42,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 14,
+    "seed": 20261035,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261035"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322739343
+  },
+  {
+    "order": 43,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 22,
+    "seed": 20261043,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261043"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66715321
+  },
+  {
+    "order": 44,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 10,
+    "seed": 20261031,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261031"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 67039070
+  },
+  {
+    "order": 45,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 6,
+    "seed": 20261027,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261027"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66450772
+  },
+  {
+    "order": 46,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 27,
+    "seed": 20261048,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261048"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 803038454
+  },
+  {
+    "order": 47,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 3,
+    "seed": 20261024,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261024"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66773470
+  },
+  {
+    "order": 48,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 28,
+    "seed": 20261049,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261049"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322999058
+  },
+  {
+    "order": 49,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 7,
+    "seed": 20261028,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261028"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 803075133
+  },
+  {
+    "order": 50,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 28,
+    "seed": 20261049,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261049"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322734428
+  },
+  {
+    "order": 51,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 6,
+    "seed": 20261027,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261027"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66058439
+  },
+  {
+    "order": 52,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 29,
+    "seed": 20261050,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261050"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802112068
+  },
+  {
+    "order": 53,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 9,
+    "seed": 20261030,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261030"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322093187
+  },
+  {
+    "order": 54,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 8,
+    "seed": 20261029,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261029"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322114110
+  },
+  {
+    "order": 55,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 15,
+    "seed": 20261036,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261036"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66010736
+  },
+  {
+    "order": 56,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 14,
+    "seed": 20261035,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261035"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322008921
+  },
+  {
+    "order": 57,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 21,
+    "seed": 20261042,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261042"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65864556
+  },
+  {
+    "order": 58,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 24,
+    "seed": 20261045,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261045"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802142399
+  },
+  {
+    "order": 59,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 4,
+    "seed": 20261025,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261025"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802180955
+  },
+  {
+    "order": 60,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 20,
+    "seed": 20261041,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261041"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 801975796
+  },
+  {
+    "order": 61,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 23,
+    "seed": 20261044,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261044"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322023646
+  },
+  {
+    "order": 62,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 22,
+    "seed": 20261043,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261043"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322278965
+  },
+  {
+    "order": 63,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 16,
+    "seed": 20261037,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261037"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802573833
+  },
+  {
+    "order": 64,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 22,
+    "seed": 20261043,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261043"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322988193
+  },
+  {
+    "order": 65,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 17,
+    "seed": 20261038,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261038"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322606684
+  },
+  {
+    "order": 66,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 17,
+    "seed": 20261038,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261038"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322742606
+  },
+  {
+    "order": 67,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 29,
+    "seed": 20261050,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261050"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802612131
+  },
+  {
+    "order": 68,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 26,
+    "seed": 20261047,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261047"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66719747
+  },
+  {
+    "order": 69,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 12,
+    "seed": 20261033,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261033"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322298221
+  },
+  {
+    "order": 70,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 23,
+    "seed": 20261044,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261044"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322452347
+  },
+  {
+    "order": 71,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 12,
+    "seed": 20261033,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261033"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322275014
+  },
+  {
+    "order": 72,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 25,
+    "seed": 20261046,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261046"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802406504
+  },
+  {
+    "order": 73,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 13,
+    "seed": 20261034,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261034"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802426912
+  },
+  {
+    "order": 74,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 28,
+    "seed": 20261049,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261049"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66212777
+  },
+  {
+    "order": 75,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 7,
+    "seed": 20261028,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261028"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322125119
+  },
+  {
+    "order": 76,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 24,
+    "seed": 20261045,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261045"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322262152
+  },
+  {
+    "order": 77,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 21,
+    "seed": 20261042,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261042"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65901921
+  },
+  {
+    "order": 78,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 8,
+    "seed": 20261029,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261029"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66180925
+  },
+  {
+    "order": 79,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 28,
+    "seed": 20261049,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261049"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66239358
+  },
+  {
+    "order": 80,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 2,
+    "seed": 20261023,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261023"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802160462
+  },
+  {
+    "order": 81,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 6,
+    "seed": 20261027,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261027"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322136483
+  },
+  {
+    "order": 82,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 18,
+    "seed": 20261039,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261039"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65869252
+  },
+  {
+    "order": 83,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 18,
+    "seed": 20261039,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261039"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322085270
+  },
+  {
+    "order": 84,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 26,
+    "seed": 20261047,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261047"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321920392
+  },
+  {
+    "order": 85,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 3,
+    "seed": 20261024,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261024"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 801866211
+  },
+  {
+    "order": 86,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 4,
+    "seed": 20261025,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261025"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 801969779
+  },
+  {
+    "order": 87,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 23,
+    "seed": 20261044,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261044"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 801988425
+  },
+  {
+    "order": 88,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 10,
+    "seed": 20261031,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261031"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321783747
+  },
+  {
+    "order": 89,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 13,
+    "seed": 20261034,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261034"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65870651
+  },
+  {
+    "order": 90,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 10,
+    "seed": 20261031,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261031"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65926018
+  },
+  {
+    "order": 91,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 16,
+    "seed": 20261037,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261037"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321881186
+  },
+  {
+    "order": 92,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 13,
+    "seed": 20261034,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261034"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65608053
+  },
+  {
+    "order": 93,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 13,
+    "seed": 20261034,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261034"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321911535
+  },
+  {
+    "order": 94,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 23,
+    "seed": 20261044,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261044"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65872326
+  },
+  {
+    "order": 95,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 11,
+    "seed": 20261032,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261032"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322040274
+  },
+  {
+    "order": 96,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 17,
+    "seed": 20261038,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261038"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65995830
+  },
+  {
+    "order": 97,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 13,
+    "seed": 20261034,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261034"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66006278
+  },
+  {
+    "order": 98,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 4,
+    "seed": 20261025,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261025"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65964132
+  },
+  {
+    "order": 99,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 5,
+    "seed": 20261026,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261026"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321810340
+  },
+  {
+    "order": 100,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 27,
+    "seed": 20261048,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261048"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321932269
+  },
+  {
+    "order": 101,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 12,
+    "seed": 20261033,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261033"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802099998
+  },
+  {
+    "order": 102,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 7,
+    "seed": 20261028,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261028"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802244234
+  },
+  {
+    "order": 103,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 12,
+    "seed": 20261033,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261033"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66197820
+  },
+  {
+    "order": 104,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 1,
+    "seed": 20261022,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261022"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66046831
+  },
+  {
+    "order": 105,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 1,
+    "seed": 20261022,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261022"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66114776
+  },
+  {
+    "order": 106,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 11,
+    "seed": 20261032,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261032"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 801794859
+  },
+  {
+    "order": 107,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 26,
+    "seed": 20261047,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261047"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 801972615
+  },
+  {
+    "order": 108,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 15,
+    "seed": 20261036,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261036"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802292011
+  },
+  {
+    "order": 109,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 27,
+    "seed": 20261048,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261048"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66072479
+  },
+  {
+    "order": 110,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 10,
+    "seed": 20261031,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261031"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802150581
+  },
+  {
+    "order": 111,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 2,
+    "seed": 20261023,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261023"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66228652
+  },
+  {
+    "order": 112,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 18,
+    "seed": 20261039,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261039"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322217483
+  },
+  {
+    "order": 113,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 5,
+    "seed": 20261026,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261026"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321846457
+  },
+  {
+    "order": 114,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 21,
+    "seed": 20261042,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261042"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321971876
+  },
+  {
+    "order": 115,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 8,
+    "seed": 20261029,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261029"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 801882035
+  },
+  {
+    "order": 116,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 20,
+    "seed": 20261041,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261041"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321999600
+  },
+  {
+    "order": 117,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 10,
+    "seed": 20261031,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261031"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 801958831
+  },
+  {
+    "order": 118,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 5,
+    "seed": 20261026,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261026"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802124509
+  },
+  {
+    "order": 119,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 21,
+    "seed": 20261042,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261042"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 803113794
+  },
+  {
+    "order": 120,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 8,
+    "seed": 20261029,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261029"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 803119146
+  },
+  {
+    "order": 121,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 7,
+    "seed": 20261028,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261028"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 324416274
+  },
+  {
+    "order": 122,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 8,
+    "seed": 20261029,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261029"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66096107
+  },
+  {
+    "order": 123,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 2,
+    "seed": 20261023,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261023"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322050396
+  },
+  {
+    "order": 124,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 4,
+    "seed": 20261025,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261025"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65641858
+  },
+  {
+    "order": 125,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 24,
+    "seed": 20261045,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261045"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321943260
+  },
+  {
+    "order": 126,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 27,
+    "seed": 20261048,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261048"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 801936607
+  },
+  {
+    "order": 127,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 3,
+    "seed": 20261024,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261024"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321593054
+  },
+  {
+    "order": 128,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 6,
+    "seed": 20261027,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261027"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 801681307
+  },
+  {
+    "order": 129,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 2,
+    "seed": 20261023,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261023"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65816452
+  },
+  {
+    "order": 130,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 27,
+    "seed": 20261048,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261048"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321741233
+  },
+  {
+    "order": 131,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 8,
+    "seed": 20261029,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261029"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802144914
+  },
+  {
+    "order": 132,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 15,
+    "seed": 20261036,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261036"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322405993
+  },
+  {
+    "order": 133,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 2,
+    "seed": 20261023,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261023"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 801776411
+  },
+  {
+    "order": 134,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 19,
+    "seed": 20261040,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261040"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321743434
+  },
+  {
+    "order": 135,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 17,
+    "seed": 20261038,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261038"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321784348
+  },
+  {
+    "order": 136,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 25,
+    "seed": 20261046,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261046"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321966987
+  },
+  {
+    "order": 137,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 13,
+    "seed": 20261034,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261034"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 801897328
+  },
+  {
+    "order": 138,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 14,
+    "seed": 20261035,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261035"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802542727
+  },
+  {
+    "order": 139,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 1,
+    "seed": 20261022,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261022"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322366149
+  },
+  {
+    "order": 140,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 0,
+    "seed": 20261021,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261021"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322072568
+  },
+  {
+    "order": 141,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 19,
+    "seed": 20261040,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261040"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 801972199
+  },
+  {
+    "order": 142,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 12,
+    "seed": 20261033,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261033"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802123506
+  },
+  {
+    "order": 143,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 6,
+    "seed": 20261027,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261027"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802093240
+  },
+  {
+    "order": 144,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 5,
+    "seed": 20261026,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261026"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65634271
+  },
+  {
+    "order": 145,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 6,
+    "seed": 20261027,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261027"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321737431
+  },
+  {
+    "order": 146,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 11,
+    "seed": 20261032,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261032"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802142624
+  },
+  {
+    "order": 147,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 0,
+    "seed": 20261021,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261021"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 801871394
+  },
+  {
+    "order": 148,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 12,
+    "seed": 20261033,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261033"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802263862
+  },
+  {
+    "order": 149,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 22,
+    "seed": 20261043,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261043"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322036326
+  },
+  {
+    "order": 150,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 20,
+    "seed": 20261041,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261041"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66091669
+  },
+  {
+    "order": 151,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 21,
+    "seed": 20261042,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261042"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65822669
+  },
+  {
+    "order": 152,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 26,
+    "seed": 20261047,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261047"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65803258
+  },
+  {
+    "order": 153,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 24,
+    "seed": 20261045,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261045"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802631937
+  },
+  {
+    "order": 154,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 5,
+    "seed": 20261026,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261026"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65848860
+  },
+  {
+    "order": 155,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 20,
+    "seed": 20261041,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261041"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322464763
+  },
+  {
+    "order": 156,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 11,
+    "seed": 20261032,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261032"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66070211
+  },
+  {
+    "order": 157,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 18,
+    "seed": 20261039,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261039"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802239278
+  },
+  {
+    "order": 158,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 1,
+    "seed": 20261022,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261022"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802063476
+  },
+  {
+    "order": 159,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 18,
+    "seed": 20261039,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261039"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322025364
+  },
+  {
+    "order": 160,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 22,
+    "seed": 20261043,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261043"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802006827
+  },
+  {
+    "order": 161,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 27,
+    "seed": 20261048,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261048"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802057824
+  },
+  {
+    "order": 162,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 12,
+    "seed": 20261033,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261033"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66037307
+  },
+  {
+    "order": 163,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 5,
+    "seed": 20261026,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261026"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802378183
+  },
+  {
+    "order": 164,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 28,
+    "seed": 20261049,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261049"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322262909
+  },
+  {
+    "order": 165,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 14,
+    "seed": 20261035,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261035"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65920834
+  },
+  {
+    "order": 166,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 29,
+    "seed": 20261050,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261050"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322119679
+  },
+  {
+    "order": 167,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 20,
+    "seed": 20261041,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261041"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802170381
+  },
+  {
+    "order": 168,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 3,
+    "seed": 20261024,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261024"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65879087
+  },
+  {
+    "order": 169,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 29,
+    "seed": 20261050,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261050"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322042829
+  },
+  {
+    "order": 170,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 18,
+    "seed": 20261039,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261039"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66657230
+  },
+  {
+    "order": 171,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 6,
+    "seed": 20261027,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261027"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 803027878
+  },
+  {
+    "order": 172,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 25,
+    "seed": 20261046,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261046"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802506991
+  },
+  {
+    "order": 173,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 20,
+    "seed": 20261041,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261041"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322777739
+  },
+  {
+    "order": 174,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 26,
+    "seed": 20261047,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261047"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322729679
+  },
+  {
+    "order": 175,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 8,
+    "seed": 20261029,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261029"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322892600
+  },
+  {
+    "order": 176,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 12,
+    "seed": 20261033,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261033"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 323530656
+  },
+  {
+    "order": 177,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 17,
+    "seed": 20261038,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261038"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 67090088
+  },
+  {
+    "order": 178,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 11,
+    "seed": 20261032,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261032"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 67012333
+  },
+  {
+    "order": 179,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 7,
+    "seed": 20261028,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261028"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 67338348
+  },
+  {
+    "order": 180,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 0,
+    "seed": 20261021,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261021"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66947192
+  },
+  {
+    "order": 181,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 9,
+    "seed": 20261030,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261030"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66966943
+  },
+  {
+    "order": 182,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 28,
+    "seed": 20261049,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261049"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 803023671
+  },
+  {
+    "order": 183,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 20,
+    "seed": 20261041,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261041"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802451290
+  },
+  {
+    "order": 184,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 6,
+    "seed": 20261027,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261027"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321918671
+  },
+  {
+    "order": 185,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 9,
+    "seed": 20261030,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261030"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 801965468
+  },
+  {
+    "order": 186,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 10,
+    "seed": 20261031,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261031"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66099575
+  },
+  {
+    "order": 187,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 3,
+    "seed": 20261024,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261024"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322099142
+  },
+  {
+    "order": 188,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 28,
+    "seed": 20261049,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261049"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802130661
+  },
+  {
+    "order": 189,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 16,
+    "seed": 20261037,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261037"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322010983
+  },
+  {
+    "order": 190,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 9,
+    "seed": 20261030,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261030"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 801952730
+  },
+  {
+    "order": 191,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 18,
+    "seed": 20261039,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261039"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802022817
+  },
+  {
+    "order": 192,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 10,
+    "seed": 20261031,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261031"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322242692
+  },
+  {
+    "order": 193,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 2,
+    "seed": 20261023,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261023"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321999335
+  },
+  {
+    "order": 194,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 4,
+    "seed": 20261025,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261025"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321955176
+  },
+  {
+    "order": 195,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 25,
+    "seed": 20261046,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261046"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321894465
+  },
+  {
+    "order": 196,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 26,
+    "seed": 20261047,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261047"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65915198
+  },
+  {
+    "order": 197,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 15,
+    "seed": 20261036,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261036"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802029030
+  },
+  {
+    "order": 198,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 19,
+    "seed": 20261040,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261040"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65704971
+  },
+  {
+    "order": 199,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 25,
+    "seed": 20261046,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261046"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65882336
+  },
+  {
+    "order": 200,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 7,
+    "seed": 20261028,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261028"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802025393
+  },
+  {
+    "order": 201,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 19,
+    "seed": 20261040,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261040"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66346748
+  },
+  {
+    "order": 202,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 9,
+    "seed": 20261030,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261030"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322048883
+  },
+  {
+    "order": 203,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 16,
+    "seed": 20261037,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261037"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66290775
+  },
+  {
+    "order": 204,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 16,
+    "seed": 20261037,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261037"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802194452
+  },
+  {
+    "order": 205,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 4,
+    "seed": 20261025,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261025"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802656175
+  },
+  {
+    "order": 206,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 18,
+    "seed": 20261039,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261039"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 67046261
+  },
+  {
+    "order": 207,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 29,
+    "seed": 20261050,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261050"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802421245
+  },
+  {
+    "order": 208,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 14,
+    "seed": 20261035,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261035"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802662423
+  },
+  {
+    "order": 209,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 23,
+    "seed": 20261044,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261044"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66426246
+  },
+  {
+    "order": 210,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 15,
+    "seed": 20261036,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261036"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322510480
+  },
+  {
+    "order": 211,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 8,
+    "seed": 20261029,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261029"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322758441
+  },
+  {
+    "order": 212,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 2,
+    "seed": 20261023,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261023"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65977538
+  },
+  {
+    "order": 213,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 11,
+    "seed": 20261032,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261032"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65957899
+  },
+  {
+    "order": 214,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 19,
+    "seed": 20261040,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261040"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 801925849
+  },
+  {
+    "order": 215,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 15,
+    "seed": 20261036,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261036"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802109913
+  },
+  {
+    "order": 216,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 1,
+    "seed": 20261022,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261022"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802248495
+  },
+  {
+    "order": 217,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 26,
+    "seed": 20261047,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261047"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322101002
+  },
+  {
+    "order": 218,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 19,
+    "seed": 20261040,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261040"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322152062
+  },
+  {
+    "order": 219,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 22,
+    "seed": 20261043,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261043"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65962182
+  },
+  {
+    "order": 220,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 16,
+    "seed": 20261037,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261037"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321934751
+  },
+  {
+    "order": 221,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 14,
+    "seed": 20261035,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261035"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 801965967
+  },
+  {
+    "order": 222,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 17,
+    "seed": 20261038,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261038"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802027170
+  },
+  {
+    "order": 223,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 21,
+    "seed": 20261042,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261042"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322104717
+  },
+  {
+    "order": 224,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 15,
+    "seed": 20261036,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261036"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65921319
+  },
+  {
+    "order": 225,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 5,
+    "seed": 20261026,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261026"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802206354
+  },
+  {
+    "order": 226,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 26,
+    "seed": 20261047,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261047"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 801849445
+  },
+  {
+    "order": 227,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 25,
+    "seed": 20261046,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261046"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66178512
+  },
+  {
+    "order": 228,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 19,
+    "seed": 20261040,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261040"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802629986
+  },
+  {
+    "order": 229,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 11,
+    "seed": 20261032,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261032"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322270942
+  },
+  {
+    "order": 230,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 27,
+    "seed": 20261048,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261048"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66017065
+  },
+  {
+    "order": 231,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 28,
+    "seed": 20261049,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261049"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802347297
+  },
+  {
+    "order": 232,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 27,
+    "seed": 20261048,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261048"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66302437
+  },
+  {
+    "order": 233,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 16,
+    "seed": 20261037,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261037"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66511656
+  },
+  {
+    "order": 234,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 24,
+    "seed": 20261045,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261045"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802680664
+  },
+  {
+    "order": 235,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 26,
+    "seed": 20261047,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261047"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802297530
+  },
+  {
+    "order": 236,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 7,
+    "seed": 20261028,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261028"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66012497
+  },
+  {
+    "order": 237,
+    "period_ms": 25,
+    "real_percent": 50,
+    "trial": 3,
+    "seed": 20261024,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "50",
+      "20261024"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802434696
+  },
+  {
+    "order": 238,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 15,
+    "seed": 20261036,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261036"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66159247
+  },
+  {
+    "order": 239,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 14,
+    "seed": 20261035,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261035"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65979499
+  },
+  {
+    "order": 240,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 1,
+    "seed": 20261022,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261022"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322137796
+  },
+  {
+    "order": 241,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 29,
+    "seed": 20261050,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261050"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65951213
+  },
+  {
+    "order": 242,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 29,
+    "seed": 20261050,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261050"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322514932
+  },
+  {
+    "order": 243,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 6,
+    "seed": 20261027,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261027"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66453526
+  },
+  {
+    "order": 244,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 4,
+    "seed": 20261025,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261025"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322362665
+  },
+  {
+    "order": 245,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 11,
+    "seed": 20261032,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261032"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802728531
+  },
+  {
+    "order": 246,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 0,
+    "seed": 20261021,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261021"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322045111
+  },
+  {
+    "order": 247,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 22,
+    "seed": 20261043,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261043"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 801806023
+  },
+  {
+    "order": 248,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 25,
+    "seed": 20261046,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261046"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322158210
+  },
+  {
+    "order": 249,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 1,
+    "seed": 20261022,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261022"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322190197
+  },
+  {
+    "order": 250,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 25,
+    "seed": 20261046,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261046"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66346054
+  },
+  {
+    "order": 251,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 29,
+    "seed": 20261050,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261050"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66204504
+  },
+  {
+    "order": 252,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 10,
+    "seed": 20261031,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261031"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322205761
+  },
+  {
+    "order": 253,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 8,
+    "seed": 20261029,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261029"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66234572
+  },
+  {
+    "order": 254,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 13,
+    "seed": 20261034,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261034"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802307862
+  },
+  {
+    "order": 255,
+    "period_ms": 25,
+    "real_percent": 100,
+    "trial": 18,
+    "seed": 20261039,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "100",
+      "20261039"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802028675
+  },
+  {
+    "order": 256,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 24,
+    "seed": 20261045,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261045"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 65937819
+  },
+  {
+    "order": 257,
+    "period_ms": 10,
+    "real_percent": 100,
+    "trial": 7,
+    "seed": 20261028,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "100",
+      "20261028"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 321922263
+  },
+  {
+    "order": 258,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 9,
+    "seed": 20261030,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261030"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322171986
+  },
+  {
+    "order": 259,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 11,
+    "seed": 20261032,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261032"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322471707
+  },
+  {
+    "order": 260,
+    "period_ms": 2,
+    "real_percent": 50,
+    "trial": 0,
+    "seed": 20261021,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "50",
+      "20261021"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66442255
+  },
+  {
+    "order": 261,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 7,
+    "seed": 20261028,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261028"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66092342
+  },
+  {
+    "order": 262,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 1,
+    "seed": 20261022,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261022"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66002700
+  },
+  {
+    "order": 263,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 0,
+    "seed": 20261021,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261021"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322448288
+  },
+  {
+    "order": 264,
+    "period_ms": 10,
+    "real_percent": 0,
+    "trial": 27,
+    "seed": 20261048,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "0",
+      "20261048"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322800915
+  },
+  {
+    "order": 265,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 3,
+    "seed": 20261024,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261024"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322597171
+  },
+  {
+    "order": 266,
+    "period_ms": 2,
+    "real_percent": 0,
+    "trial": 24,
+    "seed": 20261045,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "0",
+      "20261045"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66236914
+  },
+  {
+    "order": 267,
+    "period_ms": 2,
+    "real_percent": 100,
+    "trial": 28,
+    "seed": 20261049,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "2",
+      "32",
+      "8",
+      "100",
+      "20261049"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 66472788
+  },
+  {
+    "order": 268,
+    "period_ms": 10,
+    "real_percent": 50,
+    "trial": 24,
+    "seed": 20261045,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "10",
+      "32",
+      "8",
+      "50",
+      "20261045"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 322488454
+  },
+  {
+    "order": 269,
+    "period_ms": 25,
+    "real_percent": 0,
+    "trial": 0,
+    "seed": 20261021,
+    "command": [
+      "/home/xtrmn8/oblivion/experiments/results/batch-epoch-current/bin/batch_measure",
+      "25",
+      "32",
+      "8",
+      "0",
+      "20261021"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "process_wall_ns": 802143970
+  }
+]

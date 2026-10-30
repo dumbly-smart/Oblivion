@@ -1,0 +1,46 @@
+{
+  "completed_private_invocations": 24,
+  "successful_private_invocations": 24,
+  "ground_truth_invocations": 24,
+  "storage_events": 3072,
+  "client_summary": {
+    "client_state_counters": [
+      0,
+      1,
+      1
+    ],
+    "dummy_invocations": 12,
+    "encrypted_pir_links": true,
+    "epoch_ms": 450,
+    "execution_class_ms": 100,
+    "functions_verified": 5,
+    "last_real_counter": 0,
+    "limitations": [
+      "PIR servers must not collude",
+      "inherited pipes simulate trusted provisioning; no hardware TEE",
+      "demo state is ephemeral, durable store API tested separately",
+      "public sequential slots and bounded eight-block working set; deadline misses and resource leakage remain"
+    ],
+    "logical_oram_operations_per_invocation": 16,
+    "participants": 3,
+    "processes": 4,
+    "real_invocations": 12,
+    "real_percent": 50,
+    "registry_deployment_sha256": "de0d3a483eee0609030ee60cce3f8de2cef5731decb9475387af8bae777dedc5",
+    "registry_version": 1,
+    "request_bytes": 164,
+    "response_bytes": 164,
+    "sse_metadata_discovery": true,
+    "sse_searches_verified": 24,
+    "state_working_set_blocks": 8
+  },
+  "raw_output_sha256": {
+    "client-ground-truth.jsonl": "6917814278da4dc57948af6615fdab74cf930753a6d88d1613a95f79dde8760c",
+    "client-summary.json": "4512b9a680cc9642621e394ff86cd0dea4c42c720d1feaaa0a0dea4e4801a2cf",
+    "envelope-observer.jsonl": "cacc1fc6724577062605239e1c1e8421819f0668026c1a5d6a61efafb6673ba4",
+    "executor-private.jsonl": "2a6b97774ceb3090eff36fe248b445c356ad50cccf964d0382dffdccaad18cf4",
+    "metadata-discovery-observer.jsonl": "ca8fbd654b9a2113b34cfc5c5ec01e78d7479b41a4386dd680492af36e7bf1eb",
+    "metadata.json": "1b0798348870d8ddec807d8b8cf6fb2152f2a3ed3db4a69c97fdd7830bcf06c4",
+    "storage-observer.jsonl": "d55a1728cc3d3f0bfae51950a385c63cf4c512350dbc29f257492822acd94f13"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "binary_sha256_before_launch": "c733beafe2221c324869763b610d4eb3076bce9e87a5809a5ceea54c0f408a73",
+  "driver_source_sha256": "da39bd04cd6e27ab37e6353f71402bc850ff4cbbbc61b6f89ea66eb245f29c70",
+  "script_sha256": "986bde66fbe1fb8b473e4157908032bdd82eb01eb115b859b00f40a0dfd8e691",
+  "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+  "trials": 30,
+  "queries_per_trial": 100,
+  "workload_seed": 20261021,
+  "crypto_randomness": "freshOSrootperworkerpertrial; sharesOSrandom",
+  "capture_tool": "/usr/bin/dumpcap",
+  "decode_tool": "/usr/bin/tshark",
+  "started_unix_ns": 1792600611426540080,
+  "capture_policy": "exactdynamicowned127.0.0.1ports only; no privilege change or unrelated traffic",
+  "binary_sha256_after_run": "c733beafe2221c324869763b610d4eb3076bce9e87a5809a5ceea54c0f408a73",
+  "completed_unix_ns": 1792600629136462374
+}

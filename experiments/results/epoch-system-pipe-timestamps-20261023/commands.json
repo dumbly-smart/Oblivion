@@ -1,0 +1,4682 @@
+[
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 0,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmplonhzkgb/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0470191399999749
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 1,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmp_qc3tjlr/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.042702647000624
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 2,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpj_e1hqld/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.041915538999092
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 3,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpnh2_k766/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.046068710000327
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 4,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpqhg7cn6a/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0395696899995528
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 5,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmp71nc75qv/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0452846400003182
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 6,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmp8e7q7q2a/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0503707589996338
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 7,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmp0ksjgxmf/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0478908519999095
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 8,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpg5yayi3_/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0439233140004944
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 9,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpk1gb_zmi/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0442419629998767
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 10,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmp3_e1__z7/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0417216909991112
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 11,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmp3jwo29fv/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0419734229999449
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 12,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmp_zfefrxp/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.046889719000319
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 13,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpljc855ah/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0420086609992723
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 14,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpl186np1r/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.043730860001233
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 15,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpr4w3wqky/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.045650365000256
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 16,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpx3xh7j2i/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0556024329998763
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 17,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpmg4cfoi2/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.052326028000607
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 18,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpyyrbqeco/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.050420445000782
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 19,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpak8s8roi/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0557465570000204
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 20,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmplqj_111q/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0489308039996104
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 21,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpricttgtv/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0520459660001507
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 22,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpcgwttgd9/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0638734060012212
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 23,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpiifzdtt3/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0562525609984732
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 24,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmp_a0whqpx/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0478558499999053
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 25,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpw0ncc18f/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0517734950008162
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 26,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmp3cvrl11o/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0493627779997041
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 27,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpq75nxbl1/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0489914030004002
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 28,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmp16vpsjhn/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0570799659999466
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 29,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpdn22ts3h/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0518756740002573
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 0,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmp1b5ng1wx/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0556864860009227
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 1,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmplvmlflpn/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0985263849997864
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 2,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpqcf1kiub/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.05040091400042
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 3,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpmjynxd21/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0518037130004814
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 4,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmp5wlpahy2/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.053609131000485
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 5,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpizoj5t_k/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1785598960013886
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 6,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpe1ahq7u7/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.161678648999441
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 7,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmps1uz7s96/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1627356630015129
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 8,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpxo_b18rx/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1580156820000411
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 9,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpje3jvkxc/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0483376819993282
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 10,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpblt9zwlv/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0509140390004177
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 11,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmp8i7hx73l/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.05034497700035
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 12,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpup4xsge9/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0526288140008546
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 13,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpcqb5_wo8/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0537910910006758
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 14,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmp8nf9wkeh/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.057634106999103
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 15,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpta11u1qm/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0562462639991281
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 16,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmptc99aabt/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0578239229998871
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 17,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmp6d9vhjwp/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0464628790014103
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 18,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmph21j65dm/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0604106199989474
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 19,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpb4igxyxk/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0844629220009665
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 20,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmprapnwh1j/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.107196089998979
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 21,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpkzq9v8vl/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1537810280005942
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 22,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpk0pkvm1x/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.09838638400106
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 23,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpi2dezs6c/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1703163750007661
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 24,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmp8ijal7qr/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.071858932999021
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 25,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmp2gh4byz5/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0554169400002138
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 26,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmp7yb4ntvq/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0569330960006482
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 27,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpvqfmprgv/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0528864410007372
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 28,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpot982_wk/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0491375670007983
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 29,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpmob494fz/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.053612127998349
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 0,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmp1b3u8zvq/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0503793629995926
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 1,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpfvxovz13/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0551303539996297
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 2,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpofuxp_in/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0716079829999217
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 3,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmph6x0zlfn/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0520649019999837
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 4,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmp0tq9cj95/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0500424969995947
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 5,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpd3b9boee/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0613002500012954
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 6,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpzapvpl4g/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0589878269984183
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 7,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpp7aj_f37/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0528669679988525
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 8,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmp4xdvrfh2/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.050527550998595
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 9,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpzp4aoslk/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0502569009986473
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 10,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpyke9zirv/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0579001759997482
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 11,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpgfg8ces6/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0560808240006736
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 12,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmplkxhj89k/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0594753269997454
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 13,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpua6n28of/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0561848310007917
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 14,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpwwdmag5r/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0592733840003348
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 15,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpinmxco36/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0607259640000848
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 16,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmp5e1e8xen/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.06904838400078
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 17,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmp49u24jgm/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0568059159995755
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 18,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpfczirfuv/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.059490536001249
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 19,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpqhhqqm3n/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0577693930008536
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 20,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmp754t2e8m/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0567792000001646
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 21,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmprazxkpb4/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.055920059001437
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 22,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpkn3zgs0y/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0550528439998743
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 23,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmp666g7pij/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.055223016999662
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 24,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmprizm5y2v/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.055208366999068
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 25,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpm0hc11y4/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.073871392000001
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 26,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpkwbi9o7z/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0556022519995167
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 27,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpzm3_2lo0/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0553767740002513
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 28,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmp4gqf94sa/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0607143039997027
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 29,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpe0iukznv/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.0552367630007211
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 0,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmp07cv7iom/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8567448630001309
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 1,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmp5hse9lyf/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8568608700006735
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 2,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpinbgdpqd/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8551726369987591
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 3,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmppmm0r_ji/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8588664540002355
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 4,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpsnjmam9p/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8582956259997445
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 5,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmp5uelezyd/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8592695360002836
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 6,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmperkx1ccg/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8537070940001286
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 7,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmp6rsqo_ai/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.877207871999417
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 8,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmphhlsji_f/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.853162422999958
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 9,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmprokhvvmq/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8604025229997205
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 10,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpehv7al9l/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9009715209995193
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 11,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmppsyi1bmv/trial\n",
+    "stderr": "",
+    "wall_seconds": 2.0151121449998755
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 12,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpb5i7bv1z/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9207267410001805
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 13,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpy7pe5xus/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8984723559988197
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 14,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmp3mnjye5n/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9013411089999863
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 15,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpkpgi8kb5/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8548996089994034
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 16,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpzvspgvbk/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8848130599999422
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 17,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpg7nlwyqa/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8775030939996213
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 18,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmp6vel067v/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8941899319997901
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 19,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmp3hlnw3w6/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8815325720006513
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 20,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmposo4tj88/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8549578379988816
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 21,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmp17y_kd37/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8596966020013497
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 22,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpcwsavhou/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8544198380004673
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 23,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmp7e1571mn/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8600499609983672
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 24,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpc6e9mv0q/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8634920459990099
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 25,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpay0cjvc5/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.854658752999967
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 26,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpjo2hfms9/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8609341400006087
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 27,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpab506rf6/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.855701300999499
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 28,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmp_touzf3k/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.882246421999298
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 29,
+    "exit": 0,
+    "stdout": "Completed 0 real and 4 dummy invocations across 1 clients. Results: /tmp/tmpxq09racf/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8727274279990525
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 0,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpz_opkqzl/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8585504860002402
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 1,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpl77ozbla/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.912594732000798
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 2,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpsa8fve4u/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8593659180005488
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 3,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpr5n6f5qy/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.875707290999344
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 4,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpm20bz6zt/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.854483410001194
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 5,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpfyw30dil/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.848428748000515
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 6,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpjgwvua_p/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8532830429994647
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 7,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpi8gb03wz/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8574977480002417
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 8,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmp63yi91ln/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8542078199989191
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 9,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmp7z3bl404/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8535341860006156
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 10,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmp0_030x7a/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8573555590010074
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 11,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpyjn7_md5/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.858335281998734
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 12,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpz4dr0yat/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9091576490009174
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 13,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmp0bo5yrq8/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.974856135000664
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 14,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpbxwpbz4j/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9543128540008183
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 15,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpj6saem5h/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9233214680007222
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 16,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpi6swa7wi/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8614918740004214
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 17,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmp4qyd65ty/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8590129130006972
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 18,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmptbo7jrry/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8682995359995402
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 19,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmp38gdrjl9/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8648629319995962
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 20,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpdlzaaw1x/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.861492199001077
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 21,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpl0scajph/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.864361234000171
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 22,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpqspkhrgm/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.856822646001092
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 23,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpro58m0ee/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8574369309990288
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 24,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmp05p96tcs/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8645977369997127
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 25,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpeyv3cc2x/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.852466677000848
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 26,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmp2ssz36al/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8513734489988565
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 27,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmp1foclv02/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8809589230004349
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 28,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmp6ndrnpf3/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8581671529991581
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 29,
+    "exit": 0,
+    "stdout": "Completed 2 real and 2 dummy invocations across 1 clients. Results: /tmp/tmpzjyh96ef/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8552411180007766
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 0,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmppytk7zcz/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8555204360000062
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 1,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpk5go28k7/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8555133320005552
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 2,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpzo_on3o0/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8554100299988932
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 3,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpa3plrs2n/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8533778880009777
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 4,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpo7nrl183/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8612552890008374
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 5,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpsktqnk3j/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8559428799999296
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 6,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpnn9d644a/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8573767569996562
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 7,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpkq1qy3le/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8558395719992404
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 8,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpb4mvpbv9/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8537402670008305
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 9,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmphwemxqoo/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8540841539997928
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 10,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmphan8wg4l/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8582236230013223
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 11,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpa0h09gvc/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8579687500005093
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 12,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpr015zyl_/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8600533739991079
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 13,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpmjl4u3rl/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8813822490010352
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 14,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpvfrbv1n1/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8578463969988661
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 15,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpti4z_4fz/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8921262839994597
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 16,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpd7xc35po/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.99851109500014
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 17,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpf8vfum_h/trial\n",
+    "stderr": "",
+    "wall_seconds": 2.064858663999985
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 18,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpeay_17ys/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8576296719984384
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 19,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmp2kf1z8z3/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9269475010005408
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 20,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpie7sg1r6/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.861791858000288
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 21,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmp2m5ri_er/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8767769179994502
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 22,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmp328lwodb/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8617763469992497
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 23,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpfln42oe4/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8608380629993917
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 24,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpathu_4gm/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8827761379998265
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 25,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpvlp07cgs/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8691310590002104
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 26,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpcxp6hb0l/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8542159120006545
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 27,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmprl8zwmz4/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8548751279995486
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 28,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmp9htuvczs/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8624346809992858
+  },
+  {
+    "cell": {
+      "participants": 1,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 29,
+    "exit": 0,
+    "stdout": "Completed 4 real and 0 dummy invocations across 1 clients. Results: /tmp/tmpphzh71s1/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.8606126129998302
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 0,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmp4d7mlfoe/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1566851690004114
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 1,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpuo23oiry/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.157268765000481
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 2,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmphbmnxvqp/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1607951120004145
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 3,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmp9be4pgmk/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1609147929993924
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 4,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpx3lcr0up/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.158211484000276
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 5,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmp32wwrb0m/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1581978789999994
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 6,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpbx110qdu/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1561624530004337
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 7,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpuk9x7ch0/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.152769978998549
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 8,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpw222vdd6/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1532999419996486
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 9,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmp71321_zy/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1580618749994755
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 10,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmp5j2nbwub/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1567314939984499
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 11,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmp2t95ghl5/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.183454852000068
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 12,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmp68ztwuw9/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.158850326000902
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 13,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpzn5gij4x/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1569013120006275
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 14,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmptw_3bl8i/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.15523650599971
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 15,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpievo4kme/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1565314649997163
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 16,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpxv7my3rx/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1531138319987804
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 17,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpmuune54e/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1562412930015853
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 18,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpuej__c8l/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.160462429999825
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 19,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmp310ftw92/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1643080539997754
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 20,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpfitdzog_/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1597061259999464
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 21,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpcebqmujo/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1542884680002317
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 22,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpq84vxwzc/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1566211339995789
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 23,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpqlg5b22r/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1588803970007575
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 24,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpbolkp8eh/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1652155809988471
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 25,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpvsb2c2mj/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1589781699985906
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 26,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpklzsq8ti/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1595118469995214
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 27,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpv7kze2uc/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.161236560999896
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 28,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmply54lte3/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.153345343998808
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 29,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpw6pnlghp/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.2684315490005247
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 0,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpyv8n44te/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.2646906200006924
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 1,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpj1p8zd9i/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.3038257970001723
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 2,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmp9go6znfo/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.2253265250001277
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 3,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpnj75edmr/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.177490856998702
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 4,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmptpnxl29e/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1663094720006484
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 5,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmp3_6apkbs/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1692357209994952
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 6,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmproe56uc6/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1680616430003283
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 7,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmp43cefy5f/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1698292569999467
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 8,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmp5d1o3ggt/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.179047088000516
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 9,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpdx419yfc/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1581404119988292
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 10,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpa2xntlx0/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1646949959995254
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 11,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpd66e39m2/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1686140109995904
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 12,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpvniqpqqg/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1687960580002255
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 13,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmp6mu0w9au/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1657512430010684
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 14,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmp7rshupis/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.173057123000035
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 15,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpu9nkwesq/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.206828141999722
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 16,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpcmvspq0f/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1624874890003412
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 17,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpm6bocpyg/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.162179446000664
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 18,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpxewv0b9j/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1563151650007057
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 19,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmp2pcd928t/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1531585430002451
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 20,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpxwjcknfs/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.157302522999089
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 21,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpuu0cpheo/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1585077620002266
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 22,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpplfuul5x/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.161885474999508
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 23,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmp64ou2wyz/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.159728221999103
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 24,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpsq_4_2ye/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1593057469999621
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 25,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmp4nhr2ngj/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1578276729997015
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 26,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmp0fyylyah/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1607280049993278
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 27,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpbrzr_gmk/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1594483650005714
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 28,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpzqkartl8/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1596462850011449
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 29,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmp1eofgoru/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1610438949992385
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 0,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpsyfljjp6/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.157208704000368
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 1,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpcnxi4zue/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1799822579996544
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 2,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpo0fi7lfe/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1574676999989606
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 3,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpenhwn3bg/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1644597619997512
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 4,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpcy290s8g/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.170366059999651
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 5,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmp6mffce0o/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1588085669991415
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 6,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpxzr2hn2i/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1718791069997678
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 7,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpj2bjmaew/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1609028009988833
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 8,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmphrx_pqxu/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1578769059997285
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 9,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpduijr7g5/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1773646420006116
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 10,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpw3wwyh_o/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1560087010002462
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 11,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpln4m1ufi/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.2239445800005342
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 12,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpffpb217l/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.165109924000717
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 13,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpb6tnlqpu/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1601742429993465
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 14,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpz3v0mip7/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1869387820006523
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 15,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmp_ezzjxra/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1566144799999165
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 16,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmp6ur3qqp_/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1860716120008874
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 17,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmplbw_duvt/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.163054471000578
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 18,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpqm14b38y/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1682221729988669
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 19,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmp8454xk0_/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1642536630006362
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 20,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpk8r7wne8/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1672202149984514
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 21,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpap853v0p/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.152746792000471
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 22,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmp9r98ibzp/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1949208969999745
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 23,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpj5xgizy9/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.239896946999579
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 24,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpa2uvn2vp/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.2753065809993132
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 25,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpha_i3t9c/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1861430410008325
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 26,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmp_1zniyv4/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1653135280012066
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 27,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpkpyce5sh/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1990128939996794
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 28,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmppmiifp3j/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1917493019991525
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 200,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 29,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmp4o4umzs8/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.1710727940007928
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 0,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpc08hle9o/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.974114319000364
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 1,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmp8xasy9di/trial\n",
+    "stderr": "",
+    "wall_seconds": 2.001145947000623
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 2,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpca73yno7/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9592794849995698
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 3,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpa_qn5e2m/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.962834218998978
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 4,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpc14gh7j3/trial\n",
+    "stderr": "",
+    "wall_seconds": 2.005993747001412
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 5,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpdhzkcecs/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9981242129997554
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 6,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmprd0m254_/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9509839410002314
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 7,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpcjlri21j/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9574394739993295
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 8,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpekm926r7/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.957730107000316
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 9,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpld7ls0j0/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9566807030005293
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 10,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpbzr7ucm5/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.979323266999927
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 11,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmp1ic3igjk/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9568360009998287
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 12,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmp1vjtt9_d/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9504530720005278
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 13,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpj4o9b_n9/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9717405720002716
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 14,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpdsm6ihqc/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9585821220007347
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 15,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmp8f446rnj/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9577324410001893
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 16,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmp3q9v3m09/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9875117390001833
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 17,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpl1bbfow7/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9598086940004578
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 18,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpmv0xw3bw/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9671075980004389
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 19,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpv_ugwkq_/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.967542725000385
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 20,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmptson37k_/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9513940179986093
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 21,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpgau19l7o/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9553376539988676
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 22,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmptf6si6dz/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9526929690000543
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 23,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmp08t361_i/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9618572569997923
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 24,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpxyli20us/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.971695557998828
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 25,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpam07c7wt/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9696120819990028
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 26,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpyvizvodk/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9509153809995041
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 27,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpbzfy08fh/trial\n",
+    "stderr": "",
+    "wall_seconds": 2.054009331000998
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 28,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmp5qvulh34/trial\n",
+    "stderr": "",
+    "wall_seconds": 2.084829716999593
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 0,
+      "epochs": 4
+    },
+    "trial": 29,
+    "exit": 0,
+    "stdout": "Completed 0 real and 8 dummy invocations across 2 clients. Results: /tmp/tmpqsuh26wv/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9640172990002611
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 0,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpnv2g5mqd/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9762818140006857
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 1,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpzy5v6s9z/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9697291829997994
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 2,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpqrt895q8/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9675870920000307
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 3,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmp58oenehc/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9722551200011367
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 4,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmp6wp0chk0/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9627088739998726
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 5,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpf75qtytn/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.966625262000889
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 6,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpvilp7l59/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9684303340000042
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 7,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpn54m98mt/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9548381730000983
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 8,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpy73_avzt/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9571849620006105
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 9,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmp5t7clvby/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.959209066000767
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 10,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpfvdjp9wf/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.974680110999543
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 11,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmp35wprqj1/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.963035643000694
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 12,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmp8gxr2h3a/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9588021139988996
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 13,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmp4p4a6adw/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9572210360001918
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 14,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpxes66xhj/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.95961037699999
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 15,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpb60dzk3f/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9716232890004903
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 16,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpdzy6z4ct/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9763824740002747
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 17,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmph7ugayrc/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9582810049996624
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 18,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmptb969wlk/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9605826860006346
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 19,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmph6_zklnj/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.978497697999046
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 20,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmp7xek6jz1/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9585024689986312
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 21,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpx_lwwqdd/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9562357699996937
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 22,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpazsu0_9c/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9574005829999805
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 23,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmp4dj1oxo4/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9588979879990802
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 24,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpmivs6k2e/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9530032640013815
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 25,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpyi8grrat/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9620854169988888
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 26,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpsor06kq7/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9984871990000102
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 27,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmplnoh5tci/trial\n",
+    "stderr": "",
+    "wall_seconds": 2.1680305089994363
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 28,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmp5u04j7rz/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9945771359998616
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 50,
+      "epochs": 4
+    },
+    "trial": 29,
+    "exit": 0,
+    "stdout": "Completed 4 real and 4 dummy invocations across 2 clients. Results: /tmp/tmpnrga5s7f/trial\n",
+    "stderr": "",
+    "wall_seconds": 2.0030965990008553
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 0,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpi5kg7ljj/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.961538647999987
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 1,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpd0ep7d51/trial\n",
+    "stderr": "",
+    "wall_seconds": 2.0128410369998164
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 2,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpvva95kux/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9625353789997462
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 3,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmp7bidaqtx/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.95418104700002
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 4,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmprgwd4fr_/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9632619179992616
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 5,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpo9vx7792/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9861397290005698
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 6,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpejdoh3nt/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9671350589997019
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 7,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmp_e7wzqof/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9602636830004485
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 8,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpgg0o7bhf/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.954084494000199
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 9,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpgyzmkkae/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9544675889992504
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 10,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmp2v6rla4e/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.968205962999491
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 11,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmp0wurz5e3/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9573993379999592
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 12,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmppv40klac/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9548493239999516
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 13,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmprpstbl_a/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9567743279985734
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 14,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpgmfdtbbz/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.951433571999587
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 15,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpofsld865/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9600402399992163
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 16,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpaxu37g59/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9601248719991418
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 17,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpohfi0wxi/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9545112569994672
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 18,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmptsf8mex2/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9559877319989027
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 19,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpwb_6df9y/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9563410049995582
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 20,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmp_rvdo6ki/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9555189780003275
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 21,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpelfbehy5/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9610319739986153
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 22,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmplxhhh_32/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9505288660002407
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 23,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmp74ozbnoe/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9552020230003109
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 24,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpw9w0qqbh/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9821706549992086
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 25,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpclpvag5n/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9619266000008793
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 26,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmplg_7b7w3/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.953055232999759
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 27,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpr1jc83hy/trial\n",
+    "stderr": "",
+    "wall_seconds": 2.0445687749997887
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 28,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmply0upgrd/trial\n",
+    "stderr": "",
+    "wall_seconds": 2.065279500999168
+  },
+  {
+    "cell": {
+      "participants": 2,
+      "epoch_ms": 400,
+      "real_percent": 100,
+      "epochs": 4
+    },
+    "trial": 29,
+    "exit": 0,
+    "stdout": "Completed 8 real and 0 dummy invocations across 2 clients. Results: /tmp/tmpob5499az/trial\n",
+    "stderr": "",
+    "wall_seconds": 1.9698586869999417
+  }
+]

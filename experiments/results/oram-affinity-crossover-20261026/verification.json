@@ -1,0 +1,18 @@
+{
+  "raw_session_files_verified": 2880,
+  "source_and_binary_files_verified": 6,
+  "paired_trial_session_sets_verified": 240,
+  "stream_count_per_paired_session": 6,
+  "condition_order_counts": {
+    "pinned": 15,
+    "unpinned": 15
+  },
+  "positive_control_groups_passed": 4,
+  "crossover_collector_invocations": 180,
+  "service_child_sessions": 1440,
+  "pinned_final_session_effective_affinity_records_verified": 90,
+  "all_raw_hashes_recomputed": true,
+  "archive_file_count": 3060,
+  "archive_sha256": "c17651b78dc73bd3fcefd81446e1e90360b022685da9d5282cef251ee4e1d5ba",
+  "collection_report_recovery": "post-collection analysis only; no sessions repeated"
+}

@@ -1,0 +1,75 @@
+{
+  "raw_sha256_entries_verified": 1440,
+  "paired_trial_session_schedules": 240,
+  "source_sha256_verified": {
+    "research/analysis/oram_isolated_replication.py": true,
+    "research/attacks/leaf_timing.py": true,
+    "target/release/examples/oram-measure": true,
+    "target/release/examples/oram-control": true,
+    "experiments/configs/oram-isolated-zipf32-replication-20261026.json": true
+  },
+  "process_metadata": {
+    "plaintext": {
+      "child_session_records": 240,
+      "outer_trials_by_append_order": 30,
+      "distinct_worker_pids": 240,
+      "effective_cpu_masks": [
+        "0-23"
+      ]
+    },
+    "encrypt_only": {
+      "child_session_records": 240,
+      "outer_trials_by_append_order": 30,
+      "distinct_worker_pids": 240,
+      "effective_cpu_masks": [
+        "0-23"
+      ]
+    },
+    "oram": {
+      "child_session_records": 240,
+      "outer_trials_by_append_order": 30,
+      "distinct_worker_pids": 240,
+      "effective_cpu_masks": [
+        "0-23"
+      ]
+    }
+  },
+  "prediction_metric_recomputation": {
+    "plaintext": {
+      "trials": 30,
+      "mean_auc": 1.0
+    },
+    "encrypt_only": {
+      "trials": 30,
+      "mean_auc": 1.0
+    },
+    "oram": {
+      "trials": 30,
+      "mean_auc": 0.5003071239186523
+    }
+  },
+  "observed_class_prevalence": {
+    "plaintext": {
+      "hot": 36099,
+      "total": 61440,
+      "fraction": 0.587548828125
+    },
+    "encrypt_only": {
+      "hot": 36099,
+      "total": 61440,
+      "fraction": 0.587548828125
+    },
+    "oram": {
+      "hot": 36099,
+      "total": 61440,
+      "fraction": 0.587548828125
+    }
+  },
+  "review_scope": "Raw hashes, paired addresses/operations, session counts/splits, process metadata and saved prediction metrics checked. Classifier fitting was not independently reimplemented.",
+  "archive": {
+    "path": "trace-data.tar.gz",
+    "sha256": "bb4a81c14c70c7f6648324d8c1c5c212bc006b01890b51ccccc7a09a2c597c85",
+    "raw_trace_files_extracted_and_verified": 1440,
+    "prediction_files": 90
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "label": "synthetic explicitly labeled sensitivity scenarios",
+  "seed": 20261024,
+  "sessions": 240,
+  "train_fraction": 0.25,
+  "epochs": 64,
+  "bootstrap_replicates": 2000,
+  "positive_controls": ["strong_stable_control", "strong_churn_control"],
+  "scenarios": [
+    {
+      "name": "strong_stable_control",
+      "description": "Positive control: strong semantic signal, stable enrollment, few missed cover observations, fixed eight-client population.",
+      "population": [8, 8],
+      "beacon_sensitivity": 0.98,
+      "beacon_false_positive": 0.02,
+      "enrollment_churn": 0.01,
+      "missed_cover_rate": 0.02,
+      "owner_online_probability": 0.98
+    },
+    {
+      "name": "strong_churn_control",
+      "description": "Positive control: strong semantic signal under substantial enrollment churn and a changing client population.",
+      "population": [6, 12],
+      "beacon_sensitivity": 0.98,
+      "beacon_false_positive": 0.02,
+      "enrollment_churn": 0.30,
+      "missed_cover_rate": 0.05,
+      "owner_online_probability": 0.90
+    },
+    {
+      "name": "weaker_semantic_beacon",
+      "description": "Reduced semantic signal with moderate false positives; stable population and low churn.",
+      "population": [8, 8],
+      "beacon_sensitivity": 0.70,
+      "beacon_false_positive": 0.20,
+      "enrollment_churn": 0.03,
+      "missed_cover_rate": 0.05,
+      "owner_online_probability": 0.90
+    },
+    {
+      "name": "high_beacon_noise",
+      "description": "Weak distinction between beacon events and non-events, with otherwise stable enrollment.",
+      "population": [8, 8],
+      "beacon_sensitivity": 0.58,
+      "beacon_false_positive": 0.42,
+      "enrollment_churn": 0.03,
+      "missed_cover_rate": 0.05,
+      "owner_online_probability": 0.90
+    },
+    {
+      "name": "high_enrollment_churn",
+      "description": "Strong beacon semantics but rapid enrollment state changes and moderate missed cover observations.",
+      "population": [8, 8],
+      "beacon_sensitivity": 0.98,
+      "beacon_false_positive": 0.02,
+      "enrollment_churn": 0.45,
+      "missed_cover_rate": 0.25,
+      "owner_online_probability": 0.90
+    },
+    {
+      "name": "high_missed_cover",
+      "description": "Strong beacon semantics with frequent missed cover observations.",
+      "population": [8, 8],
+      "beacon_sensitivity": 0.98,
+      "beacon_false_positive": 0.02,
+      "enrollment_churn": 0.03,
+      "missed_cover_rate": 0.55,
+      "owner_online_probability": 0.90
+    },
+    {
+      "name": "changing_population",
+      "description": "Strong signal with client populations varying from four to sixteen candidates between whole sessions.",
+      "population": [4, 16],
+      "beacon_sensitivity": 0.98,
+      "beacon_false_positive": 0.02,
+      "enrollment_churn": 0.08,
+      "missed_cover_rate": 0.10,
+      "owner_online_probability": 0.90
+    },
+    {
+      "name": "combined_adverse_conditions",
+      "description": "Reduced semantic signal combined with churn, missed cover observations, and changing client populations.",
+      "population": [4, 16],
+      "beacon_sensitivity": 0.72,
+      "beacon_false_positive": 0.24,
+      "enrollment_churn": 0.35,
+      "missed_cover_rate": 0.40,
+      "owner_online_probability": 0.75
+    }
+  ]
+}

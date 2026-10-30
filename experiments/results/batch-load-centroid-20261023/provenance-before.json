@@ -1,0 +1,40 @@
+{
+  "command": [
+    "scripts/evaluate_batch_load.py",
+    "--config",
+    "experiments/configs/batch-load-centroid-20261023.json",
+    "--output",
+    "experiments/results/batch-load-centroid-20261023"
+  ],
+  "git_head": "395be9eb5c6a33e89ebcc70d84c017e7b6267d00",
+  "source_sha256_before": {
+    "crates/oblivion-batcher/src/lib.rs": "32a75bd848441000e5fc12bd284eb4d532033953f60d94f2db63fbe4e6103577",
+    "crates/oblivion-batcher/src/envelope.rs": "5cf5822b66464d9219acda5a286e1159c1c909d137a6485e5a1395c8e709e408",
+    "crates/oblivion-batcher/examples/load_trace.rs": "0f24926699d7704708459f480ed2fa08e4e58d1fff0782e983944380bbc10e39",
+    "research/attacks/batch_load.py": "43784799db10b76091cfefd73c20e3e79540c8871225317fe26f581a458d8107",
+    "research/attacks/registry.py": "58b2070e2dac75a8f8f12255f6b0eeb5f8adf4b321a6b8bd482e7ec1274d2d1c",
+    "research/tests/test_batch_load.py": "6d161621784d03b0c062c2f7a0391ed049be62a3750f0b37b0be615034908f9c",
+    "scripts/evaluate_batch_load.py": "66ffda82492c7422e52881c804b2583e15f3d04f83cc5a238a31fbed40eb11f1"
+  },
+  "source_snapshot_sha256": {
+    "crates/oblivion-batcher/src/lib.rs": "32a75bd848441000e5fc12bd284eb4d532033953f60d94f2db63fbe4e6103577",
+    "crates/oblivion-batcher/src/envelope.rs": "5cf5822b66464d9219acda5a286e1159c1c909d137a6485e5a1395c8e709e408",
+    "crates/oblivion-batcher/examples/load_trace.rs": "0f24926699d7704708459f480ed2fa08e4e58d1fff0782e983944380bbc10e39",
+    "research/attacks/batch_load.py": "43784799db10b76091cfefd73c20e3e79540c8871225317fe26f581a458d8107",
+    "research/attacks/registry.py": "58b2070e2dac75a8f8f12255f6b0eeb5f8adf4b321a6b8bd482e7ec1274d2d1c",
+    "research/tests/test_batch_load.py": "6d161621784d03b0c062c2f7a0391ed049be62a3750f0b37b0be615034908f9c",
+    "scripts/evaluate_batch_load.py": "66ffda82492c7422e52881c804b2583e15f3d04f83cc5a238a31fbed40eb11f1"
+  },
+  "binary_sha256_before": "49ebfcb82d58dbf78320e245df2921c706e54fafc6418196f579e558a1560e05",
+  "binary_snapshot_path": "bin/load_trace",
+  "config_sha256": "73325ef9393a1f76301659fd56924c149ddf2f604697ea58bdfc28834837ab8f",
+  "python": "3.14.8 (main, Oct  2 2026, 10:23:31) [GCC 16.2.1 20260810]",
+  "numpy": "2.5.4",
+  "sklearn": "1.9.1",
+  "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13) (Arch Linux rust 1:1.99.1-1)",
+  "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+  "processor": "",
+  "cpu_model": "Intel(R) Core(TM) i7-14650HX",
+  "before_first_measurement": true,
+  "metric": "Squared Euclidean distance to authorized class means across all22fixed-unit features; no learned variance weights or confidence."
+}

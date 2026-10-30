@@ -1,0 +1,9 @@
+...............................Error: "invalid real postings or padding"
+Error: "invalid real postings or padding"
+......................................................................................................
+----------------------------------------------------------------------
+Ran 133 tests in 16.003s
+
+OK
+{"output": "/tmp/tmpu55be5zi/a", "positive_controls": [{"accuracy": {"ci95": [0.3333333333333333, 1.0], "mean": 0.6666666666666666, "unit": "whole independent test session"}, "lower_ci95_exceeds_uniform_random": true, "scenario": "positive_control", "uniform_random_expected_accuracy": 0.25}], "scenarios": 1}
+{"output": "/tmp/tmpu55be5zi/b", "positive_controls": [{"accuracy": {"ci95": [0.3333333333333333, 1.0], "mean": 0.6666666666666666, "unit": "whole independent test session"}, "lower_ci95_exceeds_uniform_random": true, "scenario": "positive_control", "uniform_random_expected_accuracy": 0.25}], "scenarios": 1}

@@ -1,0 +1,42 @@
+{
+  "config": {
+    "seed": 20261025,
+    "trials": 30,
+    "period_ms": 25,
+    "epochs": 100,
+    "real_percent": 50,
+    "participants": [
+      1,
+      8,
+      32,
+      64
+    ],
+    "primary_metrics": [
+      "queue_wait_p95_ns",
+      "frames_per_second"
+    ],
+    "ci_method": "5000 bootstrap resamples of independent process-trial means",
+    "provider_cost_model": null
+  },
+  "source_sha256": {
+    "crates/oblivion-batcher/src/envelope.rs": "5cf5822b66464d9219acda5a286e1159c1c909d137a6485e5a1395c8e709e408",
+    "crates/oblivion-batcher/src/lib.rs": "32a75bd848441000e5fc12bd284eb4d532033953f60d94f2db63fbe4e6103577",
+    "crates/oblivion-batcher/Cargo.toml": "9e169ec16de7e63c123d3b58ff7a9d93a81eb91010cc7a40a20ee3e792159ed7",
+    "crates/oblivion-batcher/examples/batch_measure.rs": "99ed370c0d30b9b1b01a23899bdf18b958b6fdf56b2f25c654e80cc12734af6c",
+    "research/analysis/population_sweep.py": "9fbeb21b041b4590240d80c75f9a5555f33ac327befad7a623be99372393e636",
+    "experiments/configs/population-sweep-20261025.json": "533e4bd0af387abbf19444ae08840b64f1ea2dbeba676ff17c525eb25af21aa5",
+    "target/release/examples/batch_measure": "e2386b4715343d035f66c1752c4f311146183e831d54cf9b725b33e291abacf7",
+    "Cargo.lock": "81d3da9440ed8bd9ac31e4d4cc346a2e91f3845b106de01d4c768b10bd25d430"
+  },
+  "git_head": "a50cec233abceb76a885ad5b512b955d1f988495",
+  "git_status": "?? .ignore\n?? experiments/results/oram-isolated-replication-20261025/auc.png\n?? experiments/results/oram-isolated-replication-20261025/config.json\n?? experiments/results/oram-isolated-replication-20261025/predictions/\n?? experiments/results/oram-isolated-replication-20261025/raw/\n?? experiments/results/population-sweep-20261025/\n?? experiments/results/validation-20261025-oram/\n",
+  "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13) (Arch Linux rust 1:1.99.1-1)\nbinary: rustc\ncommit-hash: 58cf8f9c35b355199727627d07ae34a4e2846d67\ncommit-date: 2026-10-13\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.1\nLLVM version: 23.1.3\n",
+  "python": "3.14.8 (main, Oct  2 2026, 10:23:31) [GCC 16.2.1 20260810]",
+  "numpy": "2.5.4",
+  "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+  "cpu": "",
+  "methodology": "Local process runs the real epoch batcher with authenticated endpoints. Each session has independent seeded arrival phases. One envelope per configured participant per epoch; raw observer data and ground-truth real/dummy labels are stored separately.",
+  "limitations": "All simulated clients and the batcher run in one local process; no network, WASM executor, ORAM store, provider bill or concurrent cross-machine clients are measured.",
+  "completed_unix_ns": 1792811383357588587,
+  "binary_sha256_after_run": "e2386b4715343d035f66c1752c4f311146183e831d54cf9b725b33e291abacf7"
+}

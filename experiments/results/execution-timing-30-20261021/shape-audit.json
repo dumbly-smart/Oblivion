@@ -1,0 +1,19 @@
+{
+  "protected_observations": 960,
+  "bucket_events": 122880,
+  "bucket_bytes_each": 316,
+  "request_response_bytes_each": 164,
+  "all_oracles_passed": true,
+  "deadline_misses": 0,
+  "mean_response_ms": 100.12448614791666,
+  "class_response_mean_ms": {
+    "0": 100.11292225833334,
+    "1": 100.14868849166666,
+    "2": 100.11878034166666,
+    "3": 100.125954925,
+    "4": 100.12701594166666,
+    "5": 100.12256661666666,
+    "6": 100.118636575,
+    "7": 100.12132403333334
+  }
+}

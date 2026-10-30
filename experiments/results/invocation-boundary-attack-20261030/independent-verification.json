@@ -1,0 +1,58 @@
+{
+  "control_auc": {
+    "A": 1.0,
+    "B": 0.6895833333333333
+  },
+  "control_gate_verified": true,
+  "format_version": 1,
+  "integrity": {
+    "analysis_outputs_hashed": 4,
+    "config_verified": true,
+    "harness_binary_verified": true,
+    "raw_files_hashed": 8404,
+    "source_files_verified": 7
+  },
+  "limitations": [
+    "The data are a local in-process component-boundary simulation, not packet capture or remote network timing.",
+    "The positive-control gate failed; no C\u2013G attack scores are present or accepted.",
+    "The result does not establish cryptographic indistinguishability or security."
+  ],
+  "mode_metrics_recomputed": [
+    {
+      "mode": "A",
+      "observations_verified": 480,
+      "trials_verified": 30
+    },
+    {
+      "mode": "B",
+      "observations_verified": 480,
+      "trials_verified": 30
+    }
+  ],
+  "positive_controls_passed": false,
+  "protected_scoring": "omitted_control_failure",
+  "raw_collection": {
+    "ground_truth_rows_verified": 13440,
+    "invocation_events_by_mode": {
+      "A": 1920,
+      "B": 1920,
+      "C": 1920,
+      "D": 1920,
+      "E": 3840,
+      "F": 1920,
+      "G": 3840
+    },
+    "invocation_observations_by_mode": {
+      "A": 960,
+      "B": 960,
+      "C": 960,
+      "D": 960,
+      "E": 1920,
+      "F": 960,
+      "G": 1920
+    },
+    "session_directories_verified": 1680
+  },
+  "study": "invocation-boundary-function-identity",
+  "verified_utc": "2026-10-30T11:35:39.843282+00:00"
+}

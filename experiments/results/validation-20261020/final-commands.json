@@ -1,0 +1,52 @@
+[
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--all",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 0.0609881239997776,
+    "log": "final-check-0.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--workspace",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "exit_code": 0,
+    "seconds": 0.2726379799987626,
+    "log": "final-check-1.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--workspace"
+    ],
+    "exit_code": 0,
+    "seconds": 15.266517117001058,
+    "log": "final-check-2.log"
+  },
+  {
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "research/tests"
+    ],
+    "exit_code": 0,
+    "seconds": 0.7649253479994513,
+    "log": "final-check-3.log"
+  }
+]

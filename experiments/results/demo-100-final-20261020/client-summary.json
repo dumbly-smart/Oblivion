@@ -1,0 +1,18 @@
+{
+  "dummy_invocations": 0,
+  "encrypted_pir_links": true,
+  "epoch_ms": 20,
+  "execution_class_ms": 10,
+  "last_real_counter": 8,
+  "limitations": [
+    "PIR servers must not collude",
+    "OS pipes simulate private provisioning, not a hardware TEE",
+    "in-memory ORAM backend; no durable restart",
+    "only one stateful function and one participant in this demo; no general composition claim"
+  ],
+  "processes": 4,
+  "real_invocations": 8,
+  "real_percent": 100,
+  "request_bytes": 164,
+  "response_bytes": 164
+}

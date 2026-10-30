@@ -1,0 +1,3794 @@
+[
+  {
+    "class": "small",
+    "mode": "control",
+    "trials": 30,
+    "engine_ns": {
+      "mean": 119377.86666666667,
+      "ci95": [
+        109501.63333333333,
+        130404.2
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "compile_ns": {
+      "mean": 5376416.633333334,
+      "ci95": [
+        4992947.133333334,
+        5781977.266666667
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "cpu_seconds": {
+      "mean": 0.009067933333333333,
+      "ci95": [
+        0.0085826,
+        0.009574599999999999
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "max_rss_kib": {
+      "mean": 43032,
+      "ci95": [
+        43032,
+        43032
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "deadline_misses": 0,
+    "calls": [
+      {
+        "function": 0,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 50893.166666666664,
+          "ci95": [
+            34613.933333333334,
+            70082.86666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50697.03333333333,
+          "ci95": [
+            34464.5,
+            69847.9
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 37.36666666666667,
+          "ci95": [
+            32.1,
+            43.166666666666664
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 0,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 26119.566666666666,
+          "ci95": [
+            19264.833333333332,
+            34986.566666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 26009,
+          "ci95": [
+            19183.733333333334,
+            34876.13333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 29.766666666666666,
+          "ci95": [
+            25.933333333333334,
+            35.13333333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 39735.76666666667,
+          "ci95": [
+            25939.766666666666,
+            54175.46666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 39577.96666666667,
+          "ci95": [
+            25826.166666666668,
+            53980
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 36.86666666666667,
+          "ci95": [
+            30.3,
+            43.93333333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 26351.9,
+          "ci95": [
+            18629.7,
+            36478.5
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 26253.533333333333,
+          "ci95": [
+            18540.033333333333,
+            36370.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 27.666666666666668,
+          "ci95": [
+            24.9,
+            30.733333333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 29278.066666666666,
+          "ci95": [
+            17897.066666666666,
+            44075.9
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 29155.533333333333,
+          "ci95": [
+            17811.333333333332,
+            43901.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 31.166666666666668,
+          "ci95": [
+            25.566666666666666,
+            38.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 19394.266666666666,
+          "ci95": [
+            15848.533333333333,
+            24090.033333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 19296,
+          "ci95": [
+            15764.233333333334,
+            23973.3
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 32,
+          "ci95": [
+            25.133333333333333,
+            41.86666666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 24543.5,
+          "ci95": [
+            18472.633333333335,
+            31973.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 24426.533333333333,
+          "ci95": [
+            18383.5,
+            31809.833333333332
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 31.766666666666666,
+          "ci95": [
+            26.9,
+            37.1
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 21941.8,
+          "ci95": [
+            16247.066666666668,
+            28680.866666666665
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 21850.433333333334,
+          "ci95": [
+            16164.9,
+            28564.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 28.866666666666667,
+          "ci95": [
+            25.066666666666666,
+            33.833333333333336
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 81536.9,
+          "ci95": [
+            64645.333333333336,
+            101924.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 81399,
+          "ci95": [
+            64544.433333333334,
+            101737.23333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 16,
+          "ci95": [
+            16,
+            16
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 33.06666666666667,
+          "ci95": [
+            29,
+            37.5
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 61893.46666666667,
+          "ci95": [
+            53413.46666666667,
+            71618.1
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 61792.666666666664,
+          "ci95": [
+            53308.8,
+            71516.5
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 16,
+          "ci95": [
+            16,
+            16
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 33.3,
+          "ci95": [
+            26.033333333333335,
+            44.46666666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 80861.83333333333,
+          "ci95": [
+            62230.933333333334,
+            104023.26666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 80691.73333333334,
+          "ci95": [
+            62093.666666666664,
+            103826.76666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 88.26666666666667,
+          "ci95": [
+            72.96666666666667,
+            111.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 80004.73333333334,
+          "ci95": [
+            62015.13333333333,
+            100927.5
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 79898.6,
+          "ci95": [
+            61910.066666666666,
+            100801.7
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 47.03333333333333,
+          "ci95": [
+            40.53333333333333,
+            55.1
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      }
+    ]
+  },
+  {
+    "class": "small",
+    "mode": "protected",
+    "trials": 30,
+    "engine_ns": {
+      "mean": 160725.46666666667,
+      "ci95": [
+        144225.06666666668,
+        178955.36666666667
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "compile_ns": {
+      "mean": 7116781.966666667,
+      "ci95": [
+        6339310.3,
+        7875343.133333334
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "cpu_seconds": {
+      "mean": 0.02541543333333333,
+      "ci95": [
+        0.023907066666666667,
+        0.026761966666666664
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "max_rss_kib": {
+      "mean": 43032,
+      "ci95": [
+        43032,
+        43032
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "deadline_misses": 0,
+    "calls": [
+      {
+        "function": 0,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 100090009.23333333,
+          "ci95": [
+            100074587.46666667,
+            100104059.53333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50327522.9,
+          "ci95": [
+            50293095.666666664,
+            50359520.43333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49761126.86666667,
+          "ci95": [
+            49724546.36666667,
+            49796481.43333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 0,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 100071831.46666667,
+          "ci95": [
+            100063193.2,
+            100083206.46666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50331263.53333333,
+          "ci95": [
+            50300450.7,
+            50363602.833333336
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49739133.1,
+          "ci95": [
+            49707536.56666667,
+            49768933.96666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 100079634.4,
+          "ci95": [
+            100066489.96666667,
+            100094865.06666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50332746.266666666,
+          "ci95": [
+            50297119.63333333,
+            50368006.833333336
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49745560.53333333,
+          "ci95": [
+            49707257.06666667,
+            49781744.666666664
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 100113406.36666666,
+          "ci95": [
+            100068002.63333334,
+            100187667.76666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50350928.5,
+          "ci95": [
+            50316697.93333333,
+            50387062.56666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49760964.2,
+          "ci95": [
+            49695628.63333333,
+            49853608.7
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 100101227.86666666,
+          "ci95": [
+            100079470.9,
+            100135236.06666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50326730.766666666,
+          "ci95": [
+            50292961.36666667,
+            50360057.1
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49773163.8,
+          "ci95": [
+            49732584.3,
+            49819294.333333336
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 100085479.5,
+          "ci95": [
+            100073525.76666667,
+            100098078.9
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50380696.7,
+          "ci95": [
+            50325930.96666667,
+            50452088.7
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49703384.93333333,
+          "ci95": [
+            49629491.766666666,
+            49757535.03333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 100088039.9,
+          "ci95": [
+            100074257.23333333,
+            100102737.56666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50364927.5,
+          "ci95": [
+            50329942.1,
+            50402479.63333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49721680.96666667,
+          "ci95": [
+            49682296.86666667,
+            49758888.63333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 100094360,
+          "ci95": [
+            100070968.86666666,
+            100131217.1
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50360819.56666667,
+          "ci95": [
+            50321453.4,
+            50400016.63333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49732227.9,
+          "ci95": [
+            49683333.9,
+            49793139.06666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 100099629.7,
+          "ci95": [
+            100080111.8,
+            100121104.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50338946.833333336,
+          "ci95": [
+            50298601.53333333,
+            50378911
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49759382.833333336,
+          "ci95": [
+            49723769.2,
+            49793181.3
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 100082592.1,
+          "ci95": [
+            100072017.23333333,
+            100095023.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50329073.733333334,
+          "ci95": [
+            50289617.233333334,
+            50369056.266666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49752076.233333334,
+          "ci95": [
+            49712537.56666667,
+            49789472.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 100089551.86666666,
+          "ci95": [
+            100076778.1,
+            100102958.36666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50364196.36666667,
+          "ci95": [
+            50323806.333333336,
+            50403329.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49723902.7,
+          "ci95": [
+            49688643,
+            49759757.266666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 100074768.3,
+          "ci95": [
+            100064674.86666666,
+            100087513.63333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 50356326.46666667,
+          "ci95": [
+            50319536.86666667,
+            50393960.53333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 49717069.8,
+          "ci95": [
+            49680598.733333334,
+            49755215.86666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      }
+    ]
+  },
+  {
+    "class": "medium",
+    "mode": "control",
+    "trials": 30,
+    "engine_ns": {
+      "mean": 108466.13333333333,
+      "ci95": [
+        99551.13333333333,
+        119148.46666666666
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "compile_ns": {
+      "mean": 5686153.466666667,
+      "ci95": [
+        5118487.233333333,
+        6405560.833333333
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "cpu_seconds": {
+      "mean": 0.010438466666666667,
+      "ci95": [
+        0.009369033333333332,
+        0.0117228
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "max_rss_kib": {
+      "mean": 43032,
+      "ci95": [
+        43032,
+        43032
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "deadline_misses": 0,
+    "calls": [
+      {
+        "function": 0,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 41143.46666666667,
+          "ci95": [
+            27276.266666666666,
+            57466.73333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 40978.8,
+          "ci95": [
+            27152.066666666666,
+            57253.36666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 38.666666666666664,
+          "ci95": [
+            30.9,
+            47.833333333333336
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 0,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 23649.033333333333,
+          "ci95": [
+            17023.7,
+            32464.466666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 23540.866666666665,
+          "ci95": [
+            16928,
+            32330.433333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 29.533333333333335,
+          "ci95": [
+            24.7,
+            35.36666666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 35552,
+          "ci95": [
+            26030.266666666666,
+            46127.86666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 35412.933333333334,
+          "ci95": [
+            25908.4,
+            45960.9
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 35.86666666666667,
+          "ci95": [
+            29.566666666666666,
+            43.46666666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 25240.766666666666,
+          "ci95": [
+            18328.266666666666,
+            33354.96666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 25145.133333333335,
+          "ci95": [
+            18243.533333333333,
+            33252.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 30.2,
+          "ci95": [
+            25.466666666666665,
+            35.733333333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 30591.966666666667,
+          "ci95": [
+            19883.266666666666,
+            43541.833333333336
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 30455.8,
+          "ci95": [
+            19767.4,
+            43379.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 36.06666666666667,
+          "ci95": [
+            28.933333333333334,
+            43.766666666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 20358.666666666668,
+          "ci95": [
+            14276.3,
+            27449.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 20261.933333333334,
+          "ci95": [
+            14191.766666666666,
+            27346.033333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 29.966666666666665,
+          "ci95": [
+            25.266666666666666,
+            36.3
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 22087.366666666665,
+          "ci95": [
+            16961.9,
+            27804.166666666668
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 21970.1,
+          "ci95": [
+            16873.266666666666,
+            27658.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 31.5,
+          "ci95": [
+            26.6,
+            37.766666666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 21361.4,
+          "ci95": [
+            15882.333333333334,
+            27121.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 21265.4,
+          "ci95": [
+            15794.366666666667,
+            27014.566666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 29.7,
+          "ci95": [
+            25.333333333333332,
+            35.266666666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 76329.8,
+          "ci95": [
+            61841.566666666666,
+            92372.7
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 76198.76666666666,
+          "ci95": [
+            61746.1,
+            92197.13333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 16,
+          "ci95": [
+            16,
+            16
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 33.1,
+          "ci95": [
+            27.966666666666665,
+            38.43333333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 61832.166666666664,
+          "ci95": [
+            51871.333333333336,
+            74844.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 61721.566666666666,
+          "ci95": [
+            51780.03333333333,
+            74699.33333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 4,
+          "ci95": [
+            4,
+            4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 16,
+          "ci95": [
+            16,
+            16
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 30.133333333333333,
+          "ci95": [
+            25.1,
+            36.3
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 623845.2333333333,
+          "ci95": [
+            456458.86666666664,
+            822691.3333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 623638.8666666667,
+          "ci95": [
+            456285.63333333336,
+            822455.1333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 100.26666666666667,
+          "ci95": [
+            83.2,
+            119.36666666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 640222.3333333334,
+          "ci95": [
+            496193.0333333333,
+            810497.8333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 640059.9,
+          "ci95": [
+            496074.76666666666,
+            810313.6666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 69.83333333333333,
+          "ci95": [
+            48.8,
+            99.43333333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      }
+    ]
+  },
+  {
+    "class": "medium",
+    "mode": "protected",
+    "trials": 30,
+    "engine_ns": {
+      "mean": 150609.3,
+      "ci95": [
+        134724.16666666666,
+        168703.5
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "compile_ns": {
+      "mean": 7221395.533333333,
+      "ci95": [
+        6439491.166666667,
+        8083505
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "cpu_seconds": {
+      "mean": 0.03185166666666667,
+      "ci95": [
+        0.03003543333333333,
+        0.033683566666666664
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "max_rss_kib": {
+      "mean": 43032,
+      "ci95": [
+        43032,
+        43032
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "deadline_misses": 0,
+    "calls": [
+      {
+        "function": 0,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 200085434.16666666,
+          "ci95": [
+            200071940.2,
+            200101076.93333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100366525.1,
+          "ci95": [
+            100320929.4,
+            100415469.96666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99717438.76666667,
+          "ci95": [
+            99662902.2,
+            99764852.26666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 0,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 200079900.56666666,
+          "ci95": [
+            200069486.8,
+            200092767.36666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100329739.16666667,
+          "ci95": [
+            100291138.2,
+            100376409.63333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99748662.13333334,
+          "ci95": [
+            99703975.26666667,
+            99786297.73333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 200093770.9,
+          "ci95": [
+            200080297,
+            200106926.06666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100329520.2,
+          "ci95": [
+            100288943.9,
+            100375007.76666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99762718.93333334,
+          "ci95": [
+            99723591.43333334,
+            99798573.26666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 200083721.03333333,
+          "ci95": [
+            200072308.1,
+            200098025.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100345531,
+          "ci95": [
+            100299065.2,
+            100397191.16666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99736696.73333333,
+          "ci95": [
+            99684328.83333333,
+            99783179.96666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 200085557,
+          "ci95": [
+            200073673.7,
+            200098762.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100404951.76666667,
+          "ci95": [
+            100355003.13333334,
+            100449098.93333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99679092.66666667,
+          "ci95": [
+            99632078.7,
+            99725764.53333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 200108214,
+          "ci95": [
+            200075151.03333333,
+            200158585.36666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100324697.23333333,
+          "ci95": [
+            100284147,
+            100369230.63333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99781832.2,
+          "ci95": [
+            99725202.1,
+            99847578.5
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 200092741.86666667,
+          "ci95": [
+            200078892.26666668,
+            200109225.13333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100355060.6,
+          "ci95": [
+            100316676.8,
+            100395242.23333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99736087.33333333,
+          "ci95": [
+            99693229.9,
+            99772339.13333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 200089245.73333332,
+          "ci95": [
+            200074712.36666667,
+            200104888.16666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100349061.76666667,
+          "ci95": [
+            100309095.16666667,
+            100388214.46666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99738656.13333334,
+          "ci95": [
+            99695547.9,
+            99780161.1
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 200073285.13333333,
+          "ci95": [
+            200066147.8,
+            200081904.96666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100321243.46666667,
+          "ci95": [
+            100276259.83333333,
+            100364313.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99750612.46666667,
+          "ci95": [
+            99707257.66666667,
+            99794919.33333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 200092724.9,
+          "ci95": [
+            200076296.53333333,
+            200109257.36666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100333812.8,
+          "ci95": [
+            100291917.4,
+            100379823.06666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99756847.2,
+          "ci95": [
+            99710680.03333333,
+            99797813.63333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 200087066.26666668,
+          "ci95": [
+            200070074.96666667,
+            200107400.43333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100350363.53333333,
+          "ci95": [
+            100313879.96666667,
+            100391153.86666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99735194.56666666,
+          "ci95": [
+            99690284.46666667,
+            99773274.33333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 200081305.56666666,
+          "ci95": [
+            200070183.83333334,
+            200094079.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 100333656.86666666,
+          "ci95": [
+            100302717.4,
+            100363315.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 256,
+          "ci95": [
+            256,
+            256
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 99746162.66666667,
+          "ci95": [
+            99718831.66666667,
+            99774898.73333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      }
+    ]
+  },
+  {
+    "class": "small_lowfuel",
+    "mode": "control",
+    "trials": 30,
+    "engine_ns": {
+      "mean": 139067.3,
+      "ci95": [
+        122272.6,
+        156740.03333333333
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "compile_ns": {
+      "mean": 7084703.3,
+      "ci95": [
+        6416095.366666666,
+        7743980.333333333
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "cpu_seconds": {
+      "mean": 0.011687099999999999,
+      "ci95": [
+        0.010640499999999999,
+        0.0127307
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "max_rss_kib": {
+      "mean": 43032,
+      "ci95": [
+        43032,
+        43032
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "deadline_misses": 0,
+    "calls": [
+      {
+        "function": 0,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 64121.9,
+          "ci95": [
+            41256.36666666667,
+            89037.56666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 63889.26666666667,
+          "ci95": [
+            41069.73333333333,
+            88781.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 58.13333333333333,
+          "ci95": [
+            51.06666666666667,
+            65.23333333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 0,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 36416.46666666667,
+          "ci95": [
+            25789.233333333334,
+            49522.5
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 36270,
+          "ci95": [
+            25672.3,
+            49371.7
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 42.96666666666667,
+          "ci95": [
+            35.86666666666667,
+            51.166666666666664
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 41873.13333333333,
+          "ci95": [
+            29337.366666666665,
+            54643.76666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 41671.23333333333,
+          "ci95": [
+            29175.333333333332,
+            54411.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 83,
+          "ci95": [
+            67.2,
+            100.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 39693,
+          "ci95": [
+            24370.3,
+            59307.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 39521.066666666666,
+          "ci95": [
+            24226.866666666665,
+            59095.433333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 68.66666666666667,
+          "ci95": [
+            56,
+            81.56666666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 35746.8,
+          "ci95": [
+            25706.666666666668,
+            48804.5
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 35557.63333333333,
+          "ci95": [
+            25561.766666666666,
+            48540.26666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 75.53333333333333,
+          "ci95": [
+            61.6,
+            94
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 36282.433333333334,
+          "ci95": [
+            24545.066666666666,
+            51417.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 36122.03333333333,
+          "ci95": [
+            24411.266666666666,
+            51252.73333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 61.46666666666667,
+          "ci95": [
+            50.233333333333334,
+            74.9
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 45566.03333333333,
+          "ci95": [
+            31207.433333333334,
+            62280.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 45046.26666666667,
+          "ci95": [
+            30851.7,
+            61584
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 71.46666666666667,
+          "ci95": [
+            57.63333333333333,
+            86.13333333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 32605.833333333332,
+          "ci95": [
+            22894.333333333332,
+            44887.833333333336
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 32463.333333333332,
+          "ci95": [
+            22771.533333333333,
+            44717.26666666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 53.13333333333333,
+          "ci95": [
+            43.733333333333334,
+            61.666666666666664
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 42028.3,
+          "ci95": [
+            29284.533333333333,
+            59382.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 41819.9,
+          "ci95": [
+            29124.6,
+            59124.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 83.7,
+          "ci95": [
+            68.4,
+            99.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 30432.933333333334,
+          "ci95": [
+            21693.733333333334,
+            42254.73333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 30281.833333333332,
+          "ci95": [
+            21547.266666666666,
+            42079.03333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 56.63333333333333,
+          "ci95": [
+            46.93333333333333,
+            67
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 33440.96666666667,
+          "ci95": [
+            22581,
+            48216.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 33272.333333333336,
+          "ci95": [
+            22447.5,
+            48002.933333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 67.63333333333334,
+          "ci95": [
+            54.96666666666667,
+            81.36666666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 29373.866666666665,
+          "ci95": [
+            20942.266666666666,
+            40064.433333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 29236.133333333335,
+          "ci95": [
+            20814.5,
+            39920.066666666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 0,
+          "ci95": [
+            0,
+            0
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 58.7,
+          "ci95": [
+            49.333333333333336,
+            67.33333333333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      }
+    ]
+  },
+  {
+    "class": "small_lowfuel",
+    "mode": "protected",
+    "trials": 30,
+    "engine_ns": {
+      "mean": 173493.86666666667,
+      "ci95": [
+        152211.86666666667,
+        196058.73333333334
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "compile_ns": {
+      "mean": 7220265.333333333,
+      "ci95": [
+        6504976.533333333,
+        7955591.933333334
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "cpu_seconds": {
+      "mean": 0.022672433333333332,
+      "ci95": [
+        0.020762066666666665,
+        0.0245591
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "max_rss_kib": {
+      "mean": 43032,
+      "ci95": [
+        43032,
+        43032
+      ],
+      "trials": 30,
+      "unit": "independent child process"
+    },
+    "deadline_misses": 0,
+    "calls": [
+      {
+        "function": 0,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 25086416.2,
+          "ci95": [
+            25073239.6,
+            25101201.666666668
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12850277.866666667,
+          "ci95": [
+            12806820.233333332,
+            12891779.866666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12234781,
+          "ci95": [
+            12191788.333333334,
+            12279303.966666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 0,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 25085310.633333333,
+          "ci95": [
+            25070315.466666665,
+            25100381.7
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12826921.2,
+          "ci95": [
+            12784292.666666666,
+            12870561.366666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12257173.633333333,
+          "ci95": [
+            12213058.6,
+            12299347.466666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 25090020.466666665,
+          "ci95": [
+            25073725.433333334,
+            25106769.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12858338.8,
+          "ci95": [
+            12820111.333333334,
+            12894635.433333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12230538.233333332,
+          "ci95": [
+            12190469.7,
+            12271076.8
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 1,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 25078207.566666666,
+          "ci95": [
+            25068519.066666666,
+            25090443.4
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12827613.933333334,
+          "ci95": [
+            12780713.433333334,
+            12875236.633333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12249348.733333332,
+          "ci95": [
+            12199299.533333333,
+            12299008.433333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 25092065.566666666,
+          "ci95": [
+            25077336.833333332,
+            25107047.533333335
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12840181.7,
+          "ci95": [
+            12796447.3,
+            12884986.566666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12250673.566666666,
+          "ci95": [
+            12207554.5,
+            12291997.066666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 2,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 25095466.633333333,
+          "ci95": [
+            25079173.8,
+            25113826.133333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12849607.833333334,
+          "ci95": [
+            12804602.466666667,
+            12899388.9
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12244484.733333332,
+          "ci95": [
+            12191852.633333333,
+            12291849.633333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 25133954.7,
+          "ci95": [
+            25079954.4,
+            25233022.3
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12841800.3,
+          "ci95": [
+            12802172.966666667,
+            12885493.733333332
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12290526.933333334,
+          "ci95": [
+            12210771.433333334,
+            12415956.066666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 3,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 25091907.366666667,
+          "ci95": [
+            25078871.166666668,
+            25107172.133333333
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12849598,
+          "ci95": [
+            12809669.666666666,
+            12889464.1
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12240803.1,
+          "ci95": [
+            12197792.4,
+            12286206.266666668
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 25083040.3,
+          "ci95": [
+            25070116.466666665,
+            25097323.066666666
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12851183.2,
+          "ci95": [
+            12811064.566666666,
+            12889294.3
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12230653.666666666,
+          "ci95": [
+            12190047,
+            12274182.1
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 4,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 25083211.666666668,
+          "ci95": [
+            25071501.966666665,
+            25097723.733333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12861085.033333333,
+          "ci95": [
+            12820032.933333334,
+            12902519.333333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12220743.866666667,
+          "ci95": [
+            12177618.033333333,
+            12262892.2
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "first",
+        "wall_ns": {
+          "mean": 25093735.466666665,
+          "ci95": [
+            25079019.966666665,
+            25109235.166666668
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12886805.733333332,
+          "ci95": [
+            12834170.066666666,
+            12938601.733333332
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12205480.633333333,
+          "ci95": [
+            12147313.7,
+            12263779.866666667
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      },
+      {
+        "function": 5,
+        "phase": "warm",
+        "wall_ns": {
+          "mean": 25080293.566666666,
+          "ci95": [
+            25067907.466666665,
+            25093804.733333334
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "work_ns": {
+          "mean": 12865673.533333333,
+          "ci95": [
+            12817014.2,
+            12916792.766666668
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "body_bytes": {
+          "mean": 64,
+          "ci95": [
+            64,
+            64
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "storage_events": {
+          "mean": 128,
+          "ci95": [
+            128,
+            128
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        },
+        "padding_tail_ns": {
+          "mean": 12213401.3,
+          "ci95": [
+            12166060.966666667,
+            12261235.6
+          ],
+          "trials": 30,
+          "unit": "independent child process"
+        }
+      }
+    ]
+  }
+]

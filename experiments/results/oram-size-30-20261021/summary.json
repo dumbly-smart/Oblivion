@@ -1,0 +1,61 @@
+{
+  "cells": [
+    {
+      "blocks": 16,
+      "block_bytes": 256,
+      "trials": 30,
+      "mean_trial_rw_p95_us": 46.331266666666664,
+      "ci95": [
+        46.09645208333334,
+        46.575517916666655
+      ],
+      "bytes_per_access": 10840,
+      "storage_expansion": 8.2041015625,
+      "max_stash": 3,
+      "trusted_metadata_bytes": 376
+    },
+    {
+      "blocks": 64,
+      "block_bytes": 256,
+      "trials": 30,
+      "mean_trial_rw_p95_us": 65.42625000000001,
+      "ci95": [
+        64.88363000000001,
+        66.36905083333333
+      ],
+      "bytes_per_access": 15176,
+      "storage_expansion": 8.402587890625,
+      "max_stash": 5,
+      "trusted_metadata_bytes": 1528
+    },
+    {
+      "blocks": 256,
+      "block_bytes": 256,
+      "trials": 30,
+      "mean_trial_rw_p95_us": 84.98793333333334,
+      "ci95": [
+        83.71593666666666,
+        86.89057791666667
+      ],
+      "bytes_per_access": 19512,
+      "storage_expansion": 8.45220947265625,
+      "max_stash": 4,
+      "trusted_metadata_bytes": 6136
+    },
+    {
+      "blocks": 1024,
+      "block_bytes": 256,
+      "trials": 30,
+      "mean_trial_rw_p95_us": 106.32471666666669,
+      "ci95": [
+        103.73392375000002,
+        109.29236666666667
+      ],
+      "bytes_per_access": 23848,
+      "storage_expansion": 8.464614868164062,
+      "max_stash": 8,
+      "trusted_metadata_bytes": 24568
+    }
+  ],
+  "methodology": "mean of per-trial read/write p95, 30 independent trials; trial-bootstrap interval; not pooled p95 or network measurement"
+}

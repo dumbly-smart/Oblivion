@@ -1,0 +1,3018 @@
+{
+  "summary": [
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "fresh_state_trials": 30,
+      "samples": 480,
+      "query_payload_bytes": 2,
+      "response_payload_bytes": 128,
+      "scan_payload_bytes_per_server": 512,
+      "total_payload_bytes": 130,
+      "generation_ns": 319.92291666666665,
+      "generation_ns_trial_bootstrap_95": [
+        303.0830208333333,
+        340.13645833333334
+      ],
+      "server1_ns": 83.20833333333333,
+      "server1_ns_trial_bootstrap_95": [
+        80.92911458333333,
+        85.75848958333334
+      ],
+      "server2_ns": 83.8125,
+      "server2_ns_trial_bootstrap_95": [
+        81.01036458333334,
+        86.92723958333333
+      ],
+      "recovery_ns": 36.1375,
+      "recovery_ns_trial_bootstrap_95": [
+        33.8165625,
+        38.97098958333333
+      ],
+      "protocol_ns": 523.08125,
+      "protocol_ns_trial_bootstrap_95": [
+        500.96203125,
+        550.62953125
+      ],
+      "protocol_ns_p50": 497.0,
+      "protocol_ns_p95": 692.0
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "xor",
+      "fresh_state_trials": 30,
+      "samples": 480,
+      "query_payload_bytes": 16,
+      "response_payload_bytes": 16,
+      "scan_payload_bytes_per_server": 512,
+      "total_payload_bytes": 32,
+      "generation_ns": 304.81458333333336,
+      "generation_ns_trial_bootstrap_95": [
+        292.60796875,
+        322.05432291666665
+      ],
+      "server1_ns": 413.79375,
+      "server1_ns_trial_bootstrap_95": [
+        403.30822916666665,
+        425.1500520833333
+      ],
+      "server2_ns": 309.61875,
+      "server2_ns_trial_bootstrap_95": [
+        290.49942708333333,
+        328.24520833333327
+      ],
+      "recovery_ns": 30.904166666666665,
+      "recovery_ns_trial_bootstrap_95": [
+        28.51234375,
+        33.41052083333334
+      ],
+      "protocol_ns": 1059.13125,
+      "protocol_ns_trial_bootstrap_95": [
+        1024.1325000000002,
+        1097.5710416666668
+      ],
+      "protocol_ns_p50": 1044.0,
+      "protocol_ns_p95": 1310.2999999999997
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "fresh_state_trials": 30,
+      "samples": 480,
+      "query_payload_bytes": 2,
+      "response_payload_bytes": 16384,
+      "scan_payload_bytes_per_server": 65536,
+      "total_payload_bytes": 16386,
+      "generation_ns": 321.1958333333333,
+      "generation_ns_trial_bootstrap_95": [
+        314.99776041666667,
+        328.60031250000003
+      ],
+      "server1_ns": 757.10625,
+      "server1_ns_trial_bootstrap_95": [
+        730.9003645833334,
+        788.0922395833334
+      ],
+      "server2_ns": 771.2791666666667,
+      "server2_ns_trial_bootstrap_95": [
+        741.8805729166667,
+        804.2266145833333
+      ],
+      "recovery_ns": 225.65625,
+      "recovery_ns_trial_bootstrap_95": [
+        220.4725,
+        231.84807291666667
+      ],
+      "protocol_ns": 2075.2375,
+      "protocol_ns_trial_bootstrap_95": [
+        2014.376875,
+        2147.2302604166666
+      ],
+      "protocol_ns_p50": 2097.0,
+      "protocol_ns_p95": 2801.1
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "fresh_state_trials": 30,
+      "samples": 480,
+      "query_payload_bytes": 16,
+      "response_payload_bytes": 2048,
+      "scan_payload_bytes_per_server": 65536,
+      "total_payload_bytes": 2064,
+      "generation_ns": 306.1791666666667,
+      "generation_ns_trial_bootstrap_95": [
+        303.7559375,
+        309.15625
+      ],
+      "server1_ns": 957.9520833333333,
+      "server1_ns_trial_bootstrap_95": [
+        941.23890625,
+        979.3013541666666
+      ],
+      "server2_ns": 885.46875,
+      "server2_ns_trial_bootstrap_95": [
+        866.67453125,
+        906.2168750000001
+      ],
+      "recovery_ns": 52.3375,
+      "recovery_ns_trial_bootstrap_95": [
+        44.983333333333334,
+        62.87104166666666
+      ],
+      "protocol_ns": 2201.9375,
+      "protocol_ns_trial_bootstrap_95": [
+        2168.9439062499996,
+        2241.328125
+      ],
+      "protocol_ns_p50": 2174.5,
+      "protocol_ns_p95": 2549.449999999999
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "fresh_state_trials": 30,
+      "samples": 480,
+      "query_payload_bytes": 8,
+      "response_payload_bytes": 512,
+      "scan_payload_bytes_per_server": 8192,
+      "total_payload_bytes": 520,
+      "generation_ns": 304.46666666666664,
+      "generation_ns_trial_bootstrap_95": [
+        303.30203124999997,
+        305.70005208333333
+      ],
+      "server1_ns": 268.48333333333335,
+      "server1_ns_trial_bootstrap_95": [
+        266.02916666666664,
+        271.15010416666667
+      ],
+      "server2_ns": 243.175,
+      "server2_ns_trial_bootstrap_95": [
+        234.8096875,
+        251.62723958333333
+      ],
+      "recovery_ns": 38.6875,
+      "recovery_ns_trial_bootstrap_95": [
+        37.126875,
+        40.529270833333335
+      ],
+      "protocol_ns": 854.8125,
+      "protocol_ns_trial_bootstrap_95": [
+        845.18515625,
+        864.6084895833334
+      ],
+      "protocol_ns_p50": 846.0,
+      "protocol_ns_p95": 1002.3999999999996
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "xor",
+      "fresh_state_trials": 30,
+      "samples": 480,
+      "query_payload_bytes": 256,
+      "response_payload_bytes": 16,
+      "scan_payload_bytes_per_server": 8192,
+      "total_payload_bytes": 272,
+      "generation_ns": 557.6145833333334,
+      "generation_ns_trial_bootstrap_95": [
+        554.4061458333333,
+        560.9791666666666
+      ],
+      "server1_ns": 5548.504166666667,
+      "server1_ns_trial_bootstrap_95": [
+        5520.620677083333,
+        5578.436770833333
+      ],
+      "server2_ns": 3375.233333333333,
+      "server2_ns_trial_bootstrap_95": [
+        3202.8286458333337,
+        3585.810625
+      ],
+      "recovery_ns": 33.85,
+      "recovery_ns_trial_bootstrap_95": [
+        32.949947916666666,
+        34.797916666666666
+      ],
+      "protocol_ns": 9515.202083333334,
+      "protocol_ns_trial_bootstrap_95": [
+        9331.918177083333,
+        9731.491718750001
+      ],
+      "protocol_ns_p50": 9393.0,
+      "protocol_ns_p95": 11229.55
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "fresh_state_trials": 30,
+      "samples": 480,
+      "query_payload_bytes": 8,
+      "response_payload_bytes": 65536,
+      "scan_payload_bytes_per_server": 1048576,
+      "total_payload_bytes": 65544,
+      "generation_ns": 524.9854166666667,
+      "generation_ns_trial_bootstrap_95": [
+        429.86072916666666,
+        652.41734375
+      ],
+      "server1_ns": 27843.83125,
+      "server1_ns_trial_bootstrap_95": [
+        20357.55072916667,
+        37125.93645833333
+      ],
+      "server2_ns": 24840.420833333334,
+      "server2_ns_trial_bootstrap_95": [
+        19222.904114583336,
+        31738.252083333333
+      ],
+      "recovery_ns": 1703.0458333333333,
+      "recovery_ns_trial_bootstrap_95": [
+        1283.5672916666667,
+        2272.3241666666663
+      ],
+      "protocol_ns": 54912.28333333333,
+      "protocol_ns_trial_bootstrap_95": [
+        41399.52510416667,
+        71742.84312499998
+      ],
+      "protocol_ns_p50": 35693.5,
+      "protocol_ns_p95": 126538.39999999994
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "fresh_state_trials": 30,
+      "samples": 480,
+      "query_payload_bytes": 256,
+      "response_payload_bytes": 2048,
+      "scan_payload_bytes_per_server": 1048576,
+      "total_payload_bytes": 2304,
+      "generation_ns": 815.425,
+      "generation_ns_trial_bootstrap_95": [
+        714.5521875,
+        946.0906770833333
+      ],
+      "server1_ns": 26450.527083333334,
+      "server1_ns_trial_bootstrap_95": [
+        20715.166718750002,
+        34408.929322916665
+      ],
+      "server2_ns": 22543.291666666668,
+      "server2_ns_trial_bootstrap_95": [
+        18841.577916666665,
+        27535.950208333325
+      ],
+      "recovery_ns": 126.78958333333334,
+      "recovery_ns_trial_bootstrap_95": [
+        103.42255208333333,
+        154.67140625
+      ],
+      "protocol_ns": 49936.03333333333,
+      "protocol_ns_trial_bootstrap_95": [
+        40406.56,
+        63015.27276041662
+      ],
+      "protocol_ns_p50": 35972.0,
+      "protocol_ns_p95": 87367.64999999994
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "fresh_state_trials": 30,
+      "samples": 480,
+      "query_payload_bytes": 26,
+      "response_payload_bytes": 1600,
+      "scan_payload_bytes_per_server": 80000,
+      "total_payload_bytes": 1626,
+      "generation_ns": 425.85625,
+      "generation_ns_trial_bootstrap_95": [
+        396.7391666666667,
+        459.13395833333334
+      ],
+      "server1_ns": 3190.125,
+      "server1_ns_trial_bootstrap_95": [
+        1641.8091145833332,
+        6171.78625
+      ],
+      "server2_ns": 1509.4833333333333,
+      "server2_ns_trial_bootstrap_95": [
+        1390.1394270833334,
+        1629.9730208333333
+      ],
+      "recovery_ns": 104.18125,
+      "recovery_ns_trial_bootstrap_95": [
+        94.10411458333334,
+        114.59380208333333
+      ],
+      "protocol_ns": 5229.645833333333,
+      "protocol_ns_trial_bootstrap_95": [
+        3564.914375,
+        8308.503333333334
+      ],
+      "protocol_ns_p50": 3485.0,
+      "protocol_ns_p95": 5304.299999999999
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "xor",
+      "fresh_state_trials": 30,
+      "samples": 480,
+      "query_payload_bytes": 2500,
+      "response_payload_bytes": 16,
+      "scan_payload_bytes_per_server": 80000,
+      "total_payload_bytes": 2516,
+      "generation_ns": 3314.8416666666667,
+      "generation_ns_trial_bootstrap_95": [
+        3147.682604166667,
+        3528.8780208333333
+      ],
+      "server1_ns": 61562.65416666667,
+      "server1_ns_trial_bootstrap_95": [
+        59694.4809375,
+        63344.704114583335
+      ],
+      "server2_ns": 58147.745833333334,
+      "server2_ns_trial_bootstrap_95": [
+        56241.44385416667,
+        60033.17776041667
+      ],
+      "recovery_ns": 70.3875,
+      "recovery_ns_trial_bootstrap_95": [
+        64.63723958333334,
+        76.40843749999999
+      ],
+      "protocol_ns": 123095.62916666667,
+      "protocol_ns_trial_bootstrap_95": [
+        119195.27796875,
+        126831.35927083333
+      ],
+      "protocol_ns_p50": 123249.5,
+      "protocol_ns_p95": 142639.69999999998
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "fresh_state_trials": 30,
+      "samples": 480,
+      "query_payload_bytes": 26,
+      "response_payload_bytes": 204800,
+      "scan_payload_bytes_per_server": 10240000,
+      "total_payload_bytes": 204826,
+      "generation_ns": 792.2458333333333,
+      "generation_ns_trial_bootstrap_95": [
+        725.1747916666666,
+        869.9476041666666
+      ],
+      "server1_ns": 262163.87916666665,
+      "server1_ns_trial_bootstrap_95": [
+        234814.69333333333,
+        295159.83671875
+      ],
+      "server2_ns": 253564.74375,
+      "server2_ns_trial_bootstrap_95": [
+        226130.3192708333,
+        285720.2763541666
+      ],
+      "recovery_ns": 6366.108333333334,
+      "recovery_ns_trial_bootstrap_95": [
+        5991.210989583334,
+        6808.324322916667
+      ],
+      "protocol_ns": 522886.97708333336,
+      "protocol_ns_trial_bootstrap_95": [
+        467806.2074479167,
+        588138.5661979166
+      ],
+      "protocol_ns_p50": 458876.5,
+      "protocol_ns_p95": 884942.4999999997
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "fresh_state_trials": 30,
+      "samples": 480,
+      "query_payload_bytes": 2500,
+      "response_payload_bytes": 2048,
+      "scan_payload_bytes_per_server": 10240000,
+      "total_payload_bytes": 4548,
+      "generation_ns": 3619.0208333333335,
+      "generation_ns_trial_bootstrap_95": [
+        3306.061510416667,
+        4006.9347395833333
+      ],
+      "server1_ns": 319502.89375,
+      "server1_ns_trial_bootstrap_95": [
+        279564.47484375,
+        364746.6151562499
+      ],
+      "server2_ns": 310814.0333333333,
+      "server2_ns_trial_bootstrap_95": [
+        271536.13421875,
+        354797.02796875
+      ],
+      "recovery_ns": 511.56041666666664,
+      "recovery_ns_trial_bootstrap_95": [
+        230.68255208333335,
+        1041.4153125
+      ],
+      "protocol_ns": 634447.5083333333,
+      "protocol_ns_trial_bootstrap_95": [
+        554739.9207291667,
+        723649.3696875
+      ],
+      "protocol_ns_p50": 497252.5,
+      "protocol_ns_p95": 1333061.1499999994
+    }
+  ],
+  "paired_latency": [
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "sqrt_minus_xor_protocol_ns": -536.05,
+      "paired_trial_bootstrap_95": [
+        -565.9638541666667,
+        -504.45848958333335
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "sqrt_minus_xor_protocol_ns": -126.7,
+      "paired_trial_bootstrap_95": [
+        -199.70135416666665,
+        -49.56812500000001
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "sqrt_minus_xor_protocol_ns": -8660.389583333334,
+      "paired_trial_bootstrap_95": [
+        -8876.034947916667,
+        -8479.242239583333
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "sqrt_minus_xor_protocol_ns": 4976.25,
+      "paired_trial_bootstrap_95": [
+        -7964.771979166667,
+        19374.974739583333
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "sqrt_minus_xor_protocol_ns": -117865.98333333334,
+      "paired_trial_bootstrap_95": [
+        -122739.49598958333,
+        -112315.72432291666
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "sqrt_minus_xor_protocol_ns": -111560.53125,
+      "paired_trial_bootstrap_95": [
+        -165407.8,
+        -60047.158802083395
+      ]
+    }
+  ],
+  "single_server_bit_diagnostics": [
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49505208333333334,
+      "trial_bootstrap_95": [
+        0.48280924479166665,
+        0.5072916666666667
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.4953125,
+      "trial_bootstrap_95": [
+        0.48463541666666665,
+        0.5052115885416667
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5049479166666667,
+      "trial_bootstrap_95": [
+        0.49270833333333336,
+        0.5171907552083334
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.4953125,
+      "trial_bootstrap_95": [
+        0.48463541666666665,
+        0.5052115885416667
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 21,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49908854166666666,
+      "trial_bootstrap_95": [
+        0.48880208333333336,
+        0.509375
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 21,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49361979166666664,
+      "trial_bootstrap_95": [
+        0.48268229166666665,
+        0.5049479166666667
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 21,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49908854166666666,
+      "trial_bootstrap_95": [
+        0.48880208333333336,
+        0.509375
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 21,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49361979166666664,
+      "trial_bootstrap_95": [
+        0.48268229166666665,
+        0.5049479166666667
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 42,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49700520833333334,
+      "trial_bootstrap_95": [
+        0.48528645833333334,
+        0.50859375
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 42,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49361979166666664,
+      "trial_bootstrap_95": [
+        0.481640625,
+        0.504296875
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 42,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49700520833333334,
+      "trial_bootstrap_95": [
+        0.48528645833333334,
+        0.50859375
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 42,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49361979166666664,
+      "trial_bootstrap_95": [
+        0.481640625,
+        0.504296875
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 63,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.494921875,
+      "trial_bootstrap_95": [
+        0.48333333333333334,
+        0.50625
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 63,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49166666666666664,
+      "trial_bootstrap_95": [
+        0.479814453125,
+        0.5039095052083333
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 63,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.494921875,
+      "trial_bootstrap_95": [
+        0.48333333333333334,
+        0.50625
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 63,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5083333333333333,
+      "trial_bootstrap_95": [
+        0.49609049479166667,
+        0.520185546875
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5009114583333333,
+      "trial_bootstrap_95": [
+        0.48984375,
+        0.5117220052083333
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5114583333333333,
+      "trial_bootstrap_95": [
+        0.49908854166666666,
+        0.5239583333333333
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49908854166666666,
+      "trial_bootstrap_95": [
+        0.48827799479166667,
+        0.51015625
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5114583333333333,
+      "trial_bootstrap_95": [
+        0.49908854166666666,
+        0.5239583333333333
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 21,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5002604166666667,
+      "trial_bootstrap_95": [
+        0.487890625,
+        0.5122395833333333
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 21,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.48736979166666666,
+      "trial_bootstrap_95": [
+        0.4752604166666667,
+        0.4993489583333333
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 21,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5002604166666667,
+      "trial_bootstrap_95": [
+        0.487890625,
+        0.5122395833333333
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 21,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.48736979166666666,
+      "trial_bootstrap_95": [
+        0.4752604166666667,
+        0.4993489583333333
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 42,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.490625,
+      "trial_bootstrap_95": [
+        0.4803385416666667,
+        0.50078125
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 42,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.50234375,
+      "trial_bootstrap_95": [
+        0.490234375,
+        0.5140657552083333
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 42,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.490625,
+      "trial_bootstrap_95": [
+        0.4803385416666667,
+        0.50078125
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 42,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.50234375,
+      "trial_bootstrap_95": [
+        0.490234375,
+        0.5140657552083333
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 63,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49322916666666666,
+      "trial_bootstrap_95": [
+        0.48111653645833335,
+        0.5063802083333333
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 63,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49713541666666666,
+      "trial_bootstrap_95": [
+        0.48515625,
+        0.5091145833333334
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 63,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49322916666666666,
+      "trial_bootstrap_95": [
+        0.48111653645833335,
+        0.5063802083333333
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 63,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5028645833333333,
+      "trial_bootstrap_95": [
+        0.4908854166666667,
+        0.51484375
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5001302083333333,
+      "trial_bootstrap_95": [
+        0.49166666666666664,
+        0.5084635416666666
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49140625,
+      "trial_bootstrap_95": [
+        0.48072916666666665,
+        0.5020833333333333
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.4998697916666667,
+      "trial_bootstrap_95": [
+        0.4915364583333333,
+        0.5083333333333333
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49140625,
+      "trial_bootstrap_95": [
+        0.48072916666666665,
+        0.5020833333333333
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 21,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5009114583333333,
+      "trial_bootstrap_95": [
+        0.4908854166666667,
+        0.510546875
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 21,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49453125,
+      "trial_bootstrap_95": [
+        0.483984375,
+        0.5049479166666667
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 21,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5009114583333333,
+      "trial_bootstrap_95": [
+        0.4908854166666667,
+        0.510546875
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 21,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49453125,
+      "trial_bootstrap_95": [
+        0.483984375,
+        0.5049479166666667
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 42,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5010416666666667,
+      "trial_bootstrap_95": [
+        0.4903645833333333,
+        0.5115885416666667
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 42,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5084635416666666,
+      "trial_bootstrap_95": [
+        0.498828125,
+        0.5180989583333333
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 42,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5010416666666667,
+      "trial_bootstrap_95": [
+        0.4903645833333333,
+        0.5115885416666667
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 42,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5084635416666666,
+      "trial_bootstrap_95": [
+        0.498828125,
+        0.5180989583333333
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 63,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.50546875,
+      "trial_bootstrap_95": [
+        0.4959635416666667,
+        0.5151041666666667
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 63,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.4954427083333333,
+      "trial_bootstrap_95": [
+        0.48125,
+        0.509765625
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 63,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.50546875,
+      "trial_bootstrap_95": [
+        0.4959635416666667,
+        0.5151041666666667
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 63,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5045572916666666,
+      "trial_bootstrap_95": [
+        0.490234375,
+        0.51875
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5095052083333333,
+      "trial_bootstrap_95": [
+        0.49791341145833334,
+        0.52109375
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5106770833333333,
+      "trial_bootstrap_95": [
+        0.498828125,
+        0.5218782552083333
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49049479166666665,
+      "trial_bootstrap_95": [
+        0.47890625,
+        0.5020865885416667
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5106770833333333,
+      "trial_bootstrap_95": [
+        0.498828125,
+        0.5218782552083333
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 21,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49700520833333334,
+      "trial_bootstrap_95": [
+        0.48658854166666665,
+        0.5071614583333334
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 21,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.504296875,
+      "trial_bootstrap_95": [
+        0.4936165364583333,
+        0.515234375
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 21,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49700520833333334,
+      "trial_bootstrap_95": [
+        0.48658854166666665,
+        0.5071614583333334
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 21,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.504296875,
+      "trial_bootstrap_95": [
+        0.4936165364583333,
+        0.515234375
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 42,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.4967447916666667,
+      "trial_bootstrap_95": [
+        0.4876302083333333,
+        0.505859375
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 42,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5002604166666667,
+      "trial_bootstrap_95": [
+        0.48879882812500003,
+        0.5108072916666667
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 42,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.4967447916666667,
+      "trial_bootstrap_95": [
+        0.4876302083333333,
+        0.505859375
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 42,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5002604166666667,
+      "trial_bootstrap_95": [
+        0.48879882812500003,
+        0.5108072916666667
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 63,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5078125,
+      "trial_bootstrap_95": [
+        0.4962239583333333,
+        0.5199251302083333
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 63,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5002604166666667,
+      "trial_bootstrap_95": [
+        0.49049479166666665,
+        0.5098958333333333
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 63,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5078125,
+      "trial_bootstrap_95": [
+        0.4962239583333333,
+        0.5199251302083333
+      ]
+    },
+    {
+      "count": 64,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 63,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49973958333333335,
+      "trial_bootstrap_95": [
+        0.4901041666666667,
+        0.5095052083333333
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5,
+      "trial_bootstrap_95": [
+        0.489453125,
+        0.5104166666666666
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49192708333333335,
+      "trial_bootstrap_95": [
+        0.47955729166666666,
+        0.5048177083333333
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5,
+      "trial_bootstrap_95": [
+        0.4895833333333333,
+        0.510546875
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49192708333333335,
+      "trial_bootstrap_95": [
+        0.47955729166666666,
+        0.5048177083333333
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 341,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5055989583333333,
+      "trial_bootstrap_95": [
+        0.49609049479166667,
+        0.5149739583333334
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 341,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5024739583333333,
+      "trial_bootstrap_95": [
+        0.4915364583333333,
+        0.51328125
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 341,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5055989583333333,
+      "trial_bootstrap_95": [
+        0.49609049479166667,
+        0.5149739583333334
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 341,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5024739583333333,
+      "trial_bootstrap_95": [
+        0.4915364583333333,
+        0.51328125
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 682,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5036458333333333,
+      "trial_bootstrap_95": [
+        0.49140625,
+        0.5158854166666667
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 682,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.4979166666666667,
+      "trial_bootstrap_95": [
+        0.4851529947916667,
+        0.51015625
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 682,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5036458333333333,
+      "trial_bootstrap_95": [
+        0.49140625,
+        0.5158854166666667
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 682,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.4979166666666667,
+      "trial_bootstrap_95": [
+        0.4851529947916667,
+        0.51015625
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 1023,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49518229166666666,
+      "trial_bootstrap_95": [
+        0.48502278645833335,
+        0.5048177083333333
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 1023,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5029947916666667,
+      "trial_bootstrap_95": [
+        0.4920572916666667,
+        0.5143229166666666
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 1023,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49518229166666666,
+      "trial_bootstrap_95": [
+        0.48502278645833335,
+        0.5048177083333333
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 1023,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49700520833333334,
+      "trial_bootstrap_95": [
+        0.4856770833333333,
+        0.5079427083333333
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5131510416666667,
+      "trial_bootstrap_95": [
+        0.5007779947916666,
+        0.5257845052083333
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49830729166666665,
+      "trial_bootstrap_95": [
+        0.4876302083333333,
+        0.508984375
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.48684895833333336,
+      "trial_bootstrap_95": [
+        0.4742154947916667,
+        0.49922200520833326
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49830729166666665,
+      "trial_bootstrap_95": [
+        0.4876302083333333,
+        0.508984375
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 341,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49830729166666665,
+      "trial_bootstrap_95": [
+        0.485546875,
+        0.5108072916666667
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 341,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.487890625,
+      "trial_bootstrap_95": [
+        0.4759114583333333,
+        0.500390625
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 341,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49830729166666665,
+      "trial_bootstrap_95": [
+        0.485546875,
+        0.5108072916666667
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 341,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.487890625,
+      "trial_bootstrap_95": [
+        0.4759114583333333,
+        0.500390625
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 682,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5010416666666667,
+      "trial_bootstrap_95": [
+        0.49114583333333334,
+        0.5110709635416667
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 682,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49127604166666666,
+      "trial_bootstrap_95": [
+        0.480078125,
+        0.5022135416666667
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 682,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5010416666666667,
+      "trial_bootstrap_95": [
+        0.49114583333333334,
+        0.5110709635416667
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 682,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49127604166666666,
+      "trial_bootstrap_95": [
+        0.480078125,
+        0.5022135416666667
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 1023,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.4934895833333333,
+      "trial_bootstrap_95": [
+        0.48411458333333335,
+        0.5024739583333333
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 1023,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5026041666666666,
+      "trial_bootstrap_95": [
+        0.49375,
+        0.5118489583333333
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 1023,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.4934895833333333,
+      "trial_bootstrap_95": [
+        0.48411458333333335,
+        0.5024739583333333
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 1023,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.4973958333333333,
+      "trial_bootstrap_95": [
+        0.4881510416666667,
+        0.50625
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5028645833333333,
+      "trial_bootstrap_95": [
+        0.4885384114583333,
+        0.516796875
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49518229166666666,
+      "trial_bootstrap_95": [
+        0.483203125,
+        0.50625
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49713541666666666,
+      "trial_bootstrap_95": [
+        0.483203125,
+        0.5114615885416667
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49518229166666666,
+      "trial_bootstrap_95": [
+        0.483203125,
+        0.50625
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 341,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49557291666666664,
+      "trial_bootstrap_95": [
+        0.48346028645833333,
+        0.5072916666666667
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 341,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.502734375,
+      "trial_bootstrap_95": [
+        0.4915364583333333,
+        0.5147135416666667
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 341,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49557291666666664,
+      "trial_bootstrap_95": [
+        0.48346028645833333,
+        0.5072916666666667
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 341,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.502734375,
+      "trial_bootstrap_95": [
+        0.4915364583333333,
+        0.5147135416666667
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 682,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.48919270833333334,
+      "trial_bootstrap_95": [
+        0.47799479166666664,
+        0.5
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 682,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.4947916666666667,
+      "trial_bootstrap_95": [
+        0.4845052083333333,
+        0.5053385416666667
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 682,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.48919270833333334,
+      "trial_bootstrap_95": [
+        0.47799479166666664,
+        0.5
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 682,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.4947916666666667,
+      "trial_bootstrap_95": [
+        0.4845052083333333,
+        0.5053385416666667
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 1023,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.511328125,
+      "trial_bootstrap_95": [
+        0.5,
+        0.5217447916666667
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 1023,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5084635416666666,
+      "trial_bootstrap_95": [
+        0.49973958333333335,
+        0.5173177083333333
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 1023,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.511328125,
+      "trial_bootstrap_95": [
+        0.5,
+        0.5217447916666667
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 1023,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.4915364583333333,
+      "trial_bootstrap_95": [
+        0.48268229166666665,
+        0.5002604166666667
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5013020833333334,
+      "trial_bootstrap_95": [
+        0.48880208333333336,
+        0.5138020833333333
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49375,
+      "trial_bootstrap_95": [
+        0.48072916666666665,
+        0.506640625
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.4986979166666667,
+      "trial_bootstrap_95": [
+        0.4861979166666667,
+        0.5111979166666667
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49375,
+      "trial_bootstrap_95": [
+        0.48072916666666665,
+        0.506640625
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 341,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.4942708333333333,
+      "trial_bootstrap_95": [
+        0.4856770833333333,
+        0.5028645833333333
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 341,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49713541666666666,
+      "trial_bootstrap_95": [
+        0.48619466145833334,
+        0.50859375
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 341,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.4942708333333333,
+      "trial_bootstrap_95": [
+        0.4856770833333333,
+        0.5028645833333333
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 341,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49713541666666666,
+      "trial_bootstrap_95": [
+        0.48619466145833334,
+        0.50859375
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 682,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.4959635416666667,
+      "trial_bootstrap_95": [
+        0.48411458333333335,
+        0.5084635416666666
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 682,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5044270833333333,
+      "trial_bootstrap_95": [
+        0.4928385416666667,
+        0.5157552083333333
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 682,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.4959635416666667,
+      "trial_bootstrap_95": [
+        0.48411458333333335,
+        0.5084635416666666
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 682,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5044270833333333,
+      "trial_bootstrap_95": [
+        0.4928385416666667,
+        0.5157552083333333
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 1023,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5084635416666666,
+      "trial_bootstrap_95": [
+        0.4954427083333333,
+        0.5213541666666667
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 1023,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5,
+      "trial_bootstrap_95": [
+        0.4903645833333333,
+        0.5108072916666667
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 1023,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5084635416666666,
+      "trial_bootstrap_95": [
+        0.4954427083333333,
+        0.5213541666666667
+      ]
+    },
+    {
+      "count": 1024,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 1023,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5,
+      "trial_bootstrap_95": [
+        0.48919270833333334,
+        0.5096354166666667
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5016927083333333,
+      "trial_bootstrap_95": [
+        0.4878873697916667,
+        0.5158854166666667
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49635416666666665,
+      "trial_bootstrap_95": [
+        0.48463541666666665,
+        0.5079427083333333
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49830729166666665,
+      "trial_bootstrap_95": [
+        0.48411458333333335,
+        0.5121126302083333
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49635416666666665,
+      "trial_bootstrap_95": [
+        0.48463541666666665,
+        0.5079427083333333
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 3333,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.491796875,
+      "trial_bootstrap_95": [
+        0.4807259114583333,
+        0.5026041666666666
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 3333,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.4973958333333333,
+      "trial_bootstrap_95": [
+        0.48489583333333336,
+        0.510029296875
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 3333,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.491796875,
+      "trial_bootstrap_95": [
+        0.4807259114583333,
+        0.5026041666666666
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 3333,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.4973958333333333,
+      "trial_bootstrap_95": [
+        0.48489583333333336,
+        0.510029296875
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 6666,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.4998697916666667,
+      "trial_bootstrap_95": [
+        0.49270833333333336,
+        0.50703125
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 6666,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5016927083333333,
+      "trial_bootstrap_95": [
+        0.48828125,
+        0.5138020833333333
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 6666,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.4998697916666667,
+      "trial_bootstrap_95": [
+        0.49270833333333336,
+        0.50703125
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 6666,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5016927083333333,
+      "trial_bootstrap_95": [
+        0.48828125,
+        0.5138020833333333
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 9999,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.48606770833333335,
+      "trial_bootstrap_95": [
+        0.4747395833333333,
+        0.4973958333333333
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 9999,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49557291666666664,
+      "trial_bootstrap_95": [
+        0.4861979166666667,
+        0.5049479166666667
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 9999,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.48606770833333335,
+      "trial_bootstrap_95": [
+        0.4747395833333333,
+        0.4973958333333333
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "xor",
+      "private_target_index": 9999,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5044270833333333,
+      "trial_bootstrap_95": [
+        0.49505208333333334,
+        0.5138020833333333
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5036458333333333,
+      "trial_bootstrap_95": [
+        0.49413736979166667,
+        0.5131510416666667
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49700520833333334,
+      "trial_bootstrap_95": [
+        0.4859342447916667,
+        0.508203125
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49635416666666665,
+      "trial_bootstrap_95": [
+        0.48684895833333336,
+        0.5058626302083333
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49700520833333334,
+      "trial_bootstrap_95": [
+        0.4859342447916667,
+        0.508203125
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 3333,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5095052083333333,
+      "trial_bootstrap_95": [
+        0.49908528645833333,
+        0.5204427083333333
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 3333,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.4981770833333333,
+      "trial_bootstrap_95": [
+        0.487626953125,
+        0.5088541666666667
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 3333,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5095052083333333,
+      "trial_bootstrap_95": [
+        0.49908528645833333,
+        0.5204427083333333
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 3333,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.4981770833333333,
+      "trial_bootstrap_95": [
+        0.487626953125,
+        0.5088541666666667
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 6666,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.4981770833333333,
+      "trial_bootstrap_95": [
+        0.48802083333333335,
+        0.5084635416666666
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 6666,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.494921875,
+      "trial_bootstrap_95": [
+        0.483984375,
+        0.505341796875
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 6666,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.4981770833333333,
+      "trial_bootstrap_95": [
+        0.48802083333333335,
+        0.5084635416666666
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 6666,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.494921875,
+      "trial_bootstrap_95": [
+        0.483984375,
+        0.505341796875
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 9999,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.50625,
+      "trial_bootstrap_95": [
+        0.49557291666666664,
+        0.5169270833333334
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 9999,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.496484375,
+      "trial_bootstrap_95": [
+        0.48359375,
+        0.5096354166666667
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 9999,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.50625,
+      "trial_bootstrap_95": [
+        0.49557291666666664,
+        0.5169270833333334
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 8,
+      "mode": "sqrt",
+      "private_target_index": 9999,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.496484375,
+      "trial_bootstrap_95": [
+        0.48359375,
+        0.5096354166666667
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49661458333333336,
+      "trial_bootstrap_95": [
+        0.4830729166666667,
+        0.5098958333333333
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49830729166666665,
+      "trial_bootstrap_95": [
+        0.48932291666666666,
+        0.507421875
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5033854166666667,
+      "trial_bootstrap_95": [
+        0.4901041666666667,
+        0.5169270833333334
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49830729166666665,
+      "trial_bootstrap_95": [
+        0.48932291666666666,
+        0.507421875
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 3333,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.501171875,
+      "trial_bootstrap_95": [
+        0.487890625,
+        0.5139322916666667
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 3333,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5028645833333333,
+      "trial_bootstrap_95": [
+        0.4920572916666667,
+        0.5140625
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 3333,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.501171875,
+      "trial_bootstrap_95": [
+        0.487890625,
+        0.5139322916666667
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 3333,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5028645833333333,
+      "trial_bootstrap_95": [
+        0.4920572916666667,
+        0.5140625
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 6666,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.501171875,
+      "trial_bootstrap_95": [
+        0.49375,
+        0.5083333333333333
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 6666,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.4953125,
+      "trial_bootstrap_95": [
+        0.484765625,
+        0.506513671875
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 6666,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.501171875,
+      "trial_bootstrap_95": [
+        0.49375,
+        0.5083333333333333
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 6666,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.4953125,
+      "trial_bootstrap_95": [
+        0.484765625,
+        0.506513671875
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 9999,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49921875,
+      "trial_bootstrap_95": [
+        0.4889322916666667,
+        0.5089876302083334
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 9999,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5075520833333333,
+      "trial_bootstrap_95": [
+        0.496484375,
+        0.5186197916666667
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 9999,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.49921875,
+      "trial_bootstrap_95": [
+        0.4889322916666667,
+        0.5089876302083334
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "xor",
+      "private_target_index": 9999,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49244791666666665,
+      "trial_bootstrap_95": [
+        0.48138020833333334,
+        0.503515625
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.4981770833333333,
+      "trial_bootstrap_95": [
+        0.48684895833333336,
+        0.5087239583333333
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49752604166666664,
+      "trial_bootstrap_95": [
+        0.4881510416666667,
+        0.50703125
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5018229166666667,
+      "trial_bootstrap_95": [
+        0.49127604166666666,
+        0.5131510416666667
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 0,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.49752604166666664,
+      "trial_bootstrap_95": [
+        0.4881510416666667,
+        0.50703125
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 3333,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.499609375,
+      "trial_bootstrap_95": [
+        0.4897102864583333,
+        0.508984375
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 3333,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.505859375,
+      "trial_bootstrap_95": [
+        0.49440104166666665,
+        0.5184895833333333
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 3333,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.499609375,
+      "trial_bootstrap_95": [
+        0.4897102864583333,
+        0.508984375
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 3333,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.505859375,
+      "trial_bootstrap_95": [
+        0.49440104166666665,
+        0.5184895833333333
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 6666,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5033854166666667,
+      "trial_bootstrap_95": [
+        0.49375,
+        0.51328125
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 6666,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5018229166666667,
+      "trial_bootstrap_95": [
+        0.48866861979166665,
+        0.5144563802083333
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 6666,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5033854166666667,
+      "trial_bootstrap_95": [
+        0.49375,
+        0.51328125
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 6666,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.5018229166666667,
+      "trial_bootstrap_95": [
+        0.48866861979166665,
+        0.5144563802083333
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 9999,
+      "server": 0,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5049479166666667,
+      "trial_bootstrap_95": [
+        0.494140625,
+        0.5151041666666667
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 9999,
+      "server": 0,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.501953125,
+      "trial_bootstrap_95": [
+        0.49440104166666665,
+        0.508984375
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 9999,
+      "server": 1,
+      "bit": "ones_first_bit",
+      "one_fraction": 0.5049479166666667,
+      "trial_bootstrap_95": [
+        0.494140625,
+        0.5151041666666667
+      ]
+    },
+    {
+      "count": 10000,
+      "record_bytes": 1024,
+      "mode": "sqrt",
+      "private_target_index": 9999,
+      "server": 1,
+      "bit": "ones_tail_bit",
+      "one_fraction": 0.501953125,
+      "trial_bootstrap_95": [
+        0.49440104166666665,
+        0.508984375
+      ]
+    }
+  ],
+  "scope": "Sequential in-process calls to actual two independently owned XOR-PIR server states, fresh each mode/trial; full-record oracle verified for every query. No network framing, transport, authentication, hardware side-channel mitigation or sublinear server-work claim.",
+  "privacy": "Each single query is uniform by construction from OsRng shares; column remains client-only. Bit-rate diagnostics are limited empirical sanity checks, not independence tests or security proofs. Joint shares expose the row; with matching data, colluding servers can identify it.",
+  "uncertainty": "5000 percentile bootstrap samples of 30 whole fresh-state trial means per geometry/mode; same seeded workload indices paired across modes, randomized mode order; initialization excluded, one warm query per state. The same host and fixed deterministic record contents are reused.",
+  "geometry": "r=c=ceil(sqrt(N)); matrix padding zeros. Two query payloads total 2ceil(r/8) bytes, responses 2cB bytes. Full masked scan r*c*B bytes per server. Square layout is not optimized for total bytes when B>1."
+}

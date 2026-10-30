@@ -1,0 +1,1 @@
+{"schema":1,"participants":[1,2],"epoch_ms":[200,400],"real_percent":[0,50,100],"epochs":4,"trials":30,"workload":"existing deterministic mixed function/real-dummy schedule; OS cryptographic randomness; no workload RNG","bootstrap_replicates":1000}

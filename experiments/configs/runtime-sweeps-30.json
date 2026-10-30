@@ -1,0 +1,12 @@
+{
+  "trials": 30,
+  "seed": 20261021,
+  "open_loop": [
+    {"name":"underload", "interval_ms":150, "count":8, "queue_capacity":2},
+    {"name":"overload", "interval_ms":10, "count":8, "queue_capacity":2}
+  ],
+  "batch_period_ms": [2,10,25],
+  "batch_real_percent": [0,50,100],
+  "batch_epochs": 32,
+  "batch_participants": 8
+}

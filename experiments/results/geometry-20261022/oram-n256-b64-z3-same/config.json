@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "blocks": 256,
+  "bucket_capacity": 3,
+  "block_bytes": 64,
+  "operations": 128,
+  "warmup": 16,
+  "trials": 30,
+  "seed": 20261022,
+  "workload": "same"
+}

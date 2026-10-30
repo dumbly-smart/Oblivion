@@ -1,0 +1,11 @@
+{
+  "command": [
+    "/home/xtrmn8/oblivion/experiments/results/leaf-100k-current/bin/oram-measure",
+    "/home/xtrmn8/oblivion/experiments/results/leaf-100k-current/same-config.json",
+    "/home/xtrmn8/oblivion/experiments/results/leaf-100k-current/same"
+  ],
+  "returncode": 0,
+  "stdout": "",
+  "stderr": "",
+  "process_wall_ns": 4716286554
+}

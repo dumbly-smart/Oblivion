@@ -1,0 +1,40 @@
+{
+  "cpus_available": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+  ],
+  "chosen_cpus": [
+    0,
+    1
+  ],
+  "attempts_predeclared": [
+    "parallel14_on_two_cpus",
+    "serial1_on_two_cpus",
+    "strict_demo3_on_one_cpu_with_16_busy_processes"
+  ],
+  "binary_sha256": "1ca310463b564bdda57f219de94edb9316ad8665d9866e5341ace3b63c7570ca",
+  "budgets_changed": false,
+  "source_edits": false
+}

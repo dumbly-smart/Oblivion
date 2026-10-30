@@ -1,0 +1,122 @@
+{
+  "run_start": {
+    "observed_at_utc": "2026-10-30T00:03:42.097+00:00",
+    "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+    "cpu_model": "Intel(R) Core(TM) i7-14650HX",
+    "logical_cpu_count": 24,
+    "process_allowed_cpus": [
+      2
+    ],
+    "load_average_1_5_15": [
+      11.34716796875,
+      6.59375,
+      3.951171875
+    ]
+  },
+  "modes": {
+    "plaintext": {
+      "before": {
+        "observed_at_utc": "2026-10-30T00:03:42.098+00:00",
+        "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+        "cpu_model": "Intel(R) Core(TM) i7-14650HX",
+        "logical_cpu_count": 24,
+        "process_allowed_cpus": [
+          2
+        ],
+        "load_average_1_5_15": [
+          11.34716796875,
+          6.59375,
+          3.951171875
+        ]
+      },
+      "after": {
+        "observed_at_utc": "2026-10-30T00:03:44.858+00:00",
+        "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+        "cpu_model": "Intel(R) Core(TM) i7-14650HX",
+        "logical_cpu_count": 24,
+        "process_allowed_cpus": [
+          2
+        ],
+        "load_average_1_5_15": [
+          10.5986328125,
+          6.51708984375,
+          3.9404296875
+        ]
+      }
+    },
+    "encrypt_only": {
+      "before": {
+        "observed_at_utc": "2026-10-30T00:03:44.859+00:00",
+        "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+        "cpu_model": "Intel(R) Core(TM) i7-14650HX",
+        "logical_cpu_count": 24,
+        "process_allowed_cpus": [
+          2
+        ],
+        "load_average_1_5_15": [
+          10.5986328125,
+          6.51708984375,
+          3.9404296875
+        ]
+      },
+      "after": {
+        "observed_at_utc": "2026-10-30T00:03:48.024+00:00",
+        "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+        "cpu_model": "Intel(R) Core(TM) i7-14650HX",
+        "logical_cpu_count": 24,
+        "process_allowed_cpus": [
+          2
+        ],
+        "load_average_1_5_15": [
+          9.98974609375,
+          6.45849609375,
+          3.93505859375
+        ]
+      }
+    },
+    "oram": {
+      "before": {
+        "observed_at_utc": "2026-10-30T00:04:12.630+00:00",
+        "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+        "cpu_model": "Intel(R) Core(TM) i7-14650HX",
+        "logical_cpu_count": 24,
+        "process_allowed_cpus": [
+          2
+        ],
+        "load_average_1_5_15": [
+          11.62353515625,
+          7.0595703125,
+          4.18701171875
+        ]
+      },
+      "after": {
+        "observed_at_utc": "2026-10-30T00:04:33.465+00:00",
+        "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+        "cpu_model": "Intel(R) Core(TM) i7-14650HX",
+        "logical_cpu_count": 24,
+        "process_allowed_cpus": [
+          2
+        ],
+        "load_average_1_5_15": [
+          10.134765625,
+          7.083984375,
+          4.27197265625
+        ]
+      }
+    }
+  },
+  "run_end": {
+    "observed_at_utc": "2026-10-30T00:04:54.116+00:00",
+    "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+    "cpu_model": "Intel(R) Core(TM) i7-14650HX",
+    "logical_cpu_count": 24,
+    "process_allowed_cpus": [
+      2
+    ],
+    "load_average_1_5_15": [
+      12.1015625,
+      7.71337890625,
+      4.5380859375
+    ]
+  }
+}

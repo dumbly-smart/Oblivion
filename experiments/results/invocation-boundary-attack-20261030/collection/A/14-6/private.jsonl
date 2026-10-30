@@ -1,0 +1,9 @@
+{"deadline_missed":false,"driver_work_overrun_ns":0,"execution_ns":0,"publication_lateness_ns":0,"registry_ns":0,"step":0,"work_ns":0}
+{"deadline_missed":false,"driver_work_overrun_ns":0,"execution_ns":147493,"publication_lateness_ns":0,"registry_ns":2822,"step":1,"work_ns":147412}
+{"deadline_missed":false,"driver_work_overrun_ns":0,"execution_ns":98809,"publication_lateness_ns":0,"registry_ns":1962,"step":2,"work_ns":98765}
+{"deadline_missed":false,"driver_work_overrun_ns":0,"execution_ns":0,"publication_lateness_ns":0,"registry_ns":0,"step":3,"work_ns":0}
+{"deadline_missed":false,"driver_work_overrun_ns":0,"execution_ns":0,"publication_lateness_ns":0,"registry_ns":0,"step":4,"work_ns":0}
+{"deadline_missed":false,"driver_work_overrun_ns":0,"execution_ns":0,"publication_lateness_ns":0,"registry_ns":0,"step":5,"work_ns":0}
+{"deadline_missed":false,"driver_work_overrun_ns":0,"execution_ns":35132,"publication_lateness_ns":0,"registry_ns":1182,"step":6,"work_ns":35091}
+{"deadline_missed":false,"driver_work_overrun_ns":0,"execution_ns":35343,"publication_lateness_ns":0,"registry_ns":1702,"step":7,"work_ns":35299}
+{"encrypted_storage_bytes":512,"private_stats":null}

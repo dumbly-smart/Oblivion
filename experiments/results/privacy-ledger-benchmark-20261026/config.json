@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "seed": 20261026,
+  "trials": 30,
+  "users_per_release": [
+    1,
+    16,
+    64,
+    256
+  ],
+  "release_epsilon": 0.01,
+  "release_delta": 1e-06,
+  "max_user_epsilon": 100.0,
+  "max_user_delta": 0.9,
+  "deterministic_synthetic_principal_ids": true,
+  "ledger_hmac_key_source": "fresh OS CSPRNG key in private temporary directory",
+  "timed_region": "PersistentUserPrivacyLedger.record including SQLite FULL synchronous commit",
+  "percentile_method": "NumPy linear percentile over per-release elapsed milliseconds"
+}

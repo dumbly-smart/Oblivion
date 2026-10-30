@@ -1,0 +1,274 @@
+   Compiling oblivion-server v0.1.0 (/home/xtrmn8/oblivion/crates/oblivion-server)
+    Finished `test` profile [unoptimized] target(s) in 1.23s
+     Running unittests src/lib.rs (target/debug/deps/oblivion_batcher-ce5453e83a41476a)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/epochs.rs (target/debug/deps/epochs-527b724da326bdec)
+
+running 6 tests
+test queues_reject_future_epochs_and_out_of_range_slots ... ok
+test bootstrap_over_private_pipe_preserves_directional_keys ... ok
+test tamper_wrong_direction_and_unknown_participant_are_rejected ... ok
+test delayed_unseen_response_cannot_satisfy_a_new_request ... ok
+test fixed_batches_across_real_ratios_and_missing_clients ... ok
+test real_and_dummy_envelopes_have_same_shape_and_replay_is_rejected ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running unittests src/lib.rs (target/debug/deps/oblivion_exec-e06070325bfb0488)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/execution.rs (target/debug/deps/execution-b00254a0dd45a8d4)
+
+running 5 tests
+test deadline_interrupts_guest_with_large_fuel_budget ... ok
+test deliberately_unpadded_baseline_returns_actual_guest_length ... ok
+test medium_class_runs_real_modules_and_pads_errors_to_its_own_public_size ... ok
+test invalid_input_traps_fuel_and_memory_failures_have_uniform_shape ... ok
+test executes_five_real_modules_with_fixed_responses_and_padding ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.71s
+
+     Running tests/storage_schedule.rs (target/debug/deps/storage_schedule-42d36df06415eba8)
+
+running 5 tests
+test trusted_driver_can_prepare_before_owning_the_response_publication_deadline ... ok
+test guest_write_followed_by_trap_is_not_committed ... ok
+test staging_budget_accounts_for_rollback_and_mutable_copies ... ok
+test namespaces_prevent_guest_cross_client_and_dummy_accesses ... ok
+test protected_functions_and_failures_have_identical_storage_structure ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.67s
+
+     Running unittests src/main.rs (target/debug/deps/oblivion_harness-065085d19fb52476)
+
+running 2 tests
+test tests::traffic_oracle_rejects_corrupt_success_and_unmasked_or_wrong_shape_errors ... ok
+test tests::real_guest_timeouts_are_recorded_with_actual_masked_shapes_and_private_status ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.26s
+
+     Running tests/dataset.rs (target/debug/deps/dataset-50ba0497e8ccdde7)
+
+running 1 test
+test component_dataset_uses_actual_lengths_and_separate_labels ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 26.37s
+
+     Running tests/system.rs (target/debug/deps/system-b8ea8eca587d3822)
+
+running 1 test
+test actual_ablation_paths_emit_joint_observers_and_separate_truth ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 10.60s
+
+     Running unittests src/lib.rs (target/debug/deps/oblivion_pir-3f62173e806d23b7)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/pir-client.rs (target/debug/deps/pir_client-811c9be01084ea5c)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/pir-server.rs (target/debug/deps/pir_server-04fdb1fe8d314133)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/secure-pir-server.rs (target/debug/deps/secure_pir_server-e2013f5891a63b58)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/processes.rs (target/debug/deps/processes-3811f2d204a998e8)
+
+running 1 test
+test separate_process_retrieval_malformed_request_and_server_failure ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/retrieval.rs (target/debug/deps/retrieval-46adbbc39f9949c4)
+
+running 4 tests
+test malformed_database_queries_and_answers_rejected ... ok
+test retrieves_all_indices_with_fixed_shapes ... ok
+test bit_marginals_do_not_depend_on_requested_index ... ok
+test ten_thousand_kib_records ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.68s
+
+     Running tests/secure_processes.rs (target/debug/deps/secure_processes-bc3639a924e66bf6)
+
+running 1 test
+test private_pipe_bootstrap_large_process_retrieval_and_server_loss ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.60s
+
+     Running tests/secure_transport.rs (target/debug/deps/secure_transport-509518f4a152eb1c)
+
+running 7 tests
+test private_bootstrap_round_trip_and_geometry_bounds ... ok
+test authenticates_geometry_version_epoch_sequence_and_payload_before_accepting ... ok
+test independent_sessions_and_tampered_answers_are_rejected_without_consuming_pending ... ok
+test tampered_and_replayed_tcp_queries_never_produce_an_answer ... ok
+test server_deadline_bounds_trickled_input_and_rejects_database_geometry_mismatch ... ok
+test large_database_over_real_tcp_has_geometry_sized_frames ... ok
+test timeout_disconnect_and_delayed_answer_do_not_match_a_new_request ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.22s
+
+     Running tests/sqrt.rs (target/debug/deps/sqrt-298af452914552a5)
+
+running 5 tests
+test rejects_bad_server_dimensions_and_malformed_shapes ... ok
+test validates_limits_without_overflow_or_large_allocation ... ok
+test nonsquare_geometry_zero_pads_the_last_row ... ok
+test joint_shares_reveal_row_and_do_not_encode_the_private_column ... ok
+test all_indices_match_full_record_oracle_with_independent_servers ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running unittests src/main.rs (target/debug/deps/oblivion_server-11015408f9715727)
+
+running 7 tests
+test pipeline::tests::default_metadata_period_rejects_invalid_participants_before_output ... ok
+test pipeline::tests::deployment_pin_rejects_version_rollback_tamper_and_wrong_identity ... ok
+test secure_pir::tests::startup_rejects_unbounded_address_and_dead_child ... ok
+test discovery::tests::metadata_search_returns_exact_deployment_ids_and_rejects_missing_keyword ... ok
+test pipeline::tests::actual_overdue_executor_error_is_retained_only_by_sweep_and_must_be_masked ... ok
+test pipeline::tests::buffered_pipe_frames_keep_reader_timestamps_when_consumer_is_slow ... ok
+test secure_pir::tests::startup_wait_is_bounded_and_child_is_reaped ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+     Running tests/epoch_sweep.rs (target/debug/deps/epoch_sweep-8d8d334f9283557c)
+
+running 4 tests
+test enormous_legacy_participant_count_is_rejected_without_panic_or_output ... ok
+test schedule_rejects_invalid_bounds_before_creating_output ... ok
+test actual_sweep_uses_exact_metadata_oracles_and_arrival_latency ... ok
+test original_demo_defaults_remain_eight_epochs_and_150ms_per_client ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.44s
+
+     Running tests/pipeline.rs (target/debug/deps/pipeline-8c9c2e6e09639e0c)
+
+running 14 tests
+test eof_midway_through_multi_client_epoch_is_rejected ... ok
+test lost_pir_server_returns_authenticated_zero_error_without_user_state ... ok
+test tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched ... ok
+test duplicate_and_skipped_epochs_fail_closed_without_second_execution ... ok
+test open_loop_arrivals_continue_while_executor_is_busy_and_queue_is_bounded ... ok
+test invalid_selection_and_reserved_dummy_address_do_not_mutate_user_state ... ok
+test open_loop_underload_completes_every_offered_stateful_request ... ok
+test actual_process_pipeline_real_dummy_and_oram_state ... ok
+test late_frame_after_idle_timeout_cannot_resume_session ... ok
+test sse_metadata_discovery_precedes_real_mixed_invocation ... ok
+test multiple_clients_execute_mixed_functions_with_isolated_state_and_fixed_traces ... ok
+test executor_bootstrap_and_partial_frames_have_bounded_lifetimes ... ok
+test abandoned_response_pipe_cannot_hold_executor_forever ... ok
+test orphaned_pir_worker_exits_after_idle_bound ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.01s
+
+     Running unittests src/lib.rs (target/debug/deps/oblivion_sse-c640c00a13fa1518)
+
+running 8 tests
+test tests::malformed_covers_are_rejected_before_expansion ... ok
+test tests::rollback_negative_fixture_reuses_exposed_address ... ok
+test tests::full_epoch_is_retired_until_rotation ... ok
+test tests::pending_retries_and_limits_are_atomic ... ok
+test tests::payload_authentication_snapshot_and_response_checks ... ok
+test tests::retained_all_past_constraints_and_root_positive_control ... ok
+test tests::exhaustive_small_tree_prefix_capabilities ... ok
+test tests::hundred_thousand_operations_match_plaintext_oracle has been running for over 60 seconds
+test tests::hundred_thousand_operations_match_plaintext_oracle ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 69.53s
+
+     Running unittests src/lib.rs (target/debug/deps/oblivion_store-1c04ee383fefadc1)
+
+running 5 tests
+test oram::tests::authenticated_block_outside_assigned_path_is_rejected ... ok
+test oram::tests::authenticated_invalid_and_duplicate_identifiers_are_rejected ... ok
+test oram::tests::exhausted_nonce_fails_closed_without_reset ... ok
+test oram::recovery::tests::authenticated_malformed_geometry_state_and_nonce_are_rejected ... ok
+test oram::recovery::tests::restore_preserves_maps_versions_stash_and_rotates_keys_before_encrypting ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests/adversarial.rs (target/debug/deps/adversarial-6c7aac25a058722f)
+
+running 5 tests
+test truncated_or_substituted_bucket_is_rejected ... ok
+test invalid_configuration_and_inputs_are_bounded ... ok
+test partial_write_and_read_failure_poison_controller ... ok
+test corruption_and_replay_fail_closed ... ok
+test fixed_shape_and_fresh_ciphertext_for_reads_and_writes ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests/oracle.rs (target/debug/deps/oracle-cea69b76316ebf96)
+
+running 3 tests
+test million_operation_oracle ... ignored, million-operation stress tier; run in release mode
+test unwritten_blocks_are_zero_and_writes_persist ... ok
+test randomized_oracle ... ok
+
+test result: ok. 2 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 7.33s
+
+     Running tests/recovery.rs (target/debug/deps/recovery-692e06f756aab2b1)
+
+running 7 tests
+test file_backend_bounds_and_truncated_files ... ok
+test trusted_handle_is_redacted_and_oversized_inputs_are_rejected ... ok
+test checkpoint_detects_bucket_corruption_and_poisoned_controller_is_not_published ... ok
+test stale_anchors_corruption_truncation_and_mixed_snapshots_fail_closed ... ok
+test partial_restore_failure_returns_no_controller_and_allows_fresh_retry ... ok
+test publication_failure_preserves_controller_and_previous_checkpoint ... ok
+test real_file_checkpoint_restore_and_continued_writes ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s
+
+   Doc-tests oblivion_batcher
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests oblivion_exec
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests oblivion_pir
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests oblivion_sse
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests oblivion_store
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

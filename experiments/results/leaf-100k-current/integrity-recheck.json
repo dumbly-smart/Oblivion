@@ -1,0 +1,30 @@
+{
+  "checked_unix_ns": 1792669862471080551,
+  "method": "streamed gzip decompression; no raw-file mutation",
+  "files": {
+    "uniform/private-0.jsonl.gz": {
+      "gzip_sha256": "9f0a2fcb04298421a94c7bdf5f520c902811779c219dd42eb76c8f6c85445795",
+      "decompressed_sha256": "d46016d9f655d21ecb9ddbbac1951860903962aed3d6558531cbf33bffb3afb0",
+      "decompressed_bytes": 7823195,
+      "verified": true
+    },
+    "uniform/observer-0.jsonl.gz": {
+      "gzip_sha256": "b94a9896412b953854184ec99f69d5298947b493ea33be5d042765f202d41939",
+      "decompressed_sha256": "13585a02b42afc4c5f70ed95a86d131a698e0892ef40871a47aa2c530bba2ea2",
+      "decompressed_bytes": 113211354,
+      "verified": true
+    },
+    "same/private-0.jsonl.gz": {
+      "gzip_sha256": "3c49a52f1fbf4eaab6a545cbee2708387dbc1c9bd95568d6534e173fe8cd0883",
+      "decompressed_sha256": "692e44ec9edba6587de0f578044eb6f3d0db61fc0625ed67c1794f0c756bc3c7",
+      "decompressed_bytes": 7738983,
+      "verified": true
+    },
+    "same/observer-0.jsonl.gz": {
+      "gzip_sha256": "3fbd534410e4f7be66b1cbc63f17f65ea9471f82e628a92faff80626f189a5e6",
+      "decompressed_sha256": "777d16867925303258289c690add86c965f5b896128c3b2da680e60baf15494b",
+      "decompressed_bytes": 113204678,
+      "verified": true
+    }
+  }
+}

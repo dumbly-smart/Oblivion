@@ -1,0 +1,8 @@
+{
+  "source_sha256_before": "c01f417c4bcca5576a6e426ab4622198ec7d700d409f50963a4967c7c0dab26d",
+  "source_sha256_after": "ccf14bc744675440e7e081480a1b38de24b750e44674390b6c6725d6edc67793",
+  "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+  "python": "3.14.8 (main, Oct  2 2026, 10:23:31) [GCC 16.2.1 20260810]",
+  "configuration": "workspace profiles; locked dependencies; explicit release stress tier",
+  "output": "/home/xtrmn8/oblivion/experiments/results/validation-20261022-current"
+}

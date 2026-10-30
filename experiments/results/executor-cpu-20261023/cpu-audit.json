@@ -1,0 +1,14 @@
+{
+  "original_campaign_artifact_hashes_verified": 24,
+  "cpu_campaign_artifact_hashes_verified": 25,
+  "all_frozen_source_hashes_match_current": true,
+  "trials": 180,
+  "calls": 2160,
+  "all_oracles_pass": true,
+  "tests": 4,
+  "tests_exit": 0,
+  "test_command": "EXECUTOR_RESOURCES_BINARY=$PWD/target/release/examples/resource_measure .venv/bin/python -m unittest research.tests.test_executor_resources -v",
+  "clippy_exit": 0,
+  "schema": 2,
+  "cpu_scope": "ProcessTime per actual invocation; ThreadTime main-thread; setup and independent oracle/serialization excluded"
+}

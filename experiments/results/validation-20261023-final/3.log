@@ -1,0 +1,8 @@
+   Compiling oblivion-pir v0.1.0 (/home/xtrmn8/oblivion/crates/oblivion-pir)
+   Compiling oblivion-sse v0.1.0 (/home/xtrmn8/oblivion/crates/oblivion-sse)
+   Compiling oblivion-batcher v0.1.0 (/home/xtrmn8/oblivion/crates/oblivion-batcher)
+   Compiling oblivion-store v0.1.0 (/home/xtrmn8/oblivion/crates/oblivion-store)
+   Compiling oblivion-exec v0.1.0 (/home/xtrmn8/oblivion/crates/oblivion-exec)
+   Compiling oblivion-harness v0.1.0 (/home/xtrmn8/oblivion/crates/oblivion-harness)
+   Compiling oblivion-server v0.1.0 (/home/xtrmn8/oblivion/crates/oblivion-server)
+    Finished `release` profile [optimized] target(s) in 11.00s

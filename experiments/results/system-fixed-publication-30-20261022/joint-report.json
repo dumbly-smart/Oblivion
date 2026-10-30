@@ -1,0 +1,633 @@
+{
+  "schema_version": 1,
+  "analysis_source_sha256": "250f9836cce295f2c14ac724ca03f2b363e105195b0aaa7f99be61212f230800",
+  "attacker_source_sha256": "32b34d78fa5e2fcccd1acf1bd7b04afddde58efe6b55efd11af1e6f9bca0a35d",
+  "configuration": {
+    "version": 1,
+    "seed": 20261021,
+    "trials": 30,
+    "sessions": 4,
+    "operations": 16,
+    "epoch_ms": 110
+  },
+  "mode_names": {
+    "A": "Plaintext",
+    "B": "Encrypt only",
+    "C": "+ ORAM",
+    "D": "+ PIR",
+    "E": "+ batching",
+    "F": "+ padded executor",
+    "G": "Combined"
+  },
+  "summaries": {
+    "A": {
+      "accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "balanced_accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "majority_accuracy": {
+        "mean": 0.5,
+        "ci95_trials": [
+          0.5,
+          0.5
+        ]
+      },
+      "real_dummy_accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "real_dummy_auc": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "conditional_real_function_accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "top2_accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "benchmark": {
+        "observations": 1920,
+        "p50_ms": 0.006408,
+        "p95_ms": 0.10380879999999999,
+        "p99_ms": 0.16937137999999977,
+        "mean_ms": 0.021020246354166668,
+        "mean_opportunity_wall_ms": 0.05362942708333333,
+        "real_p50_ms": 0.0271845,
+        "real_p95_ms": 0.12953339999999985,
+        "real_p99_ms": 0.18802862999999992,
+        "bytes_per_public_opportunity": 179.5,
+        "bytes_per_real_invocation": 359.0,
+        "mean_registry_us": 0.5671432291666666,
+        "mean_execution_ms": 0.018176665625,
+        "mean_padding_ms": 1.885625e-05,
+        "process_cpu_ticks": 6,
+        "max_process_rss_pages": 3113,
+        "deadline_misses": 0,
+        "late_epochs": 0,
+        "max_late_ms": 0.0,
+        "useful_real_throughput_per_s": 9323.239631537801,
+        "hypothetical_compute_cost_per_million_real": 0.0010725885416666668,
+        "hypothetical_client_response_egress_cost_per_million_real": 0.003259629011154175,
+        "mean_trial_real_p95_ms": 0.11942033499999999,
+        "mean_trial_real_p95_ms_ci95": [
+          0.10646162520833331,
+          0.131953993625
+        ],
+        "driver_work_overruns": null,
+        "publication_lateness_p95_ms": null
+      }
+    },
+    "B": {
+      "accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "balanced_accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "majority_accuracy": {
+        "mean": 0.5,
+        "ci95_trials": [
+          0.5,
+          0.5
+        ]
+      },
+      "real_dummy_accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "real_dummy_auc": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "conditional_real_function_accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "top2_accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "benchmark": {
+        "observations": 1920,
+        "p50_ms": 0.008555,
+        "p95_ms": 0.12384204999999993,
+        "p99_ms": 0.19738128999999993,
+        "mean_ms": 0.027598861458333335,
+        "mean_opportunity_wall_ms": 0.06669889322916665,
+        "real_p50_ms": 0.0381495,
+        "real_p95_ms": 0.15888044999999998,
+        "real_p99_ms": 0.21463263999999985,
+        "bytes_per_public_opportunity": 276.0,
+        "bytes_per_real_invocation": 552.0,
+        "mean_registry_us": 0.6397677083333333,
+        "mean_execution_ms": 0.021331263541666666,
+        "mean_padding_ms": 1.9416666666666667e-05,
+        "process_cpu_ticks": 12,
+        "max_process_rss_pages": 3113,
+        "deadline_misses": 0,
+        "late_epochs": 0,
+        "max_late_ms": 0.0,
+        "useful_real_throughput_per_s": 7496.376263427348,
+        "hypothetical_compute_cost_per_million_real": 0.0013339778645833332,
+        "hypothetical_client_response_egress_cost_per_million_real": 0.015273690223693848,
+        "mean_trial_real_p95_ms": 0.14115941166666662,
+        "mean_trial_real_p95_ms_ci95": [
+          0.12864183145833333,
+          0.15332194583333328
+        ],
+        "driver_work_overruns": null,
+        "publication_lateness_p95_ms": null
+      }
+    },
+    "C": {
+      "accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "balanced_accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "majority_accuracy": {
+        "mean": 0.5,
+        "ci95_trials": [
+          0.5,
+          0.5
+        ]
+      },
+      "real_dummy_accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "real_dummy_auc": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "conditional_real_function_accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "top2_accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "benchmark": {
+        "observations": 1920,
+        "p50_ms": 0.008706,
+        "p95_ms": 0.1615824,
+        "p99_ms": 0.22856220999999982,
+        "mean_ms": 0.03953144635416667,
+        "mean_opportunity_wall_ms": 0.08148544635416667,
+        "real_p50_ms": 0.055399000000000004,
+        "real_p95_ms": 0.18769534999999996,
+        "real_p99_ms": 0.2645767499999999,
+        "bytes_per_public_opportunity": 1494.0,
+        "bytes_per_real_invocation": 2988.0,
+        "mean_registry_us": 0.6392390625000001,
+        "mean_execution_ms": 0.033290176562499996,
+        "mean_padding_ms": 2.4184375e-05,
+        "process_cpu_ticks": 11,
+        "max_process_rss_pages": 3113,
+        "deadline_misses": 0,
+        "late_epochs": 0,
+        "max_late_ms": 0.0,
+        "useful_real_throughput_per_s": 6136.065056658219,
+        "hypothetical_compute_cost_per_million_real": 0.0016297089270833336,
+        "hypothetical_client_response_egress_cost_per_million_real": 0.015273690223693848,
+        "mean_trial_real_p95_ms": 0.16947743333333332,
+        "mean_trial_real_p95_ms_ci95": [
+          0.15474473887499998,
+          0.1843666930833333
+        ],
+        "driver_work_overruns": null,
+        "publication_lateness_p95_ms": null
+      }
+    },
+    "D": {
+      "accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "balanced_accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "majority_accuracy": {
+        "mean": 0.5,
+        "ci95_trials": [
+          0.5,
+          0.5
+        ]
+      },
+      "real_dummy_accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "real_dummy_auc": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "conditional_real_function_accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "top2_accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "benchmark": {
+        "observations": 1920,
+        "p50_ms": 0.0191305,
+        "p95_ms": 0.17254284999999997,
+        "p99_ms": 0.26542551,
+        "mean_ms": 0.04679102708333333,
+        "mean_opportunity_wall_ms": 0.08423696666666666,
+        "real_p50_ms": 0.07854900000000001,
+        "real_p95_ms": 0.21236214999999997,
+        "real_p99_ms": 0.2903138699999999,
+        "bytes_per_public_opportunity": 443.0,
+        "bytes_per_real_invocation": 886.0,
+        "mean_registry_us": 18.831652604166667,
+        "mean_execution_ms": 0.022135608333333334,
+        "mean_padding_ms": 1.8922916666666665e-05,
+        "process_cpu_ticks": 10,
+        "max_process_rss_pages": 3113,
+        "deadline_misses": 0,
+        "late_epochs": 0,
+        "max_late_ms": 0.0,
+        "useful_real_throughput_per_s": 5935.6363338502615,
+        "hypothetical_compute_cost_per_million_real": 0.0016847393333333336,
+        "hypothetical_client_response_egress_cost_per_million_real": 0.015273690223693848,
+        "mean_trial_real_p95_ms": 0.19560495166666667,
+        "mean_trial_real_p95_ms_ci95": [
+          0.18005398762499997,
+          0.2105673750416666
+        ],
+        "driver_work_overruns": null,
+        "publication_lateness_p95_ms": null
+      }
+    },
+    "E": {
+      "accuracy": {
+        "mean": 0.9802083333333333,
+        "ci95_trials": [
+          0.9625,
+          0.99375
+        ]
+      },
+      "balanced_accuracy": {
+        "mean": 0.973611111111111,
+        "ci95_trials": [
+          0.9499999999999998,
+          0.9916666666666667
+        ]
+      },
+      "majority_accuracy": {
+        "mean": 0.5,
+        "ci95_trials": [
+          0.5,
+          0.5
+        ]
+      },
+      "real_dummy_accuracy": {
+        "mean": 0.9989583333333333,
+        "ci95_trials": [
+          0.996875,
+          1.0
+        ]
+      },
+      "real_dummy_auc": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "conditional_real_function_accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "top2_accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "benchmark": {
+        "observations": 1920,
+        "p50_ms": 0.19546249999999998,
+        "p95_ms": 0.31752135,
+        "p99_ms": 0.38040930999999956,
+        "mean_ms": 0.2026177171875,
+        "mean_opportunity_wall_ms": 110.01710067812499,
+        "real_p50_ms": 0.1928695,
+        "real_p95_ms": 0.31469435,
+        "real_p99_ms": 0.35352779999999995,
+        "bytes_per_public_opportunity": 598.0,
+        "bytes_per_real_invocation": 1196.0,
+        "mean_registry_us": 4.070678125,
+        "mean_execution_ms": 0.15803747395833334,
+        "mean_padding_ms": 7.802447916666667e-05,
+        "process_cpu_ticks": 141,
+        "max_process_rss_pages": 3113,
+        "deadline_misses": 0,
+        "late_epochs": 1920,
+        "max_late_ms": 1.736635,
+        "useful_real_throughput_per_s": 4.544748015700221,
+        "hypothetical_compute_cost_per_million_real": 2.2003420135625,
+        "hypothetical_client_response_egress_cost_per_million_real": 0.030547380447387695,
+        "mean_trial_real_p95_ms": 0.29881606499999996,
+        "mean_trial_real_p95_ms_ci95": [
+          0.28716306525,
+          0.3095071419166666
+        ],
+        "driver_work_overruns": null,
+        "publication_lateness_p95_ms": null
+      }
+    },
+    "F": {
+      "accuracy": {
+        "mean": 0.9916666666666667,
+        "ci95_trials": [
+          0.978125,
+          1.0
+        ]
+      },
+      "balanced_accuracy": {
+        "mean": 0.9888888888888888,
+        "ci95_trials": [
+          0.9708333333333334,
+          1.0
+        ]
+      },
+      "majority_accuracy": {
+        "mean": 0.5,
+        "ci95_trials": [
+          0.5,
+          0.5
+        ]
+      },
+      "real_dummy_accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "real_dummy_auc": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "conditional_real_function_accuracy": {
+        "mean": 0.9833333333333333,
+        "ci95_trials": [
+          0.95625,
+          1.0
+        ]
+      },
+      "top2_accuracy": {
+        "mean": 1.0,
+        "ci95_trials": [
+          1.0,
+          1.0
+        ]
+      },
+      "benchmark": {
+        "observations": 1920,
+        "p50_ms": 50.004149,
+        "p95_ms": 100.15260605,
+        "p99_ms": 100.18770187,
+        "mean_ms": 50.04426763125,
+        "mean_opportunity_wall_ms": 50.138650571875,
+        "real_p50_ms": 100.067223,
+        "real_p95_ms": 100.16739065,
+        "real_p99_ms": 100.20809856,
+        "bytes_per_public_opportunity": 966.0,
+        "bytes_per_real_invocation": 1932.0,
+        "mean_registry_us": 1.3304458333333335,
+        "mean_execution_ms": 50.04393458802083,
+        "mean_padding_ms": 24.977777607291664,
+        "process_cpu_ticks": 83,
+        "max_process_rss_pages": 3113,
+        "deadline_misses": 0,
+        "late_epochs": 0,
+        "max_late_ms": 0.0,
+        "useful_real_throughput_per_s": 9.972346568905712,
+        "hypothetical_compute_cost_per_million_real": 1.0027730114375,
+        "hypothetical_client_response_egress_cost_per_million_real": 0.015273690223693848,
+        "mean_trial_real_p95_ms": 100.16066252166667,
+        "mean_trial_real_p95_ms_ci95": [
+          100.15243546670834,
+          100.16821464491665
+        ],
+        "driver_work_overruns": 0,
+        "publication_lateness_p95_ms": 0.16710004999999997
+      }
+    },
+    "G": {
+      "accuracy": {
+        "mean": 0.4895833333333333,
+        "ci95_trials": [
+          0.478125,
+          0.5
+        ]
+      },
+      "balanced_accuracy": {
+        "mean": 0.3340277777777778,
+        "ci95_trials": [
+          0.32291666666666674,
+          0.34513888888888894
+        ]
+      },
+      "majority_accuracy": {
+        "mean": 0.5,
+        "ci95_trials": [
+          0.5,
+          0.5
+        ]
+      },
+      "real_dummy_accuracy": {
+        "mean": 0.5083333333333333,
+        "ci95_trials": [
+          0.478125,
+          0.5354166666666667
+        ]
+      },
+      "real_dummy_auc": {
+        "mean": 0.5318359375,
+        "ci95_trials": [
+          0.48827799479166667,
+          0.5720052083333333
+        ]
+      },
+      "conditional_real_function_accuracy": {
+        "mean": 0.4895833333333333,
+        "ci95_trials": [
+          0.4583333333333333,
+          0.5229166666666667
+        ]
+      },
+      "top2_accuracy": {
+        "mean": 0.746875,
+        "ci95_trials": [
+          0.7322916666666667,
+          0.7625
+        ]
+      },
+      "benchmark": {
+        "observations": 1920,
+        "p50_ms": 100.06719799999999,
+        "p95_ms": 100.1600725,
+        "p99_ms": 100.20201333,
+        "mean_ms": 100.08496676510417,
+        "mean_opportunity_wall_ms": 116.26809273854165,
+        "real_p50_ms": 100.0674295,
+        "real_p95_ms": 100.15864524999999,
+        "real_p99_ms": 100.20030197,
+        "bytes_per_public_opportunity": 41242.0,
+        "bytes_per_real_invocation": 82484.0,
+        "mean_registry_us": 64.37110208333333,
+        "mean_execution_ms": 100.08424658177084,
+        "mean_padding_ms": 49.731354375,
+        "process_cpu_ticks": 290,
+        "max_process_rss_pages": 3113,
+        "deadline_misses": 0,
+        "late_epochs": 1920,
+        "max_late_ms": 0.809813,
+        "useful_real_throughput_per_s": 4.300405968853183,
+        "hypothetical_compute_cost_per_million_real": 2.3253618547708332,
+        "hypothetical_client_response_egress_cost_per_million_real": 0.030547380447387695,
+        "mean_trial_real_p95_ms": 100.14703700833334,
+        "mean_trial_real_p95_ms_ci95": [
+          100.13742584204167,
+          100.15538494670832
+        ],
+        "driver_work_overruns": 0,
+        "publication_lateness_p95_ms": 0.15975974999999998
+      }
+    }
+  },
+  "pareto_bandwidth_attack_point_estimates": [
+    "A",
+    "E",
+    "G"
+  ],
+  "pareto_latency_bandwidth_attack_point_estimates": [
+    "A",
+    "E",
+    "G"
+  ],
+  "features": [
+    "request_bytes",
+    "response_bytes",
+    "registry_bytes",
+    "registry_index",
+    "storage_events",
+    "storage_bytes",
+    "last_bucket",
+    "storage_span_ns",
+    "latency_ns",
+    "late_by_ns",
+    "instance_count",
+    "cold_start_ns"
+  ],
+  "attacker_knowledge": "mechanisms/config and whole independent labeled profiling sessions; no target labels supplied to model",
+  "statistical_methodology": "per-trial new fitted forest, mean target metrics, percentile bootstrap of 30 independent trial clusters (or recorded smaller configured count)",
+  "scope": "actual API-boundary A-G integration, encrypted full PIR query frames and actual guest storage calls; not packet capture, TEE, formal proof or open-loop load test",
+  "cost_model": {
+    "wall_occupation_source": "measured opportunity_wall_ns including scheduled idle/validation/serialization; latency_ns is separately measured response latency",
+    "hypothetical_executor_second_price": 1e-05,
+    "hypothetical_response_GiB_price": 0.1,
+    "currency": "illustrative cost units, not provider prices",
+    "egress_scope": "client response payload only; no actual bill, TLS/TCP overhead or internal storage egress inferred"
+  },
+  "timing_caveat": "shared host, serialization/instrumentation overhead and scheduler jitter; CPU ticks and RSS include common process/engine/library state"
+}

@@ -1,0 +1,13 @@
+{
+  "created_before_analysis_utc": "2026-10-22T20:17:29.413517+00:00",
+  "raw_source": "/home/xtrmn8/oblivion/experiments/results/presence-30-20261022",
+  "raw_artifact_manifest_sha256": "0eaae72d5d3d00059c9b466dd529abd971e81fb1298ca534570d8496f66f1aa9",
+  "raw_provenance_sha256": "8eff5088edc7a764a28a79503ab1bd3387228fe1945e5dc90d0286d9a8033d54",
+  "config_sha256": "6df3ed4c23125b950212e2c26f84806cad1a2a2ba171ba2edd3b89aae1545902",
+  "tie_seed": 90000,
+  "tie_seed_semantics": "public constant independent of workload seeds; no latent seed passed to attack",
+  "source_sha256": {
+    "research/analysis/presence.py": "7df6501c0aa209883f29abce68c3d73b36bf11dc28b213637f9506fefe3183eb",
+    "research/attacks/presence.py": "50344ab33ee6008e708c685a08912d8d989cd08b91d87b3d518fe6fbba96e9b3"
+  }
+}

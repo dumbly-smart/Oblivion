@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "count": 10000,
+  "record_bytes": 8,
+  "trials": 30,
+  "queries_per_trial": 16,
+  "seed": 9001,
+  "bootstrap_resamples": 10000,
+  "bootstrap_seed": 61721,
+  "order_seed": 73191,
+  "reference_commit": "e9020b03bf2872c75b8954e749e32408b5db87ed",
+  "lwe_dimension": 1024,
+  "log_ciphertext_modulus": 32,
+  "reference_shared_matrix": "uncompressed",
+  "methodology": "30 fresh process/setup runs per scheme; one untimed warmup per process; 16 deterministic public target indices per run; real SimplePIR preprocessing and full output oracle checks. In-process algorithm timings exclude IPC/network, authentication and compilation. Cryptographic randomness comes from each implementation's normal OS-seeded source. Single-thread kernels; shared host, no CPU affinity."
+}

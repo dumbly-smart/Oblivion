@@ -1,0 +1,19 @@
+{
+  "checks": {
+    "archive_contents_rechecked_against_raw_hashes": true,
+    "paired_trial_session_schedules_verified": 240,
+    "positive_controls_passed": true,
+    "prediction_files_verified": 90,
+    "raw_sha256_entries_verified": 1440,
+    "saved_prediction_metrics_recomputed_from_target_labels": 90,
+    "source_and_binary_fingerprints_match": true
+  },
+  "collection_git_head": "98557ae170e7423032cc24f1506e38ace45f6a7e",
+  "limitations": [
+    "Classifier fitting was not independently reimplemented; saved prediction metrics were recomputed from retained predictions and private target labels.",
+    "Host load is sampled only at mode boundaries.",
+    "Handler-only local timing excludes pipe waiting, request parsing, response encoding and Path ORAM controller work."
+  ],
+  "scope": "Independent post-collection audit of higher-skew Zipf-32 ORAM timing replication",
+  "trace_archive_sha256": "b7d21857c6021744b8c7e7417ec47e74248c92b572f8172cc3b4571c5f680cd5"
+}

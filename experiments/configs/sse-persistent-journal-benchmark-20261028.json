@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "index_sizes": [64, 257, 1024, 4093],
+  "trials": 30,
+  "recovery_repetitions": 5,
+  "schedule_seed": 20261028
+}

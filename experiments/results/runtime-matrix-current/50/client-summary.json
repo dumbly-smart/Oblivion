@@ -1,0 +1,32 @@
+{
+  "client_state_counters": [
+    1,
+    1,
+    0,
+    0
+  ],
+  "dummy_invocations": 16,
+  "encrypted_pir_links": true,
+  "epoch_ms": 600,
+  "execution_class_ms": 100,
+  "functions_verified": 5,
+  "last_real_counter": 1,
+  "limitations": [
+    "PIR servers must not collude",
+    "inherited pipes simulate trusted provisioning; no hardware TEE",
+    "demo state is ephemeral, durable store API tested separately",
+    "public sequential slots and bounded eight-block working set; deadline misses and resource leakage remain"
+  ],
+  "logical_oram_operations_per_invocation": 16,
+  "participants": 4,
+  "processes": 4,
+  "real_invocations": 16,
+  "real_percent": 50,
+  "registry_deployment_sha256": "de0d3a483eee0609030ee60cce3f8de2cef5731decb9475387af8bae777dedc5",
+  "registry_version": 1,
+  "request_bytes": 164,
+  "response_bytes": 164,
+  "sse_metadata_discovery": true,
+  "sse_searches_verified": 32,
+  "state_working_set_blocks": 8
+}

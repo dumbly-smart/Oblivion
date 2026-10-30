@@ -1,0 +1,8 @@
+{
+  "analysis_script_sha256": "95d07c5a9b03b14498add98893f7bc9e62a0893f39d2816d8aa54c97b4a85561",
+  "input_artifact_manifest_sha256": "05ba0fec269307ca15ff48ebf1b0aff29ce1e421c07df649001a7e280d2ec011",
+  "git_head": "9fb8496174c2d3ab593fce622fad52186ce65e98",
+  "python": "3.14.8 (main, Oct  2 2026, 10:23:31) [GCC 16.2.1 20260810]",
+  "numpy": "2.5.4",
+  "method": "deterministic CPU resource normalization and optional explicit price coefficients; no new system collection"
+}

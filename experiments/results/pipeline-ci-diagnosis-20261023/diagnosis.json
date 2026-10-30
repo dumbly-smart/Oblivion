@@ -1,0 +1,42 @@
+{
+  "scope": "bounded controlled local diagnosis; not proof of hosted failure cause",
+  "attempts": 3,
+  "parallel_two_cpu": {
+    "test_threads": 14,
+    "passed": 12,
+    "failed": 2,
+    "private_cause": "Timeout",
+    "failed_tests": [
+      "invalid_selection_and_reserved_dummy_address_do_not_mutate_user_state",
+      "tampered_authenticated_frame_runs_cover_and_next_real_state_is_untouched"
+    ]
+  },
+  "serial_same_two_cpu": {
+    "test_threads": 1,
+    "passed": 14,
+    "failed": 0
+  },
+  "direct_strict_demo": {
+    "participants": 3,
+    "real_percent": 50,
+    "busy_competitors": 16,
+    "affinity_cpus": 1,
+    "exit": 1,
+    "stderr": "invocation failed (trusted client result)",
+    "private_cause": "Timeout",
+    "function": 0,
+    "real": true,
+    "prepare_ns": 218318842,
+    "storage_events": 128,
+    "pir_queries_completed": 2,
+    "request_authenticated": true,
+    "request_valid": true,
+    "registry_authenticated": true
+  },
+  "recommendation": "Schedule correctness tests serially; preserve strict failure semantics and class budgets; include bounded private test-fixture diagnostic rows in failures. No retries or test oracle weakening.",
+  "source_sha256": {
+    "crates/oblivion-server/tests/pipeline.rs": "abe593bf5d1958d68731129684041e1fcce6b8754df75f9c28f80108906bdc8f",
+    "crates/oblivion-server/src/pipeline.rs": "6e3cc2feb553036af702693bef688d985db5668c63795676ab6b384a0ea91375",
+    "crates/oblivion-exec/src/lib.rs": "aa1d0862c64b01e74f3e3631968169007a501cca5f75a0d89903ac7d35fda581"
+  }
+}

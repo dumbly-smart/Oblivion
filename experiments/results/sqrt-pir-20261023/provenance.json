@@ -1,0 +1,40 @@
+{
+  "command": [
+    "scripts/evaluate_sqrt_pir.py"
+  ],
+  "git_head": "b6907a58740b14df2aedbebce5071426be1eb725",
+  "source_sha256_before": {
+    "crates/oblivion-pir/src/lib.rs": "9f5cbef567ccd9e19335cbeecfc4e2d5d4a56448a26fc6ef82aba6e43402ecae",
+    "crates/oblivion-pir/src/sqrt.rs": "256f55a44cbefba8497a11eaf3bb7ee7221a8dfa94ab2e803155571525b051a8",
+    "crates/oblivion-pir/examples/sqrt_measure.rs": "4adc8ce5f5044f2551c6adfb7ba552a2232ffe47fff4cf4712ad0ce3f31dc8e9",
+    "crates/oblivion-pir/tests/sqrt.rs": "13faf3ddd559fd72960ab7b926d316a503b160dd5bd1c5165d94f8aab172c3ff",
+    "scripts/evaluate_sqrt_pir.py": "25b4b6d78c38dd91a23dfe41d7ce5af635990bf1fff348d1058f47166e15fe4f",
+    "research/tests/test_sqrt_pir.py": "7ac99421aae80a17a1ee1269c8ab1e8ff4fd741d57ed490bdbf77cc00e76c9ed"
+  },
+  "source_sha256_after": {
+    "crates/oblivion-pir/src/lib.rs": "9f5cbef567ccd9e19335cbeecfc4e2d5d4a56448a26fc6ef82aba6e43402ecae",
+    "crates/oblivion-pir/src/sqrt.rs": "256f55a44cbefba8497a11eaf3bb7ee7221a8dfa94ab2e803155571525b051a8",
+    "crates/oblivion-pir/examples/sqrt_measure.rs": "4adc8ce5f5044f2551c6adfb7ba552a2232ffe47fff4cf4712ad0ce3f31dc8e9",
+    "crates/oblivion-pir/tests/sqrt.rs": "13faf3ddd559fd72960ab7b926d316a503b160dd5bd1c5165d94f8aab172c3ff",
+    "scripts/evaluate_sqrt_pir.py": "25b4b6d78c38dd91a23dfe41d7ce5af635990bf1fff348d1058f47166e15fe4f",
+    "research/tests/test_sqrt_pir.py": "7ac99421aae80a17a1ee1269c8ab1e8ff4fd741d57ed490bdbf77cc00e76c9ed"
+  },
+  "binary_sha256_before": "278199b264cbe077509e09ee9ec4738ebc189ac8681840989f09f210230681f0",
+  "binary_sha256_after": "278199b264cbe077509e09ee9ec4738ebc189ac8681840989f09f210230681f0",
+  "binary_snapshot_path": "bin/sqrt_measure",
+  "config_sha256": "8152732a0240ea4b71148514c13c58d11974395e250e1a8b5308520829446ed1",
+  "python": "3.14.8 (main, Oct  2 2026, 10:23:31) [GCC 16.2.1 20260810]",
+  "numpy": "2.5.4",
+  "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+  "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13) (Arch Linux rust 1:1.99.1-1)",
+  "elapsed_seconds": 4.032427072525024,
+  "randomness": "Seeded ChaCha20 workload indices/mode order only; production QueryPair::generate uses OsRng fresh random shares.",
+  "artifacts_sha256": {
+    "config.json": "8152732a0240ea4b71148514c13c58d11974395e250e1a8b5308520829446ed1",
+    "measurement/config.json": "0d055f669ff2f315b72c0cceeeb30614065dd5b01e564610aba941ba4c09806d",
+    "measurement/private-samples.jsonl": "2ab167c53adb3fa409314cecf5dae8ae8e2c4d631bea3b5b8fdeb0124e787fb8",
+    "measurement/query-bit-diagnostics.jsonl": "f3e146b54ae8455906f14a9f1e99b022ac65b6e826984be0221532f2a4d80e7e",
+    "report.json": "d6cb70948e713bb00d85dd013317534bdc0823faf750e75513a4b3bca7e334cc",
+    "sqrt-pir.png": "f1afca5cd37b1990e14e227a84339df05c99b2477e50988da749fdbb38aca984"
+  }
+}

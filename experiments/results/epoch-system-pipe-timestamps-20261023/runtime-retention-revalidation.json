@@ -1,0 +1,49 @@
+{
+  "scope": "post-measurement runtime-error retention hardening, no new performance campaign",
+  "campaigns": [
+    {
+      "dataset": "epoch-system-20261023",
+      "trials_revalidated": 360,
+      "original_hashes_verified": 2595,
+      "historical_metrics_unchanged": true,
+      "runtime_failed_invocations": 0,
+      "analyzer": "archived original source; mixed observer instrumentation remains excluded"
+    },
+    {
+      "dataset": "epoch-system-separated-20261023",
+      "trials_revalidated": 360,
+      "original_hashes_verified": 2955,
+      "historical_metrics_unchanged": true,
+      "runtime_failed_invocations": 0,
+      "analyzer": "current failure-retaining analyzer; historical versioned timestamp scope retained"
+    },
+    {
+      "dataset": "epoch-system-pipe-timestamps-20261023",
+      "trials_revalidated": 360,
+      "original_hashes_verified": 2955,
+      "historical_metrics_unchanged": true,
+      "runtime_failed_invocations": 0,
+      "analyzer": "current failure-retaining analyzer; historical versioned timestamp scope retained"
+    }
+  ],
+  "current_hardening_source_sha256": {
+    "crates/oblivion-server/src/pipeline.rs": "6e3cc2feb553036af702693bef688d985db5668c63795676ab6b384a0ea91375",
+    "crates/oblivion-server/tests/epoch_sweep.rs": "8268a8b29f3376d77756d4f1086910688493ee889850900c507311e96e836cdf",
+    "scripts/evaluate_epoch_system.py": "66e0994a211af4ca8df3ed32dd7b25cccf0d0409cf3cedc38f460b979c5341c3",
+    "research/tests/test_epoch_system.py": "c44243183e139c5b9ced4c23a6116873736b3d2b861432b0af1d12161118ae17"
+  },
+  "masked_runtime_errors_are_failures_not_successes": true,
+  "legacy_demo_strict": true,
+  "budgets_unchanged": true,
+  "retry_selection": false,
+  "current_strict_analyzer_does_not_accept_historical_mixed_observer_files": true,
+  "validation": {
+    "pipeline_units": 4,
+    "epoch_integration": 4,
+    "legacy_pipeline_integration": 14,
+    "python_epoch_tests_with_actual_binary": 4,
+    "scoped_clippy_warnings_denied": "passed"
+  },
+  "cost_estimand": "ratio of sums of all attempt costs / all real successes, including zero-success trials; whole-trial bootstrap reports undefined draws; conditional trial ratio separately labeled",
+  "failed_gate_private_cause": "unknown: retained gate log reports generic authenticated invocation error only; deterministic Timeout unit does not establish that historical cause"
+}

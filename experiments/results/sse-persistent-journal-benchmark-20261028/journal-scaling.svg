@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="900" viewBox="0 0 1000 900" role="img" aria-labelledby="title description">
+<title id="title">Persistent SSE journal scaling benchmark</title>
+<desc id="description">Journal-byte amplification, index-build time, and fresh-process recovery time for four index sizes. Error bars are 95 percent trial-level bootstrap confidence intervals.</desc>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="125.0" y="36.0" font-family="sans-serif" font-size="24px" font-weight="bold" text-anchor="start" fill="#182230">Persistent SSE journal scaling</text>
+<text x="125.0" y="61.0" font-family="sans-serif" font-size="14px" font-weight="normal" text-anchor="start" fill="#182230">30 independent trials per index size; points show means and bars show 95% bootstrap CIs</text>
+<text x="125.0" y="82.0" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="start" fill="#182230">Journal-byte amplification counts application journal frames, not SQLite, filesystem, or physical-device writes.</text>
+<text x="125.0" y="120.0" font-family="sans-serif" font-size="18px" font-weight="bold" text-anchor="start" fill="#182230">Journal byte amplification</text>
+<line x1="125" y1="138" x2="125" y2="297" stroke="#344054" stroke-width="1.2"/>
+<line x1="125" y1="297" x2="955" y2="297" stroke="#344054" stroke-width="1.2"/>
+<line x1="125" y1="297.0" x2="955" y2="297.0" stroke="#e4e7ec" stroke-width="1"/>
+<text x="113.0" y="302.0" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="end" fill="#182230">0</text>
+<line x1="125" y1="257.2" x2="955" y2="257.2" stroke="#e4e7ec" stroke-width="1"/>
+<text x="113.0" y="262.2" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="end" fill="#182230">68</text>
+<line x1="125" y1="217.5" x2="955" y2="217.5" stroke="#e4e7ec" stroke-width="1"/>
+<text x="113.0" y="222.5" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="end" fill="#182230">135</text>
+<line x1="125" y1="177.8" x2="955" y2="177.8" stroke="#e4e7ec" stroke-width="1"/>
+<text x="113.0" y="182.8" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="end" fill="#182230">202</text>
+<line x1="125" y1="138.0" x2="955" y2="138.0" stroke="#e4e7ec" stroke-width="1"/>
+<text x="113.0" y="143.0" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="end" fill="#182230">270</text>
+<line x1="228.8" y1="247.6" x2="228.8" y2="247.4" stroke="#175cd3" stroke-width="2"/>
+<line x1="221.8" y1="247.6" x2="235.8" y2="247.6" stroke="#175cd3" stroke-width="2"/>
+<line x1="221.8" y1="247.4" x2="235.8" y2="247.4" stroke="#175cd3" stroke-width="2"/>
+<circle cx="228.8" cy="247.5" r="5" fill="#175cd3"/>
+<text x="228.8" y="317.0" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="middle" fill="#182230">64</text>
+<line x1="436.2" y1="238.6" x2="436.2" y2="238.5" stroke="#175cd3" stroke-width="2"/>
+<line x1="429.2" y1="238.6" x2="443.2" y2="238.6" stroke="#175cd3" stroke-width="2"/>
+<line x1="429.2" y1="238.5" x2="443.2" y2="238.5" stroke="#175cd3" stroke-width="2"/>
+<circle cx="436.2" cy="238.6" r="5" fill="#175cd3"/>
+<text x="436.2" y="317.0" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="middle" fill="#182230">257</text>
+<line x1="643.8" y1="220.2" x2="643.8" y2="220.1" stroke="#175cd3" stroke-width="2"/>
+<line x1="636.8" y1="220.2" x2="650.8" y2="220.2" stroke="#175cd3" stroke-width="2"/>
+<line x1="636.8" y1="220.1" x2="650.8" y2="220.1" stroke="#175cd3" stroke-width="2"/>
+<circle cx="643.8" cy="220.2" r="5" fill="#175cd3"/>
+<text x="643.8" y="317.0" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="middle" fill="#182230">1024</text>
+<line x1="851.2" y1="153.0" x2="851.2" y2="152.8" stroke="#175cd3" stroke-width="2"/>
+<line x1="844.2" y1="153.0" x2="858.2" y2="153.0" stroke="#175cd3" stroke-width="2"/>
+<line x1="844.2" y1="152.8" x2="858.2" y2="152.8" stroke="#175cd3" stroke-width="2"/>
+<circle cx="851.2" cy="152.9" r="5" fill="#175cd3"/>
+<text x="851.2" y="317.0" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="middle" fill="#182230">4093</text>
+<polyline points="228.8,247.5 436.2,238.6 643.8,220.2 851.2,152.9" fill="none" stroke="#175cd3" stroke-width="1.5" opacity="0.75"/>
+<circle cx="228.8" cy="247.5" r="5" fill="#175cd3"/>
+<circle cx="436.2" cy="238.6" r="5" fill="#175cd3"/>
+<circle cx="643.8" cy="220.2" r="5" fill="#175cd3"/>
+<circle cx="851.2" cy="152.9" r="5" fill="#175cd3"/>
+<text x="540.0" y="331.0" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="middle" fill="#182230">postings per index</text>
+<text x="25" y="217.5" transform="rotate(-90 25 217.5)" font-family="sans-serif" font-size="12px" text-anchor="middle" fill="#182230">×</text>
+<text x="125.0" y="370.0" font-family="sans-serif" font-size="18px" font-weight="bold" text-anchor="start" fill="#182230">Index build time</text>
+<line x1="125" y1="388" x2="125" y2="547" stroke="#344054" stroke-width="1.2"/>
+<line x1="125" y1="547" x2="955" y2="547" stroke="#344054" stroke-width="1.2"/>
+<line x1="125" y1="547.0" x2="955" y2="547.0" stroke="#e4e7ec" stroke-width="1"/>
+<text x="113.0" y="552.0" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="end" fill="#182230">0</text>
+<line x1="125" y1="507.2" x2="955" y2="507.2" stroke="#e4e7ec" stroke-width="1"/>
+<text x="113.0" y="512.2" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="end" fill="#182230">70</text>
+<line x1="125" y1="467.5" x2="955" y2="467.5" stroke="#e4e7ec" stroke-width="1"/>
+<text x="113.0" y="472.5" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="end" fill="#182230">140</text>
+<line x1="125" y1="427.8" x2="955" y2="427.8" stroke="#e4e7ec" stroke-width="1"/>
+<text x="113.0" y="432.8" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="end" fill="#182230">210</text>
+<line x1="125" y1="388.0" x2="955" y2="388.0" stroke="#e4e7ec" stroke-width="1"/>
+<text x="113.0" y="393.0" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="end" fill="#182230">280</text>
+<line x1="228.8" y1="545.3" x2="228.8" y2="545.0" stroke="#175cd3" stroke-width="2"/>
+<line x1="221.8" y1="545.3" x2="235.8" y2="545.3" stroke="#175cd3" stroke-width="2"/>
+<line x1="221.8" y1="545.0" x2="235.8" y2="545.0" stroke="#175cd3" stroke-width="2"/>
+<circle cx="228.8" cy="545.1" r="5" fill="#175cd3"/>
+<text x="228.8" y="567.0" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="middle" fill="#182230">64</text>
+<line x1="436.2" y1="539.1" x2="436.2" y2="538.1" stroke="#175cd3" stroke-width="2"/>
+<line x1="429.2" y1="539.1" x2="443.2" y2="539.1" stroke="#175cd3" stroke-width="2"/>
+<line x1="429.2" y1="538.1" x2="443.2" y2="538.1" stroke="#175cd3" stroke-width="2"/>
+<circle cx="436.2" cy="538.6" r="5" fill="#175cd3"/>
+<text x="436.2" y="567.0" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="middle" fill="#182230">257</text>
+<line x1="643.8" y1="517.3" x2="643.8" y2="513.5" stroke="#175cd3" stroke-width="2"/>
+<line x1="636.8" y1="517.3" x2="650.8" y2="517.3" stroke="#175cd3" stroke-width="2"/>
+<line x1="636.8" y1="513.5" x2="650.8" y2="513.5" stroke="#175cd3" stroke-width="2"/>
+<circle cx="643.8" cy="515.3" r="5" fill="#175cd3"/>
+<text x="643.8" y="567.0" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="middle" fill="#182230">1024</text>
+<line x1="851.2" y1="412.7" x2="851.2" y2="405.9" stroke="#175cd3" stroke-width="2"/>
+<line x1="844.2" y1="412.7" x2="858.2" y2="412.7" stroke="#175cd3" stroke-width="2"/>
+<line x1="844.2" y1="405.9" x2="858.2" y2="405.9" stroke="#175cd3" stroke-width="2"/>
+<circle cx="851.2" cy="409.1" r="5" fill="#175cd3"/>
+<text x="851.2" y="567.0" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="middle" fill="#182230">4093</text>
+<polyline points="228.8,545.1 436.2,538.6 643.8,515.3 851.2,409.1" fill="none" stroke="#175cd3" stroke-width="1.5" opacity="0.75"/>
+<circle cx="228.8" cy="545.1" r="5" fill="#175cd3"/>
+<circle cx="436.2" cy="538.6" r="5" fill="#175cd3"/>
+<circle cx="643.8" cy="515.3" r="5" fill="#175cd3"/>
+<circle cx="851.2" cy="409.1" r="5" fill="#175cd3"/>
+<text x="540.0" y="581.0" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="middle" fill="#182230">postings per index</text>
+<text x="25" y="467.5" transform="rotate(-90 25 467.5)" font-family="sans-serif" font-size="12px" text-anchor="middle" fill="#182230">seconds</text>
+<text x="125.0" y="620.0" font-family="sans-serif" font-size="18px" font-weight="bold" text-anchor="start" fill="#182230">Fresh-process recovery</text>
+<line x1="125" y1="638" x2="125" y2="797" stroke="#344054" stroke-width="1.2"/>
+<line x1="125" y1="797" x2="955" y2="797" stroke="#344054" stroke-width="1.2"/>
+<line x1="125" y1="797.0" x2="955" y2="797.0" stroke="#e4e7ec" stroke-width="1"/>
+<text x="113.0" y="802.0" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="end" fill="#182230">0.0</text>
+<line x1="125" y1="757.2" x2="955" y2="757.2" stroke="#e4e7ec" stroke-width="1"/>
+<text x="113.0" y="762.2" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="end" fill="#182230">8.8</text>
+<line x1="125" y1="717.5" x2="955" y2="717.5" stroke="#e4e7ec" stroke-width="1"/>
+<text x="113.0" y="722.5" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="end" fill="#182230">17.5</text>
+<line x1="125" y1="677.8" x2="955" y2="677.8" stroke="#e4e7ec" stroke-width="1"/>
+<text x="113.0" y="682.8" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="end" fill="#182230">26.2</text>
+<line x1="125" y1="638.0" x2="955" y2="638.0" stroke="#e4e7ec" stroke-width="1"/>
+<text x="113.0" y="643.0" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="end" fill="#182230">35.0</text>
+<line x1="228.8" y1="774.2" x2="228.8" y2="771.6" stroke="#175cd3" stroke-width="2"/>
+<line x1="221.8" y1="774.2" x2="235.8" y2="774.2" stroke="#175cd3" stroke-width="2"/>
+<line x1="221.8" y1="771.6" x2="235.8" y2="771.6" stroke="#175cd3" stroke-width="2"/>
+<circle cx="228.8" cy="772.8" r="5" fill="#175cd3"/>
+<text x="228.8" y="817.0" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="middle" fill="#182230">64</text>
+<line x1="436.2" y1="788.8" x2="436.2" y2="788.4" stroke="#175cd3" stroke-width="2"/>
+<line x1="429.2" y1="788.8" x2="443.2" y2="788.8" stroke="#175cd3" stroke-width="2"/>
+<line x1="429.2" y1="788.4" x2="443.2" y2="788.4" stroke="#175cd3" stroke-width="2"/>
+<circle cx="436.2" cy="788.6" r="5" fill="#175cd3"/>
+<text x="436.2" y="817.0" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="middle" fill="#182230">257</text>
+<line x1="643.8" y1="774.8" x2="643.8" y2="772.2" stroke="#175cd3" stroke-width="2"/>
+<line x1="636.8" y1="774.8" x2="650.8" y2="774.8" stroke="#175cd3" stroke-width="2"/>
+<line x1="636.8" y1="772.2" x2="650.8" y2="772.2" stroke="#175cd3" stroke-width="2"/>
+<circle cx="643.8" cy="773.3" r="5" fill="#175cd3"/>
+<text x="643.8" y="817.0" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="middle" fill="#182230">1024</text>
+<line x1="851.2" y1="686.7" x2="851.2" y2="672.3" stroke="#175cd3" stroke-width="2"/>
+<line x1="844.2" y1="686.7" x2="858.2" y2="686.7" stroke="#175cd3" stroke-width="2"/>
+<line x1="844.2" y1="672.3" x2="858.2" y2="672.3" stroke="#175cd3" stroke-width="2"/>
+<circle cx="851.2" cy="679.1" r="5" fill="#175cd3"/>
+<text x="851.2" y="817.0" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="middle" fill="#182230">4093</text>
+<polyline points="228.8,772.8 436.2,788.6 643.8,773.3 851.2,679.1" fill="none" stroke="#175cd3" stroke-width="1.5" opacity="0.75"/>
+<circle cx="228.8" cy="772.8" r="5" fill="#175cd3"/>
+<circle cx="436.2" cy="788.6" r="5" fill="#175cd3"/>
+<circle cx="643.8" cy="773.3" r="5" fill="#175cd3"/>
+<circle cx="851.2" cy="679.1" r="5" fill="#175cd3"/>
+<text x="540.0" y="831.0" font-family="sans-serif" font-size="12px" font-weight="normal" text-anchor="middle" fill="#182230">postings per index</text>
+<text x="25" y="717.5" transform="rotate(-90 25 717.5)" font-family="sans-serif" font-size="12px" text-anchor="middle" fill="#182230">milliseconds</text>
+<text x="125.0" y="866.0" font-family="sans-serif" font-size="11px" font-weight="normal" text-anchor="start" fill="#182230">Schedule seed: 20261028    Source revision: 5fe4f603379dda68453d1001b2ea65e02b242406</text>
+<text x="125.0" y="884.0" font-family="sans-serif" font-size="11px" font-weight="normal" text-anchor="start" fill="#182230">Recovery: mean of each trial&#x27;s median across five nested fresh-process opens; file cache was not flushed.</text>
+</svg>

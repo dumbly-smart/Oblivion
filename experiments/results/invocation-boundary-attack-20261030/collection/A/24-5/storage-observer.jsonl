@@ -1,0 +1,4 @@
+{"bucket":0,"bytes":64,"direction":"read","elapsed_ns":3748860,"step":4,"version":1}
+{"bucket":0,"bytes":64,"direction":"write","elapsed_ns":3750125,"step":4,"version":1}
+{"bucket":0,"bytes":64,"direction":"read","elapsed_ns":3937299,"step":6,"version":1}
+{"bucket":0,"bytes":64,"direction":"write","elapsed_ns":3937895,"step":6,"version":1}

@@ -1,0 +1,2 @@
+{"driver_work_overrun_ns":0,"epoch":0,"executor_process_cpu_ns":16127272,"publication_lateness_ns":96593,"ready_elapsed_ns":97194627,"response_elapsed_ns":100095978,"slot":0}
+{"driver_work_overrun_ns":9694268,"epoch":1,"executor_process_cpu_ns":16224025,"publication_lateness_ns":15606180,"ready_elapsed_ns":109694168,"response_elapsed_ns":115605561,"slot":0}

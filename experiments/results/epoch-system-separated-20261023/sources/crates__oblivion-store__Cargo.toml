@@ -1,0 +1,26 @@
+[package]
+name = "oblivion-store"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+chacha20poly1305.workspace = true
+hkdf.workspace = true
+sha2.workspace = true
+rand.workspace = true
+serde.workspace = true
+thiserror.workspace = true
+zeroize.workspace = true
+
+[dev-dependencies]
+rand_chacha.workspace = true
+serde_json.workspace = true
+
+[lints]
+workspace = true
+
+[[example]]
+name = "oram-measure"
+path = "examples/measure.rs"

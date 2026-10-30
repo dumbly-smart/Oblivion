@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "study_id": "scaler-csprng-policy-interval-attack-20261024",
+  "dp_noise_source": "os_csprng",
+  "trials": 30,
+  "sessions": 8,
+  "profile_sessions": 4,
+  "target_sessions": 4,
+  "models": [
+    "centroid",
+    "forest"
+  ],
+  "feature_modes": [
+    "public",
+    "policy_interval"
+  ],
+  "primary_metric": "balanced_accuracy",
+  "positive_control_min": 0.6
+}
