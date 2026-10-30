@@ -27,6 +27,60 @@ Before endpoint-key bootstrap, the executor writes `OBLPIR01`, record count u32 
 
 Response payload: internal success/failure flag at 0, class output[64] at 1..65, zero padding. The flag is encrypted and never placed in observer traces. Valid dummy responses clear the output but execute the actual stateful function on reserved block 7.
 
+## A–G loopback invocation harness v1
+
+`oblivion-harness system-tcp CONFIG NEW_OUTPUT_DIRECTORY` runs the A–G
+component experiment with one controller process and a fresh worker child for
+each mode/session. This is a separate research harness path; it is not the
+signed-registry demo protocol described above. The worker binds only to
+`127.0.0.1` on an ephemeral port and accepts one client connection. It prints
+`READY <loopback-address>` before reading the channel bootstrap. The controller
+passes the fresh 32-byte channel root through the child's inherited stdin pipe;
+the root is never sent on TCP. If startup or an invocation fails, the
+controller closes the socket and kills/reaps the child.
+
+Each TCP application frame is `u32_be(body length) || body`. The four-byte
+prefix is checked against the mode's maximum before allocating the body. An
+empty frame, partial prefix/body, or wrong fixed mode length is rejected. Mode
+A sends the legacy harness's 192-byte plaintext request body; its deliberately
+leaky response is 65 bytes for the echo function and 5 bytes for the stateful
+function or a dummy. Modes B–G send and receive the 228-byte authenticated
+envelope body. The socket wire lengths add four bytes for the prefix. Modes E
+and G send one envelope for every scheduled opportunity, including dummies;
+unbatched modes send no request for a dummy opportunity.
+
+The child performs the harness's actual registry lookup, two-share XOR PIR
+operations when enabled, Wasmtime execution, direct or Path ORAM state access,
+response masking and fixed-deadline wait. The two PIR server objects remain
+inside the trusted worker process for this harness, so this run does not create
+independent non-colluding PIR operators. The ORAM backend is the harness's
+memory backend with a local storage trace, not a remote storage RPC. Only the
+invocation boundary uses TCP.
+
+`socket-observer.jsonl` is the worker-side application socket trace: version,
+observer, direction, public sequence, framed byte count, local monotonic
+elapsed time, and raw frame body. It has no ground-truth label or step field.
+Mode A's raw body intentionally exposes the dummy bit and requested function
+to demonstrate its positive-control leakage. Modes B–G contain authenticated
+ciphertext. `observer.jsonl` and `storage-observer.jsonl` contain the harness's
+visible registry/storage observations; `private.jsonl` holds worker timing and
+private store statistics; `ground-truth.jsonl` is written by the controller.
+The files share an output directory and filenames do not enforce access
+control, so the directory is an experimental bundle, not a deployed trust
+boundary.
+
+The system harness submits only valid generated invocations. A malformed frame,
+authentication failure, invalid function identity, or failed execution closes
+the worker session without an application response; this loopback path does
+not implement uniform external error responses for adversarial requests.
+
+These are application socket observations from two local processes. They are
+not packet captures, remote-network arrival times, host/cache telemetry,
+independent operator separation, TEE measurements, or an attack result. No
+privacy conclusion follows from the transport implementation or its
+correctness test alone. A new attack using these traces requires a separate
+preregistration and successful positive controls.
+
 ## Standalone generic PIR wire v1
 
 `oblivion-pir::wire` uses a 16-byte OBLP header: magic[4], version u16, kind u8, reserved zero, record count u32, record width u32. Query body is ceil(count/8) bytes; answer body is exactly record width. Exact configured headers are checked before allocation. One query per connection, bounded timeouts. Unused query bits remain random and are ignored by the server.

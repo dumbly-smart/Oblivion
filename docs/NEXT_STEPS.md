@@ -34,14 +34,25 @@ report and independent raw-feature/model replay are in
 The second study is fresh-data evidence for its controls, not a blind
 replication, and it is not pooled with the earlier attack.
 
-**Next:** stop repeating this local frame-observer boundary. If extending
-invocation inference, first implement and preregister an actual transport
-observer with independent client/server processes, explicit packet or socket
-timestamps, fresh sessions, and the same frozen positive-control thresholds.
-Keep protected scoring conditional on both controls passing. Do not tune on
-either failed-gate bundle, lower the gate, or treat missing C–G scores as
-privacy evidence. Hardware-backed execution remains unimplemented; no local
-timing result is a security proof.
+**Implemented 2026-10-30:** `oblivion-harness system-tcp` now runs the actual
+A–G registry/PIR/WASM/storage path through loopback TCP between a controller
+and a separate worker process. The channel root crosses only the inherited
+stdin pipe; request/response bodies use bounded length-prefix framing. The
+worker-side socket trace records frame bytes and local socket-boundary timing.
+Focused codec, process, malformed-frame, and all-mode integration tests passed.
+This provides a new observer boundary; it has not yet been used to produce an
+attack result. Its PIR pair and memory-backed ORAM remain local to the worker,
+and it is not packet capture or TEE evidence. See [the protocol](PROTOCOL.md)
+and [the architecture](ARCHITECTURE.md).
+
+**Next:** preregister a distinct socket-trace inference study before collecting
+targets. Freeze its attacker-visible fields, session-level split, control
+gate, primary metric, exclusions, and output schema. Run plaintext A and
+encrypt-only B controls first; score C–G only if both controls pass the same
+predeclared threshold. Keep the earlier in-process studies separate, do not
+lower either frozen gate, and do not treat absent protected scores as privacy
+evidence. Hardware-backed execution remains unimplemented; no local timing
+result is a security proof.
 
 ## Immediate continuation (updated 2026-10-30)
 

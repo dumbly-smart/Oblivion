@@ -1,6 +1,6 @@
 # Architecture
 
-Updated 2026-10-29. The complete supplied roadmap is the specification. [REQUIREMENTS_MATRIX.md](REQUIREMENTS_MATRIX.md) maps implementation, acceptance evidence and outstanding work. The runtime uses the **TrustedExecutor** model, simulating the trust boundary with processes; no hardware TEE or attestation exists.
+Updated 2026-10-30. The complete supplied roadmap is the specification. [REQUIREMENTS_MATRIX.md](REQUIREMENTS_MATRIX.md) maps implementation, acceptance evidence and outstanding work. The runtime uses the **TrustedExecutor** model, simulating the trust boundary with processes; no hardware TEE or attestation exists.
 
 ## Process path
 
@@ -42,6 +42,41 @@ PIR occurs after epoch release on behalf of the trusted client. Each worker sees
 The demo's signed-registry/PIR composition and its key-management limits are
 specified in [REGISTRY_RUNTIME.md](REGISTRY_RUNTIME.md); wire bootstrap framing
 is in [PROTOCOL.md](PROTOCOL.md).
+
+## A–G loopback harness path
+
+```mermaid
+flowchart LR
+  G[Experiment controller and private schedule] -->|32-byte root on inherited stdin pipe| W[One worker child per mode/session]
+  G -->|length-prefixed request| S[127.0.0.1 TCP socket]
+  S --> W
+  W --> R[Registry and local XOR PIR pair]
+  R --> X[Wasmtime and direct/Path ORAM storage]
+  X -->|fixed response envelope in B–G| S
+  W --> O[socket-observer.jsonl]
+  G --> T[ground-truth.jsonl]
+```
+
+`oblivion-harness system-tcp` is a separate execution path from the signed
+multi-client demo above. The controller generates the same deterministic
+per-session schedule as the in-process A–G harness and launches an isolated
+worker child for each mode/session. The child binds only to loopback, announces
+an ephemeral port, consumes the channel root through its inherited stdin pipe,
+then accepts one TCP connection. Both endpoints use the existing directional
+AEAD implementation in protected modes. The TCP body uses a bounded
+four-byte-big-endian length prefix; worker child cleanup is guaranteed by the
+controller guard on errors and disconnects.
+
+The worker runs the real A–G harness registry, local two-share PIR path,
+Wasmtime modules and direct or memory-backed Path ORAM. The local PIR pair is
+inside the worker, so this path does not model non-colluding PIR operators.
+Likewise, the ORAM trace is a local backend observation rather than a storage
+network trace. The controller and worker remain ordinary same-host processes;
+this is not a TEE. `socket-observer.jsonl` records the worker's application
+socket boundary, not packet capture. Mode A deliberately exposes its
+192-byte plaintext request and variable 5/65-byte response; modes B–G use
+228-byte authenticated envelope bodies. Only E and G submit dummy envelopes.
+The complete framing and trace fields are in [PROTOCOL.md](PROTOCOL.md).
 
 ## Protected execution schedule
 

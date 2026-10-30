@@ -1884,3 +1884,32 @@ local in-process observer experiment, and the failed positive-control gate
 means it provides no comparison of protected modes. No Rust workspace,
 Clippy, format, or million-operation ORAM gate was rerun for this Python-only
 increment.
+
+## Loopback TCP A–G invocation path (2026-10-30)
+
+Added `oblivion-harness system-tcp` alongside the existing in-process `system`
+command. It starts one worker child per mode/session, binds the worker to
+`127.0.0.1`, sends the fresh channel root only over inherited stdin, and
+transports bounded length-prefixed application frames over one loopback TCP
+connection. The child performs the actual A–G harness registry, local PIR,
+Wasmtime, direct/Path ORAM and response path. `socket-observer.jsonl` has a
+public message sequence and socket-boundary frames/timestamps; private
+ground-truth and worker instrumentation remain in separate files. The local
+PIR pair is not an independent non-colluding service, and the ORAM observer is
+from the local memory backend. This is not packet capture, a remote-network
+measurement, a TEE, or a privacy attack result. See [the protocol](PROTOCOL.md)
+and [the architecture](ARCHITECTURE.md).
+
+The focused gate passed: six framing unit tests, three process/end-to-end TCP
+tests including all seven modes, and the existing in-process A–G integration
+test. The integration oracle checked real echo and stateful outputs, encrypted
+fixed frame bodies, private truth fields, PIR's hidden registry-index trace,
+and 128 storage events per G invocation. Warning-denied Clippy for the whole
+workspace and `cargo fmt --all --check` passed. The complete serial Rust
+workspace command passed 203 tests with zero failures and one existing ignore
+for the million-operation ORAM stress tier. That million-operation release
+test has not been rerun for this increment. The documented smoke command also
+completed with 224 oracle-checked metric rows, seven mode directories and 56
+mode/session socket traces. No attack has been run on the new socket trace;
+preregistration and successful positive controls are required before target
+scoring.

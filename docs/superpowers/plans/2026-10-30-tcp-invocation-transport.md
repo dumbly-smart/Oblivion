@@ -45,11 +45,11 @@
 - `write_frame(writer: &mut impl Write, body: &[u8], maximum: usize) -> io::Result<usize>`; return the complete on-wire byte count including the prefix.
 - Wire encoding: `u32::to_be_bytes(body.len()) || body`.
 
-- [ ] **Step 1: Write failing codec tests** for round-trip/prefix byte count, clean EOF between messages, truncated prefix, truncated body, zero length, oversized length, and a short-read/short-write stream.
-- [ ] **Step 2: Run the focused test** with `cargo test --locked -p oblivion-harness --bin oblivion-harness system_tcp::tests` and confirm it fails because the codec API is absent.
-- [ ] **Step 3: Implement only bounded framing** in `system_tcp.rs`; reject invalid lengths before allocating and use `read_exact`/`write_all` semantics.
-- [ ] **Step 4: Run the focused test and formatting check**; require all codec cases to pass.
-- [ ] **Step 5: Commit** as `feat: add bounded TCP frame codec`.
+- [x] **Step 1: Write failing codec tests** for round-trip/prefix byte count, clean EOF between messages, truncated prefix, truncated body, zero length, oversized length, and a short-read/short-write stream.
+- [x] **Step 2: Run the focused test** with `cargo test --locked -p oblivion-harness --bin oblivion-harness system_tcp::tests` and confirm it fails because the codec API is absent.
+- [x] **Step 3: Implement only bounded framing** in `system_tcp.rs`; reject invalid lengths before allocating and use `read_exact`/`write_all` semantics.
+- [x] **Step 4: Run the focused test and formatting check**; require all codec cases to pass.
+- [x] **Step 5: Commit**; the codec was committed with the complete production transport in `c2b627a87` to keep the intermediate unused-code state out of the branch.
 
 ### Task 2: Independent worker process and secret bootstrap
 
@@ -64,11 +64,11 @@
 - `system_tcp::worker(output: &Path, mode_name: &str, maximum_frame: usize) -> Result<()>` serves one session and writes a `READY <socket-address>` line to stdout before waiting for channel bootstrap on stdin.
 - The controller calls `Endpoint::provision_over_pipe`; the worker calls `Endpoint::accept_bootstrap`. The generated root never crosses TCP.
 
-- [ ] **Step 1: Write failing process tests** proving the worker binds only loopback, emits a parseable ready address, accepts bootstrap over stdin, and exits on client EOF.
-- [ ] **Step 2: Run the focused tests** and confirm failure because the CLI commands are absent.
-- [ ] **Step 3: Add the worker startup path** with bounded socket read/write timeouts, child cleanup on every error path, and no concurrent/unbounded connection queue.
-- [ ] **Step 4: Run the process tests** and verify child exit status and no orphan worker remain.
-- [ ] **Step 5: Commit** as `feat: add isolated TCP invocation worker`.
+- [x] **Step 1: Write failing process tests** proving the worker binds only loopback, emits a parseable ready address, accepts bootstrap over stdin, and exits on client EOF.
+- [x] **Step 2: Run the focused tests** and confirm failure because the CLI commands are absent.
+- [x] **Step 3: Add the worker startup path** with bounded socket read/write timeouts, child cleanup on every error path, and no concurrent/unbounded connection queue.
+- [x] **Step 4: Run the process tests** and verify child exit status and no orphan worker remain.
+- [x] **Step 5: Commit**; worker startup and the completed request path were committed in `c2b627a87`.
 
 ### Task 3: Real A–G execution over the socket
 
@@ -83,12 +83,12 @@
 - The socket observer records `observer`, direction, monotonic timestamp, framed byte count, and complete on-wire frame bytes. It does not record labels or private steps. A public sequence number may identify ordering only.
 - The controller keeps the ground-truth schedule in its separate file and validates actual response behavior using the same expected function outputs as the current harness.
 
-- [ ] **Step 1: Write failing end-to-end tests** with a small valid configuration; assert that A–G complete real invocations, request/response frames cross TCP, response shapes match each mode, and the raw observer file contains no `label`, `real`, `function`, or `step` fields.
-- [ ] **Step 2: Run the focused integration test** and confirm it fails at the missing worker execution path.
-- [ ] **Step 3: Move the server-side invocation work into the TCP worker** without mocking PIR, WASM, ORAM/direct storage, authentication, or response masking.
-- [ ] **Step 4: Run focused tests** and compare successful client outputs and fixed sizes against the existing in-process system path.
-- [ ] **Step 5: Run the complete serial Rust workspace suite** with `cargo test --locked --workspace -- --test-threads=1`; report exact exit status and skips.
-- [ ] **Step 6: Commit** as `feat: run A-G invocations over loopback TCP`.
+- [x] **Step 1: Write failing end-to-end tests** with a small valid configuration; assert that A–G complete real invocations, request/response frames cross TCP, response shapes match each mode, and the raw observer file contains no `label`, `real`, `function`, or `step` fields.
+- [x] **Step 2: Run the focused integration test** and confirm it fails at the missing worker execution path.
+- [x] **Step 3: Move the server-side invocation work into the TCP worker** without mocking PIR, WASM, ORAM/direct storage, authentication, or response masking.
+- [x] **Step 4: Run focused tests** and compare successful client outputs and fixed sizes against the existing in-process system path.
+- [x] **Step 5: Run the complete serial Rust workspace suite** with `cargo test --locked --workspace -- --test-threads=1`; it passed 203 tests, with one existing ignored million-operation ORAM stress test.
+- [x] **Step 6: Commit** as `feat: run A-G invocations over loopback TCP` (`c2b627a87`).
 
 ### Task 4: Protocol, architecture, and acceptance record
 
@@ -98,10 +98,15 @@
 - Modify: `docs/NEXT_STEPS.md`
 - Modify: `PROGRESS.md`
 
-- [ ] **Step 1: Document the socket frame and trust boundary**: fixed application frame sizes, four-byte prefix, private inherited-pipe bootstrap, loopback-only binding, server-visible fields, and the limitations that distinguish socket timing from TCP packet capture or remote timing.
-- [ ] **Step 2: Document one-command smoke/reproduction commands** and the test result; state clearly that no attack comparison or privacy claim is made by this infrastructure change.
-- [ ] **Step 3: Check local Markdown links and `git diff --check`**.
+- [x] **Step 1: Document the socket frame and trust boundary**: fixed application frame sizes, four-byte prefix, private inherited-pipe bootstrap, loopback-only binding, server-visible fields, and the limitations that distinguish socket timing from TCP packet capture or remote timing.
+- [x] **Step 2: Document one-command smoke/reproduction commands** and the test result; state clearly that no attack comparison or privacy claim is made by this infrastructure change.
+- [x] **Step 3: Check local Markdown links and `git diff --check`**; ten changed-line local links resolved and the whitespace check passed.
 - [ ] **Step 4: Commit** documentation separately as `docs: specify loopback invocation transport`.
+
+**Execution note:** Tasks 1–3 were pushed together in the focused implementation
+commit `c2b627a87`, so the runtime frame writer was never left as dead code in
+an intermediate commit. The transport is loopback-only and unmeasured as an
+attack boundary so far.
 
 ## Acceptance
 

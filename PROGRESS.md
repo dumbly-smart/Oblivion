@@ -46,6 +46,21 @@ file hashes. The full Python suite passed 272 tests with four existing skips;
 the release harness built. Both studies use the local in-process observer,
 not real network arrival times. See the [follow-up report](docs/INVOCATION_CONTEXT_ATTACK_20261030.md).
 
+## Loopback transport implementation
+
+The A–G component harness now has a separate `system-tcp` path that runs each
+mode/session through a fresh worker process over loopback TCP. Its bounded
+four-byte frame codec, inherited-pipe channel bootstrap, socket observer, and
+actual registry/PIR/WASM/storage execution are covered by focused tests; all
+seven mode response oracles passed. The socket observer is an application
+boundary trace, not packet capture. Its local PIR pair and memory-backed ORAM
+remain inside the worker. Full workspace format and warning-denied Clippy
+passed; the serial full workspace test passed 203 tests with zero failures and
+one ignored million-operation ORAM stress test. No new attack result is
+claimed for these traces.
+See [the protocol](docs/PROTOCOL.md), [the architecture](docs/ARCHITECTURE.md),
+and [next steps](docs/NEXT_STEPS.md).
+
 ## Latest measurement
 
 The latest completed independent ORAM leaf/timing study is the preregistered

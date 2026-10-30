@@ -61,6 +61,22 @@ cargo run --locked -p oblivion-server -- demo target/demo-zero 0 2 mixed
 cargo run --locked -p oblivion-server -- demo target/demo-full 100 2 mixed
 ```
 
+The separate A–G component harness can exercise its invocation boundary across
+an independent controller and worker process on loopback TCP:
+
+```sh
+cargo run --locked -p oblivion-harness -- system-tcp \
+  experiments/configs/system-tcp-smoke.json target/system-tcp-smoke-20261030
+```
+
+The command requires a new output directory. Its fixed four-byte length
+prefix, per-mode body lengths, inherited-pipe key bootstrap, socket trace and
+trust limits are specified in [PROTOCOL.md](docs/PROTOCOL.md). This smoke
+configuration checks actual A–G registry/PIR/WASM/storage execution; it is
+not a packet capture, a privacy evaluation, or a TEE measurement. The worker's
+two PIR servers remain in the same trusted process in this harness, and its
+ORAM trace comes from the local memory backend.
+
 The demo launches an executor and two PIR workers. Each run has eight epochs, a 100 ms execution class and an epoch period of 150 ms per enrolled participant; slots execute sequentially. A trusted client independently checks function outputs and persistent counters. Observer traces and private instrumentation are separate; private runtime records must stay within the trusted boundary. The built-in demo's real/dummy and function schedule is deterministic and public given its code, configured real percentage and epoch. It is a correctness/topology exercise, not invocation anonymity against an observer who already knows that schedule. Encryption cannot hide an identity already determined by authorized auxiliary knowledge.
 
 The pipeline worker accepts an optional public `OBLIVION_EXECUTION_DEADLINE_MS` value from 2 through 1000 (default 100). The protected storage phases run at 5% (read) and 65% (commit) of that class deadline. Demo epoch periods must allow one full deadline per sequential participant slot; the default adds 50 ms of per-slot slack. These settings affect latency and are recorded in demo metadata.
