@@ -40,14 +40,17 @@ the root is never sent on TCP. If startup or an invocation fails, the
 controller closes the socket and kills/reaps the child.
 
 Each TCP application frame is `u32_be(body length) || body`. The four-byte
-prefix is checked against the mode's maximum before allocating the body. An
-empty frame, partial prefix/body, or wrong fixed mode length is rejected. Mode
-A sends the legacy harness's 192-byte plaintext request body; its deliberately
-leaky response is 65 bytes for the echo function and 5 bytes for the stateful
-function or a dummy. Modes B–G send and receive the 228-byte authenticated
-envelope body. The socket wire lengths add four bytes for the prefix. Modes E
-and G send one envelope for every scheduled opportunity, including dummies;
-unbatched modes send no request for a dummy opportunity.
+prefix is checked against the exact mode-specific body length before allocating
+or reading the body. The controller applies the same check to the expected
+response shape. An empty frame, partial prefix/body, or wrong fixed mode length
+is rejected. Each prefix-plus-body read has one absolute 30-second deadline;
+trickling bytes cannot renew it. Mode A sends the legacy harness's 192-byte
+plaintext request body; its deliberately leaky response is 65 bytes for the
+echo function and 5 bytes for the stateful function or a dummy. Modes B–G send
+and receive the 228-byte authenticated envelope body. The socket wire lengths
+add four bytes for the prefix. Modes E and G send one envelope for every
+scheduled opportunity, including dummies; unbatched modes send no request for
+a dummy opportunity.
 
 The child performs the harness's actual registry lookup, two-share XOR PIR
 operations when enabled, Wasmtime execution, direct or Path ORAM state access,

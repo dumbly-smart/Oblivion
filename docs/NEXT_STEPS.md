@@ -88,7 +88,16 @@ same-session post-hoc scorer as an independent replication or the fresh-seed
 studies as blind. Preserve the earlier 100 ms mixed-invocation timeout as
 unresolved: six focused executions and a full serial rerun passed, but the
 cause of the original retained failure is still unknown. If it recurs, collect
-host-load and per-phase evidence without changing deadlines or adding retries.
+host-load and per-phase evidence while preserving the original runtime limits
+and retry behavior.
+
+A separate current-head full-suite failure on 2026-10-30 was traced to the
+three-client mixed correctness fixture occasionally crossing the default
+100 ms class deadline. That fixture now explicitly requests 250 ms; production
+deadlines and retry behavior remain unchanged. The subsequent complete serial
+workspace suite passed with 206 tests, zero failures, and one intentionally
+ignored million-operation ORAM stress test. This does not retroactively prove
+the cause of the older `24ded25d` incident.
 
 The independent bundle verifier is
 [`research/analysis/verify_oram_isolated_bundle.py`](../research/analysis/verify_oram_isolated_bundle.py);

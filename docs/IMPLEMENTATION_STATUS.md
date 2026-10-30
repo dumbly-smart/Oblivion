@@ -1913,3 +1913,23 @@ completed with 224 oracle-checked metric rows, seven mode directories and 56
 mode/session socket traces. No attack has been run on the new socket trace;
 preregistration and successful positive controls are required before target
 scoring.
+
+## 2026-10-30 TCP framing review follow-up
+
+Mode-specific request lengths are checked immediately after the prefix, before
+body allocation or reads; the controller applies the exact expected response
+length as well. Each complete socket frame has an absolute 30-second read
+deadline, so a slow sender cannot renew the budget with partial bytes. The new
+process test rejects a 191-byte mode-A length prefix without a body; the unit
+test verifies a trickled frame times out against one total deadline.
+
+The focused transport tests passed seven unit tests and four TCP
+process/integration tests, including every A–G mode. Formatting and strict
+workspace Clippy passed. The latest full serial workspace run exited zero with
+206 passed, zero failed, and one intentionally ignored million-operation ORAM
+stress test. A separate mixed-function correctness test now sets its class
+deadline to 250 ms after a current-head run showed that the three-client
+workload occasionally crossed its inherited 100 ms budget. The runtime's 100
+ms default and deadline semantics were not changed. The commits were pushed;
+no matching hosted workflow runs appeared when checked. No new attack, privacy
+result, remote-network observation, or TEE claim is made.

@@ -64,8 +64,10 @@ worker child for each mode/session. The child binds only to loopback, announces
 an ephemeral port, consumes the channel root through its inherited stdin pipe,
 then accepts one TCP connection. Both endpoints use the existing directional
 AEAD implementation in protected modes. The TCP body uses a bounded
-four-byte-big-endian length prefix; worker child cleanup is guaranteed by the
-controller guard on errors and disconnects.
+four-byte-big-endian length prefix, exact mode-specific length validation
+before body allocation, and an absolute 30-second deadline for each complete
+frame read; worker child cleanup is guaranteed by the controller guard on
+errors and disconnects.
 
 The worker runs the real A–G harness registry, local two-share PIR path,
 Wasmtime modules and direct or memory-backed Path ORAM. The local PIR pair is

@@ -55,9 +55,12 @@ actual registry/PIR/WASM/storage execution are covered by focused tests; all
 seven mode response oracles passed. The socket observer is an application
 boundary trace, not packet capture. Its local PIR pair and memory-backed ORAM
 remain inside the worker. Full workspace format and warning-denied Clippy
-passed; the serial full workspace test passed 203 tests with zero failures and
-one ignored million-operation ORAM stress test. No new attack result is
-claimed for these traces.
+passed; the initial serial full workspace test passed 203 tests with zero
+failures and one ignored million-operation ORAM stress test. Follow-up review
+hardening now rejects mode-incompatible frame prefixes before body reads and
+uses one absolute 30-second deadline per frame. The latest serial full
+workspace run passed 206 tests with zero failures and one ignored stress test.
+No new attack result is claimed for these traces.
 See [the protocol](docs/PROTOCOL.md), [the architecture](docs/ARCHITECTURE.md),
 and [next steps](docs/NEXT_STEPS.md).
 
@@ -177,14 +180,16 @@ externally visible request/response boundary under a frozen protocol.
 
 ## Remaining work in the active sequence
 
-1. Keep the intermittent 100 ms pipeline timeout visible as unresolved; the
-   focused repetitions and full serial rerun passed, but they did not identify
-   its cause. Capture host-load and per-phase diagnostics if it recurs, without
-   changing runtime limits or adding retries.
-2. For further invocation inference, first implement and preregister a real
-   transport observer across independent client/server processes and fresh
-   sessions. Preserve the positive-control gate and do not score protected
-   modes unless both controls pass.
+1. Preserve the historical 100 ms pipeline timeout record for source
+   `24ded25d`; its original host-specific cause is not established. A separate
+   current-head mixed-function test failure was traced to its three-client
+   correctness workload occasionally crossing the default 100 ms runtime
+   deadline. That test now requests 250 ms explicitly; the production default,
+   runtime deadline behavior, and retry policy are unchanged.
+2. Preregister a distinct inference study over the new loopback socket trace
+   before collecting targets. Freeze its attacker view, whole-session split,
+   positive-control threshold, primary metric, and output schema. Score C–G
+   only if both plaintext A and encrypt-only B pass the same frozen gate.
 3. Continue the remaining work in [docs/NEXT_STEPS.md](docs/NEXT_STEPS.md),
    preserving the threat model and reporting data- or hardware-dependent
    extensions as unimplemented where appropriate.
