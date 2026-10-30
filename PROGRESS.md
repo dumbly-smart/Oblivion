@@ -30,6 +30,14 @@ validate raw hashes, paired schedules where applicable, fixed event/frame
 shape, process masks, target-only predictions, trial metrics, and bootstrap
 statistics.
 
+An optional invocation-boundary size/timing study is now preregistered. Its
+local A–G component harness, attacker feature boundary, session split, and
+plaintext/encrypt-only control gate are frozen. The analysis implementation
+passes the five focused tests and the full Python research suite (257 passed,
+four skipped); the release harness builds. Collection and independent bundle
+verification remain pending. The study does not measure a remote network or
+hardware isolation.
+
 ## Latest measurement
 
 The latest completed independent ORAM leaf/timing study is the preregistered

@@ -1854,7 +1854,12 @@ configuration, and reproduction commands are indexed in
 [`NEXT_STEPS.md`](NEXT_STEPS.md), and
 [`ORAM_RANK64_TRANSITION_REPLICATION_20261030.md`](ORAM_RANK64_TRANSITION_REPLICATION_20261030.md).
 
-Next, preregister a separate external request/response observer study before
-collecting new data. Do not reuse the current transition predictions as
-independent evidence, and keep the private driver timing and labels out of the
-attacker's feature set.
+Next, complete the separate invocation-boundary study preregistered in
+[`INVOCATION_BOUNDARY_ATTACK_PREREG_20261030.md`](INVOCATION_BOUNDARY_ATTACK_PREREG_20261030.md).
+Its evaluator uses only the four frozen frame-size/timing features, separates
+whole sessions, and gates C–G on both A and B controls. The five focused tests
+and full Python suite passed (257 tests, four existing skips), and the release
+harness build passed. The collection has not run yet. This is a local
+component-boundary simulation, not a real network observer. The exact
+implementation plan is
+[`2026-10-30-request-response-attack.md`](superpowers/plans/2026-10-30-request-response-attack.md).

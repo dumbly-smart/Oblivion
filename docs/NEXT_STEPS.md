@@ -13,14 +13,21 @@ independent sample from that classifier. See the
 [result](ORAM_RANK64_TRANSITION_REPLICATION_20261030.md), and
 [final independent receipt](../experiments/results/oram-rank64-transition-replication-20261030/independent-verification-v2.json).
 
-**Next engineering action:** scope and preregister a separate ORAM study at
-an externally visible request/response boundary, including observable frame
-lengths and end-to-end request timing. Keep private driver latency and truth
-fields out of attacker features, retain whole-session splits, and gate the
-protected result on successful plaintext and encrypt-only controls. Use a
-new seed and output paths; do not reuse the transition predictions as
-independent evidence. Freeze the observer, workload, primary metric,
-controls, and analysis before collecting.
+**Completed 2026-10-30:** the invocation-boundary size/timing study is now
+preregistered in
+[INVOCATION_BOUNDARY_ATTACK_PREREG_20261030.md](INVOCATION_BOUNDARY_ATTACK_PREREG_20261030.md)
+with a frozen A–G configuration. Its observer is the local harness boundary,
+not a network capture. The evaluator and five focused tests are implemented;
+the complete Python research suite passed 257 tests with four existing skips,
+and the release harness built successfully. No observations have been
+collected yet.
+
+**Next:** commit and push the evaluator, then run the frozen collection into
+new output paths. Gate protected mode scores on both plaintext and
+encrypt-only controls. Verify raw hashes, session splits, predictions, and
+recomputed metrics independently before reporting any result. Do not treat
+near-chance performance as a security proof or describe this local process
+boundary as remote timing.
 
 ## Immediate continuation (updated 2026-10-30)
 

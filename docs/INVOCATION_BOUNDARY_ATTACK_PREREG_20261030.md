@@ -54,6 +54,11 @@ from attacker features and auxiliary knowledge; it is not a runtime system
 configuration parameter. No claim is made for an adversary who knows the
 exact generated test schedule.
 
+The attack is supervised: the adversary may use function labels from the
+separate training sessions as declared auxiliary knowledge. Test-session
+labels remain unavailable to model fitting and prediction and are joined only
+after predictions are frozen for evaluation.
+
 ## Workload and labels
 
 Use seed `20261031`, 30 trials, 8 independently seeded sessions per trial,
