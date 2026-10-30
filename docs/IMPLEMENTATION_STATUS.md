@@ -1964,3 +1964,22 @@ of A/B with two trials and four sessions extracted 128 visible invocations
 from 16 real worker sessions, with eight samples and both function classes in
 each session. This is a parser integration check, not the preregistered study;
 the full 30-trial collection has not started and no attack score exists.
+
+## 2026-10-30 socket-study positive-control evaluator
+
+Added an A/B-only analysis phase that loads only a collection whose frozen
+configuration and mode-selection artifact name A and B, requires all 30 × 4
+session directories, and rejects any protected-mode collection directory.
+Each session is transformed independently; the evaluator reuses the frozen
+500-tree RandomForest, 0/1 training and 2/3 held-out session split, positive
+class 0, threshold 0.5, and 5,000-resample bootstrap over 30 trial units. A
+control passes only when its unweighted mean trial AUC is at least 0.70 and its
+lower 95% bootstrap endpoint is strictly above 0.50.
+
+The evaluator writes A/B metrics and predictions, with held-out truth in a
+separate private-label file. Synthetic fixtures cover a successful pair of
+controls, an encrypt-only failure, each individual threshold boundary,
+session-level split disjointness, deterministic bootstrap output, and refusal
+of protected/incomplete collections. All 13 focused tests pass. These are
+control-flow/model tests only: the preregistered 30-trial data has not been
+collected and no socket-attack score is claimed.

@@ -1,4 +1,5 @@
 import json
+import random
 import tempfile
 import unittest
 from pathlib import Path
@@ -15,7 +16,14 @@ ENVELOPE_BYTES = 228
 LABELS = [0, 1, 0, 2] * 4
 
 
-def write_session(directory, mode, labels=None, request_base_ns=1_000, frame_fill=0):
+def write_session(
+    directory,
+    mode,
+    labels=None,
+    request_base_ns=1_000,
+    frame_fill=0,
+    timing_signal="sequence",
+):
     labels = list(LABELS if labels is None else labels)
     truth = [{"step": step, "label": label} for step, label in enumerate(labels)]
     active_steps = [
@@ -29,8 +37,17 @@ def write_session(directory, mode, labels=None, request_base_ns=1_000, frame_fil
         response_body_bytes = (
             ENVELOPE_BYTES if encrypted else (65 if label == 1 else 5)
         )
-        request_ns = request_base_ns + sequence * 100
-        response_ns = request_ns + 10 + sequence
+        if timing_signal == "class":
+            request_spacing_ns = 1_000
+            latency_ns = 10 if label == 1 else 500
+        elif timing_signal == "constant":
+            request_spacing_ns = 100
+            latency_ns = 50
+        else:
+            request_spacing_ns = 100
+            latency_ns = 10 + sequence
+        request_ns = request_base_ns + sequence * request_spacing_ns
+        response_ns = request_ns + latency_ns
         for direction, byte_count, elapsed_ns, marker in (
             ("request", request_body_bytes, request_ns, frame_fill + sequence),
             ("response", response_body_bytes, response_ns, frame_fill + 128 + sequence),
@@ -194,6 +211,207 @@ class SocketInvocationAttackExtractionTests(unittest.TestCase):
         with self.assertRaises(StudyError):
             attack.extract_socket_session(directory, "A", 0, 0)
 
+
+class SocketInvocationControlAnalysisTests(unittest.TestCase):
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory()
+        self.root = Path(self.temporary.name)
+
+    def tearDown(self):
+        self.temporary.cleanup()
+
+    def control_collection(self, name, encrypted_timing_signal):
+        collection = self.root / name
+        collection.mkdir()
+        (collection / "config.json").write_text(
+            json.dumps(attack.FROZEN_CONFIG), encoding="utf-8"
+        )
+        (collection / "mode-selection.json").write_text(
+            json.dumps({"version": 1, "modes": ["A", "B"]}), encoding="utf-8"
+        )
+        for mode in "AB":
+            for trial in range(attack.FROZEN_CONFIG["trials"]):
+                for session in range(attack.FROZEN_CONFIG["sessions"]):
+                    labels = list(LABELS)
+                    random.Random(trial * 4 + session).shuffle(labels)
+                    write_session(
+                        collection / mode / f"{trial}-{session}",
+                        mode,
+                        labels=labels,
+                        timing_signal=(
+                            encrypted_timing_signal if mode == "B" else "sequence"
+                        ),
+                    )
+        return collection
+
+    def test_control_analysis_passes_when_both_positive_controls_are_learnable(self):
+        collection = self.control_collection("pass-controls", "class")
+        analysis = self.root / "pass-analysis"
+
+        report = attack.analyze_controls(attack.FROZEN_CONFIG, collection, analysis)
+
+        self.assertTrue(report["positive_controls_passed"])
+        self.assertEqual(set(report["metrics_by_mode"]), {"A", "B"})
+        self.assertEqual(set(report["positive_control_gates"]), {"A", "B"})
+        self.assertTrue(all(gate["passed"] for gate in report["positive_control_gates"].values()))
+        self.assertEqual(report["attack"]["positive_class"], 0)
+        self.assertEqual(report["attack"]["classification_threshold"], 0.5)
+        self.assertEqual(report["attack"]["bootstrap_resamples"], 5000)
+        self.assertEqual(report["attack"]["bootstrap_seed"], 20261221)
+        for mode in "AB":
+            metric = report["metrics_by_mode"][mode]
+            self.assertEqual(len(metric["per_trial"]), 30)
+            self.assertEqual(metric["test_observations"], 30 * 2 * 8)
+            self.assertEqual(metric["test_class_counts"], {"0": 240, "4": 240})
+        predictions = [
+            json.loads(line)
+            for line in (analysis / "predictions.jsonl").read_text(encoding="utf-8").splitlines()
+        ]
+        private_labels = [
+            json.loads(line)
+            for line in (analysis / "private-labels.jsonl").read_text(encoding="utf-8").splitlines()
+        ]
+        self.assertEqual({row["mode"] for row in predictions}, {"A", "B"})
+        self.assertTrue(all("true_function" not in row for row in predictions))
+        self.assertTrue(all("true_function" in row for row in private_labels))
+        self.assertEqual(report["protected_scoring"], "not_in_control_phase")
+
+    def test_failed_encrypt_only_control_produces_no_protected_scores_or_predictions(self):
+        collection = self.control_collection("failed-controls", "constant")
+        analysis = self.root / "failed-analysis"
+
+        report = attack.analyze_controls(attack.FROZEN_CONFIG, collection, analysis)
+
+        self.assertFalse(report["positive_controls_passed"])
+        self.assertTrue(report["positive_control_gates"]["A"]["passed"])
+        self.assertFalse(report["positive_control_gates"]["B"]["passed"])
+        self.assertEqual(set(report["metrics_by_mode"]), {"A", "B"})
+        self.assertEqual(report["protected_scoring"], "omitted_control_failure")
+        predictions = [
+            json.loads(line)
+            for line in (analysis / "predictions.jsonl").read_text(encoding="utf-8").splitlines()
+        ]
+        self.assertEqual({row["mode"] for row in predictions}, {"A", "B"})
+        self.assertFalse(any(mode in report["metrics_by_mode"] for mode in "CDEFG"))
+
+    def test_each_positive_control_must_meet_both_frozen_auc_conditions(self):
+        passing = {
+            "A": {"mean_roc_auc": 0.70, "roc_auc_ci95": [0.51, 0.80]},
+            "B": {"mean_roc_auc": 0.75, "roc_auc_ci95": [0.52, 0.88]},
+        }
+        self.assertTrue(all(gate["passed"] for gate in attack._positive_control_gates(passing).values()))
+
+        failures = (
+            {
+                **passing,
+                "A": {"mean_roc_auc": 0.699, "roc_auc_ci95": [0.60, 0.80]},
+            },
+            {
+                **passing,
+                "A": {"mean_roc_auc": 0.70, "roc_auc_ci95": [0.50, 0.80]},
+            },
+            {
+                **passing,
+                "B": {"mean_roc_auc": 0.69, "roc_auc_ci95": [0.60, 0.80]},
+            },
+            {
+                **passing,
+                "B": {"mean_roc_auc": 0.75, "roc_auc_ci95": [0.49, 0.80]},
+            },
+        )
+        for metrics in failures:
+            with self.subTest(metrics=metrics):
+                self.assertFalse(
+                    all(gate["passed"] for gate in attack._positive_control_gates(metrics).values())
+                )
+
+    def test_session_split_is_disjoint_and_bootstrap_is_seed_reproducible(self):
+        observations = [
+            context_attack.ContextObservation(
+                trial=trial,
+                session=session,
+                step=step,
+                label=step % 2 * 4,
+                features=(1, 2, 3, 4, 5, 6),
+            )
+            for trial in range(2)
+            for session in range(4)
+            for step in range(2)
+        ]
+
+        train, test = context_attack.split_sessions(observations, sessions=4)
+
+        train_groups = {(row.trial, row.session) for row in train}
+        test_groups = {(row.trial, row.session) for row in test}
+        self.assertTrue(train_groups.isdisjoint(test_groups))
+        self.assertEqual({session for _, session in train_groups}, {0, 1})
+        self.assertEqual({session for _, session in test_groups}, {2, 3})
+        values = [0.4, 0.6, 0.8, 1.0]
+        self.assertEqual(
+            context_attack._bootstrap_interval(values, 5000, 20261221),
+            context_attack._bootstrap_interval(values, 5000, 20261221),
+        )
+
+    def test_control_analysis_requires_frozen_config_and_fresh_analysis_directory(self):
+        existing_analysis = self.root / "existing-analysis"
+        existing_analysis.mkdir()
+        with self.assertRaises(StudyError):
+            attack.analyze_controls(attack.FROZEN_CONFIG, self.root / "unused", existing_analysis)
+
+        changed_config = dict(attack.FROZEN_CONFIG, trials=29)
+        with self.assertRaises(StudyError):
+            attack.analyze_controls(changed_config, self.root / "unused", self.root / "new-analysis")
+
+    def test_control_artifacts_reject_boolean_versions(self):
+        collection = self.root / "typed-controls"
+        collection.mkdir()
+        invalid_config = dict(attack.FROZEN_CONFIG, version=True)
+        (collection / "config.json").write_text(
+            json.dumps(invalid_config), encoding="utf-8"
+        )
+        (collection / "mode-selection.json").write_text(
+            json.dumps({"version": 1, "modes": ["A", "B"]}), encoding="utf-8"
+        )
+        with self.assertRaises(StudyError):
+            attack.analyze_controls(
+                attack.FROZEN_CONFIG, collection, self.root / "typed-analysis"
+            )
+
+        (collection / "config.json").write_text(
+            json.dumps(attack.FROZEN_CONFIG), encoding="utf-8"
+        )
+        (collection / "mode-selection.json").write_text(
+            json.dumps({"version": True, "modes": ["A", "B"]}), encoding="utf-8"
+        )
+        with self.assertRaises(StudyError):
+            attack.analyze_controls(
+                attack.FROZEN_CONFIG, collection, self.root / "typed-analysis-2"
+            )
+
+    def test_control_collection_rejects_protected_or_incomplete_mode_directories(self):
+        for case in ("protected", "incomplete"):
+            with self.subTest(case=case):
+                collection = self.root / case
+                collection.mkdir()
+                (collection / "config.json").write_text(
+                    json.dumps(attack.FROZEN_CONFIG), encoding="utf-8"
+                )
+                (collection / "mode-selection.json").write_text(
+                    json.dumps({"version": 1, "modes": ["A", "B"]}),
+                    encoding="utf-8",
+                )
+                if case == "protected":
+                    (collection / "C").mkdir()
+                else:
+                    (collection / "A").mkdir()
+                    (collection / "B").mkdir()
+
+                with self.assertRaises(StudyError):
+                    attack.analyze_controls(
+                        attack.FROZEN_CONFIG,
+                        collection,
+                        self.root / f"{case}-analysis",
+                    )
 
 def events_from(directory):
     return [

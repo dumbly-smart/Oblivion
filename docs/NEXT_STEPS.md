@@ -57,16 +57,21 @@ complete ordered sequence pairs, monotonic timestamps, and event/body shape.
 It maps private labels to evaluator metadata while returning only the frozen
 four base size/timing values; the existing context transform supplies the six
 model features. Focused tests pass, and a release A/B socket smoke run
-successfully extracted 128 visible invocations across 16 sessions.
+successfully extracted 128 visible invocations across 16 sessions. The
+controls-only evaluator now reuses the frozen model and session split, computes
+the 5,000-trial-unit bootstrap interval, and applies both frozen thresholds.
+Synthetic tests cover pass/fail behavior for each gate condition; when B fails,
+only A/B metrics and predictions are written.
 
-**Next:** implement the frozen A/B-only classifier evaluator and bootstrap
-gate. Test each failure condition and prove the evaluator emits no protected
-mode scores/predictions when either control fails. Do not collect study
-observations until the gate and phased runner are implemented and verified.
-Only if both controls pass may C–G be collected in their separate root. Keep
-earlier in-process studies separate and do not treat absent protected scores
-as privacy evidence. Hardware-backed execution remains unimplemented; no
-local timing result is a security proof.
+**Next:** implement the phased collection runner with separate fresh A/B and
+C–G roots, complete phase metadata, partial-run retention, and a hard stop
+before the target collector on any control failure. Then independently
+rebuild and verify manifests, features, splits, predictions, and the gate.
+Do not collect the 30-trial study until those controls and verifier are ready.
+Only if both actual controls pass may C–G be collected. Keep earlier
+in-process studies separate and do not treat absent protected scores as
+privacy evidence. Hardware-backed execution remains unimplemented; no local
+timing result is a security proof.
 
 ## Immediate continuation (updated 2026-10-30)
 

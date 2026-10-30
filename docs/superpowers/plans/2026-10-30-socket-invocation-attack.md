@@ -80,11 +80,11 @@
 - Fit only modes A and B using the exact six-feature RandomForest from the frozen protocol: 500 trees, depth 6, leaf size 2, balanced weights, one worker, seed `20261220`.
 - A control passes only at mean per-trial AUC >= 0.70 and lower 95% trial-bootstrap endpoint > 0.50.
 
-- [ ] **Step 1: Write tests** with balanced held-out control fixtures for passing and failing each gate condition; assert a failed gate returns A/B only and no C–G keys or predictions.
-- [ ] **Step 2: Run the tests and confirm the control evaluator is missing.**
-- [ ] **Step 3: Implement A/B-only scoring, predictions, private labels, per-trial metrics, bootstrap intervals, class counts, and majority baselines.**
-- [ ] **Step 4: Test whole-session split disjointness, prediction/label separation, fixed positive direction, and deterministic resampling.**
-- [ ] **Step 5: Run the focused Python tests** and commit as `feat: gate socket attack on positive controls`.
+- [x] **Step 1: Write tests** with balanced held-out control fixtures for passing and failing each gate condition; assert a failed gate returns A/B only and no C–G keys or predictions.
+- [x] **Step 2: Run the tests and confirm the control evaluator is missing.**
+- [x] **Step 3: Implement A/B-only scoring, predictions, private labels, per-trial metrics, bootstrap intervals, class counts, and majority baselines.**
+- [x] **Step 4: Test whole-session split disjointness, prediction/label separation, fixed positive direction, and deterministic resampling.**
+- [x] **Step 5: Run the focused Python tests** and commit as `feat: gate socket attack on positive controls`.
 
 ### Task 4: Phased collection runner and metadata
 

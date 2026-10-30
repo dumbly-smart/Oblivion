@@ -3,8 +3,11 @@
 
 from __future__ import annotations
 
+import json
+import math
 from collections import defaultdict
 from pathlib import Path
+from typing import Mapping
 
 from research.analysis.invocation_boundary_attack import (
     BATCHED_MODES,
@@ -14,6 +17,7 @@ from research.analysis.invocation_boundary_attack import (
     _integer,
     _read_jsonl,
 )
+from research.analysis import invocation_context_attack as context_attack
 
 
 FROZEN_CONFIG = {
@@ -226,3 +230,176 @@ def extract_socket_session(
     if {row.label for row in observations} != {0, 4}:
         raise StudyError("socket session must contain both visible function classes")
     return observations
+
+
+def _read_json_artifact(path: Path) -> dict:
+    try:
+        if not path.is_file() or path.stat().st_size > 1024 * 1024:
+            raise StudyError(f"missing or oversized study artifact: {path}")
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as error:
+        raise StudyError(f"invalid study artifact: {path}") from error
+    if not isinstance(value, dict):
+        raise StudyError(f"study artifact must be an object: {path}")
+    return value
+
+
+def _validate_frozen_config(config: Mapping[str, object]) -> None:
+    if not isinstance(config, Mapping) or set(config) != set(FROZEN_CONFIG):
+        raise StudyError("socket attack config does not match the frozen schema")
+    for key, expected in FROZEN_CONFIG.items():
+        value = config[key]
+        if type(value) is not type(expected) or value != expected:
+            raise StudyError("socket attack config differs from the preregistration")
+
+
+def _positive_control_gates(metrics_by_mode: Mapping[str, dict]) -> dict[str, dict]:
+    if set(metrics_by_mode) != {"A", "B"}:
+        raise StudyError("positive-control gate requires exactly modes A and B")
+    gates = {}
+    for mode in ("A", "B"):
+        metrics = metrics_by_mode[mode]
+        try:
+            mean_auc = metrics["mean_roc_auc"]
+            interval = metrics["roc_auc_ci95"]
+        except (KeyError, TypeError) as error:
+            raise StudyError(f"mode {mode} is missing its frozen AUC metrics") from error
+        if (
+            isinstance(mean_auc, bool)
+            or not isinstance(mean_auc, (float, int))
+            or not math.isfinite(mean_auc)
+            or not 0.0 <= mean_auc <= 1.0
+            or not isinstance(interval, list)
+            or len(interval) != 2
+            or any(
+                isinstance(value, bool)
+                or not isinstance(value, (float, int))
+                or not math.isfinite(value)
+                or not 0.0 <= value <= 1.0
+                for value in interval
+            )
+            or interval[0] > interval[1]
+        ):
+            raise StudyError(f"mode {mode} has invalid AUC gate metrics")
+        gates[mode] = {
+            "mean_roc_auc": float(mean_auc),
+            "lower_roc_auc_ci95": float(interval[0]),
+            "minimum_mean_roc_auc": 0.70,
+            "minimum_lower_roc_auc_ci95_exclusive": 0.50,
+            "passed": mean_auc >= 0.70 and interval[0] > 0.50,
+        }
+    return gates
+
+
+def _write_json(path: Path, value: dict) -> None:
+    path.write_text(
+        json.dumps(value, indent=2, sort_keys=True, allow_nan=False) + "\n",
+        encoding="utf-8",
+    )
+
+
+def _write_jsonl(path: Path, rows: list[dict]) -> None:
+    with path.open("w", encoding="utf-8", newline="\n") as destination:
+        for row in rows:
+            destination.write(json.dumps(row, sort_keys=True, allow_nan=False) + "\n")
+
+
+def analyze_controls(
+    config: Mapping[str, object],
+    control_collection: Path,
+    new_analysis_directory: Path,
+) -> dict:
+    """Score only plaintext/encrypt-only controls and apply the frozen gate."""
+    analysis_directory = Path(new_analysis_directory)
+    collection = Path(control_collection)
+    if analysis_directory.exists():
+        raise StudyError("analysis output directory already exists")
+    _validate_frozen_config(config)
+    if not collection.is_dir():
+        raise StudyError("control collection directory is missing")
+    collected_config = _read_json_artifact(collection / "config.json")
+    _validate_frozen_config(collected_config)
+    selection = _read_json_artifact(collection / "mode-selection.json")
+    if (
+        set(selection) != {"version", "modes"}
+        or type(selection["version"]) is not int
+        or selection["version"] != 1
+        or selection["modes"] != ["A", "B"]
+    ):
+        raise StudyError("control collection must contain exactly modes A and B")
+    if any((collection / mode).exists() for mode in "CDEFG"):
+        raise StudyError("control collection unexpectedly contains protected modes")
+
+    expected_sessions = {
+        f"{trial}-{session}"
+        for trial in range(FROZEN_CONFIG["trials"])
+        for session in range(FROZEN_CONFIG["sessions"])
+    }
+    rows_by_mode = {mode: [] for mode in ("A", "B")}
+    for mode in ("A", "B"):
+        mode_directory = collection / mode
+        if not mode_directory.is_dir():
+            raise StudyError(f"control collection is missing mode {mode}")
+        if {path.name for path in mode_directory.iterdir()} != expected_sessions:
+            raise StudyError(f"control mode {mode} has missing or extra sessions")
+        for trial in range(FROZEN_CONFIG["trials"]):
+            for session in range(FROZEN_CONFIG["sessions"]):
+                directory = collection / mode / f"{trial}-{session}"
+                base = extract_socket_session(directory, mode, trial, session)
+                if len(base) != 8:
+                    raise StudyError("control session has an unexpected visible sample count")
+                rows_by_mode[mode].extend(context_attack.add_context_features(base))
+
+    metrics_by_mode = {}
+    predictions = []
+    private_labels = []
+    for mode in ("A", "B"):
+        metrics, mode_predictions, mode_labels = context_attack._evaluate_mode(
+            mode,
+            rows_by_mode[mode],
+            FROZEN_CONFIG["sessions"],
+            bootstrap_resamples=5000,
+            bootstrap_seed=20261221,
+            model_seed=20261220,
+        )
+        metrics_by_mode[mode] = metrics
+        predictions.extend(mode_predictions)
+        private_labels.extend(mode_labels)
+
+    gates = _positive_control_gates(metrics_by_mode)
+    passed = all(gate["passed"] for gate in gates.values())
+    report = {
+        "version": 1,
+        "phase": "positive_controls",
+        "config": dict(FROZEN_CONFIG),
+        "mode_selection": ["A", "B"],
+        "feature_names": list(context_attack.FEATURE_NAMES),
+        "positive_controls_passed": passed,
+        "positive_control_gates": gates,
+        "protected_scoring": (
+            "not_in_control_phase" if passed else "omitted_control_failure"
+        ),
+        "metrics_by_mode": metrics_by_mode,
+        "attack": {
+            "classifier": "RandomForestClassifier",
+            "n_estimators": 500,
+            "max_depth": 6,
+            "min_samples_leaf": 2,
+            "class_weight": "balanced",
+            "n_jobs": 1,
+            "model_seed": 20261220,
+            "positive_class": 0,
+            "classification_threshold": 0.5,
+            "bootstrap_resamples": 5000,
+            "bootstrap_seed": 20261221,
+            "bootstrap_unit": "trial",
+            "training_sessions": "0..1",
+            "testing_sessions": "2..3",
+        },
+    }
+
+    analysis_directory.mkdir(parents=True, exist_ok=False)
+    _write_json(analysis_directory / "report.json", report)
+    _write_jsonl(analysis_directory / "predictions.jsonl", predictions)
+    _write_jsonl(analysis_directory / "private-labels.jsonl", private_labels)
+    return report
