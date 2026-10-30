@@ -1946,3 +1946,21 @@ selected A/B collection, invalid lists, canonical artifacts, and the default
 all-mode path. The implementation is groundwork for the preregistered
 controls-first socket inference study; no study data or attack result exists
 yet.
+
+## 2026-10-30 socket-study trace extraction
+
+Added `research.analysis.socket_invocation_attack.extract_socket_session`.
+It parses the TCP observer and private schedule, rejects unexpected row
+shapes, invalid labels/counts, duplicate or noncontiguous sequences, partial
+or reordered pairs, nonmonotonic timestamps, malformed frames, and
+mode-incompatible prefix-inclusive request/response sizes. It omits unbatched
+dummy opportunities, maps E/G cover calls to function 4, and returns four base
+size/timing values with evaluator-only step/label metadata. The frozen context
+transform produces the six model features without frame content or labels in
+the matrix.
+
+The focused Python module passes six tests. A release harness smoke collection
+of A/B with two trials and four sessions extracted 128 visible invocations
+from 16 real worker sessions, with eight samples and both function classes in
+each session. This is a parser integration check, not the preregistered study;
+the full 30-trial collection has not started and no attack score exists.

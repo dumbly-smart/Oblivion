@@ -51,16 +51,22 @@ machine-readable config, design, and implementation plan committed before any
 collection. The TCP CLI now accepts an optional canonicalized mode subset;
 `system-tcp CONFIG OUT` still runs A–G and records that full selection.
 Duplicate, empty, and unknown selections fail before output creation. The
-focused process suite passes all six tests.
+focused process suite passes all six tests. The socket extractor validates
+private schedule counts, exact per-mode frame sizes, prefix-inclusive lengths,
+complete ordered sequence pairs, monotonic timestamps, and event/body shape.
+It maps private labels to evaluator metadata while returning only the frozen
+four base size/timing values; the existing context transform supplies the six
+model features. Focused tests pass, and a release A/B socket smoke run
+successfully extracted 128 visible invocations across 16 sessions.
 
-**Next:** implement strict extraction of the socket observer and private
-schedule into the frozen six-feature session representation. Preserve separate
-truth and attacker views, reject malformed event/schedule joins, and collect
-no experimental observations until the A/B positive-control gate is
-implemented and verified. If both controls pass, and only then, collect C–G.
-Keep earlier in-process studies separate and do not treat absent protected
-scores as privacy evidence. Hardware-backed execution remains unimplemented;
-no local timing result is a security proof.
+**Next:** implement the frozen A/B-only classifier evaluator and bootstrap
+gate. Test each failure condition and prove the evaluator emits no protected
+mode scores/predictions when either control fails. Do not collect study
+observations until the gate and phased runner are implemented and verified.
+Only if both controls pass may C–G be collected in their separate root. Keep
+earlier in-process studies separate and do not treat absent protected scores
+as privacy evidence. Hardware-backed execution remains unimplemented; no
+local timing result is a security proof.
 
 ## Immediate continuation (updated 2026-10-30)
 

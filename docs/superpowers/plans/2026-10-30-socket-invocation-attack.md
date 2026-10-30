@@ -63,11 +63,11 @@
 - Use framed byte counts and `elapsed_ns`; ignore raw `frame` contents when building features.
 - Pass base observations through `add_context_features` from `invocation_context_attack.py` without changing its frozen feature equations.
 
-- [ ] **Step 1: Write tests** for A/B unbatched dummy omission, E/G dummy cover labeling as function 4, exact TCP prefix-inclusive sizes, timing/interarrival features, and frame-body exclusion.
-- [ ] **Step 2: Run the focused module and confirm missing extractor behavior.**
-- [ ] **Step 3: Implement strict sequence/schedule validation and six-feature extraction.** Reject unknown/duplicate sequence IDs, incomplete pairs, nonmonotonic timestamps, unexpected dummy frames, and absent expected frames.
-- [ ] **Step 4: Test malformed JSONL, missing labels, mismatched event counts, and class-presence validation.**
-- [ ] **Step 5: Run the focused Python module** with dependencies from `research/requirements.lock` and commit as `feat: extract socket invocation attack features`.
+- [x] **Step 1: Write tests** for A/B unbatched dummy omission, E/G dummy cover labeling as function 4, exact TCP prefix-inclusive sizes, timing/interarrival features, and frame-body exclusion.
+- [x] **Step 2: Run the focused module and confirm missing extractor behavior.**
+- [x] **Step 3: Implement strict sequence/schedule validation and six-feature extraction.** Reject unknown/duplicate sequence IDs, incomplete pairs, nonmonotonic timestamps, unexpected dummy frames, and absent expected frames.
+- [x] **Step 4: Test malformed JSONL, missing labels, mismatched event counts, and class-presence validation.**
+- [x] **Step 5: Run the focused Python module** with dependencies from `research/requirements.lock` and commit as `feat: extract socket invocation attack features`.
 
 ### Task 3: A/B control analysis and frozen classifier gate
 
