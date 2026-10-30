@@ -24,24 +24,24 @@ use zeroize::Zeroizing;
 
 #[derive(Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
-struct Experiment {
-    version: u16,
-    seed: u64,
-    trials: usize,
-    sessions: usize,
-    operations: usize,
-    epoch_ms: u64,
+pub(super) struct Experiment {
+    pub(super) version: u16,
+    pub(super) seed: u64,
+    pub(super) trials: usize,
+    pub(super) sessions: usize,
+    pub(super) operations: usize,
+    pub(super) epoch_ms: u64,
 }
 #[derive(Clone, Copy)]
-struct Mode {
-    name: &'static str,
-    encrypted: bool,
-    oram: bool,
-    pir: bool,
-    batching: bool,
-    padding: bool,
+pub(super) struct Mode {
+    pub(super) name: &'static str,
+    pub(super) encrypted: bool,
+    pub(super) oram: bool,
+    pub(super) pir: bool,
+    pub(super) batching: bool,
+    pub(super) padding: bool,
 }
-const MODES: [Mode; 7] = [
+pub(super) const MODES: [Mode; 7] = [
     Mode {
         name: "A",
         encrypted: false,
@@ -269,6 +269,174 @@ impl Stores {
         }
     }
 }
+
+pub(super) struct WorkerInvocation {
+    pub(super) payload: [u8; PAYLOAD_BYTES],
+    pub(super) plaintext_response_bytes: usize,
+    pub(super) registry_bytes: usize,
+    pub(super) registry_index: i32,
+    pub(super) registry_ns: u64,
+    pub(super) execution_ns: u64,
+    pub(super) work_ns: u64,
+    pub(super) deadline_missed: bool,
+    pub(super) storage_events: Vec<StorageEvent>,
+}
+
+/// The actual server-side registry, WASM executor and state store for the
+/// separate-process TCP experiment. It intentionally runs inside the trusted
+/// executor process; it does not turn the local PIR pair into non-colluding
+/// independent services.
+pub(super) struct WorkerRuntime {
+    mode: Mode,
+    stores: Stores,
+    executor: Executor,
+    records: Vec<Vec<u8>>,
+    first: Database,
+    second: Database,
+    pir_client0: oblivion_pir::secure::Endpoint,
+    pir_server0: oblivion_pir::secure::Endpoint,
+    pir_client1: oblivion_pir::secure::Endpoint,
+    pir_server1: oblivion_pir::secure::Endpoint,
+}
+
+impl WorkerRuntime {
+    pub(super) fn new(mode: Mode) -> Result<Self> {
+        let stores = Stores::new(mode)?;
+        let mut executor = Executor::new(Class::small()).map_err(|error| error.to_string())?;
+        executor
+            .register(0, ECHO)
+            .map_err(|error| error.to_string())?;
+        executor
+            .register(4, STATEFUL)
+            .map_err(|error| error.to_string())?;
+        let records = (0..5u32)
+            .map(|id| {
+                let mut record = vec![0; 128];
+                let source = if id == 0 { ECHO } else { STATEFUL };
+                record[..32].copy_from_slice(&Sha256::digest(source));
+                record[32..36].copy_from_slice(&id.to_be_bytes());
+                record[36..44].copy_from_slice(&1u64.to_be_bytes());
+                record
+            })
+            .collect::<Vec<_>>();
+        let first = Database::new(records.clone())?;
+        let second = Database::new(records.clone())?;
+        let geometry = secure::Geometry::new(5, 128)?;
+        let (pir_client0, pir_server0) = secure::Endpoint::provision(0, geometry)?;
+        let (pir_client1, pir_server1) = secure::Endpoint::provision(1, geometry)?;
+        Ok(Self {
+            mode,
+            stores,
+            executor,
+            records,
+            first,
+            second,
+            pir_client0,
+            pir_server0,
+            pir_client1,
+            pir_server1,
+        })
+    }
+
+    pub(super) fn invoke(
+        &mut self,
+        decoded: &[u8; PAYLOAD_BYTES],
+        epoch: u64,
+        invocation_started: Instant,
+    ) -> Result<WorkerInvocation> {
+        if decoded[0] > 1 {
+            return Err("invalid invocation presence bit".into());
+        }
+        let real = decoded[0] == 1;
+        let requested = u32::from_be_bytes(decoded[1..5].try_into()?);
+        let selected = if real { requested } else { 4 };
+        if !matches!(selected, 0 | 4) {
+            return Err("unknown function identifier".into());
+        }
+
+        let registry_started = Instant::now();
+        let (record, registry_bytes, registry_index) = if self.mode.pir {
+            let shares = QueryPair::generate(5, selected as usize)?;
+            let q0 = self.pir_client0.seal_query(epoch, &shares.first)?;
+            let q1 = self.pir_client1.seal_query(epoch, &shares.second)?;
+            let a0 = self.first.answer(&self.pir_server0.open_query(&q0)?)?;
+            let a1 = self.second.answer(&self.pir_server1.open_query(&q1)?)?;
+            let a0 = self.pir_server0.seal_answer(&a0)?;
+            let a1 = self.pir_server1.seal_answer(&a1)?;
+            let bytes = q0.len() + q1.len() + a0.len() + a1.len();
+            let record = recover(
+                &self.pir_client0.open_answer(&a0)?,
+                &self.pir_client1.open_answer(&a1)?,
+            )?;
+            (record, bytes, -1)
+        } else {
+            (
+                self.records[selected as usize].clone(),
+                132,
+                selected as i32,
+            )
+        };
+        let registry_ns = ns(registry_started.elapsed());
+        if record != self.records[selected as usize] {
+            return Err("registry authentication failed".into());
+        }
+
+        let mut argument = [0; 64];
+        argument.copy_from_slice(&decoded[5..69]);
+        let namespace = if real {
+            Namespace {
+                first: 0,
+                blocks: 7,
+            }
+        } else {
+            Namespace {
+                first: 7,
+                blocks: 1,
+            }
+        };
+        if !self.mode.padding && !real {
+            argument[4..8].copy_from_slice(&7u32.to_le_bytes());
+        }
+        let result = if self.mode.padding {
+            self.executor.prepare_scheduled(
+                selected,
+                &argument,
+                self.stores.handle(),
+                namespace,
+                invocation_started,
+            )
+        } else {
+            self.executor
+                .execute_unpadded_baseline(selected, &argument, self.stores.handle())
+        };
+        if result.status != Status::Success {
+            return Err(format!("WASM invocation failed: {:?}", result.status).into());
+        }
+
+        let mut payload = [0; PAYLOAD_BYTES];
+        let visibility_mask = 0u8.wrapping_sub(u8::from(real));
+        for (out, byte) in payload[1..].iter_mut().zip(&result.body) {
+            *out = *byte & visibility_mask;
+        }
+        let events = self.stores.drain()?;
+        Ok(WorkerInvocation {
+            payload,
+            plaintext_response_bytes: if real && selected == 0 { 65 } else { 5 },
+            registry_bytes,
+            registry_index,
+            registry_ns,
+            execution_ns: result.total_ns,
+            work_ns: result.work_ns,
+            deadline_missed: result.deadline_missed,
+            storage_events: events,
+        })
+    }
+
+    pub(super) fn storage_stats(&self) -> Result<Value> {
+        self.stores.stats()
+    }
+}
+
 fn write(writer: &mut impl Write, value: &impl Serialize) -> Result<()> {
     serde_json::to_writer(&mut *writer, value)?;
     writeln!(writer)?;
@@ -296,7 +464,8 @@ fn proc_counters() -> (u64, u64) {
         .unwrap_or(0);
     (number(11) + number(12), rss)
 }
-pub fn run(config_path: &Path, out: &Path) -> Result<()> {
+
+pub(super) fn load_experiment(config_path: &Path) -> Result<Experiment> {
     if fs::metadata(config_path)?.len() > 16 * 1024 {
         return Err("configuration too large".into());
     }
@@ -315,21 +484,40 @@ pub fn run(config_path: &Path, out: &Path) -> Result<()> {
         .seed
         .checked_add((config.trials * config.sessions) as u64)
         .ok_or("seed overflow")?;
+    Ok(config)
+}
+
+pub(super) fn schedule(
+    config: &Experiment,
+    trial: usize,
+    session: usize,
+) -> Result<(Vec<usize>, [Mode; 7])> {
+    let index = trial
+        .checked_mul(config.sessions)
+        .and_then(|value| value.checked_add(session))
+        .ok_or("session index overflow")?;
+    let seed = config
+        .seed
+        .checked_add(index as u64)
+        .ok_or("seed overflow")?;
+    let mut rng = ChaCha20Rng::seed_from_u64(seed);
+    let mut labels = (0..config.operations)
+        .map(|i| if i % 4 < 2 { 0 } else { i % 4 - 1 })
+        .collect::<Vec<_>>();
+    labels.shuffle(&mut rng);
+    let mut modes = MODES;
+    modes.shuffle(&mut rng);
+    Ok((labels, modes))
+}
+
+pub fn run(config_path: &Path, out: &Path) -> Result<()> {
+    let config = load_experiment(config_path)?;
     fs::create_dir(out)?;
     fs::write(out.join("config.json"), serde_json::to_vec_pretty(&config)?)?;
     let mut metrics = BufWriter::new(File::create(out.join("metrics.jsonl"))?);
     for trial in 0..config.trials {
         for session in 0..config.sessions {
-            let seed = config.seed + (trial * config.sessions + session) as u64;
-            let mut rng = ChaCha20Rng::seed_from_u64(seed);
-            // Exactly half dummy, one quarter each real function, shuffled per
-            // independent session. The observer gets no ground-truth schedule.
-            let mut labels = (0..config.operations)
-                .map(|i| if i % 4 < 2 { 0 } else { i % 4 - 1 })
-                .collect::<Vec<_>>();
-            labels.shuffle(&mut rng);
-            let mut modes = MODES;
-            modes.shuffle(&mut rng);
+            let (labels, modes) = schedule(&config, trial, session)?;
             for mode in modes {
                 session_run(out, &mut metrics, &config, trial, session, mode, &labels)?;
             }
