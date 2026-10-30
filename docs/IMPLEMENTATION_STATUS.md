@@ -1991,7 +1991,9 @@ HARNESS NEW_BUNDLE_ROOT`. It refuses an existing bundle, checks the exact
 frozen config, snapshots it, records source commit and hashes for the tracked
 Rust implementation/workload and relevant Python analysis, hashes the release
 harness, and captures Python/library/Rust versions plus OS, CPU, and load
-metadata. Each phase retains its exact command, mode list, UTC interval,
+metadata. It refuses collection if the source worktree is dirty so those hashes
+can be reproduced from the recorded commit. Each phase retains its exact
+command, mode list, UTC interval,
 exit/status, stdout/stderr hashes and files, and a per-file raw hash manifest.
 Collections have a one-hour outer timeout; timed-out and failed phases remain
 marked incomplete with partial output retained.
@@ -2001,8 +2003,8 @@ frozen config/model, per-trial AUC values, recomputed mean/bootstrap gate, and
 exact A/B-only keys before it can invoke a second process for C–G in a separate
 root. Control collection, analysis, and protected collection checkpoints are
 written as the run proceeds. A successful C–G collection is explicitly
-pending final evaluation and independent verification. Nine injected-runner
+pending final evaluation and independent verification. Ten injected-runner
 tests cover control failure, report inconsistency, subprocess error/timeout,
 partial retention, fresh-output refusal, mode order, and metadata. The combined
-focused socket/context suite passed 27 tests. No preregistered collection has
+focused socket/context suite passed 28 tests. No preregistered collection has
 run.

@@ -133,6 +133,7 @@ def _capture_provenance(harness_binary: Path) -> dict:
         "source_commit": commit,
         "source_hashes": source_hashes,
         "source_dirty_paths": [line[3:] for line in dirty_output.splitlines()],
+        "harness_binary_path": str(harness_binary.resolve()),
         "binary_sha256": sha256_file(harness_binary),
         "environment": {
             "python": platform.python_version(),
@@ -412,6 +413,8 @@ def run_experiment(
     runner = command_runner or subprocess.run
     analyzer = control_analyzer or analyze_controls
     provenance = _capture_provenance(binary)
+    if provenance["source_dirty_paths"]:
+        raise StudyError("socket study collection requires a clean source worktree")
     bundle.mkdir(parents=True, exist_ok=False)
     (bundle / "config.json").write_bytes(config_bytes)
     document = {

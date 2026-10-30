@@ -66,10 +66,11 @@ only A/B metrics and predictions are written.
 The phased runner is implemented as
 `research.analysis.collect_socket_invocation_attack`. It creates a new bundle,
 captures A/B first, records source/binary/config/environment provenance and
-raw hashes, and invokes C–G only after validating both reported metrics and
-gate decisions. Failed or timed-out phases keep their partial files and
-metadata. A successful protected collection is marked pending evaluation;
-the runner does not claim the experiment is fully evaluated.
+raw hashes, requires the recorded source tree to be clean, and invokes C–G only
+after validating both reported metrics and gate decisions. Failed or timed-out
+phases keep their partial files and metadata. A successful protected
+collection is marked pending evaluation; the runner does not claim the
+experiment is fully evaluated.
 
 **Next:** implement the independent bundle verifier and final target analysis.
 Rebuild manifests, features, splits, predictions, trial metrics, confidence

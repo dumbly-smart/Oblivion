@@ -194,8 +194,9 @@ externally visible request/response boundary under a frozen protocol.
    real release A/B smoke trace extracted 128 visible invocations. The A/B-only
    evaluator uses the frozen model, session split, 5,000-resample trial
    bootstrap, and both strict gates. The phased runner captures controls first,
-   retains partial failures, hashes source/binary/config/raw files, and refuses
-   target collection unless both gates are validated. Synthetic orchestration
+   retains partial failures, hashes source/binary/config/raw files, requires a
+   clean source worktree, and refuses target collection unless both gates are
+   validated. Synthetic orchestration
    tests verify the failed-gate stop. Next implement the independent bundle
    verifier. No preregistered study observations have been collected.
 3. Continue the remaining work in [docs/NEXT_STEPS.md](docs/NEXT_STEPS.md),

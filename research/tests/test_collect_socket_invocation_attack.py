@@ -22,6 +22,20 @@ class SocketInvocationCollectionRunnerTests(unittest.TestCase):
         self.config.write_text(json.dumps(FROZEN_CONFIG), encoding="utf-8")
         self.binary = self.root / "oblivion-harness"
         self.binary.write_bytes(b"test harness executable fingerprint\n")
+        self.provenance_patch = patch.object(
+            collector,
+            "_capture_provenance",
+            return_value={
+                "source_commit": "test-commit",
+                "source_hashes": {"test.rs": "a" * 64},
+                "source_dirty_paths": [],
+                "harness_binary_path": str(self.binary.resolve()),
+                "binary_sha256": "b" * 64,
+                "environment": {"python": "test"},
+            },
+        )
+        self.provenance_patch.start()
+        self.addCleanup(self.provenance_patch.stop)
 
     def tearDown(self):
         self.temporary.cleanup()
@@ -312,6 +326,7 @@ class SocketInvocationCollectionRunnerTests(unittest.TestCase):
                 "source_commit": "test-commit",
                 "source_hashes": {"test.rs": "a" * 64},
                 "source_dirty_paths": [],
+                "harness_binary_path": str(self.binary.resolve()),
                 "binary_sha256": "b" * 64,
                 "environment": {"python": "test"},
             },
@@ -332,7 +347,21 @@ class SocketInvocationCollectionRunnerTests(unittest.TestCase):
             (self.root / "metadata-bundle" / "experiment.json").read_text(encoding="utf-8")
         )
         self.assertEqual(metadata["provenance"]["source_commit"], "test-commit")
+        self.assertEqual(
+            metadata["provenance"]["harness_binary_path"], str(self.binary.resolve())
+        )
         self.assertEqual(metadata["config_sha256"], collector.sha256_file(self.config))
+
+    def test_dirty_source_refuses_collection_before_creating_the_bundle(self):
+        bundle = self.root / "dirty-source-bundle"
+        with patch.object(
+            collector,
+            "_capture_provenance",
+            return_value={"source_dirty_paths": ["research/changed.py"]},
+        ):
+            with self.assertRaises(StudyError):
+                collector.run_experiment(self.config, self.binary, bundle)
+        self.assertFalse(bundle.exists())
 
 
 if __name__ == "__main__":
