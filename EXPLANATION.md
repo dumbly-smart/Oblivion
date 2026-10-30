@@ -409,6 +409,19 @@ metrics, and bootstrap intervals. See the [secondary result report](docs/ORAM_RA
 [frozen plan](docs/ORAM_RANK64_FREQUENCY_ORIENTATION_SECONDARY_PLAN_20261030.md),
 and [REPORTS.md](REPORTS.md).
 
+A preregistered fresh-seed replication collected new sessions at persistence
+0.60 with the same 64-address distribution, profile-only frequency scorer,
+and separate positive-control gates. Both controls passed at AUC 1.000. The
+ORAM score was 0.502248 [0.498132, 0.506253], again an inconclusive result
+whose interval includes 0.50. The verifiers checked the complete 1,440-file
+raw bundle, paired schedules, source/binary hashes, all 90 prediction files,
+and the frequency report's recomputed metrics. This is new session evidence
+under one changed workload parameter; because its protocol was informed by
+the earlier result, it is not blind and cannot establish general ORAM
+security. The full method and host observations are in
+[the replication report](docs/ORAM_RANK64_FREQUENCY_REPLICATION_20261030.md)
+and [its preregistration](docs/ORAM_RANK64_FREQUENCY_REPLICATION_PREREG_20261030.md).
+
 ## 10. Build, run, test, and reproduce
 
 ### Toolchain

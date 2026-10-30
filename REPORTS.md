@@ -55,6 +55,14 @@ frequency scorer measured 0.496447 [0.491316, 0.501515]. The output and
 independent verification receipt are retained in
 [`oram-rank64-frequency-orientation-secondary-20261030/`](experiments/results/oram-rank64-frequency-orientation-secondary-20261030/).
 
+A fresh-seed, preregistered replication increased address persistence to 0.60
+and collected new sessions. Its frequency-only controls again scored AUC
+1.000; Path ORAM scored 0.502248 [0.498132, 0.506253]. This is independent
+session evidence for that changed workload, but the protocol was informed by
+the earlier result and is not blind. See the [replication report](docs/ORAM_RANK64_FREQUENCY_REPLICATION_20261030.md),
+[preregistration](docs/ORAM_RANK64_FREQUENCY_REPLICATION_PREREG_20261030.md),
+and [raw/analysis bundles](experiments/results/oram-isolated-rank64-frequency-replication-20261030/).
+
 Earlier studies are retained as separate experiments; do not pool them without a declared analysis:
 
 - [Initial isolated timing](docs/ORAM_TIMING_REPLICATION.md) and [two-address replication](docs/ORAM_TWO_ADDRESS_REPLICATION_20261026.md), with their preregistration in [ORAM_TWO_ADDRESS_REPLICATION_PREREG_20261026.md](docs/ORAM_TWO_ADDRESS_REPLICATION_PREREG_20261026.md).

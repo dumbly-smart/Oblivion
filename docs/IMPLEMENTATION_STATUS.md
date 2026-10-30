@@ -1751,3 +1751,54 @@ The successful positive controls and this post-hoc result are reported
 separately from the primary temporal random-forest analysis. No Rust source
 changed and no new benchmark was run. The next independent ORAM result needs a
 new workload or sample and a frozen protocol before any further scoring.
+
+## 2026-10-30: fresh-seed rank-64 frequency replication
+
+The protocol and configuration were committed and pushed in `b5f4d8c1` before
+study-specific tests, release builds, or collection. This replication used
+seed `20261102` and Markov address persistence `0.60`; it reused the earlier
+rank-64 distribution but generated entirely new sessions. The protocol was
+informed by the earlier post-hoc result, so the replication is prospective
+and session-independent, but not blind.
+
+Before collection, the focused collector, frequency-orientation, and attack
+family tests passed 17/17. The locked release examples built successfully.
+The collector then passed its own plaintext/encrypt-only temporal-attack
+controls at AUC 1.000 and collected all three modes. The frequency-only
+analysis independently passed its two controls at AUC 1.000 before scoring
+Path ORAM.
+
+The frequency scorer measured ORAM AUC 0.502248 with 95% trial-bootstrap
+interval [0.498132, 0.506253], fixed-direction AUC 0.499121
+[0.495014, 0.503117], and balanced accuracy 0.500468
+[0.497184, 0.503694]. Raw accuracy was 0.498128; the profile-majority
+baseline was 0.504508 and the evaluation-only target-majority reference was
+0.518083. The mean hot-class prevalence was 0.492952. The interval includes
+chance, so the result is inconclusive for this scorer and workload.
+
+The collector's separate temporal random-forest attack scored ORAM AUC
+0.501172 [0.495693, 0.506969] and balanced accuracy 0.502394
+[0.497443, 0.507930]. This is a separate observer feature set and was not
+pooled with frequency-only scores or earlier studies.
+
+The raw collector output and frequency-analysis output are
+[`oram-isolated-rank64-frequency-replication-20261030/`](../experiments/results/oram-isolated-rank64-frequency-replication-20261030/)
+and
+[`oram-rank64-frequency-replication-20261030/`](../experiments/results/oram-rank64-frequency-replication-20261030/).
+The collector's independent verifier checked 1,440 raw files, 240 paired
+schedules, 720 observer/private sessions, 90 trial predictions, and five
+source/binary hashes. The frequency verifier checked the same complete raw
+manifest against its inputs, 90 target-only prediction files, all per-trial
+metrics, and all bootstrap intervals. A separate check confirmed both reports
+list exactly the same raw-file manifest; its canonical digests are in
+[`collector-manifest-crosscheck.json`](../experiments/results/oram-rank64-frequency-replication-20261030/collector-manifest-crosscheck.json).
+
+The study ran on an Intel Core i7-14650HX with 24 logical CPUs under Linux
+7.2.11, with driver CPU 2 and bucket-service CPU 0. The load averages at
+start/end were 2.295/2.195/2.057 and 2.999/2.411/2.142. The exact binary
+hashes, complete host/process metadata, raw observations, predictions, plots,
+reports, and verifier receipts are preserved in the two output directories.
+The full Python suite already passed 252 tests with four skips for the same
+unchanged source; the fresh study-specific focused suite passed 17 tests. No
+Rust source changed, the million-operation stress tier was not run, and no
+new Rust benchmark was run.

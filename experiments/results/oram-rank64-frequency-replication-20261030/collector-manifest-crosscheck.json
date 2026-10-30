@@ -1,0 +1,10 @@
+{
+  "verification": "passed",
+  "raw_session_count": 1440,
+  "collector_and_frequency_manifests_match": true,
+  "collector_manifest_sha256": "6e665ec59a8b225056e79b0e916e99d973a73c09b3e401a360e0687d019eea36",
+  "frequency_manifest_sha256": "6e665ec59a8b225056e79b0e916e99d973a73c09b3e401a360e0687d019eea36",
+  "configuration_sha256": "7fd28923708a20c2ad9c969ece9647e231aa0a9ad685ad8809983148f77d1ad5",
+  "collector_report_sha256": "11c31bf494b952e6d9e9630b519edffcafb2f85ba468a5476439d82ca2b2162a",
+  "frequency_report_sha256": "7369df1806e0053aba3e1e8ba3b72c52d8542503ad215513669b96d38fe16628"
+}

@@ -19,14 +19,23 @@ because it reuses the primary study's sessions, it is not independent sample
 evidence. The plan, output, and independent verification are in
 [`ORAM_RANK64_FREQUENCY_ORIENTATION_SECONDARY_20261030.md`](ORAM_RANK64_FREQUENCY_ORIENTATION_SECONDARY_20261030.md).
 
-Next, choose a new independent ORAM workload or attack study and freeze its
-attacker-visible fields, positive-control gate, independent split, metric, and
-seed before analysis or collection. Do not describe another scorer on these
-30 sessions as an independent replication. Preserve the earlier 100 ms
-mixed-invocation timeout as unresolved: six focused executions and a full
-serial rerun passed, but the cause of the original retained failure is still
-unknown. If it recurs, collect host-load and per-phase evidence without
-changing deadlines or adding retries.
+A fresh-seed, preregistered frequency replication then increased address
+persistence to 0.60 and collected 30 new trials. Both the collector's
+temporal-attack controls and the frequency attack's controls passed. The new
+ORAM frequency AUC was 0.502248 [0.498132, 0.506253]. Its interval includes
+chance; it is independent session evidence for the changed workload, but the
+protocol was informed by the earlier result and is not blind. See
+[`ORAM_RANK64_FREQUENCY_REPLICATION_20261030.md`](ORAM_RANK64_FREQUENCY_REPLICATION_20261030.md)
+and its two verified result bundles.
+
+Next, select a distinct attack family or observer boundary for an ORAM study
+and freeze its visible fields, positive-control gate, independent split,
+metric, and seed before any analysis or collection. Do not describe the
+same-session post-hoc scorer as independent replication or the fresh-seed
+study as blind. Preserve the earlier 100 ms mixed-invocation timeout as
+unresolved: six focused executions and a full serial rerun passed, but the
+cause of the original retained failure is still unknown. If it recurs, collect
+host-load and per-phase evidence without changing deadlines or adding retries.
 
 The independent bundle verifier is
 [`research/analysis/verify_oram_isolated_bundle.py`](../research/analysis/verify_oram_isolated_bundle.py);
@@ -39,9 +48,12 @@ The secondary-analysis verifier is
 [`research/analysis/oram_frequency_secondary_verifier.py`](../research/analysis/oram_frequency_secondary_verifier.py);
 its tests cover prediction-label separation, raw-manifest completeness,
 private write/read label semantics, trial metric recomputation, and plan hash
-parsing. The current receipt checked 1,440 raw session files and 90 trial
-predictions. The full Python suite and verifier test count for the newest
-increment are recorded in [`IMPLEMENTATION_STATUS.md`](IMPLEMENTATION_STATUS.md).
+parsing. It checked 1,440 raw session files and 90 trial predictions in both
+frequency analyses. The fresh-seed collection also passed
+[`research/analysis/verify_oram_isolated_bundle.py`](../research/analysis/verify_oram_isolated_bundle.py),
+which checked paired schedules and five source/binary hashes. The full Python
+suite and focused test counts are recorded in
+[`IMPLEMENTATION_STATUS.md`](IMPLEMENTATION_STATUS.md).
 
 **Selected-scope acceptance:** the [serial local gate](../experiments/results/validation-20261023-serial/commands.json) passed all ten commands, including 91 core Rust tests, one reference test, 120 Python tests without skips and the million-operation oracle. [Before/after source fingerprints](../experiments/results/validation-20261023-serial/metadata.json) match: `a83d606782f63e9f5c9f8b95a3c80b299f57da30c916de670f61751e8068becc`. All three jobs in [hosted run 39971009249](https://github.com/dumbly-smart/Oblivion/actions/runs/39971009249) for `ade31d2c` passed. The selected roadmap software and empirical deliverables, local gate and hosted source gate are accepted within the documented boundaries. [PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is ready for delivery; no merge is claimed. Subsequent closing Markdown-only checks are accessible on the PR and do not create a new unfinished source requirement.
 

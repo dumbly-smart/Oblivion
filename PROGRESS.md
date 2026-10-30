@@ -47,6 +47,14 @@ and workload. It is not an independent replication. Its frozen analysis plan,
 raw report/predictions, result interpretation, and independent verification
 are linked from [REPORTS.md](REPORTS.md).
 
+A preregistered fresh-seed replication then increased Markov address
+persistence to 0.60 and collected 30 new trials. Both the collector's temporal
+attacker controls and the frequency attack's controls passed. The frequency
+scorer measured ORAM AUC 0.502248 [0.498132, 0.506253], with an interval
+including chance. It is independent session evidence for this changed
+workload, not a blind replication or a security proof. Its two verified
+bundles and report are linked in [REPORTS.md](REPORTS.md).
+
 The completed persistent SSE journal benchmark ran 30 trials at each of 64,
 257, 1,024, and 4,093 postings, with five fresh-process reopens per index. Its
 application-level encrypted journal-byte amplification ranged from 84.037× to
@@ -93,6 +101,7 @@ and configuration were committed in `d5847766`:
 - [Results](docs/ORAM_RANK64_MARKOV_REPLICATION_20261030.md)
 - [Raw bundle and independent verification](experiments/results/oram-isolated-rank64-markov-replication-20261030/)
 - [Post-hoc frequency-only result and verification](docs/ORAM_RANK64_FREQUENCY_ORIENTATION_SECONDARY_20261030.md)
+- [Fresh-seed frequency replication, preregistration, and two verified bundles](docs/ORAM_RANK64_FREQUENCY_REPLICATION_20261030.md)
 
 Its 30-trial positive controls passed at AUC 1.000; Path ORAM scored 0.502474
 [0.496502, 0.508492]. Independent verification matched 1,440 raw hashes,
@@ -127,9 +136,9 @@ seed and directory.
    focused repetitions and full serial rerun passed, but they did not identify
    its cause. Capture host-load and per-phase diagnostics if it recurs, without
    changing runtime limits or adding retries.
-2. Choose and preregister a new independent ORAM attack/workload study before
-   running it; keep the completed same-session frequency analysis labeled as
-   post-hoc and secondary rather than independent replication.
+2. Select a distinct attack family or observer boundary for the next ORAM
+   study, freeze its protocol before data collection, and keep session-level
+   replication claims separate from blind replication or security claims.
 3. Continue the remaining work in [docs/NEXT_STEPS.md](docs/NEXT_STEPS.md),
    preserving the threat model and reporting data- or hardware-dependent
    extensions as unimplemented where appropriate.
