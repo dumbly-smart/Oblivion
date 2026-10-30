@@ -21,7 +21,51 @@ const ACCEPT_POLL: Duration = Duration::from_millis(10);
 ///
 /// The four-byte big-endian length is checked before allocating the body. A
 /// clean EOF is returned only when no byte of a new prefix was received.
+#[cfg(test)]
 pub(super) fn read_frame(reader: &mut impl Read, maximum: usize) -> io::Result<Option<Vec<u8>>> {
+    let Some(length) = read_frame_length(reader)? else {
+        return Ok(None);
+    };
+    if length == 0 || length > maximum {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidData,
+            "frame length is zero or exceeds the configured maximum",
+        ));
+    }
+
+    read_frame_body(reader, length).map(Some)
+}
+
+/// Reads one frame whose body must have exactly `expected` bytes.
+///
+/// The length is checked immediately after the prefix, before allocating or
+/// reading the body. This is used at protocol boundaries with mode-specific
+/// fixed shapes.
+pub(super) fn read_fixed_frame(
+    reader: &mut impl Read,
+    expected: usize,
+) -> io::Result<Option<Vec<u8>>> {
+    if expected == 0 || u32::try_from(expected).is_err() {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidInput,
+            "expected frame length is zero or cannot be represented",
+        ));
+    }
+
+    let Some(length) = read_frame_length(reader)? else {
+        return Ok(None);
+    };
+    if length != expected {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidData,
+            "frame length does not match the fixed protocol shape",
+        ));
+    }
+
+    read_frame_body(reader, length).map(Some)
+}
+
+fn read_frame_length(reader: &mut impl Read) -> io::Result<Option<usize>> {
     let mut prefix = [0_u8; 4];
     let first = loop {
         match reader.read(&mut prefix[..1]) {
@@ -34,17 +78,13 @@ pub(super) fn read_frame(reader: &mut impl Read, maximum: usize) -> io::Result<O
     debug_assert_eq!(first, 1);
     reader.read_exact(&mut prefix[1..])?;
 
-    let length = u32::from_be_bytes(prefix) as usize;
-    if length == 0 || length > maximum {
-        return Err(io::Error::new(
-            io::ErrorKind::InvalidData,
-            "frame length is zero or exceeds the configured maximum",
-        ));
-    }
+    Ok(Some(u32::from_be_bytes(prefix) as usize))
+}
 
+fn read_frame_body(reader: &mut impl Read, length: usize) -> io::Result<Vec<u8>> {
     let mut body = vec![0_u8; length];
     reader.read_exact(&mut body)?;
-    Ok(Some(body))
+    Ok(body)
 }
 
 /// Writes one non-empty frame with a four-byte big-endian length prefix.
@@ -133,10 +173,7 @@ pub(super) fn worker(output: &Path, mode_name: &str, maximum_frame: usize) -> Re
 
     let service_started = Instant::now();
     let mut sequence = 0_u64;
-    while let Some(body) = read_frame(&mut stream, maximum_frame)? {
-        if body.len() != fixed_frame {
-            return Err("invocation frame does not match the fixed mode shape".into());
-        }
+    while let Some(body) = read_fixed_frame(&mut stream, fixed_frame)? {
         let request_observed_ns = monotonic_ns(service_started);
         let invocation_started = Instant::now();
         write_json_line(
@@ -405,7 +442,14 @@ fn run_session(
             }
             request_body_bytes = request.len();
             request_wire_bytes = write_frame(&mut stream, &request, maximum_frame)?;
-            let response = read_frame(&mut stream, maximum_frame)?
+            let expected_response_bytes = if mode.encrypted {
+                ENVELOPE_BYTES
+            } else if real && id == 0 {
+                65
+            } else {
+                5
+            };
+            let response = read_fixed_frame(&mut stream, expected_response_bytes)?
                 .ok_or("TCP worker closed before returning an invocation response")?;
             response_body_bytes = response.len();
             response_wire_bytes = response.len() + 4;

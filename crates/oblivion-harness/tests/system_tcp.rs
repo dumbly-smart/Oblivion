@@ -129,6 +129,33 @@ fn worker_rejects_oversized_frame_before_waiting_for_body() {
 }
 
 #[test]
+fn worker_rejects_short_mode_incompatible_prefix_before_waiting_for_body() {
+    let output_dir = std::env::temp_dir().join(format!(
+        "oblivion-tcp-short-frame-{}",
+        rand::random::<u64>()
+    ));
+    let (mut child, address) = launch_a_worker(&output_dir);
+    let _client_endpoint = bootstrap(&mut child);
+    let mut socket = TcpStream::connect_timeout(&address, Duration::from_secs(2)).unwrap();
+    socket
+        .set_read_timeout(Some(Duration::from_secs(2)))
+        .unwrap();
+    socket.write_all(&191_u32.to_be_bytes()).unwrap();
+
+    let mut probe = [0_u8; 1];
+    assert_eq!(socket.read(&mut probe).unwrap(), 0);
+    let status = wait_for_exit(&mut child);
+    assert!(
+        !status.success(),
+        "short mode-incompatible frame was accepted"
+    );
+    let socket_observer =
+        std::fs::read_to_string(output_dir.join("socket-observer.jsonl")).unwrap();
+    assert!(socket_observer.is_empty());
+    std::fs::remove_dir_all(output_dir).unwrap();
+}
+
+#[test]
 fn tcp_system_runs_every_ablation_mode_with_fixed_observer_frames() {
     let root = std::env::temp_dir().join(format!("oblivion-tcp-system-{}", rand::random::<u64>()));
     std::fs::create_dir(&root).unwrap();
