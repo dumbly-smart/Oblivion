@@ -1854,12 +1854,16 @@ configuration, and reproduction commands are indexed in
 [`NEXT_STEPS.md`](NEXT_STEPS.md), and
 [`ORAM_RANK64_TRANSITION_REPLICATION_20261030.md`](ORAM_RANK64_TRANSITION_REPLICATION_20261030.md).
 
-Next, complete the separate invocation-boundary study preregistered in
+**Completed 2026-10-30:** the separate invocation-boundary study preregistered in
 [`INVOCATION_BOUNDARY_ATTACK_PREREG_20261030.md`](INVOCATION_BOUNDARY_ATTACK_PREREG_20261030.md).
 Its evaluator uses only the four frozen frame-size/timing features, separates
-whole sessions, and gates C–G on both A and B controls. The five focused tests
-and full Python suite passed (257 tests, four existing skips), and the release
-harness build passed. The collection has not run yet. This is a local
-component-boundary simulation, not a real network observer. The exact
-implementation plan is
+whole sessions, and gates C–G on both A and B controls. The 30-trial
+collection completed; A passed at AUC 1.000, but B scored 0.689583
+[0.653125, 0.726042], below the frozen mean-AUC threshold of 0.70. Thus C–G
+scores were omitted. The independent verifier checked the 8,404 raw-file
+manifest, 1,680 sessions, 13,440 truth rows, controls, predictions, trial
+metrics, and intervals. Five focused verifier tests passed, and the full
+Python suite passed 262 tests with four existing skips. The release harness
+build passed. This is a local component-boundary simulation, not a real
+network observer. The exact implementation plan is
 [`2026-10-30-request-response-attack.md`](superpowers/plans/2026-10-30-request-response-attack.md).

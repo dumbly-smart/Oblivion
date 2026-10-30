@@ -32,11 +32,14 @@ statistics.
 
 An optional invocation-boundary size/timing study is now preregistered. Its
 local A–G component harness, attacker feature boundary, session split, and
-plaintext/encrypt-only control gate are frozen. The analysis implementation
-passes the five focused tests and the full Python research suite (257 passed,
-four skipped); the release harness builds. Collection and independent bundle
-verification remain pending. The study does not measure a remote network or
-hardware isolation.
+plaintext/encrypt-only control gate are frozen. The 30-trial collection
+completed and the independent verifier checked 8,404 raw-file hashes, 1,680
+session directories, and 13,440 private truth rows. Plaintext A passed at AUC
+1.000; encrypt-only B scored 0.6896 [0.6531, 0.7260], below the frozen 0.70
+gate. The evaluator withheld C–G scores. The full Python research suite passed
+262 tests with four existing skips, and the release harness built. This is a
+local in-process boundary simulation, not remote network timing or hardware
+isolation.
 
 ## Latest measurement
 
@@ -158,9 +161,9 @@ externally visible request/response boundary under a frozen protocol.
    focused repetitions and full serial rerun passed, but they did not identify
    its cause. Capture host-load and per-phase diagnostics if it recurs, without
    changing runtime limits or adding retries.
-2. Select a distinct attack family or observer boundary for the next ORAM
-   study, freeze its protocol before data collection, and keep session-level
-   replication claims separate from blind replication or security claims.
+2. If extending the invocation-boundary line, preregister a distinct attack
+   or observer boundary on fresh data. Do not tune on the held-out controls or
+   score protected modes from the failed-gate collection.
 3. Continue the remaining work in [docs/NEXT_STEPS.md](docs/NEXT_STEPS.md),
    preserving the threat model and reporting data- or hardware-dependent
    extensions as unimplemented where appropriate.

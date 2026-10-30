@@ -43,6 +43,7 @@ Updated 2026-10-30. This index points to technical reports and retained outputs.
 | Batcher and integrated epoch load | [Population sweep](docs/POPULATION_SWEEP.md), [batch-load inference](docs/BATCH_LOAD_EVALUATION.md), [epoch system](docs/EPOCH_SYSTEM_EVALUATION.md) |
 | Offered load, drops, and bounded local CPU sensitivity | [Runtime benchmarks](docs/RUNTIME_BENCHMARKS.md), [population runtime](docs/RUNTIME_POPULATION.md), [extended population](docs/RUNTIME_POPULATION_EXTENDED.md), [cost sensitivity](docs/COST_SENSITIVITY.md) |
 | Fault campaign and correctness scheduling | [Fault campaign](docs/FAULT_CAMPAIGN.md), [test scheduling](docs/PIPELINE_TEST_SCHEDULING.md) |
+| Invocation-boundary function identity from frame sizes and timing | [Preregistration](docs/INVOCATION_BOUNDARY_ATTACK_PREREG_20261030.md), [control-gate result](docs/INVOCATION_BOUNDARY_ATTACK_20261030.md), [raw bundle and independent receipt](experiments/results/invocation-boundary-attack-20261030/) |
 
 ## ORAM timing replication series
 

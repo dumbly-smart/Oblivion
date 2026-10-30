@@ -347,6 +347,14 @@ Training and target sessions are split at the independent unit, such as whole se
 
 The repository includes frequency and traffic classifiers, SSE count/volume and inference methods, chosen-update association, corpus/auxiliary drift, presence/intersection inference, ORAM leaf/timing and transition attacks, PIR server timing, integrated epoch/batch inference, and autoscaler demand/popularity attacks. Some are simplified bounded attacks, not faithful reproductions of published attack papers. Each report states the method, auxiliary knowledge, control, split, uncertainty, and limits. Browse [REPORTS.md](REPORTS.md) by category.
 
+The preregistered 2026-10-30 invocation-boundary study used only frame
+lengths and request/response timing to classify two function IDs. Plaintext
+passed its positive control, but encrypt-only fell short of the frozen AUC
+threshold; protected configurations were therefore not scored. The retained
+[result report](docs/INVOCATION_BOUNDARY_ATTACK_20261030.md) explicitly
+limits the observation to the local in-process harness boundary, not a real
+network.
+
 For the isolated ORAM replication series, the independent bundle verifier
 checks the collector's compressed-file SHA-256 manifest, exact configured set
 of sessions, paired private address/read-write schedules, fixed observer event

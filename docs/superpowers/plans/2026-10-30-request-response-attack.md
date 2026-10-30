@@ -19,20 +19,23 @@ not scored unless both controls pass the preregistered gate.
 
 ## Work sequence
 
-1. Add unit tests for boundary event pairing, strict feature extraction,
+1. **Done:** add unit tests for boundary event pairing, strict feature extraction,
    function-label reconstruction, whole-session separation, and the
    positive-control stop gate. Run them and confirm the expected failures.
-2. Implement the smallest evaluator that passes those tests. It must discard
+2. **Done:** implement the evaluator that passes those tests. It discards
    frame payloads and private step/label fields before model fitting.
-3. Run focused tests and the complete Python research test suite.
-4. Build the release harness, collect into a new immutable directory, and
-   record source/binary hashes plus host and software metadata.
-5. Run the frozen attack. Retain raw predictions separately from private
-   evaluation labels and record all per-trial metrics.
-6. Independently verify the collection/analysis bundle, then write the result
-   report and update the experiment, status, and progress indexes.
-7. Commit and push the preregistration, evaluator, and result in separate
-   reviewable commits. Check hosted CI for each pushed commit.
+3. **Done:** focused tests and the complete Python suite passed (262 tests,
+   four existing skips).
+4. **Done:** build the release harness and collect into a new immutable directory;
+   the collector exited 0 and retained host/source metadata.
+5. **Done:** run the frozen attack. Plaintext passed; encrypt-only did not
+   reach the frozen mean-AUC threshold, so the gate suppressed C–G scoring.
+   Attacker predictions and private labels are stored separately.
+6. **Done:** independently verify the raw bundle, session split, control gate,
+   predictions, metrics, and hashes; write the result report and update
+   experiment/status indexes.
+7. Commit and push the verifier and result in separate reviewable commits.
+   Check hosted CI for each pushed commit.
 
 ## Boundaries
 

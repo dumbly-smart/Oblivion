@@ -13,21 +13,22 @@ independent sample from that classifier. See the
 [result](ORAM_RANK64_TRANSITION_REPLICATION_20261030.md), and
 [final independent receipt](../experiments/results/oram-rank64-transition-replication-20261030/independent-verification-v2.json).
 
-**Completed 2026-10-30:** the invocation-boundary size/timing study is now
-preregistered in
-[INVOCATION_BOUNDARY_ATTACK_PREREG_20261030.md](INVOCATION_BOUNDARY_ATTACK_PREREG_20261030.md)
-with a frozen A–G configuration. Its observer is the local harness boundary,
-not a network capture. The evaluator and five focused tests are implemented;
-the complete Python research suite passed 257 tests with four existing skips,
-and the release harness built successfully. No observations have been
-collected yet.
+**Completed 2026-10-30:** the preregistered invocation-boundary study ran 30
+trials across A–G. Plaintext A passed at AUC 1.000; encrypt-only B scored
+0.6896 [0.6531, 0.7260], below the frozen 0.70 threshold. The evaluator
+therefore withheld all C–G scores. An independent verifier checked all 8,404
+raw-file hashes, 1,680 sessions, 13,440 private labels, and the two control
+metrics. See
+[the protocol](INVOCATION_BOUNDARY_ATTACK_PREREG_20261030.md) and
+[the result](INVOCATION_BOUNDARY_ATTACK_20261030.md). This observer is the
+local harness boundary, not a network capture.
 
-**Next:** commit and push the evaluator, then run the frozen collection into
-new output paths. Gate protected mode scores on both plaintext and
-encrypt-only controls. Verify raw hashes, session splits, predictions, and
-recomputed metrics independently before reporting any result. Do not treat
-near-chance performance as a security proof or describe this local process
-boundary as remote timing.
+**Next:** if continuing this line, preregister a new attack or observer
+boundary using fresh data. Do not tune on the held-out B observations or
+retroactively score C–G from this bundle. The next run must pass both frozen
+plaintext and encrypt-only controls before protected scores are reported.
+Keep real remote timing and hardware-backed execution as unimplemented
+extensions; do not treat near-chance performance as a security proof.
 
 ## Immediate continuation (updated 2026-10-30)
 
