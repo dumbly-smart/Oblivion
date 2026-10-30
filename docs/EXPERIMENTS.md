@@ -144,6 +144,7 @@ Use each linked component document's exact configuration and fresh-directory run
 | [Rank-64 Zipf/Markov ORAM timing](ORAM_RANK64_MARKOV_REPLICATION_20261030.md) | `oram-isolated-rank64-markov-replication-20261030/` | 30 trials/mode, eight sessions/trial, 64 addresses; both controls AUC 1.000, ORAM AUC 0.502474 [0.496502, 0.508492]; 1,440 raw hashes independently checked |
 | [Rank-64 tag-frequency secondary analysis](ORAM_RANK64_FREQUENCY_ORIENTATION_SECONDARY_20261030.md) | `oram-rank64-frequency-orientation-secondary-20261030/` | Post-hoc same-session analysis, not independent replication; controls AUC 1.000, ORAM AUC 0.496447 [0.491316, 0.501515]; 1,440 raw hashes and 90 prediction trials independently checked |
 | [Fresh-seed rank-64 frequency replication](ORAM_RANK64_FREQUENCY_REPLICATION_20261030.md) | `oram-isolated-rank64-frequency-replication-20261030/` plus `oram-rank64-frequency-replication-20261030/` | New seed, persistence 0.60; both attacks' controls passed; frequency ORAM AUC 0.502248 [0.498132, 0.506253]; 1,440 raw hashes independently checked |
+| [Fresh-seed rank-64 transition attack](ORAM_RANK64_TRANSITION_REPLICATION_20261030.md) | `oram-isolated-rank64-transition-replication-20261030/` plus `oram-rank64-transition-replication-20261030/` | New seed, persistence 0.80; transition controls AUC 0.898148 [0.895392, 0.900593]; ORAM AUC 0.502017 [0.497459, 0.506447]; all 1,440 raw hashes and 90 target-only predictions independently checked |
 | [Eight-address ORAM timing](ORAM_EIGHT_ADDRESS.md) | `oram-isolated-eight-address-20261024/` | 30 trials/mode over eight addresses; Zipf-like hot/cold labels, positive controls succeed, raw schedules paired and hashes verified |
 | [ORAM frequency-only attacker](ORAM_ATTACK_FAMILIES.md) | `oram-eight-address-frequency-20261024/` | Post-hoc independent tag-count attacker; positive controls pass before ORAM, 1,440 input hashes retained, same held-out sessions as temporal RF |
 | [Read-heavy ORAM timing](ORAM_READ_HEAVY.md) | `oram-isolated-eight-address-read-heavy-20261024/` | 30 trials/mode at 90% requested reads, 9.84% realized writes; matched address schedules, controls pass, all 1,440 hashes verified |
@@ -160,6 +161,22 @@ file and can be run with a new output filename:
 .venv/bin/python -m research.analysis.verify_oram_isolated_bundle \
   --bundle experiments/results/oram-isolated-rank64-markov-replication-20261030 \
   --output experiments/results/oram-isolated-rank64-markov-replication-20261030/independent-verification-recheck.json
+```
+
+The [rank-64 transition study](ORAM_RANK64_TRANSITION_REPLICATION_20261030.md)
+has a separate analysis and verifier. Reanalysis must use new output paths;
+the retained raw sessions and original outputs are immutable:
+
+```sh
+.venv/bin/python -m research.analysis.oram_markov_transition_attack \
+  --raw experiments/results/oram-isolated-rank64-transition-replication-20261030/raw \
+  --config experiments/configs/oram-isolated-rank64-transition-replication-20261030.json \
+  --output experiments/results/oram-rank64-transition-reanalysis-NEW \
+  --protocol-status preregistered-secondary
+.venv/bin/python -m research.analysis.verify_oram_markov_transition_bundle \
+  --raw experiments/results/oram-isolated-rank64-transition-replication-20261030/raw \
+  --config experiments/configs/oram-isolated-rank64-transition-replication-20261030.json \
+  --analysis experiments/results/oram-rank64-transition-reanalysis-NEW
 ```
 
 The integrated epoch campaign's immutable executable/source copy is authoritative. Live checkout fingerprints changed for an unrelated PIR example; later default-wrapper input hardening is separately recorded. The older mixed/private epoch observer files are never attacker input, and the intermediate separated campaign timestamps client consumption rather than pure pipe reads. Neither is relabeled as the current measurement.

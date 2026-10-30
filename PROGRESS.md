@@ -25,9 +25,10 @@ accepted connection. Per-certificate/per-slot token buckets default to 100
 requests per second with burst 200. They reset on restart and do not cover TCP
 accepts, TLS handshakes, IP-level limits, or multiple witness instances.
 The latest research tooling adds independent verifiers for isolated ORAM
-bundles and the frequency-only secondary analysis; they validate raw hashes,
-paired schedules where applicable, fixed event/frame shape, process masks,
-target-only predictions, and bootstrap statistics.
+bundles, frequency analyses, and the rank-64 transition analysis. These
+validate raw hashes, paired schedules where applicable, fixed event/frame
+shape, process masks, target-only predictions, trial metrics, and bootstrap
+statistics.
 
 ## Latest measurement
 
@@ -55,6 +56,16 @@ including chance. It is independent session evidence for this changed
 workload, not a blind replication or a security proof. Its two verified
 bundles and report are linked in [REPORTS.md](REPORTS.md).
 
+The latest ORAM attack evaluation used a fresh seed and address persistence
+0.80 for a preregistered one-step transition lookup. Its plaintext and
+encrypt-only controls passed at AUC 0.898148 [0.895392, 0.900593]; Path ORAM
+scored 0.502017 [0.497459, 0.506447]. The interval includes chance and mean
+raw accuracy is below the profile-majority baseline. Its independent verifier
+checked 1,440 raw files and 90 target-only prediction files and recomputed
+trial metrics and intervals. The attack shares collection sessions with the
+temporal study, uses no target-label features, and is not a published-attack
+reproduction. See its [preregistration and report](docs/ORAM_RANK64_TRANSITION_REPLICATION_20261030.md).
+
 The completed persistent SSE journal benchmark ran 30 trials at each of 64,
 257, 1,024, and 4,093 postings, with five fresh-process reopens per index. Its
 application-level encrypted journal-byte amplification ranged from 84.037× to
@@ -78,17 +89,18 @@ does not establish its cause. No deadline, retry, or test threshold was
 changed. The million-operation stress tier, Python suite, and hosted CI have
 not been run for this source revision.
 
-The full research Python suite passed 246 tests with four skips after building
-all workspace examples and the separate locked ORAM reference workspace. Its
-first run had five setup failures caused by absent release binaries in this
-worktree; no test failed after the prerequisites were built. The focused study
-suite passed 9 tests and the isolated-process suite passed 3; the independent
-bundle verifier's six focused tests also passed during the primary study
-increment. For the subsequent frequency-verifier increment, a fresh Python
-suite run passed 252 tests with four skips, including six focused tests for
-the new verifier. The million-operation ORAM stress tier was not run for
-either increment. Earlier gate results remain valid only for their recorded
-revisions. See the per-commit evidence in
+The full research Python suite most recently passed 252 tests with four skips
+after adding the transition-bundle verifier; its four focused tests also
+passed. The full validation script and million-operation ORAM stress tier have
+not been run for this increment. Earlier Python suites passed 246 tests with
+four skips after building all workspace examples and the separate locked
+ORAM reference workspace. Its first run had five setup failures caused by
+absent release binaries in that worktree; no test failed after prerequisites
+were built. The focused study suite passed 9 tests and the isolated-process
+suite passed 3; the primary bundle verifier's six focused tests also passed.
+For the frequency-verifier increment, a fresh suite passed 252 tests with
+four skips, including six focused tests for that verifier. Earlier gate
+results remain valid only for their recorded revisions. See the per-commit evidence in
 [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md).
 
 ## Latest ORAM study
@@ -102,12 +114,14 @@ and configuration were committed in `d5847766`:
 - [Raw bundle and independent verification](experiments/results/oram-isolated-rank64-markov-replication-20261030/)
 - [Post-hoc frequency-only result and verification](docs/ORAM_RANK64_FREQUENCY_ORIENTATION_SECONDARY_20261030.md)
 - [Fresh-seed frequency replication, preregistration, and two verified bundles](docs/ORAM_RANK64_FREQUENCY_REPLICATION_20261030.md)
+- [Fresh-seed transition attack replication and final verification](docs/ORAM_RANK64_TRANSITION_REPLICATION_20261030.md)
 
 Its 30-trial positive controls passed at AUC 1.000; Path ORAM scored 0.502474
 [0.496502, 0.508492]. Independent verification matched 1,440 raw hashes,
 all 240 paired schedules, 90 prediction trials, and the captured executable
 hashes. The output is immutable; a reproduction requires a new preregistered
-seed and directory.
+seed and directory. The next active experiment should measure a separate
+externally visible request/response boundary under a frozen protocol.
 
 ## Implemented components
 

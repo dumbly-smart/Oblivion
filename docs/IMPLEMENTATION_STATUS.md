@@ -1802,3 +1802,59 @@ The full Python suite already passed 252 tests with four skips for the same
 unchanged source; the fresh study-specific focused suite passed 17 tests. No
 Rust source changed, the million-operation stress tier was not run, and no
 new Rust benchmark was run.
+
+## 2026-10-30: fresh-seed rank-64 transition attack
+
+The protocol and configuration were frozen and pushed in `513e9460` before
+collection. The experiment used seed `20261104`, address persistence 0.80,
+64 logical addresses, 30 trials, and four disjoint target sessions per trial.
+The collector's temporal-classifier controls passed first. The separate
+one-step transition attack then passed its plaintext and encrypt-only gates
+at mean AUC 0.898148 [0.895392, 0.900593]. Path ORAM scored 0.502017
+[0.497459, 0.506447], with mean balanced accuracy 0.501285 and raw accuracy
+0.502620 against a profile-majority baseline of 0.506445. The confidence
+interval includes chance; this is inconclusive for this attack and workload.
+It is not evidence of indistinguishability or a cryptographic security result.
+
+The attack is a preregistered secondary analysis of the same new sessions as
+the collector's temporal classifier. The workload sample differs from earlier
+rank-64 runs, but the two attack results are not independent samples from
+each other. The machine was a shared Intel i7-14650HX host; recorded load
+averages rose from 11.35/6.59/3.95 to 12.10/7.71/4.54. The host and
+measurement-boundary limitations are detailed in the result report.
+
+The collector's independent verifier checked the complete 1,440-file raw
+bundle, all 240 paired schedules, 720 observer/private sessions, 90 collector
+prediction trials, and five source/binary hashes. The transition verifier
+checked the same raw hashes against both manifests, the exact profile/target
+session split, target-only prediction schemas, all 90 per-trial metric rows,
+the bootstrap intervals, and the transition positive-control gate. Its final
+receipt is
+[`independent-verification-v2.json`](../experiments/results/oram-rank64-transition-replication-20261030/independent-verification-v2.json);
+the first successful receipt was preserved rather than overwritten. The
+immutable raw collector bundle was pushed in `60335613`.
+
+The new verifier's four focused tests passed, including malformed
+target-label rejection, metric recomputation, and the control-failure path
+that retains controls without scoring ORAM. Verifier and test source were
+pushed in commit `472953a4`. The full research suite passed
+252 tests with four skips (exit 0):
+
+```sh
+PYTHONPATH=. /home/xtrmn8/oblivion/.venv/bin/python -m unittest discover -s research/tests
+```
+
+`gh run list --commit 472953a4 --limit 10` returned no matching hosted CI
+runs when checked after the push.
+
+No Rust source changed. The full validation script and million-operation
+stress tier were not run for this increment. The result, frozen protocol,
+configuration, and reproduction commands are indexed in
+[`REPORTS.md`](../REPORTS.md),
+[`NEXT_STEPS.md`](NEXT_STEPS.md), and
+[`ORAM_RANK64_TRANSITION_REPLICATION_20261030.md`](ORAM_RANK64_TRANSITION_REPLICATION_20261030.md).
+
+Next, preregister a separate external request/response observer study before
+collecting new data. Do not reuse the current transition predictions as
+independent evidence, and keep the private driver timing and labels out of the
+attacker's feature set.

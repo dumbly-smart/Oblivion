@@ -1,5 +1,27 @@
 # Optional research and deployment work
 
+## Current focus (updated 2026-10-30)
+
+The fresh-seed rank-64 transition attack has now been collected and checked.
+The transition controls passed at mean AUC 0.898148
+[0.895392, 0.900593]; ORAM scored 0.502017 [0.497459, 0.506447]. Its
+interval includes chance, so this result is inconclusive for the declared
+single-previous-tag lookup. The attack is a preregistered secondary analysis
+of the same sessions as the collector's temporal classifier, not an
+independent sample from that classifier. See the
+[protocol](ORAM_RANK64_TRANSITION_REPLICATION_PREREG_20261030.md),
+[result](ORAM_RANK64_TRANSITION_REPLICATION_20261030.md), and
+[final independent receipt](../experiments/results/oram-rank64-transition-replication-20261030/independent-verification-v2.json).
+
+**Next engineering action:** scope and preregister a separate ORAM study at
+an externally visible request/response boundary, including observable frame
+lengths and end-to-end request timing. Keep private driver latency and truth
+fields out of attacker features, retain whole-session splits, and gate the
+protected result on successful plaintext and encrypt-only controls. Use a
+new seed and output paths; do not reuse the transition predictions as
+independent evidence. Freeze the observer, workload, primary metric,
+controls, and analysis before collecting.
+
 ## Immediate continuation (updated 2026-10-30)
 
 The preregistered rank-64 Zipf/Markov ORAM leaf/timing study is complete. Both
@@ -28,11 +50,10 @@ protocol was informed by the earlier result and is not blind. See
 [`ORAM_RANK64_FREQUENCY_REPLICATION_20261030.md`](ORAM_RANK64_FREQUENCY_REPLICATION_20261030.md)
 and its two verified result bundles.
 
-Next, select a distinct attack family or observer boundary for an ORAM study
-and freeze its visible fields, positive-control gate, independent split,
-metric, and seed before any analysis or collection. Do not describe the
-same-session post-hoc scorer as independent replication or the fresh-seed
-study as blind. Preserve the earlier 100 ms mixed-invocation timeout as
+The distinct one-step transition study is now complete; it does not settle
+other attack families or observer boundaries. Do not describe the
+same-session post-hoc scorer as an independent replication or the fresh-seed
+studies as blind. Preserve the earlier 100 ms mixed-invocation timeout as
 unresolved: six focused executions and a full serial rerun passed, but the
 cause of the original retained failure is still unknown. If it recurs, collect
 host-load and per-phase evidence without changing deadlines or adding retries.
@@ -54,6 +75,14 @@ frequency analyses. The fresh-seed collection also passed
 which checked paired schedules and five source/binary hashes. The full Python
 suite and focused test counts are recorded in
 [`IMPLEMENTATION_STATUS.md`](IMPLEMENTATION_STATUS.md).
+
+The fresh-seed transition analysis has its own checker at
+[`research/analysis/verify_oram_markov_transition_bundle.py`](../research/analysis/verify_oram_markov_transition_bundle.py).
+It rechecks the raw manifest and collector receipt, target-only prediction
+schema, private-label-derived trial metrics, bootstrap intervals, and the
+positive-control decision. Four focused tests pass; the final receipt is
+`independent-verification-v2.json` because the first successful receipt is
+preserved rather than overwritten.
 
 **Selected-scope acceptance:** the [serial local gate](../experiments/results/validation-20261023-serial/commands.json) passed all ten commands, including 91 core Rust tests, one reference test, 120 Python tests without skips and the million-operation oracle. [Before/after source fingerprints](../experiments/results/validation-20261023-serial/metadata.json) match: `a83d606782f63e9f5c9f8b95a3c80b299f57da30c916de670f61751e8068becc`. All three jobs in [hosted run 39971009249](https://github.com/dumbly-smart/Oblivion/actions/runs/39971009249) for `ade31d2c` passed. The selected roadmap software and empirical deliverables, local gate and hosted source gate are accepted within the documented boundaries. [PR #1](https://github.com/dumbly-smart/Oblivion/pull/1) is ready for delivery; no merge is claimed. Subsequent closing Markdown-only checks are accessible on the PR and do not create a new unfinished source requirement.
 

@@ -63,6 +63,17 @@ the earlier result and is not blind. See the [replication report](docs/ORAM_RANK
 [preregistration](docs/ORAM_RANK64_FREQUENCY_REPLICATION_PREREG_20261030.md),
 and [raw/analysis bundles](experiments/results/oram-isolated-rank64-frequency-replication-20261030/).
 
+A fresh-seed preregistered one-step transition attack then used address
+persistence 0.80. Its plaintext/encrypt-only controls passed at AUC 0.898148
+[0.895392, 0.900593]; ORAM scored 0.502017 [0.497459, 0.506447], inconclusive
+for the single-previous-tag lookup. The protocol is a secondary analysis of
+the new collector sessions, not an independent sample from that collection's
+temporal classifier. The [frozen protocol](docs/ORAM_RANK64_TRANSITION_REPLICATION_PREREG_20261030.md),
+[result and limits](docs/ORAM_RANK64_TRANSITION_REPLICATION_20261030.md),
+[configuration](experiments/configs/oram-isolated-rank64-transition-replication-20261030.json),
+raw bundle, prediction artifacts, and final independent verifier receipt are
+retained separately.
+
 Earlier studies are retained as separate experiments; do not pool them without a declared analysis:
 
 - [Initial isolated timing](docs/ORAM_TIMING_REPLICATION.md) and [two-address replication](docs/ORAM_TWO_ADDRESS_REPLICATION_20261026.md), with their preregistration in [ORAM_TWO_ADDRESS_REPLICATION_PREREG_20261026.md](docs/ORAM_TWO_ADDRESS_REPLICATION_PREREG_20261026.md).

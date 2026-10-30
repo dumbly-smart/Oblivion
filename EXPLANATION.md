@@ -422,6 +422,31 @@ security. The full method and host observations are in
 [the replication report](docs/ORAM_RANK64_FREQUENCY_REPLICATION_20261030.md)
 and [its preregistration](docs/ORAM_RANK64_FREQUENCY_REPLICATION_PREREG_20261030.md).
 
+### Fresh-seed one-step transition attack
+
+A second fresh-seed rank-64 study used address persistence 0.80 and
+preregistered a one-step transition lookup before collecting its sessions.
+The attack learns from whole labeled profile sessions how often a visible tag
+is followed by a hot or cold logical address, then applies those transitions
+to disjoint target sessions. The first operation in each target session uses
+the profile's hot-class prior; one pseudo-observation smooths each transition.
+It uses only the immediately preceding visible bucket/leaf tag. The target's
+logical addresses, read/write flag, byte count, and timings stay outside the
+attacker feature data.
+
+Plaintext and encrypt-only controls passed at mean AUC 0.898148
+[0.895392, 0.900593]. Path ORAM scored 0.502017 [0.497459, 0.506447], with
+balanced accuracy 0.501285 and raw accuracy 0.502620 against a mean
+profile-majority accuracy of 0.506445. The AUC interval includes chance, so
+this does not distinguish ORAM from chance for this attack and study. The
+transition attack and the temporal random forest share the same collection;
+only the workload sessions are new relative to earlier rank-64 studies. The
+collection ran on a shared host with high load. See the
+[result](docs/ORAM_RANK64_TRANSITION_REPLICATION_20261030.md),
+[preregistration](docs/ORAM_RANK64_TRANSITION_REPLICATION_PREREG_20261030.md),
+and [REPORTS.md](REPORTS.md). The transition lookup is not IHOP or a security
+proof.
+
 ## 10. Build, run, test, and reproduce
 
 ### Toolchain
@@ -478,6 +503,7 @@ The preregistration must be read before any re-run. The original output director
 | `research/analysis`, `research/attacks` | Parsers, statistics, classifiers, figures and evaluations. |
 | `research/analysis/verify_oram_isolated_bundle.py` | Independent validation of raw ORAM replication hashes, schedules, event/frame shape, CPU masks, saved predictions, and bootstrap statistics. |
 | `research/analysis/oram_frequency_secondary_verifier.py` | Independent validation of the rank-64 post-hoc frequency study's raw/source hashes, target-only predictions, labels, and trial metrics. |
+| `research/analysis/verify_oram_markov_transition_bundle.py` | Independent validation of transition-study source/raw hashes, session splits, target-only predictions, per-trial metrics, bootstrap intervals, and the control gate. |
 | `research/simulation` | Workload and autoscaling simulation. |
 | `research/oram_reference`, `research/pir_reference` | Separately built/pinned comparison programs with their own licensing. |
 | `experiments/configs` | Machine-readable configurations and frozen seeds/settings. |
