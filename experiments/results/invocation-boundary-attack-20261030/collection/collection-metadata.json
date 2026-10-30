@@ -1,0 +1,40 @@
+{
+  "cargo": "cargo 1.99.1 (5f94df478 2026-08-27) (Arch Linux rust 1:1.99.1-1)",
+  "collection_command": [
+    "./target/release/oblivion-harness",
+    "system",
+    "experiments/configs/invocation-boundary-attack-20261030.json",
+    "experiments/results/invocation-boundary-attack-20261030/collection"
+  ],
+  "collector_exit_code": 0,
+  "collector_log_sha256": "5cf32a4b882c5568fcc2c82c5aa1350581ee26362cdac3bea4151453e981bfc6",
+  "config_sha256": "7f4434f7302c2f5b36f4b2417c4ef610c363d657bf629da09a3c2ba8ef1a1064",
+  "cpu_model": "Intel(R) Core(TM) i7-14650HX",
+  "ended_utc": "2026-10-30T11:32:31.471504+00:00",
+  "git_commit": "9250ec132e4976b2350363ba924ad30e5cac11ef",
+  "harness_binary_sha256": "4ac4c3531dd36bf8ce9a3b07f83c6ac38eaa95d99081c01faeeff4d073cadc16",
+  "kernel": "7.2.11-arch1-1",
+  "load_average_end": [
+    2.939453125,
+    2.39697265625,
+    2.6455078125
+  ],
+  "load_average_start": [
+    1.7265625,
+    2.79736328125,
+    3.02587890625
+  ],
+  "logical_cpu_count": 24,
+  "platform": "Linux-7.2.11-arch1-1-x86_64-with-glibc2.44",
+  "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13) (Arch Linux rust 1:1.99.1-1)",
+  "source_sha256": {
+    "Cargo.lock": "b360e205d428cf320a87152522c5073a4e21602622e168c554366397ec52c4c9",
+    "crates/oblivion-batcher/src/lib.rs": "32a75bd848441000e5fc12bd284eb4d532033953f60d94f2db63fbe4e6103577",
+    "crates/oblivion-exec/src/lib.rs": "6e278b976772a25e87f68caf6ab0ad3c30d7967f73d39ad53c0bd70d79275249",
+    "crates/oblivion-harness/src/main.rs": "723335769f72c155559275f8c7df55e7f43b11563b39e49693058ac6c0969815",
+    "crates/oblivion-harness/src/system.rs": "35dfa38495593a9d308ca1e4efedee5fd44de41a5e6b243e8fb14665a7b464fc",
+    "crates/oblivion-pir/src/lib.rs": "9f5cbef567ccd9e19335cbeecfc4e2d5d4a56448a26fc6ef82aba6e43402ecae",
+    "crates/oblivion-store/src/lib.rs": "9ca4cfeea9ee060d878584cbd8e57330943660aaa350f677384bcc159541d53c"
+  },
+  "started_utc": "2026-10-30T11:23:44.295613+00:00"
+}
