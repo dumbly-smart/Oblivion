@@ -1326,6 +1326,7 @@ fn multiple_clients_execute_mixed_functions_with_isolated_state_and_fixed_traces
         std::env::temp_dir().join(format!("oblivion-mixed-{}", rand::rngs::OsRng.next_u64()));
     let output = Command::new(env!("CARGO_BIN_EXE_oblivion-server"))
         .args(["demo", path.to_str().unwrap(), "50", "3", "mixed"])
+        .env("OBLIVION_EXECUTION_DEADLINE_MS", "250")
         .output()
         .unwrap();
     assert!(
