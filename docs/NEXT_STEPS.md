@@ -63,15 +63,22 @@ the 5,000-trial-unit bootstrap interval, and applies both frozen thresholds.
 Synthetic tests cover pass/fail behavior for each gate condition; when B fails,
 only A/B metrics and predictions are written.
 
-**Next:** implement the phased collection runner with separate fresh A/B and
-C–G roots, complete phase metadata, partial-run retention, and a hard stop
-before the target collector on any control failure. Then independently
-rebuild and verify manifests, features, splits, predictions, and the gate.
-Do not collect the 30-trial study until those controls and verifier are ready.
-Only if both actual controls pass may C–G be collected. Keep earlier
-in-process studies separate and do not treat absent protected scores as
-privacy evidence. Hardware-backed execution remains unimplemented; no local
-timing result is a security proof.
+The phased runner is implemented as
+`research.analysis.collect_socket_invocation_attack`. It creates a new bundle,
+captures A/B first, records source/binary/config/environment provenance and
+raw hashes, and invokes C–G only after validating both reported metrics and
+gate decisions. Failed or timed-out phases keep their partial files and
+metadata. A successful protected collection is marked pending evaluation;
+the runner does not claim the experiment is fully evaluated.
+
+**Next:** implement the independent bundle verifier and final target analysis.
+Rebuild manifests, features, splits, predictions, trial metrics, confidence
+intervals, and stop-rule compliance without reading saved predictions as
+inputs. Do not collect the 30-trial study until that verifier is ready. Only
+if both actual controls pass may C–G be collected. Keep earlier in-process
+studies separate and do not treat absent protected scores as privacy evidence.
+Hardware-backed execution remains unimplemented; no local timing result is a
+security proof.
 
 ## Immediate continuation (updated 2026-10-30)
 

@@ -1983,3 +1983,26 @@ session-level split disjointness, deterministic bootstrap output, and refusal
 of protected/incomplete collections. All 13 focused tests pass. These are
 control-flow/model tests only: the preregistered 30-trial data has not been
 collected and no socket-attack score is claimed.
+
+## 2026-10-30 socket-study phased collection runner
+
+Added `python -m research.analysis.collect_socket_invocation_attack CONFIG
+HARNESS NEW_BUNDLE_ROOT`. It refuses an existing bundle, checks the exact
+frozen config, snapshots it, records source commit and hashes for the tracked
+Rust implementation/workload and relevant Python analysis, hashes the release
+harness, and captures Python/library/Rust versions plus OS, CPU, and load
+metadata. Each phase retains its exact command, mode list, UTC interval,
+exit/status, stdout/stderr hashes and files, and a per-file raw hash manifest.
+Collections have a one-hour outer timeout; timed-out and failed phases remain
+marked incomplete with partial output retained.
+
+The runner collects A/B into one raw root and validates the control report's
+frozen config/model, per-trial AUC values, recomputed mean/bootstrap gate, and
+exact A/B-only keys before it can invoke a second process for C–G in a separate
+root. Control collection, analysis, and protected collection checkpoints are
+written as the run proceeds. A successful C–G collection is explicitly
+pending final evaluation and independent verification. Nine injected-runner
+tests cover control failure, report inconsistency, subprocess error/timeout,
+partial retention, fresh-output refusal, mode order, and metadata. The combined
+focused socket/context suite passed 27 tests. No preregistered collection has
+run.

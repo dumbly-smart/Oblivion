@@ -99,11 +99,11 @@
 - Control and protected raw collections are stored in separate child directories; analysis output is separate from raw data.
 - Collection metadata records command, mode selection, config/hash, UTC times, source/binary hashes, commit, tool versions, OS/CPU/core/load data, phase exit status, and raw file manifest.
 
-- [ ] **Step 1: Write orchestration tests** with an injected command runner: failure of either A or B must produce exactly one collection call; a passing gate must produce control then protected calls in that order.
-- [ ] **Step 2: Run the tests and verify the protected collection callback is never reached on the failed-gate path.**
-- [ ] **Step 3: Implement fresh-directory checks, phase metadata, command invocation, terminal failed-gate output, and the pass path.**
-- [ ] **Step 4: Test existing-output refusal, partial-phase retention, subprocess failure metadata, and exact mode lists.**
-- [ ] **Step 5: Run focused tests** and commit as `feat: collect socket attack in gated phases`.
+- [x] **Step 1: Write orchestration tests** with an injected command runner: failure of either A or B must produce exactly one collection call; a passing gate must produce control then protected calls in that order.
+- [x] **Step 2: Run the tests and verify the protected collection callback is never reached on the failed-gate path.**
+- [x] **Step 3: Implement fresh-directory checks, phase metadata, command invocation, terminal failed-gate output, and the pass path.**
+- [x] **Step 4: Test existing-output refusal, partial-phase retention, subprocess failure metadata, and exact mode lists.**
+- [x] **Step 5: Run focused tests** and commit as `feat: collect socket attack in gated phases`.
 
 ### Task 5: Final evaluation and independent bundle verifier
 

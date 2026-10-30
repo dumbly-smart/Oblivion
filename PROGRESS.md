@@ -191,12 +191,13 @@ externally visible request/response boundary under a frozen protocol.
    collected separately; the default still runs A–G. The parser validates
    schedule classes, ordered frame pairs, sizes, and timestamps, then joins
    labels only into evaluation metadata. The focused Python suite passes and a
-   real release A/B smoke trace extracted 128 visible invocations. Next build
-   the phased runner and independent verifier. The A/B-only evaluator now uses
-   the frozen model, session split, 5,000-resample trial bootstrap, and both
-   strict gates; synthetic pass/fail fixtures verify that a failed control
-   emits no protected scores or predictions. No study observations have been
-   collected.
+   real release A/B smoke trace extracted 128 visible invocations. The A/B-only
+   evaluator uses the frozen model, session split, 5,000-resample trial
+   bootstrap, and both strict gates. The phased runner captures controls first,
+   retains partial failures, hashes source/binary/config/raw files, and refuses
+   target collection unless both gates are validated. Synthetic orchestration
+   tests verify the failed-gate stop. Next implement the independent bundle
+   verifier. No preregistered study observations have been collected.
 3. Continue the remaining work in [docs/NEXT_STEPS.md](docs/NEXT_STEPS.md),
    preserving the threat model and reporting data- or hardware-dependent
    extensions as unimplemented where appropriate.
