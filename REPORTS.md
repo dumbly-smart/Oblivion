@@ -44,6 +44,7 @@ Updated 2026-10-30. This index points to technical reports and retained outputs.
 | Offered load, drops, and bounded local CPU sensitivity | [Runtime benchmarks](docs/RUNTIME_BENCHMARKS.md), [population runtime](docs/RUNTIME_POPULATION.md), [extended population](docs/RUNTIME_POPULATION_EXTENDED.md), [cost sensitivity](docs/COST_SENSITIVITY.md) |
 | Fault campaign and correctness scheduling | [Fault campaign](docs/FAULT_CAMPAIGN.md), [test scheduling](docs/PIPELINE_TEST_SCHEDULING.md) |
 | Invocation-boundary function identity from frame sizes and timing | [Preregistration](docs/INVOCATION_BOUNDARY_ATTACK_PREREG_20261030.md), [control-gate result](docs/INVOCATION_BOUNDARY_ATTACK_20261030.md), [raw bundle and independent receipt](experiments/results/invocation-boundary-attack-20261030/) |
+| Session-normalized invocation context | [Preregistration](docs/INVOCATION_CONTEXT_ATTACK_PREREG_20261030.md), [fresh-data control-gate result](docs/INVOCATION_CONTEXT_ATTACK_20261030.md), [raw bundle, A/B-only analysis, and independent replay receipt](experiments/results/invocation-context-attack-20261030/) |
 
 ## ORAM timing replication series
 

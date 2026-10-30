@@ -23,12 +23,25 @@ metrics. See
 [the result](INVOCATION_BOUNDARY_ATTACK_20261030.md). This observer is the
 local harness boundary, not a network capture.
 
-**Next:** if continuing this line, preregister a new attack or observer
-boundary using fresh data. Do not tune on the held-out B observations or
-retroactively score C–G from this bundle. The next run must pass both frozen
-plaintext and encrypt-only controls before protected scores are reported.
-Keep real remote timing and hardware-backed execution as unimplemented
-extensions; do not treat near-chance performance as a security proof.
+**Completed follow-up 2026-10-30:** a second preregistered study used fresh
+sessions and six features including per-session robust latency normalization,
+latency rank, and interarrival time. Plaintext A scored AUC 1.000; encrypt-only
+B scored 0.698958 [0.668229, 0.731771], below the unchanged 0.70 mean
+threshold. The control gate failed, so C–G were again withheld. Its separate
+report and independent raw-feature/model replay are in
+[the result](INVOCATION_CONTEXT_ATTACK_20261030.md) and
+[evidence bundle](../experiments/results/invocation-context-attack-20261030/).
+The second study is fresh-data evidence for its controls, not a blind
+replication, and it is not pooled with the earlier attack.
+
+**Next:** stop repeating this local frame-observer boundary. If extending
+invocation inference, first implement and preregister an actual transport
+observer with independent client/server processes, explicit packet or socket
+timestamps, fresh sessions, and the same frozen positive-control thresholds.
+Keep protected scoring conditional on both controls passing. Do not tune on
+either failed-gate bundle, lower the gate, or treat missing C–G scores as
+privacy evidence. Hardware-backed execution remains unimplemented; no local
+timing result is a security proof.
 
 ## Immediate continuation (updated 2026-10-30)
 

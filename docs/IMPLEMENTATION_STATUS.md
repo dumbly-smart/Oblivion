@@ -1867,3 +1867,20 @@ Python suite passed 262 tests with four existing skips. The release harness
 build passed. This is a local component-boundary simulation, not a real
 network observer. The exact implementation plan is
 [`2026-10-30-request-response-attack.md`](superpowers/plans/2026-10-30-request-response-attack.md).
+
+**Completed 2026-10-30:** a fresh-data follow-up added a six-feature
+session-normalized invocation attack. The study again passed the plaintext
+positive control (AUC 1.000) but encrypt-only scored 0.698958
+[0.668229, 0.731771], below the unchanged mean-AUC threshold of 0.70. The
+frozen stop rule withheld C–G scores. The independent bundle verifier rebuilt
+features from the raw observer files, refit and replayed A/B, recomputed
+trial metrics and bootstrap intervals, and checked 4,204 raw hashes, 840
+sessions, 13,440 truth rows, nine source hashes, and the release binary. Five
+focused verifier tests and all 272 Python tests passed; four tests were
+skipped as before. The release harness build succeeded. The raw collection,
+A/B analysis, and verifier receipt are under
+`experiments/results/invocation-context-attack-20261030/`. This remains a
+local in-process observer experiment, and the failed positive-control gate
+means it provides no comparison of protected modes. No Rust workspace,
+Clippy, format, or million-operation ORAM gate was rerun for this Python-only
+increment.

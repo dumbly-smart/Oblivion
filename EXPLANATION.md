@@ -355,6 +355,16 @@ threshold; protected configurations were therefore not scored. The retained
 limits the observation to the local in-process harness boundary, not a real
 network.
 
+A second fresh-data study added session-median/MAD normalization, latency
+rank, and interarrival features. Its plaintext control again scored AUC 1.0.
+Encrypt-only reached 0.69896 [0.66823, 0.73177], just below the unchanged
+0.70 mean-AUC gate. The evaluator therefore stopped after A and B. An
+independent verifier rebuilt the feature rows from raw observer frames,
+refit the declared classifier, and matched all 960 held-out control
+predictions. The [follow-up report](docs/INVOCATION_CONTEXT_ATTACK_20261030.md)
+records the failed gate and local-process measurement limits. No protected
+mode score is available from this study.
+
 For the isolated ORAM replication series, the independent bundle verifier
 checks the collector's compressed-file SHA-256 manifest, exact configured set
 of sessions, paired private address/read-write schedules, fixed observer event

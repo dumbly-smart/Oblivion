@@ -35,3 +35,24 @@ B are positive controls; C–G are withheld unless both controls pass.
 This is a fresh but informed follow-up, not a blind replication and not a
 real network measurement. A control failure blocks protected comparisons.
 Near-chance results are not proofs of privacy or cryptographic security.
+
+## Execution record — 2026-10-30
+
+All seven work steps completed. The release harness built, the 30-trial
+collection exited 0, and the evaluator retained A/B only after B missed the
+frozen mean-AUC threshold: A `1.000000` [1.000000, 1.000000], B `0.698958`
+[0.668229, 0.731771]. The C–G scoring stop was applied.
+
+The independent verifier reconstructed the raw-frame feature matrix,
+refitted and replayed all 960 A/B held-out predictions, recomputed the trial
+metrics and intervals, and verified 4,204 collection hashes. Five focused
+verifier tests passed; the full Python suite passed 272 tests with four
+existing skips. See
+[`INVOCATION_CONTEXT_ATTACK_20261030.md`](../../INVOCATION_CONTEXT_ATTACK_20261030.md)
+and its linked receipt.
+
+The implementation, verifier, collection, and analysis were pushed in
+separate commits: `dcc5a2ee8`, `33924a1b7`, `4b12e6a61`, and `0b44c7f8b`.
+No matching GitHub Actions runs appeared for the verifier, collection, or
+analysis commits when checked. The report/index updates are maintained as a
+separate documentation commit.

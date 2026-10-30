@@ -30,16 +30,21 @@ validate raw hashes, paired schedules where applicable, fixed event/frame
 shape, process masks, target-only predictions, trial metrics, and bootstrap
 statistics.
 
-An optional invocation-boundary size/timing study is now preregistered. Its
-local A–G component harness, attacker feature boundary, session split, and
-plaintext/encrypt-only control gate are frozen. The 30-trial collection
-completed and the independent verifier checked 8,404 raw-file hashes, 1,680
-session directories, and 13,440 private truth rows. Plaintext A passed at AUC
-1.000; encrypt-only B scored 0.6896 [0.6531, 0.7260], below the frozen 0.70
-gate. The evaluator withheld C–G scores. The full Python research suite passed
-262 tests with four existing skips, and the release harness built. This is a
-local in-process boundary simulation, not remote network timing or hardware
-isolation.
+The first optional invocation-boundary size/timing study completed on the
+local A–G component harness. Its independent verifier checked 8,404 raw-file
+hashes, 1,680 session directories, and 13,440 truth rows. Plaintext A passed
+at AUC 1.000; encrypt-only B scored 0.6896 [0.6531, 0.7260], below the frozen
+0.70 gate, so C–G were withheld. The [report](docs/INVOCATION_BOUNDARY_ATTACK_20261030.md)
+documents the result and local measurement boundary.
+
+A second, informed follow-up collected fresh sessions and added six
+session-normalized size/timing features. A again passed at AUC 1.000; B scored
+0.69896 [0.66823, 0.73177], just below the unchanged 0.70 threshold. The
+evaluator withheld C–G. A separate verifier reconstructed features from raw
+observer frames, replayed all 960 control predictions, and checked 4,204 raw
+file hashes. The full Python suite passed 272 tests with four existing skips;
+the release harness built. Both studies use the local in-process observer,
+not real network arrival times. See the [follow-up report](docs/INVOCATION_CONTEXT_ATTACK_20261030.md).
 
 ## Latest measurement
 
@@ -161,9 +166,10 @@ externally visible request/response boundary under a frozen protocol.
    focused repetitions and full serial rerun passed, but they did not identify
    its cause. Capture host-load and per-phase diagnostics if it recurs, without
    changing runtime limits or adding retries.
-2. If extending the invocation-boundary line, preregister a distinct attack
-   or observer boundary on fresh data. Do not tune on the held-out controls or
-   score protected modes from the failed-gate collection.
+2. For further invocation inference, first implement and preregister a real
+   transport observer across independent client/server processes and fresh
+   sessions. Preserve the positive-control gate and do not score protected
+   modes unless both controls pass.
 3. Continue the remaining work in [docs/NEXT_STEPS.md](docs/NEXT_STEPS.md),
    preserving the threat model and reporting data- or hardware-dependent
    extensions as unimplemented where appropriate.
