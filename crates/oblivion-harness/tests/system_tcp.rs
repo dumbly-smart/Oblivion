@@ -156,6 +156,89 @@ fn worker_rejects_short_mode_incompatible_prefix_before_waiting_for_body() {
 }
 
 #[test]
+fn tcp_system_runs_only_selected_modes_and_records_the_canonical_selection() {
+    let root = std::env::temp_dir().join(format!(
+        "oblivion-tcp-selected-modes-{}",
+        rand::random::<u64>()
+    ));
+    std::fs::create_dir(&root).unwrap();
+    let config = root.join("config.json");
+    let output_dir = root.join("out");
+    std::fs::write(
+        &config,
+        r#"{"version":1,"seed":29,"trials":2,"sessions":4,"operations":4,"epoch_ms":2}"#,
+    )
+    .unwrap();
+
+    let output = Command::new(env!("CARGO_BIN_EXE_oblivion-harness"))
+        .args([
+            "system-tcp",
+            config.to_str().unwrap(),
+            output_dir.to_str().unwrap(),
+            "B,A",
+        ])
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    assert_eq!(
+        serde_json::from_slice::<serde_json::Value>(
+            &std::fs::read(output_dir.join("mode-selection.json")).unwrap()
+        )
+        .unwrap(),
+        serde_json::json!({"version":1,"modes":["A","B"]})
+    );
+    for mode in ["A", "B"] {
+        assert!(output_dir.join(mode).is_dir(), "mode {mode} was omitted");
+    }
+    for mode in ["C", "D", "E", "F", "G"] {
+        assert!(!output_dir.join(mode).exists(), "mode {mode} was collected");
+    }
+    let metrics = rows(&output_dir.join("metrics.jsonl"));
+    assert!(!metrics.is_empty());
+    assert!(
+        metrics
+            .iter()
+            .all(|row| matches!(row["mode"].as_str(), Some("A" | "B")))
+    );
+    std::fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn tcp_system_rejects_duplicate_or_unknown_modes_before_creating_output() {
+    let root = std::env::temp_dir().join(format!(
+        "oblivion-tcp-invalid-modes-{}",
+        rand::random::<u64>()
+    ));
+    std::fs::create_dir(&root).unwrap();
+    let config = root.join("config.json");
+    std::fs::write(
+        &config,
+        r#"{"version":1,"seed":29,"trials":2,"sessions":4,"operations":4,"epoch_ms":2}"#,
+    )
+    .unwrap();
+
+    for (index, modes) in ["", "A,A", "A,Z"].into_iter().enumerate() {
+        let output_dir = root.join(format!("out-{index}"));
+        let output = Command::new(env!("CARGO_BIN_EXE_oblivion-harness"))
+            .args([
+                "system-tcp",
+                config.to_str().unwrap(),
+                output_dir.to_str().unwrap(),
+                modes,
+            ])
+            .output()
+            .unwrap();
+        assert!(!output.status.success(), "accepted mode list {modes}");
+        assert!(!output_dir.exists(), "created output for invalid mode list");
+    }
+    std::fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
 fn tcp_system_runs_every_ablation_mode_with_fixed_observer_frames() {
     let root = std::env::temp_dir().join(format!("oblivion-tcp-system-{}", rand::random::<u64>()));
     std::fs::create_dir(&root).unwrap();
@@ -179,6 +262,13 @@ fn tcp_system_runs_every_ablation_mode_with_fixed_observer_frames() {
         output.status.success(),
         "{}",
         String::from_utf8_lossy(&output.stderr)
+    );
+    assert_eq!(
+        serde_json::from_slice::<serde_json::Value>(
+            &std::fs::read(output_dir.join("mode-selection.json")).unwrap()
+        )
+        .unwrap(),
+        serde_json::json!({"version":1,"modes":["A","B","C","D","E","F","G"]})
     );
 
     for mode in ["A", "B", "C", "D", "E", "F", "G"] {

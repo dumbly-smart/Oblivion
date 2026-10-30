@@ -45,11 +45,11 @@
 - CLI syntax: `system-tcp CONFIG NEW_OUTPUT_DIRECTORY [MODE_LIST]`.
 - Write a `mode-selection.json` artifact containing selected modes in canonical A–G order.
 
-- [ ] **Step 1: Write failing mode-subset tests.** Assert `A,B` creates only those mode directories and records the selection; assert duplicate and unknown names fail without output; retain the current default all-mode test.
-- [ ] **Step 2: Run the focused tests and confirm the requested CLI path is absent or rejected.**
-- [ ] **Step 3: Implement mode parsing and filtering.** Filter the existing randomized mode order so label schedules remain unchanged; do not change default A–G behavior.
-- [ ] **Step 4: Run `cargo test --locked -p oblivion-harness --test system_tcp -- --test-threads=1`.** Require all subset, invalid-input, and default-mode tests to pass.
-- [ ] **Step 5: Commit** as `feat: allow selecting TCP harness modes`.
+- [x] **Step 1: Write failing mode-subset tests.** Assert `A,B` creates only those mode directories and records the selection; assert duplicate and unknown names fail without output; retain the current default all-mode test.
+- [x] **Step 2: Run the focused tests and confirm the requested CLI path is absent or rejected.**
+- [x] **Step 3: Implement mode parsing and filtering.** Filter the existing randomized mode order so label schedules remain unchanged; do not change default A–G behavior.
+- [x] **Step 4: Run `cargo test --locked -p oblivion-harness --test system_tcp -- --test-threads=1`.** Require all subset, invalid-input, and default-mode tests to pass.
+- [x] **Step 5: Commit** as `feat: allow selecting TCP harness modes`.
 
 ### Task 2: Socket observer feature extraction
 

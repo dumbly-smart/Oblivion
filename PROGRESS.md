@@ -186,10 +186,11 @@ externally visible request/response boundary under a frozen protocol.
    correctness workload occasionally crossing the default 100 ms runtime
    deadline. That test now requests 250 ms explicitly; the production default,
    runtime deadline behavior, and retry policy are unchanged.
-2. Preregister a distinct inference study over the new loopback socket trace
-   before collecting targets. Freeze its attacker view, whole-session split,
-   positive-control threshold, primary metric, and output schema. Score C–G
-   only if both plaintext A and encrypt-only B pass the same frozen gate.
+2. The socket-trace study is preregistered before collection. Its optional
+   mode-selective TCP collector is implemented and tested: A/B can be collected
+   separately, the default still runs A–G, and invalid mode lists fail before
+   output creation. Next implement strict six-feature extraction and the
+   controls-first analysis gate. No observations have been collected.
 3. Continue the remaining work in [docs/NEXT_STEPS.md](docs/NEXT_STEPS.md),
    preserving the threat model and reporting data- or hardware-dependent
    extensions as unimplemented where appropriate.

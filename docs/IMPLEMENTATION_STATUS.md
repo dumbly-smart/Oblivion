@@ -1933,3 +1933,16 @@ workload occasionally crossed its inherited 100 ms budget. The runtime's 100
 ms default and deadline semantics were not changed. The commits were pushed;
 no matching hosted workflow runs appeared when checked. No new attack, privacy
 result, remote-network observation, or TEE claim is made.
+
+## 2026-10-30 socket-study mode-selective collection
+
+The `system-tcp` command now accepts an optional comma-separated A–G subset.
+Mode names are validated before output-directory creation, duplicates and
+empty/unknown names are rejected, and selections are recorded canonically in
+`mode-selection.json`. The original three-argument command continues to run
+all seven ablations; randomized per-session execution order and label schedules
+remain unchanged. The focused process suite passes six tests, including
+selected A/B collection, invalid lists, canonical artifacts, and the default
+all-mode path. The implementation is groundwork for the preregistered
+controls-first socket inference study; no study data or attack result exists
+yet.

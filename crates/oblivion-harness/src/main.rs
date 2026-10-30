@@ -37,12 +37,15 @@ fn main() -> Result<()> {
     if args.len() == 4 && args[1] == "system-tcp" {
         return system_tcp::run(Path::new(&args[2]), Path::new(&args[3]));
     }
+    if args.len() == 5 && args[1] == "system-tcp" {
+        return system_tcp::run_with_modes(Path::new(&args[2]), Path::new(&args[3]), &args[4]);
+    }
     if args.len() == 5 && args[1] == "system-tcp-worker" {
         let maximum_frame = args[4].parse::<usize>()?;
         return system_tcp::worker(Path::new(&args[2]), &args[3], maximum_frame);
     }
     if args.len() != 3 {
-        return Err("usage: oblivion-harness CONFIG NEW_OUTPUT_DIRECTORY | system CONFIG NEW_OUTPUT_DIRECTORY | system-tcp CONFIG NEW_OUTPUT_DIRECTORY | system-tcp-worker OUTPUT MODE MAX_FRAME".into());
+        return Err("usage: oblivion-harness CONFIG NEW_OUTPUT_DIRECTORY | system CONFIG NEW_OUTPUT_DIRECTORY | system-tcp CONFIG NEW_OUTPUT_DIRECTORY [MODE_LIST] | system-tcp-worker OUTPUT MODE MAX_FRAME".into());
     }
     let config: Experiment = serde_json::from_slice(&fs::read(&args[1])?)?;
     if config.version != 1

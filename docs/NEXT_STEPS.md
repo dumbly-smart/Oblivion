@@ -45,14 +45,22 @@ attack result. Its PIR pair and memory-backed ORAM remain local to the worker,
 and it is not packet capture or TEE evidence. See [the protocol](PROTOCOL.md)
 and [the architecture](ARCHITECTURE.md).
 
-**Next:** preregister a distinct socket-trace inference study before collecting
-targets. Freeze its attacker-visible fields, session-level split, control
-gate, primary metric, exclusions, and output schema. Run plaintext A and
-encrypt-only B controls first; score C–G only if both controls pass the same
-predeclared threshold. Keep the earlier in-process studies separate, do not
-lower either frozen gate, and do not treat absent protected scores as privacy
-evidence. Hardware-backed execution remains unimplemented; no local timing
-result is a security proof.
+The socket-boundary attack is now preregistered in
+[the frozen protocol](SOCKET_INVOCATION_ATTACK_PREREG_20261030.md), with its
+machine-readable config, design, and implementation plan committed before any
+collection. The TCP CLI now accepts an optional canonicalized mode subset;
+`system-tcp CONFIG OUT` still runs A–G and records that full selection.
+Duplicate, empty, and unknown selections fail before output creation. The
+focused process suite passes all six tests.
+
+**Next:** implement strict extraction of the socket observer and private
+schedule into the frozen six-feature session representation. Preserve separate
+truth and attacker views, reject malformed event/schedule joins, and collect
+no experimental observations until the A/B positive-control gate is
+implemented and verified. If both controls pass, and only then, collect C–G.
+Keep earlier in-process studies separate and do not treat absent protected
+scores as privacy evidence. Hardware-backed execution remains unimplemented;
+no local timing result is a security proof.
 
 ## Immediate continuation (updated 2026-10-30)
 

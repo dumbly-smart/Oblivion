@@ -402,14 +402,58 @@ fn start_worker(output: &Path, mode: system::Mode) -> Result<(ManagedChild, Endp
 }
 
 pub(super) fn run(config_path: &Path, out: &Path) -> Result<()> {
+    run_selected(config_path, out, None)
+}
+
+pub(super) fn run_with_modes(config_path: &Path, out: &Path, mode_list: &str) -> Result<()> {
+    let selected = parse_mode_list(mode_list)?;
+    run_selected(config_path, out, Some(&selected))
+}
+
+fn parse_mode_list(mode_list: &str) -> Result<Vec<system::Mode>> {
+    let mut selected = [false; 7];
+    for name in mode_list.split(',') {
+        let index = system::MODES
+            .iter()
+            .position(|mode| mode.name == name)
+            .ok_or("mode list contains an unknown or empty mode")?;
+        if std::mem::replace(&mut selected[index], true) {
+            return Err("mode list contains a duplicate mode".into());
+        }
+    }
+
+    Ok(system::MODES
+        .iter()
+        .enumerate()
+        .filter_map(|(index, mode)| selected[index].then_some(*mode))
+        .collect())
+}
+
+fn run_selected(
+    config_path: &Path,
+    out: &Path,
+    selected_modes: Option<&[system::Mode]>,
+) -> Result<()> {
+    let canonical_modes = selected_modes.unwrap_or(&system::MODES);
     let config = system::load_experiment(config_path)?;
     fs::create_dir(out)?;
     fs::write(out.join("config.json"), serde_json::to_vec_pretty(&config)?)?;
+    fs::write(
+        out.join("mode-selection.json"),
+        serde_json::to_vec_pretty(&json!({
+            "version": 1,
+            "modes": canonical_modes.iter().map(|mode| mode.name).collect::<Vec<_>>(),
+        }))?,
+    )?;
     let mut metrics = BufWriter::new(File::create(out.join("metrics.jsonl"))?);
     for trial in 0..config.trials {
         for session in 0..config.sessions {
             let (labels, modes) = system::schedule(&config, trial, session)?;
-            for mode in modes {
+            for mode in modes.into_iter().filter(|mode| {
+                canonical_modes
+                    .iter()
+                    .any(|selected| selected.name == mode.name)
+            }) {
                 run_session(out, &mut metrics, &config, trial, session, mode, &labels)?;
             }
         }
